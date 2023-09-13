@@ -3,6 +3,6 @@
     "concurrently": "^7.0.0"
   },
   "scripts": {
-    "dev": "concurrently \"cd ./server && npm run dev\" \"cd ./client && npm run dev\" \"cd ./server && npm run watch\""
+    "dev": "concurrently \"cd ./server && npm run dev\" \"cd ./client && npm run dev\""
   }
 }
