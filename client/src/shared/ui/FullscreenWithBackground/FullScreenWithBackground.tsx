@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FC, ReactNode } from "react";
 
 interface FullScreenWithBackgroundProps {
@@ -10,11 +11,9 @@ const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
   children,
 }) => {
   return (
-    <div
-      className="h-screen w-screen bg-cover"
-      style={{ backgroundImage: "url(" + background + ")" }}
-    >
-      {children}
+    <div className="relative h-screen w-screen bg-cover">
+      <Image src={background} className="absolute inset-0" fill={true} alt="" />
+      <div className="relative h-full">{children}</div>
     </div>
   );
 };
