@@ -14,8 +14,9 @@ const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
     <div className="max-w-screen relative box-border h-screen bg-cover ">
       <Image
         src={background}
-        className="absolute inset-0"
+        className="absolute inset-0 object-cover"
         fill={true}
+        quality={100}
         alt=""
         priority
       />

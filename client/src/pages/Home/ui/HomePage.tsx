@@ -9,18 +9,17 @@ interface HomePageProps {}
 
 const HomePage: FC<HomePageProps> = () => {
   return (
-    <FullScreenWithBackground background="/hero.jpg">
+    <FullScreenWithBackground background="/hero.png">
       <Container className="h-full">
         <div className="flex h-full w-full flex-col">
           <div className="pt-6" />
           <Header />
-          <div className="mt-auto">
+          <div className="my-auto">
             <HeroTitle />
             <div className="pt-10" />
             <HeroSearch />
             <div className="pt-7" />
             <HeroNav />
-            <div className="pt-16" />
           </div>
         </div>
       </Container>

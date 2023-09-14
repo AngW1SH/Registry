@@ -41,10 +41,10 @@ const SearchWithRedirect: FC<SearchWithRedirectProps> = () => {
             placeholder="Название проекта"
           />
         </div>
-        <div className="relative ml-auto flex items-center px-2 after:absolute after:right-0 after:top-[10%] after:h-[80%] after:w-px after:bg-[#848686]">
+        <div className="relative ml-auto flex items-center px-4 after:absolute after:right-0 after:top-[10%] after:h-[80%] after:w-px after:bg-[#848686]">
           <CalendarInput placeholder="Срок записи на проект" className="w-60" />
         </div>
-        <div className="relative flex items-center px-2 after:absolute after:right-0 after:top-[10%] after:h-[80%] after:w-px after:bg-[#848686]">
+        <div className="relative flex items-center px-4 after:absolute after:right-0 after:top-[10%] after:h-[80%] after:w-px after:bg-[#848686]">
           <CalendarInput placeholder="Срок реализации" className="w-60" />
         </div>
         <div className="relative pl-5">
