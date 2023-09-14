@@ -1,4 +1,5 @@
-import { Container, FullScreenWithBackground } from "@/shared/ui";
+import { Container, FullScreenWithBackground, Headline } from "@/shared/ui";
+import { ActiveProjects } from "@/widgets/ActiveProjects";
 import { FeaturedCategories } from "@/widgets/FeaturedCategories";
 import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
@@ -29,6 +30,16 @@ const HomePage: FC<HomePageProps> = () => {
       <div className="pt-9" />
       <Container>
         <FeaturedCategories />
+      </Container>
+      <div className="pt-24" />
+      <Headline>
+        <Container>
+          <h1 className="text-4xl font-bold uppercase">Активные проекты</h1>
+        </Container>
+      </Headline>
+      <div className="pt-8" />
+      <Container>
+        <ActiveProjects />
       </Container>
     </>
   );

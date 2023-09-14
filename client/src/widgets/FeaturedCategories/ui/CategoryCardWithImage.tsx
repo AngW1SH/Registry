@@ -15,7 +15,7 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
   return (
     <div
       className={
-        "shadow-center-lg relative flex flex-col justify-end p-8 " + className
+        "relative flex flex-col justify-end p-8 shadow-center-lg " + className
       }
     >
       <div className="absolute inset-0 after:absolute after:inset-0 after:bg-[#777777cc]">
@@ -23,6 +23,7 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
           src={category.image}
           alt=""
           className="object-cover  grayscale"
+          sizes="100%"
           fill={true}
         />
       </div>
