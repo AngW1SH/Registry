@@ -1,15 +1,15 @@
 import { FC, ReactNode } from "react";
 
-interface ButtonProps {
+interface ButtonAltProps {
   children: ReactNode;
   className?: string;
 }
 
-const Button: FC<ButtonProps> = ({ children, className = "" }) => {
+const ButtonAlt: FC<ButtonAltProps> = ({ children, className = "" }) => {
   return (
     <button
       className={
-        "cursor-pointer rounded-3xl bg-primary p-3 font-bold text-white " +
+        "cursor-pointer rounded-3xl bg-white p-3 font-bold text-black " +
         className
       }
     >
@@ -18,4 +18,4 @@ const Button: FC<ButtonProps> = ({ children, className = "" }) => {
   );
 };
 
-export default Button;
+export default ButtonAlt;

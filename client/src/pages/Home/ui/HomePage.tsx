@@ -1,4 +1,5 @@
 import { Container, FullScreenWithBackground } from "@/shared/ui";
+import { FeaturedCategories } from "@/widgets/FeaturedCategories";
 import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
 import { HeroSearch } from "@/widgets/HeroSearch";
@@ -9,21 +10,27 @@ interface HomePageProps {}
 
 const HomePage: FC<HomePageProps> = () => {
   return (
-    <FullScreenWithBackground background="/hero.png">
-      <Container className="h-full">
-        <div className="flex h-full w-full flex-col">
-          <div className="pt-6" />
-          <Header />
-          <div className="my-auto">
-            <HeroTitle />
-            <div className="pt-10" />
-            <HeroSearch />
-            <div className="pt-7" />
-            <HeroNav />
+    <>
+      <FullScreenWithBackground background="/hero.png">
+        <Container className="h-full">
+          <div className="flex h-full w-full flex-col">
+            <div className="pt-6" />
+            <Header />
+            <div className="my-auto">
+              <HeroTitle />
+              <div className="pt-10" />
+              <HeroSearch />
+              <div className="pt-7" />
+              <HeroNav />
+            </div>
           </div>
-        </div>
+        </Container>
+      </FullScreenWithBackground>
+      <div className="pt-9" />
+      <Container>
+        <FeaturedCategories />
       </Container>
-    </FullScreenWithBackground>
+    </>
   );
 };
 
