@@ -7,6 +7,8 @@ import ButtonTransparentAlt from "./Button/ButtonTransparentAlt";
 import ButtonWithIcon from "./ButtonWithIcon/ButtonWithIcon";
 import CalendarInput from "./CalendarInput/CalendarInput";
 import Headline from "./Headline/Headline";
+import Block from "./Block/Block";
+import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 
 export {
   Container,
@@ -18,4 +20,6 @@ export {
   ButtonWithIcon,
   CalendarInput,
   Headline,
+  Block,
+  LinkWithIcon,
 };
