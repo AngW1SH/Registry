@@ -20,7 +20,7 @@ const ButtonWithIcon: FC<ButtonWithIconProps> = ({
         className
       }
     >
-      <div className="relative flex h-8 w-8 items-center justify-center">
+      <div className="relative flex h-8  w-8 items-center justify-center">
         <Image src={icon} alt="" fill={true} />
       </div>
       <span className="text-lg font-semibold">{children}</span>

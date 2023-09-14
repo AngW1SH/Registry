@@ -1,6 +1,7 @@
 import { Container, FullScreenWithBackground } from "@/shared/ui";
 import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
+import { HeroSearch } from "@/widgets/HeroSearch";
 import { FC } from "react";
 
 interface HomePageProps {}
@@ -13,6 +14,8 @@ const HomePage: FC<HomePageProps> = () => {
           <div className="pt-6" />
           <Header />
           <div className="mt-auto">
+            <HeroSearch />
+            <div className="pt-7" />
             <HeroNav />
             <div className="pt-16" />
           </div>

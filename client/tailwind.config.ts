@@ -16,8 +16,10 @@ const config: Config = {
       },
     },
     colors: {
-      secondary: "#e0efef",
-      "secondary-rgba": "#e0efefc2",
+      primary: "#a52019",
+      secondary: "#bef6f2",
+      transparent: "transparent",
+      "secondary-rgba": "#bef6f2c2",
       "white-rgba": "#ffffffc2",
       white: "#fff",
       black: "#000",

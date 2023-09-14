@@ -11,8 +11,14 @@ const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
   children,
 }) => {
   return (
-    <div className="relative h-screen w-screen bg-cover">
-      <Image src={background} className="absolute inset-0" fill={true} alt="" />
+    <div className="max-w-screen relative box-border h-screen bg-cover ">
+      <Image
+        src={background}
+        className="absolute inset-0"
+        fill={true}
+        alt=""
+        priority
+      />
       <div className="relative h-full">{children}</div>
     </div>
   );

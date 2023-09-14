@@ -1,4 +1,4 @@
-import { ButtonWithIcon } from "@/shared/ui/ButtonWithIcon";
+import { ButtonWithIcon } from "@/shared/ui";
 import { FC } from "react";
 
 interface HeroNavProps {}
