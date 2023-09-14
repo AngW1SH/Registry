@@ -5,6 +5,7 @@ import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
 import { HeroSearch } from "@/widgets/HeroSearch";
 import { HeroTitle } from "@/widgets/HeroTitle";
+import { OtherLinks } from "@/widgets/OtherLinks";
 import { FC } from "react";
 
 interface HomePageProps {}
@@ -40,6 +41,10 @@ const HomePage: FC<HomePageProps> = () => {
       <div className="pt-8" />
       <Container>
         <ActiveProjects />
+      </Container>
+      <div className="pt-24" />
+      <Container>
+        <OtherLinks />
       </Container>
     </>
   );
