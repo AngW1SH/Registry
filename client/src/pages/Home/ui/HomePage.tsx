@@ -1,5 +1,11 @@
-import { Container, FullScreenWithBackground, Headline } from "@/shared/ui";
+import {
+  BackgroundFill,
+  Container,
+  FullScreenWithBackground,
+  Headline,
+} from "@/shared/ui";
 import { ActiveProjects } from "@/widgets/ActiveProjects";
+import { ContactForm } from "@/widgets/ContactForm";
 import { FeaturedCategories } from "@/widgets/FeaturedCategories";
 import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
@@ -46,6 +52,14 @@ const HomePage: FC<HomePageProps> = () => {
       <Container>
         <OtherLinks />
       </Container>
+      <div className="pt-16" />
+      <BackgroundFill image="/contact-form-bg.png">
+        <Container>
+          <div className="pt-20" />
+          <ContactForm />
+          <div className="pt-24" />
+        </Container>
+      </BackgroundFill>
     </>
   );
 };

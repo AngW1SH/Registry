@@ -9,6 +9,8 @@ import CalendarInput from "./CalendarInput/CalendarInput";
 import Headline from "./Headline/Headline";
 import Block from "./Block/Block";
 import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
+import BackgroundFill from "./BackgroundFill/BackgroundFill";
+import FormInput from "./FormInput/FormInput";
 
 export {
   Container,
@@ -22,4 +24,6 @@ export {
   Headline,
   Block,
   LinkWithIcon,
+  BackgroundFill,
+  FormInput,
 };
