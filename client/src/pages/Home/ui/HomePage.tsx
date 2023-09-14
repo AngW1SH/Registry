@@ -3,6 +3,7 @@ import {
   Container,
   FullScreenWithBackground,
   Headline,
+  LinkWithIcon,
 } from "@/shared/ui";
 import { ActiveProjects } from "@/widgets/ActiveProjects";
 import { ContactForm } from "@/widgets/ContactForm";
@@ -11,6 +12,7 @@ import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
 import { HeroSearch } from "@/widgets/HeroSearch";
 import { HeroTitle } from "@/widgets/HeroTitle";
+import { NewProjects } from "@/widgets/NewProjects";
 import { OtherLinks } from "@/widgets/OtherLinks";
 import { FC } from "react";
 
@@ -60,6 +62,19 @@ const HomePage: FC<HomePageProps> = () => {
           <div className="pt-24" />
         </Container>
       </BackgroundFill>
+      <div className="pt-20" />
+      <Container>
+        <div className="flex items-end justify-between">
+          <h1 className="text-4xl font-bold uppercase">Свежие проекты</h1>
+          <LinkWithIcon href="/" className="uppercase">
+            <span className="pr-4">Выбрать период</span>
+          </LinkWithIcon>
+        </div>
+      </Container>
+      <div className="pt-10" />
+      <Container>
+        <NewProjects />
+      </Container>
     </>
   );
 };

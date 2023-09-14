@@ -9,7 +9,7 @@ interface TagListProps {
 const TagList: FC<TagListProps> = ({ className }) => {
   return (
     <ul className={"flex flex-wrap gap-1 " + className}>
-      {staticTags.slice(0, 3).map((tag) => (
+      {staticTags.slice(0, 2).map((tag) => (
         <li key={tag.id}>
           <TagInList>{tag.name}</TagInList>
         </li>
