@@ -8,7 +8,7 @@ interface FeaturedCategoriesProps {}
 
 const FeaturedCategories: FC<FeaturedCategoriesProps> = () => {
   return (
-    <div className="grid grid-cols-4 grid-rows-3 gap-1">
+    <div className="grid grid-cols-4 grid-rows-3 gap-2">
       {staticValues.map((category) =>
         category.type == "detailed" ? (
           <CategoryCardDetailed

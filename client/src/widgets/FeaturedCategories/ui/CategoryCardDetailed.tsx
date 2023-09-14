@@ -12,7 +12,7 @@ const CategoryCardDetailed: FC<CategoryCardDetailedProps> = ({
   className = "",
 }) => {
   return (
-    <div className={"bg-[#ebebeb] px-8 pb-5 pt-10 " + className}>
+    <div className={"shadow-center-lg px-8 pb-5 pt-10 " + className}>
       <h2 className="w-1/2 text-lg font-bold uppercase leading-6">
         <Link href={category.link}>{category.name}</Link>
       </h2>
