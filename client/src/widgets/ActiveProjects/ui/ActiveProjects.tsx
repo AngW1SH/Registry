@@ -11,7 +11,7 @@ const ActiveProjects: FC<ActiveProjectsProps> = () => {
     <div>
       <GetActiveProjectsByTags />
       <div className="pt-12" />
-      <ul className="grid auto-rows-fr grid-cols-2 gap-5">
+      <ul className="grid auto-rows-fr grid-cols-1 gap-5 lg:grid-cols-2">
         <li>
           <ProjectCard tags={<TagList className="justify-end" />} />
         </li>
