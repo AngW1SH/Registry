@@ -28,6 +28,7 @@ const SendContactFormEmail: FC<SendContactFormEmailProps> = ({
         value={formData.email}
         onChange={(value) => setFormData((prev) => ({ ...prev, email: value }))}
       />
+      <div className="pt-5" />
       <Button className="mt-auto w-max px-12">Отправить</Button>
     </div>
   );
