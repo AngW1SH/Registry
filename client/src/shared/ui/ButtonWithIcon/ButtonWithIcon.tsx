@@ -16,14 +16,14 @@ const ButtonWithIcon: FC<ButtonWithIconProps> = ({
   return (
     <button
       className={
-        "bg-secondary-rgba flex items-center justify-center gap-5 rounded-2xl p-5 " +
+        "flex items-center justify-center rounded-2xl bg-secondary-rgba " +
         className
       }
     >
       <div className="relative flex h-8  w-8 items-center justify-center">
         <Image src={icon} alt="" fill={true} />
       </div>
-      <span className="text-lg font-semibold">{children}</span>
+      <span className="font-semibold">{children}</span>
     </button>
   );
 };

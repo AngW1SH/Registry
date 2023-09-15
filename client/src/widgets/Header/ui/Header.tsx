@@ -16,12 +16,15 @@ const Header: FC<HeaderProps> = () => {
           priority
         />
       </div>
-      <div className="flex text-white">
+      <div className="hidden text-white sm:flex">
         <ul className="mr-10 flex items-center">
           <li className="mr-4">Список проектов</li>
           <li>Заказчикам</li>
         </ul>
         <UserNav />
+      </div>
+      <div className="relative block h-10 w-10 cursor-pointer sm:hidden">
+        <Image src="/bars-white-alt.svg" alt="" fill={true} />
       </div>
     </div>
   );

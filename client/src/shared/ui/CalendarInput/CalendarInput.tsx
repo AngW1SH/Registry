@@ -111,13 +111,11 @@ const CalendarInput: FC<CalendarInputProps> = ({
         onClick={() => setOpened((prev) => !prev)}
       >
         {state[0].startDate || state[0].endDate ? (
-          <p className="text-sm">
-            {formatDate(state[0].startDate, state[0].endDate)}
-          </p>
+          <p>{formatDate(state[0].startDate, state[0].endDate)}</p>
         ) : (
-          <p className="text-sm text-[#848686]">{placeholder}</p>
+          <p className=" text-[#848686]">{placeholder}</p>
         )}
-        <div className="relative h-5 w-5">
+        <div className="relative h-4 w-4 xl:h-5 xl:w-5">
           <Image src="/calendar-icon-gray.svg" alt="" fill={true} />
         </div>
       </div>

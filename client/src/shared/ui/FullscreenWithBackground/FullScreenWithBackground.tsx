@@ -17,6 +17,7 @@ const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
         className="absolute inset-0 object-cover"
         fill={true}
         quality={100}
+        sizes="100%"
         alt=""
         priority
       />

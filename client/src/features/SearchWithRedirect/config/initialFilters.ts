@@ -11,7 +11,6 @@ export const ProjectStatus = [
   "Активные",
   "Завершённые",
   "С вакансиями",
-  "Доступные к покупке",
 ] as const;
 
 export const ProjectStatusValues = [""];
