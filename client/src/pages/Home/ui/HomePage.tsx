@@ -8,6 +8,7 @@ import {
 import { ActiveProjects } from "@/widgets/ActiveProjects";
 import { ContactForm } from "@/widgets/ContactForm";
 import { FeaturedCategories } from "@/widgets/FeaturedCategories";
+import { Footer } from "@/widgets/Footer";
 import { Header } from "@/widgets/Header";
 import { HeroNav } from "@/widgets/HeroNav";
 import { HeroSearch } from "@/widgets/HeroSearch";
@@ -80,6 +81,8 @@ const HomePage: FC<HomePageProps> = () => {
       <Container>
         <Subscribe />
       </Container>
+      <div className="pt-8" />
+      <Footer />
     </>
   );
 };
