@@ -14,6 +14,7 @@ import { HeroSearch } from "@/widgets/HeroSearch";
 import { HeroTitle } from "@/widgets/HeroTitle";
 import { NewProjects } from "@/widgets/NewProjects";
 import { OtherLinks } from "@/widgets/OtherLinks";
+import { Subscribe } from "@/widgets/Subscribe";
 import { FC } from "react";
 
 interface HomePageProps {}
@@ -74,6 +75,10 @@ const HomePage: FC<HomePageProps> = () => {
       <div className="pt-10" />
       <Container>
         <NewProjects />
+      </Container>
+      <div className="pt-16" />
+      <Container>
+        <Subscribe />
       </Container>
     </>
   );
