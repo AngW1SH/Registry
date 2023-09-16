@@ -4,14 +4,20 @@ import { FC, ReactNode } from "react";
 interface FullScreenWithBackgroundProps {
   background: string;
   children: ReactNode;
+  className?: string;
 }
 
 const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
   background,
   children,
+  className = "",
 }) => {
   return (
-    <div className="max-w-screen relative box-border h-screen bg-cover ">
+    <div
+      className={
+        "max-w-screen relative box-border h-screen bg-cover " + className
+      }
+    >
       <Image
         src={background}
         className="absolute inset-0 object-cover"

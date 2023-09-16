@@ -23,7 +23,10 @@ interface HomePageProps {}
 const HomePage: FC<HomePageProps> = () => {
   return (
     <>
-      <FullScreenWithBackground background="/hero.png">
+      <FullScreenWithBackground
+        className="min-h-[700px] sm:min-h-[600px]"
+        background="/hero.png"
+      >
         <Container className="h-full">
           <div className="flex h-full w-full flex-col">
             <div className="pt-6" />
