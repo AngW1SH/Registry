@@ -105,7 +105,7 @@ const CalendarInput: FC<CalendarInputProps> = ({
   }, [ref]);
 
   return (
-    <div className={"relative z-[10000] " + className} ref={ref}>
+    <div className={"relative " + className} ref={ref}>
       <div
         className="flex cursor-pointer items-center justify-between gap-4"
         onClick={() => setOpened((prev) => !prev)}
