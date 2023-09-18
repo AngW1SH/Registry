@@ -110,11 +110,16 @@ const CalendarInput: FC<CalendarInputProps> = ({
         className="flex cursor-pointer items-center justify-between gap-4"
         onClick={() => setOpened((prev) => !prev)}
       >
-        {state[0].startDate || state[0].endDate ? (
-          <p>{formatDate(state[0].startDate, state[0].endDate)}</p>
-        ) : (
-          <p className=" text-[#848686]">{placeholder}</p>
-        )}
+        <input
+          readOnly
+          className="outline-none"
+          placeholder={placeholder}
+          value={
+            state[0].startDate || state[0].endDate
+              ? formatDate(state[0].startDate, state[0].endDate)
+              : ""
+          }
+        />
         <div className="relative h-4 w-4 xl:h-5 xl:w-5">
           <Image src="/calendar-icon-gray.svg" alt="" fill={true} />
         </div>

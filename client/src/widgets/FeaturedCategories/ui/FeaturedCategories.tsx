@@ -1,15 +1,23 @@
 import { FC } from "react";
 import SuggestProject from "./SuggestProject";
-import { staticValues } from "../config/staticValues";
 import CategoryCardDetailed from "./CategoryCardDetailed";
 import CategoryCardWithImage from "./CategoryCardWithImage";
+import { getCategoriesData } from "../api/getCategoriesData";
+import { CategoryCard } from "../types/types";
+import { staticValues } from "../config/staticValues";
 
-interface FeaturedCategoriesProps {}
+interface FeaturedCategoriesProps {
+  categories?: CategoryCard[];
+}
 
-const FeaturedCategories: FC<FeaturedCategoriesProps> = () => {
+const FeaturedCategories: FC<FeaturedCategoriesProps> = async ({
+  categories,
+}) => {
+  const values = categories ? categories : await getCategoriesData();
+
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:grid-rows-6 lg:grid-cols-3 lg:grid-rows-4 xl:grid-cols-4 xl:grid-rows-3">
-      {staticValues.map((category) =>
+      {values.map((category) =>
         category.type == "detailed" ? (
           <CategoryCardDetailed
             key={category.name}

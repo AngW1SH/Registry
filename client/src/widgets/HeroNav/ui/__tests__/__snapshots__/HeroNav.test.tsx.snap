@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeroNav Widget UI snapshot test 1`] = `
+<DocumentFragment>
+  <ul
+    class="flex w-full flex-col justify-between gap-3 sm:flex-row"
+  >
+    <button
+      class="flex items-center justify-center rounded-2xl bg-secondary-rgba w-full gap-1 bg-white-rgba px-2 py-2 text-sm sm:py-4 lg:gap-5 lg:p-5 lg:text-base xl:text-lg"
+    >
+      <div
+        class="relative flex h-8  w-8 items-center justify-center"
+      >
+        <img
+          alt=""
+          data-nimg="fill"
+          decoding="async"
+          loading="lazy"
+          src="/calendar-icon-black.svg"
+          style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+        />
+      </div>
+      <span
+        class="font-semibold"
+      >
+        Календарь проектов
+      </span>
+    </button>
+    <button
+      class="flex items-center justify-center rounded-2xl bg-secondary-rgba w-full gap-1 bg-white-rgba px-2 py-2 text-sm sm:py-4 lg:gap-5 lg:p-5 lg:text-base xl:text-lg"
+    >
+      <div
+        class="relative flex h-8  w-8 items-center justify-center"
+      >
+        <img
+          alt=""
+          data-nimg="fill"
+          decoding="async"
+          loading="lazy"
+          src="/offer-icon-black.svg"
+          style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+        />
+      </div>
+      <span
+        class="font-semibold"
+      >
+        Вакансии
+      </span>
+    </button>
+    <button
+      class="flex items-center justify-center rounded-2xl bg-secondary-rgba w-full gap-1 bg-secondary-rgba px-2 py-2 text-sm sm:py-4 lg:gap-5 lg:p-5 lg:text-base xl:text-lg"
+    >
+      <div
+        class="relative flex h-8  w-8 items-center justify-center"
+      >
+        <img
+          alt=""
+          data-nimg="fill"
+          decoding="async"
+          loading="lazy"
+          src="/filters-icon-black.svg"
+          style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+        />
+      </div>
+      <span
+        class="font-semibold"
+      >
+        Расширенный поиск
+      </span>
+    </button>
+  </ul>
+</DocumentFragment>
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hero Title Widget UI Snapshot test 1`] = `
+<DocumentFragment>
+  <h1
+    class="text-center text-4xl text-white sm:text-7xl md:text-left"
+  >
+    Реестр проектов
+  </h1>
+</DocumentFragment>
+`;
