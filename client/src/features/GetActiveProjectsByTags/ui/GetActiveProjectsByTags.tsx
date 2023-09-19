@@ -19,7 +19,7 @@ Locally transform tag ID array into Tag array and pass it to the <TagList /> com
 Same for initial props, just export that API and use it in the widget
 */
 
-const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = async ({
+const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
   tags,
   projects,
 }) => {

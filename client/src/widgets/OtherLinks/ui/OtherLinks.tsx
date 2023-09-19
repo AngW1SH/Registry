@@ -9,7 +9,7 @@ const OtherLinks: FC<OtherLinksProps> = () => {
   return (
     <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
       {links.map((link) => (
-        <li className="w-full bg-[#e0efef] px-7 py-9">
+        <li key={link.title} className="w-full bg-[#e0efef] px-7 py-9">
           <h2 className="text-2xl font-medium">{link.title}</h2>
           <div className="pt-2 sm:pt-16" />
           <LinkWithIcon

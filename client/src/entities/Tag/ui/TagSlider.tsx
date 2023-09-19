@@ -79,14 +79,6 @@ const TagSlider: FC<TagSliderProps> = ({ tags }) => {
     setSelectedTags([]);
   };
 
-  useEffect(() => {
-    addEventListener("onmouseup", handleMouseUp);
-
-    return () => {
-      removeEventListener("onmouseup", handleMouseUp);
-    };
-  }, []);
-
   const handleClickArrowLeft = () => {
     if (!sliderRef.current) return;
 
