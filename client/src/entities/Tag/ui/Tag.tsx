@@ -11,7 +11,7 @@ const Tag: FC<TagProps> = ({ children, className = "", selected = false }) => {
   if (selected)
     return (
       <ButtonTransparentAlt
-        className={"w-max bg-black px-5 py-2 text-white " + className}
+        className={"active w-max bg-black px-5 py-2 text-white " + className}
       >
         {children}
       </ButtonTransparentAlt>

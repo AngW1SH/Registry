@@ -1,4 +1,6 @@
-export const staticTags = [
+import { ITag } from "../types/types";
+
+export const staticTags: ITag[] = [
   {
     id: "1",
     name: "Общество",

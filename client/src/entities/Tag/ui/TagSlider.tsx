@@ -1,9 +1,11 @@
 "use client";
 import { FC, useEffect, useRef, useState } from "react";
-import { staticTags } from "../static/staticTags";
 import Tag from "./Tag";
+import { ITag } from "../types/types";
 
-interface TagSliderProps {}
+interface TagSliderProps {
+  tags: ITag[];
+}
 
 const tags = [
   {
@@ -11,7 +13,7 @@ const tags = [
   },
 ];
 
-const TagSlider: FC<TagSliderProps> = () => {
+const TagSlider: FC<TagSliderProps> = ({ tags }) => {
   const [offset, setOffset] = useState(0);
 
   const [tagClicked, setTagClicked] = useState("");
@@ -134,7 +136,7 @@ const TagSlider: FC<TagSliderProps> = () => {
               Все
             </Tag>
           </li>
-          {staticTags.map((tag) => (
+          {tags.map((tag) => (
             <li key={tag.id} className="mr-3 list-none" data-tagname={tag.name}>
               <Tag
                 selected={selectedTags.indexOf(tag.name) != -1}
@@ -146,13 +148,15 @@ const TagSlider: FC<TagSliderProps> = () => {
           ))}
         </ul>
       </div>
-      <div
+      <button
         className="absolute left-0 top-[calc(50%-15px)] h-[30px] w-[20px] rotate-180 cursor-pointer bg-[url('/arrow-right-black.svg')] bg-contain bg-no-repeat"
         onClick={handleClickArrowLeft}
+        data-testid="tag-slider-arrow-left"
       />
-      <div
+      <button
         className="absolute right-0 top-[calc(50%-15px)] h-[30px] w-[20px] cursor-pointer bg-[url('/arrow-right-black.svg')] bg-contain bg-no-repeat"
         onClick={handleClickArrowRight}
+        data-testid="tag-slider-arrow-right"
       />
     </div>
   );
