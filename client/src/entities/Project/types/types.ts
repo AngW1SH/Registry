@@ -9,6 +9,7 @@ export type IProject = {
   enrollmentEnd: Date;
   createdAt: Date;
   supervisor: string;
+  tags: string[];
   teamId: string;
   isPublic: boolean;
 };
@@ -24,6 +25,7 @@ export type ProjectDTO = {
   enrollmentEnd: string;
   createdAt: string;
   supervisor: string;
+  tags: string[];
   teamId: string;
   isPublic: boolean;
 };

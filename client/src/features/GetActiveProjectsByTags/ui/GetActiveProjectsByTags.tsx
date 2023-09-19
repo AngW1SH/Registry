@@ -1,6 +1,6 @@
 "use client";
 import { IProject, ProjectCard } from "@/entities/Project";
-import { ITag, TagList, TagSlider } from "@/entities/Tag";
+import { ITag, TagList, TagSlider, getTagsByTagIds } from "@/entities/Tag";
 import { FC } from "react";
 
 interface GetActiveProjectsByTagsProps {
@@ -27,13 +27,18 @@ const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = async ({
     <>
       <TagSlider tags={tags} />
       <div className="pt-12" />
-      <ul className="grid auto-rows-fr grid-cols-1 gap-5 lg:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {projects.map((project) => (
-          <li>
+          <li key={project.id}>
             <ProjectCard
               className="h-full"
               project={project}
-              tags={<TagList className="justify-end" />}
+              tags={
+                <TagList
+                  tags={getTagsByTagIds(project.tags, tags)}
+                  className="justify-end"
+                />
+              }
             />
           </li>
         ))}
