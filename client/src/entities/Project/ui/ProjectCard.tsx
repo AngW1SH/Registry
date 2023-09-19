@@ -1,25 +1,33 @@
 import { Block } from "@/shared/ui";
 import { FC, ReactNode } from "react";
+import { IProject } from "../types/types";
+import { monthShortNames } from "@/shared/static";
 
 interface ProjectCardProps {
   className?: string;
   tags?: ReactNode;
+  project: IProject;
 }
 
-const ProjectCard: FC<ProjectCardProps> = ({ className = "", tags }) => {
+const ProjectCard: FC<ProjectCardProps> = ({
+  className = "",
+  tags,
+  project,
+}) => {
   return (
     <Block className={"rounded-lg px-8 pb-5 pt-10 " + className}>
       <div className="flex justify-between">
         <div className="w-14 whitespace-nowrap text-xs font-bold">
           <div className="pt-1" />
-          <span className="block text-3xl">09</span>
-          сен 2023
+          <span className="block text-3xl">
+            {project.dateStart.toLocaleDateString("ru-RU", { day: "2-digit" })}
+          </span>
+          {monthShortNames[project.dateStart.getMonth()]}{" "}
+          {project.dateStart.getFullYear()}
         </div>
         <div className="pr-7" />
         <div>
-          <h2 className="text-xl font-semibold">
-            ГМО: история, достижения, социальные и экологические риски
-          </h2>
+          <h2 className="text-xl font-semibold">{project.name}</h2>
           <div className="pt-11" />
         </div>
       </div>
@@ -31,12 +39,18 @@ const ProjectCard: FC<ProjectCardProps> = ({ className = "", tags }) => {
             проекта
           </h3>
           <div className="pt-2" />
-          <p>09.09.2023</p>
+          <p>
+            {project.dateEnd.toLocaleDateString("ru-RU", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
+          </p>
         </div>
         <div className="border-l border-[#a1a1a1] pl-4">
           <h3>Руководитель</h3>
           <div className="pt-2" />
-          <p>Иванов П.М.</p>
+          <p>{project.supervisor}</p>
         </div>
       </div>
       <div className="pt-10" />
