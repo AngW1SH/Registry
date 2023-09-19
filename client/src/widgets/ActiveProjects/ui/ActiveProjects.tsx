@@ -1,21 +1,23 @@
 import { IProject, ProjectCard } from "@/entities/Project";
 import { ITag, TagList } from "@/entities/Tag";
-import { GetActiveProjectsByTags } from "@/features/GetActiveProjectsByTags";
+import {
+  GetActiveProjectsByTags,
+  fetchActiveProjectsData,
+} from "@/features/GetActiveProjectsByTags";
 import { LinkWithIcon } from "@/shared/ui";
 import { FC } from "react";
-import { fetchTags } from "../api/fetchTags";
-import { fetchActiveProjects } from "../api/fetchActiveProjects";
 
 interface ActiveProjectsProps {
-  tags?: ITag[];
-  projects?: IProject[];
+  data?: {
+    projects: IProject[];
+    tags: ITag[];
+  };
 }
 
-const ActiveProjects: FC<ActiveProjectsProps> = async ({ tags, projects }) => {
-  const tagsRequest = tags ? tags : fetchTags();
-  const projectsRequest = projects ? projects : fetchActiveProjects();
+const ActiveProjects: FC<ActiveProjectsProps> = async ({ data }) => {
+  data = data ? data : await fetchActiveProjectsData();
 
-  [tags, projects] = await Promise.all([tagsRequest, projectsRequest]);
+  const { tags, projects } = data;
 
   return (
     <div>
