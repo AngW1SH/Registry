@@ -32,8 +32,9 @@ const adminControllerFactory = () => {
     res.status(200).send();
   }
 
-  function generateHash(req: Request, res: Response) {
-    return adminService.hashPassword(req.params.word);
+  async function generateHash(req: Request, res: Response) {
+    const hash = await adminService.hashPassword(req.params.word);
+    res.status(200).json({ hash: hash });
   }
 
   async function unauthorize(req: Request, res: Response) {

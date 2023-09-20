@@ -18,12 +18,9 @@ const adminRepositoryFactory = () => {
     return doesAdminExist;
   }
 
-  function hashPassword(password: string) {
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(password, salt, async (err, hashedPassword) => {
-        return hashedPassword;
-      });
-    });
+  async function hashPassword(password: string) {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
   }
 
   async function updateToken(id: string, token: string) {
