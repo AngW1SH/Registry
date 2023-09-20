@@ -2,6 +2,8 @@
 
 import { Button, FormInput } from "@/shared/ui";
 import { FC, useState } from "react";
+import { submitContactFormData } from "../api/submitContactFormData";
+import { IContactFormData } from "../types/types";
 
 interface SendContactFormEmailProps {
   className?: string;
@@ -10,7 +12,7 @@ interface SendContactFormEmailProps {
 const SendContactFormEmail: FC<SendContactFormEmailProps> = ({
   className = "",
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<IContactFormData>({
     name: "",
     email: "",
   });
@@ -29,7 +31,13 @@ const SendContactFormEmail: FC<SendContactFormEmailProps> = ({
         onChange={(value) => setFormData((prev) => ({ ...prev, email: value }))}
       />
       <div className="pt-5" />
-      <Button className="mt-auto w-max px-12">Отправить</Button>
+      <Button
+        onClick={() => submitContactFormData(formData)}
+        type="submit"
+        className="mt-auto w-max px-12"
+      >
+        Отправить
+      </Button>
     </div>
   );
 };

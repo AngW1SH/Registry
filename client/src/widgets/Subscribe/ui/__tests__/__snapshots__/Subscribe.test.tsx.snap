@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Subscribe Widget UI snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    class="relative overflow-hidden rounded-xl px-10 py-14 lg:px-16"
+  >
+    <img
+      alt=""
+      data-nimg="fill"
+      decoding="async"
+      loading="lazy"
+      sizes="100%"
+      src="/_next/image?url=%2Fhero.png&w=3840&q=75"
+      srcset="/_next/image?url=%2Fhero.png&w=16&q=75 16w, /_next/image?url=%2Fhero.png&w=32&q=75 32w, /_next/image?url=%2Fhero.png&w=48&q=75 48w, /_next/image?url=%2Fhero.png&w=64&q=75 64w, /_next/image?url=%2Fhero.png&w=96&q=75 96w, /_next/image?url=%2Fhero.png&w=128&q=75 128w, /_next/image?url=%2Fhero.png&w=256&q=75 256w, /_next/image?url=%2Fhero.png&w=384&q=75 384w, /_next/image?url=%2Fhero.png&w=640&q=75 640w, /_next/image?url=%2Fhero.png&w=750&q=75 750w, /_next/image?url=%2Fhero.png&w=828&q=75 828w, /_next/image?url=%2Fhero.png&w=1080&q=75 1080w, /_next/image?url=%2Fhero.png&w=1200&q=75 1200w, /_next/image?url=%2Fhero.png&w=1920&q=75 1920w, /_next/image?url=%2Fhero.png&w=2048&q=75 2048w, /_next/image?url=%2Fhero.png&w=3840&q=75 3840w"
+      style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+    />
+    <div
+      class="relative flex flex-col items-center justify-between gap-5 font-medium text-white sm:flex-row"
+    >
+      <div
+        class="w-full"
+      >
+        <h2
+          class="text-xl lg:text-3xl"
+        >
+          ПОЧТОВАЯ РАССЫЛКА
+        </h2>
+        <div
+          class="pt-3"
+        />
+        <p>
+          Подпишись, чтобы не пропустить проект
+        </p>
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          class="relative"
+        >
+          <input
+            class="border-b border-black bg-transparent py-3 placeholder-black outline-none w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
+            placeholder="Электронная почта"
+            value=""
+          />
+          <button
+            class="absolute right-2 top-[calc(50%-10px)] h-5 w-5 cursor-pointer"
+            type="submit"
+          >
+            <img
+              alt=""
+              data-nimg="fill"
+              decoding="async"
+              loading="lazy"
+              src="/link-arrow-white.svg"
+              style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
