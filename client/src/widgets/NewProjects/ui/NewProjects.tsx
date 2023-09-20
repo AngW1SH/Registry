@@ -1,8 +1,7 @@
 import { IProject, ProjectCardAlt } from "@/entities/Project";
-import { ITag, TagList, getTagsByTagIds, staticTags } from "@/entities/Tag";
+import { ITag, TagList, getTagsByTagIds } from "@/entities/Tag";
 import { LinkWithIcon } from "@/shared/ui";
 import { FC } from "react";
-import { staticProjects } from "../static/staticProjects";
 import { fetchNewProjects } from "../api/fetchNewProjects";
 
 interface NewProjectsProps {

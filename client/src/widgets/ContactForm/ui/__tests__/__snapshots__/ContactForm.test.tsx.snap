@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactForm Widget UI snapshot test 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col gap-10 sm:flex-row md:gap-32"
+  >
+    <div>
+      <h2
+        class="text-4xl font-medium"
+      >
+        Заказчикам
+      </h2>
+      <div
+        class="pt-4 sm:pt-8"
+      />
+      <p
+        class="text-[0.9375rem] font-medium leading-6 [&>br]:hidden sm:[&>br]:block"
+      >
+        Если у Вас есть запрос на
+        <br />
+        сотрудничество и создание проекта,
+        <br />
+        заполните онлайн-заявку.
+        <br />
+        Наш представитель свяжется с вами
+        <br />
+        в ближайшее время
+      </p>
+    </div>
+    <div
+      class="flex flex-col w-full sm:w-80"
+    >
+      <input
+        class="border-b border-black bg-transparent py-3 placeholder-black outline-none "
+        placeholder="Имя"
+        value=""
+      />
+      <div
+        class="pt-5"
+      />
+      <input
+        class="border-b border-black bg-transparent py-3 placeholder-black outline-none "
+        placeholder="E-mail"
+        value=""
+      />
+      <div
+        class="pt-5"
+      />
+      <button
+        class="cursor-pointer rounded-3xl bg-primary p-3 font-bold text-white mt-auto w-max px-12"
+        type="submit"
+      >
+        Отправить
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;

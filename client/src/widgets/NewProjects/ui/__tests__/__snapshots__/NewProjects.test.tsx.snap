@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewProjects Widget UI snapshot test 1`] = `
+<DocumentFragment>
+  <ul
+    class="grid auto-rows-fr grid-cols-1 gap-y-5 sm:grid-cols-2 lg:grid-cols-3 sm:[&>li:nth-child(2n)]:border-r-0 lg:[&>li:nth-child(2n)]:border-r lg:[&>li:nth-child(3n)]:border-r-0 [&>li]:border-x-0  sm:[&>li]:border-r"
+  >
+    <li
+      class="col-span-1 row-span-1 border-t border-black p-3"
+    >
+      <div
+        class="flex flex-col "
+      >
+        <div
+          class="flex justify-between"
+        >
+          <div
+            class="w-15 whitespace-nowrap text-xs font-bold"
+          >
+            <div
+              class="pt-1"
+            />
+            <span
+              class="block text-3xl"
+            >
+              01
+            </span>
+            сен 2023
+          </div>
+          <div
+            class="pr-7"
+          />
+          <div>
+            <h2
+              class="text-sm font-medium"
+            >
+              Биология растений в эпоху глобальных изменений климата
+            </h2>
+          </div>
+        </div>
+        <div
+          class="ml-auto sm:ml-0 xl:pl-20"
+        >
+          <div
+            class="pt-5 xl:pt-10"
+          />
+          <div>
+            <ul
+              class="flex flex-wrap gap-1 undefined"
+            >
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Генетика
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="col-span-1 row-span-1 border-t border-black p-3"
+    >
+      <div
+        class="flex flex-col "
+      >
+        <div
+          class="flex justify-between"
+        >
+          <div
+            class="w-15 whitespace-nowrap text-xs font-bold"
+          >
+            <div
+              class="pt-1"
+            />
+            <span
+              class="block text-3xl"
+            >
+              01
+            </span>
+            фев 2023
+          </div>
+          <div
+            class="pr-7"
+          />
+          <div>
+            <h2
+              class="text-sm font-medium"
+            >
+              ГМО: история, достижения,социальные и экологические риски
+            </h2>
+          </div>
+        </div>
+        <div
+          class="ml-auto sm:ml-0 xl:pl-20"
+        >
+          <div
+            class="pt-5 xl:pt-10"
+          />
+          <div>
+            <ul
+              class="flex flex-wrap gap-1 undefined"
+            >
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Медицина
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Генетика
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="col-span-1 row-span-1 border-t border-black p-3"
+    >
+      <div
+        class="flex flex-col "
+      >
+        <div
+          class="flex justify-between"
+        >
+          <div
+            class="w-15 whitespace-nowrap text-xs font-bold"
+          >
+            <div
+              class="pt-1"
+            />
+            <span
+              class="block text-3xl"
+            >
+              09
+            </span>
+            сен 2023
+          </div>
+          <div
+            class="pr-7"
+          />
+          <div>
+            <h2
+              class="text-sm font-medium"
+            >
+              Современные проблемы эпидемиологии, микробиологии и гигиены
+            </h2>
+          </div>
+        </div>
+        <div
+          class="ml-auto sm:ml-0 xl:pl-20"
+        >
+          <div
+            class="pt-5 xl:pt-10"
+          />
+          <div>
+            <ul
+              class="flex flex-wrap gap-1 undefined"
+            >
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Общество
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Социология
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="col-span-1 row-span-1 border-t border-black p-3"
+    >
+      <div
+        class="flex flex-col "
+      >
+        <div
+          class="flex justify-between"
+        >
+          <div
+            class="w-15 whitespace-nowrap text-xs font-bold"
+          >
+            <div
+              class="pt-1"
+            />
+            <span
+              class="block text-3xl"
+            >
+              07
+            </span>
+            сен 2023
+          </div>
+          <div
+            class="pr-7"
+          />
+          <div>
+            <h2
+              class="text-sm font-medium"
+            >
+              Изучение социально-экономических проблем соверменного испанского общества
+            </h2>
+          </div>
+        </div>
+        <div
+          class="ml-auto sm:ml-0 xl:pl-20"
+        >
+          <div
+            class="pt-5 xl:pt-10"
+          />
+          <div>
+            <ul
+              class="flex flex-wrap gap-1 undefined"
+            >
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Общество
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Социология
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Финансы
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div
+    class="pt-6"
+  />
+  <a
+    href="/"
+  >
+    <button
+      class="relative font-medium"
+      style="padding-right: 20px;"
+    >
+      Показать ещё
+      <div
+        class="absolute right-0 top-[calc(50%-5px)]"
+        style="height: 10px; width: 10px; top: calc(50% - 5px);"
+      >
+        <img
+          alt=""
+          class="object-contain"
+          data-nimg="fill"
+          decoding="async"
+          loading="lazy"
+          src="/link-arrow-black.svg"
+          style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
+        />
+      </div>
+    </button>
+  </a>
+</DocumentFragment>
+`;
