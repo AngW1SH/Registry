@@ -8,8 +8,10 @@
     "allowJs": false,
     "sourceMap": true,
     "checkJs": false,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "exclude": ["node_modules"],
-  "include": ["./app.ts"]
+  "exclude": ["node_modules"]
 }

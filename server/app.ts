@@ -7,6 +7,7 @@ import passport from "./passport/index";
 import path from "path";
 
 import userRouter from "./router/user-router";
+import projectRouter from "@/routes/project/router";
 
 const app = express();
 app.listen(8000, () => console.log("listening port 8000"));
@@ -30,6 +31,8 @@ app.use(passport.session());
 app.use("/user", userRouter);
 
 app.use("/public", express.static(path.resolve(__dirname + "/../public")));
+
+app.use(projectRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res
