@@ -1,4 +1,4 @@
-import { generateAccessToken, generateRefreshToken } from "@/../jwt";
+import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import adminRepository from "@/repositories/admin";
 import { Admin } from "@/entities/admin";
 

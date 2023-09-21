@@ -13,5 +13,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "include": ["./app.ts", "./src"]
 }
