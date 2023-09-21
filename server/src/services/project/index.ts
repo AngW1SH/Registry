@@ -1,4 +1,5 @@
 import { Project } from "@/entities/project";
+import { Tag } from "@/entities/tag";
 import { flattenProjects } from "@/helpers/project";
 import projectRepository from "@/repositories/project";
 
@@ -8,8 +9,8 @@ const projectServiceFactory = () => {
     getNew,
   });
 
-  async function getActive() {
-    const projectsWithTags = await projectRepository.getActive();
+  async function getActive(tagIds?: string[]) {
+    const projectsWithTags = await projectRepository.getActive(tagIds);
 
     return flattenProjects(projectsWithTags);
   }

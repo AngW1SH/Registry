@@ -1,5 +1,6 @@
 import { prisma } from "@/db/prisma-client";
 import { ProjectWithTags } from "@/entities/project";
+import { Tag } from "@/entities/tag";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -7,7 +8,7 @@ const projectRepositoryFactory = () => {
     getNew,
   });
 
-  async function getActive(): Promise<ProjectWithTags[]> {
+  async function getActive(tagIds?: string[]): Promise<ProjectWithTags[]> {
     const now = new Date();
 
     const projects = await prisma.project.findMany({
@@ -19,6 +20,16 @@ const projectRepositoryFactory = () => {
           gte: now,
         },
         isPublic: true,
+        tags:
+          tagIds && tagIds.length
+            ? {
+                some: {
+                  tagId: {
+                    in: tagIds,
+                  },
+                },
+              }
+            : undefined,
       },
       select: {
         id: true,

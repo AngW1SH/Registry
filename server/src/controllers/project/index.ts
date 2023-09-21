@@ -1,3 +1,4 @@
+import { Tag } from "@/entities/tag";
 import projectService from "@/services/project";
 import { Request, Response } from "express";
 
@@ -8,7 +9,9 @@ const projectControllerFactory = () => {
   });
 
   async function getActive(req: Request, res: Response) {
-    const projects = await projectService.getActive();
+    const tagIds = req.body ? (req.body.tagIds as string[]) : null;
+
+    const projects = await projectService.getActive(tagIds);
 
     res.status(200).json(projects);
   }
