@@ -20,7 +20,7 @@ model Admin {
 }
 
 model Project {
-    id                    String   @id @default(uuid())
+    id                    String        @id @default(uuid())
     name                  String
     description           String
     developerRequirements String
@@ -30,4 +30,20 @@ model Project {
     enrollmentEnd         DateTime
     supervisor            String
     isPublic              Boolean
+    tags                  Project_Tag[]
+}
+
+model Tag {
+    id       String        @id @default(uuid())
+    name     String
+    projects Project_Tag[]
+}
+
+model Project_Tag {
+    id          String  @id @default(uuid())
+    isProtected Boolean
+    projectId   String
+    Project     Project @relation(fields: [projectId], references: [id])
+    tagId       String
+    Tag         Tag     @relation(fields: [tagId], references: [id])
 }

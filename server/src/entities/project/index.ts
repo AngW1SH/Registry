@@ -1,3 +1,3 @@
-import type { Project } from "./types/types";
+import type { Project, ProjectWithTags } from "./types/types";
 
-export type { Project };
+export type { Project, ProjectWithTags };

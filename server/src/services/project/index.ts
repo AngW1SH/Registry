@@ -1,4 +1,5 @@
 import { Project } from "@/entities/project";
+import { flattenProjects } from "@/helpers/project";
 import projectRepository from "@/repositories/project";
 
 const projectServiceFactory = () => {
@@ -7,7 +8,9 @@ const projectServiceFactory = () => {
   });
 
   async function getActive() {
-    return await projectRepository.getActive();
+    const projectsWithTags = await projectRepository.getActive();
+
+    return flattenProjects(projectsWithTags);
   }
 };
 

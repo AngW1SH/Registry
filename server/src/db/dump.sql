@@ -17,77 +17,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- Name: Admin; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Admin" (
-    id text NOT NULL,
-    username text NOT NULL,
-    password text NOT NULL,
-    active boolean DEFAULT false NOT NULL,
-    refresh text DEFAULT ''::text NOT NULL
-);
-
-
-ALTER TABLE public."Admin" OWNER TO postgres;
-
---
--- Name: Project; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Project" (
-    id text NOT NULL,
-    name text NOT NULL,
-    description text NOT NULL,
-    "developerRequirements" text NOT NULL,
-    "dateStart" timestamp(3) without time zone NOT NULL,
-    "dateEnd" timestamp(3) without time zone NOT NULL,
-    "enrollmentStart" timestamp(3) without time zone NOT NULL,
-    "enrollmentEnd" timestamp(3) without time zone NOT NULL,
-    supervisor text NOT NULL,
-    "isPublic" boolean NOT NULL
-);
-
-
-ALTER TABLE public."Project" OWNER TO postgres;
-
---
--- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public._prisma_migrations (
-    id character varying(36) NOT NULL,
-    checksum character varying(64) NOT NULL,
-    finished_at timestamp with time zone,
-    migration_name character varying(255) NOT NULL,
-    logs text,
-    rolled_back_at timestamp with time zone,
-    started_at timestamp with time zone DEFAULT now() NOT NULL,
-    applied_steps_count integer DEFAULT 0 NOT NULL
-);
-
-
-ALTER TABLE public._prisma_migrations OWNER TO postgres;
-
---
 -- Data for Name: Admin; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -108,6 +37,39 @@ c3f2ed0f-74bd-4220-ab8a-0eb804fdd3bf	ГМО: история, достижени�
 
 
 --
+-- Data for Name: Tag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Tag" (id, name) FROM stdin;
+b52f1873-7faf-4b26-99db-b07bc8c453b5	Общество
+e484c4a9-1fd1-4ab0-854d-02045d05e067	История
+ccfb5989-742a-4847-ace3-424e744c2c61	ИТ
+3f4b8ace-3eee-4033-838a-43dbf7c2d85b	Медицина
+450040f5-0a6e-4e1d-b359-e14333026d9f	Социология
+ea53c036-3e11-4f8d-862c-20239e6b1c5e	Финансы
+ba3eb35a-8147-4bdf-bf00-f14a00f486ae	Языки
+5d7d84be-5e2d-4a75-a1d0-1e08d2067b41	Генетика
+376a034a-ed37-4c5b-b254-ee0d648c634b	Медиаресурсы
+\.
+
+
+--
+-- Data for Name: Project_Tag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Project_Tag" (id, "isProtected", "projectId", "tagId") FROM stdin;
+3eb36c39-65a1-47a5-a484-eccfdd28ce20	f	dd061dfc-5855-11ee-8c99-0242ac120002	5d7d84be-5e2d-4a75-a1d0-1e08d2067b41
+1dffe4d5-c178-40e7-860c-d12e459f8e5d	f	c3f2ed0f-74bd-4220-ab8a-0eb804fdd3bf	3f4b8ace-3eee-4033-838a-43dbf7c2d85b
+cc1178e3-f5b2-495a-826d-3d65c6a99f2f	f	c3f2ed0f-74bd-4220-ab8a-0eb804fdd3bf	5d7d84be-5e2d-4a75-a1d0-1e08d2067b41
+581e5db5-9e96-40e9-9987-a67f1e5bad84	f	61ea8a18-c2bb-423d-83ab-9eed411128b6	b52f1873-7faf-4b26-99db-b07bc8c453b5
+ed7adc4f-db9d-4698-8a6c-83a88aae7270	f	61ea8a18-c2bb-423d-83ab-9eed411128b6	450040f5-0a6e-4e1d-b359-e14333026d9f
+ff177a44-a3f9-4643-ba82-954ef80ad09e	f	af1fff74-5856-11ee-8c99-0242ac120002	b52f1873-7faf-4b26-99db-b07bc8c453b5
+7bf59d93-79d2-4ff7-8625-f766186ef269	f	af1fff74-5856-11ee-8c99-0242ac120002	450040f5-0a6e-4e1d-b359-e14333026d9f
+20778de0-ef10-474d-87ab-74d1046e9fe7	f	af1fff74-5856-11ee-8c99-0242ac120002	ea53c036-3e11-4f8d-862c-20239e6b1c5e
+\.
+
+
+--
 -- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -115,34 +77,10 @@ COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs,
 f8cd6fbf-adcb-4d71-9a20-6c5f9f72f2d8	1302aacce22222c54fce64a9f614530824705668c33df380a83f54b862a3db7f	2023-09-12 18:54:41.371056+03	20230912155441_initial_migration	\N	\N	2023-09-12 18:54:41.36234+03	1
 ddb3d23a-95f9-4add-960c-2f79bc79fae2	6b0db28638cfc4db307adeaa6f934f840379a8db1f54c57ec4a0db3537699390	2023-09-21 10:44:01.161093+03	20230921074401_admin_migration	\N	\N	2023-09-21 10:44:01.146446+03	1
 495d934d-1f5f-4dc9-85a8-1f300ad9efe6	e05a86c695d25a69ca2030fce56e62a24474ee4bd6fcd1af7c3089e353bfcbd0	2023-09-21 10:53:38.625605+03	20230921075338_project_migration	\N	\N	2023-09-21 10:53:38.618085+03	1
+4e0e1675-30b6-4f7e-9f0a-9eb0440864d1	9c2ab6aa833a4fb1f42c8c288bb7c21667071dc061b9910a2b434be0d3199987	2023-09-21 11:36:36.990529+03	20230921083636_tag_migration	\N	\N	2023-09-21 11:36:36.97237+03	1
 \.
-
-
---
--- Name: Admin Admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Admin"
-    ADD CONSTRAINT "Admin_pkey" PRIMARY KEY (id);
-
-
---
--- Name: Project Project_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Project"
-    ADD CONSTRAINT "Project_pkey" PRIMARY KEY (id);
-
-
---
--- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public._prisma_migrations
-    ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
 
 
 --
 -- PostgreSQL database dump complete
 --
-

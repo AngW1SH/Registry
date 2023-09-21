@@ -128,6 +128,18 @@ exports.Prisma.ProjectScalarFieldEnum = {
   isPublic: 'isPublic'
 };
 
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.Project_TagScalarFieldEnum = {
+  id: 'id',
+  isProtected: 'isProtected',
+  projectId: 'projectId',
+  tagId: 'tagId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,7 +153,9 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Admin: 'Admin',
-  Project: 'Project'
+  Project: 'Project',
+  Tag: 'Tag',
+  Project_Tag: 'Project_Tag'
 };
 
 /**
