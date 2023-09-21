@@ -1,11 +1,13 @@
 "use client";
 import { IProject, ProjectCard } from "@/entities/Project";
 import { ITag, TagList, TagSlider, getTagsByTagIds } from "@/entities/Tag";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { fetchActiveProjectsData } from "../api/fetchActiveProjectsData";
+import { ActiveProjectsData } from "../types/types";
 
 interface GetActiveProjectsByTagsProps {
   tags: ITag[];
-  projects: IProject[];
+  initialProjects: IProject[];
 }
 
 /*
@@ -21,21 +23,33 @@ Same for initial props, just export that API and use it in the widget
 
 const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
   tags,
-  projects,
+  initialProjects,
 }) => {
+  const [projectData, setProjectData] = useState<ActiveProjectsData>({
+    tags: tags,
+    projects: initialProjects,
+  });
+
+  const updateProjects = async (tags: ITag[]) => {
+    setProjectData(await fetchActiveProjectsData(tags));
+  };
+
   return (
     <>
-      <TagSlider tags={tags} />
+      <TagSlider
+        tags={tags.length ? tags : projectData.tags}
+        onChange={updateProjects}
+      />
       <div className="pt-12" />
       <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        {projects.map((project) => (
+        {projectData.projects.map((project) => (
           <li key={project.id}>
             <ProjectCard
               className="h-full"
               project={project}
               tags={
                 <TagList
-                  tags={getTagsByTagIds(project.tags, tags)}
+                  tags={getTagsByTagIds(project.tags, projectData.tags)}
                   className="justify-end"
                 />
               }

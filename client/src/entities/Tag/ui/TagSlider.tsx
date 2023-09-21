@@ -5,6 +5,7 @@ import { ITag } from "../types/types";
 
 interface TagSliderProps {
   tags: ITag[];
+  onChange?: (tags: ITag[]) => any;
 }
 
 const tags = [
@@ -13,12 +14,12 @@ const tags = [
   },
 ];
 
-const TagSlider: FC<TagSliderProps> = ({ tags }) => {
+const TagSlider: FC<TagSliderProps> = ({ tags, onChange }) => {
   const [offset, setOffset] = useState(0);
 
   const [tagClicked, setTagClicked] = useState("");
 
-  const [selectedTags, setSelectedTags] = useState<any[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const sliderRef: React.RefObject<HTMLDivElement> = useRef(null);
 
@@ -105,6 +106,12 @@ const TagSlider: FC<TagSliderProps> = ({ tags }) => {
       );
     }
   };
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(tags.filter((tag) => selectedTags.includes(tag.name)));
+    }
+  }, [selectedTags]);
 
   return (
     <div className="relative px-10">

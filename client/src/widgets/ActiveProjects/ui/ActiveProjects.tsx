@@ -21,7 +21,7 @@ const ActiveProjects: FC<ActiveProjectsProps> = async ({ data }) => {
 
   return (
     <div>
-      <GetActiveProjectsByTags tags={tags} projects={projects} />
+      <GetActiveProjectsByTags tags={tags} initialProjects={projects} />
       <div className="pt-7" />
       <LinkWithIcon href="/">Показать ещё</LinkWithIcon>
     </div>
