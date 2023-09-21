@@ -1,8 +1,14 @@
 import projectController from "@/controllers/project";
-import express from "express";
+import express, { Request, Response } from "express";
 
 const projectRouter = express();
 
-projectRouter.get("/create", projectController.create);
+projectRouter.get("/active", (req: Request, res: Response) => {
+  try {
+    projectController.getActive(req, res);
+  } catch (err) {
+    res.status(500).send();
+  }
+});
 
 export default projectRouter;

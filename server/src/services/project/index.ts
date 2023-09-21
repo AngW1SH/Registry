@@ -1,7 +1,16 @@
-import { create } from "./create";
+import { Project } from "@/entities/project";
+import projectRepository from "@/repositories/project";
 
-const projectService = Object.freeze({
-  create,
-});
+const projectServiceFactory = () => {
+  return Object.freeze({
+    getActive,
+  });
+
+  async function getActive() {
+    return await projectRepository.getActive();
+  }
+};
+
+const projectService = projectServiceFactory();
 
 export default projectService;

@@ -18,3 +18,16 @@ model Admin {
     active   Boolean @default(false)
     refresh  String  @default("")
 }
+
+model Project {
+    id                    String   @id @default(uuid())
+    name                  String
+    description           String
+    developerRequirements String
+    dateStart             DateTime
+    dateEnd               DateTime
+    enrollmentStart       DateTime
+    enrollmentEnd         DateTime
+    supervisor            String
+    isPublic              Boolean
+}

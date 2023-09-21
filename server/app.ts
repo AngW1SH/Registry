@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import passport from "./passport/index";
+import passport from "@/middleware/passport";
 
 import path from "path";
 import projectRouter from "@/routes/project/router";
@@ -29,7 +29,7 @@ app.use(passport.session());
 
 app.use("/admin", adminRouter);
 
-app.use(projectRouter);
+app.use("/project", projectRouter);
 
 app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 

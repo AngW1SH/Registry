@@ -1,3 +1,0 @@
-export const findById = (id: string) => {
-  // return prisma.findFirst ...
-};

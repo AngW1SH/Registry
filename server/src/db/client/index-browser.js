@@ -115,6 +115,19 @@ exports.Prisma.AdminScalarFieldEnum = {
   refresh: 'refresh'
 };
 
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  developerRequirements: 'developerRequirements',
+  dateStart: 'dateStart',
+  dateEnd: 'dateEnd',
+  enrollmentStart: 'enrollmentStart',
+  enrollmentEnd: 'enrollmentEnd',
+  supervisor: 'supervisor',
+  isPublic: 'isPublic'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -127,7 +140,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  Admin: 'Admin'
+  Admin: 'Admin',
+  Project: 'Project'
 };
 
 /**
