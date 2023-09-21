@@ -14,15 +14,10 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model User
+ * Model Admin
  * 
  */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>
-/**
- * Model UserEmailConfirm
- * 
- */
-export type UserEmailConfirm = $Result.DefaultSelection<Prisma.$UserEmailConfirmPayload>
+export type Admin = $Result.DefaultSelection<Prisma.$AdminPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -31,8 +26,8 @@ export type UserEmailConfirm = $Result.DefaultSelection<Prisma.$UserEmailConfirm
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Admins
+ * const admins = await prisma.admin.findMany()
  * ```
  *
  * 
@@ -52,8 +47,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Admins
+   * const admins = await prisma.admin.findMany()
    * ```
    *
    * 
@@ -147,24 +142,14 @@ export class PrismaClient<
   $extends: $Extensions.ExtendsHook<'extends', Prisma.TypeMapCb, ExtArgs>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
+    * // Fetch zero or more Admins
+    * const admins = await prisma.admin.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs>;
-
-  /**
-   * `prisma.userEmailConfirm`: Exposes CRUD operations for the **UserEmailConfirm** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more UserEmailConfirms
-    * const userEmailConfirms = await prisma.userEmailConfirm.findMany()
-    * ```
-    */
-  get userEmailConfirm(): Prisma.UserEmailConfirmDelegate<ExtArgs>;
+  get admin(): Prisma.AdminDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -635,8 +620,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User',
-    UserEmailConfirm: 'UserEmailConfirm'
+    Admin: 'Admin'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -653,139 +637,73 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'userEmailConfirm'
+      modelProps: 'admin'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>
-        fields: Prisma.UserFieldRefs
+      Admin: {
+        payload: Prisma.$AdminPayload<ExtArgs>
+        fields: Prisma.AdminFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.AdminFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.AdminFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+            args: Prisma.AdminFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>[]
           }
           create: {
-            args: Prisma.UserCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>,
+            args: Prisma.AdminCreateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
           delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>,
+            args: Prisma.AdminDeleteManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
           updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>,
+            args: Prisma.AdminUpdateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
           upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.AdminUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdminPayload>
           }
           aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateUser>
+            args: Prisma.AdminAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateAdmin>
           }
           groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<UserGroupByOutputType>[]
+            args: Prisma.AdminGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<AdminGroupByOutputType>[]
           }
           count: {
-            args: Prisma.UserCountArgs<ExtArgs>,
-            result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
-      UserEmailConfirm: {
-        payload: Prisma.$UserEmailConfirmPayload<ExtArgs>
-        fields: Prisma.UserEmailConfirmFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.UserEmailConfirmFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.UserEmailConfirmFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          findFirst: {
-            args: Prisma.UserEmailConfirmFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.UserEmailConfirmFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          findMany: {
-            args: Prisma.UserEmailConfirmFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>[]
-          }
-          create: {
-            args: Prisma.UserEmailConfirmCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          createMany: {
-            args: Prisma.UserEmailConfirmCreateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          delete: {
-            args: Prisma.UserEmailConfirmDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          update: {
-            args: Prisma.UserEmailConfirmUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          deleteMany: {
-            args: Prisma.UserEmailConfirmDeleteManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          updateMany: {
-            args: Prisma.UserEmailConfirmUpdateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          upsert: {
-            args: Prisma.UserEmailConfirmUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<Prisma.$UserEmailConfirmPayload>
-          }
-          aggregate: {
-            args: Prisma.UserEmailConfirmAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateUserEmailConfirm>
-          }
-          groupBy: {
-            args: Prisma.UserEmailConfirmGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<UserEmailConfirmGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UserEmailConfirmCountArgs<ExtArgs>,
-            result: $Utils.Optional<UserEmailConfirmCountAggregateOutputType> | number
+            args: Prisma.AdminCountArgs<ExtArgs>,
+            result: $Utils.Optional<AdminCountAggregateOutputType> | number
           }
         }
       }
@@ -943,36 +861,33 @@ export namespace Prisma {
    */
 
   /**
-   * Model User
+   * Model Admin
    */
 
-  export type AggregateUser = {
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
+  export type AggregateAdmin = {
+    _count: AdminCountAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
   }
 
-  export type UserMinAggregateOutputType = {
+  export type AdminMinAggregateOutputType = {
     id: string | null
-    email: string | null
     username: string | null
     password: string | null
     active: boolean | null
     refresh: string | null
   }
 
-  export type UserMaxAggregateOutputType = {
+  export type AdminMaxAggregateOutputType = {
     id: string | null
-    email: string | null
     username: string | null
     password: string | null
     active: boolean | null
     refresh: string | null
   }
 
-  export type UserCountAggregateOutputType = {
+  export type AdminCountAggregateOutputType = {
     id: number
-    email: number
     username: number
     password: number
     active: number
@@ -981,27 +896,24 @@ export namespace Prisma {
   }
 
 
-  export type UserMinAggregateInputType = {
+  export type AdminMinAggregateInputType = {
     id?: true
-    email?: true
     username?: true
     password?: true
     active?: true
     refresh?: true
   }
 
-  export type UserMaxAggregateInputType = {
+  export type AdminMaxAggregateInputType = {
     id?: true
-    email?: true
     username?: true
     password?: true
     active?: true
     refresh?: true
   }
 
-  export type UserCountAggregateInputType = {
+  export type AdminCountAggregateInputType = {
     id?: true
-    email?: true
     username?: true
     password?: true
     active?: true
@@ -1009,116 +921,113 @@ export namespace Prisma {
     _all?: true
   }
 
-  export type UserAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Filter which User to aggregate.
+     * Filter which Admin to aggregate.
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of Admins to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: AdminWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` Admins from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` Admins.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Users
+     * Count returned Admins
     **/
-    _count?: true | UserCountAggregateInputType
+    _count?: true | AdminCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: UserMinAggregateInputType
+    _min?: AdminMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: UserMaxAggregateInputType
+    _max?: AdminMaxAggregateInputType
   }
 
-  export type GetUserAggregateType<T extends UserAggregateArgs> = {
-        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
+  export type GetAdminAggregateType<T extends AdminAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdmin]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateUser[P]>
-      : GetScalarType<T[P], AggregateUser[P]>
+        : GetScalarType<T[P], AggregateAdmin[P]>
+      : GetScalarType<T[P], AggregateAdmin[P]>
   }
 
 
 
 
-  export type UserGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
-    by: UserScalarFieldEnum[] | UserScalarFieldEnum
-    having?: UserScalarWhereWithAggregatesInput
+  export type AdminGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: AdminWhereInput
+    orderBy?: AdminOrderByWithAggregationInput | AdminOrderByWithAggregationInput[]
+    by: AdminScalarFieldEnum[] | AdminScalarFieldEnum
+    having?: AdminScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: UserCountAggregateInputType | true
-    _min?: UserMinAggregateInputType
-    _max?: UserMaxAggregateInputType
+    _count?: AdminCountAggregateInputType | true
+    _min?: AdminMinAggregateInputType
+    _max?: AdminMaxAggregateInputType
   }
 
-  export type UserGroupByOutputType = {
+  export type AdminGroupByOutputType = {
     id: string
-    email: string
     username: string
     password: string
     active: boolean
     refresh: string
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
+    _count: AdminCountAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
   }
 
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+  type GetAdminGroupByPayload<T extends AdminGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<UserGroupByOutputType, T['by']> &
+      PickEnumerable<AdminGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof AdminGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], UserGroupByOutputType[P]>
-            : GetScalarType<T[P], UserGroupByOutputType[P]>
+              : GetScalarType<T[P], AdminGroupByOutputType[P]>
+            : GetScalarType<T[P], AdminGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type UserSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type AdminSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    email?: boolean
     username?: boolean
     password?: boolean
     active?: boolean
     refresh?: boolean
-  }, ExtArgs["result"]["user"]>
+  }, ExtArgs["result"]["admin"]>
 
-  export type UserSelectScalar = {
+  export type AdminSelectScalar = {
     id?: boolean
-    email?: boolean
     username?: boolean
     password?: boolean
     active?: boolean
@@ -1126,170 +1035,169 @@ export namespace Prisma {
   }
 
 
-  export type $UserPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    name: "User"
+  export type $AdminPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    name: "Admin"
     objects: {}
     scalars: $Extensions.GetResult<{
       id: string
-      email: string
       username: string
       password: string
       active: boolean
       refresh: string
-    }, ExtArgs["result"]["user"]>
+    }, ExtArgs["result"]["admin"]>
     composites: {}
   }
 
 
-  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
+  type AdminGetPayload<S extends boolean | null | undefined | AdminDefaultArgs> = $Result.GetResult<Prisma.$AdminPayload, S>
 
-  type UserCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
-    Omit<UserFindManyArgs, 'select' | 'include'> & {
-      select?: UserCountAggregateInputType | true
+  type AdminCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<AdminFindManyArgs, 'select' | 'include'> & {
+      select?: AdminCountAggregateInputType | true
     }
 
-  export interface UserDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
+  export interface AdminDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Admin'], meta: { name: 'Admin' } }
     /**
-     * Find zero or one User that matches the filter.
-     * @param {UserFindUniqueArgs} args - Arguments to find a User
+     * Find zero or one Admin that matches the filter.
+     * @param {AdminFindUniqueArgs} args - Arguments to find a Admin
      * @example
-     * // Get one User
-     * const user = await prisma.user.findUnique({
+     * // Get one Admin
+     * const admin = await prisma.admin.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends UserFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+    findUnique<T extends AdminFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminFindUniqueArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
 
     /**
-     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
+     * Find one Admin that matches the filter or throw an error  with `error.code='P2025'` 
      *     if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
+     * @param {AdminFindUniqueOrThrowArgs} args - Arguments to find a Admin
      * @example
-     * // Get one User
-     * const user = await prisma.user.findUniqueOrThrow({
+     * // Get one Admin
+     * const admin = await prisma.admin.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+    findUniqueOrThrow<T extends AdminFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
 
     /**
-     * Find the first User that matches the filter.
+     * Find the first Admin that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstArgs} args - Arguments to find a User
+     * @param {AdminFindFirstArgs} args - Arguments to find a Admin
      * @example
-     * // Get one User
-     * const user = await prisma.user.findFirst({
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends UserFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+    findFirst<T extends AdminFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminFindFirstArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
 
     /**
-     * Find the first User that matches the filter or
+     * Find the first Admin that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
+     * @param {AdminFindFirstOrThrowArgs} args - Arguments to find a Admin
      * @example
-     * // Get one User
-     * const user = await prisma.user.findFirstOrThrow({
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+    findFirstOrThrow<T extends AdminFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
 
     /**
-     * Find zero or more Users that matches the filter.
+     * Find zero or more Admins that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {AdminFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Users
-     * const users = await prisma.user.findMany()
+     * // Get all Admins
+     * const admins = await prisma.admin.findMany()
      * 
-     * // Get first 10 Users
-     * const users = await prisma.user.findMany({ take: 10 })
+     * // Get first 10 Admins
+     * const admins = await prisma.admin.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
+     * const adminWithIdOnly = await prisma.admin.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends UserFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findMany'>>
+    findMany<T extends AdminFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'findMany'>>
 
     /**
-     * Create a User.
-     * @param {UserCreateArgs} args - Arguments to create a User.
+     * Create a Admin.
+     * @param {AdminCreateArgs} args - Arguments to create a Admin.
      * @example
-     * // Create one User
-     * const User = await prisma.user.create({
+     * // Create one Admin
+     * const Admin = await prisma.admin.create({
      *   data: {
-     *     // ... data to create a User
+     *     // ... data to create a Admin
      *   }
      * })
      * 
     **/
-    create<T extends UserCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, UserCreateArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+    create<T extends AdminCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminCreateArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
 
     /**
-     * Create many Users.
-     *     @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * Create many Admins.
+     *     @param {AdminCreateManyArgs} args - Arguments to create many Admins.
      *     @example
-     *     // Create many Users
-     *     const user = await prisma.user.createMany({
+     *     // Create many Admins
+     *     const admin = await prisma.admin.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends UserCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>
+    createMany<T extends AdminCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a User.
-     * @param {UserDeleteArgs} args - Arguments to delete one User.
+     * Delete a Admin.
+     * @param {AdminDeleteArgs} args - Arguments to delete one Admin.
      * @example
-     * // Delete one User
-     * const User = await prisma.user.delete({
+     * // Delete one Admin
+     * const Admin = await prisma.admin.delete({
      *   where: {
-     *     // ... filter to delete one User
+     *     // ... filter to delete one Admin
      *   }
      * })
      * 
     **/
-    delete<T extends UserDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, UserDeleteArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+    delete<T extends AdminDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminDeleteArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
 
     /**
-     * Update one User.
-     * @param {UserUpdateArgs} args - Arguments to update one User.
+     * Update one Admin.
+     * @param {AdminUpdateArgs} args - Arguments to update one Admin.
      * @example
-     * // Update one User
-     * const user = await prisma.user.update({
+     * // Update one Admin
+     * const admin = await prisma.admin.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1299,34 +1207,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends UserUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, UserUpdateArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+    update<T extends AdminUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminUpdateArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
 
     /**
-     * Delete zero or more Users.
-     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
+     * Delete zero or more Admins.
+     * @param {AdminDeleteManyArgs} args - Arguments to filter Admins to delete.
      * @example
-     * // Delete a few Users
-     * const { count } = await prisma.user.deleteMany({
+     * // Delete a few Admins
+     * const { count } = await prisma.admin.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends UserDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>
+    deleteMany<T extends AdminDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdminDeleteManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Users.
+     * Update zero or more Admins.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {AdminUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Users
-     * const user = await prisma.user.updateMany({
+     * // Update many Admins
+     * const admin = await prisma.admin.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1336,59 +1244,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends UserUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>
+    updateMany<T extends AdminUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminUpdateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one User.
-     * @param {UserUpsertArgs} args - Arguments to update or create a User.
+     * Create or update one Admin.
+     * @param {AdminUpsertArgs} args - Arguments to update or create a Admin.
      * @example
-     * // Update or create a User
-     * const user = await prisma.user.upsert({
+     * // Update or create a Admin
+     * const admin = await prisma.admin.upsert({
      *   create: {
-     *     // ... data to create a User
+     *     // ... data to create a Admin
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the User we want to update
+     *     // ... the filter for the Admin we want to update
      *   }
      * })
     **/
-    upsert<T extends UserUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, UserUpsertArgs<ExtArgs>>
-    ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+    upsert<T extends AdminUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, AdminUpsertArgs<ExtArgs>>
+    ): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
 
     /**
-     * Count the number of Users.
+     * Count the number of Admins.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserCountArgs} args - Arguments to filter Users to count.
+     * @param {AdminCountArgs} args - Arguments to filter Admins to count.
      * @example
-     * // Count the number of Users
-     * const count = await prisma.user.count({
+     * // Count the number of Admins
+     * const count = await prisma.admin.count({
      *   where: {
-     *     // ... the filter for the Users we want to count
+     *     // ... the filter for the Admins we want to count
      *   }
      * })
     **/
-    count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
+    count<T extends AdminCountArgs>(
+      args?: Subset<T, AdminCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], UserCountAggregateOutputType>
+          : GetScalarType<T['select'], AdminCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a User.
+     * Allows you to perform aggregations operations on a Admin.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {AdminAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -1408,13 +1316,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
+    aggregate<T extends AdminAggregateArgs>(args: Subset<T, AdminAggregateArgs>): Prisma.PrismaPromise<GetAdminAggregateType<T>>
 
     /**
-     * Group by User.
+     * Group by Admin.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserGroupByArgs} args - Group by arguments.
+     * @param {AdminGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -1429,14 +1337,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends UserGroupByArgs,
+      T extends AdminGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs['orderBy'] }
-        : { orderBy?: UserGroupByArgs['orderBy'] },
+        ? { orderBy: AdminGroupByArgs['orderBy'] }
+        : { orderBy?: AdminGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -1485,20 +1393,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, AdminGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdminGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the User model
+   * Fields of the Admin model
    */
-  readonly fields: UserFieldRefs;
+  readonly fields: AdminFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for User.
+   * The delegate class that acts as a "Promise-like" for Admin.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__AdminClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
 
@@ -1527,1157 +1435,297 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the User model
+   * Fields of the Admin model
    */ 
-  interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
-    readonly username: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
-    readonly active: FieldRef<"User", 'Boolean'>
-    readonly refresh: FieldRef<"User", 'String'>
+  interface AdminFieldRefs {
+    readonly id: FieldRef<"Admin", 'String'>
+    readonly username: FieldRef<"Admin", 'String'>
+    readonly password: FieldRef<"Admin", 'String'>
+    readonly active: FieldRef<"Admin", 'Boolean'>
+    readonly refresh: FieldRef<"Admin", 'String'>
   }
     
 
   // Custom InputTypes
 
   /**
-   * User findUnique
+   * Admin findUnique
    */
-  export type UserFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which Admin to fetch.
      */
-    where: UserWhereUniqueInput
+    where: AdminWhereUniqueInput
   }
 
 
   /**
-   * User findUniqueOrThrow
+   * Admin findUniqueOrThrow
    */
-  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which Admin to fetch.
      */
-    where: UserWhereUniqueInput
+    where: AdminWhereUniqueInput
   }
 
 
   /**
-   * User findFirst
+   * Admin findFirst
    */
-  export type UserFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which Admin to fetch.
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of Admins to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Users.
+     * Sets the position for searching for Admins.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: AdminWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` Admins from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` Admins.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Users.
+     * Filter by unique combinations of Admins.
      */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
   }
 
 
   /**
-   * User findFirstOrThrow
+   * Admin findFirstOrThrow
    */
-  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter, which User to fetch.
+     * Filter, which Admin to fetch.
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of Admins to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Users.
+     * Sets the position for searching for Admins.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: AdminWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` Admins from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` Admins.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Users.
+     * Filter by unique combinations of Admins.
      */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
   }
 
 
   /**
-   * User findMany
+   * Admin findMany
    */
-  export type UserFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter, which Users to fetch.
+     * Filter, which Admins to fetch.
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Users to fetch.
+     * Determine the order of Admins to fetch.
      */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Users.
+     * Sets the position for listing Admins.
      */
-    cursor?: UserWhereUniqueInput
+    cursor?: AdminWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Users from the position of the cursor.
+     * Take `±n` Admins from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Users.
+     * Skip the first `n` Admins.
      */
     skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
   }
 
 
   /**
-   * User create
+   * Admin create
    */
-  export type UserCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * The data needed to create a User.
+     * The data needed to create a Admin.
      */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>
+    data: XOR<AdminCreateInput, AdminUncheckedCreateInput>
   }
 
 
   /**
-   * User createMany
+   * Admin createMany
    */
-  export type UserCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Users.
+     * The data used to create many Admins.
      */
-    data: UserCreateManyInput | UserCreateManyInput[]
+    data: AdminCreateManyInput | AdminCreateManyInput[]
     skipDuplicates?: boolean
   }
 
 
   /**
-   * User update
+   * Admin update
    */
-  export type UserUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * The data needed to update a User.
+     * The data needed to update a Admin.
      */
-    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    data: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
     /**
-     * Choose, which User to update.
+     * Choose, which Admin to update.
      */
-    where: UserWhereUniqueInput
+    where: AdminWhereUniqueInput
   }
 
 
   /**
-   * User updateMany
+   * Admin updateMany
    */
-  export type UserUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Users.
+     * The data used to update Admins.
      */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
+    data: XOR<AdminUpdateManyMutationInput, AdminUncheckedUpdateManyInput>
     /**
-     * Filter which Users to update
+     * Filter which Admins to update
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
   }
 
 
   /**
-   * User upsert
+   * Admin upsert
    */
-  export type UserUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * The filter to search for the User to update in case it exists.
+     * The filter to search for the Admin to update in case it exists.
      */
-    where: UserWhereUniqueInput
+    where: AdminWhereUniqueInput
     /**
-     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     * In case the Admin found by the `where` argument doesn't exist, create a new Admin with this data.
      */
-    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    create: XOR<AdminCreateInput, AdminUncheckedCreateInput>
     /**
-     * In case the User was found with the provided `where` argument, update it with this data.
+     * In case the Admin was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    update: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
   }
 
 
   /**
-   * User delete
+   * Admin delete
    */
-  export type UserDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
     /**
-     * Filter which User to delete.
+     * Filter which Admin to delete.
      */
-    where: UserWhereUniqueInput
+    where: AdminWhereUniqueInput
   }
 
 
   /**
-   * User deleteMany
+   * Admin deleteMany
    */
-  export type UserDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Users to delete
+     * Filter which Admins to delete
      */
-    where?: UserWhereInput
+    where?: AdminWhereInput
   }
 
 
   /**
-   * User without action
+   * Admin without action
    */
-  export type UserDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type AdminDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the User
+     * Select specific fields to fetch from the Admin
      */
-    select?: UserSelect<ExtArgs> | null
-  }
-
-
-
-  /**
-   * Model UserEmailConfirm
-   */
-
-  export type AggregateUserEmailConfirm = {
-    _count: UserEmailConfirmCountAggregateOutputType | null
-    _min: UserEmailConfirmMinAggregateOutputType | null
-    _max: UserEmailConfirmMaxAggregateOutputType | null
-  }
-
-  export type UserEmailConfirmMinAggregateOutputType = {
-    id: string | null
-    token: string | null
-    userid: string | null
-    creationtime: Date | null
-  }
-
-  export type UserEmailConfirmMaxAggregateOutputType = {
-    id: string | null
-    token: string | null
-    userid: string | null
-    creationtime: Date | null
-  }
-
-  export type UserEmailConfirmCountAggregateOutputType = {
-    id: number
-    token: number
-    userid: number
-    creationtime: number
-    _all: number
-  }
-
-
-  export type UserEmailConfirmMinAggregateInputType = {
-    id?: true
-    token?: true
-    userid?: true
-    creationtime?: true
-  }
-
-  export type UserEmailConfirmMaxAggregateInputType = {
-    id?: true
-    token?: true
-    userid?: true
-    creationtime?: true
-  }
-
-  export type UserEmailConfirmCountAggregateInputType = {
-    id?: true
-    token?: true
-    userid?: true
-    creationtime?: true
-    _all?: true
-  }
-
-  export type UserEmailConfirmAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which UserEmailConfirm to aggregate.
-     */
-    where?: UserEmailConfirmWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserEmailConfirms to fetch.
-     */
-    orderBy?: UserEmailConfirmOrderByWithRelationInput | UserEmailConfirmOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: UserEmailConfirmWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserEmailConfirms from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserEmailConfirms.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned UserEmailConfirms
-    **/
-    _count?: true | UserEmailConfirmCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: UserEmailConfirmMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: UserEmailConfirmMaxAggregateInputType
-  }
-
-  export type GetUserEmailConfirmAggregateType<T extends UserEmailConfirmAggregateArgs> = {
-        [P in keyof T & keyof AggregateUserEmailConfirm]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUserEmailConfirm[P]>
-      : GetScalarType<T[P], AggregateUserEmailConfirm[P]>
-  }
-
-
-
-
-  export type UserEmailConfirmGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: UserEmailConfirmWhereInput
-    orderBy?: UserEmailConfirmOrderByWithAggregationInput | UserEmailConfirmOrderByWithAggregationInput[]
-    by: UserEmailConfirmScalarFieldEnum[] | UserEmailConfirmScalarFieldEnum
-    having?: UserEmailConfirmScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: UserEmailConfirmCountAggregateInputType | true
-    _min?: UserEmailConfirmMinAggregateInputType
-    _max?: UserEmailConfirmMaxAggregateInputType
-  }
-
-  export type UserEmailConfirmGroupByOutputType = {
-    id: string
-    token: string
-    userid: string
-    creationtime: Date
-    _count: UserEmailConfirmCountAggregateOutputType | null
-    _min: UserEmailConfirmMinAggregateOutputType | null
-    _max: UserEmailConfirmMaxAggregateOutputType | null
-  }
-
-  type GetUserEmailConfirmGroupByPayload<T extends UserEmailConfirmGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UserEmailConfirmGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UserEmailConfirmGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UserEmailConfirmGroupByOutputType[P]>
-            : GetScalarType<T[P], UserEmailConfirmGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type UserEmailConfirmSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    token?: boolean
-    userid?: boolean
-    creationtime?: boolean
-  }, ExtArgs["result"]["userEmailConfirm"]>
-
-  export type UserEmailConfirmSelectScalar = {
-    id?: boolean
-    token?: boolean
-    userid?: boolean
-    creationtime?: boolean
-  }
-
-
-  export type $UserEmailConfirmPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    name: "UserEmailConfirm"
-    objects: {}
-    scalars: $Extensions.GetResult<{
-      id: string
-      token: string
-      userid: string
-      creationtime: Date
-    }, ExtArgs["result"]["userEmailConfirm"]>
-    composites: {}
-  }
-
-
-  type UserEmailConfirmGetPayload<S extends boolean | null | undefined | UserEmailConfirmDefaultArgs> = $Result.GetResult<Prisma.$UserEmailConfirmPayload, S>
-
-  type UserEmailConfirmCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
-    Omit<UserEmailConfirmFindManyArgs, 'select' | 'include'> & {
-      select?: UserEmailConfirmCountAggregateInputType | true
-    }
-
-  export interface UserEmailConfirmDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserEmailConfirm'], meta: { name: 'UserEmailConfirm' } }
-    /**
-     * Find zero or one UserEmailConfirm that matches the filter.
-     * @param {UserEmailConfirmFindUniqueArgs} args - Arguments to find a UserEmailConfirm
-     * @example
-     * // Get one UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends UserEmailConfirmFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmFindUniqueArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
-
-    /**
-     * Find one UserEmailConfirm that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {UserEmailConfirmFindUniqueOrThrowArgs} args - Arguments to find a UserEmailConfirm
-     * @example
-     * // Get one UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends UserEmailConfirmFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find the first UserEmailConfirm that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmFindFirstArgs} args - Arguments to find a UserEmailConfirm
-     * @example
-     * // Get one UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends UserEmailConfirmFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmFindFirstArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
-
-    /**
-     * Find the first UserEmailConfirm that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmFindFirstOrThrowArgs} args - Arguments to find a UserEmailConfirm
-     * @example
-     * // Get one UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends UserEmailConfirmFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find zero or more UserEmailConfirms that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all UserEmailConfirms
-     * const userEmailConfirms = await prisma.userEmailConfirm.findMany()
-     * 
-     * // Get first 10 UserEmailConfirms
-     * const userEmailConfirms = await prisma.userEmailConfirm.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const userEmailConfirmWithIdOnly = await prisma.userEmailConfirm.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends UserEmailConfirmFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'findMany'>>
-
-    /**
-     * Create a UserEmailConfirm.
-     * @param {UserEmailConfirmCreateArgs} args - Arguments to create a UserEmailConfirm.
-     * @example
-     * // Create one UserEmailConfirm
-     * const UserEmailConfirm = await prisma.userEmailConfirm.create({
-     *   data: {
-     *     // ... data to create a UserEmailConfirm
-     *   }
-     * })
-     * 
-    **/
-    create<T extends UserEmailConfirmCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmCreateArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
-
-    /**
-     * Create many UserEmailConfirms.
-     *     @param {UserEmailConfirmCreateManyArgs} args - Arguments to create many UserEmailConfirms.
-     *     @example
-     *     // Create many UserEmailConfirms
-     *     const userEmailConfirm = await prisma.userEmailConfirm.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends UserEmailConfirmCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmCreateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a UserEmailConfirm.
-     * @param {UserEmailConfirmDeleteArgs} args - Arguments to delete one UserEmailConfirm.
-     * @example
-     * // Delete one UserEmailConfirm
-     * const UserEmailConfirm = await prisma.userEmailConfirm.delete({
-     *   where: {
-     *     // ... filter to delete one UserEmailConfirm
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends UserEmailConfirmDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmDeleteArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
-
-    /**
-     * Update one UserEmailConfirm.
-     * @param {UserEmailConfirmUpdateArgs} args - Arguments to update one UserEmailConfirm.
-     * @example
-     * // Update one UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends UserEmailConfirmUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmUpdateArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
-
-    /**
-     * Delete zero or more UserEmailConfirms.
-     * @param {UserEmailConfirmDeleteManyArgs} args - Arguments to filter UserEmailConfirms to delete.
-     * @example
-     * // Delete a few UserEmailConfirms
-     * const { count } = await prisma.userEmailConfirm.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends UserEmailConfirmDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, UserEmailConfirmDeleteManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more UserEmailConfirms.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many UserEmailConfirms
-     * const userEmailConfirm = await prisma.userEmailConfirm.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends UserEmailConfirmUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmUpdateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one UserEmailConfirm.
-     * @param {UserEmailConfirmUpsertArgs} args - Arguments to update or create a UserEmailConfirm.
-     * @example
-     * // Update or create a UserEmailConfirm
-     * const userEmailConfirm = await prisma.userEmailConfirm.upsert({
-     *   create: {
-     *     // ... data to create a UserEmailConfirm
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the UserEmailConfirm we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends UserEmailConfirmUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, UserEmailConfirmUpsertArgs<ExtArgs>>
-    ): Prisma__UserEmailConfirmClient<$Result.GetResult<Prisma.$UserEmailConfirmPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
-
-    /**
-     * Count the number of UserEmailConfirms.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmCountArgs} args - Arguments to filter UserEmailConfirms to count.
-     * @example
-     * // Count the number of UserEmailConfirms
-     * const count = await prisma.userEmailConfirm.count({
-     *   where: {
-     *     // ... the filter for the UserEmailConfirms we want to count
-     *   }
-     * })
-    **/
-    count<T extends UserEmailConfirmCountArgs>(
-      args?: Subset<T, UserEmailConfirmCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], UserEmailConfirmCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a UserEmailConfirm.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends UserEmailConfirmAggregateArgs>(args: Subset<T, UserEmailConfirmAggregateArgs>): Prisma.PrismaPromise<GetUserEmailConfirmAggregateType<T>>
-
-    /**
-     * Group by UserEmailConfirm.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserEmailConfirmGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends UserEmailConfirmGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserEmailConfirmGroupByArgs['orderBy'] }
-        : { orderBy?: UserEmailConfirmGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, UserEmailConfirmGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserEmailConfirmGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the UserEmailConfirm model
-   */
-  readonly fields: UserEmailConfirmFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for UserEmailConfirm.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UserEmailConfirmClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-
-
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
-  }
-
-
-
-  /**
-   * Fields of the UserEmailConfirm model
-   */ 
-  interface UserEmailConfirmFieldRefs {
-    readonly id: FieldRef<"UserEmailConfirm", 'String'>
-    readonly token: FieldRef<"UserEmailConfirm", 'String'>
-    readonly userid: FieldRef<"UserEmailConfirm", 'String'>
-    readonly creationtime: FieldRef<"UserEmailConfirm", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-
-  /**
-   * UserEmailConfirm findUnique
-   */
-  export type UserEmailConfirmFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter, which UserEmailConfirm to fetch.
-     */
-    where: UserEmailConfirmWhereUniqueInput
-  }
-
-
-  /**
-   * UserEmailConfirm findUniqueOrThrow
-   */
-  export type UserEmailConfirmFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter, which UserEmailConfirm to fetch.
-     */
-    where: UserEmailConfirmWhereUniqueInput
-  }
-
-
-  /**
-   * UserEmailConfirm findFirst
-   */
-  export type UserEmailConfirmFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter, which UserEmailConfirm to fetch.
-     */
-    where?: UserEmailConfirmWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserEmailConfirms to fetch.
-     */
-    orderBy?: UserEmailConfirmOrderByWithRelationInput | UserEmailConfirmOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for UserEmailConfirms.
-     */
-    cursor?: UserEmailConfirmWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserEmailConfirms from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserEmailConfirms.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of UserEmailConfirms.
-     */
-    distinct?: UserEmailConfirmScalarFieldEnum | UserEmailConfirmScalarFieldEnum[]
-  }
-
-
-  /**
-   * UserEmailConfirm findFirstOrThrow
-   */
-  export type UserEmailConfirmFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter, which UserEmailConfirm to fetch.
-     */
-    where?: UserEmailConfirmWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserEmailConfirms to fetch.
-     */
-    orderBy?: UserEmailConfirmOrderByWithRelationInput | UserEmailConfirmOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for UserEmailConfirms.
-     */
-    cursor?: UserEmailConfirmWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserEmailConfirms from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserEmailConfirms.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of UserEmailConfirms.
-     */
-    distinct?: UserEmailConfirmScalarFieldEnum | UserEmailConfirmScalarFieldEnum[]
-  }
-
-
-  /**
-   * UserEmailConfirm findMany
-   */
-  export type UserEmailConfirmFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter, which UserEmailConfirms to fetch.
-     */
-    where?: UserEmailConfirmWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserEmailConfirms to fetch.
-     */
-    orderBy?: UserEmailConfirmOrderByWithRelationInput | UserEmailConfirmOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing UserEmailConfirms.
-     */
-    cursor?: UserEmailConfirmWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserEmailConfirms from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserEmailConfirms.
-     */
-    skip?: number
-    distinct?: UserEmailConfirmScalarFieldEnum | UserEmailConfirmScalarFieldEnum[]
-  }
-
-
-  /**
-   * UserEmailConfirm create
-   */
-  export type UserEmailConfirmCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * The data needed to create a UserEmailConfirm.
-     */
-    data: XOR<UserEmailConfirmCreateInput, UserEmailConfirmUncheckedCreateInput>
-  }
-
-
-  /**
-   * UserEmailConfirm createMany
-   */
-  export type UserEmailConfirmCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many UserEmailConfirms.
-     */
-    data: UserEmailConfirmCreateManyInput | UserEmailConfirmCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * UserEmailConfirm update
-   */
-  export type UserEmailConfirmUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * The data needed to update a UserEmailConfirm.
-     */
-    data: XOR<UserEmailConfirmUpdateInput, UserEmailConfirmUncheckedUpdateInput>
-    /**
-     * Choose, which UserEmailConfirm to update.
-     */
-    where: UserEmailConfirmWhereUniqueInput
-  }
-
-
-  /**
-   * UserEmailConfirm updateMany
-   */
-  export type UserEmailConfirmUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update UserEmailConfirms.
-     */
-    data: XOR<UserEmailConfirmUpdateManyMutationInput, UserEmailConfirmUncheckedUpdateManyInput>
-    /**
-     * Filter which UserEmailConfirms to update
-     */
-    where?: UserEmailConfirmWhereInput
-  }
-
-
-  /**
-   * UserEmailConfirm upsert
-   */
-  export type UserEmailConfirmUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * The filter to search for the UserEmailConfirm to update in case it exists.
-     */
-    where: UserEmailConfirmWhereUniqueInput
-    /**
-     * In case the UserEmailConfirm found by the `where` argument doesn't exist, create a new UserEmailConfirm with this data.
-     */
-    create: XOR<UserEmailConfirmCreateInput, UserEmailConfirmUncheckedCreateInput>
-    /**
-     * In case the UserEmailConfirm was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UserEmailConfirmUpdateInput, UserEmailConfirmUncheckedUpdateInput>
-  }
-
-
-  /**
-   * UserEmailConfirm delete
-   */
-  export type UserEmailConfirmDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
-    /**
-     * Filter which UserEmailConfirm to delete.
-     */
-    where: UserEmailConfirmWhereUniqueInput
-  }
-
-
-  /**
-   * UserEmailConfirm deleteMany
-   */
-  export type UserEmailConfirmDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which UserEmailConfirms to delete
-     */
-    where?: UserEmailConfirmWhereInput
-  }
-
-
-  /**
-   * UserEmailConfirm without action
-   */
-  export type UserEmailConfirmDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserEmailConfirm
-     */
-    select?: UserEmailConfirmSelect<ExtArgs> | null
+    select?: AdminSelect<ExtArgs> | null
   }
 
 
@@ -2696,26 +1744,15 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const UserScalarFieldEnum: {
+  export const AdminScalarFieldEnum: {
     id: 'id',
-    email: 'email',
     username: 'username',
     password: 'password',
     active: 'active',
     refresh: 'refresh'
   };
 
-  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-  export const UserEmailConfirmScalarFieldEnum: {
-    id: 'id',
-    token: 'token',
-    userid: 'userid',
-    creationtime: 'creationtime'
-  };
-
-  export type UserEmailConfirmScalarFieldEnum = (typeof UserEmailConfirmScalarFieldEnum)[keyof typeof UserEmailConfirmScalarFieldEnum]
+  export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2761,20 +1798,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -2791,220 +1814,112 @@ export namespace Prisma {
    */
 
 
-  export type UserWhereInput = {
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    id?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    active?: BoolFilter<"User"> | boolean
-    refresh?: StringFilter<"User"> | string
+  export type AdminWhereInput = {
+    AND?: AdminWhereInput | AdminWhereInput[]
+    OR?: AdminWhereInput[]
+    NOT?: AdminWhereInput | AdminWhereInput[]
+    id?: StringFilter<"Admin"> | string
+    username?: StringFilter<"Admin"> | string
+    password?: StringFilter<"Admin"> | string
+    active?: BoolFilter<"Admin"> | boolean
+    refresh?: StringFilter<"Admin"> | string
   }
 
-  export type UserOrderByWithRelationInput = {
+  export type AdminOrderByWithRelationInput = {
     id?: SortOrder
-    email?: SortOrder
     username?: SortOrder
     password?: SortOrder
     active?: SortOrder
     refresh?: SortOrder
   }
 
-  export type UserWhereUniqueInput = Prisma.AtLeast<{
+  export type AdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    email?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    active?: BoolFilter<"User"> | boolean
-    refresh?: StringFilter<"User"> | string
+    AND?: AdminWhereInput | AdminWhereInput[]
+    OR?: AdminWhereInput[]
+    NOT?: AdminWhereInput | AdminWhereInput[]
+    username?: StringFilter<"Admin"> | string
+    password?: StringFilter<"Admin"> | string
+    active?: BoolFilter<"Admin"> | boolean
+    refresh?: StringFilter<"Admin"> | string
   }, "id">
 
-  export type UserOrderByWithAggregationInput = {
+  export type AdminOrderByWithAggregationInput = {
     id?: SortOrder
-    email?: SortOrder
     username?: SortOrder
     password?: SortOrder
     active?: SortOrder
     refresh?: SortOrder
-    _count?: UserCountOrderByAggregateInput
-    _max?: UserMaxOrderByAggregateInput
-    _min?: UserMinOrderByAggregateInput
+    _count?: AdminCountOrderByAggregateInput
+    _max?: AdminMaxOrderByAggregateInput
+    _min?: AdminMinOrderByAggregateInput
   }
 
-  export type UserScalarWhereWithAggregatesInput = {
-    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    OR?: UserScalarWhereWithAggregatesInput[]
-    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
-    username?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
-    active?: BoolWithAggregatesFilter<"User"> | boolean
-    refresh?: StringWithAggregatesFilter<"User"> | string
+  export type AdminScalarWhereWithAggregatesInput = {
+    AND?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
+    OR?: AdminScalarWhereWithAggregatesInput[]
+    NOT?: AdminScalarWhereWithAggregatesInput | AdminScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Admin"> | string
+    username?: StringWithAggregatesFilter<"Admin"> | string
+    password?: StringWithAggregatesFilter<"Admin"> | string
+    active?: BoolWithAggregatesFilter<"Admin"> | boolean
+    refresh?: StringWithAggregatesFilter<"Admin"> | string
   }
 
-  export type UserEmailConfirmWhereInput = {
-    AND?: UserEmailConfirmWhereInput | UserEmailConfirmWhereInput[]
-    OR?: UserEmailConfirmWhereInput[]
-    NOT?: UserEmailConfirmWhereInput | UserEmailConfirmWhereInput[]
-    id?: StringFilter<"UserEmailConfirm"> | string
-    token?: StringFilter<"UserEmailConfirm"> | string
-    userid?: StringFilter<"UserEmailConfirm"> | string
-    creationtime?: DateTimeFilter<"UserEmailConfirm"> | Date | string
-  }
-
-  export type UserEmailConfirmOrderByWithRelationInput = {
-    id?: SortOrder
-    token?: SortOrder
-    userid?: SortOrder
-    creationtime?: SortOrder
-  }
-
-  export type UserEmailConfirmWhereUniqueInput = Prisma.AtLeast<{
+  export type AdminCreateInput = {
     id?: string
-    AND?: UserEmailConfirmWhereInput | UserEmailConfirmWhereInput[]
-    OR?: UserEmailConfirmWhereInput[]
-    NOT?: UserEmailConfirmWhereInput | UserEmailConfirmWhereInput[]
-    token?: StringFilter<"UserEmailConfirm"> | string
-    userid?: StringFilter<"UserEmailConfirm"> | string
-    creationtime?: DateTimeFilter<"UserEmailConfirm"> | Date | string
-  }, "id">
-
-  export type UserEmailConfirmOrderByWithAggregationInput = {
-    id?: SortOrder
-    token?: SortOrder
-    userid?: SortOrder
-    creationtime?: SortOrder
-    _count?: UserEmailConfirmCountOrderByAggregateInput
-    _max?: UserEmailConfirmMaxOrderByAggregateInput
-    _min?: UserEmailConfirmMinOrderByAggregateInput
-  }
-
-  export type UserEmailConfirmScalarWhereWithAggregatesInput = {
-    AND?: UserEmailConfirmScalarWhereWithAggregatesInput | UserEmailConfirmScalarWhereWithAggregatesInput[]
-    OR?: UserEmailConfirmScalarWhereWithAggregatesInput[]
-    NOT?: UserEmailConfirmScalarWhereWithAggregatesInput | UserEmailConfirmScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"UserEmailConfirm"> | string
-    token?: StringWithAggregatesFilter<"UserEmailConfirm"> | string
-    userid?: StringWithAggregatesFilter<"UserEmailConfirm"> | string
-    creationtime?: DateTimeWithAggregatesFilter<"UserEmailConfirm"> | Date | string
-  }
-
-  export type UserCreateInput = {
-    id?: string
-    email: string
     username: string
     password: string
     active?: boolean
     refresh?: string
   }
 
-  export type UserUncheckedCreateInput = {
+  export type AdminUncheckedCreateInput = {
     id?: string
-    email: string
     username: string
     password: string
     active?: boolean
     refresh?: string
   }
 
-  export type UserUpdateInput = {
+  export type AdminUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     refresh?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserUncheckedUpdateInput = {
+  export type AdminUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     refresh?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserCreateManyInput = {
+  export type AdminCreateManyInput = {
     id?: string
-    email: string
     username: string
     password: string
     active?: boolean
     refresh?: string
   }
 
-  export type UserUpdateManyMutationInput = {
+  export type AdminUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     refresh?: StringFieldUpdateOperationsInput | string
   }
 
-  export type UserUncheckedUpdateManyInput = {
+  export type AdminUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
     refresh?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UserEmailConfirmCreateInput = {
-    id?: string
-    token: string
-    userid?: string
-    creationtime?: Date | string
-  }
-
-  export type UserEmailConfirmUncheckedCreateInput = {
-    id?: string
-    token: string
-    userid?: string
-    creationtime?: Date | string
-  }
-
-  export type UserEmailConfirmUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    userid?: StringFieldUpdateOperationsInput | string
-    creationtime?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserEmailConfirmUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    userid?: StringFieldUpdateOperationsInput | string
-    creationtime?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserEmailConfirmCreateManyInput = {
-    id?: string
-    token: string
-    userid?: string
-    creationtime?: Date | string
-  }
-
-  export type UserEmailConfirmUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    userid?: StringFieldUpdateOperationsInput | string
-    creationtime?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserEmailConfirmUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    userid?: StringFieldUpdateOperationsInput | string
-    creationtime?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3027,27 +1942,24 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type UserCountOrderByAggregateInput = {
+  export type AdminCountOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     username?: SortOrder
     password?: SortOrder
     active?: SortOrder
     refresh?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type AdminMaxOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     username?: SortOrder
     password?: SortOrder
     active?: SortOrder
     refresh?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type AdminMinOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     username?: SortOrder
     password?: SortOrder
     active?: SortOrder
@@ -3080,62 +1992,12 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type UserEmailConfirmCountOrderByAggregateInput = {
-    id?: SortOrder
-    token?: SortOrder
-    userid?: SortOrder
-    creationtime?: SortOrder
-  }
-
-  export type UserEmailConfirmMaxOrderByAggregateInput = {
-    id?: SortOrder
-    token?: SortOrder
-    userid?: SortOrder
-    creationtime?: SortOrder
-  }
-
-  export type UserEmailConfirmMinOrderByAggregateInput = {
-    id?: SortOrder
-    token?: SortOrder
-    userid?: SortOrder
-    creationtime?: SortOrder
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3193,44 +2055,15 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
 
 
   /**
    * Aliases for legacy arg types
    */
     /**
-     * @deprecated Use UserDefaultArgs instead
+     * @deprecated Use AdminDefaultArgs instead
      */
-    export type UserArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use UserEmailConfirmDefaultArgs instead
-     */
-    export type UserEmailConfirmArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = UserEmailConfirmDefaultArgs<ExtArgs>
+    export type AdminArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = AdminDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

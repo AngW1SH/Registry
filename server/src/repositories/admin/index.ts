@@ -1,4 +1,4 @@
-import { prisma } from "@/../prisma-client";
+import { prisma } from "@/db/prisma-client";
 import bcrypt from "bcryptjs";
 
 const adminRepositoryFactory = () => {
@@ -9,7 +9,7 @@ const adminRepositoryFactory = () => {
   });
 
   async function findByToken(token: string) {
-    const doesAdminExist = await prisma.user.findFirst({
+    const doesAdminExist = await prisma.admin.findFirst({
       where: {
         refresh: token,
       },
@@ -24,7 +24,7 @@ const adminRepositoryFactory = () => {
   }
 
   async function updateToken(id: string, token: string) {
-    const result = await prisma.user.update({
+    const result = await prisma.admin.update({
       where: {
         id: id,
       },

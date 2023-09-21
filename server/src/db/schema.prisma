@@ -11,18 +11,10 @@ datasource db {
     url      = env("APP_DATABASE_URL")
 }
 
-model User {
+model Admin {
     id       String  @id @default(uuid())
-    email    String
     username String
     password String
     active   Boolean @default(false)
     refresh  String  @default("")
-}
-
-model UserEmailConfirm {
-    id           String   @id @default(uuid())
-    token        String
-    userid       String   @default("")
-    creationtime DateTime @default(now())
 }
