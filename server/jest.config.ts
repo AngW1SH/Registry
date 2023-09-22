@@ -1,4 +1,5 @@
 import type { Config } from "@jest/types";
+import dotenv from "dotenv";
 
 // Sync object
 const config: Config.InitialOptions = {
@@ -10,4 +11,8 @@ const config: Config.InitialOptions = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
 };
+
+dotenv.config({
+  path: ".env",
+});
 export default config;
