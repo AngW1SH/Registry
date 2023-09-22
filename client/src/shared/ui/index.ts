@@ -11,6 +11,7 @@ import Block from "./Block/Block";
 import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
+import LoadingCircle from "./LoadingCircle/LoadingCircle";
 
 export {
   Container,
@@ -24,6 +25,7 @@ export {
   Headline,
   Block,
   LinkWithIcon,
+  LoadingCircle,
   BackgroundFill,
   FormInput,
 };

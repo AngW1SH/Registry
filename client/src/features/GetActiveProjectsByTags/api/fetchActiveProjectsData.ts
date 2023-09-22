@@ -10,7 +10,6 @@ export const fetchActiveProjectsData = async (
     "http://localhost:3000/api/project/active",
     {
       method: "POST",
-      cache: "no-cache",
       headers: {
         "Content-Type": "application/json",
       },

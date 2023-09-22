@@ -1,9 +1,12 @@
 "use client";
 import { IProject, ProjectCard } from "@/entities/Project";
 import { ITag, TagList, TagSlider, getTagsByTagIds } from "@/entities/Tag";
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { fetchActiveProjectsData } from "../api/fetchActiveProjectsData";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ActiveProjectsData } from "../types/types";
+import { LoadingCircle } from "@/shared/ui";
+import useActiveProjectsQuery from "../model/useActiveProjectsQuery";
 
 interface GetActiveProjectsByTagsProps {
   tags: ITag[];
@@ -25,38 +28,38 @@ const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
   tags,
   initialProjects,
 }) => {
-  const [projectData, setProjectData] = useState<ActiveProjectsData>({
-    tags: tags,
+  const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
+  const { data: projectData } = useActiveProjectsQuery(selectedTags, {
     projects: initialProjects,
+    tags: tags,
   });
 
   const updateProjects = async (tags: ITag[]) => {
-    setProjectData(await fetchActiveProjectsData(tags));
+    setSelectedTags(tags);
   };
 
   return (
     <>
-      <TagSlider
-        tags={tags.length ? tags : projectData.tags}
-        onChange={updateProjects}
-      />
+      <TagSlider tags={tags} onChange={updateProjects} />
       <div className="pt-12" />
-      <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        {projectData.projects.map((project) => (
-          <li key={project.id}>
-            <ProjectCard
-              className="h-full"
-              project={project}
-              tags={
-                <TagList
-                  tags={getTagsByTagIds(project.tags, projectData.tags)}
-                  className="justify-end"
-                />
-              }
-            />
-          </li>
-        ))}
-      </ul>
+      {projectData && (
+        <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+          {projectData.projects.map((project) => (
+            <li key={project.id}>
+              <ProjectCard
+                className="h-full"
+                project={project}
+                tags={
+                  <TagList
+                    tags={getTagsByTagIds(project.tags, projectData.tags)}
+                    className="justify-end"
+                  />
+                }
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 };

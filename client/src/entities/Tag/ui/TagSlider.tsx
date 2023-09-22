@@ -28,7 +28,11 @@ const TagSlider: FC<TagSliderProps> = ({ tags, onChange }) => {
   const changeOffset = (newOffset: number) => {
     if (newOffset < 0) return setOffset(0);
 
-    if (!sliderRef.current) return;
+    if (
+      !sliderRef.current ||
+      sliderRef.current.children[0].clientWidth < sliderRef.current.clientWidth
+    )
+      return;
 
     const offsetMax =
       sliderRef.current.children[0].clientWidth -
@@ -91,7 +95,11 @@ const TagSlider: FC<TagSliderProps> = ({ tags, onChange }) => {
   };
 
   const handleClickArrowRight = () => {
-    if (!sliderRef.current) return;
+    if (
+      !sliderRef.current ||
+      sliderRef.current.children[0].clientWidth < sliderRef.current.clientWidth
+    )
+      return;
 
     if (
       offset + sliderRef.current.clientWidth <
