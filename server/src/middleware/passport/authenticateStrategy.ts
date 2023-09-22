@@ -16,7 +16,7 @@ const authenticateStrategy = new JWTStrategy(opts, function (
   jwt_payload,
   done
 ) {
-  prisma.user
+  prisma.admin
     .findFirst({
       where: {
         id: jwt_payload.id,

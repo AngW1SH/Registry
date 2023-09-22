@@ -11,7 +11,7 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  const user = prisma.user
+  const user = prisma.admin
     .findFirst({
       where: {
         id: id as string,
