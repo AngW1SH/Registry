@@ -11,7 +11,11 @@ const projectServiceFactory = () => {
   });
 
   async function getActive(tagIds?: string[]) {
-    const projectsWithTags = await projectRepository.getActive(tagIds);
+    const projectsWithTags = await projectRepository.findMany({
+      dateStart: new Date(),
+      dateEnd: new Date(),
+      tags: tagIds,
+    });
 
     return flattenProjects(projectsWithTags);
   }

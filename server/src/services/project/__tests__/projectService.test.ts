@@ -13,6 +13,7 @@ jest.mock("@/db/prisma-client", () => ({
 describe("Project Service", () => {
   describe("getActive method", () => {
     it("returns flattened projects with tags", async () => {
+      jest.useFakeTimers().setSystemTime(new Date("2023-09-23"));
       (prisma.project.findMany as jest.Mock).mockReturnValueOnce(
         staticProjectsWithTagsPrisma
       );

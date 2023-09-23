@@ -2,18 +2,47 @@ import { ProjectFilters } from "@/entities/project";
 import { checkFilterValidity } from "./checkFilterValidity";
 
 const generateDateFilters = (filterStart?: Date, filterEnd?: Date) => {
-  return {
-    dateStart: filterEnd
-      ? {
-          lte: filterEnd,
-        }
-      : undefined,
-    dateEnd: filterStart
-      ? {
-          lte: filterStart,
-        }
-      : undefined,
-  };
+  if (filterStart && filterEnd)
+    return {
+      OR: [
+        {
+          dateStart: {
+            lte: filterEnd,
+            gte: filterStart,
+          },
+        },
+        {
+          dateEnd: {
+            lte: filterEnd,
+            gte: filterStart,
+          },
+        },
+        {
+          dateStart: {
+            lte: filterStart,
+          },
+          dateEnd: {
+            gte: filterEnd,
+          },
+        },
+      ],
+    };
+
+  if (filterStart)
+    return {
+      dateEnd: {
+        gte: filterStart,
+      },
+    };
+
+  if (filterEnd)
+    return {
+      dateStart: {
+        lte: filterEnd,
+      },
+    };
+
+  return {};
 };
 
 const generateTextFilters = (text: string) => {
@@ -38,6 +67,21 @@ const generateTextFilters = (text: string) => {
   };
 };
 
+const generateTagFilters = (tagIds: string[]) => {
+  return {
+    tags:
+      tagIds && tagIds.length
+        ? {
+            some: {
+              tagId: {
+                in: tagIds,
+              },
+            },
+          }
+        : undefined,
+  };
+};
+
 export const generateProjectFilters = (filters: ProjectFilters) => {
   const dateFilters = generateDateFilters(filters.dateStart, filters.dateEnd);
   const enrollmentFilters = generateDateFilters(
@@ -50,6 +94,7 @@ export const generateProjectFilters = (filters: ProjectFilters) => {
       (filters.dateStart || filters.dateEnd) && dateFilters,
       (filters.enrollmentStart || filters.enrollmentEnd) && enrollmentFilters,
       filters.text && generateTextFilters(filters.text),
+      filters.tags && generateTagFilters(filters.tags),
     ].filter((elem) => elem),
   };
 };
