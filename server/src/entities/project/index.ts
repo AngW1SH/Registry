@@ -3,6 +3,11 @@ import {
   staticProjectsWithTags,
   staticProjectsWithTagsPrisma,
 } from "./static/projectsWithTags";
+import { getProjectFromDTO } from "./utils/getProjectFromDTO";
 
-export { staticProjectsWithTags, staticProjectsWithTagsPrisma };
+export {
+  staticProjectsWithTags,
+  staticProjectsWithTagsPrisma,
+  getProjectFromDTO,
+};
 export type { Project, ProjectWithTags };
