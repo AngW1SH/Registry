@@ -1,4 +1,4 @@
-import type { Project, ProjectWithTags } from "./types/types";
+import type { Project, ProjectWithTags, ProjectFilters } from "./types/types";
 import {
   staticProjectsWithTags,
   staticProjectsWithTagsPrisma,
@@ -10,4 +10,4 @@ export {
   staticProjectsWithTagsPrisma,
   getProjectFromDTO,
 };
-export type { Project, ProjectWithTags };
+export type { Project, ProjectWithTags, ProjectFilters };

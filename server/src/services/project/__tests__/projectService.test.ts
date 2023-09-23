@@ -23,4 +23,17 @@ describe("Project Service", () => {
       expect(typeof result.projects[0].tags[0]).toBe("string");
     });
   });
+
+  describe("findMany method", () => {
+    it("should return flattened projects with tags", async () => {
+      (prisma.project.findMany as jest.Mock).mockReturnValueOnce(
+        staticProjectsWithTagsPrisma
+      );
+
+      const result = await projectService.findMany();
+      expect(result.projects).toBeDefined();
+      expect(result.tags).toBeDefined();
+      expect(typeof result.projects[0].tags[0]).toBe("string");
+    });
+  });
 });

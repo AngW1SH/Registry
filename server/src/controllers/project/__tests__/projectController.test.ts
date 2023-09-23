@@ -10,13 +10,30 @@ describe("Project Controller", () => {
     afterAll(() => {
       jest.clearAllMocks();
     });
-    it("should respond with a json", async () => {
+    it("should send a json", async () => {
       await projectController.getActive(req, res);
 
       expect(res.json).toHaveBeenCalled();
     });
 
-    it("should repond with a 200 status", async () => {
+    it("should send a 200 status", async () => {
+      await projectController.getActive(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
+  });
+
+  describe("findMany method", () => {
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+    it("should send a json", async () => {
+      await projectController.getActive(req, res);
+
+      expect(res.json).toHaveBeenCalled();
+    });
+
+    it("should send a 200 status", async () => {
       await projectController.getActive(req, res);
 
       expect(res.status).toHaveBeenCalledWith(200);

@@ -3,28 +3,12 @@ import express, { Request, Response } from "express";
 
 const projectRouter = express();
 
-projectRouter.get("/active", (req: Request, res: Response) => {
-  try {
-    projectController.getActive(req, res);
-  } catch (err) {
-    res.sendStatus(500);
-  }
-});
+projectRouter.get("/active", projectController.getActive);
 
-projectRouter.post("/active", (req: Request, res: Response) => {
-  try {
-    projectController.getActive(req, res);
-  } catch (err) {
-    res.sendStatus(500);
-  }
-});
+projectRouter.post("/active", projectController.getActive);
 
-projectRouter.get("/new", (req: Request, res: Response) => {
-  try {
-    projectController.getNew(req, res);
-  } catch (err) {
-    res.sendStatus(500);
-  }
-});
+projectRouter.get("/new", projectController.getNew);
+
+projectRouter.post("/findmany", projectController.findMany);
 
 export default projectRouter;

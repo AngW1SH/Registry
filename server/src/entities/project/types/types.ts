@@ -32,6 +32,15 @@ export interface ProjectDTO {
   isPublic: boolean;
 }
 
+export interface ProjectFilters {
+  text?: string;
+  dateStart?: Date;
+  dateEnd?: Date;
+  enrollmentStart?: Date;
+  enrollmentEnd?: Date;
+  tags?: string[];
+}
+
 export interface ProjectWithTags extends Omit<Project, "tags"> {
   tags: Tag[];
 }
