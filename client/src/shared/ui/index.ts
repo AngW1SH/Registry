@@ -12,6 +12,7 @@ import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
 import LoadingCircle from "./LoadingCircle/LoadingCircle";
+import ToggleOpen from "./ToggleOpen/ToggleOpen";
 
 export {
   Container,
@@ -28,4 +29,5 @@ export {
   LoadingCircle,
   BackgroundFill,
   FormInput,
+  ToggleOpen,
 };
