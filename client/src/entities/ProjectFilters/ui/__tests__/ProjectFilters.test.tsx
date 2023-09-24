@@ -1,5 +1,5 @@
 import { ProjectStatus } from "../../config/initialFilters";
-import SearchWithRedirect from "../SearchWithRedirect";
+import ProjectFilters from "../ProjectFilters";
 import {
   fireEvent,
   render,
@@ -15,7 +15,7 @@ describe("SearchWithRedirect Feature UI StatusList", () => {
   it("displays all status options", () => {
     const statusOptions = [...ProjectStatus];
 
-    const { getByText } = render(<SearchWithRedirect />);
+    const { getByText } = render(<ProjectFilters />);
 
     statusOptions.forEach((option) => {
       expect(getByText(option)).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("SearchWithRedirect Feature UI StatusList", () => {
   });
 
   it("renders border for the selected status", async () => {
-    const { getByText } = render(<SearchWithRedirect />);
+    const { getByText } = render(<ProjectFilters />);
 
     const element = getByText(ProjectStatus[1]);
     expect(element).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("SearchWithRedirect Feature UI Inputs", () => {
   });
 
   test("change project name", async () => {
-    const { getByPlaceholderText } = render(<SearchWithRedirect />);
+    const { getByPlaceholderText } = render(<ProjectFilters />);
 
     const projectNameInput = getByPlaceholderText(
       /Название проекта/i,
