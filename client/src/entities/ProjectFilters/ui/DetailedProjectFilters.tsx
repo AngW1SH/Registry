@@ -1,4 +1,5 @@
 import { ButtonWithIcon, ToggleOpen } from "@/shared/ui";
+import MultiselectDropdown from "@/shared/ui/MultiselectDropdown/MultiselectDropdown";
 import Image from "next/image";
 import { FC } from "react";
 
@@ -21,7 +22,13 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
         </div>
       }
     >
-      123
+      <div className="grid grid-cols-4 grid-rows-2 gap-x-6 gap-y-4">
+        <MultiselectDropdown />
+        <MultiselectDropdown />
+        <MultiselectDropdown />
+        <MultiselectDropdown />
+        <MultiselectDropdown />
+      </div>
     </ToggleOpen>
   );
 };

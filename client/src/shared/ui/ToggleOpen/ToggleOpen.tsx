@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Transition, TransitionStatus } from "react-transition-group";
 
 interface ToggleOpenProps {
   triggerElement: ReactNode;
@@ -22,6 +23,7 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
   const [opened, setOpened] = useState(open);
   const [innerHeight, setInnerHeight] = useState(0);
 
+  const ref = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   const updateSize = useCallback(() => {
@@ -36,23 +38,48 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
     setOpened((prevOpened) => !prevOpened);
   }, []);
 
+  const defaultStyle = {
+    transition: `height ${150}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+    height: 0,
+  };
+
+  const transitionStyles = {
+    entering: { height: innerHeight },
+    entered: { height: innerHeight },
+    exiting: { height: 0 },
+    exited: { height: 0 },
+    unmounted: { height: 0 },
+  };
+
   return (
-    <div className="relative overflow-hidden">
-      <div
-        onClick={handleToggle}
-        className="relative z-20 cursor-pointer bg-white"
-      >
-        {triggerElement}
-      </div>
-      <div
-        className="relative z-10 transition-all"
-        style={{
-          height: opened ? innerHeight : 0,
-        }}
-      >
-        <div ref={innerRef}>{children}</div>
-      </div>
-    </div>
+    <Transition in={opened} timeout={150}>
+      {(state: TransitionStatus) => (
+        <div
+          className={`relative ${
+            state == "entered" ? "overflow-visible" : "overflow-hidden"
+          }`}
+        >
+          <div
+            onClick={handleToggle}
+            className="relative z-20 cursor-pointer bg-white"
+          >
+            {triggerElement}
+          </div>
+          <div
+            ref={ref}
+            className="relative z-10"
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
+          >
+            <div>
+              <div ref={innerRef}>{children}</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </Transition>
   );
 };
 

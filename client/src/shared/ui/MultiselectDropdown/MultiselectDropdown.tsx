@@ -7,12 +7,14 @@ interface MultiselectDropdownProps {
   namePrefix?: string;
   fetchSuggestions?: (query: string) => Promise<string[]>;
   options?: string[];
+  className?: string;
 }
 
 const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
   namePrefix = "option",
   fetchSuggestions,
   options,
+  className = "",
 }) => {
   const [opened, setOpened] = useState(false);
 
@@ -49,7 +51,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
   }, [ref.current]);
 
   return (
-    <div className="relative w-60" ref={ref}>
+    <div className={"relative w-full " + className} ref={ref}>
       <div
         onClick={() => setOpened(!opened)}
         className={`relative cursor-pointer rounded-md p-3 pr-12 shadow-center-md after:absolute after:right-5 ${
@@ -73,7 +75,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
         />
       </div>
       <div
-        className={`absolute left-0 right-0 top-full mt-2 flex flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md ${
+        className={`absolute left-0 right-0 top-full z-10 mt-2 flex flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md ${
           opened && suggestions.length ? "" : "hidden"
         }`}
       >
