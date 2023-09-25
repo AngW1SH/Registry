@@ -10,7 +10,7 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
   return (
     <ToggleOpen
       triggerElement={
-        <div className="flex items-end py-5">
+        <div className="flex items-end">
           <Image src="/filters-icon-black.svg" height={25} width={25} alt="" />
           <h2 className="-mb-[0.15rem] px-3">Расширенный поиск</h2>
           <Image
@@ -23,7 +23,7 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
         </div>
       }
     >
-      <div className="grid grid-cols-4 grid-rows-1 gap-x-6 gap-y-4">
+      <div className="grid grid-cols-4 grid-rows-1 gap-x-6 gap-y-4 pt-5">
         <MultiselectDropdown
           placeholder={detailedFiltersInitialData.status.label}
           options={detailedFiltersInitialData.status.options}
