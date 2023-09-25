@@ -21,7 +21,7 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
         </div>
       }
     >
-      456
+      123
     </ToggleOpen>
   );
 };

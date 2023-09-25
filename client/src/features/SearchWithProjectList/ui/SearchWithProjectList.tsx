@@ -4,6 +4,7 @@ import {
   DetailedProjectFilters,
   ProjectFilters,
 } from "@/entities/ProjectFilters";
+import MultiselectDropdown from "@/shared/ui/MultiselectDropdown/MultiselectDropdown";
 
 interface SearchWithProjectListProps {}
 
@@ -15,6 +16,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = () => {
       </div>
       <div className="pt-5" />
       <DetailedProjectFilters />
+      <MultiselectDropdown />
     </>
   );
 };
