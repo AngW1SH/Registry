@@ -10,7 +10,9 @@ import { IProject } from "@/entities/Project";
 import { ITag, TagList, getTagsByTagIds } from "@/entities/Tag";
 import { Transition } from "react-transition-group";
 import { Container } from "@/shared/ui";
-import { useFixedHeader } from "../hooks/useFixedHeader";
+import { useFixedFilters } from "../hooks/useFixedFilters";
+import { useRefHeight } from "@/shared/hooks";
+import { useFixedHeaderTransitionStyles } from "../hooks/useFixedFiltersTransitionStyles";
 
 interface SearchWithProjectListProps {
   initialData: {
@@ -24,30 +26,20 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
+  const filtersSmallRef = useRef<HTMLDivElement>(null);
+  const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);
+
   const [projectData, setProjectData] = useState(initialData);
 
   const {
     isRefVisible: areFiltersVisible,
     shouldRender: shouldRenderFixedHeader,
-  } = useFixedHeader(ref);
+  } = useFixedFilters(ref);
 
-  const defaultStyles = {
-    height: "80px",
-    top: "-80px",
-    transition: !areFiltersVisible
-      ? `top ${300}ms cubic-bezier(0.4, 0, 0.2, 1)`
-      : `none`,
-  };
-
-  const transitionStyles = {
-    entering: {
-      top: "0px",
-    },
-    entered: { top: "0px" },
-    exiting: { top: "-80px" },
-    exited: { top: "-80px" },
-    unmounted: { top: "-80px" },
-  };
+  const { defaultStyles, transitionStyles } = useFixedHeaderTransitionStyles(
+    filtersSmallHeight,
+    areFiltersVisible,
+  );
 
   return (
     <>
@@ -66,7 +58,10 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
               ...transitionStyles[state],
             }}
           >
-            <div className="relative z-10 w-full bg-[#e0efef] py-3 backdrop-blur-[12px]">
+            <div
+              ref={filtersSmallRef}
+              className="relative z-10 w-full bg-[#e0efef] py-3 backdrop-blur-[12px]"
+            >
               <Container className=" px-8">
                 <ProjectFiltersSmall />
               </Container>

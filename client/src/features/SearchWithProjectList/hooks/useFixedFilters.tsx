@@ -2,7 +2,7 @@
 import { useRefVisible, useScrollDirection } from "@/shared/hooks";
 import { useMemo } from "react";
 
-export const useFixedHeader = (
+export const useFixedFilters = (
   ref: React.RefObject<HTMLElement>,
   threshold = 0.48,
 ) => {
