@@ -2,11 +2,13 @@
 import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import { useMultiselect } from "./hooks/useMultiselect";
+import { CSSTransition, TransitionStatus } from "react-transition-group";
 
 interface MultiselectDropdownProps {
   namePrefix?: string;
   fetchSuggestions?: (query: string) => Promise<string[]>;
   options?: string[];
+  placeholder?: string;
   className?: string;
 }
 
@@ -14,6 +16,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
   namePrefix = "option",
   fetchSuggestions,
   options,
+  placeholder,
   className = "",
 }) => {
   const [opened, setOpened] = useState(false);
@@ -26,10 +29,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
     toggleOption,
     input,
     setInput,
-  } = useMultiselect(
-    options || ["2 курс", "3 курс", "Магистратура"],
-    fetchSuggestions,
-  );
+  } = useMultiselect(options, fetchSuggestions);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -49,6 +49,20 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, [ref.current]);
+
+  const defaultStyle = {
+    transition: `all ${100}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+    opacity: 0,
+    visibility: "hidden",
+  };
+
+  const transitionStyles = {
+    entering: { opacity: 1, visibility: "visible" as "visible" | "hidden" },
+    entered: { opacity: 1, visibility: "visible" as "visible" | "hidden" },
+    exiting: { opacity: 0, visibility: "visible" as "visible" | "hidden" },
+    exited: { opacity: 0, visibility: "hidden" as "visible" | "hidden" },
+    unmounted: { opacity: 0, visibility: "hidden" as "visible" | "hidden" },
+  };
 
   return (
     <div className={"relative w-full " + className} ref={ref}>
@@ -70,48 +84,54 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
           }
           value={input}
           type="text"
-          placeholder="Курс"
+          placeholder={placeholder || "Курс"}
           className="w-full outline-none"
         />
       </div>
-      <div
-        className={`absolute left-0 right-0 top-full z-10 mt-2 flex flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md ${
-          opened && suggestions.length ? "" : "hidden"
-        }`}
-      >
-        {suggestions.map((option, index) => (
+      <CSSTransition in={opened && suggestions.length != 0} timeout={100}>
+        {(state: TransitionStatus) => (
           <div
-            className="flex cursor-pointer"
-            key={option}
-            onClick={() => toggleOption(option)}
+            className={`absolute left-0 right-0 top-full z-10 mt-2 flex flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md`}
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
           >
-            <input
-              type="checkbox"
-              name={namePrefix + "-" + index}
-              className="hidden"
-            />
-            <div
-              className={`flex h-5 w-5 items-center justify-center rounded-sm border border-[#a1a1a1] ${
-                activeTags.includes(option) ? "bg-[#363636]" : ""
-              }`}
-            >
-              <Image
-                src="/checked-icon-white.svg"
-                className={activeTags.includes(option) ? "" : "hidden"}
-                height={12}
-                width={14}
-                alt=""
-              />
-            </div>
-            <label
-              className="cursor-pointer pl-3"
-              htmlFor={namePrefix + "-" + index}
-            >
-              {option}
-            </label>
+            {suggestions.map((option, index) => (
+              <div
+                className="flex cursor-pointer items-center"
+                key={option}
+                onClick={() => toggleOption(option)}
+              >
+                <input
+                  type="checkbox"
+                  name={namePrefix + "-" + index}
+                  className="hidden"
+                />
+                <div
+                  className={`flex h-5 w-5 items-center justify-center rounded-sm border border-[#a1a1a1] ${
+                    activeTags.includes(option) ? "bg-[#363636]" : ""
+                  }`}
+                >
+                  <Image
+                    src="/checked-icon-white.svg"
+                    className={activeTags.includes(option) ? "" : "hidden"}
+                    height={12}
+                    width={14}
+                    alt=""
+                  />
+                </div>
+                <label
+                  className="cursor-pointer pl-3"
+                  htmlFor={namePrefix + "-" + index}
+                >
+                  {option}
+                </label>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
+      </CSSTransition>
     </div>
   );
 };

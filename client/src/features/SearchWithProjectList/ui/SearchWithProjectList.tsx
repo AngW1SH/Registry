@@ -16,6 +16,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = () => {
       </div>
       <div className="pt-5" />
       <DetailedProjectFilters />
+      123
     </>
   );
 };
