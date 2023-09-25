@@ -7,18 +7,14 @@ export const useRefVisible = (
 ) => {
   const [refVisible, setRefVisible] = useState(true);
 
-  const observer = useMemo(
-    () =>
-      new IntersectionObserver(
-        ([entry]) => setRefVisible(entry.isIntersecting),
-        {
-          threshold,
-        },
-      ),
-    [ref],
-  );
-
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setRefVisible(entry.isIntersecting),
+      {
+        threshold,
+      },
+    );
+
     if (ref.current) {
       observer.observe(ref.current);
     }

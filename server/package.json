@@ -7,7 +7,7 @@
     "test": "jest --watch",
     "dev": "concurrently \"esbuild app.ts --bundle --platform=node --outfile=app.js --watch\" \"nodemon --watch app.js --exec node app.js\"",
     "build": "esbuild app.ts --bundle --platform=node --outfile=app.js",
-    "start": "node ./dist/app.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
