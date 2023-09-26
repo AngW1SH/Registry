@@ -38,6 +38,7 @@ export interface ProjectFilters {
   dateEnd?: Date;
   enrollmentStart?: Date;
   enrollmentEnd?: Date;
+  status?: string;
   tags?: string[];
 }
 

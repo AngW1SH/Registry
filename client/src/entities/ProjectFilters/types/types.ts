@@ -1,10 +1,17 @@
 import { ProjectStatus } from "../config/initialFilters";
 
 export type Filters = {
-  status: ProjectStatusValue | null;
-  enrollDate: Date | null;
-  projectDate: Date | null;
+  text: string | null;
+  dateStart: Date | null;
+  dateEnd: Date | null;
+  enrollmentStart: Date | null;
+  enrollmentEnd: Date | null;
+  status: string | null;
+  tags: string[] | null;
 };
 
 export type ProjectStatusValue =
-  (typeof ProjectStatus)[keyof typeof ProjectStatus];
+  | "Все"
+  | "Активные"
+  | "Завершённые"
+  | "С вакансиями";

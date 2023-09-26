@@ -2,8 +2,12 @@ import { Filters } from "../types/types";
 
 export const initialFilters: Filters = {
   status: "Все",
-  enrollDate: null,
-  projectDate: null,
+  enrollmentStart: null,
+  enrollmentEnd: null,
+  dateStart: null,
+  dateEnd: null,
+  tags: null,
+  text: null,
 };
 
 export const ProjectStatus = [
@@ -12,5 +16,3 @@ export const ProjectStatus = [
   "Завершённые",
   "С вакансиями",
 ] as const;
-
-export const ProjectStatusValues = [""];
