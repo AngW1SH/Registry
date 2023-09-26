@@ -1,5 +1,5 @@
-import { staticProjects } from "@/entities/Project";
-import { staticTags } from "@/entities/Tag";
+import { IProject, staticProjects } from "@/entities/Project";
+import { ITag, staticTags } from "@/entities/Tag";
 import {
   SearchWithProjectList,
   fetchProjects,
@@ -7,10 +7,15 @@ import {
 import { SearchWithRedirect } from "@/features/SearchWithRedirect";
 import { FC } from "react";
 
-interface ProjectsSearchProps {}
+interface ProjectsSearchProps {
+  data?: {
+    projects: IProject[];
+    tags: ITag[];
+  };
+}
 
-const ProjectsSearch: FC<ProjectsSearchProps> = async () => {
-  const { projects, tags } = await fetchProjects();
+const ProjectsSearch: FC<ProjectsSearchProps> = async ({ data }) => {
+  const { projects, tags } = data ? data : await fetchProjects();
 
   return (
     <SearchWithProjectList
