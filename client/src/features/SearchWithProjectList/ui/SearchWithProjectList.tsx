@@ -81,10 +81,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
             className="h-full"
             project={project}
             tags={
-              <TagList
-                tags={getTagsByTagIds(project.tags, projectData.tags)}
-                className="pl-[96px]"
-              />
+              <TagList tags={getTagsByTagIds(project.tags, projectData.tags)} />
             }
           />
         </li>
