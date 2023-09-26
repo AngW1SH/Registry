@@ -1,3 +1,4 @@
+import { getProjectFiltersFromDTO } from "@/entities/project";
 import projectService from "@/services/project";
 import { Request, Response } from "express";
 
@@ -32,7 +33,9 @@ const projectControllerFactory = () => {
 
   async function findMany(req: Request, res: Response) {
     try {
-      const result = await projectService.findMany(req.body.filters);
+      const result = await projectService.findMany(
+        getProjectFiltersFromDTO(req.body.filters)
+      );
 
       res.status(200).json(result);
     } catch {

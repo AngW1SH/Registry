@@ -1,12 +1,14 @@
 "use client";
 import { FC, useState } from "react";
 import { ProjectStatus, initialFilters } from "../config/initialFilters";
-import { ProjectStatusValue } from "../types/types";
+import { Filters, ProjectStatusValue } from "../types/types";
 import { Button, CalendarInput } from "@/shared/ui";
 
-interface ProjectFiltersProps {}
+interface ProjectFiltersProps {
+  onConfirm?: (filters: Filters) => any;
+}
 
-const ProjectFilters: FC<ProjectFiltersProps> = () => {
+const ProjectFilters: FC<ProjectFiltersProps> = ({ onConfirm }) => {
   const [filters, setFilters] = useState(initialFilters);
 
   const handleSelectStatus = (e: React.MouseEvent<HTMLElement>) => {
@@ -16,6 +18,10 @@ const ProjectFilters: FC<ProjectFiltersProps> = () => {
         status: (e.target as HTMLLIElement).innerHTML as ProjectStatusValue,
       });
     }
+  };
+
+  const handleConfirm = () => {
+    if (onConfirm) onConfirm(filters);
   };
 
   return (
@@ -41,6 +47,10 @@ const ProjectFilters: FC<ProjectFiltersProps> = () => {
           <input
             className="w-full text-sm font-normal placeholder-[#848686] outline-none sm:px-6"
             placeholder="Название проекта"
+            value={filters.text}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFilters({ ...filters, text: e.target.value })
+            }
           />
         </div>
         <div
@@ -50,6 +60,13 @@ const ProjectFilters: FC<ProjectFiltersProps> = () => {
           <CalendarInput
             placeholder="Срок записи на проект"
             className="w-full text-sm sm:pl-5 lg:w-52 lg:text-[11px] xl:w-64 xl:text-sm"
+            onChange={(start, end) =>
+              setFilters({
+                ...filters,
+                enrollmentStart: start,
+                enrollmentEnd: end,
+              })
+            }
           />
         </div>
         <div
@@ -59,10 +76,16 @@ const ProjectFilters: FC<ProjectFiltersProps> = () => {
           <CalendarInput
             placeholder="Срок реализации"
             className="w-full text-sm lg:w-52 lg:text-[11px] xl:w-64 xl:text-sm"
+            onChange={(start, end) =>
+              setFilters({ ...filters, dateStart: start, dateEnd: end })
+            }
           />
         </div>
         <div className="relative rounded-r-full pb-1 pt-4 sm:order-2 sm:w-1/2 sm:pl-1 sm:pt-0 md:pr-1 md:pt-1 lg:order-4 lg:w-auto lg:bg-white xl:pl-5">
-          <Button className="w-full whitespace-nowrap rounded-lg px-4 text-sm lg:w-max lg:rounded-full xl:px-8 xl:text-base">
+          <Button
+            onClick={handleConfirm}
+            className="w-full whitespace-nowrap rounded-lg px-4 text-sm lg:w-max lg:rounded-full xl:px-8 xl:text-base"
+          >
             Найти проект
           </Button>
         </div>

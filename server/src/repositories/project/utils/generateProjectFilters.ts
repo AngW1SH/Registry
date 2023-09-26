@@ -1,27 +1,31 @@
 import { ProjectFilters } from "@/entities/project";
 import { checkFilterValidity } from "./checkFilterValidity";
 
-const generateDateFilters = (filterStart?: Date, filterEnd?: Date) => {
+const generateDateFilters = (
+  prefix: string,
+  filterStart?: Date,
+  filterEnd?: Date
+) => {
   if (filterStart && filterEnd)
     return {
       OR: [
         {
-          dateStart: {
+          [prefix + "Start"]: {
             lte: filterEnd,
             gte: filterStart,
           },
         },
         {
-          dateEnd: {
+          [prefix + "End"]: {
             lte: filterEnd,
             gte: filterStart,
           },
         },
         {
-          dateStart: {
+          [prefix + "Start"]: {
             lte: filterStart,
           },
-          dateEnd: {
+          [prefix + "End"]: {
             gte: filterEnd,
           },
         },
@@ -30,14 +34,14 @@ const generateDateFilters = (filterStart?: Date, filterEnd?: Date) => {
 
   if (filterStart)
     return {
-      dateEnd: {
+      [prefix + "End"]: {
         gte: filterStart,
       },
     };
 
   if (filterEnd)
     return {
-      dateStart: {
+      [prefix + "Start"]: {
         lte: filterEnd,
       },
     };
@@ -83,10 +87,15 @@ const generateTagFilters = (tagIds: string[]) => {
 };
 
 export const generateProjectFilters = (filters: ProjectFilters) => {
-  const dateFilters = generateDateFilters(filters.dateStart, filters.dateEnd);
-  const enrollmentFilters = generateDateFilters(
+  const dateFilters = generateDateFilters(
+    "date",
     filters.dateStart,
     filters.dateEnd
+  );
+  const enrollmentFilters = generateDateFilters(
+    "enrollment",
+    filters.enrollmentStart,
+    filters.enrollmentEnd
   );
 
   return {

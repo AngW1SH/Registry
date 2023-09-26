@@ -42,6 +42,16 @@ export interface ProjectFilters {
   tags?: string[];
 }
 
+export interface ProjectFiltersDTO {
+  text?: string;
+  dateStart?: string;
+  dateEnd?: string;
+  enrollmentStart?: string;
+  enrollmentEnd?: string;
+  status?: string;
+  tags?: string[];
+}
+
 export interface ProjectWithTags extends Omit<Project, "tags"> {
   tags: Tag[];
 }

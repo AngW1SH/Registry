@@ -17,11 +17,13 @@ Todo:
 interface CalendarInputProps {
   className?: string;
   placeholder?: string;
+  onChange?: (startDate: Date | null, endDate: Date | null) => any;
 }
 
 const CalendarInput: FC<CalendarInputProps> = ({
   className = "",
   placeholder = "",
+  onChange,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -103,6 +105,10 @@ const CalendarInput: FC<CalendarInputProps> = ({
       window.removeEventListener("click", handleClickOutside);
     };
   }, [ref]);
+
+  useEffect(() => {
+    if (onChange) onChange(state[0].startDate, state[0].endDate);
+  }, [state]);
 
   return (
     <div className={"relative " + className} ref={ref}>

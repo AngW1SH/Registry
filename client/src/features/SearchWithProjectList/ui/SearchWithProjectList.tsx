@@ -2,6 +2,7 @@
 import { FC, useEffect, useMemo, useRef, useState } from "react";
 import {
   DetailedProjectFilters,
+  Filters,
   ProjectFilters,
   ProjectFiltersSmall,
 } from "@/entities/ProjectFilters";
@@ -13,6 +14,8 @@ import { Container } from "@/shared/ui";
 import { useFixedFilters } from "../hooks/useFixedFilters";
 import { useRefHeight } from "@/shared/hooks";
 import { useFixedHeaderTransitionStyles } from "../hooks/useFixedFiltersTransitionStyles";
+import { initialFilters } from "@/entities/ProjectFilters/config/initialFilters";
+import { fetchProjects } from "../api/fetchProjects";
 
 interface SearchWithProjectListProps {
   initialData: {
@@ -25,6 +28,8 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   initialData,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const [filters, setFilters] = useState<Filters>(initialFilters);
 
   const filtersSmallRef = useRef<HTMLDivElement>(null);
   const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);
@@ -41,13 +46,20 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
     areFiltersVisible,
   );
 
+  useEffect(() => {
+    const updateProjectData = async () => {
+      setProjectData(await fetchProjects(filters));
+    };
+    updateProjectData();
+  }, [filters]);
+
   return (
     <>
       <div
         ref={ref}
         className="relative z-10 rounded-2xl bg-[#e0efef] px-8 py-6 backdrop-blur-[12px] sm:pb-14 sm:pt-12"
       >
-        <ProjectFilters />
+        <ProjectFilters onConfirm={(filters) => setFilters(filters)} />
       </div>
       <Transition in={shouldRenderFixedHeader} timeout={300}>
         {(state) => (

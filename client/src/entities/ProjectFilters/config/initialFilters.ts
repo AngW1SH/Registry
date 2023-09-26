@@ -7,7 +7,7 @@ export const initialFilters: Filters = {
   dateStart: null,
   dateEnd: null,
   tags: null,
-  text: null,
+  text: "",
 };
 
 export const ProjectStatus = [

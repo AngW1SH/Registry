@@ -54,7 +54,7 @@ const ProjectCardLarge: FC<ProjectCardLargeProps> = ({
           </h3>
           <div className="pt-2" />
           <p>
-            {project.dateEnd.toLocaleDateString("ru-RU", {
+            {project.enrollmentEnd.toLocaleDateString("ru-RU", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",

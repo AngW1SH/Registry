@@ -1,7 +1,7 @@
 import { ProjectStatus } from "../config/initialFilters";
 
 export type Filters = {
-  text: string | null;
+  text: string;
   dateStart: Date | null;
   dateEnd: Date | null;
   enrollmentStart: Date | null;

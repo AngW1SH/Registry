@@ -5,13 +5,14 @@ import { ITag } from "@/entities/Tag";
 
 export const fetchProjects = async (filters?: Filters) => {
   const resultDTO: { projects: ProjectDTO[]; tags: ITag[] } = await fetch(
-    "http://localhost:3000/api/project/active",
+    "http://localhost:3000/api/project/findmany",
     {
+      cache: "no-cache",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ filters }),
+      body: JSON.stringify(filters ? { filters } : {}),
     },
   ).then((response) => response.json());
 
