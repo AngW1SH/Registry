@@ -1,8 +1,12 @@
 import { prisma } from "@/db/prisma-client";
 import { ProjectFilters, ProjectWithTags } from "@/entities/project";
 import { Tag } from "@/entities/tag";
-import { generateProjectFilters } from "./utils/generateProjectFilters";
+import {
+  generateProjectFilters,
+  generateProjectFiltersNew,
+} from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
+import qs from "qs";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -13,38 +17,48 @@ const projectRepositoryFactory = () => {
   async function getNew(limit?: number): Promise<ProjectWithTags[]> {
     const now = new Date();
 
-    const projects = await prisma.project.findMany({
-      take: limit ? limit : undefined,
-      orderBy: {
-        dateStart: "desc",
-      },
-      where: {
+    const params = {
+      sort: ["dateStart:desc"],
+      filters: {
         dateEnd: {
-          gte: now,
+          $gte: now,
         },
       },
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        developerRequirements: true,
-        dateStart: true,
-        dateEnd: true,
-        enrollmentStart: true,
-        enrollmentEnd: true,
-        supervisor: true,
-        isPublic: true,
+      fields: [
+        "name",
+        "description",
+        "developerRequirements",
+        "dateStart",
+        "dateEnd",
+        "enrollmentStart",
+        "enrollmentEnd",
+        "supervisor",
+      ],
+      populate: {
         tags: {
-          select: {
-            Tag: true,
-          },
+          fields: ["id", "name"],
         },
       },
-    });
+    };
 
-    return projects.map((project) => ({
-      ...project,
-      tags: project.tags.map((tag) => tag.Tag),
+    const response = await fetch(
+      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
+        },
+      }
+    ).then((data) => data.json());
+
+    const projectsData = response.data;
+
+    return projectsData.map((project) => ({
+      id: project.id,
+      ...project.attributes,
+      tags: project.attributes.tags.data.map((tag) => ({
+        id: tag.id,
+        ...tag.attributes,
+      })),
     }));
   }
 
@@ -53,30 +67,44 @@ const projectRepositoryFactory = () => {
   ): Promise<ProjectWithTags[]> {
     if (!checkFilterValidity(filters)) return [];
 
-    const projects = await prisma.project.findMany({
-      where: filters ? generateProjectFilters(filters) : undefined,
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        developerRequirements: true,
-        dateStart: true,
-        dateEnd: true,
-        enrollmentStart: true,
-        enrollmentEnd: true,
-        supervisor: true,
-        isPublic: true,
+    const params = {
+      sort: ["dateStart:desc"],
+      filters: filters ? generateProjectFiltersNew(filters) : {},
+      fields: [
+        "name",
+        "description",
+        "developerRequirements",
+        "dateStart",
+        "dateEnd",
+        "enrollmentStart",
+        "enrollmentEnd",
+        "supervisor",
+      ],
+      populate: {
         tags: {
-          select: {
-            Tag: true,
-          },
+          fields: ["id", "name"],
         },
       },
-    });
+    };
 
-    return projects.map((project) => ({
-      ...project,
-      tags: project.tags.map((tag) => tag.Tag),
+    const response = await fetch(
+      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
+        },
+      }
+    ).then((data) => data.json());
+
+    const projectsData = response.data;
+
+    return projectsData.map((project) => ({
+      id: project.id,
+      ...project.attributes,
+      tags: project.attributes.tags.data.map((tag) => ({
+        id: tag.id,
+        ...tag.attributes,
+      })),
     }));
   }
 };
