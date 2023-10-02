@@ -5,6 +5,10 @@ const nextConfig = {
             {
                 source: '/api/:path*',
                 destination: 'http://localhost:8000/:path*' // Proxy to Backend
+            },
+            {
+                source: '/strapi/:path*',
+                destination: 'http://localhost:7000/:path*' // Proxy to Strapi
             }
         ]
     }

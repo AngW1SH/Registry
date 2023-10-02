@@ -3,7 +3,7 @@
     "concurrently": "^7.0.0"
   },
   "scripts": {
-    "dev": "concurrently \"cd ./server && npm run dev\" \"cd ./client && npm run dev\"",
-    "start": "concurrently \"cd ./server && npm run start\" \"cd ./client && npm run start\""
+    "dev": "concurrently \"cd ./server && npm run dev\" \"cd ./client && npm run dev\" \"cd ./strapi && npm run develop\"",
+    "start": "concurrently \"cd ./server && npm run start\" \"cd ./client && npm run start\" \"cd ./strapi && npm run start\""
   }
 }
