@@ -41,6 +41,18 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "mappedBy": "projects"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team",
+      "inversedBy": "project"
+    },
+    "requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::request.request",
+      "mappedBy": "project"
     }
   }
 }

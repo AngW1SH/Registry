@@ -551,6 +551,16 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'manyToMany',
       'api::tag.tag'
     >;
+    team: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'api::team.team'
+    >;
+    requests: Attribute.Relation<
+      'api::project.project',
+      'oneToMany',
+      'api::request.request'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -562,6 +572,85 @@ export interface ApiProjectProject extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRequestRequest extends Schema.CollectionType {
+  collectionName: 'requests';
+  info: {
+    singularName: 'request';
+    pluralName: 'requests';
+    displayName: 'Request';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    project: Attribute.Relation<
+      'api::request.request',
+      'manyToOne',
+      'api::project.project'
+    >;
+    team: Attribute.Relation<
+      'api::request.request',
+      'manyToOne',
+      'api::team.team'
+    >;
+    files: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::request.request',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::request.request',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStudentStudent extends Schema.CollectionType {
+  collectionName: 'students';
+  info: {
+    singularName: 'student';
+    pluralName: 'students';
+    displayName: 'User';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    email: Attribute.Email;
+    teams: Attribute.Relation<
+      'api::student.student',
+      'manyToMany',
+      'api::team.team'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::student.student',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::student.student',
       'oneToOne',
       'admin::user'
     > &
@@ -597,6 +686,49 @@ export interface ApiTagTag extends Schema.CollectionType {
   };
 }
 
+export interface ApiTeamTeam extends Schema.CollectionType {
+  collectionName: 'teams';
+  info: {
+    singularName: 'team';
+    pluralName: 'teams';
+    displayName: 'Team';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    members: Attribute.Relation<
+      'api::team.team',
+      'manyToMany',
+      'api::student.student'
+    >;
+    administrators: Attribute.Relation<
+      'api::team.team',
+      'manyToMany',
+      'api::student.student'
+    >;
+    project: Attribute.Relation<
+      'api::team.team',
+      'oneToOne',
+      'api::project.project'
+    >;
+    requests: Attribute.Relation<
+      'api::team.team',
+      'oneToMany',
+      'api::request.request'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -611,7 +743,10 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::project.project': ApiProjectProject;
+      'api::request.request': ApiRequestRequest;
+      'api::student.student': ApiStudentStudent;
       'api::tag.tag': ApiTagTag;
+      'api::team.team': ApiTeamTeam;
     }
   }
 }
