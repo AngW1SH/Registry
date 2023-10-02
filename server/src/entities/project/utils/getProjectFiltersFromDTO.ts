@@ -3,7 +3,7 @@ import { ProjectFilters, ProjectFiltersDTO } from "../types/types";
 export const getProjectFiltersFromDTO = (
   filtersDTO: ProjectFiltersDTO
 ): ProjectFilters => {
-  if (!filtersDTO) return null;
+  if (!filtersDTO) return;
 
   return {
     ...filtersDTO,

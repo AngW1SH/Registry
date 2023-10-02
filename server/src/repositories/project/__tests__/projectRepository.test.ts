@@ -1,22 +1,20 @@
-import { prisma } from "@/db/prisma-client";
 import projectRepository from "..";
-import { staticProjectsWithTagsPrisma } from "@/entities/project";
+import { staticProjectsWithTagsResult } from "@/entities/project";
 
-jest.mock("@/db/prisma-client", () => ({
-  prisma: {
-    project: {
-      findMany: jest.fn(),
-    },
-  },
-}));
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve(staticProjectsWithTagsResult),
+  })
+) as jest.Mock;
 
 describe("Project Repository", () => {
   describe("findMany method", () => {
-    it("shouldn't try accessing the database for impossible filters", async () => {
-      (prisma.project.findMany as jest.Mock).mockReturnValue(
-        staticProjectsWithTagsPrisma
-      );
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
 
+    it("shouldn't try accessing the database for impossible filters", async () => {
       const results = [];
 
       results.push(
@@ -37,47 +35,24 @@ describe("Project Repository", () => {
         expect(result).toEqual([]);
       });
 
-      expect(prisma.project.findMany).toBeCalledTimes(0);
+      expect(fetch).toBeCalledTimes(0);
     });
 
     it("should apply text filter as an OR for all existing text fields", async () => {
-      (prisma.project.findMany as jest.Mock).mockReturnValueOnce(
-        staticProjectsWithTagsPrisma
-      );
-
       const filters = {
-        text: "test",
+        text: "testtext",
       };
 
       const result = await projectRepository.findMany(filters);
 
-      expect(prisma.project.findMany).toBeCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            AND: expect.arrayContaining([
-              {
-                OR: expect.arrayContaining([
-                  {
-                    name: {
-                      contains: "test",
-                    },
-                  },
-                  {
-                    description: {
-                      contains: "test",
-                    },
-                  },
-                  {
-                    developerRequirements: {
-                      contains: "test",
-                    },
-                  },
-                ]),
-              },
-            ]),
-          }),
-        })
-      );
+      expect((fetch as jest.Mock).mock.calls[0][0]).toMatch(/(testtext.*){3,}/);
+    });
+
+    it("should return projects even when no filters are provided", async () => {
+      const result = await projectRepository.findMany();
+
+      expect(result).toBeDefined();
+      expect(fetch).toBeCalledTimes(1);
     });
   });
 });

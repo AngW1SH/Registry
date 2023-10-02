@@ -17,7 +17,7 @@ const projectControllerFactory = () => {
 
       res.status(200).json(projects);
     } catch {
-      res.sendStatus(500);
+      res.status(500).send();
     }
   }
 
@@ -27,7 +27,7 @@ const projectControllerFactory = () => {
 
       res.status(200).json(projects);
     } catch {
-      res.sendStatus(500);
+      res.status(500).send();
     }
   }
 
@@ -39,7 +39,7 @@ const projectControllerFactory = () => {
 
       res.status(200).json(result);
     } catch {
-      res.sendStatus(500);
+      res.status(500).send();
     }
   }
 };

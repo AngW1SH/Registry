@@ -2,7 +2,9 @@ import projectController from "..";
 
 const req: any = {};
 const res: any = {};
+req.body = {};
 res.status = jest.fn().mockReturnValue(res);
+res.sendStatus = jest.fn().mockReturnValue(res);
 res.json = jest.fn().mockReturnValue(res);
 
 describe("Project Controller", () => {
@@ -28,13 +30,13 @@ describe("Project Controller", () => {
       jest.clearAllMocks();
     });
     it("should send a json", async () => {
-      await projectController.getActive(req, res);
+      await projectController.findMany(req, res);
 
       expect(res.json).toHaveBeenCalled();
     });
 
     it("should send a 200 status", async () => {
-      await projectController.getActive(req, res);
+      await projectController.findMany(req, res);
 
       expect(res.status).toHaveBeenCalledWith(200);
     });

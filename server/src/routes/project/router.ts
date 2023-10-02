@@ -9,6 +9,7 @@ projectRouter.post("/active", projectController.getActive);
 
 projectRouter.get("/new", projectController.getNew);
 
+projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
 
 export default projectRouter;

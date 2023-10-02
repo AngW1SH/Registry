@@ -1,10 +1,7 @@
 import { prisma } from "@/db/prisma-client";
 import { ProjectFilters, ProjectWithTags } from "@/entities/project";
 import { Tag } from "@/entities/tag";
-import {
-  generateProjectFilters,
-  generateProjectFiltersNew,
-} from "./utils/generateProjectFilters";
+import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
 import qs from "qs";
 
@@ -69,7 +66,7 @@ const projectRepositoryFactory = () => {
 
     const params = {
       sort: ["dateStart:desc"],
-      filters: filters ? generateProjectFiltersNew(filters) : {},
+      filters: filters ? generateProjectFilters(filters) : undefined,
       fields: [
         "name",
         "description",
