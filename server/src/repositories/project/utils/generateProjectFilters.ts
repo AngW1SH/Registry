@@ -5,27 +5,27 @@ const generateDateFilters = (
   filterStart?: Date,
   filterEnd?: Date
 ) => {
+  if (
+    filterStart &&
+    typeof filterStart != "string" &&
+    !filterStart.toDateString
+  )
+    return {};
+
+  if (filterEnd && typeof filterEnd != "string" && !filterEnd.toDateString)
+    return {};
+
   if (filterStart && filterEnd)
     return {
-      $or: [
+      $and: [
         {
           [prefix + "Start"]: {
-            lte: filterEnd,
-            gte: filterStart,
+            $lte: filterEnd,
           },
         },
         {
           [prefix + "End"]: {
-            lte: filterEnd,
-            gte: filterStart,
-          },
-        },
-        {
-          [prefix + "Start"]: {
-            lte: filterStart,
-          },
-          [prefix + "End"]: {
-            gte: filterEnd,
+            $gte: filterStart,
           },
         },
       ],
@@ -34,14 +34,14 @@ const generateDateFilters = (
   if (filterStart)
     return {
       [prefix + "End"]: {
-        gte: filterStart,
+        $gte: filterStart,
       },
     };
 
   if (filterEnd)
     return {
       [prefix + "Start"]: {
-        lte: filterEnd,
+        $lte: filterEnd,
       },
     };
 
@@ -53,17 +53,17 @@ const generateTextFilters = (text: string) => {
     $or: [
       {
         name: {
-          $contains: text,
+          $containsi: text,
         },
       },
       {
         description: {
-          $contains: text,
+          $containsi: text,
         },
       },
       {
         developerRequirements: {
-          $contains: text,
+          $containsi: text,
         },
       },
     ],
@@ -80,6 +80,38 @@ const generateTagFilters = (tagIds: string[]) => {
         },
       }
     : undefined;
+};
+
+const generateStatusFilters = (status?: string) => {
+  if (!status) return {};
+
+  switch (status) {
+    case "Завершённые":
+      return {
+        dateEnd: {
+          $lte: new Date(),
+        },
+      };
+    case "Активные":
+      return {
+        dateStart: {
+          $lte: new Date(),
+        },
+        dateEnd: {
+          $gte: new Date(),
+        },
+      };
+    case "С вакансиями":
+      return {
+        team: {
+          id: {
+            $null: true,
+          },
+        },
+      };
+    default:
+      return {};
+  }
 };
 
 export const generateProjectFilters = (filters: ProjectFilters) => {
@@ -100,6 +132,7 @@ export const generateProjectFilters = (filters: ProjectFilters) => {
       (filters.enrollmentStart || filters.enrollmentEnd) && enrollmentFilters,
       filters.text && generateTextFilters(filters.text),
       filters.tags && generateTagFilters(filters.tags),
+      filters.status && generateStatusFilters(filters.status),
     ].filter((elem) => elem),
   };
 };
