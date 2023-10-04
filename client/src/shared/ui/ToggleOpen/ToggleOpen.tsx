@@ -3,6 +3,7 @@ import {
   FC,
   ReactNode,
   useCallback,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -30,11 +31,18 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
     if (innerRef.current) setInnerHeight(innerRef.current.clientHeight);
   }, [innerRef.current]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     updateSize();
-  }, []);
+
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      window.removeEventListener("resize", updateSize);
+    };
+  }, [innerRef.current]);
 
   const handleToggle = useCallback(() => {
+    updateSize();
     setOpened((prevOpened) => !prevOpened);
   }, []);
 
@@ -61,13 +69,13 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
         >
           <div
             onClick={handleToggle}
-            className="relative z-20 cursor-pointer bg-white"
+            className="relative cursor-pointer bg-white"
           >
             {triggerElement}
           </div>
           <div
             ref={ref}
-            className="relative z-10"
+            className="relative"
             style={{
               ...defaultStyle,
               ...transitionStyles[state],

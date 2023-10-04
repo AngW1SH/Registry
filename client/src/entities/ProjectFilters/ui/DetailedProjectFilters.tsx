@@ -26,7 +26,7 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
         </div>
       }
     >
-      <div className="grid grid-cols-4 grid-rows-1 gap-x-6 gap-y-4 pt-5">
+      <div className="grid grid-cols-2 grid-rows-2 gap-x-6 gap-y-4 pt-5 xl:grid-cols-4 xl:grid-rows-1">
         <MultiselectDropdown
           items={state}
           onChange={setState}
