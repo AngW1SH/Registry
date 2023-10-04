@@ -12,6 +12,7 @@ import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
 import LoadingCircle from "./LoadingCircle/LoadingCircle";
+import MultiselectDropdown from "./MultiselectDropdown/MultiselectDropdown";
 import ToggleOpen from "./ToggleOpen/ToggleOpen";
 
 export {
@@ -30,4 +31,5 @@ export {
   BackgroundFill,
   FormInput,
   ToggleOpen,
+  MultiselectDropdown,
 };

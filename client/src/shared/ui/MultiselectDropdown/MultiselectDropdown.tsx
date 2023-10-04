@@ -3,13 +3,16 @@ import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import { useMultiselect } from "./hooks/useMultiselect";
 import { CSSTransition, TransitionStatus } from "react-transition-group";
+import { defaultStyle, transitionStyles } from "./static/transitionStyles";
 
 interface MultiselectDropdownProps {
   namePrefix?: string;
   fetchSuggestions?: (query: string) => Promise<string[]>;
   options?: string[];
+  items: string[];
   placeholder?: string;
   className?: string;
+  onChange: (active: string[]) => any;
 }
 
 const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
@@ -18,6 +21,8 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
   options,
   placeholder,
   className = "",
+  onChange,
+  items,
 }) => {
   const [opened, setOpened] = useState(false);
 
@@ -29,7 +34,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
     toggleOption,
     input,
     setInput,
-  } = useMultiselect(options, fetchSuggestions);
+  } = useMultiselect(items, onChange, options, fetchSuggestions);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -50,25 +55,15 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
     };
   }, [ref.current]);
 
-  const defaultStyle = {
-    transition: `all ${100}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-    opacity: 0,
-    visibility: "hidden",
-  };
-
-  const transitionStyles = {
-    entering: { opacity: 1, visibility: "visible" as "visible" | "hidden" },
-    entered: { opacity: 1, visibility: "visible" as "visible" | "hidden" },
-    exiting: { opacity: 0, visibility: "visible" as "visible" | "hidden" },
-    exited: { opacity: 0, visibility: "hidden" as "visible" | "hidden" },
-    unmounted: { opacity: 0, visibility: "hidden" as "visible" | "hidden" },
-  };
+  useEffect(() => {
+    if (onChange) onChange(activeTags);
+  }, [activeTags]);
 
   return (
     <div className={"relative w-full " + className} ref={ref}>
       <div
         onClick={() => setOpened(!opened)}
-        className={`relative cursor-pointer rounded-md p-3 pr-12 shadow-center-md after:absolute after:right-5 ${
+        className={`relative cursor-pointer pr-12 after:absolute after:right-5 ${
           opened ? "after:top-[calc(50%-6px)]" : "after:top-[calc(50%-9px)]"
         } ${
           opened ? "after:rotate-90" : "after:rotate-[270deg]"

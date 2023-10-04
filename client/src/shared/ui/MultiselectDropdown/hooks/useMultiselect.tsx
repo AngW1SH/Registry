@@ -1,14 +1,14 @@
 "use client";
-import { useDebounce } from "@/shared/hooks/useDebounce/useDebounce";
+import { useDebounce } from "@/shared/hooks";
 import { useEffect, useState } from "react";
 
 export const useMultiselect = (
+  active: string[],
+  setActive: (active: string[]) => any,
   initialOptions?: string[],
   fetchSuggestions?: (query: string) => Promise<string[]>,
 ) => {
   const [input, setInput] = useState("");
-
-  const [active, setActive] = useState<string[]>([]);
 
   const [options, setOptions] = useState<string[]>(
     initialOptions || ["2 курс", "3 курс", "Магистратура"],

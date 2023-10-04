@@ -113,12 +113,12 @@ const CalendarInput: FC<CalendarInputProps> = ({
   return (
     <div className={"relative " + className} ref={ref}>
       <div
-        className="flex cursor-pointer items-center justify-between gap-4"
+        className="flex cursor-pointer items-center justify-between gap-2"
         onClick={() => setOpened((prev) => !prev)}
       >
         <input
           readOnly
-          className="outline-none"
+          className="w-full outline-none"
           placeholder={placeholder}
           value={
             state[0].startDate || state[0].endDate

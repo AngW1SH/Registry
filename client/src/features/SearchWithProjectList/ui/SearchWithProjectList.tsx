@@ -57,9 +57,13 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
     <>
       <div
         ref={ref}
-        className="relative z-10 rounded-2xl bg-[#e0efef] px-8 py-6 backdrop-blur-[12px] sm:pb-14 sm:pt-12"
+        className="relative z-10 rounded-2xl bg-[#e0efef] px-8 py-6 backdrop-blur-[12px] sm:pb-14 sm:pt-12 md:-ml-12 md:-mr-12 xl:ml-0 xl:mr-0"
       >
-        <ProjectFilters onConfirm={(filters) => setFilters(filters)} />
+        <ProjectFilters
+          filters={filters}
+          onConfirm={setFilters}
+          dynamic={true}
+        />
       </div>
       <Transition in={shouldRenderFixedHeader} timeout={300}>
         {(state) => (
@@ -74,8 +78,13 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
               ref={filtersSmallRef}
               className="relative z-10 w-full bg-[#e0efef] py-3 backdrop-blur-[12px]"
             >
-              <Container className=" px-8">
-                <ProjectFiltersSmall />
+              <Container className="px-8">
+                <div className="md:-ml-12 md:-mr-12 xl:ml-0 xl:mr-0">
+                  <ProjectFiltersSmall
+                    filters={filters}
+                    onConfirm={setFilters}
+                  />
+                </div>
               </Container>
             </div>
           </div>

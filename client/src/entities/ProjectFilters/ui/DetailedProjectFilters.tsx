@@ -1,12 +1,15 @@
+"use client";
 import { ButtonWithIcon, ToggleOpen } from "@/shared/ui";
-import MultiselectDropdown from "@/shared/ui/MultiselectDropdown/MultiselectDropdown";
+import { MultiselectDropdown } from "@/shared/ui";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { detailedFiltersInitialData } from "../config/initialOptions";
 
 interface DetailedProjectFiltersProps {}
 
 const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
+  const [state, setState] = useState<string[]>([]);
+
   return (
     <ToggleOpen
       triggerElement={
@@ -25,18 +28,30 @@ const DetailedProjectFilters: FC<DetailedProjectFiltersProps> = () => {
     >
       <div className="grid grid-cols-4 grid-rows-1 gap-x-6 gap-y-4 pt-5">
         <MultiselectDropdown
+          items={state}
+          onChange={setState}
+          className="rounded-md p-3 shadow-center-md"
           placeholder={detailedFiltersInitialData.status.label}
           options={detailedFiltersInitialData.status.options}
         />
         <MultiselectDropdown
+          items={state}
+          onChange={setState}
+          className="rounded-md p-3 shadow-center-md"
           placeholder={detailedFiltersInitialData.supervisor.label}
           options={detailedFiltersInitialData.supervisor.options}
         />
         <MultiselectDropdown
+          items={state}
+          onChange={setState}
+          className="rounded-md p-3 shadow-center-md"
           placeholder={detailedFiltersInitialData.year.label}
           options={detailedFiltersInitialData.year.options}
         />
         <MultiselectDropdown
+          items={state}
+          onChange={setState}
+          className="rounded-md p-3 shadow-center-md"
           placeholder={detailedFiltersInitialData.format.label}
           options={detailedFiltersInitialData.format.options}
         />

@@ -70,12 +70,12 @@ const generateTextFilters = (text: string) => {
   };
 };
 
-const generateTagFilters = (tagIds: string[]) => {
-  return tagIds && tagIds.length
+const generateTagFilters = (tagNames: string[]) => {
+  return tagNames && tagNames.length
     ? {
         tags: {
-          id: {
-            $in: tagIds,
+          name: {
+            $in: tagNames,
           },
         },
       }
