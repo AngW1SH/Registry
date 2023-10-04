@@ -28,7 +28,7 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
       <div className="flex flex-col flex-wrap rounded-2xl sm:flex-row lg:flex-nowrap lg:rounded-full lg:bg-white">
         <div className="relative flex w-full items-center overflow-hidden rounded-lg rounded-t-lg bg-white px-10 py-4 before:absolute before:bottom-0 before:left-[5%] before:hidden before:h-px before:w-[90%] before:bg-[#848686] after:absolute after:right-0 after:top-[10%] after:hidden after:h-[80%] after:w-px after:bg-[#848686] sm:w-1/2 sm:rounded-r-none sm:px-6 sm:py-2 sm:before:left-[8%] sm:before:w-[92%] sm:after:block md:rounded-r-none lg:w-full lg:rounded-l-full lg:before:hidden">
           <input
-            className="w-full text-xs font-normal placeholder-[#848686] outline-none"
+            className="w-full text-sm font-normal placeholder-[#848686] outline-none sm:text-xs"
             placeholder="Текст"
             value={filtersDraft.text}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
