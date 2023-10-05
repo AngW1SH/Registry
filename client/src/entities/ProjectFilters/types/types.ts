@@ -2,10 +2,10 @@ import { ProjectStatus } from "../config/initialFilters";
 
 export type Filters = {
   text: string;
-  dateStart: Date | null;
-  dateEnd: Date | null;
-  enrollmentStart: Date | null;
-  enrollmentEnd: Date | null;
+  dateStart: string | null;
+  dateEnd: string | null;
+  enrollmentStart: string | null;
+  enrollmentEnd: string | null;
   status: string | null;
   tags: string[] | null;
 };

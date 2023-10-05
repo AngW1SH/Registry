@@ -5,16 +5,19 @@ import { ProjectsSearch } from "@/widgets/ProjectsSearch";
 import { Subscribe } from "@/widgets/Subscribe";
 import { Footer } from "@/widgets/Footer";
 
-interface ProjectsPageProps {}
+interface ProjectsPageProps {
+  params: {};
+  searchParams: { [key: string]: string | string[] | undefined };
+}
 
-const ProjectsPage: FC<ProjectsPageProps> = () => {
+const ProjectsPage: FC<ProjectsPageProps> = ({ searchParams }) => {
   return (
     <>
       <Container>
         <div className="pt-6" />
         <Header text="dark" />
         <div className="pt-6" />
-        <ProjectsSearch />
+        <ProjectsSearch searchParams={searchParams} />
         <div className="pt-10" />
         <Subscribe />
       </Container>

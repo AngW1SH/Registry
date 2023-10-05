@@ -1,6 +1,6 @@
 "use client";
-import { FC, ReactElement, useEffect, useState } from "react";
-import { ProjectStatus, initialFilters } from "../config/initialFilters";
+import { FC, useEffect, useState } from "react";
+import { ProjectStatus } from "../config/initialFilters";
 import { Filters, ProjectStatusValue } from "../types/types";
 import { Button, CalendarInput, MultiselectDropdown } from "@/shared/ui";
 import Image from "next/image";
@@ -111,11 +111,25 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
           <CalendarInput
             placeholder="Срок записи на проект"
             className="w-full text-sm lg:text-[11px] xl:text-xs"
+            start={filtersDraft.enrollmentStart}
+            end={filtersDraft.enrollmentStart}
             onChange={(start, end) =>
               setFiltersDraft({
                 ...filtersDraft,
-                enrollmentStart: start,
-                enrollmentEnd: end,
+                enrollmentStart: start
+                  ? start.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : start,
+                enrollmentEnd: end
+                  ? end.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : end,
               })
             }
           />
@@ -127,11 +141,25 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
           <CalendarInput
             placeholder="Срок реализации"
             className="w-full text-sm lg:text-[11px] xl:text-xs"
+            start={filtersDraft.dateStart}
+            end={filtersDraft.dateEnd}
             onChange={(start, end) =>
               setFiltersDraft({
                 ...filtersDraft,
-                dateStart: start,
-                dateEnd: end,
+                dateStart: start
+                  ? start.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : start,
+                dateEnd: end
+                  ? end.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : end,
               })
             }
           />

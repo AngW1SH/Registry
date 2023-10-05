@@ -5,6 +5,7 @@ import {
   Filters,
   ProjectFilters,
   ProjectFiltersSmall,
+  useFilters,
 } from "@/entities/ProjectFilters";
 import ProjectCardLarge from "@/entities/Project/ui/ProjectCardLarge";
 import { IProject } from "@/entities/Project";
@@ -22,14 +23,18 @@ interface SearchWithProjectListProps {
     projects: IProject[];
     tags: ITag[];
   };
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
 const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   initialData,
+  searchParams,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [filters, setFilters] = useFilters(searchParams);
 
   const filtersSmallRef = useRef<HTMLDivElement>(null);
   const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);

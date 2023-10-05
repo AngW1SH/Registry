@@ -17,6 +17,8 @@ Todo:
 interface CalendarInputProps {
   className?: string;
   placeholder?: string;
+  start?: string | null;
+  end?: string | null;
   onChange?: (startDate: Date | null, endDate: Date | null) => any;
 }
 
@@ -24,6 +26,8 @@ const CalendarInput: FC<CalendarInputProps> = ({
   className = "",
   placeholder = "",
   onChange,
+  start,
+  end,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -31,8 +35,8 @@ const CalendarInput: FC<CalendarInputProps> = ({
 
   const [state, setState]: any = useState([
     {
-      startDate: null,
-      endDate: null,
+      startDate: start ? new Date(start) : null,
+      endDate: end ? new Date(end) : null,
       key: "selection",
     },
   ]);

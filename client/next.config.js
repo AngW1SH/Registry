@@ -11,7 +11,18 @@ const nextConfig = {
                 destination: 'http://localhost:7000/:path*' // Proxy to Strapi
             }
         ]
-    }
+    },
+    headers: () => [
+        {
+            source: '/projects',
+            headers: [
+                {
+                    key: 'Cache-Control',
+                    value: 'no-store',
+                },
+            ],
+        },
+    ],
 }
 
 module.exports = nextConfig

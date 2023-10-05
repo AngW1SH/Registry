@@ -1,10 +1,11 @@
-import { IProject, staticProjects } from "@/entities/Project";
-import { ITag, staticTags } from "@/entities/Tag";
+import { IProject } from "@/entities/Project";
+import { getFiltersByParams } from "@/entities/ProjectFilters";
+import { initialFilters } from "@/entities/ProjectFilters/config/initialFilters";
+import { ITag } from "@/entities/Tag";
 import {
   SearchWithProjectList,
   fetchProjects,
 } from "@/features/SearchWithProjectList";
-import { SearchWithRedirect } from "@/features/SearchWithRedirect";
 import { FC } from "react";
 
 interface ProjectsSearchProps {
@@ -12,10 +13,20 @@ interface ProjectsSearchProps {
     projects: IProject[];
     tags: ITag[];
   };
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
-const ProjectsSearch: FC<ProjectsSearchProps> = async ({ data }) => {
-  const { projects, tags } = data ? data : await fetchProjects();
+const ProjectsSearch: FC<ProjectsSearchProps> = async ({
+  data,
+  searchParams,
+}) => {
+  const filters = searchParams
+    ? getFiltersByParams(searchParams)
+    : initialFilters;
+
+  const { projects, tags } = data ? data : await fetchProjects(filters);
 
   return (
     <SearchWithProjectList
@@ -23,6 +34,7 @@ const ProjectsSearch: FC<ProjectsSearchProps> = async ({ data }) => {
         projects: projects,
         tags: tags,
       }}
+      searchParams={searchParams}
     />
   );
 };

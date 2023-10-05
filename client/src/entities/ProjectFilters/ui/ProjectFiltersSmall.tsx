@@ -57,8 +57,20 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
             onChange={(start, end) =>
               setFiltersDraft({
                 ...filtersDraft,
-                enrollmentStart: start,
-                enrollmentEnd: end,
+                enrollmentStart: start
+                  ? start.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : start,
+                enrollmentEnd: end
+                  ? end.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : end,
               })
             }
           />
@@ -73,8 +85,20 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
             onChange={(start, end) =>
               setFiltersDraft({
                 ...filtersDraft,
-                dateStart: start,
-                dateEnd: end,
+                dateStart: start
+                  ? start.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : start,
+                dateEnd: end
+                  ? end.toLocaleDateString("fr-CA", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })
+                  : end,
               })
             }
           />
