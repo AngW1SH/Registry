@@ -13,7 +13,9 @@ export const useFilters = (searchParams?: {
   const [filters, setFilters] = useState(getFiltersByParams(searchParams));
 
   useEffect(() => {
-    router.replace(`${pathname}${serializeFilterParams(filters)}`);
+    router.push(`${pathname}${serializeFilterParams(filters)}`, {
+      scroll: false,
+    });
   }, [filters]);
 
   return [filters, setFilters] as const;

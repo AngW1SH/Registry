@@ -11,12 +11,13 @@ import ProjectCardLarge from "@/entities/Project/ui/ProjectCardLarge";
 import { IProject } from "@/entities/Project";
 import { ITag, TagList, getTagsByTagIds } from "@/entities/Tag";
 import { Transition } from "react-transition-group";
-import { Container } from "@/shared/ui";
+import { Container, LoadingCircle } from "@/shared/ui";
 import { useFixedFilters } from "../hooks/useFixedFilters";
 import { useRefHeight } from "@/shared/hooks";
 import { useFixedHeaderTransitionStyles } from "../hooks/useFixedFiltersTransitionStyles";
 import { initialFilters } from "@/entities/ProjectFilters/config/initialFilters";
 import { fetchProjects } from "../api/fetchProjects";
+import useActiveProjectsQuery from "../hooks/useProjectsQuery";
 
 interface SearchWithProjectListProps {
   initialData: {
@@ -39,7 +40,10 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   const filtersSmallRef = useRef<HTMLDivElement>(null);
   const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);
 
-  const [projectData, setProjectData] = useState(initialData);
+  const { data: projectData, isLoading } = useActiveProjectsQuery(
+    filters,
+    initialData,
+  );
 
   const {
     isRefVisible: areFiltersVisible,
@@ -50,13 +54,6 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
     filtersSmallHeight,
     areFiltersVisible,
   );
-
-  useEffect(() => {
-    const updateProjectData = async () => {
-      setProjectData(await fetchProjects(filters));
-    };
-    updateProjectData();
-  }, [filters]);
 
   return (
     <>
@@ -98,20 +95,24 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
       <div className="pt-10" />
       <DetailedProjectFilters />
       <div className="border-b border-black pt-5" />
-      {projectData.projects.map((project) => (
-        <li
-          className="list-none border-b border-black pb-3 pt-2"
-          key={project.id}
-        >
-          <ProjectCardLarge
-            className="h-full"
-            project={project}
-            tags={
-              <TagList tags={getTagsByTagIds(project.tags, projectData.tags)} />
-            }
-          />
-        </li>
-      ))}
+      {(!projectData || isLoading) && <LoadingCircle />}
+      {projectData &&
+        projectData.projects.map((project) => (
+          <li
+            className="list-none border-b border-black pb-3 pt-2"
+            key={project.id}
+          >
+            <ProjectCardLarge
+              className="h-full"
+              project={project}
+              tags={
+                <TagList
+                  tags={getTagsByTagIds(project.tags, projectData.tags)}
+                />
+              }
+            />
+          </li>
+        ))}
     </>
   );
 };
