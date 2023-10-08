@@ -86,7 +86,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
       <CSSTransition in={opened && suggestions.length != 0} timeout={100}>
         {(state: TransitionStatus) => (
           <div
-            className={`absolute left-0 right-0 top-full z-10 mt-2 flex flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md`}
+            className={`absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md`}
             style={{
               ...defaultStyle,
               ...transitionStyles[state],
@@ -104,7 +104,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
                   className="hidden"
                 />
                 <div
-                  className={`flex h-5 w-5 items-center justify-center rounded-sm border border-[#a1a1a1] ${
+                  className={`flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] ${
                     activeTags.includes(option) ? "bg-[#363636]" : ""
                   }`}
                 >
