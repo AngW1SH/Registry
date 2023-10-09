@@ -9,6 +9,7 @@ import { ProjectStatus } from "@/widgets/ProjectStatus";
 import { Supervisors } from "@/widgets/Supervisors";
 import { FC } from "react";
 import { Footer } from "@/widgets/Footer";
+import { ProjectTeam } from "@/widgets/ProjectTeam";
 
 interface ProjectPageProps {}
 
@@ -29,6 +30,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
       <div className="pt-20" />
       <Container>
         <ProjectDescription />
+        <div className="pt-24" />
+        <ProjectTeam />
         <div className="pt-24" />
         <ProjectRequirements />
         <div className="pt-16" />
