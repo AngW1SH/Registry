@@ -1,5 +1,10 @@
 import { Button } from "@/shared/ui";
 import { FC } from "react";
+import StatusHiringUnauthorized from "./StatusHiringUnauthorized";
+import StatusActive from "./StatusActive";
+import StatusHiringAuthorized from "./StatusHiringAuthorized";
+import StatusHiringAuthorizedAlt from "./StatusHiringAuthorizedAlt";
+import StatusHiringTeamlead from "./StatusHiringTeamlead";
 
 interface ProjectStatusProps {
   className?: string;
@@ -14,20 +19,7 @@ const ProjectStatus: FC<ProjectStatusProps> = ({ className = "" }) => {
       }
     >
       <div className="flex h-full flex-col items-start">
-        <h2 className="text-4xl text-primary">
-          Открыта запись
-          <br /> на проект
-        </h2>
-        <div className="pt-7" />
-        <div className="h-px w-full bg-black" />
-        <div className="pt-7" />
-        <p>
-          Для подачи заявки или просмотра информации о заявках на проект
-          необходимо авторизоваться
-        </p>
-        <Button className="mt-auto block self-center px-9">
-          Авторизоваться
-        </Button>
+        <StatusHiringTeamlead />
       </div>
     </div>
   );

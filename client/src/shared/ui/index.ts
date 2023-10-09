@@ -12,10 +12,12 @@ import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
 import LoadingCircle from "./LoadingCircle/LoadingCircle";
+import Dropdown from "./Dropdown/Dropdown";
 import MultiselectDropdown from "./MultiselectDropdown/MultiselectDropdown";
 import ToggleOpen from "./ToggleOpen/ToggleOpen";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import File from "./File/File";
+import FileUpload from "./FileUpload/FileUpload";
 
 export {
   Container,
@@ -33,7 +35,9 @@ export {
   BackgroundFill,
   FormInput,
   ToggleOpen,
+  Dropdown,
   MultiselectDropdown,
   Breadcrumbs,
   File,
+  FileUpload,
 };
