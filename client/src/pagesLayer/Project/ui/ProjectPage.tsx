@@ -37,17 +37,17 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
           className="w-[calc(50%+3rem)]"
         />
       </Container>
-      <div className="pt-20" />
+      <div className="pt-10" />
       <Container>
+        <TagList tags={projectData.tags} />
+        <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
         <div className="pt-24" />
         <ProjectTeam team={projectData.team} users={projectData.users} />
         <div className="pt-24" />
         <ProjectRequirements />
         <div className="pt-16" />
-        <TagList tags={staticTags} />
       </Container>
-      <div className="pt-20" />
       <Headline>
         <Container>
           <h2 className="text-2xl font-bold uppercase">Связанные проекты</h2>
