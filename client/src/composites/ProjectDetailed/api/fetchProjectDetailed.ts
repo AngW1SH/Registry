@@ -9,7 +9,7 @@ export const fetchProjectDetailed = async (
   ).then((response) => response.json());
 
   return {
-    tags: resultDTO.tags,
+    ...resultDTO,
     project: getProjectFromDTO(resultDTO.project),
   };
 };

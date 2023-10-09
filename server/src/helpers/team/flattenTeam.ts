@@ -3,16 +3,19 @@ import {
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
 } from "@/entities/team/types/types";
-import { User } from "@/entities/user/types/types";
+import { User, UserWithRole } from "@/entities/user/types/types";
 import { flattenUser } from "@/helpers/user";
 
-const flattenTeamMember = (member: TeamMemberStrapiPopulated): User => {
-  return flattenUser(member.attributes.user);
+const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {
+  return {
+    ...flattenUser(member.attributes.user),
+    role: member.attributes.role,
+  };
 };
 
 export const flattenTeam = (
   team: TeamStrapiPopulated
-): { team: Team; users: User[] } => {
+): { team: Team; users: UserWithRole[] } => {
   const users = team.data.attributes.members.data.map((member) =>
     flattenTeamMember(member)
   );

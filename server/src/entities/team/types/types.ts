@@ -1,4 +1,4 @@
-import { User, UserStrapi } from "@/entities/user/types/types";
+import { User, UserStrapi } from "@/entities/user";
 
 export interface Team {
   id: number;
