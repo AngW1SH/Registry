@@ -83,6 +83,11 @@ const projectRepositoryFactory = () => {
             },
           },
         },
+        developerRequirements: {
+          populate: {
+            fields: ["name"],
+          },
+        },
       },
     };
 

@@ -2,7 +2,7 @@ export type IProject = {
   id: string;
   name: string;
   description: string;
-  developerRequirements: string;
+  developerRequirements: string[];
   dateStart: Date;
   dateEnd: Date;
   enrollmentStart: Date;

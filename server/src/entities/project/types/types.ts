@@ -6,7 +6,7 @@ export interface Project {
   id: string;
   name: string;
   description: string;
-  developerRequirements: string;
+  developerRequirements: string[];
   dateStart: Date;
   dateEnd: Date;
   enrollmentStart: Date;
@@ -64,7 +64,7 @@ export interface ProjectStrapiPopulated {
     attributes: {
       name: string;
       description: string;
-      developerRequirements: string;
+      developerRequirements: ProjectStrapiDeveloperRequirement[];
       dateStart: Date;
       dateEnd: Date;
       enrollmentStart: Date;
@@ -77,6 +77,11 @@ export interface ProjectStrapiPopulated {
       isPublic: boolean;
     };
   };
+}
+
+export interface ProjectStrapiDeveloperRequirement {
+  id: number;
+  developerRequirement: string;
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {

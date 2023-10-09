@@ -37,6 +37,9 @@ export const flattenProject = (
     project: {
       id: project.data.id,
       ...{ ...project.data.attributes, team: undefined },
+      developerRequirements: project.data.attributes.developerRequirements.map(
+        (requirement) => requirement.developerRequirement
+      ),
       teamId: project.data.attributes.team.data.id,
       tags: project.data.attributes.tags.data.map((tag) => tag.id),
     },
