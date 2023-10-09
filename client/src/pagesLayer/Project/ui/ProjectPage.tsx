@@ -2,6 +2,7 @@ import { Container } from "@/shared/ui";
 import { Header } from "@/widgets/Header";
 import { ProjectDescription } from "@/widgets/ProjectDescription";
 import { ProjectHero } from "@/widgets/ProjectHero";
+import { ProjectRequirements } from "@/widgets/ProjectRequirements";
 import { ProjectStatus } from "@/widgets/ProjectStatus";
 import { Supervisors } from "@/widgets/Supervisors";
 import { FC } from "react";
@@ -25,6 +26,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
       <div className="pt-20" />
       <Container>
         <ProjectDescription />
+        <div className="pt-24" />
+        <ProjectRequirements />
       </Container>
     </>
   );
