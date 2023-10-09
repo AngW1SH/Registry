@@ -1,13 +1,14 @@
-import { ProjectDTO } from "@/entities/Project";
-import { getProjectFromDTO } from "@/entities/Project/utils";
 import { Filters } from "@/entities/ProjectFilters";
-import { ITag } from "@/entities/Tag";
-import { ProjectsData } from "../types/types";
+import {
+  IProjectsWithTags,
+  IProjectsWithTagsDTO,
+} from "@/composites/ProjectsWithTags/types/types";
+import { getProjectsWithTagsFromDTO } from "@/composites/ProjectsWithTags";
 
 export const fetchProjects = async (
   filters?: Filters,
-): Promise<ProjectsData> => {
-  const resultDTO: { projects: ProjectDTO[]; tags: ITag[] } = await fetch(
+): Promise<IProjectsWithTags> => {
+  const resultDTO: IProjectsWithTagsDTO = await fetch(
     "http://localhost:3000/api/project/findmany",
     {
       cache: "no-cache",
@@ -19,12 +20,5 @@ export const fetchProjects = async (
     },
   ).then((response) => response.json());
 
-  const result = {
-    ...resultDTO,
-    projects: resultDTO.projects.map((projectDTO) =>
-      getProjectFromDTO(projectDTO),
-    ),
-  };
-
-  return result;
+  return getProjectsWithTagsFromDTO(resultDTO);
 };

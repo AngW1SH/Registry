@@ -3,12 +3,10 @@ import { ITag, TagList, getTagsByTagIds } from "@/entities/Tag";
 import { LinkWithIcon } from "@/shared/ui";
 import { FC } from "react";
 import { fetchNewProjects } from "../api/fetchNewProjects";
+import { IProjectsWithTags } from "@/composites/ProjectsWithTags/types/types";
 
 interface NewProjectsProps {
-  data?: {
-    projects: IProject[];
-    tags: ITag[];
-  };
+  data?: IProjectsWithTags;
 }
 
 const NewProjects: FC<NewProjectsProps> = async ({ data }) => {

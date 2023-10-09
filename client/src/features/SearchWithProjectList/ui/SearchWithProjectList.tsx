@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useRef } from "react";
 import {
   DetailedProjectFilters,
   Filters,
@@ -15,9 +15,7 @@ import { Container, LoadingCircle } from "@/shared/ui";
 import { useFixedFilters } from "../hooks/useFixedFilters";
 import { useRefHeight } from "@/shared/hooks";
 import { useFixedHeaderTransitionStyles } from "../hooks/useFixedFiltersTransitionStyles";
-import { initialFilters } from "@/entities/ProjectFilters/config/initialFilters";
-import { fetchProjects } from "../api/fetchProjects";
-import useActiveProjectsQuery from "../hooks/useProjectsQuery";
+import useProjectsQuery from "../hooks/useProjectsQuery";
 
 interface SearchWithProjectListProps {
   initialData: {
@@ -40,7 +38,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   const filtersSmallRef = useRef<HTMLDivElement>(null);
   const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);
 
-  const { data: projectData, isLoading } = useActiveProjectsQuery(
+  const { data: projectData, isLoading } = useProjectsQuery(
     filters,
     initialData,
   );

@@ -1,5 +1,5 @@
-import { IProject, ProjectCard } from "@/entities/Project";
-import { ITag, TagList } from "@/entities/Tag";
+import { IProject } from "@/entities/Project";
+import { ITag } from "@/entities/Tag";
 import {
   GetActiveProjectsByTags,
   fetchActiveProjectsData,
@@ -17,11 +17,9 @@ interface ActiveProjectsProps {
 const ActiveProjects: FC<ActiveProjectsProps> = async ({ data }) => {
   data = data ? data : await fetchActiveProjectsData();
 
-  const { tags, projects } = data;
-
   return (
     <div>
-      <GetActiveProjectsByTags tags={tags} initialProjects={projects} />
+      <GetActiveProjectsByTags initialProjectsWithTags={data} />
       <div className="pt-7" />
       <LinkWithIcon href="/">Показать ещё</LinkWithIcon>
     </div>

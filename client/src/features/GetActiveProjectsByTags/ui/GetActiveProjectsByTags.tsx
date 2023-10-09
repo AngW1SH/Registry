@@ -7,10 +7,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ActiveProjectsData } from "../types/types";
 import { LoadingCircle } from "@/shared/ui";
 import useActiveProjectsQuery from "../model/useActiveProjectsQuery";
+import { IProjectsWithTags } from "@/composites/ProjectsWithTags";
 
 interface GetActiveProjectsByTagsProps {
-  tags: ITag[];
-  initialProjects: IProject[];
+  initialProjectsWithTags: IProjectsWithTags;
 }
 
 /*
@@ -25,14 +25,13 @@ Same for initial props, just export that API and use it in the widget
 */
 
 const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
-  tags,
-  initialProjects,
+  initialProjectsWithTags,
 }) => {
   const [selectedTags, setSelectedTags] = useState<ITag[]>([]);
-  const { data: projectData } = useActiveProjectsQuery(selectedTags, {
-    projects: initialProjects,
-    tags: tags,
-  });
+  const { data: projectData } = useActiveProjectsQuery(
+    selectedTags,
+    initialProjectsWithTags,
+  );
 
   const updateProjects = async (tags: ITag[]) => {
     setSelectedTags(tags);
@@ -40,7 +39,10 @@ const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
 
   return (
     <>
-      <TagSlider tags={tags} onChange={updateProjects} />
+      <TagSlider
+        tags={initialProjectsWithTags.tags}
+        onChange={updateProjects}
+      />
       <div className="pt-12" />
       {projectData && (
         <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
