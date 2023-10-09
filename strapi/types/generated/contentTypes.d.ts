@@ -540,7 +540,6 @@ export interface ApiProjectProject extends Schema.CollectionType {
   attributes: {
     name: Attribute.String;
     description: Attribute.RichText;
-    developerRequirements: Attribute.RichText;
     dateStart: Attribute.Date;
     dateEnd: Attribute.Date;
     enrollmentStart: Attribute.Date;
@@ -560,6 +559,17 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'api::project.project',
       'oneToMany',
       'api::request.request'
+    >;
+    related: Attribute.Relation<
+      'api::project.project',
+      'oneToMany',
+      'api::project.project'
+    >;
+    curator: Attribute.String;
+    client: Attribute.String;
+    developerRequirements: Attribute.Component<
+      'developer-requirement.developer-requirement',
+      true
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -637,8 +647,8 @@ export interface ApiStudentStudent extends Schema.CollectionType {
     email: Attribute.Email;
     teams: Attribute.Relation<
       'api::student.student',
-      'manyToMany',
-      'api::team.team'
+      'oneToMany',
+      'api::user-in-team.user-in-team'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -699,16 +709,6 @@ export interface ApiTeamTeam extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    members: Attribute.Relation<
-      'api::team.team',
-      'manyToMany',
-      'api::student.student'
-    >;
-    administrators: Attribute.Relation<
-      'api::team.team',
-      'manyToMany',
-      'api::student.student'
-    >;
     project: Attribute.Relation<
       'api::team.team',
       'oneToOne',
@@ -719,12 +719,59 @@ export interface ApiTeamTeam extends Schema.CollectionType {
       'oneToMany',
       'api::request.request'
     >;
+    members: Attribute.Relation<
+      'api::team.team',
+      'oneToMany',
+      'api::user-in-team.user-in-team'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserInTeamUserInTeam extends Schema.CollectionType {
+  collectionName: 'user_in_teams';
+  info: {
+    singularName: 'user-in-team';
+    pluralName: 'user-in-teams';
+    displayName: 'UserInTeam';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::user-in-team.user-in-team',
+      'manyToOne',
+      'api::student.student'
+    >;
+    role: Attribute.String;
+    name: Attribute.String;
+    team: Attribute.Relation<
+      'api::user-in-team.user-in-team',
+      'manyToOne',
+      'api::team.team'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-in-team.user-in-team',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-in-team.user-in-team',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -747,6 +794,7 @@ declare module '@strapi/types' {
       'api::student.student': ApiStudentStudent;
       'api::tag.tag': ApiTagTag;
       'api::team.team': ApiTeamTeam;
+      'api::user-in-team.user-in-team': ApiUserInTeamUserInTeam;
     }
   }
 }

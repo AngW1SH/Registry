@@ -15,18 +15,6 @@
     "name": {
       "type": "string"
     },
-    "members": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::student.student",
-      "inversedBy": "teams"
-    },
-    "administrators": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::student.student",
-      "inversedBy": "teams"
-    },
     "project": {
       "type": "relation",
       "relation": "oneToOne",
@@ -37,6 +25,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::request.request",
+      "mappedBy": "team"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-in-team.user-in-team",
       "mappedBy": "team"
     }
   }

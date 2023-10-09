@@ -20,9 +20,9 @@
     },
     "teams": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::team.team",
-      "mappedBy": "administrators"
+      "relation": "oneToMany",
+      "target": "api::user-in-team.user-in-team",
+      "mappedBy": "user"
     }
   }
 }

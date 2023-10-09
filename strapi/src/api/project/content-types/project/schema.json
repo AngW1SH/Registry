@@ -18,9 +18,6 @@
     "description": {
       "type": "richtext"
     },
-    "developerRequirements": {
-      "type": "richtext"
-    },
     "dateStart": {
       "type": "date"
     },
@@ -53,6 +50,22 @@
       "relation": "oneToMany",
       "target": "api::request.request",
       "mappedBy": "project"
+    },
+    "related": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project"
+    },
+    "curator": {
+      "type": "string"
+    },
+    "client": {
+      "type": "string"
+    },
+    "developerRequirements": {
+      "type": "component",
+      "repeatable": true,
+      "component": "developer-requirement.developer-requirement"
     }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_developer_requirement_developer_requirements",
+  "info": {
+    "displayName": "developerRequirement",
+    "icon": "check",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "developerRequirement": {
+      "type": "string"
+    }
+  }
+}
