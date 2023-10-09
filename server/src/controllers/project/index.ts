@@ -6,6 +6,7 @@ const projectControllerFactory = () => {
   return Object.freeze({
     getActive,
     getNew,
+    findById,
     findMany,
   });
 
@@ -26,6 +27,20 @@ const projectControllerFactory = () => {
       const projects = await projectService.getNew();
 
       res.status(200).json(projects);
+    } catch {
+      res.status(500).send();
+    }
+  }
+
+  async function findById(req: Request, res: Response) {
+    try {
+      if (!req.body.id && !req.params.id) return res.status(400).send();
+
+      const result = await projectService.findById(
+        +req.body.id || +req.params.id
+      );
+
+      res.status(200).json(result);
     } catch {
       res.status(500).send();
     }

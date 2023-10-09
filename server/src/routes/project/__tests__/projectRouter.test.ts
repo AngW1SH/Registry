@@ -46,6 +46,38 @@ describe("Project Router", () => {
     });
   });
 
+  describe("/findbyid route", () => {
+    describe("when everything is okay", () => {
+      beforeEach(() => {
+        jest.clearAllMocks();
+
+        global.fetch = jest.fn(() =>
+          Promise.resolve({
+            status: 200,
+            json: () =>
+              Promise.resolve({
+                ...staticProjectsWithTagsResult,
+                data: staticProjectsWithTagsResult.data[0],
+              }),
+          })
+        ) as jest.Mock;
+      });
+      it("should send a json with a 200 status", async () => {
+        const result = await request(generateApp())
+          .get("/project/findbyid/1")
+          .expect("Content-Type", /json/);
+
+        expect(result.status).toBe(200);
+      });
+
+      it("should send an object with a project and its tags", async () => {
+        const result = await request(app).get("/project/findbyid/1");
+        expect(result.body.project).toBeDefined();
+        expect(result.body.tags).toBeDefined();
+      });
+    });
+  });
+
   describe("/findmany route", () => {
     describe("when everything is okay", () => {
       it("should send a json with a 200 status", async () => {

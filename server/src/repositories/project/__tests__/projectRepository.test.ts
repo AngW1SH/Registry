@@ -55,4 +55,37 @@ describe("Project Repository", () => {
       expect(fetch).toBeCalledTimes(1);
     });
   });
+
+  describe("findOne method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should throw an error if no ID is provided", async () => {
+      const fakeId: any = null;
+
+      expect(
+        async () => await projectRepository.findOne(fakeId)
+      ).rejects.toThrow();
+      expect(fetch).toBeCalledTimes(0);
+    });
+
+    it("should return a project when everything is okay", async () => {
+      (fetch as jest.Mock).mockResolvedValueOnce(
+        Promise.resolve({
+          status: 200,
+          json: () =>
+            Promise.resolve({
+              ...staticProjectsWithTagsResult,
+              data: staticProjectsWithTagsResult.data[0],
+            }),
+        })
+      );
+      const id = 1;
+
+      const result = await projectRepository.findOne(id);
+
+      expect(result).toBeDefined();
+      expect(fetch).toBeCalledTimes(1);
+    });
+  });
 });

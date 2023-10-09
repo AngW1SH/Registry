@@ -1,3 +1,3 @@
-import { flattenProjects } from "./flattenProject";
+import { flattenProjects, flattenProject } from "./flattenProject";
 
-export { flattenProjects };
+export { flattenProjects, flattenProject };

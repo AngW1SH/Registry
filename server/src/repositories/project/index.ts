@@ -8,6 +8,7 @@ import qs from "qs";
 const projectRepositoryFactory = () => {
   return Object.freeze({
     getNew,
+    findOne,
     findMany,
   });
 
@@ -57,6 +58,41 @@ const projectRepositoryFactory = () => {
         ...tag.attributes,
       })),
     }));
+  }
+
+  async function findOne(id: number): Promise<ProjectWithTags> {
+    if (typeof id != "number") throw new Error("Provided ID is not a number");
+
+    const params = {
+      filters: {
+        id: id,
+      },
+      populate: {
+        tags: {
+          fields: ["id", "name"],
+        },
+      },
+    };
+
+    const response = await fetch(
+      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
+        },
+      }
+    ).then((data) => data.json());
+
+    const project = response.data[0];
+
+    return {
+      id: project.id,
+      ...project.attributes,
+      tags: project.attributes.tags.data.map((tag) => ({
+        id: tag.id,
+        ...tag.attributes,
+      })),
+    };
   }
 
   async function findMany(

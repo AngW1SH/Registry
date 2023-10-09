@@ -1,12 +1,13 @@
 import { Project, ProjectFilters } from "@/entities/project";
 import { Tag } from "@/entities/tag";
-import { flattenProjects } from "@/helpers/project";
+import { flattenProject, flattenProjects } from "@/helpers/project";
 import projectRepository from "@/repositories/project";
 
 const projectServiceFactory = () => {
   return Object.freeze({
     getActive,
     getNew,
+    findById,
     findMany,
   });
 
@@ -24,6 +25,12 @@ const projectServiceFactory = () => {
     const projectsWithTags = await projectRepository.getNew(6);
 
     return flattenProjects(projectsWithTags);
+  }
+
+  async function findById(id: number) {
+    const projectWithTags = await projectRepository.findOne(id);
+
+    return flattenProject(projectWithTags);
   }
 
   async function findMany(filters?: ProjectFilters) {

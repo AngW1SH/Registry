@@ -24,3 +24,15 @@ export const flattenProjects = (
     tags: tags,
   };
 };
+
+export const flattenProject = (
+  project: ProjectWithTags
+): { project: Project; tags: Tag[] } => {
+  return {
+    project: {
+      ...project,
+      tags: project.tags.map((tag) => tag.id),
+    },
+    tags: project.tags,
+  };
+};
