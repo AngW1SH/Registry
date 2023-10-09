@@ -14,6 +14,7 @@ import FormInput from "./FormInput/FormInput";
 import LoadingCircle from "./LoadingCircle/LoadingCircle";
 import MultiselectDropdown from "./MultiselectDropdown/MultiselectDropdown";
 import ToggleOpen from "./ToggleOpen/ToggleOpen";
+import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 
 export {
   Container,
@@ -32,4 +33,5 @@ export {
   FormInput,
   ToggleOpen,
   MultiselectDropdown,
+  Breadcrumbs,
 };

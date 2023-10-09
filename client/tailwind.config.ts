@@ -23,7 +23,7 @@ const config: Config = {
     },
     colors: {
       primary: "#a52019",
-      secondary: "#bef6f2",
+      secondary: "#e0efef",
       transparent: "transparent",
       "secondary-rgba": "#bef6f2c2",
       "white-rgba": "#ffffffc2",
