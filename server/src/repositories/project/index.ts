@@ -4,6 +4,7 @@ import { Tag } from "@/entities/tag";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
 import qs from "qs";
+import { ProjectStrapiPopulated } from "@/entities/project/types/types";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -60,7 +61,7 @@ const projectRepositoryFactory = () => {
     }));
   }
 
-  async function findOne(id: number): Promise<ProjectWithTags> {
+  async function findOne(id: number): Promise<ProjectStrapiPopulated> {
     if (typeof id != "number") throw new Error("Provided ID is not a number");
 
     const params = {
@@ -70,6 +71,17 @@ const projectRepositoryFactory = () => {
       populate: {
         tags: {
           fields: ["id", "name"],
+        },
+        team: {
+          populate: {
+            members: {
+              populate: {
+                user: {
+                  fields: ["id", "name", "email"],
+                },
+              },
+            },
+          },
         },
       },
     };
@@ -83,16 +95,7 @@ const projectRepositoryFactory = () => {
       }
     ).then((data) => data.json());
 
-    const project = response.data[0];
-
-    return {
-      id: project.id,
-      ...project.attributes,
-      tags: project.attributes.tags.data.map((tag) => ({
-        id: tag.id,
-        ...tag.attributes,
-      })),
-    };
+    return { data: response.data[0] };
   }
 
   async function findMany(

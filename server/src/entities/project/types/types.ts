@@ -1,4 +1,6 @@
 import { Tag } from "@/entities/tag";
+import { TagListStrapi, TagStrapi } from "@/entities/tag/types/types";
+import { TeamStrapiPopulated } from "@/entities/team/types/types";
 
 export interface Project {
   id: string;
@@ -11,8 +13,8 @@ export interface Project {
   enrollmentEnd: Date;
   //createdAt: Date;
   supervisor: string;
-  tags: string[];
-  //teamId: string;
+  tags: number[];
+  teamId: number;
   isPublic: boolean;
 }
 
@@ -50,6 +52,25 @@ export interface ProjectFiltersDTO {
   enrollmentEnd?: string;
   status?: string;
   tags?: string[];
+}
+
+export interface ProjectStrapiPopulated {
+  data: {
+    id: string;
+    attributes: {
+      name: string;
+      description: string;
+      developerRequirements: string;
+      dateStart: Date;
+      dateEnd: Date;
+      enrollmentStart: Date;
+      enrollmentEnd: Date;
+      supervisor: string;
+      tags: TagListStrapi;
+      team: TeamStrapiPopulated;
+      isPublic: boolean;
+    };
+  };
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {

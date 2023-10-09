@@ -28,9 +28,9 @@ const projectServiceFactory = () => {
   }
 
   async function findById(id: number) {
-    const projectWithTags = await projectRepository.findOne(id);
+    const projectPopulated = await projectRepository.findOne(id);
 
-    return flattenProject(projectWithTags);
+    return flattenProject(projectPopulated);
   }
 
   async function findMany(filters?: ProjectFilters) {
