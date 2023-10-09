@@ -13,6 +13,8 @@ export interface Project {
   enrollmentEnd: Date;
   //createdAt: Date;
   supervisor: string;
+  curator: string;
+  client: string;
   tags: number[];
   teamId: number;
   isPublic: boolean;
@@ -29,6 +31,8 @@ export interface ProjectDTO {
   enrollmentEnd: string;
   //createdAt: string;
   supervisor: string;
+  curator: string;
+  client: string;
   tags: string[];
   //teamId: string;
   isPublic: boolean;
@@ -66,6 +70,8 @@ export interface ProjectStrapiPopulated {
       enrollmentStart: Date;
       enrollmentEnd: Date;
       supervisor: string;
+      curator: string;
+      client: string;
       tags: TagListStrapi;
       team: TeamStrapiPopulated;
       isPublic: boolean;
