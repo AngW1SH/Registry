@@ -1,13 +1,12 @@
 "use client";
-import { IProject, ProjectCard } from "@/entities/Project";
+import { ProjectCard } from "@/entities/Project";
 import { ITag, TagList, TagSlider, getTagsByTagIds } from "@/entities/Tag";
-import { FC, useCallback, useState } from "react";
-import { fetchActiveProjectsData } from "../api/fetchActiveProjectsData";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ActiveProjectsData } from "../types/types";
-import { LoadingCircle } from "@/shared/ui";
+import { FC, useState } from "react";
 import useActiveProjectsQuery from "../model/useActiveProjectsQuery";
-import { IProjectsWithTags } from "@/composites/ProjectsWithTags";
+import {
+  IProjectsWithTags,
+  ProjectsWithTagsList,
+} from "@/composites/ProjectsWithTags";
 
 interface GetActiveProjectsByTagsProps {
   initialProjectsWithTags: IProjectsWithTags;
@@ -44,24 +43,7 @@ const GetActiveProjectsByTags: FC<GetActiveProjectsByTagsProps> = ({
         onChange={updateProjects}
       />
       <div className="pt-12" />
-      {projectData && (
-        <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-          {projectData.projects.map((project) => (
-            <li key={project.id}>
-              <ProjectCard
-                className="h-full"
-                project={project}
-                tags={
-                  <TagList
-                    tags={getTagsByTagIds(project.tags, projectData.tags)}
-                    className="justify-end"
-                  />
-                }
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      {projectData && <ProjectsWithTagsList projectData={projectData} />}
     </>
   );
 };
