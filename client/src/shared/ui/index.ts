@@ -15,6 +15,7 @@ import LoadingCircle from "./LoadingCircle/LoadingCircle";
 import MultiselectDropdown from "./MultiselectDropdown/MultiselectDropdown";
 import ToggleOpen from "./ToggleOpen/ToggleOpen";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
+import File from "./File/File";
 
 export {
   Container,
@@ -34,4 +35,5 @@ export {
   ToggleOpen,
   MultiselectDropdown,
   Breadcrumbs,
+  File,
 };
