@@ -1,4 +1,6 @@
-import { Container } from "@/shared/ui";
+import { TagList, staticTags } from "@/entities/Tag";
+import { Container, Headline } from "@/shared/ui";
+import { LinkedProjects } from "@/widgets/LinkedProjects";
 import { Header } from "@/widgets/Header";
 import { ProjectDescription } from "@/widgets/ProjectDescription";
 import { ProjectHero } from "@/widgets/ProjectHero";
@@ -6,6 +8,7 @@ import { ProjectRequirements } from "@/widgets/ProjectRequirements";
 import { ProjectStatus } from "@/widgets/ProjectStatus";
 import { Supervisors } from "@/widgets/Supervisors";
 import { FC } from "react";
+import { Footer } from "@/widgets/Footer";
 
 interface ProjectPageProps {}
 
@@ -28,7 +31,21 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         <ProjectDescription />
         <div className="pt-24" />
         <ProjectRequirements />
+        <div className="pt-16" />
+        <TagList tags={staticTags} />
       </Container>
+      <div className="pt-20" />
+      <Headline>
+        <Container>
+          <h2 className="text-2xl font-bold uppercase">Связанные проекты</h2>
+        </Container>
+      </Headline>
+      <div className="pt-8" />
+      <Container>
+        <LinkedProjects />
+      </Container>
+      <div className="pt-32" />
+      <Footer />
     </>
   );
 };
