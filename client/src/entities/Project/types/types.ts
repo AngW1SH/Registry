@@ -1,5 +1,5 @@
 export type IProject = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   developerRequirements: string[];
@@ -11,9 +11,8 @@ export type IProject = {
   supervisor: string;
   curator: string;
   client: string;
-  tags: string[];
-  //teamId: string;
-  isPublic: boolean;
+  tags: number[];
+  team: number;
 };
 
 export type ProjectDTO = {
@@ -30,6 +29,5 @@ export type ProjectDTO = {
   curator: string;
   client: string;
   tags: string[];
-  //teamId: string;
-  isPublic: boolean;
+  team: number;
 };

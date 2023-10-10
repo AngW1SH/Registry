@@ -10,6 +10,26 @@ global.fetch = jest.fn(() =>
   }),
 ) as jest.Mock;
 
+jest.mock("next/navigation", () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+      push: () => null,
+    };
+  },
+  usePathname() {
+    return {};
+  },
+}));
+
+jest.mock("@tanstack/react-query", () => ({
+  useQuery() {
+    return Promise.resolve({
+      data: { projects: staticProjects, tags: staticTags },
+    });
+  },
+}));
+
 const intersectionObserverMock = () => ({
   observe: () => null,
   disconnect: () => null,

@@ -23,7 +23,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
             <span
               class="block text-3xl"
             >
-              01
+              09
             </span>
             сен 2023
           </div>
@@ -50,10 +50,82 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
                   type="button"
                 >
                   Генетика
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="col-span-1 row-span-1 border-t border-black p-3"
+    >
+      <div
+        class="flex flex-col "
+      >
+        <div
+          class="flex justify-between"
+        >
+          <div
+            class="w-15 whitespace-nowrap text-xs font-bold"
+          >
+            <div
+              class="pt-1"
+            />
+            <span
+              class="block text-3xl"
+            >
+              07
+            </span>
+            сен 2023
+          </div>
+          <div
+            class="pr-7"
+          />
+          <div>
+            <h2
+              class="text-sm font-medium"
+            >
+              Изучение социально-экономических проблем современного испанского общества
+            </h2>
+          </div>
+        </div>
+        <div
+          class="ml-auto sm:ml-0 xl:pl-20"
+        >
+          <div
+            class="pt-5 xl:pt-10"
+          />
+          <div>
+            <ul
+              class="flex flex-wrap gap-1 undefined"
+            >
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Общество
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Социология
+                </button>
+              </li>
+              <li>
+                <button
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  type="button"
+                >
+                  Финансы
                 </button>
               </li>
             </ul>
@@ -90,7 +162,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
             <h2
               class="text-sm font-medium"
             >
-              ГМО: история, достижения,социальные и экологические риски
+              ГМО: история, достижения, социальные и экологические риски
             </h2>
           </div>
         </div>
@@ -106,7 +178,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
                   type="button"
                 >
                   Медицина
@@ -114,7 +186,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
                   type="button"
                 >
                   Генетика
@@ -170,7 +242,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
                   type="button"
                 >
                   Общество
@@ -178,82 +250,10 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
                   type="button"
                 >
                   Социология
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li
-      class="col-span-1 row-span-1 border-t border-black p-3"
-    >
-      <div
-        class="flex flex-col "
-      >
-        <div
-          class="flex justify-between"
-        >
-          <div
-            class="w-15 whitespace-nowrap text-xs font-bold"
-          >
-            <div
-              class="pt-1"
-            />
-            <span
-              class="block text-3xl"
-            >
-              07
-            </span>
-            сен 2023
-          </div>
-          <div
-            class="pr-7"
-          />
-          <div>
-            <h2
-              class="text-sm font-medium"
-            >
-              Изучение социально-экономических проблем соверменного испанского общества
-            </h2>
-          </div>
-        </div>
-        <div
-          class="ml-auto sm:ml-0 xl:pl-20"
-        >
-          <div
-            class="pt-5 xl:pt-10"
-          />
-          <div>
-            <ul
-              class="flex flex-wrap gap-1 undefined"
-            >
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
-                >
-                  Общество
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
-                >
-                  Социология
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
-                >
-                  Финансы
                 </button>
               </li>
             </ul>

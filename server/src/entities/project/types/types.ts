@@ -16,7 +16,7 @@ export interface Project {
   curator: string;
   client: string;
   tags: number[];
-  teamId: number;
+  team: number;
   isPublic: boolean;
 }
 

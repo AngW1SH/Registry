@@ -3,7 +3,7 @@ import {
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
 } from "@/entities/team/types/types";
-import { User, UserWithRole } from "@/entities/user/types/types";
+import { UserWithRole } from "@/entities/user/types/types";
 import { flattenUser } from "@/helpers/user";
 
 const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {

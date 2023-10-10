@@ -14,13 +14,13 @@ import { useFixedFilters } from "../hooks/useFixedFilters";
 import { useRefHeight } from "@/shared/hooks";
 import { useFixedHeaderTransitionStyles } from "../hooks/useFixedFiltersTransitionStyles";
 import useProjectsQuery from "../hooks/useProjectsQuery";
-import { ProjectsWithTagsListLarge } from "@/composites/ProjectsWithTags";
+import {
+  IProjectsWithTags,
+  ProjectsWithTagsListLarge,
+} from "@/composites/ProjectsWithTags";
 
 interface SearchWithProjectListProps {
-  initialData: {
-    projects: IProject[];
-    tags: ITag[];
-  };
+  initialData: IProjectsWithTags;
   searchParams?: {
     [key: string]: string | string[] | undefined;
   };

@@ -1,4 +1,4 @@
-import { ProjectStatus } from "../../config/initialFilters";
+import { ProjectStatus, initialFilters } from "../../config/initialFilters";
 import ProjectFilters from "../ProjectFilters";
 import {
   fireEvent,
@@ -11,11 +11,17 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-describe("SearchWithRedirect Feature UI StatusList", () => {
+describe("ProjectFilters Entity UI", () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("18 Sep 2023 18:30 GMT").getTime());
+  });
   it("displays all status options", () => {
     const statusOptions = [...ProjectStatus];
 
-    const { getByText } = render(<ProjectFilters />);
+    const { getByText } = render(
+      <ProjectFilters filters={initialFilters} dynamic={false} />,
+    );
 
     statusOptions.forEach((option) => {
       expect(getByText(option)).toBeInTheDocument();
@@ -23,7 +29,9 @@ describe("SearchWithRedirect Feature UI StatusList", () => {
   });
 
   it("renders border for the selected status", async () => {
-    const { getByText } = render(<ProjectFilters />);
+    const { getByText } = render(
+      <ProjectFilters filters={initialFilters} dynamic={false} />,
+    );
 
     const element = getByText(ProjectStatus[1]);
     expect(element).toBeInTheDocument();
@@ -32,27 +40,23 @@ describe("SearchWithRedirect Feature UI StatusList", () => {
 
     expect(element.classList.contains("border-primary")).toBe(true);
   });
-});
 
-describe("SearchWithRedirect Feature UI Inputs", () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("18 Sep 2023 18:30 GMT").getTime());
-  });
+  it("should change project name", async () => {
+    const { getByPlaceholderText } = render(
+      <ProjectFilters filters={initialFilters} dynamic={false} />,
+    );
 
-  test("change project name", async () => {
-    const { getByPlaceholderText } = render(<ProjectFilters />);
-
-    const projectNameInput = getByPlaceholderText(
-      /Название проекта/i,
-    ) as HTMLInputElement;
+    const projectNameInput = getByPlaceholderText(/Текст/i) as HTMLInputElement;
 
     fireEvent.change(projectNameInput, { target: { value: "Тест" } });
 
     expect(projectNameInput.value).toBe("Тест");
   });
+});
+/*
+describe("SearchWithRedirect Feature UI Inputs", () => {
 
-  /*
+  
   I honestly have no clue why it doesn't work
   it("sets the date-start and date-end", async () => {
     const { getByTestId } = render(<SearchWithRedirect />);
@@ -76,5 +80,6 @@ describe("SearchWithRedirect Feature UI Inputs", () => {
       expect(getByPlaceholderText(calendar, /записи/).value).not.toBe("");
     });
   }); 
-  */
+  
 });
+*/

@@ -3,6 +3,12 @@ import {
   getUsersByUserIds,
   getUsersWithRolesByUserIds,
 } from "./model/getUsersByUserIds";
+import { staticUsers, staticUsersWithRoles } from "./static/staticUsers";
 
 export type { IUser, IUserWithRole };
-export { getUsersByUserIds, getUsersWithRolesByUserIds };
+export {
+  getUsersByUserIds,
+  getUsersWithRolesByUserIds,
+  staticUsers,
+  staticUsersWithRoles,
+};

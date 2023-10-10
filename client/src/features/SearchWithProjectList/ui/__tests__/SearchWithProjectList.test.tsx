@@ -4,6 +4,7 @@ import { fetchProjects } from "../../api/fetchProjects";
 import { staticProjects } from "@/entities/Project";
 import "@testing-library/jest-dom";
 import { staticTags } from "@/entities/Tag";
+import { QueryWrapper } from "@/shared/utils";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -32,6 +33,18 @@ jest.mock("../../api/fetchProjects", () => {
   };
 });
 
+jest.mock("next/navigation", () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+      push: () => null,
+    };
+  },
+  usePathname() {
+    return {};
+  },
+}));
+
 describe("SearchWithProjectList Feature UI", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -39,12 +52,14 @@ describe("SearchWithProjectList Feature UI", () => {
 
   it("should render initial projects", () => {
     const { getByText } = render(
-      <SearchWithProjectList
-        initialData={{
-          projects: staticProjects,
-          tags: staticTags,
-        }}
-      />,
+      <QueryWrapper>
+        <SearchWithProjectList
+          initialData={{
+            projects: staticProjects,
+            tags: staticTags,
+          }}
+        />
+      </QueryWrapper>,
     );
 
     staticProjects.map((project) => {
@@ -54,15 +69,17 @@ describe("SearchWithProjectList Feature UI", () => {
 
   it("should fetch projects when filters change", () => {
     const { getAllByText, getAllByPlaceholderText } = render(
-      <SearchWithProjectList
-        initialData={{
-          projects: staticProjects,
-          tags: staticTags,
-        }}
-      />,
+      <QueryWrapper>
+        <SearchWithProjectList
+          initialData={{
+            projects: staticProjects,
+            tags: staticTags,
+          }}
+        />
+      </QueryWrapper>,
     );
 
-    const textInput = getAllByPlaceholderText(/название проекта/i)[0];
+    const textInput = getAllByPlaceholderText(/текст/i)[0];
 
     fireEvent.input(textInput, {
       target: {
@@ -72,7 +89,7 @@ describe("SearchWithProjectList Feature UI", () => {
 
     fireEvent.click(getAllByText(/найти проект/i)[0]);
 
-    expect(fetchProjects).toBeCalledTimes(2); // initial useEffect call and after filters change
+    expect(fetchProjects).toBeCalledTimes(1);
 
     expect(fetchProjects).toBeCalledWith(
       expect.objectContaining({
