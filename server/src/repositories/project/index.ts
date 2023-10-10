@@ -26,7 +26,6 @@ const projectRepositoryFactory = () => {
       fields: [
         "name",
         "description",
-        "developerRequirements",
         "dateStart",
         "dateEnd",
         "enrollmentStart",
@@ -114,7 +113,6 @@ const projectRepositoryFactory = () => {
       fields: [
         "name",
         "description",
-        "developerRequirements",
         "dateStart",
         "dateEnd",
         "enrollmentStart",

@@ -1,4 +1,4 @@
-import { ProjectCard, staticProjects } from "@/entities/Project";
+import { IProject, ProjectCard, staticProjects } from "@/entities/Project";
 import { TagList, getTagsByTagIds, staticTags } from "@/entities/Tag";
 import { FC } from "react";
 
@@ -17,7 +17,7 @@ const LinkedProjects: FC<LinkedProjectsProps> = () => {
           <li key={project.id}>
             <ProjectCard
               className="h-full"
-              project={project}
+              project={project as any}
               tags={
                 <TagList
                   tags={getTagsByTagIds(project.tags, projectData.tags)}

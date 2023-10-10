@@ -20,7 +20,7 @@ export type ProjectDTO = {
   id: string;
   name: string;
   description: string;
-  developerRequirements: string;
+  developerRequirements: string[];
   dateStart: string;
   dateEnd: string;
   enrollmentStart: string;

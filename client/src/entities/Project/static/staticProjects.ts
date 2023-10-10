@@ -1,6 +1,6 @@
 import { IProject } from "../types/types";
 
-export const staticProjects: IProject[] = [
+export const staticProjects = [
   {
     id: "1",
     name: "Биология растений в эпоху глобальных изменений климата",

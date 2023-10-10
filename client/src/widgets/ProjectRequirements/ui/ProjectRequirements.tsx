@@ -11,7 +11,10 @@ const ProjectRequirements: FC<ProjectRequirementsProps> = ({ project }) => {
     <LabeledBlock label="Требования для исполнителей">
       <ul>
         {project.developerRequirements.map((requirement) => (
-          <li className="relative border-b border-[#b7b7b7] bg-white py-6 after:absolute after:left-0 after:top-7 after:block after:h-5 after:w-6 after:bg-[url('/checked-icon-red.svg')] after:bg-contain after:bg-no-repeat first:border-t">
+          <li
+            key={requirement}
+            className="relative border-b border-[#b7b7b7] bg-white py-6 after:absolute after:left-0 after:top-7 after:block after:h-5 after:w-6 after:bg-[url('/checked-icon-red.svg')] after:bg-contain after:bg-no-repeat first:border-t"
+          >
             <p className="pl-16">{requirement}</p>
           </li>
         ))}

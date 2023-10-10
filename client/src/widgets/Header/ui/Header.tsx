@@ -1,5 +1,6 @@
 import { UserNav } from "@/features/UserNav";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 interface HeaderProps {
@@ -10,13 +11,15 @@ const Header: FC<HeaderProps> = ({ text = "bright" }) => {
   return (
     <div className="flex items-center justify-between">
       <div>
-        <Image
-          src={text == "bright" ? "/logo.svg" : "/logo-dark.svg"}
-          alt=""
-          height="50"
-          width="140"
-          priority
-        />
+        <Link href="/">
+          <Image
+            src={text == "bright" ? "/logo.svg" : "/logo-dark.svg"}
+            alt=""
+            height="50"
+            width="140"
+            priority
+          />
+        </Link>
       </div>
       <div
         className={`hidden ${
@@ -24,7 +27,9 @@ const Header: FC<HeaderProps> = ({ text = "bright" }) => {
         } sm:flex`}
       >
         <ul className="mr-10 flex items-center">
-          <li className="mr-4">Список проектов</li>
+          <li className="mr-4">
+            <Link href="/projects">Список проектов</Link>
+          </li>
           <li>Заказчикам</li>
         </ul>
         <UserNav text={text} />

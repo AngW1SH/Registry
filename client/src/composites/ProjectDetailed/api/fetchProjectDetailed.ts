@@ -5,7 +5,7 @@ export const fetchProjectDetailed = async (
   id: number,
 ): Promise<ProjectDetailed> => {
   const resultDTO: ProjectDetailedDTO = await fetch(
-    "http://localhost:3000/api/project/findbyid/" + id,
+    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/findbyid/" + id,
   ).then((response) => response.json());
 
   return {

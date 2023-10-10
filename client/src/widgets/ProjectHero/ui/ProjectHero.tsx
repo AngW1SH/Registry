@@ -6,7 +6,7 @@ import { FC } from "react";
 const breadcrumbs = [
   {
     name: "Главная",
-    link: "",
+    link: "/",
   },
   {
     name: "Проекты",

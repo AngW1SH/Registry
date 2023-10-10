@@ -2,6 +2,7 @@ import { FC, ReactNode } from "react";
 import { IProject } from "../types/types";
 import { monthShortNames } from "@/shared/static";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProjectCardLargeProps {
   className?: string;
@@ -33,7 +34,9 @@ const ProjectCardLarge: FC<ProjectCardLargeProps> = ({
         </div>
         <div className="pb-5 pr-10" />
         <div className="w-full">
-          <h2 className="text-2xl font-semibold xl:text-3xl">{project.name}</h2>
+          <h2 className="text-2xl font-semibold xl:text-3xl">
+            <Link href={"/projects/" + project.id}>{project.name}</Link>
+          </h2>
           <div className="pt-4 sm:pt-6" />
         </div>
         <div className="static right-10 top-14 flex min-w-[30%] flex-col justify-start sm:absolute sm:flex-row sm:justify-center lg:static">
