@@ -2,6 +2,7 @@ import generateApp from "@/app";
 import request from "supertest";
 
 import { staticProjectsWithTagsResult } from "@/entities/project";
+import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
 
 const app = generateApp();
 
@@ -54,11 +55,7 @@ describe("Project Router", () => {
         global.fetch = jest.fn(() =>
           Promise.resolve({
             status: 200,
-            json: () =>
-              Promise.resolve({
-                ...staticProjectsWithTagsResult,
-                data: staticProjectsWithTagsResult.data[0],
-              }),
+            json: () => Promise.resolve(staticProjectDetailedStrapi),
           })
         ) as jest.Mock;
       });

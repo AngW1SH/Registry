@@ -1,5 +1,6 @@
 import { staticProjectsWithTagsResult } from "@/entities/project";
 import projectService from "..";
+import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -34,11 +35,7 @@ describe("Project Service", () => {
       (fetch as jest.Mock).mockResolvedValueOnce(
         Promise.resolve({
           status: 200,
-          json: () =>
-            Promise.resolve({
-              ...staticProjectsWithTagsResult,
-              data: staticProjectsWithTagsResult.data[0],
-            }),
+          json: () => Promise.resolve(staticProjectDetailedStrapi),
         })
       );
 

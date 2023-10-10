@@ -1,3 +1,4 @@
+import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
 import projectRepository from "..";
 import { staticProjectsWithTagsResult } from "@/entities/project";
 
@@ -73,11 +74,7 @@ describe("Project Repository", () => {
       (fetch as jest.Mock).mockResolvedValueOnce(
         Promise.resolve({
           status: 200,
-          json: () =>
-            Promise.resolve({
-              ...staticProjectsWithTagsResult,
-              data: staticProjectsWithTagsResult.data[0],
-            }),
+          json: () => Promise.resolve(staticProjectDetailedStrapi),
         })
       );
       const id = 1;

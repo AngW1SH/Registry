@@ -3,7 +3,7 @@ import { TagListStrapi, TagStrapi } from "@/entities/tag/types/types";
 import { TeamStrapiPopulated } from "@/entities/team/types/types";
 
 export interface Project {
-  id: string;
+  id: number;
   name: string;
   description: string;
   developerRequirements: string[];
@@ -17,14 +17,13 @@ export interface Project {
   client: string;
   tags: number[];
   team: number;
-  isPublic: boolean;
 }
 
 export interface ProjectDTO {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  developerRequirements: string;
+  developerRequirements: string[];
   dateStart: string;
   dateEnd: string;
   enrollmentStart: string;
@@ -33,9 +32,8 @@ export interface ProjectDTO {
   supervisor: string;
   curator: string;
   client: string;
-  tags: string[];
-  //teamId: string;
-  isPublic: boolean;
+  tags: number[];
+  team: number;
 }
 
 export interface ProjectFilters {
@@ -60,7 +58,7 @@ export interface ProjectFiltersDTO {
 
 export interface ProjectStrapiPopulated {
   data: {
-    id: string;
+    id: number;
     attributes: {
       name: string;
       description: string;
