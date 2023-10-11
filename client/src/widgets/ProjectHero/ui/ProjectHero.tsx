@@ -25,10 +25,12 @@ const ProjectHero: FC<ProjectHeroProps> = ({ project }) => {
         <Breadcrumbs data={breadcrumbs} />
         <div className="pt-8" />
         <h1 className="text-4xl font-semibold">{project.name}</h1>
-        <div className="pt-14" />
-        <div className="flex w-1/2 items-end">
-          <div className="w-full">
-            <p className="w-min text-xl font-medium">IT Клиника</p>
+        <div className="pt-6 xl:pt-14" />
+        <div className="flex w-1/2 flex-wrap items-center xl:flex-nowrap">
+          <div className="w-full xl:w-auto">
+            <p className="pb-6 pr-10 text-xl font-medium xl:w-min xl:pb-0 xl:pt-1">
+              IT Клиника
+            </p>
           </div>
           <div className="relative whitespace-nowrap pl-6 pr-14 before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:h-full before:w-px before:bg-black">
             <p>

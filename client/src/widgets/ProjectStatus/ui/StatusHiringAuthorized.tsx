@@ -6,8 +6,8 @@ interface StatusHiringAuthorizedProps {}
 
 const StatusHiringAuthorized: FC<StatusHiringAuthorizedProps> = () => {
   return (
-    <>
-      <h2 className="text-4xl text-primary">
+    <div className="h-full w-full overflow-hidden py-4 xl:py-0">
+      <h2 className="text-3xl text-primary xl:text-4xl">
         Открыта запись
         <br /> на проект
       </h2>
@@ -33,7 +33,7 @@ const StatusHiringAuthorized: FC<StatusHiringAuthorizedProps> = () => {
           <p>Вы состоите в команде, подавшей заявку на проект</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

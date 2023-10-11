@@ -30,11 +30,11 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
       </Container>
       <ProjectHero project={projectData.project} />
       <Container className="relative">
-        <ProjectStatus className="absolute bottom-0 right-0 top-0 w-[calc(50%-7rem)] -translate-y-[calc(50%-0.75rem)]" />
+        <ProjectStatus className="absolute bottom-0 right-0 top-0 w-[calc(50%-3rem)] -translate-y-[calc(50%-0.75rem)] xl:w-[calc(50%-7rem)]" />
         <div className="pt-5" />
         <Supervisors
           project={projectData.project}
-          className="w-[calc(50%+3rem)]"
+          className="w-[calc(50%+1rem)] xl:w-[calc(50%+3rem)]"
         />
       </Container>
       <div className="pt-10" />
