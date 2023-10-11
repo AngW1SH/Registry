@@ -16,7 +16,7 @@ export type IProject = {
 };
 
 export type ProjectDTO = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   developerRequirements: string[];
@@ -28,6 +28,6 @@ export type ProjectDTO = {
   supervisor: string;
   curator: string;
   client: string;
-  tags: string[];
+  tags: number[];
   team: number;
 };
