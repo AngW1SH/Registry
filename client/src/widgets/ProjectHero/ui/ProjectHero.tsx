@@ -24,10 +24,12 @@ const ProjectHero: FC<ProjectHeroProps> = ({ project }) => {
       <Container className="pt-16">
         <Breadcrumbs data={breadcrumbs} />
         <div className="pt-8" />
-        <h1 className="text-4xl font-semibold">{project.name}</h1>
-        <div className="pt-6 xl:pt-14" />
-        <div className="flex w-1/2 flex-wrap items-center xl:flex-nowrap">
-          <div className="w-full xl:w-auto">
+        <h1 className="text-center text-4xl font-semibold lg:text-left">
+          {project.name}
+        </h1>
+        <div className="pt-14" />
+        <div className="flex flex-wrap items-center justify-center lg:w-1/2 lg:justify-start xl:flex-nowrap">
+          <div className="lg:w-full xl:w-auto">
             <p className="pb-6 pr-10 text-xl font-medium xl:w-min xl:pb-0 xl:pt-1">
               IT Клиника
             </p>
@@ -61,7 +63,7 @@ const ProjectHero: FC<ProjectHeroProps> = ({ project }) => {
             </p>
           </div>
         </div>
-        <div className="pt-28" />
+        <div className="pt-48 lg:pt-28" />
       </Container>
     </div>
   );

@@ -6,10 +6,10 @@ interface StatusHiringAuthorizedAltProps {}
 
 const StatusHiringAuthorizedAlt: FC<StatusHiringAuthorizedAltProps> = () => {
   return (
-    <div className="h-full w-full overflow-hidden py-4 xl:py-0">
-      <h2 className="text-3xl text-primary xl:text-4xl">
+    <div className="my-auto overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
+      <h2 className="text-center text-3xl text-primary lg:text-left xl:text-4xl">
         Открыта запись
-        <br /> на проект
+        <br className="hidden lg:block" /> на проект
       </h2>
       <div className="pt-7" />
       <div className="h-px w-full bg-black" />

@@ -14,7 +14,7 @@ const ProjectStatus: FC<ProjectStatusProps> = ({ className = "" }) => {
   return (
     <div
       className={
-        "h-[420px] rounded-xl bg-white px-10 py-12 shadow-center-lg xl:px-16 xl:py-14 " +
+        "h-[340px] rounded-xl bg-white px-10 py-6 shadow-center-lg lg:h-[420px] lg:py-12 xl:px-16 xl:py-14 " +
         className
       }
     >

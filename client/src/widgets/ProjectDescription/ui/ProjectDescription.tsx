@@ -10,7 +10,7 @@ interface ProjectDescriptionProps {
 const ProjectDescription: FC<ProjectDescriptionProps> = ({ project }) => {
   return (
     <LabeledBlock label="Описание проекта">
-      <p>{project.description}</p>
+      <p className="text-center lg:text-left">{project.description}</p>
       <div className="pt-10" />
       <File
         label={"Презентация проекта"}
