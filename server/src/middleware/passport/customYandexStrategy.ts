@@ -2,11 +2,12 @@
  * Module dependencies.
  */
 import userService from "@/services/user";
+import { OAuth2 } from "oauth";
 import OAuth2Strategy, { InternalOAuthError } from "passport-oauth2";
 
 class CustomYandexStrategy extends OAuth2Strategy {
   name: string;
-  _oauth2: any;
+  _oauth2: OAuth2;
 
   constructor(options, verify) {
     options = options || {};
@@ -37,7 +38,7 @@ class CustomYandexStrategy extends OAuth2Strategy {
       }
 
       try {
-        var json = JSON.parse(body);
+        var json = JSON.parse(body as string);
 
         var profile: any = { provider: "yandex" };
         profile.id = json.id;
