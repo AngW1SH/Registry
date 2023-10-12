@@ -12,7 +12,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>([]);
 
   return (
-    <div className="my-auto overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
+    <div className="my-auto w-full overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
       <div
         className="flex h-full transition-transform"
         style={{
@@ -41,7 +41,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = () => {
             Подать заявку
           </Button>
         </div>
-        <div className="flex h-full min-w-full flex-col">
+        <div className="flex min-w-full flex-col lg:h-full">
           <button
             className="relative h-6 w-6"
             onClick={() => setIsApplying(false)}

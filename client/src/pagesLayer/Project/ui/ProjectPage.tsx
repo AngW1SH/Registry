@@ -30,7 +30,10 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
       </Container>
       <ProjectHero project={projectData.project} />
       <Container className="relative mt-[-160px] lg:mt-0">
-        <ProjectStatus className="bottom-0 right-0 top-0 lg:absolute lg:w-[calc(50%-3rem)] lg:-translate-y-[calc(50%-0.75rem)] xl:w-[calc(50%-7rem)]" />
+        <ProjectStatus
+          users={projectData.users}
+          className="bottom-0 right-0 top-0 lg:absolute lg:w-[calc(50%-3rem)] lg:-translate-y-[calc(50%-0.75rem)] xl:w-[calc(50%-7rem)]"
+        />
         <div className="pt-5" />
         <Supervisors
           project={projectData.project}

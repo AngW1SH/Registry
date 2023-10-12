@@ -24,17 +24,17 @@ const ProjectHero: FC<ProjectHeroProps> = ({ project }) => {
       <Container className="pt-16">
         <Breadcrumbs data={breadcrumbs} />
         <div className="pt-8" />
-        <h1 className="text-center text-4xl font-semibold lg:text-left">
+        <h1 className="text-center text-2xl font-semibold sm:text-4xl lg:text-left">
           {project.name}
         </h1>
-        <div className="pt-14" />
-        <div className="flex flex-wrap items-center justify-center lg:w-1/2 lg:justify-start xl:flex-nowrap">
-          <div className="lg:w-full xl:w-auto">
-            <p className="pb-6 pr-10 text-xl font-medium xl:w-min xl:pb-0 xl:pt-1">
+        <div className="pt-7 sm:pt-14" />
+        <div className="flex flex-wrap items-center justify-center text-center sm:text-left lg:w-1/2 lg:justify-start xl:flex-nowrap">
+          <div className="w-full sm:w-auto lg:w-full xl:w-auto">
+            <p className="pb-6 text-xl font-medium sm:pr-10 sm:text-left xl:w-min xl:pb-0 xl:pt-1">
               IT Клиника
             </p>
           </div>
-          <div className="relative whitespace-nowrap pl-6 pr-14 before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:h-full before:w-px before:bg-black">
+          <div className="relative whitespace-nowrap pr-14 text-sm before:absolute before:bottom-0 before:left-0 before:top-0 before:hidden before:h-full before:w-px before:bg-black sm:pl-6 sm:text-base sm:before:block">
             <p>
               Срок записи
               <br />
@@ -48,7 +48,7 @@ const ProjectHero: FC<ProjectHeroProps> = ({ project }) => {
               })}
             </p>
           </div>
-          <div className="relative whitespace-nowrap pl-6 before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:h-full before:w-px before:bg-black">
+          <div className="relative whitespace-nowrap pl-6 text-sm before:absolute before:bottom-0 before:left-0 before:top-0 before:block before:h-full before:w-px before:bg-black lg:text-base">
             <p>
               Срок реализации
               <br />
