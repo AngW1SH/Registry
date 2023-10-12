@@ -7,6 +7,7 @@ import passport from "@/middleware/passport";
 import path from "path";
 import projectRouter from "@/routes/project/router";
 import adminRouter from "@/routes/admin/router";
+import userRouter from "@/routes/user/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -24,13 +25,16 @@ const generateApp = (port?: number) => {
       cookie: { secure: false },
     })
   );
+  app.set("trust proxy", 1);
 
   app.use(passport.initialize());
-  app.use(passport.session());
+  const sessione = app.use(passport.session());
 
   app.use("/admin", adminRouter);
 
   app.use("/project", projectRouter);
+
+  app.use("/user", userRouter);
 
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 

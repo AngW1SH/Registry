@@ -1,8 +1,8 @@
-import { User, UserStrapi } from "@/entities/user/types/types";
+import { User, UserStrapi, UserStrapiInner } from "@/entities/user/types/types";
 
-export const flattenUser = (user: UserStrapi): User => {
+export const flattenUser = (user: UserStrapiInner): User => {
   return {
-    id: user.data.id,
-    ...user.data.attributes,
+    id: user.id,
+    ...user.attributes,
   };
 };

@@ -8,7 +8,7 @@ import { flattenUser } from "@/helpers/user";
 
 const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {
   return {
-    ...flattenUser(member.attributes.user),
+    ...flattenUser(member.attributes.user.data),
     role: member.attributes.role,
   };
 };

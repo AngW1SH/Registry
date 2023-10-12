@@ -20,6 +20,8 @@ export interface User {
   email: string;
 }
 
+export type UserCreate = Omit<User, "id">;
+
 export interface UserWithRole {
   id: number;
   name: string;

@@ -1,8 +1,9 @@
 import passport from "passport";
 
-import { prisma } from "@/db/prisma-client";
 import loginStrategy from "./loginStrategy";
 import authenticateStrategy from "./authenticateStrategy";
+import customYandexStrategy from "./customYandexStrategy";
+import userRepository from "@/repositories/user";
 
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
@@ -11,21 +12,16 @@ passport.serializeUser(function (user, cb) {
 });
 
 passport.deserializeUser(function (id, cb) {
-  const user = prisma.admin
-    .findFirst({
-      where: {
-        id: id as string,
-      },
-    })
+  return userRepository
+    .findById(+id)
     .then((user) => {
       return cb(null, user);
     })
-    .catch((err) => {
-      return cb(err);
-    });
+    .catch((err) => cb(err));
 });
 
 passport.use("jwt-authenticate", authenticateStrategy);
 passport.use("local-login", loginStrategy);
+passport.use("custom-yandex", customYandexStrategy);
 
 export default passport;
