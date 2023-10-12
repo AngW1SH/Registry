@@ -10,15 +10,15 @@ const Supervisors: FC<SupervisorsProps> = ({ project, className = " " }) => {
   return (
     <ul className={"flex flex-col gap-1 " + className}>
       <li className="flex items-center bg-[#f4f4f4] px-4 py-5">
-        <p className="w-1/5 text-sm text-[#848689]">Заказчик</p>
+        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Заказчик</p>
         <p>{project.client}</p>
       </li>
       <li className="flex items-center bg-[#f4f4f4] px-4 py-5">
-        <p className="w-1/5 text-sm text-[#848689]">Куратор</p>
+        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Куратор</p>
         <p>{project.curator}</p>
       </li>
       <li className="flex items-center bg-[#f4f4f4] px-4 py-5">
-        <p className="w-1/5 text-sm text-[#848689]">Руководитель</p>
+        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Руководитель</p>
         <p>{project.supervisor}</p>
       </li>
     </ul>

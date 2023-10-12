@@ -8,7 +8,10 @@ interface ProjectRequirementsProps {
 
 const ProjectRequirements: FC<ProjectRequirementsProps> = ({ project }) => {
   return (
-    <LabeledBlock label="Требования для исполнителей">
+    <LabeledBlock
+      label="Требования для исполнителей"
+      labelClassName="text-base xl:text-2xl"
+    >
       <ul>
         {project.developerRequirements.map((requirement) => (
           <li
