@@ -1,6 +1,5 @@
-import { Project, ProjectFilters } from "@/entities/project";
-import { Tag } from "@/entities/tag";
-import { flattenProject, flattenProjects } from "@/helpers/project";
+import { ProjectFilters } from "@/entities/project";
+import { flattenProject, flattenProjects } from "@/entities/project";
 import projectRepository from "@/repositories/project";
 
 const projectServiceFactory = () => {

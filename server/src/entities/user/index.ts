@@ -4,6 +4,9 @@ import {
   staticUser,
   staticUserCreateResponseStrapi,
 } from "./static/staticUsers";
+
+import { flattenUser } from "./utils/flattenUser";
+
 import type {
   User,
   UserStrapi,
@@ -18,4 +21,5 @@ export {
   staticUser,
   staticUserCreate,
   staticUserCreateResponseStrapi,
+  flattenUser,
 };

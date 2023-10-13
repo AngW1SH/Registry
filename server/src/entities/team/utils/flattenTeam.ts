@@ -2,9 +2,9 @@ import {
   Team,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
-} from "@/entities/team/types/types";
-import { UserWithRole } from "@/entities/user/types/types";
-import { flattenUser } from "@/helpers/user";
+} from "../types/types";
+import type { UserWithRole } from "@/entities/user";
+import { flattenUser } from "@/entities/user";
 
 const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {
   return {

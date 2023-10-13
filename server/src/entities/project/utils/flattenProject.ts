@@ -3,8 +3,7 @@ import { ProjectStrapiPopulated } from "@/entities/project/types/types";
 import { Tag } from "@/entities/tag";
 import { Team } from "@/entities/team/types/types";
 import { User } from "@/entities/user/types/types";
-import { flattenTeam } from "@/helpers/team";
-import { flattenTag } from "../tag/flattenTag";
+import { flattenTeam } from "@/entities/team";
 
 export const flattenProjects = (
   projects: ProjectWithTags[]

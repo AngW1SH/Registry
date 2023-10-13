@@ -1,7 +1,10 @@
-import {
+import type {
   Team,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
 } from "./types/types";
 
-export { Team, TeamMemberStrapiPopulated, TeamStrapiPopulated };
+import { flattenTeam } from "./utils/flattenTeam";
+
+export type { Team, TeamMemberStrapiPopulated, TeamStrapiPopulated };
+export { flattenTeam };

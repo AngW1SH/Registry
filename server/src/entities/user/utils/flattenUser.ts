@@ -1,4 +1,4 @@
-import { User, UserStrapi, UserStrapiInner } from "@/entities/user/types/types";
+import { User, UserStrapiInner } from "../types/types";
 
 export const flattenUser = (user: UserStrapiInner): User => {
   return {
