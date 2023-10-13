@@ -87,6 +87,9 @@ const projectRepositoryFactory = () => {
             fields: ["name"],
           },
         },
+        requests: {
+          count: true,
+        },
       },
     };
 

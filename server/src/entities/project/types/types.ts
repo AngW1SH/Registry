@@ -14,6 +14,7 @@ export interface Project {
   //createdAt: Date;
   supervisor: string;
   curator: string;
+  requestCount: number;
   client: string;
   tags: number[];
   team: number;
@@ -30,6 +31,7 @@ export interface ProjectDTO {
   enrollmentEnd: string;
   //createdAt: string;
   supervisor: string;
+  requestCount: number;
   curator: string;
   client: string;
   tags: number[];
@@ -69,10 +71,19 @@ export interface ProjectStrapiPopulated {
       enrollmentEnd: Date;
       supervisor: string;
       curator: string;
+      requests: ProjectRequestCountStrapi;
       client: string;
       tags: TagListStrapi;
       team: TeamStrapiPopulated;
       isPublic: boolean;
+    };
+  };
+}
+
+export interface ProjectRequestCountStrapi {
+  data: {
+    attributes: {
+      count: number;
     };
   };
 }

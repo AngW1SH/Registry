@@ -11,6 +11,7 @@ export type IProject = {
   supervisor: string;
   curator: string;
   client: string;
+  requestCount: number;
   tags: number[];
   team: number;
 };
@@ -28,6 +29,7 @@ export type ProjectDTO = {
   supervisor: string;
   curator: string;
   client: string;
+  requestCount: number;
   tags: number[];
   team: number;
 };

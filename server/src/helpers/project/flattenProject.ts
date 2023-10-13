@@ -33,15 +33,18 @@ export const flattenProjects = (
 export const flattenProject = (
   project: ProjectStrapiPopulated
 ): { project: Project; tags: Tag[]; team: Team; users: User[] } => {
+  const { requests, ...attributes } = project.data.attributes;
+
   return {
     project: {
       id: project.data.id,
-      ...{ ...project.data.attributes, team: undefined },
+      ...{ ...attributes, team: undefined },
       developerRequirements: project.data.attributes.developerRequirements.map(
         (requirement) => requirement.developerRequirement
       ),
       team: project.data.attributes.team.data.id,
       tags: project.data.attributes.tags.data.map((tag) => tag.id),
+      requestCount: requests.data.attributes.count,
     },
     tags: project.data.attributes.tags.data.map((tag) => ({
       id: tag.id,
