@@ -33,3 +33,9 @@ export type ProjectDTO = {
   tags: number[];
   team: number;
 };
+
+export enum ProjectStage {
+  hiring,
+  active,
+  completed,
+}

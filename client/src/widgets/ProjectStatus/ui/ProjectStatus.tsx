@@ -6,13 +6,22 @@ import StatusHiringAuthorized from "./StatusHiringAuthorized";
 import StatusHiringAuthorizedAlt from "./StatusHiringAuthorizedAlt";
 import StatusHiringTeamlead from "./StatusHiringTeamlead";
 import { IUserWithRole } from "@/entities/User";
+import StatusBuilder from "./StatusBuilder";
+import { IProject, getProjectStage } from "@/entities/Project";
 
 interface ProjectStatusProps {
-  className?: string;
+  project: IProject;
   users: IUserWithRole[];
+  className?: string;
 }
 
-const ProjectStatus: FC<ProjectStatusProps> = ({ className = "", users }) => {
+const ProjectStatus: FC<ProjectStatusProps> = ({
+  project,
+  users,
+  className = "",
+}) => {
+  const stage = getProjectStage(project);
+
   return (
     <div
       className={
@@ -21,7 +30,7 @@ const ProjectStatus: FC<ProjectStatusProps> = ({ className = "", users }) => {
       }
     >
       <div className="flex h-full flex-col items-start">
-        <StatusActive users={users} />
+        <StatusBuilder users={users} stage={stage} />
       </div>
     </div>
   );
