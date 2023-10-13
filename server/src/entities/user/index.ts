@@ -1,6 +1,7 @@
 import {
   staticUserResponseStrapi,
   staticUserCreate,
+  staticUser,
   staticUserCreateResponseStrapi,
 } from "./static/staticUsers";
 import type {
@@ -14,6 +15,7 @@ import type {
 export type { User, UserStrapi, UserCreate, UserListStrapi, UserWithRole };
 export {
   staticUserResponseStrapi,
+  staticUser,
   staticUserCreate,
   staticUserCreateResponseStrapi,
 };

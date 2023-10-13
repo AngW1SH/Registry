@@ -89,7 +89,7 @@ const customYandexStrategy = new CustomYandexStrategy(
       email: profile.default_email || profile.emails[0].value,
       name: profile.displayName,
     });
-    return done(null, { id: user.id, user: user });
+    return done(null, user);
   }
 );
 

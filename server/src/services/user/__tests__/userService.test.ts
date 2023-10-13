@@ -39,4 +39,29 @@ describe("User Service", () => {
       expect(result).toBeDefined();
     });
   });
+
+  describe("findById method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should return an existing user if found", async () => {
+      (userRepository.findById as jest.Mock).mockResolvedValueOnce(
+        staticUserResponseStrapi
+      );
+
+      const user = await userService.findById(2);
+
+      expect(userRepository.findById as jest.Mock).toBeCalledTimes(1);
+      expect(user).toBeDefined();
+    });
+
+    it("should return null if user user is not found", async () => {
+      (userRepository.findById as jest.Mock).mockResolvedValueOnce(null);
+
+      const user = await userService.findById(2);
+
+      expect(userRepository.findById as jest.Mock).toBeCalledTimes(1);
+      expect(user).toBeNull();
+    });
+  });
 });

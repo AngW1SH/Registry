@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 
-export function generateAccessToken(id: string) {
+export function generateAccessToken(id: number) {
   return jwt.sign({ id: id }, process.env.TOKEN_SECRET!, {
     expiresIn: 60 * 60,
   });
 }
 
-export function generateRefreshToken(id: string) {  
+export function generateRefreshToken(id: number) {
   return jwt.sign({ id: id }, process.env.TOKEN_SECRET!, {
     expiresIn: 60 * 60 * 48,
   });

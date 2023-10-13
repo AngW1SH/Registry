@@ -6,7 +6,6 @@ import passport from "@/middleware/passport";
 
 import path from "path";
 import projectRouter from "@/routes/project/router";
-import adminRouter from "@/routes/admin/router";
 import userRouter from "@/routes/user/router";
 
 const generateApp = (port?: number) => {
@@ -28,12 +27,8 @@ const generateApp = (port?: number) => {
   app.set("trust proxy", 1);
 
   app.use(passport.initialize());
-  const sessione = app.use(passport.session());
-
-  app.use("/admin", adminRouter);
 
   app.use("/project", projectRouter);
-
   app.use("/user", userRouter);
 
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));

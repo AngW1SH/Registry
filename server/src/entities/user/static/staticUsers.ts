@@ -10,6 +10,12 @@ export const staticUserResponseStrapi = {
   ],
 };
 
+export const staticUser = {
+  id: 2,
+  name: "Сатурнова Татьяна Тимофеевна ",
+  email: "st072603@student.spbu.ru",
+};
+
 export const staticUserCreateResponseStrapi = {
   data: {
     id: 2,
