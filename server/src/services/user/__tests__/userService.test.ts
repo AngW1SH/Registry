@@ -64,4 +64,11 @@ describe("User Service", () => {
       expect(user).toBeNull();
     });
   });
+
+  describe("getProjectData method", async () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should contain whether the user is an administrator of the project", () => {});
+  });
 });

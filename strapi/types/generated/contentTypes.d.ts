@@ -650,6 +650,11 @@ export interface ApiStudentStudent extends Schema.CollectionType {
       'oneToMany',
       'api::user-in-team.user-in-team'
     >;
+    administratedTeams: Attribute.Relation<
+      'api::student.student',
+      'manyToMany',
+      'api::team.team'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -723,6 +728,11 @@ export interface ApiTeamTeam extends Schema.CollectionType {
       'api::team.team',
       'oneToMany',
       'api::user-in-team.user-in-team'
+    >;
+    administrators: Attribute.Relation<
+      'api::team.team',
+      'manyToMany',
+      'api::student.student'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

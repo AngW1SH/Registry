@@ -1,5 +1,5 @@
 import { User, UserCreate, UserListStrapi, UserStrapi } from "@/entities/user";
-import { flattenUser } from "@/helpers/user";
+import { flattenUser } from "@/entities/user";
 import qs from "qs";
 
 const userRepositoryFactory = () => {

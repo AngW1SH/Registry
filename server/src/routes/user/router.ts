@@ -18,6 +18,12 @@ userRouter.get("/try", passport.authenticate("custom-yandex"));
 userRouter.get("/token", userController.token);
 
 userRouter.get(
+  "/projectinfo/:projectId",
+  passport.authenticate("jwt-authenticate"),
+  userController.getUserProjectInfo
+);
+
+userRouter.get(
   "/info",
   passport.authenticate("jwt-authenticate"),
   userController.getPublicUserInfo

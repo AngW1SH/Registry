@@ -1,6 +1,7 @@
 import { Tag } from "@/entities/tag";
-import { TagListStrapi, TagStrapi } from "@/entities/tag/types/types";
+import { TagListStrapi } from "@/entities/tag/types/types";
 import { TeamStrapiPopulated } from "@/entities/team/types/types";
+import { UserListStrapi } from "@/entities/user";
 
 export interface Project {
   id: number;
@@ -71,6 +72,7 @@ export interface ProjectStrapiPopulated {
       enrollmentEnd: Date;
       supervisor: string;
       curator: string;
+      administrators: UserListStrapi;
       requests: ProjectRequestCountStrapi;
       client: string;
       tags: TagListStrapi;

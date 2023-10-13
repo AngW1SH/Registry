@@ -17,7 +17,7 @@ export interface UserListStrapi {
 export interface User {
   id: number;
   name: string;
-  email: string
+  email: string;
 }
 
 export type UserCreate = Omit<User, "id">;
@@ -27,4 +27,9 @@ export interface UserWithRole {
   name: string;
   email: string;
   role: string;
+}
+
+export interface UserProjectInfo {
+  isAdministrator: boolean;
+  hasApplied: boolean;
 }

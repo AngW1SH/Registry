@@ -9,6 +9,7 @@ const userControllerFactory = () => {
     unauthorize,
     token,
     getPublicUserInfo,
+    getUserProjectInfo,
   });
 
   async function authorize(req: Request, res: Response) {
@@ -60,6 +61,23 @@ const userControllerFactory = () => {
       if (!req.user) return res.status(401).send();
 
       const info = await userService.getPublicUserInfo(req.user);
+
+      res.status(200).json(info);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  }
+
+  async function getUserProjectInfo(req: Request, res: Response) {
+    try {
+      if (!req.user) return res.status(401).send();
+      if (!req.params.projectId) return res.status(400).send();
+
+      const info = await userService.getUserProjectInfo(
+        +req.params.projectId,
+        req.user.id,
+        req.user
+      );
 
       res.status(200).json(info);
     } catch (err) {

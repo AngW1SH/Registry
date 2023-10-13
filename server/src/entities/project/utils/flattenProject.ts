@@ -32,7 +32,7 @@ export const flattenProjects = (
 export const flattenProject = (
   project: ProjectStrapiPopulated
 ): { project: Project; tags: Tag[]; team: Team; users: User[] } => {
-  const { requests, ...attributes } = project.data.attributes;
+  const { requests, administrators, ...attributes } = project.data.attributes;
 
   return {
     project: {

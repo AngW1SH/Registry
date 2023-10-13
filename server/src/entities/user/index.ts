@@ -13,9 +13,17 @@ import type {
   UserListStrapi,
   UserWithRole,
   UserCreate,
+  UserProjectInfo,
 } from "./types/types";
 
-export type { User, UserStrapi, UserCreate, UserListStrapi, UserWithRole };
+export type {
+  User,
+  UserStrapi,
+  UserCreate,
+  UserListStrapi,
+  UserWithRole,
+  UserProjectInfo,
+};
 export {
   staticUserResponseStrapi,
   staticUser,

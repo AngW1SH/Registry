@@ -2,9 +2,18 @@ import type {
   Team,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
+  RequestListStrapi,
 } from "./types/types";
 
-import { flattenTeam } from "./utils/flattenTeam";
+import {
+  flattenTeam,
+  flattenTeamWithAdministrators,
+} from "./utils/flattenTeam";
 
-export type { Team, TeamMemberStrapiPopulated, TeamStrapiPopulated };
-export { flattenTeam };
+export type {
+  Team,
+  TeamMemberStrapiPopulated,
+  TeamStrapiPopulated,
+  RequestListStrapi,
+};
+export { flattenTeam, flattenTeamWithAdministrators };

@@ -1,16 +1,16 @@
-import { prisma } from "@/db/prisma-client";
 import { ProjectFilters, ProjectWithTags } from "@/entities/project";
-import { Tag } from "@/entities/tag";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
 import qs from "qs";
 import { ProjectStrapiPopulated } from "@/entities/project/types/types";
+import { RequestListStrapi } from "@/entities/team";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
     getNew,
     findOne,
     findMany,
+    getTeamCandidates,
   });
 
   async function getNew(limit?: number): Promise<ProjectWithTags[]> {
@@ -58,6 +58,46 @@ const projectRepositoryFactory = () => {
         ...tag.attributes,
       })),
     }));
+  }
+
+  async function getTeamCandidates(id: number): Promise<RequestListStrapi> {
+    const params = {
+      filters: {
+        id: id,
+      },
+      fields: ["id"],
+      populate: {
+        requests: {
+          populate: {
+            team: {
+              populate: {
+                members: {
+                  populate: {
+                    user: {
+                      fields: ["id", "name", "email"],
+                    },
+                  },
+                },
+                administrators: {
+                  fields: ["id", "name", "email"],
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const response = await fetch(
+      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
+        },
+      }
+    ).then((data) => data.json());
+
+    return response.data[0].attributes.requests;
   }
 
   async function findOne(id: number): Promise<ProjectStrapiPopulated> {
