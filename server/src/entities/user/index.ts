@@ -13,7 +13,7 @@ import type {
   UserListStrapi,
   UserWithRole,
   UserCreate,
-  UserProjectInfo,
+  UserProjectStatusData,
 } from "./types/types";
 
 export type {
@@ -22,7 +22,7 @@ export type {
   UserCreate,
   UserListStrapi,
   UserWithRole,
-  UserProjectInfo,
+  UserProjectStatusData,
 };
 export {
   staticUserResponseStrapi,

@@ -9,7 +9,7 @@ const userControllerFactory = () => {
     unauthorize,
     token,
     getPublicUserInfo,
-    getUserProjectInfo,
+    getProjectStatusData,
     getData,
   });
 
@@ -69,12 +69,12 @@ const userControllerFactory = () => {
     }
   }
 
-  async function getUserProjectInfo(req: Request, res: Response) {
+  async function getProjectStatusData(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).send();
       if (!req.params.projectId) return res.status(400).send();
 
-      const info = await userService.getUserProjectInfo(
+      const info = await userService.getProjectStatusData(
         +req.params.projectId,
         req.user.id,
         req.user

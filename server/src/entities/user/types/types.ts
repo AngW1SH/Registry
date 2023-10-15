@@ -29,7 +29,6 @@ export interface UserWithRole {
   role: string;
 }
 
-export interface UserProjectInfo {
-  isAdministrator: boolean;
-  hasApplied: boolean;
+export interface UserProjectStatusData {
+  assignableTeams: number[];
 }

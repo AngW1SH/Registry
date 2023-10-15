@@ -1,7 +1,7 @@
 import { flattenTeamWithAdministrators } from "@/entities/team";
 import { TeamListStrapiPopulated } from "@/entities/team/types/types";
 import { flattenRequest } from "@/entities/team/utils/flattenTeam";
-import { User, UserCreate, UserProjectInfo } from "@/entities/user";
+import { User, UserCreate, UserProjectStatusData } from "@/entities/user";
 import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
@@ -14,7 +14,7 @@ const userServiceFactory = () => {
     findOrCreate,
     createTokens,
     getPublicUserInfo,
-    getUserProjectInfo,
+    getProjectStatusData,
     getData,
   });
 
@@ -48,49 +48,38 @@ const userServiceFactory = () => {
     };
   }
 
-  /*
-  TODO: 
-      return teams that the user can specify in the application
-  HOW: 
-      use userRepository to get the list of all the administrated 
-      teams with no assigned projects and remove all the teams
-      found in the candidates list
-  */
-  async function getUserProjectInfo(
+  async function getProjectStatusData(
     projectId: number,
     userId: number,
     authUser: User
-  ): Promise<UserProjectInfo> {
+  ): Promise<UserProjectStatusData> {
     if (userId != authUser.id) throw new Error("Access denied");
 
-    const result: UserProjectInfo = {
-      isAdministrator: false,
-      hasApplied: false,
-    };
+    const administratedByUser =
+      await teamRepository.getUnassignedAdministratedByUser(authUser);
+
+    const assignableTeams = new Set<number>();
+
+    administratedByUser.data.forEach((team) => assignableTeams.add(team.id));
 
     const candidatesResponse = await projectRepository.getTeamCandidates(
       projectId
     );
-
     const candidates = candidatesResponse.data.map((candidate) =>
       flattenRequest(candidate)
     );
 
     candidates.forEach((teamData) => {
-      teamData.users.forEach((user) => {
-        if (user.id === userId) {
-          result.hasApplied = true;
-        }
-      });
-
       teamData.administrators.forEach((administrator) => {
         if (administrator.id === userId) {
-          result.isAdministrator = true;
+          assignableTeams.delete(teamData.team.id);
         }
       });
     });
 
-    return result;
+    return {
+      assignableTeams: Array.from(assignableTeams),
+    };
   }
 
   async function getData(user: User) {
