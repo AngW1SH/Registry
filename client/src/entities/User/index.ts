@@ -1,4 +1,8 @@
-import type { IUser, IUserWithRole } from "./types/types";
+import type {
+  IUser,
+  IUserWithRole,
+  IUserWithUnassignedData,
+} from "./types/types";
 import {
   getUsersByUserIds,
   getUsersWithRolesByUserIds,
