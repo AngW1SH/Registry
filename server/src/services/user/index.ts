@@ -86,7 +86,6 @@ const userServiceFactory = () => {
       });
     });
 
-    console.log(result);
     return result;
   }
 };
