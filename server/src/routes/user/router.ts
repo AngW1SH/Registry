@@ -31,4 +31,10 @@ userRouter.get(
   userController.getPublicUserInfo
 );
 
+userRouter.get(
+  "/data",
+  passport.authenticate("jwt-authenticate"),
+  userController.getData
+);
+
 export default userRouter;
