@@ -1,3 +1,4 @@
+import { TeamListStrapiPopulated } from "@/entities/team/types/types";
 import { User } from "@/entities/user";
 import qs from "qs";
 
@@ -7,7 +8,9 @@ const teamRepositoryFactory = () => {
     getUnassignedAdministratedByUser,
   });
 
-  async function getUnassignedByUser(user: User) {
+  async function getUnassignedByUser(
+    user: User
+  ): Promise<TeamListStrapiPopulated> {
     const params = {
       filters: {
         project: {
@@ -48,7 +51,9 @@ const teamRepositoryFactory = () => {
     return response;
   }
 
-  async function getUnassignedAdministratedByUser(user: User) {
+  async function getUnassignedAdministratedByUser(
+    user: User
+  ): Promise<TeamListStrapiPopulated> {
     const params = {
       filters: {
         project: {

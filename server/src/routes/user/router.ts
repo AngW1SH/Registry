@@ -4,6 +4,8 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import userRepository from "@/repositories/user";
 import { generateAccessToken } from "@/helpers/jwt";
 import userController from "@/controllers/user";
+import { staticUser } from "@/entities/user";
+import userService from "@/services/user";
 
 const userRouter = express();
 

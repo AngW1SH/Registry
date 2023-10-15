@@ -1,9 +1,12 @@
 import { flattenTeamWithAdministrators } from "@/entities/team";
+import { TeamListStrapiPopulated } from "@/entities/team/types/types";
 import { flattenRequest } from "@/entities/team/utils/flattenTeam";
 import { User, UserCreate, UserProjectInfo } from "@/entities/user";
 import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
+import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
+import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -12,6 +15,7 @@ const userServiceFactory = () => {
     createTokens,
     getPublicUserInfo,
     getUserProjectInfo,
+    getData,
   });
 
   async function findById(id: number): Promise<User | null> {
@@ -87,6 +91,32 @@ const userServiceFactory = () => {
     });
 
     return result;
+  }
+
+  async function getData(user: User) {
+    if (!user) throw new Error("Unauthorized");
+
+    const { id, ...inlineData } = user;
+
+    const [teams, administrated] = await Promise.allSettled([
+      teamRepository.getUnassignedByUser(user),
+      teamRepository.getUnassignedAdministratedByUser(user),
+    ]);
+
+    if (teams.status == "fulfilled") teams.value;
+
+    const teamsList = teams.status == "fulfilled" ? teams.value.data : [];
+    const administratedList =
+      administrated.status == "fulfilled" ? administrated.value.data : [];
+
+    return {
+      user: {
+        ...inlineData,
+        unassignedTeams: teamsList.map((team) => team.id),
+        unassignedAdministrated: administratedList.map((team) => team.id),
+      },
+      teams: mergeUniqueTeams(teamsList, administratedList),
+    };
   }
 };
 

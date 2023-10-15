@@ -1,12 +1,16 @@
 import {
+  staticUser,
   staticUserCreate,
   staticUserCreateResponseStrapi,
   staticUserResponseStrapi,
 } from "@/entities/user";
 import userRepository from "@/repositories/user";
 import userService from "..";
+import teamRepository from "@/repositories/team";
+import { staticTeamsStrapiPopulated } from "@/entities/team/static/staticTeams";
 
 jest.mock("@/repositories/user");
+jest.mock("@/repositories/team");
 
 describe("User Service", () => {
   describe("findOrCreate method", () => {
@@ -62,6 +66,40 @@ describe("User Service", () => {
 
       expect(userRepository.findById as jest.Mock).toBeCalledTimes(1);
       expect(user).toBeNull();
+    });
+  });
+
+  describe("getData method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+
+      (teamRepository.getUnassignedByUser as jest.Mock).mockResolvedValueOnce(
+        staticTeamsStrapiPopulated
+      );
+      (
+        teamRepository.getUnassignedAdministratedByUser as jest.Mock
+      ).mockResolvedValueOnce(staticTeamsStrapiPopulated);
+    });
+    it("should throw an error if the user is not found", async () => {
+      expect(async () => userService.getData(null)).rejects.toThrow();
+    });
+    it("should fetch the user's unassigned teams and unassigned administrated teams", async () => {
+      const user = staticUser;
+
+      const result = await userService.getData(user);
+
+      expect(teamRepository.getUnassignedByUser).toBeCalledTimes(1);
+      expect(teamRepository.getUnassignedAdministratedByUser).toBeCalledTimes(
+        1
+      );
+    });
+    it("should return the user's data and teams", async () => {
+      const user = staticUser;
+
+      const result = await userService.getData(user);
+
+      expect(result.teams).toBeDefined();
+      expect(result.user).toBeDefined();
     });
   });
 });
