@@ -28,6 +28,7 @@ export interface TeamStrapiPopulatedInner {
 export interface TeamMemberStrapiPopulated {
   id: number;
   attributes: {
+    name: string;
     role: string;
     user: UserStrapi;
   };
