@@ -1,7 +1,4 @@
 import { Tag } from "@/entities/tag";
-import { TagListStrapi } from "@/entities/tag/types/types";
-import { TeamStrapiPopulated } from "@/entities/team/types/types";
-import { UserListStrapi } from "@/entities/user";
 
 export interface Project {
   id: number;
@@ -57,42 +54,6 @@ export interface ProjectFiltersDTO {
   enrollmentEnd?: string;
   status?: string;
   tags?: string[];
-}
-
-export interface ProjectStrapiPopulated {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      description: string;
-      developerRequirements: ProjectStrapiDeveloperRequirement[];
-      dateStart: Date;
-      dateEnd: Date;
-      enrollmentStart: Date;
-      enrollmentEnd: Date;
-      supervisor: string;
-      curator: string;
-      administrators: UserListStrapi;
-      requests: ProjectRequestCountStrapi;
-      client: string;
-      tags: TagListStrapi;
-      team: TeamStrapiPopulated;
-      isPublic: boolean;
-    };
-  };
-}
-
-export interface ProjectRequestCountStrapi {
-  data: {
-    attributes: {
-      count: number;
-    };
-  };
-}
-
-export interface ProjectStrapiDeveloperRequirement {
-  id: number;
-  developerRequirement: string;
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {
