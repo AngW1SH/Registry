@@ -8,7 +8,7 @@ export const selectDeveloperRequirements = () => {
   };
 };
 
-type PopulateOptions = "tags";
+type PopulateOptions = "tags" | "team";
 
 export const selectProjectInList = (
   populate: SelectPopulate<PopulateOptions> = {}

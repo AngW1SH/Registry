@@ -1,10 +1,7 @@
-import { ProjectFilters, ProjectWithTags } from "@/entities/project";
+import { ProjectFilters } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
-import {
-  Project,
-  ProjectStrapiPopulated,
-} from "@/entities/project/types/types";
+import { Project } from "@/entities/project/types/types";
 import { RequestListStrapi, Team } from "@/entities/team";
 import {
   filterActiveRequests,
@@ -167,6 +164,7 @@ const projectRepositoryFactory = () => {
       filters: filters ? generateProjectFilters(filters) : undefined,
       ...selectProjectInList({
         tags: selectTag(),
+        team: true,
       }),
     };
 
