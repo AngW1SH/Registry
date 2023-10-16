@@ -21,6 +21,5 @@ export default function useActiveProjectsQuery(
     queryFn: () => Promise.resolve(fetchActiveProjectsData(selectedTags)),
     keepPreviousData: true,
     placeholderData: placeholderData,
-    staleTime: 120000,
   });
 }

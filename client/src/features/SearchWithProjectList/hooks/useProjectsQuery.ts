@@ -21,6 +21,5 @@ export default function useProjectsQuery(
     queryFn: () => Promise.resolve(fetchProjects(filters)),
     keepPreviousData: true,
     placeholderData: placeholderData,
-    staleTime: 120000,
   });
 }

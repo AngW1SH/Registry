@@ -13,6 +13,5 @@ export default function useProjectDetailedQuery(
     queryFn: () => Promise.resolve(fetchProjectDetailed(id)),
     keepPreviousData: true,
     placeholderData: placeholderData,
-    staleTime: 120000,
   });
 }

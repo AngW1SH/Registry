@@ -7,6 +7,5 @@ export const useAuthUserQuery = () => {
     queryKey: ["auth-user"],
     queryFn: () => Promise.resolve(fetchAuthUser()),
     keepPreviousData: true,
-    staleTime: 120000,
   });
 };
