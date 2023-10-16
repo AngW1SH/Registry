@@ -2,8 +2,8 @@ import { IProject, ProjectStage, getProjectStage } from "@/entities/Project";
 import { IUserWithRole } from "@/entities/User";
 import { FC } from "react";
 import StatusActive from "./StatusActive";
-import StatusHiringUnauthorized from "./StatusHiringUnauthorized";
 import StatusHiring from "./StatusHiring";
+import StatusHiringCompleted from "./StatusCompleted";
 
 interface StatusBuilderProps {
   project: IProject;
@@ -19,7 +19,7 @@ const StatusBuilder: FC<StatusBuilderProps> = ({ project, users }) => {
     case ProjectStage.hiring:
       return <StatusHiring project={project} />;
     case ProjectStage.completed:
-      return <StatusHiringUnauthorized />;
+      return <StatusHiringCompleted />;
   }
 };
 
