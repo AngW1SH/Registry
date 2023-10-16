@@ -1,6 +1,13 @@
+import { strapi } from "@/db/strapi/client";
+import { selectMember } from "@/db/strapi/queries/member";
+import { selectTeam } from "@/db/strapi/queries/team";
+import {
+  filterUnassigned,
+  filterUnassignedAdministrated,
+} from "@/db/strapi/queries/team";
+import { selectUser } from "@/db/strapi/queries/user";
 import { TeamListStrapiPopulated } from "@/entities/team/types/types";
 import { User } from "@/entities/user";
-import qs from "qs";
 
 const teamRepositoryFactory = () => {
   return Object.freeze({
@@ -12,41 +19,19 @@ const teamRepositoryFactory = () => {
     user: User
   ): Promise<TeamListStrapiPopulated> {
     const params = {
-      filters: {
-        project: {
-          id: {
-            $null: true,
-          },
-        },
-        members: {
-          user: {
-            id: user.id,
-          },
-        },
-      },
-      populate: {
-        members: {
-          fields: ["id", "name", "role"],
-          populate: {
-            user: {
-              fields: ["id", "name", "email"],
-            },
-          },
-        },
-        administrators: {
-          fields: ["id", "name", "email"],
-        },
-      },
+      filters: filterUnassigned(user.id),
+      ...selectTeam({
+        members: selectMember({
+          user: selectUser(),
+        }),
+        administrators: selectUser(),
+      }),
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "teams?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     return response;
   }
@@ -55,39 +40,19 @@ const teamRepositoryFactory = () => {
     user: User
   ): Promise<TeamListStrapiPopulated> {
     const params = {
-      filters: {
-        project: {
-          id: {
-            $null: true,
-          },
-        },
-        administrators: {
-          id: user.id,
-        },
-      },
-      populate: {
-        members: {
-          fields: ["id", "name", "role"],
-          populate: {
-            user: {
-              fields: ["id", "name", "email"],
-            },
-          },
-        },
-        administrators: {
-          fields: ["id", "name", "email"],
-        },
-      },
+      filters: filterUnassignedAdministrated(user.id),
+      ...selectTeam({
+        members: selectMember({
+          user: selectUser(),
+        }),
+        administrators: selectUser(),
+      }),
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "teams?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     return response;
   }

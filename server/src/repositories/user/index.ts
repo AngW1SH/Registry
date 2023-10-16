@@ -1,6 +1,7 @@
+import { strapi } from "@/db/strapi/client";
+import { selectUser } from "@/db/strapi/queries/user";
 import { User, UserCreate, UserListStrapi, UserStrapi } from "@/entities/user";
 import { flattenUser } from "@/entities/user";
-import qs from "qs";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
@@ -11,20 +12,16 @@ const userRepositoryFactory = () => {
 
   async function findByEmail(email: string): Promise<User> {
     const params = {
-      fields: ["id", "name", "email"],
       filters: {
         email: email,
       },
+      ...selectUser(),
     };
 
-    const response: UserListStrapi = await fetch(
-      process.env.STRAPI_URL + "students?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.USER_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response: UserListStrapi = await strapi.get("students", {
+      token: process.env.USER_TOKEN,
+      params,
+    });
 
     if (!response.data || !response.data.length) return null;
 
@@ -33,20 +30,16 @@ const userRepositoryFactory = () => {
 
   async function findById(id: number): Promise<User> {
     const params = {
-      fields: ["id", "name", "email"],
       filters: {
         id: id,
       },
+      ...selectUser(),
     };
 
-    const response: UserListStrapi = await fetch(
-      process.env.STRAPI_URL + "students?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.USER_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response: UserListStrapi = await strapi.get("students", {
+      token: process.env.USER_TOKEN,
+      params,
+    });
 
     if (!response.data || !response.data.length) return null;
 
@@ -58,17 +51,10 @@ const userRepositoryFactory = () => {
       data: userCreate,
     };
 
-    const response: UserStrapi = await fetch(
-      process.env.STRAPI_URL + "students",
-      {
-        headers: {
-          Authorization: "bearer " + process.env.USER_TOKEN,
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(params),
-      }
-    ).then((data) => data.json());
+    const response: UserStrapi = await strapi.post("students", {
+      token: process.env.USER_TOKEN,
+      body: params,
+    });
 
     if (!response.data.id) throw new Error("User not created");
 

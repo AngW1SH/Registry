@@ -1,9 +1,21 @@
 import { ProjectFilters, ProjectWithTags } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
-import qs from "qs";
 import { ProjectStrapiPopulated } from "@/entities/project/types/types";
 import { RequestListStrapi } from "@/entities/team";
+import {
+  filterActiveRequests,
+  selectRequest,
+} from "@/db/strapi/queries/request";
+import { selectTeam } from "@/db/strapi/queries/team";
+import { selectMember } from "@/db/strapi/queries/member";
+import { selectUser } from "@/db/strapi/queries/user";
+import {
+  selectDeveloperRequirements,
+  selectProjectInList,
+} from "@/db/strapi/queries/project";
+import { selectTag } from "@/db/strapi/queries/tag/selects";
+import { strapi } from "@/db/strapi/client";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -24,30 +36,15 @@ const projectRepositoryFactory = () => {
           $gte: now,
         },
       },
-      fields: [
-        "name",
-        "description",
-        "dateStart",
-        "dateEnd",
-        "enrollmentStart",
-        "enrollmentEnd",
-        "supervisor",
-      ],
-      populate: {
-        tags: {
-          fields: ["id", "name"],
-        },
-      },
+      ...selectProjectInList({
+        tags: selectTag(),
+      }),
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     const projectsData = response.data;
 
@@ -65,18 +62,7 @@ const projectRepositoryFactory = () => {
     const params = {
       filters: {
         id: id,
-        requests: {
-          team: {
-            id: {
-              $null: false, // Request has a team attached (this should always be the case, but strapi doesn't provide required relation fields)
-            },
-            project: {
-              id: {
-                $null: true, // The team is not working on another project
-              },
-            },
-          },
-        },
+        requests: filterActiveRequests(),
       },
       populate: {
         requests: {
@@ -85,14 +71,10 @@ const projectRepositoryFactory = () => {
       },
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     if (!response.data.length) return 0;
 
@@ -105,50 +87,25 @@ const projectRepositoryFactory = () => {
     const params = {
       filters: {
         id: id,
-        requests: {
-          team: {
-            id: {
-              $null: false, // Request has a team attached (this should always be the case, but strapi doesn't provide required relation fields)
-            },
-            project: {
-              id: {
-                $null: true, // The team is not working on another project
-              },
-            },
-          },
-        },
+        requests: filterActiveRequests(),
       },
       fields: ["id"],
       populate: {
-        requests: {
-          populate: {
-            team: {
-              populate: {
-                members: {
-                  populate: {
-                    user: {
-                      fields: ["id", "name", "email"],
-                    },
-                  },
-                },
-                administrators: {
-                  fields: ["id", "name", "email"],
-                },
-              },
-            },
-          },
-        },
+        requests: selectRequest({
+          team: selectTeam({
+            members: selectMember({
+              user: selectUser(),
+            }),
+            administrators: selectUser(),
+          }),
+        }),
       },
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     return response.data.length
       ? response.data[0].attributes.requests
@@ -163,39 +120,23 @@ const projectRepositoryFactory = () => {
         id: id,
       },
       populate: {
-        tags: {
-          fields: ["id", "name"],
-        },
-        team: {
-          populate: {
-            members: {
-              populate: {
-                user: {
-                  fields: ["id", "name", "email"],
-                },
-              },
-            },
-          },
-        },
-        developerRequirements: {
-          populate: {
-            fields: ["name"],
-          },
-        },
+        tags: selectTag(),
+        team: selectTeam({
+          members: selectMember({
+            user: selectUser(),
+          }),
+        }),
+        developerRequirements: selectDeveloperRequirements(),
         requests: {
           count: true,
         },
       },
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     if (!response.data.length) return { data: null };
 
@@ -230,14 +171,10 @@ const projectRepositoryFactory = () => {
       },
     };
 
-    const response = await fetch(
-      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
-      {
-        headers: {
-          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
-        },
-      }
-    ).then((data) => data.json());
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
 
     const projectsData = response.data;
 
