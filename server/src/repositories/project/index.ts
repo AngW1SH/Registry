@@ -94,8 +94,10 @@ const projectRepositoryFactory = () => {
       }
     ).then((data) => data.json());
 
-    return response.data.attributes.requests
-      ? response.data.attributes.requests.count
+    if (!response.data.length) return 0;
+
+    return response.data[0].attributes.requests
+      ? response.data[0].attributes.requests.data.attributes.count
       : 0;
   }
 
@@ -194,6 +196,12 @@ const projectRepositoryFactory = () => {
         },
       }
     ).then((data) => data.json());
+
+    if (!response.data.length) return { data: null };
+
+    const countRequests = await this.countActiveRequests(response.data[0].id);
+
+    response.data[0].attributes.requests.data.attributes.count = countRequests;
 
     return { data: response.data[0] };
   }
