@@ -15,6 +15,7 @@ export const staticProjects: IProject[] = [
     client: 'ООО "Рога и Копыто"',
     tags: [8],
     team: 4,
+    requestCount: 1,
     developerRequirements: [
       "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
       "Глубокое понимание биологии растений и их реакции на изменения климата",
@@ -34,6 +35,7 @@ export const staticProjects: IProject[] = [
     curator: "Лебедев А. М.",
     client: 'ООО "Альфа и Омега"',
     tags: [1, 5, 6],
+    requestCount: 0,
     team: 6,
     developerRequirements: [
       "Опыт применения методов социологических и экономических исследований",
@@ -53,6 +55,7 @@ export const staticProjects: IProject[] = [
     curator: "Кузнецов Д. К.",
     client: 'ЗАО "Солнечные Лучи"',
     tags: [4, 8],
+    requestCount: 1,
     team: 5,
     developerRequirements: [
       "Стремление к постоянному обучению и повышению квалификации в области ГМО и биотехнологии",
@@ -72,6 +75,7 @@ export const staticProjects: IProject[] = [
     supervisor: "Беляев Ф. П.",
     curator: "Меркулова М. Р.",
     client: "ИП Макаров Н.Г.",
+    requestCount: 3,
     tags: [1, 5],
     team: 7,
     developerRequirements: [

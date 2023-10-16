@@ -7,7 +7,7 @@ export interface ProjectDetailed {
   project: IProject;
   tags: ITag[];
   team: ITeam | null;
-  users: IUserWithRole[];
+  users: IUserWithRole[] | null;
 }
 
 export interface ProjectDetailedDTO {

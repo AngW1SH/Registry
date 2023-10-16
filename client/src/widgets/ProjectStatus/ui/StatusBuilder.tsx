@@ -7,7 +7,7 @@ import StatusHiringCompleted from "./StatusCompleted";
 
 interface StatusBuilderProps {
   project: IProject;
-  users: IUserWithRole[];
+  users: IUserWithRole[] | null;
 }
 
 const StatusBuilder: FC<StatusBuilderProps> = ({ project, users }) => {

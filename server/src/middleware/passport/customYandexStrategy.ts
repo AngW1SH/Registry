@@ -82,7 +82,7 @@ const customYandexStrategy = new CustomYandexStrategy(
     tokenURL: "https://oauth.yandex.ru/token",
     clientID: process.env.CUSTOM_YANDEX_CLIENT_ID,
     clientSecret: process.env.CUSTOM_YANDEX_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/api/user/yandeexcallback",
+    callbackURL: process.env.WEBSITE_URL + "/api/user/yandeexcallback",
   },
   async function (accessToken, refreshToken, profile, done) {
     const user = await userService.findOrCreate({

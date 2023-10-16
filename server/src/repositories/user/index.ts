@@ -1,7 +1,7 @@
+import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
 import { selectUser } from "@/db/strapi/queries/user";
 import { User, UserCreate, UserListStrapi, UserStrapi } from "@/entities/user";
-import { flattenUser } from "@/entities/user";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
@@ -25,7 +25,7 @@ const userRepositoryFactory = () => {
 
     if (!response.data || !response.data.length) return null;
 
-    return flattenUser(response.data[0]);
+    return getUserFromStrapiDTO(response.data[0]);
   }
 
   async function findById(id: number): Promise<User> {
@@ -43,7 +43,7 @@ const userRepositoryFactory = () => {
 
     if (!response.data || !response.data.length) return null;
 
-    return flattenUser(response.data[0]);
+    return getUserFromStrapiDTO({ data: response.data[0] });
   }
 
   async function create(userCreate: UserCreate): Promise<User> {
@@ -58,7 +58,7 @@ const userRepositoryFactory = () => {
 
     if (!response.data.id) throw new Error("User not created");
 
-    return flattenUser(response.data);
+    return getUserFromStrapiDTO(response);
   }
 };
 

@@ -1,5 +1,4 @@
 import { ProjectFilters } from "@/entities/project";
-import { flattenProject, flattenProjects } from "@/entities/project";
 import projectRepository from "@/repositories/project";
 
 const projectServiceFactory = () => {

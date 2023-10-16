@@ -5,7 +5,7 @@ import { IProject } from "@/entities/Project";
 
 interface ProjectStatusProps {
   project: IProject;
-  users: IUserWithRole[];
+  users: IUserWithRole[] | null;
   className?: string;
 }
 

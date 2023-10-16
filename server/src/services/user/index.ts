@@ -1,10 +1,10 @@
-import { flattenRequest } from "@/entities/team/utils/flattenTeam";
 import { User, UserCreate, UserProjectStatusData } from "@/entities/user";
 import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
 import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
+import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -70,7 +70,7 @@ const userServiceFactory = () => {
     const requestsStrapi = await projectRepository.getActiveRequests(projectId);
 
     const requests = requestsStrapi.data.map((candidate) =>
-      flattenRequest(candidate)
+      getRequestFromStrapiDTO(candidate)
     );
 
     requests.forEach((teamData) => {
