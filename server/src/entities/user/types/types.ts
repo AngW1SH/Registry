@@ -30,5 +30,6 @@ export interface UserWithRole {
 }
 
 export interface UserProjectStatusData {
-  assignableTeams: number[];
+  assignableTeams: number[]; // The administrated teams that haven't applied for the project
+  hasApplied: boolean; // Whether there's a team that has applied (administrated or not)
 }

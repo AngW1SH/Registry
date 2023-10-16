@@ -60,6 +60,8 @@ const userServiceFactory = () => {
 
     const assignableTeams = new Set<number>();
 
+    let hasApplied = false;
+
     administratedByUser.data.forEach((team) => assignableTeams.add(team.id));
 
     const candidatesResponse = await projectRepository.getTeamCandidates(
@@ -75,10 +77,16 @@ const userServiceFactory = () => {
           assignableTeams.delete(teamData.team.id);
         }
       });
+
+      if (!hasApplied)
+        teamData.users.forEach((user) => {
+          if (user.id === userId) hasApplied = true;
+        });
     });
 
     return {
       assignableTeams: Array.from(assignableTeams),
+      hasApplied,
     };
   }
 
