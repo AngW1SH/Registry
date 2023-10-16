@@ -38,10 +38,14 @@ interface ProjectWithTagsStrapiInner {
     //createdAt: Date;
     supervisor: string;
     curator: string;
+    team: {
+      data: {
+        id: number;
+      } | null;
+    };
     requestCount: number;
     client: string;
     tags: TagListStrapi;
-    team: number;
   };
 }
 

@@ -164,7 +164,6 @@ const projectRepositoryFactory = () => {
       filters: filters ? generateProjectFilters(filters) : undefined,
       ...selectProjectInList({
         tags: selectTag(),
-        team: true,
       }),
     };
 

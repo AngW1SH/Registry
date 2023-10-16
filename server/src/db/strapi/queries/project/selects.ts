@@ -25,6 +25,11 @@ export const selectProjectInList = (
       "curator",
       "client",
     ],
-    populate,
+    populate: {
+      ...populate,
+      team: {
+        fields: ["id"],
+      },
+    },
   };
 };

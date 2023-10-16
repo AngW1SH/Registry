@@ -1,9 +1,11 @@
 import { Project } from "@/entities/project";
-import { ProjectStrapiPopulated } from "@/entities/project/types/types";
 import { Tag } from "@/entities/tag";
 import { Team } from "@/entities/team/types/types";
 import { User } from "@/entities/user/types/types";
-import { ProjectWithTagsListStrapi } from "../../types/project";
+import {
+  ProjectStrapiPopulated,
+  ProjectWithTagsListStrapi,
+} from "../../types/project";
 import { getTagFromStrapiDTO } from "../tag";
 import { getTeamFromStrapiDTO } from "../team";
 
@@ -26,6 +28,9 @@ export const getProjectListFromStrapiDTO = (
       id: project.id,
       ...project.attributes,
       tags: project.attributes.tags.data.map((tag) => tag.id),
+      team: project.attributes.team.data
+        ? project.attributes.team.data.id
+        : null,
     })),
     tags: tags,
   };

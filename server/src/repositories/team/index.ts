@@ -6,7 +6,7 @@ import {
   filterUnassignedAdministrated,
 } from "@/db/strapi/queries/team";
 import { selectUser } from "@/db/strapi/queries/user";
-import { TeamListStrapiPopulated } from "@/entities/team/types/types";
+import { TeamListStrapiPopulated } from "@/db/strapi/types/team";
 import { User } from "@/entities/user";
 
 const teamRepositoryFactory = () => {
