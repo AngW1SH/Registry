@@ -62,14 +62,19 @@ const userServiceFactory = () => {
 
     administratedByUser.data.forEach((team) => assignableTeams.add(team.id));
 
-    const candidatesResponse = await projectRepository.getTeamCandidates(
-      projectId
-    );
-    const candidates = candidatesResponse.data.map((candidate) =>
+    /*
+    TODO:
+      move all strapi-related stuff back to the repository
+      Services should not care about where the formatted data is fetched from
+    */
+    const requestsStrapi = await projectRepository.getActiveRequests(projectId);
+
+    const requests = requestsStrapi.data.map((candidate) =>
       flattenRequest(candidate)
     );
 
-    candidates.forEach((teamData) => {
+    requests.forEach((teamData) => {
+      // remove all the teams that have already signed up for the project
       teamData.administrators.forEach((administrator) => {
         if (administrator.id === userId) {
           assignableTeams.delete(teamData.team.id);

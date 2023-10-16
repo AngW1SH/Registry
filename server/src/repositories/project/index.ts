@@ -10,7 +10,8 @@ const projectRepositoryFactory = () => {
     getNew,
     findOne,
     findMany,
-    getTeamCandidates,
+    getActiveRequests,
+    countActiveRequests,
   });
 
   async function getNew(limit?: number): Promise<ProjectWithTags[]> {
@@ -60,10 +61,60 @@ const projectRepositoryFactory = () => {
     }));
   }
 
-  async function getTeamCandidates(id: number): Promise<RequestListStrapi> {
+  async function countActiveRequests(id: number): Promise<number> {
     const params = {
       filters: {
         id: id,
+        requests: {
+          team: {
+            id: {
+              $null: false, // Request has a team attached (this should always be the case, but strapi doesn't provide required relation fields)
+            },
+            project: {
+              id: {
+                $null: true, // The team is not working on another project
+              },
+            },
+          },
+        },
+      },
+      populate: {
+        requests: {
+          count: true,
+        },
+      },
+    };
+
+    const response = await fetch(
+      process.env.STRAPI_URL + "projects?" + qs.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.PROJECTS_TOKEN,
+        },
+      }
+    ).then((data) => data.json());
+
+    return response.data.attributes.requests
+      ? response.data.attributes.requests.count
+      : 0;
+  }
+
+  async function getActiveRequests(id: number): Promise<RequestListStrapi> {
+    const params = {
+      filters: {
+        id: id,
+        requests: {
+          team: {
+            id: {
+              $null: false, // Request has a team attached (this should always be the case, but strapi doesn't provide required relation fields)
+            },
+            project: {
+              id: {
+                $null: true, // The team is not working on another project
+              },
+            },
+          },
+        },
       },
       fields: ["id"],
       populate: {
@@ -97,7 +148,9 @@ const projectRepositoryFactory = () => {
       }
     ).then((data) => data.json());
 
-    return response.data[0].attributes.requests;
+    return response.data.length
+      ? response.data[0].attributes.requests
+      : { data: [] };
   }
 
   async function findOne(id: number): Promise<ProjectStrapiPopulated> {
