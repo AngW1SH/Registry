@@ -1,13 +1,18 @@
 "use client";
+import { IProject } from "@/entities/Project";
 import { Button, Dropdown, FileUpload } from "@/shared/ui";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
 
 interface StatusHiringTeamleadProps {
+  project: IProject;
   options: string[];
 }
 
-const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({ options }) => {
+const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
+  project,
+  options,
+}) => {
   const [isApplying, setIsApplying] = useState(false);
 
   const [selected, setSelected] = useState<string | null>(options[0]);
@@ -32,7 +37,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({ options }) => {
           <div className="flex">
             <p className="w-1/2">Число поданных на проект заявок</p>
             <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
-              3
+              {project.requestCount}
             </p>
           </div>
           <div className="pt-14 lg:pt-7" />

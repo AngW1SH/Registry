@@ -25,6 +25,7 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
   if (projectStatusData.assignableTeams.length)
     return (
       <StatusHiringTeamlead
+        project={project}
         options={getTeamsByTeamIds(
           projectStatusData.assignableTeams,
           authUser.teams,
@@ -44,7 +45,7 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
       <div className="flex">
         <p className="w-1/2">Число поданных на проект заявок</p>
         <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
-          3
+          {project.requestCount}
         </p>
       </div>
       <div className="pt-7" />
