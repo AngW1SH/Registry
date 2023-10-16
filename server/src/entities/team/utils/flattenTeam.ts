@@ -20,6 +20,8 @@ const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {
 export const flattenTeam = (
   team: TeamStrapiPopulated
 ): { team: Team; users: UserWithRole[] } => {
+  if (!team.data) return { team: null, users: null };
+
   const users = team.data.attributes.members.data.map((member) =>
     flattenTeamMember(member)
   );

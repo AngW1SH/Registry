@@ -1,13 +1,7 @@
-import { Button } from "@/shared/ui";
 import { FC } from "react";
-import StatusHiringUnauthorized from "./StatusHiringUnauthorized";
-import StatusActive from "./StatusActive";
-import StatusHiringAuthorized from "./StatusHiringAuthorized";
-import StatusHiringAuthorizedAlt from "./StatusHiringAuthorizedAlt";
-import StatusHiringTeamlead from "./StatusHiringTeamlead";
 import { IUserWithRole } from "@/entities/User";
 import StatusBuilder from "./StatusBuilder";
-import { IProject, getProjectStage } from "@/entities/Project";
+import { IProject } from "@/entities/Project";
 
 interface ProjectStatusProps {
   project: IProject;
@@ -20,8 +14,6 @@ const ProjectStatus: FC<ProjectStatusProps> = ({
   users,
   className = "",
 }) => {
-  const stage = getProjectStage(project);
-
   return (
     <div
       className={
@@ -30,7 +22,7 @@ const ProjectStatus: FC<ProjectStatusProps> = ({
       }
     >
       <div className="flex h-full flex-col items-start">
-        <StatusBuilder users={users} stage={stage} />
+        <StatusBuilder users={users} project={project} />
       </div>
     </div>
   );

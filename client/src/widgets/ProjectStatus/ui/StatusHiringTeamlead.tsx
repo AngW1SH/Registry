@@ -3,12 +3,14 @@ import { Button, Dropdown, FileUpload } from "@/shared/ui";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
 
-interface StatusHiringTeamleadProps {}
+interface StatusHiringTeamleadProps {
+  options: string[];
+}
 
-const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = () => {
+const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({ options }) => {
   const [isApplying, setIsApplying] = useState(false);
 
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(options[0]);
   const [selectedFiles, setSelectedFiles] = useState<File[] | null>([]);
 
   return (
@@ -54,14 +56,18 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = () => {
             />
           </button>
           <div className="pt-10" />
-          <Dropdown
-            value={selected}
-            onChange={setSelected}
-            placeholder="Команда"
-            namePrefix="team"
-            options={["Команда 1", "Команда 2"]}
-          />
-          <div className="pt-7" />
+          {options.length > 1 && (
+            <>
+              <Dropdown
+                value={selected}
+                onChange={setSelected}
+                placeholder="Команда"
+                namePrefix="team"
+                options={options}
+              />
+              <div className="pt-7" />
+            </>
+          )}
           <FileUpload
             name="team-document"
             label="Презентация команды"

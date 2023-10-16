@@ -7,7 +7,7 @@ export interface Team {
 }
 
 export interface TeamStrapiPopulated {
-  data: TeamStrapiPopulatedInner;
+  data: TeamStrapiPopulatedInner | null;
 }
 
 export interface TeamListStrapiPopulated {
