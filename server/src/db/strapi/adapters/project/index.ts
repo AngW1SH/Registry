@@ -1,35 +1,37 @@
-import { Project, ProjectWithTags } from "@/entities/project";
+import { Project } from "@/entities/project";
 import { ProjectStrapiPopulated } from "@/entities/project/types/types";
 import { Tag } from "@/entities/tag";
 import { Team } from "@/entities/team/types/types";
 import { User } from "@/entities/user/types/types";
-import { flattenTeam } from "@/entities/team";
+import { ProjectWithTagsListStrapi } from "../../types/project";
+import { getTagFromStrapiDTO } from "../tag";
+import { getTeamFromStrapiDTO } from "../team";
 
-export const flattenProjects = (
-  projects: ProjectWithTags[]
+export const getProjectListFromStrapiDTO = (
+  projects: ProjectWithTagsListStrapi
 ): { projects: Project[]; tags: Tag[] } => {
   const usedTagIds = new Set();
   const tags = [];
 
-  projects.forEach((project) => {
-    project.tags.forEach((projectTag) => {
+  projects.data.forEach((project) => {
+    project.attributes.tags.data.forEach((projectTag) => {
       if (usedTagIds.has(projectTag.id)) return;
 
       usedTagIds.add(projectTag.id);
-      tags.push(projectTag);
+      tags.push(getTagFromStrapiDTO({ data: projectTag }).tag);
     });
   });
-
   return {
-    projects: projects.map((project) => ({
-      ...project,
-      tags: project.tags.map((tag) => tag.id),
+    projects: projects.data.map((project) => ({
+      id: project.id,
+      ...project.attributes,
+      tags: project.attributes.tags.data.map((tag) => tag.id),
     })),
     tags: tags,
   };
 };
 
-export const flattenProject = (
+export const getProjectFromStrapiDTO = (
   project: ProjectStrapiPopulated
 ): { project: Project; tags: Tag[]; team: Team; users: User[] } => {
   const { requests, administrators, ...attributes } = project.data.attributes;
@@ -51,6 +53,6 @@ export const flattenProject = (
       id: tag.id,
       name: tag.attributes.name,
     })),
-    ...flattenTeam(project.data.attributes.team),
+    ...getTeamFromStrapiDTO(project.data.attributes.team),
   };
 };

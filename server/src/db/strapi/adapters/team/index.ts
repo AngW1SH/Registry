@@ -1,29 +1,29 @@
+import { Team } from "@/entities/team";
 import {
-  RequestStrapi,
-  RequestStrapiInner,
-  Team,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
-  TeamStrapiPopulatedInner,
-  TeamWithAdministrators,
-} from "../types/types";
+} from "../../types/team";
 import type { User, UserWithRole } from "@/entities/user";
-import { flattenUser } from "@/entities/user";
+import { TeamWithAdministrators } from "@/entities/team/types/types";
+import { RequestStrapiInner } from "../../types/request";
+import { getUserFromStrapiDTO } from "../user";
 
-const flattenTeamMember = (member: TeamMemberStrapiPopulated): UserWithRole => {
+const getTeamMemberFromStrapiDTO = (
+  member: TeamMemberStrapiPopulated
+): UserWithRole => {
   return {
-    ...flattenUser(member.attributes.user.data),
+    ...getUserFromStrapiDTO({ data: member.attributes.user.data }),
     role: member.attributes.role,
   };
 };
 
-export const flattenTeam = (
+export const getTeamFromStrapiDTO = (
   team: TeamStrapiPopulated
 ): { team: Team; users: UserWithRole[] } => {
   if (!team.data) return { team: null, users: null };
 
   const users = team.data.attributes.members.data.map((member) =>
-    flattenTeamMember(member)
+    getTeamMemberFromStrapiDTO(member)
   );
 
   return {
@@ -36,7 +36,7 @@ export const flattenTeam = (
   };
 };
 
-export const flattenTeamWithAdministrators = (
+export const getTeamWithAdministratorsFromStrapiDTO = (
   team: TeamStrapiPopulated
 ): {
   team: TeamWithAdministrators;
@@ -44,10 +44,10 @@ export const flattenTeamWithAdministrators = (
   administrators: User[];
 } => {
   const users = team.data.attributes.members.data.map((member) =>
-    flattenTeamMember(member)
+    getTeamMemberFromStrapiDTO(member)
   );
-  const administrators = team.data.attributes.administrators.data.map(
-    (member) => flattenUser(member)
+  const administrators = team.data.attributes.administrators.data.map((user) =>
+    getUserFromStrapiDTO({ data: user })
   );
 
   return {
@@ -62,6 +62,6 @@ export const flattenTeamWithAdministrators = (
   };
 };
 
-export const flattenRequest = (request: RequestStrapiInner) => {
-  return flattenTeamWithAdministrators(request.attributes.team);
+export const getRequestFromStrapiDTO = (request: RequestStrapiInner) => {
+  return getTeamWithAdministratorsFromStrapiDTO(request.attributes.team);
 };

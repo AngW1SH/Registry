@@ -11,31 +11,23 @@ const projectServiceFactory = () => {
   });
 
   async function getActive(tagIds?: string[]) {
-    const projectsWithTags = await projectRepository.findMany({
+    return projectRepository.findMany({
       dateStart: new Date(),
       dateEnd: new Date(),
       tags: tagIds,
     });
-
-    return flattenProjects(projectsWithTags);
   }
 
   async function getNew() {
-    const projectsWithTags = await projectRepository.getNew(6);
-
-    return flattenProjects(projectsWithTags);
+    return projectRepository.getNew(6);
   }
 
   async function findById(id: number) {
-    const projectPopulated = await projectRepository.findOne(id);
-
-    return flattenProject(projectPopulated);
+    return projectRepository.findOne(id);
   }
 
   async function findMany(filters?: ProjectFilters) {
-    const projectsWithTags = await projectRepository.findMany(filters);
-
-    return flattenProjects(projectsWithTags);
+    return projectRepository.findMany(filters);
   }
 };
 

@@ -22,6 +22,8 @@ export const selectProjectInList = (
       "enrollmentStart",
       "enrollmentEnd",
       "supervisor",
+      "curator",
+      "client",
     ],
     populate,
   };

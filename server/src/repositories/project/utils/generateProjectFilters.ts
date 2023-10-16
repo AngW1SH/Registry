@@ -56,16 +56,6 @@ const generateTextFilters = (text: string) => {
           $containsi: text,
         },
       },
-      {
-        description: {
-          $containsi: text,
-        },
-      },
-      {
-        developerRequirements: {
-          $containsi: text,
-        },
-      },
     ],
   };
 };

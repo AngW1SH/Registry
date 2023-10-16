@@ -1,8 +1,11 @@
 import { ProjectFilters, ProjectWithTags } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
-import { ProjectStrapiPopulated } from "@/entities/project/types/types";
-import { RequestListStrapi } from "@/entities/team";
+import {
+  Project,
+  ProjectStrapiPopulated,
+} from "@/entities/project/types/types";
+import { RequestListStrapi, Team } from "@/entities/team";
 import {
   filterActiveRequests,
   selectRequest,
@@ -16,6 +19,13 @@ import {
 } from "@/db/strapi/queries/project";
 import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
+import { Tag } from "@/entities/tag";
+import { ProjectWithTagsListStrapi } from "@/db/strapi/types/project";
+import {
+  getProjectFromStrapiDTO,
+  getProjectListFromStrapiDTO,
+} from "@/db/strapi/adapters/project";
+import { User } from "@/entities/user";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -26,7 +36,10 @@ const projectRepositoryFactory = () => {
     countActiveRequests,
   });
 
-  async function getNew(limit?: number): Promise<ProjectWithTags[]> {
+  async function getNew(limit?: number): Promise<{
+    projects: Project[];
+    tags: Tag[];
+  }> {
     const now = new Date();
 
     const params = {
@@ -41,21 +54,12 @@ const projectRepositoryFactory = () => {
       }),
     };
 
-    const response = await strapi.get("projects", {
+    const response: ProjectWithTagsListStrapi = await strapi.get("projects", {
       token: process.env.PROJECTS_TOKEN,
       params,
     });
 
-    const projectsData = response.data;
-
-    return projectsData.map((project) => ({
-      id: project.id,
-      ...project.attributes,
-      tags: project.attributes.tags.data.map((tag) => ({
-        id: tag.id,
-        ...tag.attributes,
-      })),
-    }));
+    return getProjectListFromStrapiDTO(response);
   }
 
   async function countActiveRequests(id: number): Promise<number> {
@@ -112,7 +116,12 @@ const projectRepositoryFactory = () => {
       : { data: [] };
   }
 
-  async function findOne(id: number): Promise<ProjectStrapiPopulated> {
+  async function findOne(id: number): Promise<{
+    project: Project;
+    tags: Tag[];
+    team: Team;
+    users: User[];
+  }> {
     if (typeof id != "number") throw new Error("Provided ID is not a number");
 
     const params = {
@@ -138,54 +147,35 @@ const projectRepositoryFactory = () => {
       params,
     });
 
-    if (!response.data.length) return { data: null };
+    if (!response.data.length) return null;
 
     const countRequests = await this.countActiveRequests(response.data[0].id);
 
     response.data[0].attributes.requests.data.attributes.count = countRequests;
 
-    return { data: response.data[0] };
+    return getProjectFromStrapiDTO({ data: response.data[0] });
   }
 
-  async function findMany(
-    filters?: ProjectFilters
-  ): Promise<ProjectWithTags[]> {
-    if (!checkFilterValidity(filters)) return [];
+  async function findMany(filters?: ProjectFilters): Promise<{
+    projects: Project[];
+    tags: Tag[];
+  }> {
+    if (!checkFilterValidity(filters)) return { projects: [], tags: [] };
 
     const params = {
       sort: ["dateStart:desc"],
       filters: filters ? generateProjectFilters(filters) : undefined,
-      fields: [
-        "name",
-        "description",
-        "dateStart",
-        "dateEnd",
-        "enrollmentStart",
-        "enrollmentEnd",
-        "supervisor",
-      ],
-      populate: {
-        tags: {
-          fields: ["id", "name"],
-        },
-      },
+      ...selectProjectInList({
+        tags: selectTag(),
+      }),
     };
 
-    const response = await strapi.get("projects", {
+    const response: ProjectWithTagsListStrapi = await strapi.get("projects", {
       token: process.env.PROJECTS_TOKEN,
       params,
     });
 
-    const projectsData = response.data;
-
-    return projectsData.map((project) => ({
-      id: project.id,
-      ...project.attributes,
-      tags: project.attributes.tags.data.map((tag) => ({
-        id: tag.id,
-        ...tag.attributes,
-      })),
-    }));
+    return getProjectListFromStrapiDTO(response);
   }
 };
 const projectRepository = projectRepositoryFactory();
