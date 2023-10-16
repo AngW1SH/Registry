@@ -1,5 +1,3 @@
-import { flattenTeamWithAdministrators } from "@/entities/team";
-import { TeamListStrapiPopulated } from "@/entities/team/types/types";
 import { flattenRequest } from "@/entities/team/utils/flattenTeam";
 import { User, UserCreate, UserProjectStatusData } from "@/entities/user";
 import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";

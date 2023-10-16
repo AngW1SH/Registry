@@ -89,34 +89,44 @@ const userControllerFactory = () => {
   async function token(req: Request, res: Response) {
     try {
       jwt.verify(
-        req.signedCookies["user-refresh"],
-        process.env.TOKEN_SECRET!,
+        req.signedCookies["user-access"], // In case multiple /token requests are sent at the same time
+        process.env.TOKEN_SECRET,
         async (
           err: jwt.VerifyErrors | null,
           decoded: jwt.Jwt | JwtPayload | string | undefined
         ) => {
-          if (err) {
-            res.status(401).send();
-          } else {
-            const doesUserExist = await userService.findById(
-              (decoded as JwtPayload).id
-            );
+          if (!err) return res.status(200).send();
+          jwt.verify(
+            req.signedCookies["user-refresh"],
+            process.env.TOKEN_SECRET!,
+            async (
+              err: jwt.VerifyErrors | null,
+              decoded: jwt.Jwt | JwtPayload | string | undefined
+            ) => {
+              if (err) {
+                res.status(401).send();
+              } else {
+                const doesUserExist = await userService.findById(
+                  (decoded as JwtPayload).id
+                );
 
-            if (doesUserExist) {
-              const newToken = generateAccessToken(doesUserExist.id);
-              res.clearCookie("user-access");
-              res.cookie("user-access", newToken, {
-                maxAge: 1000 * 60 * 60 * 24,
-                httpOnly: true,
-                signed: true,
-              });
-              return res.status(205).send();
-            } else {
-              res.clearCookie("user-access");
-              res.clearCookie("user-refresh");
-              return res.status(401).send();
+                if (doesUserExist) {
+                  const newToken = generateAccessToken(doesUserExist.id);
+                  res.clearCookie("user-access");
+                  res.cookie("user-access", newToken, {
+                    maxAge: 1000 * 60 * 60 * 24,
+                    httpOnly: true,
+                    signed: true,
+                  });
+                  return res.status(205).send();
+                } else {
+                  res.clearCookie("user-access");
+                  res.clearCookie("user-refresh");
+                  return res.status(401).send();
+                }
+              }
             }
-          }
+          );
         }
       );
     } catch (err) {
