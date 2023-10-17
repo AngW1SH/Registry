@@ -25,7 +25,7 @@ const userRepositoryFactory = () => {
 
     if (!response.data || !response.data.length) return null;
 
-    return getUserFromStrapiDTO(response.data[0]);
+    return getUserFromStrapiDTO({ data: response.data[0] });
   }
 
   async function findById(id: number): Promise<User> {
