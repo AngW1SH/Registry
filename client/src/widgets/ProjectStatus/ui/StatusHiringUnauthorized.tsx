@@ -1,4 +1,5 @@
 import { Button } from "@/shared/ui";
+import Link from "next/link";
 import { FC } from "react";
 
 interface StatusHiringUnauthorizedProps {}
@@ -18,7 +19,9 @@ const StatusHiringUnauthorized: FC<StatusHiringUnauthorizedProps> = () => {
         авторизоваться
       </p>
       <div className="pt-10 lg:hidden" />
-      <Button className="mt-auto block self-center px-9">Авторизоваться</Button>
+      <Button className="mt-auto block self-center px-9">
+        <Link href="/api/user/try">Авторизоваться</Link>
+      </Button>
     </div>
   );
 };

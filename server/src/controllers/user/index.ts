@@ -6,7 +6,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 const userControllerFactory = () => {
   return Object.freeze({
     authorize,
-    unauthorize,
+    logout,
     token,
     getPublicUserInfo,
     getProjectStatusData,
@@ -39,7 +39,7 @@ const userControllerFactory = () => {
     }
   }
 
-  async function unauthorize(req: Request, res: Response) {
+  async function logout(req: Request, res: Response) {
     try {
       res.cookie("user-access", null, {
         maxAge: 0,

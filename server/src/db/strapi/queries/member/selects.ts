@@ -1,4 +1,4 @@
-import { selectUser } from "@/db/queries/user";
+import { selectUser } from "../user";
 import { SelectPopulate } from "@/db/types/types";
 
 type PopulateOptions = "user";

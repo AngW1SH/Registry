@@ -32,4 +32,10 @@ userRouter.get(
   userController.getData
 );
 
+userRouter.get(
+  "/logout",
+  passport.authenticate("jwt-authenticate"),
+  userController.logout
+);
+
 export default userRouter;

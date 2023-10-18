@@ -45,4 +45,41 @@ describe("User Controller", () => {
       //expect(res.json.mock.calls[0][0].email).toBeDefined();
     });
   });
+
+  describe("logout method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should respond with a 401 status if there is no user", async () => {
+      req.signedCookies = {};
+
+      const result = await userController.logout(req, res);
+      expect(res.status).toEqual(401);
+    });
+    it("should respond with a 200 status if everything is ok", async () => {
+      req.signedCookies = {
+        "user-access": "123",
+        "user-refresh": "456",
+      };
+
+      const result = await userController.logout(req, res);
+
+      expect(res.status).toEqual(200);
+    });
+    it("should clear cookies if there is a user", async () => {
+      req.signedCookies = {
+        "user-access": "123",
+        "user-refresh": "456",
+      };
+
+      const result = await userController.logout(req, res);
+
+      expect(res.cookie).toBeCalled();
+      expect(res.cookie).toBeCalledWith(
+        expect.anything(),
+        null,
+        expect.anything()
+      );
+    });
+  });
 });
