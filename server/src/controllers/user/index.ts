@@ -33,7 +33,15 @@ const userControllerFactory = () => {
         signed: true,
       });
 
-      res.redirect("/");
+      console.log(req.signedCookies["redirect-url"]);
+
+      const redirectUrl = req.signedCookies["redirect-url"] || "/";
+      res.cookie("redirect-url", null, {
+        maxAge: 0,
+        httpOnly: true,
+        signed: true,
+      });
+      res.redirect(redirectUrl);
     } catch (err) {
       res.status(500).send(err);
     }
