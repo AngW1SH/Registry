@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FC, useContext } from "react";
 import { logout } from "../api/logout";
 import { useRouter } from "next/navigation";
-import { QueryClientContext } from "@/shared/utils/QueryWrapper/QueryWrapper";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserNavProps {
   text?: "bright" | "dark";
@@ -15,7 +15,7 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
 
   const { data } = useAuthUserQuery();
 
-  const queryClient = useContext(QueryClientContext);
+  const queryClient = useQueryClient();
 
   const handleLogin = async () => {
     if (!data) {
