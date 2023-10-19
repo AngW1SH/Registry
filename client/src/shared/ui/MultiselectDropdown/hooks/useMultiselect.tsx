@@ -25,6 +25,20 @@ export const useMultiselect = (
     }
   };
 
+  const asyncUpdateSuggestions = async () => {
+    if (!fetchSuggestions) return;
+
+    const newSuggestions = await fetchSuggestions(debouncedInput);
+
+    const newOptions = [
+      ...options,
+      ...newSuggestions.filter((suggestion) => !options.includes(suggestion)),
+    ];
+
+    setOptions(newOptions);
+    setSuggestions(newSuggestions);
+  };
+
   useEffect(() => {
     const updateSuggestions = async () => {
       const newSuggestions = options.filter((option) =>
@@ -34,26 +48,16 @@ export const useMultiselect = (
       setSuggestions(newSuggestions);
     };
 
-    const asyncUpdateSuggestions = async () => {
-      if (!fetchSuggestions) return;
-
-      const newSuggestions = await fetchSuggestions(debouncedInput);
-
-      const newOptions = [
-        ...options,
-        ...newSuggestions.filter((suggestion) => !options.includes(suggestion)),
-      ];
-
-      setOptions(newOptions);
-      setSuggestions(newSuggestions);
-    };
-
     if (fetchSuggestions) {
       asyncUpdateSuggestions();
     } else {
       updateSuggestions();
     }
   }, [debouncedInput]);
+
+  useEffect(() => {
+    asyncUpdateSuggestions();
+  }, []);
 
   return { active, suggestions, toggleOption, input, setInput };
 };

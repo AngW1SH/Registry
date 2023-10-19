@@ -7,6 +7,7 @@ import passport from "@/middleware/passport";
 import path from "path";
 import projectRouter from "@/routes/project/router";
 import userRouter from "@/routes/user/router";
+import tagRouter from "@/routes/tag/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -30,6 +31,7 @@ const generateApp = (port?: number) => {
 
   app.use("/project", projectRouter);
   app.use("/user", userRouter);
+  app.use("/tag", tagRouter);
 
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 

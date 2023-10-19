@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { ProjectStatus, initialFilters } from "../config/initialFilters";
 import { Filters, ProjectStatusValue } from "../types/types";
 import { Button, CalendarInput, MultiselectDropdown } from "@/shared/ui";
+import { fetchFiltersTags } from "../api/fetchFiltersTags";
 
 interface ProjectFiltersSmallProps {
   filters: Filters;
@@ -41,10 +42,11 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
             className="w-full pl-6 pr-[0.45rem] text-sm font-normal placeholder-[#848686] outline-none sm:py-3 sm:text-xs lg:py-0"
             placeholder="Теги"
             items={filtersDraft.tags !== null ? filtersDraft.tags : []}
-            options={["1", "2123", "3"]}
+            options={[]}
             onChange={(tags: string[]) =>
               setFiltersDraft({ ...filtersDraft, tags: tags })
             }
+            fetchSuggestions={fetchFiltersTags}
           />
         </div>
         <div

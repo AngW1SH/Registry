@@ -4,6 +4,7 @@ import { ProjectStatus } from "../config/initialFilters";
 import { Filters, ProjectStatusValue } from "../types/types";
 import { Button, CalendarInput, MultiselectDropdown } from "@/shared/ui";
 import Image from "next/image";
+import { fetchFiltersTags } from "../api/fetchFiltersTags";
 
 interface ProjectFiltersProps {
   filters: Filters;
@@ -92,16 +93,11 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
             className="w-full pl-6 pr-[0.45rem] text-sm font-normal placeholder-[#848686] outline-none sm:py-3 sm:text-xs lg:py-0"
             placeholder="Теги"
             items={filtersDraft.tags !== null ? filtersDraft.tags : []}
-            options={[
-              "Генетика",
-              "Общество",
-              "Социология",
-              "Финансы",
-              "Медицина",
-            ]}
+            options={[]}
             onChange={(tags: string[]) =>
               setFiltersDraft({ ...filtersDraft, tags: tags })
             }
+            fetchSuggestions={fetchFiltersTags}
           />
         </div>
         <div
