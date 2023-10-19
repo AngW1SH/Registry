@@ -34,7 +34,7 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
   };
 
   return (
-    <div className="group relative cursor-pointer">
+    <div className="group relative z-40 cursor-pointer">
       <div onClick={handleLogin}>
         <Image
           src={text == "bright" ? "/user-nav.svg" : "/user-nav-dark.svg"}
@@ -44,8 +44,8 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
         />
       </div>
       {data && (
-        <div className="invisible absolute -right-1/2 top-full pt-4 opacity-0 shadow-center-md transition-opacity group-hover:visible group-hover:opacity-100">
-          <ul className="relative rounded-lg bg-white py-1 text-black after:absolute after:bottom-[100%] after:right-[26%] after:-mb-[5px] after:h-[10px] after:w-[10px] after:translate-x-1/2 after:rotate-45 after:bg-white after:shadow-center-lg">
+        <div className="invisible absolute -right-1/2 top-full pt-4 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
+          <ul className="relative rounded-lg bg-white py-1 text-black shadow-center-lg after:absolute after:bottom-[100%] after:right-[26%] after:-mb-[5px] after:h-[10px] after:w-[10px] after:translate-x-1/2 after:rotate-45 after:bg-white after:shadow-center-lg">
             <li className="cursor-pointer px-8 py-1" onClick={handleLogout}>
               Выйти
             </li>
