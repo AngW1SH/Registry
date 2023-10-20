@@ -1,22 +1,23 @@
 "use client";
 import { IProject } from "@/entities/Project";
+import { ITeam } from "@/entities/Team";
+import { SendRequest } from "@/features/SendRequest";
 import { Button, Dropdown, FileUpload } from "@/shared/ui";
 import Image from "next/image";
 import { FC, useRef, useState } from "react";
 
 interface StatusHiringTeamleadProps {
   project: IProject;
-  options: string[];
+  assignableTeams: ITeam[];
 }
 
 const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
   project,
-  options,
+  assignableTeams,
 }) => {
   const [isApplying, setIsApplying] = useState(false);
 
-  const [selected, setSelected] = useState<string | null>(options[0]);
-  const [selectedFiles, setSelectedFiles] = useState<File[] | null>([]);
+  const [hasApplied, setHasApplied] = useState(false);
 
   return (
     <div className="my-auto w-full overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
@@ -61,24 +62,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
             />
           </button>
           <div className="pt-10" />
-          {options.length > 1 && (
-            <>
-              <Dropdown
-                value={selected}
-                onChange={setSelected}
-                placeholder="Команда"
-                namePrefix="team"
-                options={options}
-              />
-              <div className="pt-7" />
-            </>
-          )}
-          <FileUpload
-            name="team-document"
-            label="Презентация команды"
-            onChange={setSelectedFiles}
-          />
-          <Button className="mt-auto block self-center px-9">Отправить</Button>
+          <SendRequest project={project} assignableTeams={assignableTeams} />
         </div>
       </div>
     </div>

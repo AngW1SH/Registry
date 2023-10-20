@@ -26,10 +26,10 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
     return (
       <StatusHiringTeamlead
         project={project}
-        options={getTeamsByTeamIds(
+        assignableTeams={getTeamsByTeamIds(
           projectStatusData.assignableTeams,
           authUser.teams,
-        ).map((team) => team.name)}
+        )}
       />
     );
 

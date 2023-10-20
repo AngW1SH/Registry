@@ -16,6 +16,21 @@ const FileUpload: FC<FileUploadProps> = ({ onChange, name, label }) => {
     if (files.length) setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
+  const handleFileRemove = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target instanceof HTMLElement) {
+      Array.prototype.forEach.call(
+        e.currentTarget.children,
+        (child: HTMLElement, index: number) => {
+          if (child.contains(e.target as HTMLElement)) {
+            setSelectedFiles(
+              selectedFiles.filter((_, indexMapped) => indexMapped != index),
+            );
+          }
+        },
+      );
+    }
+  };
+
   useEffect(() => {
     if (onChange) {
       onChange(selectedFiles);
@@ -23,37 +38,50 @@ const FileUpload: FC<FileUploadProps> = ({ onChange, name, label }) => {
   }, [selectedFiles]);
 
   return (
-    <div className="flex items-center justify-end">
-      {selectedFiles.length > 0 && (
-        <div className="flex items-center pr-5">
-          {selectedFiles.length > 1 && (
-            <span className="pr-3 font-bold">{selectedFiles.length}</span>
-          )}
-
-          <Image
-            src="/file-icon.svg"
-            height={20}
-            width={20}
-            alt="Загруженные файлы"
+    <div>
+      <div className="flex items-center justify-end">
+        <p className="pr-5 text-sm">{label}</p>
+        <div>
+          <input
+            id={name}
+            type="file"
+            accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt"
+            multiple
+            hidden
+            onChange={handleFileChange}
           />
+          <label
+            className="cursor-pointer rounded-3xl border px-6 py-3 text-sm"
+            htmlFor={name}
+          >
+            Прикрепить
+          </label>
+        </div>
+      </div>
+      {selectedFiles.length > 0 && (
+        <div className="mt-5 overflow-y-auto" onClick={handleFileRemove}>
+          {selectedFiles.map((file, index) => {
+            return (
+              <p key={file.name + index} className="flex items-center">
+                <Image
+                  src="/file-icon.svg"
+                  height={20}
+                  width={20}
+                  alt="Загруженные файлы"
+                />
+                <span className="pl-2 pr-4">{file.name}</span>
+                <Image
+                  src="/x-gray.svg"
+                  className="cursor-pointer"
+                  height={12}
+                  width={12}
+                  alt="Загруженные файлы"
+                />
+              </p>
+            );
+          })}
         </div>
       )}
-      {selectedFiles.length == 0 && <p className="pr-5 text-sm">{label}</p>}
-      <div>
-        <input
-          id={name}
-          type="file"
-          multiple
-          hidden
-          onChange={handleFileChange}
-        />
-        <label
-          className="cursor-pointer rounded-3xl border px-6 py-3 text-sm"
-          htmlFor={name}
-        >
-          Прикрепить
-        </label>
-      </div>
     </div>
   );
 };
