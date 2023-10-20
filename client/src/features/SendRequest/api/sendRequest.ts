@@ -3,5 +3,19 @@ export const sendRequest = async (
   files: File[],
   project: number,
 ) => {
-  // future api endpoint
+  const formData = new FormData();
+
+  files.forEach((file) => {
+    formData.append("files", file);
+  });
+
+  formData.append("team", "" + team);
+  formData.append("project", "" + project);
+
+  const response = await fetch("/api/request", {
+    method: "POST",
+    body: formData,
+  });
+
+  console.log(response);
 };

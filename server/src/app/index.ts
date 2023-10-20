@@ -8,6 +8,8 @@ import path from "path";
 import projectRouter from "@/routes/project/router";
 import userRouter from "@/routes/user/router";
 import tagRouter from "@/routes/tag/router";
+import requestRouter from "@/routes/request/router";
+import fileUpload from "express-fileupload";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -17,6 +19,7 @@ const generateApp = (port?: number) => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser(process.env.TOKEN_SECRET));
+  app.use(fileUpload());
   app.use(
     session({
       secret: process.env.TOKEN_SECRET,
@@ -32,6 +35,7 @@ const generateApp = (port?: number) => {
   app.use("/project", projectRouter);
   app.use("/user", userRouter);
   app.use("/tag", tagRouter);
+  app.use("/request", requestRouter);
 
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 
