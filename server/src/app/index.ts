@@ -10,6 +10,7 @@ import userRouter from "@/routes/user/router";
 import tagRouter from "@/routes/tag/router";
 import requestRouter from "@/routes/request/router";
 import fileUpload from "express-fileupload";
+import emailRouter from "@/routes/email/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -36,6 +37,7 @@ const generateApp = (port?: number) => {
   app.use("/user", userRouter);
   app.use("/tag", tagRouter);
   app.use("/request", requestRouter);
+  app.use("/email", emailRouter);
 
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 
