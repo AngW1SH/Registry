@@ -9,8 +9,8 @@ const requestRepositoryFactory = () => {
   async function add(team: number, project: number, files: UploadedFile[]) {
     const body = {
       data: {
-        team: +team,
-        project: project,
+        team: { connect: [{ id: +team }] },
+        project: { connect: [{ id: project }] },
         name: "123",
       },
     };
