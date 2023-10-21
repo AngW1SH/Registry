@@ -24,10 +24,11 @@ export const selectProjectInList = (
       "supervisor",
       "curator",
       "client",
+      "teamLimit",
     ],
     populate: {
       ...populate,
-      team: {
+      teams: {
         fields: ["id"],
       },
     },

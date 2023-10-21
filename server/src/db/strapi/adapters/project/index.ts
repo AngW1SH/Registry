@@ -7,7 +7,7 @@ import {
   ProjectWithTagsListStrapi,
 } from "../../types/project";
 import { getTagFromStrapiDTO } from "../tag";
-import { getTeamFromStrapiDTO } from "../team";
+import { getTeamListFromStrapiDTO } from "../team";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectWithTagsListStrapi
@@ -28,8 +28,8 @@ export const getProjectListFromStrapiDTO = (
       id: project.id,
       ...project.attributes,
       tags: project.attributes.tags.data.map((tag) => tag.id),
-      team: project.attributes.team.data
-        ? project.attributes.team.data.id
+      teams: project.attributes.teams.data
+        ? project.attributes.teams.data.map((team) => team.id)
         : null,
     })),
     tags: tags,
@@ -38,7 +38,7 @@ export const getProjectListFromStrapiDTO = (
 
 export const getProjectFromStrapiDTO = (
   project: ProjectStrapiPopulated
-): { project: Project; tags: Tag[]; team: Team; users: User[] } => {
+): { project: Project; tags: Tag[]; teams: Team[]; users: User[] } => {
   const { requests, administrators, ...attributes } = project.data.attributes;
 
   return {
@@ -48,8 +48,8 @@ export const getProjectFromStrapiDTO = (
       developerRequirements: project.data.attributes.developerRequirements.map(
         (requirement) => requirement.developerRequirement
       ),
-      team: project.data.attributes.team.data
-        ? project.data.attributes.team.data.id
+      teams: project.data.attributes.teams.data
+        ? project.data.attributes.teams.data.map((team) => team.id)
         : null,
       tags: project.data.attributes.tags.data.map((tag) => tag.id),
       requestCount: requests ? requests.data.attributes.count : 0,
@@ -58,6 +58,6 @@ export const getProjectFromStrapiDTO = (
       id: tag.id,
       name: tag.attributes.name,
     })),
-    ...getTeamFromStrapiDTO(project.data.attributes.team),
+    ...getTeamListFromStrapiDTO(project.data.attributes.teams),
   };
 };

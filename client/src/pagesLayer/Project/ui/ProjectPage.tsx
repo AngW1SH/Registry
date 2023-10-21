@@ -11,6 +11,7 @@ import { FC } from "react";
 import { Footer } from "@/widgets/Footer";
 import { ProjectTeam } from "@/widgets/ProjectTeam";
 import { fetchProjectDetailed } from "@/composites/ProjectDetailed/api/fetchProjectDetailed";
+import ProjectTeamList from "@/widgets/ProjectTeam/ui/ProjectTeamList";
 
 interface ProjectPageProps {
   params: {
@@ -47,8 +48,11 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
         <div className="pt-24" />
-        {projectData.team && projectData.users && (
-          <ProjectTeam team={projectData.team} users={projectData.users} />
+        {projectData.teams && projectData.users && (
+          <ProjectTeamList
+            teams={projectData.teams}
+            users={projectData.users}
+          />
         )}
         <div className="pt-24" />
         <ProjectRequirements project={projectData.project} />

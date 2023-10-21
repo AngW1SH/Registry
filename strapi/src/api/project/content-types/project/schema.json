@@ -39,11 +39,11 @@
       "target": "api::tag.tag",
       "mappedBy": "projects"
     },
-    "team": {
+    "teams": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::team.team",
-      "inversedBy": "project"
+      "mappedBy": "project"
     },
     "requests": {
       "type": "relation",
@@ -66,6 +66,9 @@
       "type": "component",
       "repeatable": true,
       "component": "developer-requirement.developer-requirement"
+    },
+    "teamLimit": {
+      "type": "integer"
     }
   }
 }

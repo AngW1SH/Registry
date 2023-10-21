@@ -550,9 +550,9 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'manyToMany',
       'api::tag.tag'
     >;
-    team: Attribute.Relation<
+    teams: Attribute.Relation<
       'api::project.project',
-      'oneToOne',
+      'oneToMany',
       'api::team.team'
     >;
     requests: Attribute.Relation<
@@ -571,6 +571,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'developer-requirement.developer-requirement',
       true
     >;
+    teamLimit: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -714,11 +715,6 @@ export interface ApiTeamTeam extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    project: Attribute.Relation<
-      'api::team.team',
-      'oneToOne',
-      'api::project.project'
-    >;
     requests: Attribute.Relation<
       'api::team.team',
       'oneToMany',
@@ -733,6 +729,11 @@ export interface ApiTeamTeam extends Schema.CollectionType {
       'api::team.team',
       'manyToMany',
       'api::student.student'
+    >;
+    project: Attribute.Relation<
+      'api::team.team',
+      'manyToOne',
+      'api::project.project'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

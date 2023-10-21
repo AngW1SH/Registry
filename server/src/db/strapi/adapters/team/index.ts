@@ -1,5 +1,6 @@
 import { Team } from "@/entities/team";
 import {
+  TeamListStrapiPopulated,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
 } from "../../types/team";
@@ -33,6 +34,35 @@ export const getTeamFromStrapiDTO = (
       users: users.map((user) => user.id),
     },
     users: users,
+  };
+};
+
+export const getTeamListFromStrapiDTO = (
+  teams: TeamListStrapiPopulated
+): { teams: Team[]; users: UserWithRole[] } => {
+  if (!teams.data) return { teams: null, users: null };
+
+  const usedUserIds = new Set();
+  const users: UserWithRole[] = [];
+
+  teams.data.forEach((team) => {
+    team.attributes.members.data.forEach((member) => {
+      if (usedUserIds.has(member.attributes.user.data.id)) return;
+
+      usedUserIds.add(member.attributes.user.data.id);
+      users.push(getTeamMemberFromStrapiDTO(member));
+    });
+  });
+
+  return {
+    teams: teams.data.map((team) => ({
+      id: team.id,
+      name: team.attributes.name,
+      users: team.attributes.members.data.map(
+        (member) => member.attributes.user.data.id
+      ),
+    })),
+    users,
   };
 };
 

@@ -116,7 +116,7 @@ const projectRepositoryFactory = () => {
   async function findOne(id: number): Promise<{
     project: Project;
     tags: Tag[];
-    team: Team;
+    teams: Team[];
     users: User[];
   }> {
     if (typeof id != "number") throw new Error("Provided ID is not a number");
@@ -127,7 +127,7 @@ const projectRepositoryFactory = () => {
       },
       populate: {
         tags: selectTag(),
-        team: selectTeam({
+        teams: selectTeam({
           members: selectMember({
             user: selectUser(),
           }),

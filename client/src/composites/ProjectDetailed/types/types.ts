@@ -6,13 +6,13 @@ import { IUserWithRole } from "@/entities/User";
 export interface ProjectDetailed {
   project: IProject;
   tags: ITag[];
-  team: ITeam | null;
+  teams: ITeam[] | null;
   users: IUserWithRole[] | null;
 }
 
 export interface ProjectDetailedDTO {
   project: ProjectDTO;
   tags: ITag[];
-  team: ITeam | null;
+  teams: ITeam[] | null;
   users: IUserWithRole[] | null;
 }

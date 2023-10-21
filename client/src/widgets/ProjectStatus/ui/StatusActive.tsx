@@ -18,11 +18,15 @@ const StatusActive: FC<StatusActiveProps> = ({ users }) => {
       <div className="pt-7" />
       <ul className="flex flex-wrap text-center leading-7 lg:text-left lg:text-sm xl:text-base">
         {users &&
+          users.length < 10 &&
           users.map((user) => (
             <li key={user.email} className="w-full sm:w-1/2">
               {formatNameShort(user.name)}
             </li>
           ))}
+        {(!users || users.length >= 10) && (
+          <p>Вы можете ознакомиться с командами-исполнителями ниже</p>
+        )}
       </ul>
       <div className="py-4 lg:hidden" />
       <Button className="mt-auto block self-center px-9">Подробнее</Button>

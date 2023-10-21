@@ -15,7 +15,8 @@ export interface Project {
   requestCount: number;
   client: string;
   tags: number[];
-  team: number;
+  teams: number[];
+  teamLimit: number;
 }
 
 export interface ProjectDTO {
@@ -33,7 +34,8 @@ export interface ProjectDTO {
   curator: string;
   client: string;
   tags: number[];
-  team: number;
+  teams: number[];
+  teamLimit: number;
 }
 
 export interface ProjectFilters {

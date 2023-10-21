@@ -13,7 +13,8 @@ export type IProject = {
   client: string;
   requestCount: number;
   tags: number[];
-  team: number;
+  teams: number[];
+  teamLimit: number;
 };
 
 export type ProjectDTO = {
@@ -31,7 +32,8 @@ export type ProjectDTO = {
   client: string;
   requestCount: number;
   tags: number[];
-  team: number;
+  teams: number[];
+  teamLimit: number;
 };
 
 export enum ProjectStage {

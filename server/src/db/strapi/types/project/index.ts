@@ -1,5 +1,5 @@
 import { TagListStrapi } from "../tag";
-import { TeamStrapiPopulated } from "../team";
+import { TeamListStrapiPopulated } from "../team";
 import { UserListStrapi } from "../user";
 
 export interface ProjectStrapiPopulated {
@@ -19,7 +19,8 @@ export interface ProjectStrapiPopulated {
       requests: ProjectRequestCountStrapi;
       client: string;
       tags: TagListStrapi;
-      team: TeamStrapiPopulated;
+      teams: TeamListStrapiPopulated;
+      teamLimit: number;
       isPublic: boolean;
     };
   };
@@ -38,11 +39,14 @@ interface ProjectWithTagsStrapiInner {
     //createdAt: Date;
     supervisor: string;
     curator: string;
-    team: {
-      data: {
-        id: number;
-      } | null;
+    teams: {
+      data:
+        | {
+            id: number;
+          }[]
+        | null;
     };
+    teamLimit: number;
     requestCount: number;
     client: string;
     tags: TagListStrapi;

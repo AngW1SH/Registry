@@ -1,5 +1,6 @@
 "use client";
 import { IProject } from "@/entities/Project";
+import { getProjectHiringSlotCount } from "@/entities/Project/utils/getProjectHiringSlotCount";
 import { ITeam } from "@/entities/Team";
 import { SendRequest } from "@/features/SendRequest";
 import { Button, Dropdown, FileUpload } from "@/shared/ui";
@@ -19,6 +20,15 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
 
   const [hasApplied, setHasApplied] = useState(false);
 
+  /*
+      <div className="flex">
+        <p className="w-1/2">Число поданных на проект заявок</p>
+        <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
+          {project.requestCount}
+        </p>
+      </div>
+  */
+
   return (
     <div className="my-auto w-full overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
       <div
@@ -36,9 +46,9 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
           <div className="h-px w-full bg-black" />
           <div className="pt-7" />
           <div className="flex">
-            <p className="w-1/2">Число поданных на проект заявок</p>
+            <p className="w-1/2">Число вакансий для команд</p>
             <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
-              {project.requestCount}
+              {getProjectHiringSlotCount(project)}
             </p>
           </div>
           <div className="pt-14 lg:pt-7" />

@@ -7,6 +7,7 @@ import StatusHiringUnauthorized from "./StatusHiringUnauthorized";
 import StatusHiringTeamlead from "./StatusHiringTeamlead";
 import Image from "next/image";
 import { getTeamsByTeamIds } from "@/entities/Team";
+import { getProjectHiringSlotCount } from "@/entities/Project/utils/getProjectHiringSlotCount";
 
 interface StatusHiringProps {
   project: IProject;
@@ -33,6 +34,15 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
       />
     );
 
+  /*
+      <div className="flex">
+        <p className="w-1/2">Число поданных на проект заявок</p>
+        <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
+          {project.requestCount}
+        </p>
+      </div>
+  */
+
   return (
     <div className="my-auto overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
       <h2 className="text-center text-3xl text-primary lg:text-left xl:text-4xl">
@@ -43,9 +53,9 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
       <div className="h-px w-full bg-black" />
       <div className="pt-7" />
       <div className="flex">
-        <p className="w-1/2">Число поданных на проект заявок</p>
+        <p className="w-1/2">Число вакансий для команд</p>
         <p className="flex w-1/2 items-center justify-center text-5xl font-medium">
-          {project.requestCount}
+          {getProjectHiringSlotCount(project)}
         </p>
       </div>
       <div className="pt-7" />
