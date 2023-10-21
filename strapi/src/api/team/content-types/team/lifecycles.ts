@@ -54,7 +54,12 @@ export default {
       : [];
 
     const memberNotRemovedNames = existingData.members
-      .filter((member) => !membersRemovedIds.includes(member.id) && member.user)
+      .filter(
+        (member) =>
+          !membersRemovedIds.includes(member.id) &&
+          member.user &&
+          !membersAddedIds.includes(member.id)
+      )
       .map((member) => formatName(member.user.name));
 
     const projectData = event.params.data.project;
@@ -73,10 +78,15 @@ export default {
 
     const projectName =
       projectAdded ||
-      (projectData.disconnect.length ? null : existingData.project.name);
+      (projectData && projectData.disconnect.length
+        ? null
+        : existingData.project && existingData.project.name
+        ? existingData.project.name
+        : "");
 
-    event.params.data.name =
-      memberNotRemovedNames.join(", ") + membersAddedNames.join(", ");
+    event.params.data.name = memberNotRemovedNames
+      .concat(membersAddedNames)
+      .join(", ");
 
     if (projectName) event.params.data.name += " - " + projectName;
   },
