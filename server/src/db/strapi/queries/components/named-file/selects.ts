@@ -3,7 +3,7 @@ export const selectNamedFile = () => {
     fields: ["name"],
     populate: {
       file: {
-        fields: ["name", "url"],
+        fields: ["name", "url", "mime", "size"],
       },
     },
   };

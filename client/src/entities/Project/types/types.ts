@@ -41,11 +41,15 @@ export interface IProjectSingle extends IProject {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
   resultFiles: {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
 }
 
@@ -54,11 +58,15 @@ export interface IProjectSingleDTO extends ProjectDTO {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
   resultFiles: {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
 }
 

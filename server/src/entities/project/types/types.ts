@@ -76,11 +76,15 @@ export interface ProjectDetailedDTO extends ProjectDTO {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
   resultFiles: {
     id: number;
     name: string;
     url: string;
+    type: string;
+    size: string;
   }[];
 }
 

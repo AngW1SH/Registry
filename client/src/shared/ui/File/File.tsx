@@ -9,7 +9,7 @@ interface FileProps {
   size?: string;
 }
 
-const File: FC<FileProps> = ({ label, size, link, type }) => {
+const File: FC<FileProps> = ({ label, size, link, type = "FILE" }) => {
   return (
     <div className="flex items-center gap-2">
       <div className="relative h-6 w-7">
@@ -23,7 +23,9 @@ const File: FC<FileProps> = ({ label, size, link, type }) => {
           {label}
         </a>
       </p>
-      <p>(PDF, {size} )</p>
+      <p>
+        ({type}, {size} )
+      </p>
     </div>
   );
 };

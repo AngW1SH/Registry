@@ -17,8 +17,8 @@ const ProjectDescription: FC<ProjectDescriptionProps> = ({ project }) => {
           key={file.id}
           label={file.name}
           link={file.url}
-          type={"PDF"}
-          size={"92 Кб"}
+          type={file.type}
+          size={file.size}
         />
       ))}
     </LabeledBlock>

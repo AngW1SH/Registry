@@ -7,6 +7,8 @@ export interface NamedFileStrapi {
       attributes: {
         name: string;
         url: string;
+        mime: string;
+        size: number;
       };
     } | null;
   };
