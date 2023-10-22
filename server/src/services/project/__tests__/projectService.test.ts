@@ -1,11 +1,14 @@
 import { staticProjectsWithTagsResult } from "@/entities/project";
 import projectService from "..";
-import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
+import {
+  staticProjectDetailedStrapi,
+  staticProjectListStrapi,
+} from "@/entities/project/static/projectsWithTags";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
     status: 200,
-    json: () => Promise.resolve(staticProjectsWithTagsResult),
+    json: () => Promise.resolve(staticProjectListStrapi),
   })
 ) as jest.Mock;
 
@@ -31,7 +34,7 @@ describe("Project Service", () => {
   });
 
   describe("findById method", () => {
-    it("should return project with tags", async () => {
+    it("should return project, tags, teams and users", async () => {
       (fetch as jest.Mock).mockResolvedValueOnce(
         Promise.resolve({
           status: 200,
@@ -44,6 +47,8 @@ describe("Project Service", () => {
       expect(result).toBeDefined();
       expect(result.project).toBeDefined();
       expect(result.tags).toBeDefined();
+      expect(result.teams).toBeDefined();
+      expect(result.users).toBeDefined();
     });
   });
 });

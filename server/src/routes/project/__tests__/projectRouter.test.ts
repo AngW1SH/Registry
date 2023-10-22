@@ -2,7 +2,10 @@ import generateApp from "@/app";
 import request from "supertest";
 
 import { staticProjectsWithTagsResult } from "@/entities/project";
-import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
+import {
+  staticProjectDetailedStrapi,
+  staticProjectListStrapi,
+} from "@/entities/project/static/projectsWithTags";
 
 const app = generateApp();
 
@@ -13,7 +16,7 @@ describe("Project Router", () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         status: 200,
-        json: () => Promise.resolve(staticProjectsWithTagsResult),
+        json: () => Promise.resolve(staticProjectListStrapi),
       })
     ) as jest.Mock;
   });
@@ -68,7 +71,7 @@ describe("Project Router", () => {
       });
 
       it("should send an object with a project and its tags", async () => {
-        const result = await request(app).get("/project/findbyid/1");
+        const result = await request(generateApp()).get("/project/findbyid/1");
         expect(result.body.project).toBeDefined();
         expect(result.body.tags).toBeDefined();
       });

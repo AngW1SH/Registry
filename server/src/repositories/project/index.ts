@@ -36,7 +36,7 @@ const projectRepositoryFactory = () => {
   });
 
   async function getNew(limit?: number): Promise<{
-    projects: Project[];
+    projects: ProjectDTO[];
     tags: Tag[];
   }> {
     const now = new Date();
@@ -143,22 +143,22 @@ const projectRepositoryFactory = () => {
       },
     };
 
-    const response = await strapi.get("projects", {
+    const response = await strapi.get("projects/" + id, {
       token: process.env.PROJECTS_TOKEN,
       params,
     });
 
-    if (!response.data.length) return null;
+    if (!response.data) return null;
 
-    const countRequests = await this.countActiveRequests(response.data[0].id);
+    const countRequests = await this.countActiveRequests(response.data.id);
 
-    response.data[0].attributes.requests.data.attributes.count = countRequests;
+    response.data.attributes.requests.data.attributes.count = countRequests;
 
-    return getProjectFromStrapiDTO({ data: response.data[0] });
+    return getProjectFromStrapiDTO({ data: response.data });
   }
 
   async function findMany(filters?: ProjectFilters): Promise<{
-    projects: Project[];
+    projects: ProjectDTO[];
     tags: Tag[];
   }> {
     if (!checkFilterValidity(filters)) return { projects: [], tags: [] };

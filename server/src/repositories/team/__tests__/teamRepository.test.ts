@@ -1,11 +1,12 @@
-import { staticTeamsStrapiPopulated } from "@/entities/team/static/staticTeams";
+import { staticTeamListStrapiPopulatedWithAdministrators } from "@/entities/team/static/staticTeams";
 import teamRepository from "..";
 import { staticUser } from "@/entities/user";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
     status: 200,
-    json: () => Promise.resolve(staticTeamsStrapiPopulated),
+    json: () =>
+      Promise.resolve(staticTeamListStrapiPopulatedWithAdministrators),
   })
 ) as jest.Mock;
 

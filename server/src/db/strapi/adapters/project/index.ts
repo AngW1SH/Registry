@@ -9,6 +9,7 @@ import {
 import { getTagFromStrapiDTO } from "../tag";
 import { getTeamListFromStrapiDTO } from "../team";
 import {
+  ProjectDTO,
   ProjectDetailed,
   ProjectDetailedDTO,
 } from "@/entities/project/types/types";
@@ -16,7 +17,7 @@ import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectWithTagsListStrapi
-): { projects: Project[]; tags: Tag[] } => {
+): { projects: ProjectDTO[]; tags: Tag[] } => {
   const usedTagIds = new Set();
   const tags = [];
 
@@ -49,8 +50,6 @@ export const getProjectFromStrapiDTO = (
   teams: Team[];
   users: User[];
 } => {
-  console.log(JSON.stringify(project));
-
   const { requests, ...attributes } = project.data.attributes;
 
   return {

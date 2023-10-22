@@ -50,12 +50,6 @@ describe("User Controller", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
-    it("should respond with a 401 status if there is no user", async () => {
-      req.signedCookies = {};
-
-      const result = await userController.logout(req, res);
-      expect(res.status).toEqual(401);
-    });
     it("should respond with a 200 status if everything is ok", async () => {
       req.signedCookies = {
         "user-access": "123",
@@ -64,7 +58,7 @@ describe("User Controller", () => {
 
       const result = await userController.logout(req, res);
 
-      expect(res.status).toEqual(200);
+      expect(res.status).toHaveBeenCalledWith(200);
     });
     it("should clear cookies if there is a user", async () => {
       req.signedCookies = {

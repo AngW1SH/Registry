@@ -7,7 +7,7 @@ import {
 import userRepository from "@/repositories/user";
 import userService from "..";
 import teamRepository from "@/repositories/team";
-import { staticTeamsStrapiPopulated } from "@/entities/team/static/staticTeams";
+import { staticTeamListStrapiPopulatedWithAdministrators } from "@/entities/team/static/staticTeams";
 
 jest.mock("@/repositories/user");
 jest.mock("@/repositories/team");
@@ -74,11 +74,11 @@ describe("User Service", () => {
       jest.clearAllMocks();
 
       (teamRepository.getUnassignedByUser as jest.Mock).mockResolvedValueOnce(
-        staticTeamsStrapiPopulated
+        staticTeamListStrapiPopulatedWithAdministrators
       );
       (
         teamRepository.getUnassignedAdministratedByUser as jest.Mock
-      ).mockResolvedValueOnce(staticTeamsStrapiPopulated);
+      ).mockResolvedValueOnce(staticTeamListStrapiPopulatedWithAdministrators);
     });
     it("should throw an error if the user is not found", async () => {
       expect(async () => userService.getData(null)).rejects.toThrow();

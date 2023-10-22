@@ -1,6 +1,9 @@
 import { staticProjectsWithTagsResult } from "@/entities/project";
 import projectController from "..";
-import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
+import {
+  staticProjectDetailedStrapi,
+  staticProjectListStrapi,
+} from "@/entities/project/static/projectsWithTags";
 
 const req: any = {};
 const res: any = {};
@@ -12,7 +15,7 @@ res.json = jest.fn().mockReturnValue(res);
 global.fetch = jest.fn(() =>
   Promise.resolve({
     status: 200,
-    json: () => Promise.resolve(staticProjectsWithTagsResult),
+    json: () => Promise.resolve(staticProjectListStrapi),
   })
 ) as jest.Mock;
 
@@ -22,7 +25,7 @@ describe("Project Controller", () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         status: 200,
-        json: () => Promise.resolve(staticProjectsWithTagsResult),
+        json: () => Promise.resolve(staticProjectListStrapi),
       })
     ) as jest.Mock;
   });

@@ -32,13 +32,10 @@ interface ProjectWithTagsStrapiInner {
   attributes: {
     name: string;
     description: string;
-    descriptionFiles: NamedFileStrapi[];
-    resultFiles: NamedFileStrapi[];
-    developerRequirements: string[];
-    dateStart: Date;
-    dateEnd: Date;
-    enrollmentStart: Date;
-    enrollmentEnd: Date;
+    dateStart: string;
+    dateEnd: string;
+    enrollmentStart: string;
+    enrollmentEnd: string;
     //createdAt: Date;
     supervisor: string;
     curator: string;
@@ -46,11 +43,11 @@ interface ProjectWithTagsStrapiInner {
       data:
         | {
             id: number;
+            attributes?: {};
           }[]
         | null;
     };
     teamLimit: number;
-    requestCount: number;
     client: string;
     tags: TagListStrapi;
   };

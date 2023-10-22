@@ -4,7 +4,6 @@ export interface Project {
   id: number;
   name: string;
   description: string;
-  developerRequirements: string[];
   dateStart: Date;
   dateEnd: Date;
   enrollmentStart: Date;
@@ -12,7 +11,6 @@ export interface Project {
   //createdAt: Date;
   supervisor: string;
   curator: string;
-  requestCount: number;
   client: string;
   tags: number[];
   teams: number[];
@@ -23,14 +21,12 @@ export interface ProjectDTO {
   id: number;
   name: string;
   description: string;
-  developerRequirements: string[];
   dateStart: string;
   dateEnd: string;
   enrollmentStart: string;
   enrollmentEnd: string;
   //createdAt: string;
   supervisor: string;
-  requestCount: number;
   curator: string;
   client: string;
   tags: number[];
@@ -59,6 +55,8 @@ export interface ProjectFiltersDTO {
 }
 
 export interface ProjectDetailed extends Project {
+  requestCount: number;
+  developerRequirements: string[];
   descriptionFiles: {
     id: number;
     name: string;
@@ -72,6 +70,8 @@ export interface ProjectDetailed extends Project {
 }
 
 export interface ProjectDetailedDTO extends ProjectDTO {
+  requestCount: number;
+  developerRequirements: string[];
   descriptionFiles: {
     id: number;
     name: string;

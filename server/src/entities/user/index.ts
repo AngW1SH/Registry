@@ -7,21 +7,12 @@ import {
 
 import type {
   User,
-  UserStrapi,
-  UserListStrapi,
   UserWithRole,
   UserCreate,
   UserProjectStatusData,
 } from "./types/types";
 
-export type {
-  User,
-  UserStrapi,
-  UserCreate,
-  UserListStrapi,
-  UserWithRole,
-  UserProjectStatusData,
-};
+export type { User, UserCreate, UserWithRole, UserProjectStatusData };
 export {
   staticUserResponseStrapi,
   staticUser,

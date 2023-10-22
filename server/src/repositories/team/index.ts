@@ -10,6 +10,7 @@ import { selectUser } from "@/db/strapi/queries/user";
 import {
   TeamListStrapiPopulated,
   TeamStrapiPopulated,
+  TeamStrapiPopulatedWithAdministrators,
 } from "@/db/strapi/types/team";
 import { User } from "@/entities/user";
 
@@ -48,13 +49,11 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamStrapiPopulated | { data: null } = await strapi.get(
-      "teams/" + id,
-      {
+    const response: TeamStrapiPopulatedWithAdministrators | { data: null } =
+      await strapi.get("teams/" + id, {
         token: process.env.PROJECTS_TOKEN,
         params,
-      }
-    );
+      });
 
     if (
       !response.data ||

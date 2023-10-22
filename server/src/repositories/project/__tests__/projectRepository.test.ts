@@ -1,11 +1,14 @@
-import { staticProjectDetailedStrapi } from "@/entities/project/static/projectsWithTags";
+import {
+  staticProjectDetailedStrapi,
+  staticProjectListStrapi,
+} from "@/entities/project/static/projectsWithTags";
 import projectRepository from "..";
 import { staticProjectsWithTagsResult } from "@/entities/project";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
     status: 200,
-    json: () => Promise.resolve(staticProjectsWithTagsResult),
+    json: () => Promise.resolve(staticProjectListStrapi),
   })
 ) as jest.Mock;
 
@@ -33,20 +36,20 @@ describe("Project Repository", () => {
       );
 
       results.forEach((result) => {
-        expect(result).toEqual([]);
+        expect(result).toEqual({ projects: [], tags: [] });
       });
 
       expect(fetch).toBeCalledTimes(0);
     });
 
-    it("should apply text filter as an OR for all existing text fields", async () => {
+    it("should apply text filter once", async () => {
       const filters = {
         text: "testtext",
       };
 
       const result = await projectRepository.findMany(filters);
 
-      expect((fetch as jest.Mock).mock.calls[0][0]).toMatch(/(testtext.*){3,}/);
+      expect((fetch as jest.Mock).mock.calls[0][0]).toMatch(/(testtext.*){1,}/);
     });
 
     it("should return projects even when no filters are provided", async () => {
@@ -71,10 +74,22 @@ describe("Project Repository", () => {
     });
 
     it("should return a project when everything is okay", async () => {
+      // For the project request
       (fetch as jest.Mock).mockResolvedValueOnce(
         Promise.resolve({
           status: 200,
           json: () => Promise.resolve(staticProjectDetailedStrapi),
+        })
+      );
+
+      // For the project count request
+      (fetch as jest.Mock).mockResolvedValueOnce(
+        Promise.resolve({
+          status: 200,
+          json: () =>
+            Promise.resolve({
+              data: { id: 1, attributes: { requests: { count: 1 } } },
+            }),
         })
       );
       const id = 1;
@@ -82,7 +97,7 @@ describe("Project Repository", () => {
       const result = await projectRepository.findOne(id);
 
       expect(result).toBeDefined();
-      expect(fetch).toBeCalledTimes(1);
+      expect(fetch).toBeCalledTimes(2);
     });
   });
 });

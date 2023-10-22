@@ -1,7 +1,8 @@
 import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
 import { selectUser } from "@/db/strapi/queries/user";
-import { User, UserCreate, UserListStrapi, UserStrapi } from "@/entities/user";
+import { UserListStrapi, UserStrapi } from "@/db/strapi/types/user";
+import { User, UserCreate } from "@/entities/user";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
