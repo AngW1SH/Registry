@@ -16,9 +16,12 @@ const File: FC<FileProps> = ({ label, size, link, type }) => {
         <Image src="/file-icon-pdf.svg" fill={true} alt="PDF-файл" />
       </div>
       <p>
-        <Link className="text-primary" href={link}>
+        <a
+          className="text-primary"
+          href={process.env.NEXT_PUBLIC_STRAPI_URL + link}
+        >
           {label}
-        </Link>
+        </a>
       </p>
       <p>(PDF, {size} )</p>
     </div>

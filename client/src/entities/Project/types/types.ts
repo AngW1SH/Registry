@@ -36,6 +36,32 @@ export type ProjectDTO = {
   teamLimit: number;
 };
 
+export interface IProjectSingle extends IProject {
+  descriptionFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+  resultFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+}
+
+export interface IProjectSingleDTO extends ProjectDTO {
+  descriptionFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+  resultFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+}
+
 export enum ProjectStage {
   hiring,
   active,

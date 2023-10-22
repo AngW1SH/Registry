@@ -1,17 +1,20 @@
-import { IProject, ProjectDTO } from "@/entities/Project";
+import {
+  IProjectSingle,
+  IProjectSingleDTO,
+} from "@/entities/Project/types/types";
 import { ITag } from "@/entities/Tag";
 import { ITeam } from "@/entities/Team";
 import { IUserWithRole } from "@/entities/User";
 
 export interface ProjectDetailed {
-  project: IProject;
+  project: IProjectSingle;
   tags: ITag[];
   teams: ITeam[] | null;
   users: IUserWithRole[] | null;
 }
 
 export interface ProjectDetailedDTO {
-  project: ProjectDTO;
+  project: IProjectSingleDTO;
   tags: ITag[];
   teams: ITeam[] | null;
   users: IUserWithRole[] | null;

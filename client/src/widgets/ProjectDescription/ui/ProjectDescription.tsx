@@ -1,10 +1,10 @@
-import { IProject } from "@/entities/Project";
+import { IProjectSingle } from "@/entities/Project/types/types";
 import { File } from "@/shared/ui";
 import LabeledBlock from "@/shared/ui/LabeledBlock/LabeledBlock";
 import { FC } from "react";
 
 interface ProjectDescriptionProps {
-  project: IProject;
+  project: IProjectSingle;
 }
 
 const ProjectDescription: FC<ProjectDescriptionProps> = ({ project }) => {
@@ -12,12 +12,15 @@ const ProjectDescription: FC<ProjectDescriptionProps> = ({ project }) => {
     <LabeledBlock label="Описание проекта">
       <p className="text-center lg:text-left">{project.description}</p>
       <div className="pt-10" />
-      <File
-        label={"Презентация проекта"}
-        link={"/projects/123"}
-        type={"PDF"}
-        size={"92 Кб"}
-      />
+      {project.descriptionFiles.map((file) => (
+        <File
+          key={file.id}
+          label={file.name}
+          link={file.url}
+          type={"PDF"}
+          size={"92 Кб"}
+        />
+      ))}
     </LabeledBlock>
   );
 };
