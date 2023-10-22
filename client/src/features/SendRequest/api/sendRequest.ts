@@ -1,3 +1,5 @@
+import { authorizedFetch } from "@/shared/utils";
+
 export const sendRequest = async (
   team: number,
   files: File[],
@@ -12,10 +14,14 @@ export const sendRequest = async (
   formData.append("team", "" + team);
   formData.append("project", "" + project);
 
-  const response = await fetch("/api/request", {
+  const response = await authorizedFetch("/api/request", {
     method: "POST",
     body: formData,
+  }).then((res) => {
+    if (res.status !== 200) throw new Error("Failed to send a request");
+
+    return res.status;
   });
 
-  console.log(response);
+  return response;
 };
