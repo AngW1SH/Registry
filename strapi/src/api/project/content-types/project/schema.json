@@ -69,6 +69,16 @@
     },
     "teamLimit": {
       "type": "integer"
+    },
+    "descriptionFiles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "named-file.named-file"
+    },
+    "resultFiles": {
+      "type": "component",
+      "repeatable": true,
+      "component": "named-file.named-file"
     }
   }
 }

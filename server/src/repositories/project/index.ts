@@ -11,8 +11,10 @@ import { selectTeam } from "@/db/strapi/queries/team";
 import { selectMember } from "@/db/strapi/queries/member";
 import { selectUser } from "@/db/strapi/queries/user";
 import {
+  selectDescriptionFiles,
   selectDeveloperRequirements,
   selectProjectInList,
+  selectResultFiles,
 } from "@/db/strapi/queries/project";
 import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
@@ -136,6 +138,8 @@ const projectRepositoryFactory = () => {
         requests: {
           count: true,
         },
+        descriptionFiles: selectDescriptionFiles(),
+        resultFiles: selectResultFiles(),
       },
     };
 

@@ -1,4 +1,5 @@
 import { SelectPopulate } from "@/db/types/types";
+import { selectNamedFile } from "../components/named-file";
 
 export const selectDeveloperRequirements = () => {
   return {
@@ -6,6 +7,14 @@ export const selectDeveloperRequirements = () => {
       fields: ["name"],
     },
   };
+};
+
+export const selectDescriptionFiles = () => {
+  return selectNamedFile();
+};
+
+export const selectResultFiles = () => {
+  return selectNamedFile();
 };
 
 type PopulateOptions = "tags" | "team";

@@ -1,3 +1,4 @@
+import { NamedFileStrapi } from "../components/named-file";
 import { TagListStrapi } from "../tag";
 import { TeamListStrapiPopulated } from "../team";
 import { UserListStrapi } from "../user";
@@ -8,6 +9,8 @@ export interface ProjectStrapiPopulated {
     attributes: {
       name: string;
       description: string;
+      descriptionFiles: NamedFileStrapi[];
+      resultFiles: NamedFileStrapi[];
       developerRequirements: ProjectStrapiDeveloperRequirement[];
       dateStart: Date;
       dateEnd: Date;
@@ -31,6 +34,8 @@ interface ProjectWithTagsStrapiInner {
   attributes: {
     name: string;
     description: string;
+    descriptionFiles: NamedFileStrapi[];
+    resultFiles: NamedFileStrapi[];
     developerRequirements: string[];
     dateStart: Date;
     dateEnd: Date;

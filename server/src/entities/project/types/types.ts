@@ -58,6 +58,32 @@ export interface ProjectFiltersDTO {
   tags?: string[];
 }
 
+export interface ProjectDetailed extends Project {
+  descriptionFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+  resultFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+}
+
+export interface ProjectDetailedDTO extends ProjectDTO {
+  descriptionFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+  resultFiles: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+}
+
 export interface ProjectWithTags extends Omit<Project, "tags"> {
   tags: Tag[];
 }

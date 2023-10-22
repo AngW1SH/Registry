@@ -572,6 +572,8 @@ export interface ApiProjectProject extends Schema.CollectionType {
       true
     >;
     teamLimit: Attribute.Integer;
+    descriptionFiles: Attribute.Component<'named-file.named-file', true>;
+    resultFiles: Attribute.Component<'named-file.named-file', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

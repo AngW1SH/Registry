@@ -1,3 +1,13 @@
-import { selectDeveloperRequirements, selectProjectInList } from "./selects";
+import {
+  selectDeveloperRequirements,
+  selectProjectInList,
+  selectDescriptionFiles,
+  selectResultFiles,
+} from "./selects";
 
-export { selectDeveloperRequirements, selectProjectInList };
+export {
+  selectDeveloperRequirements,
+  selectProjectInList,
+  selectDescriptionFiles,
+  selectResultFiles,
+};
