@@ -18,7 +18,7 @@ const projectControllerFactory = () => {
 
       res.status(200).json(projects);
     } catch {
-      res.status(500).send();
+      res.sendStatus(500);
     }
   }
 
@@ -27,8 +27,8 @@ const projectControllerFactory = () => {
       const projects = await projectService.getNew();
 
       res.status(200).json(projects);
-    } catch {
-      res.status(500).send();
+    } catch (err) {
+      res.status(500).send(err);
     }
   }
 
@@ -41,8 +41,8 @@ const projectControllerFactory = () => {
       );
 
       res.status(200).json(result);
-    } catch {
-      res.status(500).send();
+    } catch (err) {
+      res.status(500).send(err);
     }
   }
 
@@ -53,8 +53,8 @@ const projectControllerFactory = () => {
       );
 
       res.status(200).json(result);
-    } catch {
-      res.status(500).send();
+    } catch (err) {
+      res.status(500).send(err);
     }
   }
 };

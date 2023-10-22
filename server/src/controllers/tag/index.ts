@@ -17,7 +17,7 @@ const tagControllerFactory = () => {
 
       res.status(200).send(result);
     } catch (err) {
-      res.status(500).send();
+      res.status(500).send(err);
     }
   }
 };

@@ -24,9 +24,9 @@ const requestControllerFactory = () => {
         Array.isArray(req.files.files) ? req.files.files : [req.files.files]
       );
 
-      res.status(200).send(result);
+      res.status(200).send();
     } catch (err) {
-      res.status(500).send();
+      res.status(500).send(err);
     }
   }
 };
