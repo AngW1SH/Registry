@@ -1,10 +1,13 @@
-import { TeamStrapiPopulated } from "../team";
+import {
+  TeamStrapiPopulated,
+  TeamStrapiPopulatedWithAdministrators,
+} from "../team";
 
 export interface RequestStrapiInner {
   id: number;
   attributes: {
     role: string;
-    team: TeamStrapiPopulated;
+    team: TeamStrapiPopulatedWithAdministrators;
   };
 }
 

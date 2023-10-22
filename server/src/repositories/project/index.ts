@@ -1,7 +1,7 @@
 import { ProjectFilters } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
-import { Project } from "@/entities/project/types/types";
+import { Project, ProjectDTO } from "@/entities/project/types/types";
 import { RequestListStrapi, Team } from "@/entities/team";
 import {
   filterActiveRequests,
@@ -116,7 +116,7 @@ const projectRepositoryFactory = () => {
   }
 
   async function findOne(id: number): Promise<{
-    project: Project;
+    project: ProjectDTO;
     tags: Tag[];
     teams: Team[];
     users: User[];

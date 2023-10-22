@@ -12,19 +12,17 @@ export interface ProjectStrapiPopulated {
       descriptionFiles: NamedFileStrapi[];
       resultFiles: NamedFileStrapi[];
       developerRequirements: ProjectStrapiDeveloperRequirement[];
-      dateStart: Date;
-      dateEnd: Date;
-      enrollmentStart: Date;
-      enrollmentEnd: Date;
+      dateStart: string;
+      dateEnd: string;
+      enrollmentStart: string;
+      enrollmentEnd: string;
       supervisor: string;
       curator: string;
-      administrators: UserListStrapi;
       requests: ProjectRequestCountStrapi;
       client: string;
       tags: TagListStrapi;
       teams: TeamListStrapiPopulated;
       teamLimit: number;
-      isPublic: boolean;
     };
   };
 }

@@ -1,3 +1,5 @@
+import { ProjectStrapiPopulated } from "@/db/strapi/types/project";
+
 export const staticProjectsWithTagsPrisma = [
   {
     id: "1",
@@ -235,71 +237,81 @@ export const staticProjectsWithTagsResult = {
   },
 };
 
-export const staticProjectDetailedStrapi = {
-  data: [
-    {
-      id: 1,
-      attributes: {
-        name: "Биология растений в эпоху глобальных изменений климата",
-        description:
-          "Необходимо провести анализ адаптации растений к экстремальным условиям, возникающим в результате глобальных изменений климата. Важно оценить воздействие глобальных изменений климата на биоразнообразие растительного мира. Задачей является выявление потенциальных угроз экосистемам и сельскому хозяйству, обусловленных изменениями климата.",
-        dateStart: "2023-09-09",
-        dateEnd: "2023-12-01",
-        enrollmentStart: "2023-08-20",
-        enrollmentEnd: "2023-09-01",
-        supervisor: "Иванов П. М.",
-        createdAt: "2023-09-29T17:30:18.522Z",
-        updatedAt: "2023-10-09T20:23:52.882Z",
-        publishedAt: "2023-09-29T17:31:35.405Z",
-        curator: "Калашникова П. М.",
-        client: 'ООО "Рога и Копыто"',
-        tags: {
-          data: [
-            {
-              id: 8,
-              attributes: {
-                name: "Генетика",
-              },
-            },
-          ],
+export const staticProjectDetailedNoTeamStrapi: ProjectStrapiPopulated = {
+  data: {
+    id: 4,
+    attributes: {
+      name: "Современные проблемы эпидемиологии, микробиологии и гигиены",
+      description:
+        "Проект представляет собой исследование актуальных вопросов в области общественного здоровья и медицины. Задача - анализ современных эпидемиологических тенденций, изучение микробиологических аспектов патогенов и распространения болезней, а также исследование вопросов гигиенических практик и их влияния на общественное здоровье. Цель проекта - обеспечить научное понимание современных вызовов и рисков, связанных с биологическими агентами и общественными здоровьем, и способствовать разработке стратегий для их управления и предотвращения.",
+      dateStart: "2023-09-09",
+      dateEnd: "2023-12-10",
+      enrollmentStart: "2023-09-01",
+      enrollmentEnd: "2023-09-07",
+      supervisor: "Беляев Ф. П.",
+      curator: "Меркулова М. Р.",
+      client: "ИП Макаров Н.Г.",
+      teamLimit: null,
+      tags: {
+        data: [
+          { id: 1, attributes: { name: "Общество" } },
+          { id: 5, attributes: { name: "Социология" } },
+        ],
+      },
+      teams: { data: [] },
+      developerRequirements: [
+        {
+          id: 1,
+          developerRequirement:
+            "Глубокое понимание современных проблем и вызовов в области эпидемиологии, микробиологии и гигиены",
         },
-        team: {
-          data: {
+        {
+          id: 2,
+          developerRequirement:
+            "Умение интерпретировать результаты и формулировать рекомендации на основе полученных данных",
+        },
+        {
+          id: 3,
+          developerRequirement:
+            "Опыт работы с техническим оборудованием и программным обеспечением, связанным с микробиологией и эпидемиологией",
+        },
+      ],
+      requests: { data: { attributes: { count: 1 } } },
+      descriptionFiles: [],
+      resultFiles: [],
+    },
+  },
+};
+
+export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
+  data: {
+    id: 1,
+    attributes: {
+      name: "Биология растений в эпоху глобальных изменений климата",
+      description:
+        "Необходимо провести анализ адаптации растений к экстремальным условиям, возникающим в результате глобальных изменений климата. Важно оценить воздействие глобальных изменений климата на биоразнообразие растительного мира. Задачей является выявление потенциальных угроз экосистемам и сельскому хозяйству, обусловленных изменениями климата.",
+      dateStart: "2023-10-18",
+      dateEnd: "2023-12-01",
+      enrollmentStart: "2023-08-20",
+      enrollmentEnd: "2023-10-17",
+      supervisor: "Иванов П. М.",
+      curator: "Калашникова П. М.",
+      client: 'ООО "Рога и Копыто"',
+      teamLimit: 2,
+      tags: { data: [{ id: 8, attributes: { name: "Генетика" } }] },
+      teams: {
+        data: [
+          {
             id: 4,
             attributes: {
-              createdAt: "2023-10-09T18:56:55.343Z",
-              updatedAt: "2023-10-09T19:01:06.113Z",
-              publishedAt: "2023-10-09T18:56:56.294Z",
-              name: "4. Авдеева С.Д., Горшков И.Г., Гришкина С.К., Евдокимова В.А., Ермилов И.М.",
+              name: "Горшков И.Г., Гришина С.К., Ермилов И.М., Евдокимова В.А., Авдеева С.Д.",
               members: {
                 data: [
-                  {
-                    id: 1,
-                    attributes: {
-                      role: "Teamlead",
-                      createdAt: "2023-10-09T17:57:57.112Z",
-                      updatedAt: "2023-10-09T18:37:41.230Z",
-                      publishedAt: "2023-10-09T18:37:32.937Z",
-                      name: "1. Авдеева С.Д. - Teamlead",
-                      user: {
-                        data: {
-                          id: 3,
-                          attributes: {
-                            name: "Авдеева София Данииловна",
-                            email: "st489186@student.spbu.ru",
-                          },
-                        },
-                      },
-                    },
-                  },
                   {
                     id: 2,
                     attributes: {
                       role: "Системный администратор",
-                      createdAt: "2023-10-09T18:39:04.485Z",
-                      updatedAt: "2023-10-09T18:39:06.014Z",
-                      publishedAt: "2023-10-09T18:39:06.012Z",
-                      name: "2. Горшков И.Г. - Системный администратор",
+                      name: "Горшков И.Г. - Системный администратор",
                       user: {
                         data: {
                           id: 5,
@@ -315,10 +327,7 @@ export const staticProjectDetailedStrapi = {
                     id: 3,
                     attributes: {
                       role: "Инженер технической поддержки",
-                      createdAt: "2023-10-09T18:39:26.386Z",
-                      updatedAt: "2023-10-09T18:39:26.756Z",
-                      publishedAt: "2023-10-09T18:39:26.755Z",
-                      name: "3. Гришкина С.К. - Инженер технической поддержки",
+                      name: "Гришина С.К. - Инженер технической поддержки",
                       user: {
                         data: {
                           id: 6,
@@ -331,19 +340,16 @@ export const staticProjectDetailedStrapi = {
                     },
                   },
                   {
-                    id: 4,
+                    id: 1,
                     attributes: {
-                      role: "Тестировщик (QA Engineer)",
-                      createdAt: "2023-10-09T18:39:55.042Z",
-                      updatedAt: "2023-10-09T18:39:55.673Z",
-                      publishedAt: "2023-10-09T18:39:55.672Z",
-                      name: "4. Евдокимова В.А. - Тестировщик (QA Engineer)",
+                      role: "Teamlead",
+                      name: "Авдеева С.Д. - Teamlead",
                       user: {
                         data: {
-                          id: 7,
+                          id: 3,
                           attributes: {
-                            name: "Евдокимова Владислава Андреевна",
-                            email: "st631633@student.spbu.ru",
+                            name: "Авдеева София Данииловна",
+                            email: "st489186@student.spbu.ru",
                           },
                         },
                       },
@@ -353,10 +359,7 @@ export const staticProjectDetailedStrapi = {
                     id: 5,
                     attributes: {
                       role: "Frontend-разработчик",
-                      createdAt: "2023-10-09T18:40:32.834Z",
-                      updatedAt: "2023-10-09T18:40:33.412Z",
-                      publishedAt: "2023-10-09T18:40:33.409Z",
-                      name: "5. Ермилов И.М. - Frontend-разработчик",
+                      name: "Ермилов И.М. - Frontend-разработчик",
                       user: {
                         data: {
                           id: 8,
@@ -368,29 +371,79 @@ export const staticProjectDetailedStrapi = {
                       },
                     },
                   },
+                  {
+                    id: 4,
+                    attributes: {
+                      role: "Тестировщик (QA Engineer)",
+                      name: "Евдокимова В.А. - Тестировщик (QA Engineer)",
+                      user: {
+                        data: {
+                          id: 7,
+                          attributes: {
+                            name: "Евдокимова Владислава Андреевна",
+                            email: "st631633@student.spbu.ru",
+                          },
+                        },
+                      },
+                    },
+                  },
                 ],
               },
             },
           },
-        },
-        developerRequirements: [
-          {
-            id: 9,
-            developerRequirement:
-              "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
-          },
-          {
-            id: 10,
-            developerRequirement:
-              "Глубокое понимание биологии растений и их реакции на изменения климата",
-          },
-          {
-            id: 11,
-            developerRequirement:
-              "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
-          },
         ],
       },
+      developerRequirements: [
+        {
+          id: 9,
+          developerRequirement:
+            "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
+        },
+        {
+          id: 10,
+          developerRequirement:
+            "Глубокое понимание биологии растений и их реакции на изменения климата",
+        },
+        {
+          id: 11,
+          developerRequirement:
+            "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
+        },
+      ],
+      requests: { data: { attributes: { count: 0 } } },
+      descriptionFiles: [
+        {
+          id: 1,
+          name: "Stats",
+          file: {
+            data: {
+              id: 11,
+              attributes: {
+                name: "100.jpg",
+                url: "/uploads/100_ecba989f3f.jpg",
+                mime: "image/jpeg",
+                size: 69.03,
+              },
+            },
+          },
+        },
+        {
+          id: 2,
+          name: "Pirated Textbook",
+          file: {
+            data: {
+              id: 21,
+              attributes: {
+                name: "Design Patterns Elements of Reusable Object-Oriented Software.pdf",
+                url: "/uploads/Design_Patterns_Elements_of_Reusable_Object_Oriented_Software_427cc0144d.pdf",
+                mime: "application/octet-stream",
+                size: 19196.03,
+              },
+            },
+          },
+        },
+      ],
+      resultFiles: [],
     },
-  ],
+  },
 };

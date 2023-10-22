@@ -3,6 +3,7 @@ import {
   TeamListStrapiPopulated,
   TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
+  TeamStrapiPopulatedWithAdministrators,
 } from "../../types/team";
 import type { User, UserWithRole } from "@/entities/user";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
@@ -67,7 +68,7 @@ export const getTeamListFromStrapiDTO = (
 };
 
 export const getTeamWithAdministratorsFromStrapiDTO = (
-  team: TeamStrapiPopulated
+  team: TeamStrapiPopulatedWithAdministrators
 ): {
   team: TeamWithAdministrators;
   users: UserWithRole[];

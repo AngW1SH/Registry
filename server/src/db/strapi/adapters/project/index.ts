@@ -8,7 +8,10 @@ import {
 } from "../../types/project";
 import { getTagFromStrapiDTO } from "../tag";
 import { getTeamListFromStrapiDTO } from "../team";
-import { ProjectDetailed } from "@/entities/project/types/types";
+import {
+  ProjectDetailed,
+  ProjectDetailedDTO,
+} from "@/entities/project/types/types";
 import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 
 export const getProjectListFromStrapiDTO = (
@@ -40,8 +43,15 @@ export const getProjectListFromStrapiDTO = (
 
 export const getProjectFromStrapiDTO = (
   project: ProjectStrapiPopulated
-): { project: ProjectDetailed; tags: Tag[]; teams: Team[]; users: User[] } => {
-  const { requests, administrators, ...attributes } = project.data.attributes;
+): {
+  project: ProjectDetailedDTO;
+  tags: Tag[];
+  teams: Team[];
+  users: User[];
+} => {
+  console.log(JSON.stringify(project));
+
+  const { requests, ...attributes } = project.data.attributes;
 
   return {
     project: {

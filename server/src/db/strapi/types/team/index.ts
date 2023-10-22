@@ -15,7 +15,6 @@ export interface TeamStrapiPopulatedInner {
     members: {
       data: TeamMemberStrapiPopulated[];
     };
-    administrators: UserListStrapi;
   };
 }
 
@@ -26,4 +25,24 @@ export interface TeamMemberStrapiPopulated {
     role: string;
     user: UserStrapi;
   };
+}
+
+export interface TeamStrapiPopulatedWithAdministratorsInner
+  extends TeamStrapiPopulatedInner {
+  id: number;
+  attributes: {
+    name: string;
+    members: {
+      data: TeamMemberStrapiPopulated[];
+    };
+    administrators: UserListStrapi;
+  };
+}
+
+export interface TeamStrapiPopulatedWithAdministrators {
+  data: TeamStrapiPopulatedWithAdministratorsInner | null;
+}
+
+export interface TeamListStrapiPopulatedWithAdministrators {
+  data: TeamStrapiPopulatedWithAdministratorsInner[];
 }
