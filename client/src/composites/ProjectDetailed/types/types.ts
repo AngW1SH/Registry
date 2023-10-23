@@ -1,7 +1,4 @@
-import {
-  IProjectSingle,
-  IProjectSingleDTO,
-} from "@/entities/Project/types/types";
+import { IProjectSingle, IProjectSingleDTO } from "@/entities/Project";
 import { ITag } from "@/entities/Tag";
 import { ITeam } from "@/entities/Team";
 import { IUserWithRole } from "@/entities/User";

@@ -1,5 +1,6 @@
 import { getProjectFromDTO } from "@/entities/Project/utils";
 import { ProjectDetailed, ProjectDetailedDTO } from "../types/types";
+import { getProjectSingleFromDTO } from "@/entities/Project";
 
 export const fetchProjectDetailed = async (
   id: number,
@@ -10,6 +11,6 @@ export const fetchProjectDetailed = async (
 
   return {
     ...resultDTO,
-    project: getProjectFromDTO(resultDTO.project),
+    project: getProjectSingleFromDTO(resultDTO.project),
   };
 };

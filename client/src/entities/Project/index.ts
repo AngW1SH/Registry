@@ -2,6 +2,10 @@ import ProjectCard from "./ui/ProjectCard";
 import ProjectCardAlt from "./ui/ProjectCardAlt";
 import { staticProjects } from "./static/staticProjects";
 import { getProjectStage } from "./utils/getProjectStage";
+import {
+  getProjectSingleFromDTO,
+  getProjectFromDTO,
+} from "./utils/getProjectFromDTO/getProjectFromDTO";
 import type {
   ProjectDTO,
   IProject,
@@ -16,5 +20,7 @@ export {
   staticProjects,
   getProjectStage,
   ProjectStage,
+  getProjectFromDTO,
+  getProjectSingleFromDTO,
 };
-export type { ProjectDTO, IProject };
+export type { ProjectDTO, IProject, IProjectSingle, IProjectSingleDTO };

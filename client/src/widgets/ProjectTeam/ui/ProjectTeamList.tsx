@@ -14,7 +14,7 @@ const ProjectTeamList: FC<ProjectTeamListProps> = ({ teams, users }) => {
     <LabeledBlock label={"Состав команд" + (teams.length > 1 ? "" : "ы")}>
       <ul className="flex w-full flex-col gap-16">
         {teams.map((team) => (
-          <li>
+          <li key={team.id}>
             <ProjectTeam team={team} users={users} />
           </li>
         ))}

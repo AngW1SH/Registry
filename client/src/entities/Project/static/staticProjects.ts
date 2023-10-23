@@ -14,7 +14,8 @@ export const staticProjects: IProject[] = [
     curator: "Калашникова П. М.",
     client: 'ООО "Рога и Копыто"',
     tags: [8],
-    team: 4,
+    teams: [4],
+    teamLimit: 2,
     requestCount: 1,
     developerRequirements: [
       "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
@@ -36,7 +37,8 @@ export const staticProjects: IProject[] = [
     client: 'ООО "Альфа и Омега"',
     tags: [1, 5, 6],
     requestCount: 0,
-    team: 6,
+    teams: [4, 6],
+    teamLimit: 2,
     developerRequirements: [
       "Опыт применения методов социологических и экономических исследований",
       "Способность представлять сложные социально-экономические концепции понятным образом",
@@ -56,7 +58,8 @@ export const staticProjects: IProject[] = [
     client: 'ЗАО "Солнечные Лучи"',
     tags: [4, 8],
     requestCount: 1,
-    team: 5,
+    teams: [5],
+    teamLimit: 1,
     developerRequirements: [
       "Стремление к постоянному обучению и повышению квалификации в области ГМО и биотехнологии",
       "Способность представлять сложные научные концепции в доступной форме для различных аудиторий",
@@ -77,7 +80,8 @@ export const staticProjects: IProject[] = [
     client: "ИП Макаров Н.Г.",
     requestCount: 3,
     tags: [1, 5],
-    team: 7,
+    teams: [],
+    teamLimit: 1,
     developerRequirements: [
       "Глубокое понимание современных проблем и вызовов в области эпидемиологии, микробиологии и гигиены",
       "Умение интерпретировать результаты и формулировать рекомендации на основе полученных данных",
