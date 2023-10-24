@@ -1,3 +1,8 @@
+export interface IProjectReference {
+  id: number;
+  name: string;
+}
+
 export type IProject = {
   id: number;
   name: string;

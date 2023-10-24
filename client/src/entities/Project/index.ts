@@ -12,6 +12,7 @@ import type {
   IProject,
   IProjectSingle,
   IProjectSingleDTO,
+  IProjectReference,
 } from "./types/types";
 import { ProjectStage } from "./types/types";
 
@@ -25,4 +26,10 @@ export {
   getProjectFromDTO,
   getProjectSingleFromDTO,
 };
-export type { ProjectDTO, IProject, IProjectSingle, IProjectSingleDTO };
+export type {
+  ProjectDTO,
+  IProject,
+  IProjectSingle,
+  IProjectSingleDTO,
+  IProjectReference,
+};

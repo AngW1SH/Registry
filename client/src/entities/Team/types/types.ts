@@ -3,3 +3,8 @@ export interface ITeam {
   name: string;
   users: number[];
 }
+
+export interface ITeamExtended extends ITeam {
+  project: number | null;
+  requests: number[];
+}
