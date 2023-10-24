@@ -15,7 +15,9 @@ const UserSidebar: FC<UserSidebarProps> = ({ active = "hero" }) => {
           key={item.slug}
           className={`${active == item.slug ? "font-bold" : ""}`}
         >
-          <Link href={"/user/" + item.slug}>{item.name}</Link>
+          <Link href={"/user/" + (item.slug == "hero" ? "" : item.slug)}>
+            {item.name}
+          </Link>
         </li>
       ))}
     </ul>
