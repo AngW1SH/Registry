@@ -1,6 +1,7 @@
 "use client";
 import { useAuthUserQuery } from "@/composites/AuthUser";
 import { Container } from "@/shared/ui";
+import { Footer } from "@/widgets/Footer";
 import { Header } from "@/widgets/Header";
 import { UserHero } from "@/widgets/UserHero";
 import { UserSidebar } from "@/widgets/UserSidebar";
@@ -37,6 +38,8 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
           <div className="w-full">{children}</div>
         </div>
       </Container>
+      <div className="pt-32" />
+      <Footer />
     </>
   );
 };

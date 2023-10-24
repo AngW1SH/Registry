@@ -9,7 +9,7 @@ interface UserSidebarProps {
 
 const UserSidebar: FC<UserSidebarProps> = ({ active = "hero" }) => {
   return (
-    <ul className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-4 text-[0.9375rem]">
       {sidebarItems.map((item) => (
         <li
           key={item.slug}
