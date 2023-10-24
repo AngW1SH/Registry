@@ -32,7 +32,7 @@ const FormInput: FC<FormInputProps> = ({
       )}
       <input
         className={
-          "border-b border-black bg-transparent pb-2 placeholder-black outline-none"
+          "border-b border-[#898989] bg-transparent pb-2 placeholder-black outline-none"
         }
         id={id}
         placeholder={placeholder}

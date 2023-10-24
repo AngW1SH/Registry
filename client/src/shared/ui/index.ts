@@ -12,6 +12,7 @@ import NamedBlock from "./Block/NamedBlock";
 import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
+import FormCheckbox from "./FormCheckbox/FormCheckbox";
 import LoadingCircle from "./LoadingCircle/LoadingCircle";
 import Dropdown from "./Dropdown/Dropdown";
 import MultiselectDropdown from "./MultiselectDropdown/MultiselectDropdown";
@@ -36,6 +37,7 @@ export {
   LoadingCircle,
   BackgroundFill,
   FormInput,
+  FormCheckbox,
   ToggleOpen,
   Dropdown,
   MultiselectDropdown,

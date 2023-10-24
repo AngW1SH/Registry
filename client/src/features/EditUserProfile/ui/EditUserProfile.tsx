@@ -1,6 +1,8 @@
 import { FC } from "react";
 import EditPersonalData from "./EditPersonalData";
 import EditEducationData from "./EditEducationData";
+import EditAccountData from "./EditAccountData";
+import { Button } from "@/shared/ui";
 
 interface EditUserProfileProps {}
 
@@ -15,6 +17,10 @@ const EditUserProfile: FC<EditUserProfileProps> = () => {
       <EditPersonalData />
       <div className="pt-4" />
       <EditEducationData />
+      <div className="pt-4" />
+      <EditAccountData />
+      <div className="pt-6" />
+      <Button className="rounded-full px-14 pt-3">Сохранить</Button>
     </div>
   );
 };
