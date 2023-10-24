@@ -4,11 +4,7 @@ import { FC } from "react";
 interface UserHomePageProps {}
 
 const UserHomePage: FC<UserHomePageProps> = () => {
-  return (
-    <>
-      <UserHero />
-    </>
-  );
+  return <>123</>;
 };
 
 export default UserHomePage;

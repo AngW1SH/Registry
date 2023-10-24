@@ -2,11 +2,14 @@
 import { useAuthUserQuery } from "@/composites/AuthUser";
 import { Container } from "@/shared/ui";
 import { Header } from "@/widgets/Header";
-import { useRouter } from "next/navigation";
+import { UserHero } from "@/widgets/UserHero";
+import { UserSidebar } from "@/widgets/UserSidebar";
+import { useParams, useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
 
 interface UserLayoutProps {
   children: ReactNode;
+  params: {};
 }
 
 const UserLayout: FC<UserLayoutProps> = ({ children }) => {
@@ -24,7 +27,16 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
         <Header text="dark" />
         <div className="pt-2" />
       </Container>
-      <div>{children}</div>
+      <UserHero />
+      <div className="pt-8" />
+      <Container>
+        <div className="flex">
+          <div className="w-max whitespace-nowrap">
+            <UserSidebar />
+          </div>
+          <div className="w-full">{children}</div>
+        </div>
+      </Container>
     </>
   );
 };
