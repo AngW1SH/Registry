@@ -12,12 +12,14 @@ const NamedBlock: FC<NamedBlockProps> = ({
   className = "",
 }) => {
   return (
-    <div className={"rounded-xl p-11 shadow-center-lg " + className}>
+    <div
+      className={"flex flex-col rounded-xl p-11 shadow-center-lg " + className}
+    >
       <h2 className="border-b border-[#a1a1a1] pb-4 text-[1.375rem] font-semibold">
         {title}
       </h2>
       <div className="pb-5" />
-      <div>{children}</div>
+      {children}
     </div>
   );
 };
