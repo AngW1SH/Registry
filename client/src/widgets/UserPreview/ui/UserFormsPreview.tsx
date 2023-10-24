@@ -11,7 +11,7 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
     <NamedBlock className={className} title={"Анкеты"}>
       <div className="flex h-full flex-col items-start">
         <div className="flex items-end">
-          <p className="text-[#898989]">Вы заполнили анкет </p>
+          <p className="font-[0.9375rem] text-[#898989]">Вы заполнили анкет </p>
           <div className="pr-16" />
           <p className="flex items-center justify-center text-4xl font-medium">
             1

@@ -2,6 +2,7 @@ import { UserHero } from "@/widgets/UserHero";
 import {
   UserFormsPreview,
   UserProfilePreview,
+  UserRequestsPreview,
   UserTeamsPreview,
 } from "@/widgets/UserPreview";
 import { FC } from "react";
@@ -14,6 +15,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
       <UserProfilePreview className="col-span-3" />
       <UserFormsPreview className="col-span-3" />
       <UserTeamsPreview className="col-span-3" />
+      <UserRequestsPreview className="col-span-3" />
     </div>
   );
 };
