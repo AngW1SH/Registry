@@ -1,5 +1,6 @@
 import { UserHero } from "@/widgets/UserHero";
 import {
+  UserArchivePreview,
   UserFormsPreview,
   UserProfilePreview,
   UserProjectsPreview,
@@ -18,6 +19,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
       <UserTeamsPreview className="col-span-2" />
       <UserRequestsPreview className="col-span-2" />
       <UserProjectsPreview className="col-span-3" />
+      <UserArchivePreview className="col-span-1" />
     </div>
   );
 };
