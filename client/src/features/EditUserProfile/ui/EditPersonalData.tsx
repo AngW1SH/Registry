@@ -7,7 +7,7 @@ interface EditPersonalDataProps {}
 const EditPersonalData: FC<EditPersonalDataProps> = () => {
   return (
     <NamedBlock title={"Личные данные"} border={false}>
-      <div className="flex flex-wrap items-end justify-between">
+      <div className="flex flex-wrap items-end justify-between gap-y-2">
         <FormInput
           className="w-[calc(50%+1px)]"
           value={"Лалуев"}

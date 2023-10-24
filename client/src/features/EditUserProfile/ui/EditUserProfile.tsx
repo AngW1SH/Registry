@@ -1,5 +1,6 @@
 import { FC } from "react";
 import EditPersonalData from "./EditPersonalData";
+import EditEducationData from "./EditEducationData";
 
 interface EditUserProfileProps {}
 
@@ -12,6 +13,8 @@ const EditUserProfile: FC<EditUserProfileProps> = () => {
   return (
     <div>
       <EditPersonalData />
+      <div className="pt-4" />
+      <EditEducationData />
     </div>
   );
 };
