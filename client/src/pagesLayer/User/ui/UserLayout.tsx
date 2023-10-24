@@ -30,7 +30,7 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
       <UserHero />
       <div className="pt-8" />
       <Container>
-        <div className="flex">
+        <div className="flex gap-14">
           <div className="w-max whitespace-nowrap">
             <UserSidebar />
           </div>

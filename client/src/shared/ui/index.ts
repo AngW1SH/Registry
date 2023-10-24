@@ -8,6 +8,7 @@ import ButtonWithIcon from "./ButtonWithIcon/ButtonWithIcon";
 import CalendarInput from "./CalendarInput/CalendarInput";
 import Headline from "./Headline/Headline";
 import Block from "./Block/Block";
+import NamedBlock from "./Block/NamedBlock";
 import LinkWithIcon from "./LinkWithIcon/LinkWithIcon";
 import BackgroundFill from "./BackgroundFill/BackgroundFill";
 import FormInput from "./FormInput/FormInput";
@@ -30,6 +31,7 @@ export {
   CalendarInput,
   Headline,
   Block,
+  NamedBlock,
   LinkWithIcon,
   LoadingCircle,
   BackgroundFill,
