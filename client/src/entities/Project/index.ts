@@ -1,5 +1,6 @@
 import ProjectCard from "./ui/ProjectCard";
 import ProjectCardAlt from "./ui/ProjectCardAlt";
+import ProjectCardWithStatus from "./ui/ProjectCardWithStatus";
 import { staticProjects } from "./static/staticProjects";
 import { getProjectStage } from "./utils/getProjectStage";
 import {
@@ -17,6 +18,7 @@ import { ProjectStage } from "./types/types";
 export {
   ProjectCard,
   ProjectCardAlt,
+  ProjectCardWithStatus,
   staticProjects,
   getProjectStage,
   ProjectStage,
