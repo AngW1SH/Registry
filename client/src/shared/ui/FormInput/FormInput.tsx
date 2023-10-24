@@ -5,12 +5,18 @@ interface FormInputProps {
   onChange?: (value: string) => any;
   placeholder?: string;
   className?: string;
+  readOnly?: boolean;
+  label?: string;
+  id?: string;
 }
 
 const FormInput: FC<FormInputProps> = ({
   value = "",
   placeholder = "",
   className = "",
+  readOnly = false,
+  id,
+  label,
   onChange,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,15 +24,23 @@ const FormInput: FC<FormInputProps> = ({
   };
 
   return (
-    <input
-      className={
-        "border-b border-black bg-transparent py-3 placeholder-black outline-none " +
-        className
-      }
-      placeholder={placeholder}
-      value={value}
-      onChange={handleChange}
-    />
+    <div className={"flex flex-col pt-3 " + className}>
+      {label && id && label.length && (
+        <label className="pb-1 text-xs text-[#898989]" htmlFor={id}>
+          {label}
+        </label>
+      )}
+      <input
+        className={
+          "border-b border-black bg-transparent pb-3 placeholder-black outline-none"
+        }
+        id={id}
+        placeholder={placeholder}
+        value={value}
+        readOnly={readOnly}
+        onChange={handleChange}
+      />
+    </div>
   );
 };
 
