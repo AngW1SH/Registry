@@ -6,6 +6,7 @@ import {
   UserProfilePreview,
   UserProjectsPreview,
   UserRequestsPreview,
+  UserRequestsTeamleadPreview,
   UserRequestsUnassignedPreview,
   UserTeamsPreview,
   UserTeamsTeamleadPreview,
@@ -21,7 +22,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
       <UserProfilePreview className="col-span-2" />
       <UserFormsWarningPreview className="col-span-2" />
       <UserTeamsTeamleadPreview className="col-span-2" />
-      <UserRequestsUnassignedPreview className="col-span-2" />
+      <UserRequestsTeamleadPreview className="col-span-2" />
       <UserProjectsPreview className="col-span-3" />
       <UserArchivePreview className="col-span-1" />
     </div>

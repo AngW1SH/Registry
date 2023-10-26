@@ -6,6 +6,7 @@ import UserTeamsWarningPreview from "./ui/UserTeamsWarningPreview";
 import UserTeamsTeamleadPreview from "./ui/UserTeamsTeamleadPreview";
 import UserRequestsPreview from "./ui/UserRequestsPreview";
 import UserRequestsUnassignedPreview from "./ui/UserRequestsUnassignedPreview";
+import UserRequestsTeamleadPreview from "./ui/UserRequestsTeamleadPreview";
 import UserProjectsPreview from "./ui/UserProjectsPreview";
 import UserArchivePreview from "./ui/UserArchivePreview";
 
@@ -18,6 +19,7 @@ export {
   UserTeamsTeamleadPreview,
   UserRequestsPreview,
   UserRequestsUnassignedPreview,
+  UserRequestsTeamleadPreview,
   UserProjectsPreview,
   UserArchivePreview,
 };
