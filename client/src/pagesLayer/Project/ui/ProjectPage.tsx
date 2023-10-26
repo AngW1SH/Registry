@@ -50,9 +50,11 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         <div className="pt-24" />
         {projectData.teams &&
           projectData.teams.length > 0 &&
+          projectData.members &&
           projectData.users && (
             <ProjectTeamList
               teams={projectData.teams}
+              members={projectData.members}
               users={projectData.users}
             />
           )}

@@ -1,57 +1,58 @@
 import { Team } from "@/entities/team";
 import {
   TeamListStrapiPopulated,
-  TeamMemberStrapiPopulated,
   TeamStrapiPopulated,
   TeamStrapiPopulatedWithAdministrators,
 } from "../../types/team";
-import type { User, UserWithRole } from "@/entities/user";
+import type { User } from "@/entities/user";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
 import { RequestStrapiInner } from "../../types/request";
 import { getUserFromStrapiDTO } from "../user";
-
-const getTeamMemberFromStrapiDTO = (
-  member: TeamMemberStrapiPopulated
-): UserWithRole => {
-  return {
-    ...getUserFromStrapiDTO({ data: member.attributes.user.data }),
-    role: member.attributes.role,
-  };
-};
+import { Member } from "@/entities/member";
+import { getMemberListFromStrapiDTO } from "../member";
 
 export const getTeamFromStrapiDTO = (
   team: TeamStrapiPopulated
-): { team: Team; users: UserWithRole[] } => {
-  if (!team.data) return { team: null, users: null };
+): { team: Team; users: User[]; members: Member[] } => {
+  if (!team.data) return { team: null, users: null, members: null };
 
-  const users = team.data.attributes.members.data.map((member) =>
-    getTeamMemberFromStrapiDTO(member)
+  const { members, users } = getMemberListFromStrapiDTO(
+    team.data.attributes.members
   );
 
   return {
     team: {
       id: team.data.id,
       name: team.data.attributes.name,
-      users: users.map((user) => user.id),
+      members: members.map((member) => member.id),
     },
-    users: users,
+    users,
+    members,
   };
 };
 
 export const getTeamListFromStrapiDTO = (
   teams: TeamListStrapiPopulated
-): { teams: Team[]; users: UserWithRole[] } => {
-  if (!teams.data) return { teams: null, users: null };
+): { teams: Team[]; members: Member[]; users: User[] } => {
+  if (!teams.data) return { teams: null, users: null, members: null };
 
   const usedUserIds = new Set();
-  const users: UserWithRole[] = [];
+  const users: User[] = [];
+
+  const usedMemberIds = new Set();
+  const members: Member[] = [];
 
   teams.data.forEach((team) => {
-    team.attributes.members.data.forEach((member) => {
-      if (usedUserIds.has(member.attributes.user.data.id)) return;
+    const { members: teamMembers, users: teamUsers } =
+      getMemberListFromStrapiDTO(team.attributes.members);
 
-      usedUserIds.add(member.attributes.user.data.id);
-      users.push(getTeamMemberFromStrapiDTO(member));
+    teamUsers.forEach((user) => {
+      if (usedUserIds.has(user.id)) return;
+      users.push(user);
+    });
+    teamMembers.forEach((member) => {
+      if (usedMemberIds.has(member.id)) return;
+      members.push(member);
     });
   });
 
@@ -59,11 +60,10 @@ export const getTeamListFromStrapiDTO = (
     teams: teams.data.map((team) => ({
       id: team.id,
       name: team.attributes.name,
-      users: team.attributes.members.data.map(
-        (member) => member.attributes.user.data.id
-      ),
+      members: members.map((member) => member.id),
     })),
     users,
+    members,
   };
 };
 
@@ -71,11 +71,12 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
   team: TeamStrapiPopulatedWithAdministrators
 ): {
   team: TeamWithAdministrators;
-  users: UserWithRole[];
+  members: Member[];
+  users: User[];
   administrators: User[];
 } => {
-  const users = team.data.attributes.members.data.map((member) =>
-    getTeamMemberFromStrapiDTO(member)
+  const { members, users } = getMemberListFromStrapiDTO(
+    team.data.attributes.members
   );
   const administrators = team.data.attributes.administrators.data.map((user) =>
     getUserFromStrapiDTO({ data: user })
@@ -85,10 +86,11 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
     team: {
       id: team.data.id,
       name: team.data.attributes.name,
-      users: users.map((user) => user.id),
+      members: members.map((member) => member.id),
       administrators: administrators.map((administrator) => administrator.id),
     },
     users: users,
+    members: members,
     administrators: administrators,
   };
 };

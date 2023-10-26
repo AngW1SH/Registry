@@ -417,6 +417,11 @@ export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
                           },
                         },
                       },
+                      team: {
+                        data: {
+                          id: 1,
+                        },
+                      },
                     },
                   },
                   {
@@ -431,6 +436,11 @@ export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
                             name: "Гришина София Кирилловна",
                             email: "st965928@student.spbu.ru",
                           },
+                        },
+                      },
+                      team: {
+                        data: {
+                          id: 1,
                         },
                       },
                     },
@@ -449,6 +459,11 @@ export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
                           },
                         },
                       },
+                      team: {
+                        data: {
+                          id: 1,
+                        },
+                      },
                     },
                   },
                   {
@@ -465,6 +480,11 @@ export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
                           },
                         },
                       },
+                      team: {
+                        data: {
+                          id: 1,
+                        },
+                      },
                     },
                   },
                   {
@@ -479,6 +499,11 @@ export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
                             name: "Евдокимова Владислава Андреевна",
                             email: "st631633@student.spbu.ru",
                           },
+                        },
+                      },
+                      team: {
+                        data: {
+                          id: 1,
                         },
                       },
                     },

@@ -1,4 +1,5 @@
-import { UserListStrapi, UserStrapi } from "../user";
+import { MemberWithUserListStrapi } from "../member";
+import { UserListStrapi } from "../user";
 
 export interface TeamStrapiPopulated {
   data: TeamStrapiPopulatedInner | null;
@@ -12,18 +13,7 @@ export interface TeamStrapiPopulatedInner {
   id: number;
   attributes: {
     name: string;
-    members: {
-      data: TeamMemberStrapiPopulated[];
-    };
-  };
-}
-
-export interface TeamMemberStrapiPopulated {
-  id: number;
-  attributes: {
-    name: string;
-    role: string;
-    user: UserStrapi;
+    members: MemberWithUserListStrapi;
   };
 }
 
@@ -32,9 +22,7 @@ export interface TeamStrapiPopulatedWithAdministratorsInner
   id: number;
   attributes: {
     name: string;
-    members: {
-      data: TeamMemberStrapiPopulated[];
-    };
+    members: MemberWithUserListStrapi;
     administrators: UserListStrapi;
   };
 }

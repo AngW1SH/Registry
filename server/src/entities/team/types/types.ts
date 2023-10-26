@@ -1,7 +1,7 @@
 export interface Team {
   id: number;
   name: string;
-  users: number[];
+  members: number[];
 }
 export interface TeamWithAdministrators extends Team {
   administrators: number[];

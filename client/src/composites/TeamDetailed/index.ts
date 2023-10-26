@@ -1,5 +1,5 @@
-import type { TeamDetailed } from "./types/types";
+import type { TeamDetailed, TeamListDetailed } from "./types/types";
 import TeamDetailedCard from "./ui/TeamDetailedCard";
 
-export type { TeamDetailed };
+export type { TeamDetailed, TeamListDetailed };
 export { TeamDetailedCard };

@@ -26,6 +26,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -40,6 +45,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Иванов Артём Романович",
                         email: "st682823@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -58,6 +68,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -74,6 +89,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -88,6 +108,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Калугин Михаил Тимофеевич",
                         email: "st419144@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -130,6 +155,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -144,6 +174,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Колесников Георгий Адамович",
                         email: "st853755@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -162,6 +197,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -178,6 +218,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -192,6 +237,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Матвеев Максим Игоревич",
                         email: "st627957@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -234,6 +284,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -248,6 +303,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Полушин Геннадий Ярославович",
                         email: "st958797@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -266,6 +326,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -282,6 +347,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -296,6 +366,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Морозов Александр Максимович",
                         email: "st855527@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -338,6 +413,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -352,6 +432,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Горшков Иван Григорьевич",
                         email: "st461158@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },
@@ -370,6 +455,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -386,6 +476,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                       },
                     },
                   },
+                  team: {
+                    data: {
+                      id: 1,
+                    },
+                  },
                 },
               },
               {
@@ -400,6 +495,11 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapiPopu
                         name: "Ермилов Иван Макарович",
                         email: "st393827@student.spbu.ru",
                       },
+                    },
+                  },
+                  team: {
+                    data: {
+                      id: 1,
                     },
                   },
                 },

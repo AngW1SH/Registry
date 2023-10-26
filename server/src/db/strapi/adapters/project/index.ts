@@ -14,6 +14,7 @@ import {
   ProjectDetailedDTO,
 } from "@/entities/project/types/types";
 import { getNamedFileListFromStrapiDTO } from "../components/named-file";
+import { Member } from "@/entities/member";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectWithTagsListStrapi
@@ -49,6 +50,7 @@ export const getProjectFromStrapiDTO = (
   tags: Tag[];
   teams: Team[];
   users: User[];
+  members: Member[];
 } => {
   const { requests, ...attributes } = project.data.attributes;
 

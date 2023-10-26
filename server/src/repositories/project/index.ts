@@ -25,6 +25,7 @@ import {
   getProjectListFromStrapiDTO,
 } from "@/db/strapi/adapters/project";
 import { User } from "@/entities/user";
+import { Member } from "@/entities/member";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -120,6 +121,7 @@ const projectRepositoryFactory = () => {
     tags: Tag[];
     teams: Team[];
     users: User[];
+    members: Member[];
   }> {
     if (typeof id != "number") throw new Error("Provided ID is not a number");
 

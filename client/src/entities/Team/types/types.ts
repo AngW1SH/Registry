@@ -1,7 +1,7 @@
 export interface ITeam {
   id: number;
   name: string;
-  users: number[];
+  members: number[];
 }
 
 export interface ITeamExtended extends ITeam {
