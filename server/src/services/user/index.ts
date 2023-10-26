@@ -62,7 +62,7 @@ const userServiceFactory = () => {
 
     let hasApplied = false;
 
-    administratedByUser.data.forEach((team) => assignableTeams.add(team.id));
+    administratedByUser.forEach((team) => assignableTeams.add(team.id));
 
     /*
     TODO:
@@ -105,19 +105,23 @@ const userServiceFactory = () => {
       teamRepository.getUnassignedAdministratedByUser(user),
     ]);
 
-    if (teams.status == "fulfilled") teams.value;
-
-    const teamsList = teams.status == "fulfilled" ? teams.value.data : [];
-    const administratedList =
-      administrated.status == "fulfilled" ? administrated.value.data : [];
+    const teamIdList =
+      teams.status == "fulfilled" ? teams.value.map((team) => team.id) : [];
+    const administratedIdList =
+      administrated.status == "fulfilled"
+        ? administrated.value.map((team) => team.id)
+        : [];
 
     return {
       user: {
         ...inlineData,
-        unassignedTeams: teamsList.map((team) => team.id),
-        unassignedAdministrated: administratedList.map((team) => team.id),
+        unassignedTeams: teamIdList,
+        unassignedAdministrated: administratedIdList,
       },
-      teams: mergeUniqueTeams(teamsList, administratedList),
+      teams: mergeUniqueTeams(
+        teams.status == "fulfilled" ? teams.value : [],
+        administrated.status == "fulfilled" ? administrated.value : []
+      ),
     };
   }
 

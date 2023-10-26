@@ -3,8 +3,8 @@ import { TeamStrapiPopulatedInner } from "@/db/strapi/types/team";
 import { Team } from "@/entities/team/types/types";
 
 export const mergeUniqueTeams = (
-  teamList1: TeamStrapiPopulatedInner[],
-  teamList2: TeamStrapiPopulatedInner[]
+  teamList1: Team[],
+  teamList2: Team[]
 ): Team[] => {
   const result: Team[] = [];
 
@@ -12,13 +12,13 @@ export const mergeUniqueTeams = (
 
   teamList1.forEach((team) => {
     usedIds.add(team.id);
-    result.push(getTeamFromStrapiDTO({ data: team }).team);
+    result.push(team);
   });
 
   teamList2.forEach((team) => {
     if (!usedIds.has(team.id)) {
       usedIds.add(team.id);
-      result.push(getTeamFromStrapiDTO({ data: team }).team);
+      result.push(team);
     }
   });
 
