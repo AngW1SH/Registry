@@ -2,6 +2,7 @@ import { UserHero } from "@/widgets/UserHero";
 import {
   UserArchivePreview,
   UserFormsPreview,
+  UserFormsWarningPreview,
   UserProfilePreview,
   UserProjectsPreview,
   UserRequestsPreview,
@@ -15,7 +16,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
   return (
     <div className="grid grid-cols-4 gap-4">
       <UserProfilePreview className="col-span-2" />
-      <UserFormsPreview className="col-span-2" />
+      <UserFormsWarningPreview className="col-span-2" />
       <UserTeamsPreview className="col-span-2" />
       <UserRequestsPreview className="col-span-2" />
       <UserProjectsPreview className="col-span-3" />
