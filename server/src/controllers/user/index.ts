@@ -11,6 +11,7 @@ const userControllerFactory = () => {
     getPublicUserInfo,
     getProjectStatusData,
     getData,
+    submitForm,
   });
 
   async function authorize(req: Request, res: Response) {
@@ -149,6 +150,20 @@ const userControllerFactory = () => {
       const result = await userService.getData(req.user);
 
       res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  }
+
+  async function submitForm(req: Request, res: Response) {
+    try {
+      if (!req.body || !req.body.form || !req.body.response)
+        return res.status(400).send();
+      const result = userService.submitForm(
+        JSON.parse(req.body.form).id,
+        JSON.parse(req.body.response).data
+      );
+      res.status(200).send();
     } catch (err) {
       res.status(500).send(err);
     }

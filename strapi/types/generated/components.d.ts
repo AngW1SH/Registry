@@ -28,7 +28,7 @@ export interface NamedFileNamedFile extends Schema.Component {
 export interface UserFormUserForm extends Schema.Component {
   collectionName: 'components_user_form_user_forms';
   info: {
-    displayName: 'User Form';
+    displayName: 'Form Result';
     icon: 'file';
     description: '';
   };

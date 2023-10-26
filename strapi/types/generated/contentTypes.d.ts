@@ -532,6 +532,7 @@ export interface ApiFormForm extends Schema.CollectionType {
     singularName: 'form';
     pluralName: 'forms';
     displayName: 'Form';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -540,6 +541,7 @@ export interface ApiFormForm extends Schema.CollectionType {
     name: Attribute.String;
     link: Attribute.String;
     active: Attribute.Boolean;
+    formId: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

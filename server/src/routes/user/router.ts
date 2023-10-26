@@ -47,4 +47,6 @@ userRouter.get(
   userController.logout
 );
 
+userRouter.post("/form", userController.submitForm);
+
 export default userRouter;

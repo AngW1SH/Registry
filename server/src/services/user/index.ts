@@ -5,6 +5,7 @@ import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
 import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
 import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
+import formRepository from "@/repositories/form";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -14,6 +15,7 @@ const userServiceFactory = () => {
     getPublicUserInfo,
     getProjectStatusData,
     getData,
+    submitForm,
   });
 
   async function findById(id: number): Promise<User | null> {
@@ -117,6 +119,20 @@ const userServiceFactory = () => {
       },
       teams: mergeUniqueTeams(teamsList, administratedList),
     };
+  }
+
+  async function submitForm(formId: string, response: any) {
+    // Will use an adapter later on
+    const user = await userRepository.findByEmail(
+      response["Единая учетная запись (например, ST000000)"]
+    );
+
+    if (!user) throw new Error("No such user found");
+
+    const form = await formRepository.findByFormId(formId);
+    if (!form) throw new Error("No such form found");
+
+    return userRepository.submitForm(form.data[0].id, response, user.id);
   }
 };
 
