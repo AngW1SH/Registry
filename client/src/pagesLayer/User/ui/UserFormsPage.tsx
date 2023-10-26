@@ -1,10 +1,10 @@
-import { UserForms } from "@/widgets/UserForms";
+import { UserForms, UserFormsEmpty } from "@/widgets/UserForms";
 import { FC } from "react";
 
 interface UserFormsPageProps {}
 
 const UserFormsPage: FC<UserFormsPageProps> = () => {
-  return <UserForms />;
+  return <UserFormsEmpty />;
 };
 
 export default UserFormsPage;
