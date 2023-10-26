@@ -8,6 +8,7 @@ import {
   UserRequestsPreview,
   UserRequestsUnassignedPreview,
   UserTeamsPreview,
+  UserTeamsWarningPreview,
 } from "@/widgets/UserPreview";
 import { FC } from "react";
 
@@ -18,7 +19,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
     <div className="grid grid-cols-4 gap-4">
       <UserProfilePreview className="col-span-2" />
       <UserFormsWarningPreview className="col-span-2" />
-      <UserTeamsPreview className="col-span-2" />
+      <UserTeamsWarningPreview className="col-span-2" />
       <UserRequestsUnassignedPreview className="col-span-2" />
       <UserProjectsPreview className="col-span-3" />
       <UserArchivePreview className="col-span-1" />
