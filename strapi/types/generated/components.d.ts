@@ -25,11 +25,30 @@ export interface NamedFileNamedFile extends Schema.Component {
   };
 }
 
+export interface UserFormUserForm extends Schema.Component {
+  collectionName: 'components_user_form_user_forms';
+  info: {
+    displayName: 'User Form';
+    icon: 'file';
+    description: '';
+  };
+  attributes: {
+    form: Attribute.Relation<
+      'user-form.user-form',
+      'oneToOne',
+      'api::form.form'
+    >;
+    file: Attribute.Media;
+    date: Attribute.DateTime;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
       'named-file.named-file': NamedFileNamedFile;
+      'user-form.user-form': UserFormUserForm;
     }
   }
 }

@@ -29,6 +29,11 @@
       "relation": "manyToMany",
       "target": "api::team.team",
       "mappedBy": "administrators"
+    },
+    "forms": {
+      "type": "component",
+      "repeatable": true,
+      "component": "user-form.user-form"
     }
   }
 }
