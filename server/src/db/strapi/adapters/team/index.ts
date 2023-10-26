@@ -6,10 +6,11 @@ import {
 } from "../../types/team";
 import type { User } from "@/entities/user";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
-import { RequestStrapiInner } from "../../types/request";
+import { RequestInfoListStrapi, RequestStrapiInner } from "../../types/request";
 import { getUserFromStrapiDTO } from "../user";
 import { Member } from "@/entities/member";
 import { getMemberListFromStrapiDTO } from "../member";
+import { Request } from "@/entities/request";
 
 export const getTeamFromStrapiDTO = (
   team: TeamStrapiPopulated
@@ -25,6 +26,9 @@ export const getTeamFromStrapiDTO = (
       id: team.data.id,
       name: team.data.attributes.name,
       members: members.map((member) => member.id),
+      project: team.data.attributes.project.data
+        ? team.data.attributes.project.data.id
+        : null,
     },
     users,
     members,
@@ -61,6 +65,9 @@ export const getTeamListFromStrapiDTO = (
       id: team.id,
       name: team.attributes.name,
       members: members.map((member) => member.id),
+      project: team.attributes.project.data
+        ? team.attributes.project.data.id
+        : null,
     })),
     users,
     members,
@@ -88,6 +95,9 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
       name: team.data.attributes.name,
       members: members.map((member) => member.id),
       administrators: administrators.map((administrator) => administrator.id),
+      project: team.data.attributes.project.data
+        ? team.data.attributes.project.data.id
+        : null,
     },
     users: users,
     members: members,
@@ -97,4 +107,16 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
 
 export const getRequestFromStrapiDTO = (request: RequestStrapiInner) => {
   return getTeamWithAdministratorsFromStrapiDTO(request.attributes.team);
+};
+
+export const getRequestInfoListFromStrapiDTO = (
+  requests: RequestInfoListStrapi
+): Request[] => {
+  return requests.data.map((request) => ({
+    id: request.id,
+    team: request.attributes.team.data ? request.attributes.team.data.id : null,
+    project: request.attributes.project.data
+      ? request.attributes.project.data.id
+      : null,
+  }));
 };

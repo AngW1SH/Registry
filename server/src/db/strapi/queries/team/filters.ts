@@ -25,3 +25,42 @@ export const filterUnassignedAdministrated = (userId: number) => {
     },
   };
 };
+
+export const filterActive = (userId: number) => {
+  return {
+    $and: [
+      {
+        $or: [
+          {
+            project: {
+              id: {
+                $null: true,
+              },
+            },
+          },
+          {
+            project: {
+              dateStart: {
+                $lte: new Date(),
+              },
+              dateEnd: {
+                $gte: new Date(),
+              },
+            },
+          },
+        ],
+      },
+      {
+        $or: [
+          {
+            members: {
+              user: {
+                id: userId,
+              },
+            },
+          },
+        ],
+      },
+    ],
+  };
+};

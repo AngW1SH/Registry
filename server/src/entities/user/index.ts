@@ -5,9 +5,14 @@ import {
   staticUserCreateResponseStrapi,
 } from "./static/staticUsers";
 
-import type { User, UserCreate, UserProjectStatusData } from "./types/types";
+import type {
+  User,
+  UserCreate,
+  UserProjectStatusData,
+  UserProfileData,
+} from "./types/types";
 
-export type { User, UserCreate, UserProjectStatusData };
+export type { User, UserCreate, UserProjectStatusData, UserProfileData };
 export {
   staticUserResponseStrapi,
   staticUser,

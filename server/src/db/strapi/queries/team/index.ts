@@ -1,5 +1,9 @@
 import { selectTeam } from "./selects";
-import { filterUnassigned, filterUnassignedAdministrated } from "./filters";
+import {
+  filterUnassigned,
+  filterUnassignedAdministrated,
+  filterActive,
+} from "./filters";
 
 export { selectTeam };
-export { filterUnassigned, filterUnassignedAdministrated };
+export { filterUnassigned, filterUnassignedAdministrated, filterActive };

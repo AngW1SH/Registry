@@ -14,6 +14,11 @@ export interface TeamStrapiPopulatedInner {
   attributes: {
     name: string;
     members: MemberWithUserListStrapi;
+    project: {
+      data: {
+        id: number;
+      } | null;
+    };
   };
 }
 
@@ -24,6 +29,11 @@ export interface TeamStrapiPopulatedWithAdministratorsInner
     name: string;
     members: MemberWithUserListStrapi;
     administrators: UserListStrapi;
+    project: {
+      data: {
+        id: number;
+      } | null;
+    };
   };
 }
 

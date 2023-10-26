@@ -1,4 +1,9 @@
-import { User, UserCreate, UserProjectStatusData } from "@/entities/user";
+import {
+  User,
+  UserCreate,
+  UserProfileData,
+  UserProjectStatusData,
+} from "@/entities/user";
 import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
@@ -6,6 +11,7 @@ import userRepository from "@/repositories/user";
 import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
 import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
 import formRepository from "@/repositories/form";
+import requestRepository from "@/repositories/request";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -16,6 +22,7 @@ const userServiceFactory = () => {
     getProjectStatusData,
     getData,
     submitForm,
+    getProfileData,
   });
 
   async function findById(id: number): Promise<User | null> {
@@ -137,6 +144,27 @@ const userServiceFactory = () => {
     if (!form) throw new Error("No such form found");
 
     return userRepository.submitForm(form.data[0].id, response, user.id);
+  }
+
+  async function getProfileData(user: User): Promise<UserProfileData> {
+    const requests = await requestRepository.getActiveByUser(user.id);
+    const { teams, members, users } = await teamRepository.getActiveByUser(
+      user.id
+    );
+
+    const projects = teams
+      ? await projectRepository.getReferences(
+          teams.filter((team) => team.project).map((team) => team.id)
+        )
+      : [];
+
+    return {
+      requests,
+      teams,
+      members,
+      users,
+      projects,
+    };
   }
 };
 

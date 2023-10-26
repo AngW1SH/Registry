@@ -12,3 +12,28 @@ export const filterActiveRequests = () => {
     },
   };
 };
+
+export const filterUserRequests = (userId: number) => {
+  return {
+    $or: [
+      {
+        team: {
+          members: {
+            user: {
+              id: userId,
+            },
+          },
+        },
+      },
+      {
+        team: {
+          administrators: {
+            user: {
+              id: userId,
+            },
+          },
+        },
+      },
+    ],
+  };
+};

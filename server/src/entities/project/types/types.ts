@@ -1,5 +1,10 @@
 import { Tag } from "@/entities/tag";
 
+export interface ProjectReference {
+  id: number;
+  name: string;
+}
+
 export interface Project {
   id: number;
   name: string;

@@ -47,6 +47,12 @@ userRouter.get(
   userController.logout
 );
 
+userRouter.get(
+  "/profile",
+  passport.authenticate("jwt-authenticate"),
+  userController.getProfileData
+);
+
 userRouter.post("/form", userController.submitForm);
 
 export default userRouter;

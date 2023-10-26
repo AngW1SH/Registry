@@ -3,6 +3,7 @@ import {
   selectProjectInList,
   selectDescriptionFiles,
   selectResultFiles,
+  selectProjectReference,
 } from "./selects";
 
 export {
@@ -10,4 +11,5 @@ export {
   selectProjectInList,
   selectDescriptionFiles,
   selectResultFiles,
+  selectProjectReference,
 };

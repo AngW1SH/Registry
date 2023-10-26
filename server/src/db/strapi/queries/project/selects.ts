@@ -43,3 +43,9 @@ export const selectProjectInList = (
     },
   };
 };
+
+export const selectProjectReference = () => {
+  return {
+    fields: ["id", "name"],
+  };
+};

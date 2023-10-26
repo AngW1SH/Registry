@@ -2,8 +2,16 @@ import { SelectPopulate } from "@/db/types/types";
 
 type PopulateOptions = "team";
 
-export const selectRequest = (populate: SelectPopulate<PopulateOptions>) => {
+export const selectRequest = (populate?: SelectPopulate<PopulateOptions>) => {
   return {
-    populate,
+    populate: {
+      team: {
+        id: true,
+      },
+      project: {
+        id: true,
+      },
+      ...populate,
+    },
   };
 };

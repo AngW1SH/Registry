@@ -73,3 +73,18 @@ export interface ProjectStrapiDeveloperRequirement {
   id: number;
   developerRequirement: string;
 }
+
+interface ProjectReferenceStrapiInner {
+  id: number;
+  attributes: {
+    name: string;
+  };
+}
+
+export interface ProjectReferenceStrapi {
+  data: ProjectReferenceStrapiInner;
+}
+
+export interface ProjectReferenceListStrapi {
+  data: ProjectReferenceStrapiInner[];
+}

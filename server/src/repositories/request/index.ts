@@ -1,9 +1,25 @@
+import {
+  getRequestFromStrapiDTO,
+  getRequestInfoListFromStrapiDTO,
+} from "@/db/strapi/adapters/team";
 import { strapi } from "@/db/strapi/client";
+import {
+  filterActiveRequests,
+  filterUserRequests,
+  selectRequest,
+} from "@/db/strapi/queries/request";
+import {
+  RequestInfoListStrapi,
+  RequestListStrapi,
+  RequestStrapi,
+} from "@/db/strapi/types/request";
+import { Request } from "@/entities/request";
 import { UploadedFile } from "express-fileupload";
 
 const requestRepositoryFactory = () => {
   return Object.freeze({
     add,
+    getActiveByUser,
   });
 
   async function add(team: number, project: number, files: UploadedFile[]) {
@@ -44,6 +60,25 @@ const requestRepositoryFactory = () => {
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
 
     return 1;
+  }
+
+  async function getActiveByUser(userId: number): Promise<Request[]> {
+    const params = {
+      filters: {
+        ...filterUserRequests(userId),
+        ...filterActiveRequests(),
+      },
+      ...selectRequest(),
+    };
+
+    const result: RequestInfoListStrapi = await strapi.get("requests", {
+      token: process.env.REQUESTS_TOKEN,
+      params,
+    });
+
+    if (!result.data) return [];
+
+    return getRequestInfoListFromStrapiDTO(result);
   }
 };
 

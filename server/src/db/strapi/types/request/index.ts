@@ -6,7 +6,6 @@ import {
 export interface RequestStrapiInner {
   id: number;
   attributes: {
-    role: string;
     team: TeamStrapiPopulatedWithAdministrators;
   };
 }
@@ -17,4 +16,28 @@ export interface RequestStrapi {
 
 export interface RequestListStrapi {
   data: RequestStrapiInner[];
+}
+
+interface RequestInfoStrapiInner {
+  id: number;
+  attributes: {
+    team: {
+      data: {
+        id: number;
+      } | null;
+    };
+    project: {
+      data: {
+        id: number;
+      } | null;
+    };
+  };
+}
+
+export interface RequestInfoStrapi {
+  data: RequestInfoStrapiInner;
+}
+
+export interface RequestInfoListStrapi {
+  data: RequestInfoStrapiInner[];
 }

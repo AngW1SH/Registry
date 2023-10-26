@@ -1,8 +1,8 @@
-import { Project } from "@/entities/project";
 import { Tag } from "@/entities/tag";
 import { Team } from "@/entities/team/types/types";
 import { User } from "@/entities/user/types/types";
 import {
+  ProjectReferenceListStrapi,
   ProjectStrapiPopulated,
   ProjectWithTagsListStrapi,
 } from "../../types/project";
@@ -12,6 +12,7 @@ import {
   ProjectDTO,
   ProjectDetailed,
   ProjectDetailedDTO,
+  ProjectReference,
 } from "@/entities/project/types/types";
 import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 import { Member } from "@/entities/member";
@@ -79,4 +80,13 @@ export const getProjectFromStrapiDTO = (
     })),
     ...getTeamListFromStrapiDTO(project.data.attributes.teams),
   };
+};
+
+export const getProjectReferenceListFromStrapiDTO = (
+  projects: ProjectReferenceListStrapi
+): ProjectReference[] => {
+  return projects.data.map((project) => ({
+    id: project.id,
+    name: project.attributes.name,
+  }));
 };

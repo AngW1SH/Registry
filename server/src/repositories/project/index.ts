@@ -14,15 +14,20 @@ import {
   selectDescriptionFiles,
   selectDeveloperRequirements,
   selectProjectInList,
+  selectProjectReference,
   selectResultFiles,
 } from "@/db/strapi/queries/project";
 import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
 import { Tag } from "@/entities/tag";
-import { ProjectWithTagsListStrapi } from "@/db/strapi/types/project";
+import {
+  ProjectReferenceListStrapi,
+  ProjectWithTagsListStrapi,
+} from "@/db/strapi/types/project";
 import {
   getProjectFromStrapiDTO,
   getProjectListFromStrapiDTO,
+  getProjectReferenceListFromStrapiDTO,
 } from "@/db/strapi/adapters/project";
 import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
@@ -34,6 +39,7 @@ const projectRepositoryFactory = () => {
     findMany,
     getActiveRequests,
     countActiveRequests,
+    getReferences,
   });
 
   async function getNew(limit?: number): Promise<{
@@ -179,6 +185,26 @@ const projectRepositoryFactory = () => {
     });
 
     return getProjectListFromStrapiDTO(response);
+  }
+
+  async function getReferences(ids: number[]) {
+    if (!ids.length) return [];
+
+    const params = {
+      filters: {
+        id: {
+          $in: ids,
+        },
+      },
+      ...selectProjectReference(),
+    };
+
+    const response: ProjectReferenceListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
+
+    return getProjectReferenceListFromStrapiDTO(response);
   }
 };
 const projectRepository = projectRepositoryFactory();

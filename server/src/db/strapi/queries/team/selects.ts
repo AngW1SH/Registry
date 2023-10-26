@@ -5,6 +5,11 @@ type PopulateOptions = "members" | "administrators";
 export const selectTeam = (populate: SelectPopulate<PopulateOptions> = {}) => {
   return {
     fields: ["name"],
-    populate,
+    populate: {
+      project: {
+        fields: ["id"],
+      },
+      ...populate,
+    },
   };
 };

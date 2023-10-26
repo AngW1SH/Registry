@@ -12,6 +12,7 @@ const userControllerFactory = () => {
     getProjectStatusData,
     getData,
     submitForm,
+    getProfileData,
   });
 
   async function authorize(req: Request, res: Response) {
@@ -164,6 +165,18 @@ const userControllerFactory = () => {
         JSON.parse(req.body.response).data
       );
       res.status(200).send();
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  }
+
+  async function getProfileData(req: Request, res: Response) {
+    try {
+      if (!req.user) return res.status(401).send();
+
+      const result = await userService.getProfileData(req.user);
+
+      res.status(200).send(result);
     } catch (err) {
       res.status(500).send(err);
     }
