@@ -1,4 +1,4 @@
-import { MemberWithUserListStrapi } from "../member";
+import { MemberListStrapi } from "../member";
 import { UserListStrapi } from "../user";
 
 export interface TeamStrapiPopulated {
@@ -13,7 +13,7 @@ export interface TeamStrapiPopulatedInner {
   id: number;
   attributes: {
     name: string;
-    members: MemberWithUserListStrapi;
+    members: MemberListStrapi;
     project: {
       data: {
         id: number;
@@ -27,7 +27,7 @@ export interface TeamStrapiPopulatedWithAdministratorsInner
   id: number;
   attributes: {
     name: string;
-    members: MemberWithUserListStrapi;
+    members: MemberListStrapi;
     administrators: UserListStrapi;
     project: {
       data: {

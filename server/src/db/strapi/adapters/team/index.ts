@@ -85,7 +85,9 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
 } => {
   const { members, users } = getMemberListFromStrapiDTO(
     team.data.attributes.members,
-    team
+    {
+      team,
+    }
   );
   const administrators = team.data.attributes.administrators.data.map((user) =>
     getUserFromStrapiDTO({ data: user })
@@ -132,7 +134,9 @@ export const getTeamListWithAdministratorsFromStrapiDTO = (
       members: teamMembers,
       users: teamUsers,
       administrators: teamAdministrators,
-    } = getMemberListFromStrapiDTO(team.attributes.members, { data: team });
+    } = getMemberListFromStrapiDTO(team.attributes.members, {
+      team: { data: team },
+    });
 
     teamUsers.forEach((user) => {
       if (usedUserIds.has(user.id)) return;

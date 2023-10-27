@@ -1,23 +1,20 @@
+import { IdStrapi } from "@/db/types/types";
 import { UserStrapi } from "../user";
 
-interface MemberWithUserStrapiInner {
+interface MemberStrapiInner {
   id: number;
   attributes: {
     name: string;
     role: string;
-    user: UserStrapi;
-    team: {
-      data: {
-        id: number;
-      } | null;
-    };
+    user?: UserStrapi | IdStrapi;
+    team?: IdStrapi;
   };
 }
 
-export interface MemberWithUserStrapi {
-  data: MemberWithUserStrapiInner;
+export interface MemberStrapi {
+  data: MemberStrapiInner;
 }
 
-export interface MemberWithUserListStrapi {
-  data: MemberWithUserStrapiInner[];
+export interface MemberListStrapi {
+  data: MemberStrapiInner[];
 }

@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import passport from "@/middleware/passport";
 import userController from "@/controllers/user";
+import { strapi } from "@/db/strapi/client";
 
 const userRouter = express();
 

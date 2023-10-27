@@ -1,33 +1,51 @@
 import { User } from "@/entities/user";
-import {
-  MemberWithUserListStrapi,
-  MemberWithUserStrapi,
-} from "../../types/member";
+import { MemberListStrapi, MemberStrapi } from "../../types/member";
 import { getUserFromStrapiDTO } from "../user";
 import { Member } from "@/entities/member";
 import {
   TeamStrapiPopulated,
   TeamStrapiPopulatedWithAdministrators,
 } from "../../types/team";
+import { UserStrapi } from "../../types/user";
 
 export const getMemberFromStrapiDTO = (
-  member: MemberWithUserStrapi,
-  team?: TeamStrapiPopulatedWithAdministrators
+  member: MemberStrapi,
+  options?: {
+    team?: TeamStrapiPopulatedWithAdministrators;
+    includeAdmin?: boolean;
+  }
 ): {
   member: Member;
-  user: User;
+  user: User | null;
+  administrator: User | null;
 } => {
-  const user = getUserFromStrapiDTO({ data: member.data.attributes.user.data });
+  const user = member.data.attributes.user.data.hasOwnProperty("attributes")
+    ? getUserFromStrapiDTO({
+        data: (member.data.attributes.user as UserStrapi).data,
+      })
+    : null;
+
+  const administrator =
+    options.team &&
+    options.team.data.attributes.administrators.data.findIndex(
+      (admin) => admin.id == user.id
+    ) != -1
+      ? user
+      : null;
 
   return {
     user,
+    administrator,
     member: {
       id: member.data.id,
       role: member.data.attributes.role,
       name: member.data.attributes.name,
       isAdministrator:
-        team && team.data.attributes.administrators.data
-          ? !!team.data.attributes.administrators.data.find(
+        options &&
+        options.includeAdmin &&
+        options.team &&
+        options.team.data.attributes.administrators.data
+          ? !!options.team.data.attributes.administrators.data.find(
               (admin) => admin.id == member.data.attributes.user.data.id
             )
           : null,
@@ -40,8 +58,11 @@ export const getMemberFromStrapiDTO = (
 };
 
 export const getMemberListFromStrapiDTO = (
-  members: MemberWithUserListStrapi,
-  team?: TeamStrapiPopulatedWithAdministrators
+  members: MemberListStrapi,
+  options?: {
+    team?: TeamStrapiPopulatedWithAdministrators;
+    includeAdmin?: boolean;
+  }
 ): {
   members: Member[];
   users: User[];
@@ -52,19 +73,25 @@ export const getMemberListFromStrapiDTO = (
   const administrators: User[] = [];
 
   members.data.forEach((member) => {
-    if (usedUserIds.has(member.attributes.user.data.id)) return;
+    if (
+      member.attributes.user.data.hasOwnProperty("attributes") ||
+      usedUserIds.has(member.attributes.user.data.id)
+    )
+      return;
 
     usedUserIds.add(member.attributes.user.data.id);
-    users.push(getUserFromStrapiDTO(member.attributes.user));
+    users.push(getUserFromStrapiDTO(member.attributes.user as UserStrapi));
   });
 
-  if (team) {
-    team.data.attributes.administrators.data.forEach((administrator) => {
-      if (usedUserIds.has(administrator.id)) return;
+  if (options && options.includeAdmin && options.team) {
+    options.team.data.attributes.administrators.data.forEach(
+      (administrator) => {
+        if (usedUserIds.has(administrator.id)) return;
 
-      usedUserIds.add(administrator.id);
-      users.push(getUserFromStrapiDTO({ data: administrator }));
-    });
+        usedUserIds.add(administrator.id);
+        users.push(getUserFromStrapiDTO({ data: administrator }));
+      }
+    );
   }
 
   return {
@@ -74,14 +101,14 @@ export const getMemberListFromStrapiDTO = (
       role: member.attributes.role,
       name: member.attributes.name,
       isAdministrator:
-        team && team.data.attributes.administrators.data
-          ? !!team.data.attributes.administrators.data.find(
-              (admin) => admin.id == member.attributes.user.data.id
-            )
-          : null,
+        (options?.includeAdmin &&
+          !!options?.team?.data.attributes.administrators.data.find(
+            (admin) => admin.id == member.attributes.user.data.id
+          )) ||
+        null,
       user: member.attributes.user.data.id,
       team: member.attributes.team.data.id,
     })),
-    administrators: team ? administrators : [],
+    administrators: options.team ? administrators : null,
   };
 };
