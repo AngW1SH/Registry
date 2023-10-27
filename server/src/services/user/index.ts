@@ -70,7 +70,7 @@ const userServiceFactory = () => {
 
     if (!requestsData) throw new Error("Couldn't fetch request data");
 
-    const { teams, members } = requestsData;
+    const { teams, members, users } = requestsData;
 
     teams &&
       teams.forEach((team) => {
@@ -86,15 +86,25 @@ const userServiceFactory = () => {
 
         if (!hasApplied)
           team.members.forEach((teamMember) => {
-            const user = members?.find((member) => member.id == teamMember);
+            const member = members?.find((member) => member.id == teamMember);
+            const user = member
+              ? users?.find((user) => user.id == userId)
+              : null;
 
             if (user && user.id === userId) hasApplied = true;
           });
       });
 
     return {
-      assignableTeams: Array.from(assignableTeams),
-      hasApplied,
+      user: {
+        assignableTeams: Array.from(assignableTeams),
+        hasTeamApplied: hasApplied,
+      },
+      teams: teams
+        ? Array.from(assignableTeams).map(
+            (teamId) => administratedByUser.find((team) => team.id == teamId)!
+          )
+        : [],
     };
   }
 

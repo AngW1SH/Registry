@@ -8,13 +8,14 @@ import StatusHiringTeamlead from "./StatusHiringTeamlead";
 import Image from "next/image";
 import { getTeamsByTeamIds } from "@/entities/Team";
 import { getProjectHiringSlotCount } from "@/entities/Project/utils/getProjectHiringSlotCount";
+import { useAuthQuery } from "@/entities/User";
 
 interface StatusHiringProps {
   project: IProject;
 }
 
 const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
-  const { data: authUser, isLoading: isAuthUserLoading } = useAuthUserQuery();
+  const { data: authUser, isLoading: isAuthUserLoading } = useAuthQuery();
   const { data: projectStatusData, isLoading: isStatusDataLoading } =
     useProjectStatusDataQuery(project.id);
 
@@ -23,13 +24,15 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
 
   if (!authUser) return <StatusHiringUnauthorized />;
 
-  if (projectStatusData.assignableTeams.length)
+  console.log(projectStatusData);
+
+  if (projectStatusData.user.assignableTeams.length)
     return (
       <StatusHiringTeamlead
         project={project}
         assignableTeams={getTeamsByTeamIds(
-          projectStatusData.assignableTeams,
-          authUser.teams,
+          projectStatusData.user.assignableTeams,
+          projectStatusData.teams,
         )}
       />
     );
@@ -61,7 +64,7 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
       <div className="pt-7" />
       <div className="h-px w-full bg-black" />
       <div className="pt-7" />
-      {projectStatusData.hasApplied && (
+      {projectStatusData.user.hasTeamApplied && (
         <div className="flex items-center gap-6">
           <div className="h-10 w-10 min-w-[2.5rem] rounded-full border-2 border-primary p-[0.6rem]">
             <div className="relative h-full w-full">
@@ -73,7 +76,7 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
           </div>
         </div>
       )}
-      {!projectStatusData.hasApplied && (
+      {!projectStatusData.user.hasTeamApplied && (
         <div className="flex items-center gap-4">
           <div className="flex h-10 w-10 min-w-[2.5rem] items-center justify-center rounded-full border-2 border-primary text-2xl font-bold text-primary">
             !

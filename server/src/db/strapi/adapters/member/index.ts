@@ -68,11 +68,13 @@ export const getMemberListFromStrapiDTO = (
 } => {
   const usedUserIds = new Set();
   const users: User[] = [];
+
+  const usedAdministratorIds = new Set();
   const administrators: User[] = [];
 
   members.data.forEach((member) => {
     if (
-      !member.attributes.user?.data?.hasOwnProperty("attributes") ||
+      !member.attributes.user?.data?.attributes?.hasOwnProperty("name") ||
       usedUserIds.has(member.attributes.user.data.id)
     )
       return;
@@ -86,12 +88,14 @@ export const getMemberListFromStrapiDTO = (
       (administrator) => {
         if (
           !administrator?.attributes?.hasOwnProperty("name") ||
-          usedUserIds.has(administrator.id)
+          usedAdministratorIds.has(administrator.id)
         )
           return;
 
-        usedUserIds.add(administrator.id);
-        users.push(getUserFromStrapiDTO({ data: administrator } as UserStrapi));
+        usedAdministratorIds.add(administrator.id);
+        administrators.push(
+          getUserFromStrapiDTO({ data: administrator } as UserStrapi)
+        );
       }
     );
   }

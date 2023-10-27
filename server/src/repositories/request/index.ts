@@ -50,7 +50,11 @@ const requestRepositoryFactory = () => {
     const formData = new FormData();
 
     files.forEach((file) => {
-      formData.append("files", new Blob([file.data]), file.name);
+      formData.append(
+        "files",
+        new Blob([file.data]),
+        new Date().toTimeString() + file.name
+      );
     });
 
     formData.append("ref", "api::request.request");
@@ -62,7 +66,7 @@ const requestRepositoryFactory = () => {
         Authorization: "bearer " + process.env.UPLOAD_TOKEN,
       },
       method: "POST",
-      body: formData as any,
+      body: formData,
     });
 
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
@@ -105,6 +109,7 @@ const requestRepositoryFactory = () => {
           members: selectMember({
             user: selectUser(),
           }),
+          administrators: selectUser(),
         }),
       }),
     };
@@ -116,7 +121,7 @@ const requestRepositoryFactory = () => {
 
     if (!result.data) return null;
 
-    return getRequestListFromStrapiDTO(result);
+    return getRequestListFromStrapiDTO(result, { includeAdmin: true });
   }
 };
 

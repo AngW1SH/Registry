@@ -46,13 +46,14 @@ export const getRequestListFromStrapiDTO = (
   const administrators: User[] = [];
 
   requests.data?.[0]?.attributes?.hasOwnProperty("name") &&
-    requests.data.forEach((teamStrapi) => {
+    requests.data.forEach((request) => {
+      if (!request.attributes.team) return;
       const {
         team,
         users: teamUsers,
         administrators: teamAdmins,
         members: teamMembers,
-      } = getTeamFromStrapiDTO({ data: teamStrapi } as TeamStrapi, options);
+      } = getTeamFromStrapiDTO(request.attributes.team, options);
 
       if (team && !usedTeamIds.has(team.id)) {
         usedTeamIds.add(team.id);

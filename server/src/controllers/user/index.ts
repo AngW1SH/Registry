@@ -9,6 +9,7 @@ const userControllerFactory = () => {
     logout,
     token,
     getProjectStatusData,
+    getUser,
     getData,
     submitForm,
     getProfileData,
@@ -164,6 +165,16 @@ const userControllerFactory = () => {
       const result = await userService.getProfileData(req.user);
 
       res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  }
+
+  async function getUser(req: Request, res: Response) {
+    try {
+      if (!req.user) return res.status(401).send();
+
+      res.status(200).send(req.user);
     } catch (err) {
       res.status(500).send(err);
     }

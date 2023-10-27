@@ -1,13 +1,13 @@
 import { IProject, ProjectStage, getProjectStage } from "@/entities/Project";
-import { IUserWithRole } from "@/entities/User";
 import { FC } from "react";
 import StatusActive from "./StatusActive";
 import StatusHiring from "./StatusHiring";
 import StatusHiringCompleted from "./StatusCompleted";
+import { IUser } from "@/entities/User";
 
 interface StatusBuilderProps {
   project: IProject;
-  users: IUserWithRole[] | null;
+  users: IUser[] | null;
 }
 
 const StatusBuilder: FC<StatusBuilderProps> = ({ project, users }) => {

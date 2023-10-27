@@ -24,7 +24,7 @@ export const getTeamFromStrapiDTO = (
     return { team: null, users: [], members: [], administrators: [] };
 
   const { members, users, administrators } =
-    team.data.attributes.members?.data?.[0]?.hasOwnProperty("name")
+    team.data.attributes.members?.data?.[0]?.attributes?.hasOwnProperty("name")
       ? getMemberListFromStrapiDTO(
           team.data.attributes.members as MemberListStrapi,
           {
@@ -42,7 +42,9 @@ export const getTeamFromStrapiDTO = (
       project: team.data.attributes.project?.data
         ? team.data.attributes.project.data.id
         : null,
-      ...(options?.includeAdmin && administrators.map((admin) => admin.id)),
+      ...(options?.includeAdmin && {
+        administrators: administrators.map((admin) => admin.id),
+      }),
     },
     users,
     members,
