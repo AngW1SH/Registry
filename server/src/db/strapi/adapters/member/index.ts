@@ -2,16 +2,13 @@ import { User } from "@/entities/user";
 import { MemberListStrapi, MemberStrapi } from "../../types/member";
 import { getUserFromStrapiDTO } from "../user";
 import { Member } from "@/entities/member";
-import {
-  TeamStrapiPopulated,
-  TeamStrapiPopulatedWithAdministrators,
-} from "../../types/team";
+import { TeamStrapi } from "../../types/team";
 import { UserStrapi } from "../../types/user";
 
 export const getMemberFromStrapiDTO = (
   member: MemberStrapi,
   options?: {
-    team?: TeamStrapiPopulatedWithAdministrators;
+    team?: TeamStrapi;
     includeAdmin?: boolean;
   }
 ): {
@@ -60,7 +57,7 @@ export const getMemberFromStrapiDTO = (
 export const getMemberListFromStrapiDTO = (
   members: MemberListStrapi,
   options?: {
-    team?: TeamStrapiPopulatedWithAdministrators;
+    team?: TeamStrapi;
     includeAdmin?: boolean;
   }
 ): {
@@ -74,7 +71,7 @@ export const getMemberListFromStrapiDTO = (
 
   members.data.forEach((member) => {
     if (
-      member.attributes.user.data.hasOwnProperty("attributes") ||
+      !member.attributes.user.data.hasOwnProperty("attributes") ||
       usedUserIds.has(member.attributes.user.data.id)
     )
       return;
@@ -86,7 +83,11 @@ export const getMemberListFromStrapiDTO = (
   if (options && options.includeAdmin && options.team) {
     options.team.data.attributes.administrators.data.forEach(
       (administrator) => {
-        if (usedUserIds.has(administrator.id)) return;
+        if (
+          !administrator.hasOwnProperty("attributes") ||
+          usedUserIds.has(administrator.id)
+        )
+          return;
 
         usedUserIds.add(administrator.id);
         users.push(getUserFromStrapiDTO({ data: administrator }));
