@@ -2,12 +2,14 @@ import { Tag } from "@/entities/tag";
 import { Team } from "@/entities/team/types/types";
 import { User } from "@/entities/user/types/types";
 import {
+  ProjectListStrapi,
   ProjectReferenceListStrapi,
+  ProjectStrapi,
   ProjectStrapiPopulated,
   ProjectWithTagsListStrapi,
 } from "../../types/project";
 import { getTagFromStrapiDTO } from "../tag";
-import { getTeamListFromStrapiDTO } from "../team";
+import { getTeamFromStrapiDTO, getTeamListFromStrapiDTO } from "../team";
 import {
   ProjectDTO,
   ProjectDetailed,
@@ -16,21 +18,92 @@ import {
 } from "@/entities/project/types/types";
 import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 import { Member } from "@/entities/member";
+import { TeamListStrapi, TeamStrapiInner } from "../../types/team";
 
 export const getProjectListFromStrapiDTO = (
-  projects: ProjectWithTagsListStrapi
-): { projects: ProjectDTO[]; tags: Tag[] } => {
+  projects: ProjectListStrapi
+): {
+  projects: ProjectDTO[] | null;
+  tags: Tag[] | null;
+  teams: Team[] | null;
+  users: User[] | null;
+  members: Member[] | null;
+  administrators: User[] | null;
+} => {
+  if (!projects.data)
+    return {
+      projects: null,
+      tags: null,
+      teams: null,
+      users: null,
+      members: null,
+      administrators: null,
+    };
+
   const usedTagIds = new Set();
-  const tags = [];
+  const tags: Tag[] = [];
+
+  const usedTeamIds = new Set();
+  const teams: Team[] = [];
+
+  const usedMemberIds = new Set();
+  const members: Member[] = [];
+
+  const usedUserIds = new Set();
+  const users: User[] = [];
+
+  const usedAdministratorIds = new Set();
+  const administrators: User[] = [];
 
   projects.data.forEach((project) => {
-    project.attributes.tags.data.forEach((projectTag) => {
-      if (usedTagIds.has(projectTag.id)) return;
+    project.attributes.tags.data?.[0]?.attributes?.hasOwnProperty("name") &&
+      project.attributes.tags.data.forEach((projectTag) => {
+        if (usedTagIds.has(projectTag.id)) return;
 
-      usedTagIds.add(projectTag.id);
-      tags.push(getTagFromStrapiDTO({ data: projectTag }).tag);
-    });
+        usedTagIds.add(projectTag.id);
+        tags.push(getTagFromStrapiDTO({ data: projectTag }).tag);
+      });
+
+    project.attributes.teams.data?.[0]?.attributes?.hasOwnProperty("name") &&
+      project.attributes.teams.data.forEach((teamStrapi: TeamStrapiInner) => {
+        const {
+          team,
+          users: teamUsers,
+          administrators: teamAdmins,
+          members: teamMembers,
+        } = getTeamFromStrapiDTO({ data: teamStrapi });
+
+        if (team && !usedTeamIds.has(team.id)) {
+          usedTeamIds.add(team.id);
+          teams.push(team);
+        }
+
+        teamUsers &&
+          teamUsers.forEach((teamUser) => {
+            if (usedUserIds.has(teamUser.id)) return;
+
+            usedUserIds.add(teamUser.id);
+            users.push(teamUser);
+          });
+
+        teamMembers &&
+          teamMembers.forEach((teamMember) => {
+            if (usedMemberIds.has(teamMember.id)) return;
+
+            usedMemberIds.add(teamMember.id);
+            members.push(teamMember);
+          });
+
+        teamAdmins &&
+          teamAdmins.forEach((teamAdmin) => {
+            if (usedAdministratorIds.has(teamAdmin.id)) return;
+
+            usedAdministratorIds.add(teamAdmin.id);
+            administrators.push(teamAdmin);
+          });
+      });
   });
+
   return {
     projects: projects.data.map((project) => ({
       id: project.id,
@@ -41,27 +114,43 @@ export const getProjectListFromStrapiDTO = (
         : null,
     })),
     tags: tags,
+    users,
+    administrators,
+    members,
+    teams,
   };
 };
 
 export const getProjectFromStrapiDTO = (
-  project: ProjectStrapiPopulated
+  project: ProjectStrapi
 ): {
-  project: ProjectDetailedDTO;
-  tags: Tag[];
-  teams: Team[];
-  users: User[];
-  members: Member[];
+  project: ProjectDetailedDTO | null;
+  tags: Tag[] | null;
+  teams: Team[] | null;
+  users: User[] | null;
+  members: Member[] | null;
+  administrators: User[] | null;
 } => {
+  if (!project.data)
+    return {
+      project: null,
+      tags: null,
+      teams: null,
+      users: null,
+      members: null,
+      administrators: null,
+    };
+
   const { requests, ...attributes } = project.data.attributes;
 
   return {
     project: {
       id: project.data.id,
       ...{ ...attributes, team: undefined, requests: undefined },
-      developerRequirements: project.data.attributes.developerRequirements.map(
-        (requirement) => requirement.developerRequirement
-      ),
+      developerRequirements:
+        project.data.attributes.developerRequirements?.map(
+          (requirement) => requirement.developerRequirement
+        ) || null,
       teams: project.data.attributes.teams.data
         ? project.data.attributes.teams.data.map((team) => team.id)
         : null,
@@ -78,7 +167,17 @@ export const getProjectFromStrapiDTO = (
       id: tag.id,
       name: tag.attributes.name,
     })),
-    ...getTeamListFromStrapiDTO(project.data.attributes.teams),
+    ...(project.data.attributes.teams.data?.[0].hasOwnProperty("attributes") &&
+      getTeamListFromStrapiDTO(
+        project.data.attributes.teams as TeamListStrapi
+      )),
+    ...((!project.data.attributes.teams.data.length ||
+      !project.data.attributes.teams.data[0].hasOwnProperty("attributes")) && {
+      teams: null,
+      members: null,
+      users: null,
+      administrators: null,
+    }),
   };
 };
 

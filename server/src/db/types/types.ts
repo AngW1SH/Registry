@@ -6,6 +6,7 @@ export type SelectPopulate<T extends string> = {
 
 interface IdStrapiInner {
   id: number;
+  attributes: {};
 }
 
 export interface IdStrapi {

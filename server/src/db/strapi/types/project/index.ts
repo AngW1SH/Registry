@@ -1,6 +1,7 @@
+import { IdListStrapi } from "@/db/types/types";
 import { NamedFileStrapi } from "../components/named-file";
 import { TagListStrapi } from "../tag";
-import { TeamListStrapiPopulated } from "../team";
+import { TeamListStrapi, TeamListStrapiPopulated } from "../team";
 import { UserListStrapi } from "../user";
 
 export interface ProjectStrapiPopulated {
@@ -25,6 +26,36 @@ export interface ProjectStrapiPopulated {
       teamLimit: number;
     };
   };
+}
+
+interface ProjectStrapiInner {
+  id: number;
+  attributes: {
+    name: string;
+    description: string;
+    descriptionFiles?: NamedFileStrapi[];
+    resultFiles?: NamedFileStrapi[];
+    developerRequirements?: ProjectStrapiDeveloperRequirement[];
+    dateStart: string;
+    dateEnd: string;
+    enrollmentStart: string;
+    enrollmentEnd: string;
+    supervisor: string;
+    curator: string;
+    client: string;
+    requests: ProjectRequestCountStrapi;
+    tags?: TagListStrapi | IdListStrapi;
+    teams?: TeamListStrapi | IdListStrapi;
+    teamLimit: number;
+  };
+}
+
+export interface ProjectStrapi {
+  data: ProjectStrapiInner | null;
+}
+
+export interface ProjectListStrapi {
+  data: ProjectStrapiInner[];
 }
 
 interface ProjectWithTagsStrapiInner {

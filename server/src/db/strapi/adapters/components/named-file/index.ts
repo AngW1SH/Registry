@@ -13,6 +13,8 @@ const mimeToDisplayType = {
 export const getNamedFileListFromStrapiDTO = (
   dto: NamedFileStrapi[]
 ): { id: number; name: string; url: string; type: string; size: string }[] => {
+  if (!dto) return null;
+
   return dto
     .filter((namedFileDTO) => namedFileDTO.file.data)
     .map((namedFileDTO) => {
