@@ -1,6 +1,7 @@
 "use client";
 import { useAuthUserQuery } from "@/composites/AuthUser";
-import { Container } from "@/shared/ui";
+import { useProfileQuery } from "@/composites/Profile";
+import { Container, LoadingCircle } from "@/shared/ui";
 import { Footer } from "@/widgets/Footer";
 import { Header } from "@/widgets/Header";
 import { UserHero } from "@/widgets/UserHero";
@@ -23,16 +24,18 @@ const slugs: UserSidebarItemSlug[] = [
 ];
 
 const UserLayout: FC<UserLayoutProps> = ({ children }) => {
-  const { data: user, isLoading } = useAuthUserQuery();
+  const { data: user, isLoading: isUserLoading } = useAuthUserQuery();
   const router = useRouter();
+
+  const { data: profile } = useProfileQuery();
 
   const path = usePathname();
 
   const slug = path.split("/")[2] as UserSidebarItemSlug;
 
   useEffect(() => {
-    if (!user && !isLoading) router.push("/");
-  }, [user, isLoading]);
+    if (!user && !isUserLoading) router.push("/");
+  }, [user, isUserLoading]);
 
   return (
     <>
@@ -54,7 +57,12 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
               }
             />
           </div>
-          <div className="w-full">{children}</div>
+          {profile && <div className="w-full">{children}</div>}
+          {!profile && (
+            <div className="flex w-full justify-center py-10">
+              <LoadingCircle />
+            </div>
+          )}
         </div>
       </Container>
       <div className="pt-32" />

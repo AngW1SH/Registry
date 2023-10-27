@@ -4,6 +4,7 @@ import UserFormsWarningPreview from "./ui/UserFormsWarningPreview";
 import UserTeamsPreview from "./ui/UserTeamsPreview";
 import UserTeamsWarningPreview from "./ui/UserTeamsWarningPreview";
 import UserTeamsTeamleadPreview from "./ui/UserTeamsTeamleadPreview";
+import UserTeamsMultiplePreview from "./ui/UserTeamsMultiplePreview";
 import UserRequestsPreview from "./ui/UserRequestsPreview";
 import UserRequestsUnassignedPreview from "./ui/UserRequestsUnassignedPreview";
 import UserRequestsTeamleadPreview from "./ui/UserRequestsTeamleadPreview";
@@ -17,6 +18,7 @@ export {
   UserTeamsPreview,
   UserTeamsWarningPreview,
   UserTeamsTeamleadPreview,
+  UserTeamsMultiplePreview,
   UserRequestsPreview,
   UserRequestsUnassignedPreview,
   UserRequestsTeamleadPreview,

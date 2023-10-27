@@ -10,6 +10,7 @@ import {
   filterUnassigned,
   filterUnassignedAdministrated,
 } from "@/db/strapi/queries/team";
+import { filterAdministratedActive } from "@/db/strapi/queries/team/filters";
 import { selectUser } from "@/db/strapi/queries/user";
 import {
   TeamListStrapiPopulated,
@@ -26,6 +27,7 @@ const teamRepositoryFactory = () => {
     getAdministrators,
     getUnassignedAdministratedByUser,
     getActiveByUser,
+    getAdministratedActiveByUser,
   });
 
   async function getUnassignedByUser(user: User): Promise<Team[]> {
@@ -70,6 +72,26 @@ const teamRepositoryFactory = () => {
     return response.data.attributes.administrators.data.map((administrator) =>
       getUserFromStrapiDTO({ data: administrator })
     );
+  }
+
+  async function getAdministratedActiveByUser(
+    userId: number
+  ): Promise<{ teams: Team[]; members: Member[]; users: User[] }> {
+    const params = {
+      filters: filterAdministratedActive(userId),
+      ...selectTeam({
+        members: selectMember({
+          user: selectUser(),
+        }),
+      }),
+    };
+
+    const response: TeamListStrapiPopulated = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN,
+      params,
+    });
+
+    return getTeamListFromStrapiDTO(response);
   }
 
   async function getUnassignedAdministratedByUser(user: User): Promise<Team[]> {

@@ -1,7 +1,7 @@
 import { Block, ButtonAlt } from "@/shared/ui";
 import Image from "next/image";
 import { FC } from "react";
-import { IForm } from "./types/types";
+import { IForm } from "../types/types";
 
 interface FormCardProps {
   form: IForm;

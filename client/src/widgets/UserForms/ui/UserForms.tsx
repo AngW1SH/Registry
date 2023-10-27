@@ -1,4 +1,4 @@
-import { FormCard, staticForms } from "@/entities/Form/ui";
+import { FormCard, staticForms } from "@/entities/Form";
 import { FC } from "react";
 
 interface UserFormsProps {}

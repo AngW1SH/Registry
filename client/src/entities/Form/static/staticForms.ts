@@ -1,4 +1,4 @@
-import { IForm } from "../ui/types/types";
+import { IForm } from "../types/types";
 
 export const staticForms: IForm[] = [
   {

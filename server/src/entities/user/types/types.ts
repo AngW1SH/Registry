@@ -21,6 +21,10 @@ export interface UserProfileData {
   forms: FormResultClient[];
   projects: ProjectReference[];
   requests: Request[];
+  user: {
+    teams: number[];
+    administratedTeams: number[];
+  };
   teams: Team[];
   users: User[];
   members: Member[];

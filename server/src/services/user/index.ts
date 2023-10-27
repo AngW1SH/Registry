@@ -8,11 +8,11 @@ import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
-import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
 import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
 import formRepository from "@/repositories/form";
 import requestRepository from "@/repositories/request";
 import { FormResultClient } from "@/entities/form";
+import { mergeUnique } from "./utils/mergeUnique";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -126,7 +126,7 @@ const userServiceFactory = () => {
         unassignedTeams: teamIdList,
         unassignedAdministrated: administratedIdList,
       },
-      teams: mergeUniqueTeams(
+      teams: mergeUnique(
         teams.status == "fulfilled" ? teams.value : [],
         administrated.status == "fulfilled" ? administrated.value : []
       ),
@@ -148,13 +148,19 @@ const userServiceFactory = () => {
   }
 
   async function getProfileData(user: User): Promise<UserProfileData> {
-    const [formsResult, formResultsResult, requestsResult, activeTeamsResult] =
-      await Promise.allSettled([
-        formRepository.findActive(),
-        userRepository.getFormResults(user.id),
-        requestRepository.getActiveByUser(user.id),
-        teamRepository.getActiveByUser(user.id),
-      ]);
+    const [
+      formsResult,
+      formResultsResult,
+      requestsResult,
+      activeTeamsResult,
+      activeAdministratedTeamsResult,
+    ] = await Promise.allSettled([
+      formRepository.findActive(),
+      userRepository.getFormResults(user.id),
+      requestRepository.getActiveByUser(user.id),
+      teamRepository.getActiveByUser(user.id),
+      teamRepository.getAdministratedActiveByUser(user.id),
+    ]);
     const forms = formsResult.status == "fulfilled" ? formsResult.value : [];
     const formResults =
       formResultsResult.status == "fulfilled" ? formResultsResult.value : [];
@@ -184,6 +190,14 @@ const userServiceFactory = () => {
         ? activeTeamsResult.value
         : { teams: [], members: [], users: [] };
 
+    const {
+      teams: adminTeams,
+      members: adminMembers,
+      users: adminUsers,
+    } = activeAdministratedTeamsResult.status == "fulfilled"
+      ? activeAdministratedTeamsResult.value
+      : { teams: [], members: [], users: [] };
+
     const projects = teams
       ? await projectRepository.getReferences(
           teams.filter((team) => team.project).map((team) => team.id)
@@ -193,10 +207,14 @@ const userServiceFactory = () => {
     return {
       forms: formResultsClient,
       requests,
-      teams,
-      members,
-      users,
+      teams: mergeUnique(teams, adminTeams),
+      members: mergeUnique(members, adminMembers),
+      users: mergeUnique(users, adminUsers),
       projects,
+      user: {
+        teams: teams.map((team) => team.id),
+        administratedTeams: adminTeams.map((team) => team.id),
+      },
     };
   }
 };

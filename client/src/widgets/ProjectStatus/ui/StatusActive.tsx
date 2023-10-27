@@ -1,9 +1,9 @@
-import { IUserWithRole, formatNameShort } from "@/entities/User";
+import { IUser, formatNameShort } from "@/entities/User";
 import { Button } from "@/shared/ui";
 import { FC } from "react";
 
 interface StatusActiveProps {
-  users: IUserWithRole[] | null;
+  users: IUser[] | null;
 }
 
 const StatusActive: FC<StatusActiveProps> = ({ users }) => {
