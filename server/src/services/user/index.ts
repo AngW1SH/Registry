@@ -12,6 +12,7 @@ import { mergeUniqueTeams } from "./utils/mergeUniqueTeams";
 import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
 import formRepository from "@/repositories/form";
 import requestRepository from "@/repositories/request";
+import { FormResultClient } from "@/entities/form";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -147,10 +148,41 @@ const userServiceFactory = () => {
   }
 
   async function getProfileData(user: User): Promise<UserProfileData> {
-    const requests = await requestRepository.getActiveByUser(user.id);
-    const { teams, members, users } = await teamRepository.getActiveByUser(
-      user.id
-    );
+    const [formsResult, formResultsResult, requestsResult, activeTeamsResult] =
+      await Promise.allSettled([
+        formRepository.findActive(),
+        userRepository.getFormResults(user.id),
+        requestRepository.getActiveByUser(user.id),
+        teamRepository.getActiveByUser(user.id),
+      ]);
+    const forms = formsResult.status == "fulfilled" ? formsResult.value : [];
+    const formResults =
+      formResultsResult.status == "fulfilled" ? formResultsResult.value : [];
+
+    const formResultsClient: FormResultClient[] = forms.map((form) => ({
+      id: form.id,
+      name: form.name,
+      url: form.link,
+      completed: null,
+    }));
+
+    /* 
+    Assumes the forms are sorted by date in ASC order
+    They should be, by default, because the new form results are pushed to the end of the list
+    */
+    formResults.forEach((result) => {
+      const formIndex = forms.findIndex((form) => form.id == result.form);
+
+      if (formIndex !== -1)
+        formResultsClient[formIndex].completed = new Date(result.date);
+    });
+
+    const requests =
+      requestsResult.status == "fulfilled" ? requestsResult.value : [];
+    const { teams, members, users } =
+      activeTeamsResult.status == "fulfilled"
+        ? activeTeamsResult.value
+        : { teams: [], members: [], users: [] };
 
     const projects = teams
       ? await projectRepository.getReferences(
@@ -159,6 +191,7 @@ const userServiceFactory = () => {
       : [];
 
     return {
+      forms: formResultsClient,
       requests,
       teams,
       members,

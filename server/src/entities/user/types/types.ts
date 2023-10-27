@@ -18,6 +18,7 @@ export interface UserProjectStatusData {
 }
 
 export interface UserProfileData {
+  forms: FormResultClient[];
   projects: ProjectReference[];
   requests: Request[];
   teams: Team[];

@@ -1,8 +1,12 @@
+import { getFormListFromStrapiDTO } from "@/db/strapi/adapters/form";
 import { strapi } from "@/db/strapi/client";
+import { FormListStrapi } from "@/db/strapi/types/form";
+import { Form } from "@/entities/form";
 
 const formRepositoryFactory = () => {
   return {
     findByFormId,
+    findActive,
   };
 
   async function findByFormId(formId: string) {
@@ -19,6 +23,22 @@ const formRepositoryFactory = () => {
     });
 
     return response;
+  }
+
+  async function findActive(): Promise<Form[]> {
+    const params = {
+      filters: {
+        active: true,
+      },
+      fields: ["id", "name", "link"],
+    };
+
+    const result: FormListStrapi = await strapi.get("forms", {
+      token: process.env.FORM_TOKEN,
+      params,
+    });
+
+    return getFormListFromStrapiDTO(result);
   }
 };
 
