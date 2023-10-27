@@ -1,6 +1,7 @@
 import {
   getTeamFromStrapiDTO,
   getTeamListFromStrapiDTO,
+  getTeamListWithAdministratorsFromStrapiDTO,
 } from "@/db/strapi/adapters/team";
 import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
@@ -14,6 +15,7 @@ import { filterAdministratedActive } from "@/db/strapi/queries/team/filters";
 import { selectUser } from "@/db/strapi/queries/user";
 import {
   TeamListStrapiPopulated,
+  TeamListStrapiPopulatedWithAdministrators,
   TeamStrapiPopulated,
   TeamStrapiPopulatedWithAdministrators,
 } from "@/db/strapi/types/team";
@@ -117,6 +119,7 @@ const teamRepositoryFactory = () => {
     teams: Team[];
     members: Member[];
     users: User[];
+    administrators: User[];
   }> {
     const params = {
       filters: filterActive(userId),
@@ -128,12 +131,13 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamListStrapiPopulated = await strapi.get("teams", {
-      token: process.env.PROJECTS_TOKEN,
-      params,
-    });
+    const response: TeamListStrapiPopulatedWithAdministrators =
+      await strapi.get("teams", {
+        token: process.env.PROJECTS_TOKEN,
+        params,
+      });
 
-    return getTeamListFromStrapiDTO(response);
+    return getTeamListWithAdministratorsFromStrapiDTO(response);
   }
 };
 

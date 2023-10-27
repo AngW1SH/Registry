@@ -1,6 +1,7 @@
 import { Team } from "@/entities/team";
 import {
   TeamListStrapiPopulated,
+  TeamListStrapiPopulatedWithAdministrators,
   TeamStrapiPopulated,
   TeamStrapiPopulatedWithAdministrators,
 } from "../../types/team";
@@ -83,7 +84,8 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
   administrators: User[];
 } => {
   const { members, users } = getMemberListFromStrapiDTO(
-    team.data.attributes.members
+    team.data.attributes.members,
+    team
   );
   const administrators = team.data.attributes.administrators.data.map((user) =>
     getUserFromStrapiDTO({ data: user })
@@ -102,6 +104,63 @@ export const getTeamWithAdministratorsFromStrapiDTO = (
     users: users,
     members: members,
     administrators: administrators,
+  };
+};
+
+export const getTeamListWithAdministratorsFromStrapiDTO = (
+  teams: TeamListStrapiPopulatedWithAdministrators
+): {
+  teams: TeamWithAdministrators[];
+  members: Member[];
+  users: User[];
+  administrators: User[];
+} => {
+  if (!teams.data)
+    return { teams: null, users: null, members: null, administrators: null };
+
+  const usedUserIds = new Set();
+  const users: User[] = [];
+
+  const usedMemberIds = new Set();
+  const members: Member[] = [];
+
+  const usedAdministratorIds = new Set();
+  const administrators: User[] = [];
+
+  teams.data.forEach((team) => {
+    const {
+      members: teamMembers,
+      users: teamUsers,
+      administrators: teamAdministrators,
+    } = getMemberListFromStrapiDTO(team.attributes.members, { data: team });
+
+    teamUsers.forEach((user) => {
+      if (usedUserIds.has(user.id)) return;
+      users.push(user);
+    });
+    teamMembers.forEach((member) => {
+      if (usedMemberIds.has(member.id)) return;
+      members.push(member);
+    });
+    teamAdministrators.forEach((administrator) => {
+      if (usedAdministratorIds.has(administrator.id)) return;
+      administrators.push(administrator);
+    });
+  });
+
+  return {
+    teams: teams.data.map((team) => ({
+      id: team.id,
+      name: team.attributes.name,
+      members: members.map((member) => member.id),
+      administrators: administrators.map((administrator) => administrator.id),
+      project: team.attributes.project.data
+        ? team.attributes.project.data.id
+        : null,
+    })),
+    users,
+    members,
+    administrators,
   };
 };
 
