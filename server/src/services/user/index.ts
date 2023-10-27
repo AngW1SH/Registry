@@ -8,18 +8,19 @@ import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
-import { getRequestFromStrapiDTO } from "@/db/strapi/adapters/team";
 import formRepository from "@/repositories/form";
 import requestRepository from "@/repositories/request";
 import { FormResultClient } from "@/entities/form";
 import { mergeUnique } from "./utils/mergeUnique";
+import { Team } from "@/entities/team";
+import { Member } from "@/entities/member";
+import { TeamWithAdministrators } from "@/entities/team/types/types";
 
 const userServiceFactory = () => {
   return Object.freeze({
     findById,
     findOrCreate,
     createTokens,
-    getPublicUserInfo,
     getProjectStatusData,
     getData,
     submitForm,
@@ -32,7 +33,7 @@ const userServiceFactory = () => {
     return user;
   }
 
-  async function findOrCreate(user: UserCreate): Promise<User> {
+  async function findOrCreate(user: UserCreate): Promise<User | null> {
     const userFound = await userRepository.findByEmail(user.email);
 
     if (userFound) return userFound;
@@ -46,13 +47,6 @@ const userServiceFactory = () => {
     return {
       accessToken: generateAccessToken(user.id),
       refreshToken: generateRefreshToken(user.id),
-    };
-  }
-
-  async function getPublicUserInfo(user: User): Promise<User> {
-    return {
-      ...user,
-      id: undefined,
     };
   }
 
@@ -72,30 +66,31 @@ const userServiceFactory = () => {
 
     administratedByUser.forEach((team) => assignableTeams.add(team.id));
 
-    /*
-    TODO:
-      move all strapi-related stuff back to the repository
-      Services should not care about where the formatted data is fetched from
-    */
-    const requestsStrapi = await projectRepository.getActiveRequests(projectId);
+    const requestsData = await requestRepository.getActiveByProject(projectId);
 
-    const requests = requestsStrapi.data.map((candidate) =>
-      getRequestFromStrapiDTO(candidate)
-    );
+    if (!requestsData) throw new Error("Couldn't fetch request data");
 
-    requests.forEach((teamData) => {
-      // remove all the teams that have already signed up for the project
-      teamData.administrators.forEach((administrator) => {
-        if (administrator.id === userId) {
-          assignableTeams.delete(teamData.team.id);
-        }
+    const { teams, members } = requestsData;
+
+    teams &&
+      teams.forEach((team) => {
+        // remove all the teams that have already signed up for the project
+        team.hasOwnProperty("administrators") &&
+          (team as TeamWithAdministrators).administrators.forEach(
+            (administrator) => {
+              if (administrator === userId) {
+                assignableTeams.delete(team.id);
+              }
+            }
+          );
+
+        if (!hasApplied)
+          team.members.forEach((teamMember) => {
+            const user = members?.find((member) => member.id == teamMember);
+
+            if (user && user.id === userId) hasApplied = true;
+          });
       });
-
-      if (!hasApplied)
-        teamData.users.forEach((user) => {
-          if (user.id === userId) hasApplied = true;
-        });
-    });
 
     return {
       assignableTeams: Array.from(assignableTeams),
@@ -188,7 +183,7 @@ const userServiceFactory = () => {
     const { teams, members, users } =
       activeTeamsResult.status == "fulfilled"
         ? activeTeamsResult.value
-        : { teams: [], members: [], users: [] };
+        : { teams: [] as Team[], members: [] as Member[], users: [] as User[] };
 
     const {
       teams: adminTeams,
@@ -196,7 +191,7 @@ const userServiceFactory = () => {
       users: adminUsers,
     } = activeAdministratedTeamsResult.status == "fulfilled"
       ? activeAdministratedTeamsResult.value
-      : { teams: [], members: [], users: [] };
+      : { teams: [] as Team[], members: [] as Member[], users: [] as User[] };
 
     const projects = teams
       ? await projectRepository.getReferences(
@@ -212,8 +207,8 @@ const userServiceFactory = () => {
       users: mergeUnique(users, adminUsers),
       projects,
       user: {
-        teams: teams.map((team) => team.id),
-        administratedTeams: adminTeams.map((team) => team.id),
+        teams: teams ? teams.map((team) => team.id) : [],
+        administratedTeams: adminTeams ? adminTeams.map((team) => team.id) : [],
       },
     };
   }

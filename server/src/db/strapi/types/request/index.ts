@@ -1,15 +1,15 @@
 import { IdStrapi } from "@/db/types/types";
 import { TeamStrapi } from "../team";
 
-export interface RequestStrapiInner {
+interface RequestStrapiInner {
   id: number;
   attributes: {
-    team: TeamStrapi;
+    team?: TeamStrapi;
   };
 }
 
 export interface RequestStrapi {
-  data: RequestStrapiInner;
+  data: RequestStrapiInner | null;
 }
 
 export interface RequestListStrapi {

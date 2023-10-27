@@ -11,7 +11,8 @@ const requestControllerFactory = () => {
       if (
         !req.body.team ||
         !req.body.project ||
-        Object.keys(req.files).length === 0
+        !req.files ||
+        Array.from(Object.keys(req.files)).length === 0
       )
         return res.status(400).send();
 

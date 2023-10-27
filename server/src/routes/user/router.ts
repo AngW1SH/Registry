@@ -31,12 +31,6 @@ userRouter.get(
 );
 
 userRouter.get(
-  "/info",
-  passport.authenticate("jwt-authenticate"),
-  userController.getPublicUserInfo
-);
-
-userRouter.get(
   "/data",
   passport.authenticate("jwt-authenticate"),
   userController.getData

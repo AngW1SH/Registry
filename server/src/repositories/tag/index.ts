@@ -25,7 +25,7 @@ const tagRepositoryFactory = () => {
     };
 
     const result: TagListStrapi = await strapi.get("tags", {
-      token: process.env.PROJECTS_TOKEN,
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 

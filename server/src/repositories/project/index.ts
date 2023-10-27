@@ -21,8 +21,9 @@ import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
 import { Tag } from "@/entities/tag";
 import {
+  ProjectListStrapi,
   ProjectReferenceListStrapi,
-  ProjectWithTagsListStrapi,
+  ProjectStrapi,
 } from "@/db/strapi/types/project";
 import {
   getProjectFromStrapiDTO,
@@ -45,7 +46,7 @@ const projectRepositoryFactory = () => {
   async function getNew(limit?: number): Promise<{
     projects: ProjectDTO[];
     tags: Tag[];
-  }> {
+  } | null> {
     const now = new Date();
 
     const params = {
@@ -60,12 +61,17 @@ const projectRepositoryFactory = () => {
       }),
     };
 
-    const response: ProjectWithTagsListStrapi = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: ProjectListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return getProjectListFromStrapiDTO(response);
+    const { projects, tags } = getProjectListFromStrapiDTO(response);
+
+    return {
+      projects: projects!,
+      tags: tags!,
+    };
   }
 
   async function countActiveRequests(id: number): Promise<number> {
@@ -82,7 +88,7 @@ const projectRepositoryFactory = () => {
     };
 
     const response = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN,
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
@@ -112,12 +118,12 @@ const projectRepositoryFactory = () => {
       },
     };
 
-    const response = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: ProjectListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return response.data.length
+    return response.data?.length
       ? response.data[0].attributes.requests
       : { data: [] };
   }
@@ -128,7 +134,7 @@ const projectRepositoryFactory = () => {
     teams: Team[];
     users: User[];
     members: Member[];
-  }> {
+  } | null> {
     if (typeof id != "number") throw new Error("Provided ID is not a number");
 
     const params = {
@@ -152,17 +158,23 @@ const projectRepositoryFactory = () => {
     };
 
     const response = await strapi.get("projects/" + id, {
-      token: process.env.PROJECTS_TOKEN,
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
     if (!response.data) return null;
 
-    const countRequests = await this.countActiveRequests(response.data.id);
+    const countRequests = await countActiveRequests(response.data.id);
 
     response.data.attributes.requests.data.attributes.count = countRequests;
 
-    return getProjectFromStrapiDTO({ data: response.data });
+    return getProjectFromStrapiDTO({ data: response.data }) as {
+      project: ProjectDTO;
+      tags: Tag[];
+      teams: Team[];
+      users: User[];
+      members: Member[];
+    };
   }
 
   async function findMany(filters?: ProjectFilters): Promise<{
@@ -179,12 +191,15 @@ const projectRepositoryFactory = () => {
       }),
     };
 
-    const response: ProjectWithTagsListStrapi = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: ProjectListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return getProjectListFromStrapiDTO(response);
+    return getProjectListFromStrapiDTO(response) as {
+      projects: ProjectDTO[];
+      tags: Tag[];
+    };
   }
 
   async function getReferences(ids: number[]) {
@@ -200,7 +215,7 @@ const projectRepositoryFactory = () => {
     };
 
     const response: ProjectReferenceListStrapi = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN,
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 

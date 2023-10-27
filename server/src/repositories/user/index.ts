@@ -18,7 +18,7 @@ const userRepositoryFactory = () => {
     submitForm,
   });
 
-  async function findByEmail(email: string): Promise<User> {
+  async function findByEmail(email: string): Promise<User | null> {
     const params = {
       filters: {
         email: email,
@@ -27,7 +27,7 @@ const userRepositoryFactory = () => {
     };
 
     const response: UserListStrapi = await strapi.get("students", {
-      token: process.env.USER_TOKEN,
+      token: process.env.USER_TOKEN!,
       params,
     });
 
@@ -36,7 +36,7 @@ const userRepositoryFactory = () => {
     return getUserFromStrapiDTO({ data: response.data[0] });
   }
 
-  async function findById(id: number): Promise<User> {
+  async function findById(id: number): Promise<User | null> {
     const params = {
       filters: {
         id: id,
@@ -45,7 +45,7 @@ const userRepositoryFactory = () => {
     };
 
     const response: UserListStrapi = await strapi.get("students", {
-      token: process.env.USER_TOKEN,
+      token: process.env.USER_TOKEN!,
       params,
     });
 
@@ -54,13 +54,13 @@ const userRepositoryFactory = () => {
     return getUserFromStrapiDTO({ data: response.data[0] });
   }
 
-  async function create(userCreate: UserCreate): Promise<User> {
+  async function create(userCreate: UserCreate): Promise<User | null> {
     const params = {
       data: userCreate,
     };
 
     const response: UserStrapi = await strapi.post("students", {
-      token: process.env.USER_TOKEN,
+      token: process.env.USER_TOKEN!,
       body: params,
     });
 
@@ -77,7 +77,7 @@ const userRepositoryFactory = () => {
     };
 
     const response = await strapi.get("students/" + userId, {
-      token: process.env.USER_TOKEN,
+      token: process.env.USER_TOKEN!,
       params,
     });
 
@@ -85,7 +85,7 @@ const userRepositoryFactory = () => {
   }
 
   async function submitForm(formId: string, response: any, userId: number) {
-    const forms: FormResult[] = await this.getFormResults(userId);
+    const forms: FormResult[] = await getFormResults(userId);
 
     const formData = new FormData();
 
@@ -117,7 +117,7 @@ const userRepositoryFactory = () => {
     };
 
     const createResponse = await strapi.put("students/" + userId, {
-      token: process.env.USER_TOKEN,
+      token: process.env.USER_TOKEN!,
       body,
     });
 

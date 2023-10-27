@@ -5,20 +5,18 @@ import {
   ProjectListStrapi,
   ProjectReferenceListStrapi,
   ProjectStrapi,
-  ProjectStrapiPopulated,
-  ProjectWithTagsListStrapi,
 } from "../../types/project";
 import { getTagFromStrapiDTO } from "../tag";
 import { getTeamFromStrapiDTO, getTeamListFromStrapiDTO } from "../team";
 import {
   ProjectDTO,
-  ProjectDetailed,
   ProjectDetailedDTO,
   ProjectReference,
 } from "@/entities/project/types/types";
 import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 import { Member } from "@/entities/member";
-import { TeamListStrapi, TeamStrapiInner } from "../../types/team";
+import { TeamListStrapi, TeamStrapi, TeamStrapiInner } from "../../types/team";
+import { TagStrapi } from "../../types/tag";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectListStrapi
@@ -56,22 +54,22 @@ export const getProjectListFromStrapiDTO = (
   const administrators: User[] = [];
 
   projects.data.forEach((project) => {
-    project.attributes.tags.data?.[0]?.attributes?.hasOwnProperty("name") &&
+    project.attributes.tags?.data?.[0]?.attributes?.hasOwnProperty("name") &&
       project.attributes.tags.data.forEach((projectTag) => {
         if (usedTagIds.has(projectTag.id)) return;
 
         usedTagIds.add(projectTag.id);
-        tags.push(getTagFromStrapiDTO({ data: projectTag }).tag);
+        tags.push(getTagFromStrapiDTO({ data: projectTag } as TagStrapi).tag);
       });
 
-    project.attributes.teams.data?.[0]?.attributes?.hasOwnProperty("name") &&
-      project.attributes.teams.data.forEach((teamStrapi: TeamStrapiInner) => {
+    project.attributes.teams?.data?.[0]?.attributes?.hasOwnProperty("name") &&
+      project.attributes.teams.data.forEach((teamStrapi) => {
         const {
           team,
           users: teamUsers,
           administrators: teamAdmins,
           members: teamMembers,
-        } = getTeamFromStrapiDTO({ data: teamStrapi });
+        } = getTeamFromStrapiDTO({ data: teamStrapi } as TeamStrapi);
 
         if (team && !usedTeamIds.has(team.id)) {
           usedTeamIds.add(team.id);
@@ -108,10 +106,10 @@ export const getProjectListFromStrapiDTO = (
     projects: projects.data.map((project) => ({
       id: project.id,
       ...project.attributes,
-      tags: project.attributes.tags.data.map((tag) => tag.id),
-      teams: project.attributes.teams.data
+      tags: project.attributes.tags?.data.map((tag) => tag.id) || [],
+      teams: project.attributes.teams?.data
         ? project.attributes.teams.data.map((team) => team.id)
-        : null,
+        : [],
     })),
     tags: tags,
     users,
@@ -143,6 +141,14 @@ export const getProjectFromStrapiDTO = (
 
   const { requests, ...attributes } = project.data.attributes;
 
+  const tags =
+    project.data.attributes.tags?.data?.[0]?.attributes?.hasOwnProperty("name")
+      ? project.data.attributes.tags.data.map(
+          (projectTag) =>
+            getTagFromStrapiDTO({ data: projectTag } as TagStrapi).tag
+        )
+      : [];
+
   return {
     project: {
       id: project.data.id,
@@ -150,34 +156,32 @@ export const getProjectFromStrapiDTO = (
       developerRequirements:
         project.data.attributes.developerRequirements?.map(
           (requirement) => requirement.developerRequirement
-        ) || null,
-      teams: project.data.attributes.teams.data
+        ) || [],
+      teams: project.data.attributes.teams?.data
         ? project.data.attributes.teams.data.map((team) => team.id)
-        : null,
-      tags: project.data.attributes.tags.data.map((tag) => tag.id),
+        : [],
+      tags: project.data.attributes.tags?.data.map((tag) => tag.id) || [],
       requestCount: requests ? requests.data.attributes.count : 0,
-      descriptionFiles: getNamedFileListFromStrapiDTO(
-        project.data.attributes.descriptionFiles
-      ),
-      resultFiles: getNamedFileListFromStrapiDTO(
-        project.data.attributes.resultFiles
-      ),
+      descriptionFiles: project.data.attributes.descriptionFiles
+        ? getNamedFileListFromStrapiDTO(
+            project.data.attributes.descriptionFiles
+          )
+        : [],
+      resultFiles: project.data.attributes.resultFiles
+        ? getNamedFileListFromStrapiDTO(project.data.attributes.resultFiles)
+        : [],
     },
-    tags: project.data.attributes.tags.data.map((tag) => ({
-      id: tag.id,
-      name: tag.attributes.name,
-    })),
-    ...(project.data.attributes.teams.data?.[0].hasOwnProperty("attributes") &&
-      getTeamListFromStrapiDTO(
-        project.data.attributes.teams as TeamListStrapi
-      )),
-    ...((!project.data.attributes.teams.data.length ||
-      !project.data.attributes.teams.data[0].hasOwnProperty("attributes")) && {
-      teams: null,
-      members: null,
-      users: null,
-      administrators: null,
-    }),
+    tags,
+    ...(project.data.attributes.teams?.data?.[0].hasOwnProperty("attributes")
+      ? getTeamListFromStrapiDTO(
+          project.data.attributes.teams as TeamListStrapi
+        )
+      : {
+          teams: null,
+          members: null,
+          users: null,
+          administrators: null,
+        }),
   };
 };
 

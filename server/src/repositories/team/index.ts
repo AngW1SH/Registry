@@ -1,7 +1,6 @@
 import {
   getTeamFromStrapiDTO,
   getTeamListFromStrapiDTO,
-  getTeamListWithAdministratorsFromStrapiDTO,
 } from "@/db/strapi/adapters/team";
 import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
@@ -13,12 +12,8 @@ import {
 } from "@/db/strapi/queries/team";
 import { filterAdministratedActive } from "@/db/strapi/queries/team/filters";
 import { selectUser } from "@/db/strapi/queries/user";
-import {
-  TeamListStrapiPopulated,
-  TeamListStrapiPopulatedWithAdministrators,
-  TeamStrapiPopulated,
-  TeamStrapiPopulatedWithAdministrators,
-} from "@/db/strapi/types/team";
+import { TeamListStrapi, TeamStrapi } from "@/db/strapi/types/team";
+import { UserStrapi } from "@/db/strapi/types/user";
 import { Member } from "@/entities/member";
 import { Team } from "@/entities/team";
 import { User } from "@/entities/user";
@@ -43,12 +38,12 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamListStrapiPopulated = await strapi.get("teams", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: TeamListStrapi = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return getTeamListFromStrapiDTO(response).teams;
+    return getTeamListFromStrapiDTO(response).teams!;
   }
 
   async function getAdministrators(id: number): Promise<User[]> {
@@ -58,11 +53,13 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamStrapiPopulatedWithAdministrators | { data: null } =
-      await strapi.get("teams/" + id, {
-        token: process.env.PROJECTS_TOKEN,
+    const response: TeamStrapi | { data: null } = await strapi.get(
+      "teams/" + id,
+      {
+        token: process.env.PROJECTS_TOKEN!,
         params,
-      });
+      }
+    );
 
     if (
       !response.data ||
@@ -72,13 +69,15 @@ const teamRepositoryFactory = () => {
       return [];
 
     return response.data.attributes.administrators.data.map((administrator) =>
-      getUserFromStrapiDTO({ data: administrator })
+      getUserFromStrapiDTO({ data: administrator } as UserStrapi)
     );
   }
 
-  async function getAdministratedActiveByUser(
-    userId: number
-  ): Promise<{ teams: Team[]; members: Member[]; users: User[] }> {
+  async function getAdministratedActiveByUser(userId: number): Promise<{
+    teams: Team[] | null;
+    members: Member[] | null;
+    users: User[] | null;
+  }> {
     const params = {
       filters: filterAdministratedActive(userId),
       ...selectTeam({
@@ -88,8 +87,8 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamListStrapiPopulated = await strapi.get("teams", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: TeamListStrapi = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
@@ -107,19 +106,19 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamListStrapiPopulated = await strapi.get("teams", {
-      token: process.env.PROJECTS_TOKEN,
+    const response: TeamListStrapi = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return getTeamListFromStrapiDTO(response).teams;
+    return getTeamListFromStrapiDTO(response).teams!;
   }
 
   async function getActiveByUser(userId: number): Promise<{
-    teams: Team[];
-    members: Member[];
-    users: User[];
-    administrators: User[];
+    teams: Team[] | null;
+    members: Member[] | null;
+    users: User[] | null;
+    administrators: User[] | null;
   }> {
     const params = {
       filters: filterActive(userId),
@@ -131,13 +130,12 @@ const teamRepositoryFactory = () => {
       }),
     };
 
-    const response: TeamListStrapiPopulatedWithAdministrators =
-      await strapi.get("teams", {
-        token: process.env.PROJECTS_TOKEN,
-        params,
-      });
+    const response: TeamListStrapi = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
 
-    return getTeamListWithAdministratorsFromStrapiDTO(response);
+    return getTeamListFromStrapiDTO(response);
   }
 };
 

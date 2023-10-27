@@ -12,7 +12,7 @@ const projectControllerFactory = () => {
 
   async function getActive(req: Request, res: Response) {
     try {
-      const tagIds = req.body ? (req.body.tagIds as string[]) : null;
+      const tagIds = req.body ? (req.body.tagIds as string[]) : undefined;
 
       const projects = await projectService.getActive(tagIds);
 

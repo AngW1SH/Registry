@@ -84,13 +84,13 @@ export const getMemberListFromStrapiDTO = (
     options.team.data.attributes.administrators.data.forEach(
       (administrator) => {
         if (
-          !administrator.hasOwnProperty("attributes") ||
+          !administrator?.attributes?.hasOwnProperty("name") ||
           usedUserIds.has(administrator.id)
         )
           return;
 
         usedUserIds.add(administrator.id);
-        users.push(getUserFromStrapiDTO({ data: administrator }));
+        users.push(getUserFromStrapiDTO({ data: administrator } as UserStrapi));
       }
     );
   }

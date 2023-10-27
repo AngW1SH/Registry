@@ -18,7 +18,7 @@ const formRepositoryFactory = () => {
     };
 
     const response = await strapi.get("forms", {
-      token: process.env.FORM_TOKEN,
+      token: process.env.FORM_TOKEN!,
       params,
     });
 
@@ -34,7 +34,7 @@ const formRepositoryFactory = () => {
     };
 
     const result: FormListStrapi = await strapi.get("forms", {
-      token: process.env.FORM_TOKEN,
+      token: process.env.FORM_TOKEN!,
       params,
     });
 

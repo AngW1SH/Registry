@@ -8,7 +8,6 @@ const userControllerFactory = () => {
     authorize,
     logout,
     token,
-    getPublicUserInfo,
     getProjectStatusData,
     getData,
     submitForm,
@@ -67,18 +66,6 @@ const userControllerFactory = () => {
     }
   }
 
-  async function getPublicUserInfo(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
-
-      const info = await userService.getPublicUserInfo(req.user);
-
-      res.status(200).json(info);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  }
-
   async function getProjectStatusData(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).send();
@@ -100,7 +87,7 @@ const userControllerFactory = () => {
     try {
       jwt.verify(
         req.signedCookies["user-access"], // In case multiple /token requests are sent at the same time
-        process.env.TOKEN_SECRET,
+        process.env.TOKEN_SECRET!,
         async (
           err: jwt.VerifyErrors | null,
           decoded: jwt.Jwt | JwtPayload | string | undefined

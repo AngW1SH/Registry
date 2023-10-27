@@ -1,25 +1,33 @@
 import {
-  getRequestFromStrapiDTO,
   getRequestInfoListFromStrapiDTO,
-} from "@/db/strapi/adapters/team";
+  getRequestListFromStrapiDTO,
+} from "@/db/strapi/adapters/request";
 import { strapi } from "@/db/strapi/client";
+import { selectMember } from "@/db/strapi/queries/member";
 import {
   filterActiveRequests,
   filterUserRequests,
   selectRequest,
 } from "@/db/strapi/queries/request";
+import { selectTeam } from "@/db/strapi/queries/team";
+import { selectUser } from "@/db/strapi/queries/user";
 import {
   RequestInfoListStrapi,
   RequestListStrapi,
   RequestStrapi,
 } from "@/db/strapi/types/request";
+import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
+import { Team } from "@/entities/team";
+import { TeamWithAdministrators } from "@/entities/team/types/types";
+import { User } from "@/entities/user";
 import { UploadedFile } from "express-fileupload";
 
 const requestRepositoryFactory = () => {
   return Object.freeze({
     add,
     getActiveByUser,
+    getActiveByProject,
   });
 
   async function add(team: number, project: number, files: UploadedFile[]) {
@@ -32,7 +40,7 @@ const requestRepositoryFactory = () => {
     };
 
     const createResponse = await strapi.post("requests", {
-      token: process.env.REQUESTS_TOKEN,
+      token: process.env.REQUESTS_TOKEN!,
       body,
     });
 
@@ -72,13 +80,43 @@ const requestRepositoryFactory = () => {
     };
 
     const result: RequestInfoListStrapi = await strapi.get("requests", {
-      token: process.env.REQUESTS_TOKEN,
+      token: process.env.REQUESTS_TOKEN!,
       params,
     });
 
     if (!result.data) return [];
 
     return getRequestInfoListFromStrapiDTO(result);
+  }
+
+  async function getActiveByProject(projectId: number): Promise<{
+    requests: Request[] | null;
+    teams: Team[] | TeamWithAdministrators[] | null;
+    users: User[] | null;
+    administrators: User[] | null;
+    members: Member[] | null;
+  } | null> {
+    const params = {
+      filters: {
+        project: projectId,
+      },
+      ...selectRequest({
+        team: selectTeam({
+          members: selectMember({
+            user: selectUser(),
+          }),
+        }),
+      }),
+    };
+
+    const result: RequestListStrapi = await strapi.get("requests", {
+      token: process.env.REQUESTS_TOKEN!,
+      params,
+    });
+
+    if (!result.data) return null;
+
+    return getRequestListFromStrapiDTO(result);
   }
 };
 
