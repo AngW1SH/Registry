@@ -92,7 +92,7 @@ const teamRepositoryFactory = () => {
       params,
     });
 
-    return getTeamListFromStrapiDTO(response);
+    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }
 
   async function getUnassignedAdministratedByUser(user: User): Promise<Team[]> {
@@ -135,7 +135,7 @@ const teamRepositoryFactory = () => {
       params,
     });
 
-    return getTeamListFromStrapiDTO(response);
+    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }
 };
 

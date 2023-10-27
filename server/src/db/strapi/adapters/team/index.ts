@@ -16,15 +16,15 @@ export const getTeamFromStrapiDTO = (
   }
 ): {
   team: Team | TeamWithAdministrators | null;
-  users: User[] | null;
-  members: Member[] | null;
-  administrators: User[] | null;
+  users: User[];
+  members: Member[];
+  administrators: User[];
 } => {
   if (!team.data)
-    return { team: null, users: null, members: null, administrators: null };
+    return { team: null, users: [], members: [], administrators: [] };
 
   const { members, users, administrators } =
-    team.data.attributes.members?.hasOwnProperty("attributes")
+    team.data.attributes.members?.data?.[0]?.hasOwnProperty("name")
       ? getMemberListFromStrapiDTO(
           team.data.attributes.members as MemberListStrapi,
           {
@@ -56,13 +56,13 @@ export const getTeamListFromStrapiDTO = (
     includeAdmin?: boolean;
   }
 ): {
-  teams: Team[] | TeamWithAdministrators[] | null;
-  members: Member[] | null;
-  users: User[] | null;
-  administrators: User[] | null;
+  teams: Team[] | TeamWithAdministrators[];
+  members: Member[];
+  users: User[];
+  administrators: User[];
 } => {
   if (!teams.data)
-    return { teams: null, users: null, members: null, administrators: null };
+    return { teams: [], users: [], members: [], administrators: [] };
 
   const usedUserIds = new Set();
   const users: User[] = [];
@@ -78,12 +78,12 @@ export const getTeamListFromStrapiDTO = (
       members: teamMembers,
       users: teamUsers,
       administrators: teamAdministrators,
-    } = team.attributes.members?.data.hasOwnProperty("attributes")
+    } = team.attributes.members?.data?.[0]?.attributes?.hasOwnProperty("name")
       ? getMemberListFromStrapiDTO(
           team.attributes.members as MemberListStrapi,
           { includeAdmin: options?.includeAdmin, team: { data: team } }
         )
-      : { members: null, users: null, administrators: null };
+      : { members: [], users: [], administrators: [] };
 
     teamUsers &&
       teamUsers.forEach((user) => {
@@ -126,16 +126,16 @@ export const getRequestFromStrapiDTO = (
   request: RequestStrapi
 ): {
   team: Team | null;
-  users: User[] | null;
-  members: Member[] | null;
-  administrators: User[] | null;
+  users: User[];
+  members: Member[];
+  administrators: User[];
 } => {
   return request.data && request.data.attributes.team
     ? getTeamFromStrapiDTO(request.data.attributes.team)
     : {
         team: null,
-        users: null,
-        members: null,
-        administrators: null,
+        users: [],
+        members: [],
+        administrators: [],
       };
 };

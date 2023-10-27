@@ -129,7 +129,7 @@ const projectRepositoryFactory = () => {
   }
 
   async function findOne(id: number): Promise<{
-    project: ProjectDTO;
+    project: ProjectDTO | null;
     tags: Tag[];
     teams: Team[];
     users: User[];
@@ -168,13 +168,7 @@ const projectRepositoryFactory = () => {
 
     response.data.attributes.requests.data.attributes.count = countRequests;
 
-    return getProjectFromStrapiDTO({ data: response.data }) as {
-      project: ProjectDTO;
-      tags: Tag[];
-      teams: Team[];
-      users: User[];
-      members: Member[];
-    };
+    return getProjectFromStrapiDTO({ data: response.data });
   }
 
   async function findMany(filters?: ProjectFilters): Promise<{
@@ -196,9 +190,11 @@ const projectRepositoryFactory = () => {
       params,
     });
 
-    return getProjectListFromStrapiDTO(response) as {
-      projects: ProjectDTO[];
-      tags: Tag[];
+    const { projects, tags } = getProjectListFromStrapiDTO(response);
+
+    return {
+      projects: projects!,
+      tags: tags!,
     };
   }
 

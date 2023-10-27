@@ -123,20 +123,20 @@ export const getProjectFromStrapiDTO = (
   project: ProjectStrapi
 ): {
   project: ProjectDetailedDTO | null;
-  tags: Tag[] | null;
-  teams: Team[] | null;
-  users: User[] | null;
-  members: Member[] | null;
-  administrators: User[] | null;
+  tags: Tag[];
+  teams: Team[];
+  users: User[];
+  members: Member[];
+  administrators: User[];
 } => {
   if (!project.data)
     return {
       project: null,
-      tags: null,
-      teams: null,
-      users: null,
-      members: null,
-      administrators: null,
+      tags: [],
+      teams: [],
+      users: [],
+      members: [],
+      administrators: [],
     };
 
   const { requests, ...attributes } = project.data.attributes;
@@ -172,15 +172,17 @@ export const getProjectFromStrapiDTO = (
         : [],
     },
     tags,
-    ...(project.data.attributes.teams?.data?.[0].hasOwnProperty("attributes")
+    ...(project.data.attributes.teams?.data?.[0]?.attributes?.hasOwnProperty(
+      "name"
+    )
       ? getTeamListFromStrapiDTO(
           project.data.attributes.teams as TeamListStrapi
         )
       : {
-          teams: null,
-          members: null,
-          users: null,
-          administrators: null,
+          teams: [],
+          members: [],
+          users: [],
+          administrators: [],
         }),
   };
 };

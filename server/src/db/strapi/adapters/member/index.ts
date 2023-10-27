@@ -16,15 +16,16 @@ export const getMemberFromStrapiDTO = (
   user: User | null;
   administrator: User | null;
 } => {
-  const user = member.data.attributes.user.data.hasOwnProperty("attributes")
+  const user = member.data.attributes.user?.data?.hasOwnProperty("attributes")
     ? getUserFromStrapiDTO({
         data: (member.data.attributes.user as UserStrapi).data,
       })
     : null;
 
   const administrator =
-    options.team &&
-    options.team.data.attributes.administrators.data.findIndex(
+    options?.team &&
+    user &&
+    options?.team?.data?.attributes.administrators?.data.findIndex(
       (admin) => admin.id == user.id
     ) != -1
       ? user
@@ -41,13 +42,13 @@ export const getMemberFromStrapiDTO = (
         options &&
         options.includeAdmin &&
         options.team &&
-        options.team.data.attributes.administrators.data
+        options.team.data?.attributes.administrators?.data
           ? !!options.team.data.attributes.administrators.data.find(
-              (admin) => admin.id == member.data.attributes.user.data.id
+              (admin) => admin.id == member.data.attributes.user?.data?.id
             )
           : null,
-      user: user.id,
-      team: member.data.attributes.team.data
+      user: user ? user.id : null,
+      team: member.data.attributes.team?.data
         ? member.data.attributes.team.data.id
         : null,
     },
@@ -71,7 +72,7 @@ export const getMemberListFromStrapiDTO = (
 
   members.data.forEach((member) => {
     if (
-      !member.attributes.user.data.hasOwnProperty("attributes") ||
+      !member.attributes.user?.data?.hasOwnProperty("attributes") ||
       usedUserIds.has(member.attributes.user.data.id)
     )
       return;
@@ -81,7 +82,7 @@ export const getMemberListFromStrapiDTO = (
   });
 
   if (options && options.includeAdmin && options.team) {
-    options.team.data.attributes.administrators.data.forEach(
+    options.team.data?.attributes.administrators?.data.forEach(
       (administrator) => {
         if (
           !administrator?.attributes?.hasOwnProperty("name") ||
@@ -97,19 +98,21 @@ export const getMemberListFromStrapiDTO = (
 
   return {
     users,
-    members: members.data.map((member) => ({
-      id: member.id,
-      role: member.attributes.role,
-      name: member.attributes.name,
-      isAdministrator:
-        (options?.includeAdmin &&
-          !!options?.team?.data.attributes.administrators.data.find(
-            (admin) => admin.id == member.attributes.user.data.id
-          )) ||
-        null,
-      user: member.attributes.user.data.id,
-      team: member.attributes.team.data.id,
-    })),
-    administrators: options.team ? administrators : null,
+    members: members.data.map((member) => {
+      return {
+        id: member.id,
+        role: member.attributes.role,
+        name: member.attributes.name,
+        isAdministrator:
+          (options?.includeAdmin &&
+            !!options?.team?.data?.attributes.administrators?.data.find(
+              (admin) => admin.id == member.attributes.user?.data?.id
+            )) ||
+          false,
+        user: member.attributes.user?.data?.id || null,
+        team: member.attributes.team?.data?.id || null,
+      };
+    }),
+    administrators: options?.team ? administrators : [],
   };
 };

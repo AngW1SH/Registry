@@ -1,7 +1,6 @@
 import { IContactFormData } from "../types/types";
 
 export const submitContactFormData = async (data: IContactFormData) => {
-  console.log(data);
 
   const result = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/email",
