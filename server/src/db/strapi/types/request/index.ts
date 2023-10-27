@@ -1,12 +1,10 @@
-import {
-  TeamStrapiPopulated,
-  TeamStrapiPopulatedWithAdministrators,
-} from "../team";
+import { IdStrapi } from "@/db/types/types";
+import { TeamStrapi } from "../team";
 
 export interface RequestStrapiInner {
   id: number;
   attributes: {
-    team: TeamStrapiPopulatedWithAdministrators;
+    team: TeamStrapi;
   };
 }
 
@@ -21,16 +19,8 @@ export interface RequestListStrapi {
 interface RequestInfoStrapiInner {
   id: number;
   attributes: {
-    team: {
-      data: {
-        id: number;
-      } | null;
-    };
-    project: {
-      data: {
-        id: number;
-      } | null;
-    };
+    team?: TeamStrapi | IdStrapi;
+    project?: IdStrapi;
   };
 }
 

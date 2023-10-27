@@ -9,7 +9,11 @@ import {
 } from "../../types/team";
 import type { User } from "@/entities/user";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
-import { RequestInfoListStrapi, RequestStrapiInner } from "../../types/request";
+import {
+  RequestInfoListStrapi,
+  RequestStrapi,
+  RequestStrapiInner,
+} from "../../types/request";
 import { getUserFromStrapiDTO } from "../user";
 import { Member } from "@/entities/member";
 import { getMemberListFromStrapiDTO } from "../member";
@@ -218,8 +222,8 @@ export const getTeamListWithAdministratorsFromStrapiDTO = (
   };
 };
 
-export const getRequestFromStrapiDTO = (request: RequestStrapiInner) => {
-  return getTeamWithAdministratorsFromStrapiDTO(request.attributes.team);
+export const getRequestFromStrapiDTO = (request: RequestStrapi) => {
+  return getTeamFromStrapiDTO(request.data.attributes.team);
 };
 
 export const getRequestInfoListFromStrapiDTO = (
