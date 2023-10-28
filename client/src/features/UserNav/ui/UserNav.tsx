@@ -1,11 +1,11 @@
 "use client";
-import { useAuthUserQuery } from "@/composites/AuthUser";
 import Image from "next/image";
 import { FC, useContext } from "react";
 import { logout } from "../api/logout";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { useAuthQuery } from "@/entities/User";
 
 interface UserNavProps {
   text?: "bright" | "dark";
@@ -14,7 +14,7 @@ interface UserNavProps {
 const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
   const router = useRouter();
 
-  const { data } = useAuthUserQuery();
+  const { data } = useAuthQuery();
 
   const queryClient = useQueryClient();
 
@@ -49,7 +49,7 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
       {data && (
         <div className="flex items-center">
           <p className="text-[0.9375rem] text-[#898989]">
-            {data.user.name.split(" ")[1]}
+            {data.name.split(" ")[1]}
           </p>
           <div className="pr-3" />
           <Image

@@ -1,6 +1,6 @@
 "use client";
-import { useAuthUserQuery } from "@/composites/AuthUser";
 import { useProfileQuery } from "@/composites/Profile";
+import { useAuthQuery } from "@/entities/User";
 import { Container, LoadingCircle } from "@/shared/ui";
 import { Footer } from "@/widgets/Footer";
 import { Header } from "@/widgets/Header";
@@ -24,7 +24,7 @@ const slugs: UserSidebarItemSlug[] = [
 ];
 
 const UserLayout: FC<UserLayoutProps> = ({ children }) => {
-  const { data: user, isLoading: isUserLoading } = useAuthUserQuery();
+  const { data: user, isLoading: isUserLoading } = useAuthQuery();
   const router = useRouter();
 
   const { data: profile } = useProfileQuery();

@@ -1,6 +1,6 @@
 "use client";
-import { useAuthUserQuery } from "@/composites/AuthUser";
 import { useProfileQuery } from "@/composites/Profile";
+import { useAuthQuery } from "@/entities/User";
 import { Block, NamedBlock } from "@/shared/ui";
 import { FC } from "react";
 
@@ -11,7 +11,7 @@ interface UserProfilePreviewProps {
 const UserProfilePreview: FC<UserProfilePreviewProps> = ({
   className = "",
 }) => {
-  const { data: user } = useAuthUserQuery();
+  const { data: user } = useAuthQuery();
 
   if (!user) return <div></div>;
 
@@ -20,7 +20,7 @@ const UserProfilePreview: FC<UserProfilePreviewProps> = ({
       <ul className="flex flex-col gap-6">
         <li className="flex">
           <p className="w-1/4 font-[0.9375rem] text-[#a1a1a1]">E-mail</p>
-          <p>{user.user.email}</p>
+          <p>{user.email}</p>
         </li>
         <li className="flex">
           <p className="w-1/4 font-[0.9375rem] text-[#a1a1a1]">Группа</p>

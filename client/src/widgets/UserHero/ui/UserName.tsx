@@ -1,12 +1,12 @@
 "use client";
-import { useAuthUserQuery } from "@/composites/AuthUser";
+import { useAuthQuery } from "@/entities/User";
 import { LoadingCircle } from "@/shared/ui";
 import { FC } from "react";
 
 interface UserNameProps {}
 
 const UserName: FC<UserNameProps> = () => {
-  const { data: authUser, isLoading } = useAuthUserQuery();
+  const { data: authUser, isLoading } = useAuthQuery();
 
   if (isLoading || !authUser) {
     return (
@@ -16,7 +16,7 @@ const UserName: FC<UserNameProps> = () => {
     );
   }
 
-  const name = authUser.user.name.split(" ")[1];
+  const name = authUser.name.split(" ")[1];
 
   return (
     <div className="flex items-center">
