@@ -46,6 +46,17 @@ export const selectProjectInList = (
 
 export const selectProjectReference = () => {
   return {
-    fields: ["id", "name"],
+    fields: [
+      "name",
+      "description",
+      "dateStart",
+      "dateEnd",
+      "enrollmentStart",
+      "enrollmentEnd",
+      "supervisor",
+      "curator",
+      "client",
+      "teamLimit",
+    ],
   };
 };

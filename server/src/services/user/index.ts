@@ -205,7 +205,7 @@ const userServiceFactory = () => {
 
     const projects = teams
       ? await projectRepository.getReferences(
-          teams.filter((team) => team.project).map((team) => team.id)
+          teams.filter((team) => team.project).map((team) => team.project!)
         )
       : [];
 
@@ -215,7 +215,7 @@ const userServiceFactory = () => {
       teams: mergeUnique(teams, adminTeams),
       members: mergeUnique(members, adminMembers),
       users: mergeUnique(users, adminUsers),
-      projects,
+      projects: projects!,
       user: {
         teams: teams ? teams.map((team) => team.id) : [],
         administratedTeams: adminTeams ? adminTeams.map((team) => team.id) : [],

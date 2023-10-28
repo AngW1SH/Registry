@@ -15,6 +15,7 @@ import type {
   IProjectReference,
 } from "./types/types";
 import { ProjectStage } from "./types/types";
+import { getProjectsByProjectIds } from "./model/getProjectsByProjectIds";
 
 export {
   ProjectCard,
@@ -25,6 +26,7 @@ export {
   ProjectStage,
   getProjectFromDTO,
   getProjectSingleFromDTO,
+  getProjectsByProjectIds,
 };
 export type {
   ProjectDTO,

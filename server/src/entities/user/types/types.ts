@@ -1,6 +1,7 @@
 import { FormResultClient } from "@/entities/form";
 import { Member } from "@/entities/member";
 import { Project, ProjectReference } from "@/entities/project";
+import { ProjectDTO } from "@/entities/project/types/types";
 import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 
@@ -22,7 +23,7 @@ export interface UserProjectStatusData {
 
 export interface UserProfileData {
   forms: FormResultClient[];
-  projects: ProjectReference[];
+  projects: ProjectDTO[];
   requests: Request[];
   user: {
     teams: number[];

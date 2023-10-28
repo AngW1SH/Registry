@@ -1,15 +1,28 @@
 import { IForm } from "@/entities/Form";
 import { IMember } from "@/entities/Member";
-import { IProjectReference } from "@/entities/Project";
+import { IProject, IProjectReference, ProjectDTO } from "@/entities/Project";
 import { IRequest } from "@/entities/Request";
-import { ITeam } from "@/entities/Team";
+import { ITeam, ITeamExtended } from "@/entities/Team";
 import { IUser } from "@/entities/User";
 
 export interface Profile {
   forms: IForm[];
-  projects: IProjectReference[];
+  projects: IProject[];
   requests: IRequest[];
-  teams: ITeam[];
+  teams: ITeamExtended[];
+  users: IUser[];
+  members: IMember[];
+  user: {
+    teams: number[];
+    administratedTeams: number[];
+  };
+}
+
+export interface ProfileDTO {
+  forms: IForm[];
+  projects: ProjectDTO[];
+  requests: IRequest[];
+  teams: ITeamExtended[];
   users: IUser[];
   members: IMember[];
   user: {

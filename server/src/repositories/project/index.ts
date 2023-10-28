@@ -207,15 +207,15 @@ const projectRepositoryFactory = () => {
           $in: ids,
         },
       },
-      ...selectProjectReference(),
+      ...selectProjectInList(),
     };
 
-    const response: ProjectReferenceListStrapi = await strapi.get("projects", {
+    const response: ProjectListStrapi = await strapi.get("projects", {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
-    return getProjectReferenceListFromStrapiDTO(response);
+    return getProjectListFromStrapiDTO(response).projects;
   }
 };
 const projectRepository = projectRepositoryFactory();
