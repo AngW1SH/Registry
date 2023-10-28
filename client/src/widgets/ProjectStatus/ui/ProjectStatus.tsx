@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { IUserWithRole } from "@/entities/User";
+import { IUser } from "@/entities/User";
 import StatusBuilder from "./StatusBuilder";
 import { IProject } from "@/entities/Project";
 
 interface ProjectStatusProps {
   project: IProject;
-  users: IUserWithRole[] | null;
+  users: IUser[] | null;
   className?: string;
 }
 

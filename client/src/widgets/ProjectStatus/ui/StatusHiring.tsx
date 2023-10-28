@@ -1,5 +1,4 @@
 "use client";
-import { useAuthUserQuery } from "@/composites/AuthUser";
 import { FC } from "react";
 import { useProjectStatusDataQuery } from "../model/useProjectStatusDataQuery";
 import { IProject } from "@/entities/Project";
@@ -19,12 +18,9 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
   const { data: projectStatusData, isLoading: isStatusDataLoading } =
     useProjectStatusDataQuery(project.id);
 
-  if (isAuthUserLoading || isStatusDataLoading || !projectStatusData)
-    return <div></div>;
+  if (isAuthUserLoading || isStatusDataLoading) return <div></div>;
 
-  if (!authUser) return <StatusHiringUnauthorized />;
-
-  console.log(projectStatusData);
+  if (!authUser || !projectStatusData) return <StatusHiringUnauthorized />;
 
   if (projectStatusData.user.assignableTeams.length)
     return (
