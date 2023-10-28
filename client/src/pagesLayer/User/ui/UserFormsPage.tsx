@@ -4,7 +4,7 @@ import { FC } from "react";
 interface UserFormsPageProps {}
 
 const UserFormsPage: FC<UserFormsPageProps> = () => {
-  return <UserFormsEmpty />;
+  return <UserForms />;
 };
 
 export default UserFormsPage;

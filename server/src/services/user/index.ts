@@ -173,7 +173,7 @@ const userServiceFactory = () => {
     const formResultsClient: FormResultClient[] = forms.map((form) => ({
       id: form.id,
       name: form.name,
-      url: form.link,
+      link: form.link,
       completed: null,
     }));
 

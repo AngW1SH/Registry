@@ -7,7 +7,7 @@ export interface Form {
 export interface FormResultClient {
   id: number;
   name: string;
-  url: string;
+  link: string;
   completed: Date | null;
 }
 

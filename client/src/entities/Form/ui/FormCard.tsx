@@ -2,6 +2,7 @@ import { Block, ButtonAlt } from "@/shared/ui";
 import Image from "next/image";
 import { FC } from "react";
 import { IForm } from "../types/types";
+import Link from "next/link";
 
 interface FormCardProps {
   form: IForm;
@@ -24,15 +25,19 @@ const FormCard: FC<FormCardProps> = ({ form }) => {
                 })}
               </p>
               <div className="pt-3" />
-              <ButtonAlt className="-ml-3 rounded-full border px-6 py-2 text-sm">
-                Пройти заново
-              </ButtonAlt>
+              <Link href={form.link}>
+                <ButtonAlt className="-ml-3 rounded-full border px-6 py-2 text-sm">
+                  Пройти заново
+                </ButtonAlt>
+              </Link>
             </>
           )}
           {!form.completed && (
-            <ButtonAlt className="-ml-3 mt-1 rounded-full border px-12 py-2 text-sm">
-              Пройти
-            </ButtonAlt>
+            <Link href={form.link}>
+              <ButtonAlt className="-ml-3 mt-1 rounded-full border px-12 py-2 text-sm">
+                Пройти
+              </ButtonAlt>
+            </Link>
           )}
         </div>
         <div className="pr-14" />
