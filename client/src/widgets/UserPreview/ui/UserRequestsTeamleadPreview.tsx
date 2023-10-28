@@ -23,9 +23,6 @@ const UserRequestsTeamleadPreview: FC<UserRequestsTeamleadPreviewProps> = ({
           </p>
         </div>
         <div className="pt-11" />
-        <Button className="mt-auto rounded-full px-8 py-3">
-          Заполнить анкету
-        </Button>
       </div>
     </NamedBlock>
   );

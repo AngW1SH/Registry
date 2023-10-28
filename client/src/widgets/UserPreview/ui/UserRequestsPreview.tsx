@@ -1,3 +1,5 @@
+"use client";
+import { useProfileQuery } from "@/composites/Profile";
 import { Button, NamedBlock } from "@/shared/ui";
 import { FC } from "react";
 
@@ -6,6 +8,10 @@ interface UserRequestsPreviewProps {
 }
 
 const UserRequestsPreview: FC<UserRequestsPreviewProps> = ({ className }) => {
+  const { data: profile } = useProfileQuery();
+
+  if (!profile) return <div></div>;
+
   return (
     <NamedBlock className={className} title={"Заявки на проекты"}>
       <div className="flex h-full flex-col items-start">
@@ -13,13 +19,18 @@ const UserRequestsPreview: FC<UserRequestsPreviewProps> = ({ className }) => {
           <p className="font-[0.9375rem] text-[#898989]">
             Представителями
             <br />
-            ваших команд подано заявок
+            Ваших команд подано заявок
           </p>
           <div className="pr-16" />
           <p className="flex items-center justify-center text-4xl font-medium">
-            3
+            {profile.requests.length}
           </p>
         </div>
+        {profile.user.administratedTeams.length > 0 && (
+          <Button className="mt-auto rounded-full px-8 py-3">
+            Управление заявками
+          </Button>
+        )}
       </div>
     </NamedBlock>
   );
