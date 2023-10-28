@@ -1,25 +1,14 @@
 import { Request } from "@/entities/request";
-import { RequestInfoListStrapi, RequestListStrapi } from "../../types/request";
-import { getTeamFromStrapiDTO, getTeamListFromStrapiDTO } from "../team";
+import { RequestListStrapi } from "../../types/request";
+import { getTeamFromStrapiDTO } from "../team";
 import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
 import { User } from "@/entities/user";
 import { TeamStrapi } from "../../types/team";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
-
-export const getRequestInfoListFromStrapiDTO = (
-  requests: RequestInfoListStrapi
-): Request[] => {
-  return requests.data.map((request) => ({
-    id: request.id,
-    team: request.attributes.team?.data
-      ? request.attributes.team.data.id
-      : null,
-    project: request.attributes.project?.data
-      ? request.attributes.project.data.id
-      : null,
-  }));
-};
+import { getProjectFromStrapiDTO } from "../project";
+import { ProjectStrapi } from "../../types/project";
+import { ProjectDTO } from "@/entities/project/types/types";
 
 export const getRequestListFromStrapiDTO = (
   requests: RequestListStrapi,
@@ -32,6 +21,7 @@ export const getRequestListFromStrapiDTO = (
   users: User[] | null;
   administrators: User[] | null;
   members: Member[] | null;
+  projects: ProjectDTO[] | null;
 } => {
   const usedTeamIds = new Set();
   const teams: Team[] = [];
@@ -45,15 +35,39 @@ export const getRequestListFromStrapiDTO = (
   const usedAdministratorIds = new Set();
   const administrators: User[] = [];
 
+  const usedProjectIds = new Set();
+  const projects: ProjectDTO[] = [];
+
   requests.data?.[0]?.attributes?.hasOwnProperty("name") &&
     requests.data.forEach((request) => {
+      if (
+        request.attributes.project &&
+        request.attributes.project.data?.attributes.hasOwnProperty("name")
+      ) {
+        const { project } = getProjectFromStrapiDTO(
+          request.attributes.project as ProjectStrapi
+        );
+
+        if (project && !usedProjectIds.has(project.id)) {
+          projects.push(project);
+        }
+      }
+
       if (!request.attributes.team) return;
       const {
         team,
         users: teamUsers,
         administrators: teamAdmins,
         members: teamMembers,
-      } = getTeamFromStrapiDTO(request.attributes.team, options);
+      } = request.attributes.team &&
+      request.attributes.team.data?.attributes.hasOwnProperty("name")
+        ? getTeamFromStrapiDTO(request.attributes.team as TeamStrapi, options)
+        : {
+            team: null,
+            users: [],
+            administrators: [],
+            members: [],
+          };
 
       if (team && !usedTeamIds.has(team.id)) {
         usedTeamIds.add(team.id);
@@ -91,10 +105,14 @@ export const getRequestListFromStrapiDTO = (
       team: request.attributes.team?.data
         ? request.attributes.team.data.id
         : null,
+      project: request.attributes.project?.data
+        ? request.attributes.project.data.id
+        : null,
     })),
     administrators,
     users,
     teams,
     members,
+    projects,
   };
 };

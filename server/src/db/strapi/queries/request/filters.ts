@@ -28,9 +28,7 @@ export const filterUserRequests = (userId: number) => {
       {
         team: {
           administrators: {
-            user: {
-              id: userId,
-            },
+            id: userId,
           },
         },
       },

@@ -203,9 +203,44 @@ const userServiceFactory = () => {
       ? activeAdministratedTeamsResult.value
       : { teams: [] as Team[], members: [] as Member[], users: [] as User[] };
 
+    requests &&
+      requests.forEach((request) => {
+        if (teams) {
+          const teamFound = teams?.findIndex((team) => team.id == request.team);
+          if (teamFound !== -1) {
+            if (!teams[teamFound].requests) teams[teamFound].requests = [];
+            teams[teamFound].requests!.push(request.id);
+          }
+        }
+        console.log(123);
+        if (adminTeams) {
+          console.log(456);
+          console.log(adminTeams);
+          const administratedFound = adminTeams?.findIndex(
+            (team) => team.id == request.team
+          );
+
+          console.log(administratedFound);
+
+          if (administratedFound !== -1) {
+            if (!adminTeams[administratedFound].requests)
+              adminTeams[administratedFound].requests = [];
+            adminTeams[administratedFound].requests!.push(request.id);
+          }
+        }
+      });
+
     const projects = teams
       ? await projectRepository.getReferences(
-          teams.filter((team) => team.project).map((team) => team.project!)
+          teams
+            .filter((team) => team.project)
+            .map((team) => team.project!)
+            .concat(
+              requests.reduce(
+                (acc, cur) => (cur.project ? [...acc, cur.project] : acc),
+                [] as number[]
+              )
+            )
         )
       : [];
 

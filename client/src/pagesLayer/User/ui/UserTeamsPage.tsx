@@ -4,7 +4,7 @@ import { FC } from "react";
 interface UserTeamsPageProps {}
 
 const UserTeamsPage: FC<UserTeamsPageProps> = () => {
-  return <UserTeamsEmpty />;
+  return <UserTeams />;
 };
 
 export default UserTeamsPage;

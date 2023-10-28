@@ -5,6 +5,7 @@ import {
 import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
 import { selectMember } from "@/db/strapi/queries/member";
+import { selectRequest } from "@/db/strapi/queries/request";
 import { filterActive, selectTeam } from "@/db/strapi/queries/team";
 import {
   filterUnassigned,
@@ -15,6 +16,8 @@ import { selectUser } from "@/db/strapi/queries/user";
 import { TeamListStrapi, TeamStrapi } from "@/db/strapi/types/team";
 import { UserStrapi } from "@/db/strapi/types/user";
 import { Member } from "@/entities/member";
+import { Project } from "@/entities/project";
+import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 import { User } from "@/entities/user";
 
@@ -119,6 +122,7 @@ const teamRepositoryFactory = () => {
     members: Member[] | null;
     users: User[] | null;
     administrators: User[] | null;
+    requests: Request[] | null;
   }> {
     const params = {
       filters: filterActive(userId),

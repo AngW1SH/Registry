@@ -1,6 +1,6 @@
 import { SelectPopulate } from "@/db/types/types";
 
-type PopulateOptions = "members" | "administrators";
+type PopulateOptions = "members" | "administrators" | "requests";
 
 export const selectTeam = (populate: SelectPopulate<PopulateOptions> = {}) => {
   return {

@@ -2,12 +2,14 @@ import { Team } from "@/entities/team";
 import { TeamListStrapi, TeamStrapi } from "../../types/team";
 import type { User } from "@/entities/user";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
-import { RequestInfoListStrapi, RequestStrapi } from "../../types/request";
-import { getUserFromStrapiDTO } from "../user";
 import { Member } from "@/entities/member";
 import { getMemberListFromStrapiDTO } from "../member";
-import { Request } from "@/entities/request";
 import { MemberListStrapi } from "../../types/member";
+import { Project } from "@/entities/project";
+import { getRequestListFromStrapiDTO } from "../request";
+import { RequestListStrapi } from "../../types/request";
+import { Request } from "@/entities/request";
+import { ProjectDTO } from "@/entities/project/types/types";
 
 export const getTeamFromStrapiDTO = (
   team: TeamStrapi,
@@ -16,12 +18,21 @@ export const getTeamFromStrapiDTO = (
   }
 ): {
   team: Team | TeamWithAdministrators | null;
-  users: User[];
-  members: Member[];
-  administrators: User[];
+  users: User[] | null;
+  members: Member[] | null;
+  administrators: User[] | null;
+  projects: ProjectDTO[] | null;
+  requests: Request[] | null;
 } => {
   if (!team.data)
-    return { team: null, users: [], members: [], administrators: [] };
+    return {
+      team: null,
+      users: null,
+      members: null,
+      administrators: null,
+      projects: null,
+      requests: null,
+    };
 
   const { members, users, administrators } =
     team.data.attributes.members?.data?.[0]?.attributes?.hasOwnProperty("name")
@@ -34,6 +45,15 @@ export const getTeamFromStrapiDTO = (
         )
       : { members: [], users: [], administrators: [] };
 
+  const { requests, projects } =
+    team.data.attributes.requests &&
+    team.data.attributes.requests.data?.[0]?.attributes?.hasOwnProperty("name")
+      ? getRequestListFromStrapiDTO(
+          team.data.attributes.requests as RequestListStrapi,
+          options
+        )
+      : { requests: null, projects: null };
+
   return {
     team: {
       id: team.data.id,
@@ -45,15 +65,20 @@ export const getTeamFromStrapiDTO = (
       ...(options?.includeAdmin && {
         administrators: administrators.map((admin) => admin.id),
       }),
+      requests: !team.data.attributes.requests
+        ? undefined
+        : team.data.attributes.requests.data.map((request) => request.id),
     },
     users,
     members,
     administrators,
+    requests,
+    projects,
   };
 };
 
 export const getTeamListFromStrapiDTO = (
-  teams: TeamListStrapi,
+  teamsStrapi: TeamListStrapi,
   options?: {
     includeAdmin?: boolean;
   }
@@ -62,9 +87,21 @@ export const getTeamListFromStrapiDTO = (
   members: Member[];
   users: User[];
   administrators: User[];
+  requests: Request[];
+  projects: ProjectDTO[];
 } => {
-  if (!teams.data)
-    return { teams: [], users: [], members: [], administrators: [] };
+  if (!teamsStrapi.data)
+    return {
+      teams: [],
+      users: [],
+      members: [],
+      administrators: [],
+      requests: [],
+      projects: [],
+    };
+
+  const usedTeamIds = new Set();
+  const teams: Team[] = [];
 
   const usedUserIds = new Set();
   const users: User[] = [];
@@ -72,72 +109,69 @@ export const getTeamListFromStrapiDTO = (
   const usedMemberIds = new Set();
   const members: Member[] = [];
 
-  const usedAdminIds = new Set();
+  const usedAdministratorIds = new Set();
   const administrators: User[] = [];
 
-  teams.data.forEach((team) => {
+  const usedRequestIds = new Set();
+  const requests: Request[] = [];
+
+  const usedProjectIds = new Set();
+  const projects: ProjectDTO[] = [];
+
+  teamsStrapi.data.forEach((teamStrapi) => {
     const {
+      team,
       members: teamMembers,
       users: teamUsers,
       administrators: teamAdministrators,
-    } = team.attributes.members?.data?.[0]?.attributes?.hasOwnProperty("name")
-      ? getMemberListFromStrapiDTO(
-          team.attributes.members as MemberListStrapi,
-          { includeAdmin: options?.includeAdmin, team: { data: team } }
-        )
-      : { members: [], users: [], administrators: [] };
+      requests: teamRequests,
+      projects: teamProjects,
+    } = getTeamFromStrapiDTO({ data: teamStrapi }, options);
 
-    teamUsers &&
-      teamUsers.forEach((user) => {
-        if (usedUserIds.has(user.id)) return;
-        users.push(user);
-      });
+    team && !usedTeamIds.has(team.id) && teams.push(team);
 
     teamMembers &&
       teamMembers.forEach((member) => {
-        if (usedMemberIds.has(member.id)) return;
-        members.push(member);
+        if (!usedMemberIds.has(member.id)) {
+          members.push(member);
+        }
+      });
+
+    teamUsers &&
+      teamUsers.forEach((user) => {
+        if (!usedUserIds.has(user.id)) {
+          users.push(user);
+        }
       });
 
     teamAdministrators &&
-      teamAdministrators.forEach((administrator) => {
-        if (usedAdminIds.has(administrator.id)) return;
-        administrators.push(administrator);
+      teamAdministrators.forEach((admin) => {
+        if (!usedAdministratorIds.has(admin.id)) {
+          administrators.push(admin);
+        }
+      });
+
+    teamRequests &&
+      teamRequests.forEach((request) => {
+        if (!usedRequestIds.has(request.id)) {
+          requests.push(request);
+        }
+      });
+
+    teamProjects &&
+      teamProjects.forEach((project) => {
+        if (!usedProjectIds.has(project.id)) {
+          projects.push(project);
+        }
       });
   });
 
   return {
-    teams: teams.data.map((team) => ({
-      id: team.id,
-      name: team.attributes.name,
-      members: members.map((member) => member.id),
-      project: team.attributes.project?.data
-        ? team.attributes.project.data.id
-        : null,
-      ...(options?.includeAdmin && {
-        administrators: administrators.map((admin) => admin.id),
-      }),
-    })),
+    teams,
     users,
     members,
     administrators,
+    requests,
+    projects,
   };
-};
-
-export const getRequestFromStrapiDTO = (
-  request: RequestStrapi
-): {
-  team: Team | null;
-  users: User[];
-  members: Member[];
-  administrators: User[];
-} => {
-  return request.data && request.data.attributes.team
-    ? getTeamFromStrapiDTO(request.data.attributes.team)
-    : {
-        team: null,
-        users: [],
-        members: [],
-        administrators: [],
-      };
 };

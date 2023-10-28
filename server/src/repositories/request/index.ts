@@ -1,7 +1,4 @@
-import {
-  getRequestInfoListFromStrapiDTO,
-  getRequestListFromStrapiDTO,
-} from "@/db/strapi/adapters/request";
+import { getRequestListFromStrapiDTO } from "@/db/strapi/adapters/request";
 import { strapi } from "@/db/strapi/client";
 import { selectMember } from "@/db/strapi/queries/member";
 import {
@@ -11,11 +8,7 @@ import {
 } from "@/db/strapi/queries/request";
 import { selectTeam } from "@/db/strapi/queries/team";
 import { selectUser } from "@/db/strapi/queries/user";
-import {
-  RequestInfoListStrapi,
-  RequestListStrapi,
-  RequestStrapi,
-} from "@/db/strapi/types/request";
+import { RequestListStrapi, RequestStrapi } from "@/db/strapi/types/request";
 import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
@@ -83,14 +76,14 @@ const requestRepositoryFactory = () => {
       ...selectRequest(),
     };
 
-    const result: RequestInfoListStrapi = await strapi.get("requests", {
+    const result: RequestListStrapi = await strapi.get("requests", {
       token: process.env.REQUESTS_TOKEN!,
       params,
     });
 
     if (!result.data) return [];
 
-    return getRequestInfoListFromStrapiDTO(result);
+    return getRequestListFromStrapiDTO(result).requests!;
   }
 
   async function getActiveByProject(projectId: number): Promise<{
