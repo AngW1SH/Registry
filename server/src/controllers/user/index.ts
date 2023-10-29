@@ -1,4 +1,6 @@
 import { generateAccessToken } from "@/helpers/jwt";
+import tokenRepository from "@/repositories/token";
+import tokenService from "@/services/token";
 import userService from "@/services/user";
 import { Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -19,8 +21,8 @@ const userControllerFactory = () => {
     try {
       if (!req.user) return res.status(401).send();
 
-      const { accessToken, refreshToken } = await userService.createTokens(
-        req.user
+      const { accessToken, refreshToken } = await tokenService.generate(
+        req.user.id
       );
 
       res.cookie("user-access", accessToken, {
@@ -49,6 +51,8 @@ const userControllerFactory = () => {
 
   async function logout(req: Request, res: Response) {
     try {
+      await tokenRepository.erase(req.signedCookies["user-refresh"]);
+
       res.cookie("user-access", null, {
         maxAge: 0,
         httpOnly: true,
@@ -84,49 +88,24 @@ const userControllerFactory = () => {
 
   async function token(req: Request, res: Response) {
     try {
-      jwt.verify(
-        req.signedCookies["user-access"], // In case multiple /token requests are sent at the same time
-        process.env.TOKEN_SECRET!,
-        async (
-          err: jwt.VerifyErrors | null,
-          decoded: jwt.Jwt | JwtPayload | string | undefined
-        ) => {
-          if (!err) return res.status(200).send();
-          jwt.verify(
-            req.signedCookies["user-refresh"],
-            process.env.TOKEN_SECRET!,
-            async (
-              err: jwt.VerifyErrors | null,
-              decoded: jwt.Jwt | JwtPayload | string | undefined
-            ) => {
-              if (err) {
-                res.status(401).send();
-              } else {
-                const doesUserExist = await userService.findById(
-                  (decoded as JwtPayload).id
-                );
-
-                if (doesUserExist) {
-                  const newToken = generateAccessToken(doesUserExist.id);
-                  res.clearCookie("user-access");
-                  res.cookie("user-access", newToken, {
-                    maxAge: 1000 * 60 * 60 * 24,
-                    httpOnly: true,
-                    signed: true,
-                  });
-                  return res.status(205).send();
-                } else {
-                  res.clearCookie("user-access");
-                  res.clearCookie("user-refresh");
-                  return res.status(401).send();
-                }
-              }
-            }
-          );
-        }
+      const newAccessToken = await tokenService.refreshAccess(
+        req.signedCookies["user-refresh"]
       );
-    } catch (err) {
-      res.status(500).send(err);
+
+      res.cookie("user-access", newAccessToken, {
+        maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: true,
+        signed: true,
+      });
+
+      return res.status(205).send();
+    } catch (err: any) {
+      if (err.message == "Unauthorized") {
+        res.clearCookie("user-access");
+        res.clearCookie("user-refresh");
+        return res.status(401).send();
+      }
+      res.status(500).send();
     }
   }
 

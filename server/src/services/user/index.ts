@@ -4,7 +4,6 @@ import {
   UserProfileData,
   UserProjectStatusData,
 } from "@/entities/user";
-import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
@@ -20,7 +19,6 @@ const userServiceFactory = () => {
   return Object.freeze({
     findById,
     findOrCreate,
-    createTokens,
     getProjectStatusData,
     getData,
     submitForm,
@@ -41,13 +39,6 @@ const userServiceFactory = () => {
     const userCreated = await userRepository.create(user);
 
     return userCreated;
-  }
-
-  async function createTokens(user: User) {
-    return {
-      accessToken: generateAccessToken(user.id),
-      refreshToken: generateRefreshToken(user.id),
-    };
   }
 
   async function getProjectStatusData(
@@ -212,9 +203,7 @@ const userServiceFactory = () => {
             teams[teamFound].requests!.push(request.id);
           }
         }
-        console.log(123);
         if (adminTeams) {
-          console.log(456);
           console.log(adminTeams);
           const administratedFound = adminTeams?.findIndex(
             (team) => team.id == request.team

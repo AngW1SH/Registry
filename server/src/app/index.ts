@@ -23,7 +23,7 @@ const generateApp = (port?: number) => {
   app.use(fileUpload());
   app.use(
     session({
-      secret: process.env.TOKEN_SECRET,
+      secret: process.env.TOKEN_SECRET!,
       resave: false,
       saveUninitialized: false,
       cookie: { secure: false },
