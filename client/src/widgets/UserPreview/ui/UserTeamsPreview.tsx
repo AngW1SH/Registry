@@ -30,7 +30,7 @@ const UserTeamsPreview: FC<UserTeamsPreviewProps> = ({ className }) => {
           </p>
           <div className="pr-4" />
           <p className="flex items-center justify-center text-4xl font-medium">
-            {profile.user.teams}
+            {profile.user.teams.length}
           </p>
         </div>
         <div className="pt-7" />
