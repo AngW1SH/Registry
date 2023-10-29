@@ -9,15 +9,15 @@ import { IMember, getMembersByMemberIds } from "@/entities/Member";
 import { IRequest, getRequestsByRequestIds } from "@/entities/Request";
 
 interface TeamDetailedCardProps {
-  team: ITeamExtended;
-  projects: IProject[];
-  users: IUser[];
-  members: IMember[];
-  requests: IRequest[];
+  user: IUser;
+  teamDetailed: TeamDetailed;
 }
 
-const TeamDetailedCard: FC<TeamDetailedCardProps> = (props: TeamDetailed) => {
-  const { team, members, users, projects, requests } = props;
+const TeamDetailedCard: FC<TeamDetailedCardProps> = ({
+  user,
+  teamDetailed,
+}) => {
+  const { team, members, users, projects, requests } = teamDetailed;
 
   const membersPopulated = getMembersByMemberIds(team.members, members);
 
@@ -39,18 +39,26 @@ const TeamDetailedCard: FC<TeamDetailedCardProps> = (props: TeamDetailed) => {
   return (
     <Block className="rounded-xl py-12">
       <ul>
-        {displayData.map(({ member, user }) => (
+        {displayData.map(({ member, user: teamUser }) => (
           <li
             key={member.id}
-            className="px-10 [&:last-child>div]:border-b [&>div]:border-t [&>div]:border-[#b7b7b7]"
+            className={
+              "relative px-10 [&:last-child>div]:border-b [&>div]:border-t [&>div]:border-[#b7b7b7] " +
+              (user.id == teamUser.id ? "bg-secondary" : "")
+            }
           >
-            <div className="flex items-center py-5">
-              <p className="w-1/3">{member.role}</p>
-              <p className="text-lg font-medium uppercase">
-                {formatNameShort(user.name)}
+            <div
+              className={
+                "flex flex-col items-center py-3 sm:flex-row sm:py-5 " +
+                (member.isAdministrator ? "pt-8" : "")
+              }
+            >
+              <p className="sm:w-min sm:min-w-[40%]">{member.role}</p>
+              <p className="whitespace-nowrap pl-2 pt-1 font-bold uppercase sm:pt-0 sm:font-medium md:text-lg">
+                {formatNameShort(teamUser.name)}
               </p>
-              {member.isAdministator === true && (
-                <p className="ml-10 text-[0.9375rem] text-primary">
+              {member.isAdministrator && (
+                <p className="absolute left-0 top-2 w-full text-center text-[0.9375rem] text-primary sm:static sm:ml-10 sm:w-auto sm:text-left">
                   Представитель команды
                 </p>
               )}

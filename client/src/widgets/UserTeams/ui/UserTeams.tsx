@@ -2,14 +2,16 @@
 import { useProfileQuery } from "@/composites/Profile";
 import { TeamDetailedCard } from "@/composites/TeamDetailed";
 import { getTeamsByTeamIds } from "@/entities/Team";
+import { useAuthQuery } from "@/entities/User";
 import { FC } from "react";
 
 interface UserTeamsProps {}
 
 const UserTeams: FC<UserTeamsProps> = () => {
+  const { data: user } = useAuthQuery();
   const { data: profile } = useProfileQuery();
 
-  if (!profile) return <div></div>;
+  if (!profile || !user) return <div></div>;
 
   const teams = getTeamsByTeamIds(profile.user.teams, profile.teams);
 
@@ -22,11 +24,14 @@ const UserTeams: FC<UserTeamsProps> = () => {
           {teams.map((team) => (
             <TeamDetailedCard
               key={team.id}
-              team={team}
-              projects={profile.projects}
-              requests={profile.requests}
-              users={profile.users}
-              members={profile.members}
+              user={user}
+              teamDetailed={{
+                team,
+                projects: profile.projects,
+                requests: profile.requests,
+                users: profile.users,
+                members: profile.members,
+              }}
             />
           ))}
         </>
