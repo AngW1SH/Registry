@@ -53,10 +53,7 @@ const ProjectCardWithStatus: FC<ProjectCardWithStatusProps> = ({ project }) => {
 
       <div className="pr-5" />
       <div>
-        <h3 className="font-[1.0625rem]">
-          Изучение социально-экономических проблем соверменного испанского
-          общества
-        </h3>
+        <h3 className="font-[1.0625rem]">{project.name}</h3>
       </div>
     </div>
   );
