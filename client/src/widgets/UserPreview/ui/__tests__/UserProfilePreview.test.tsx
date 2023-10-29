@@ -3,7 +3,6 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import UserProfilePreview from "../UserProfilePreview";
-import { before } from "node:test";
 
 jest.mock("@/entities/User", () => {
   const original = jest.requireActual("@/entities/User");
