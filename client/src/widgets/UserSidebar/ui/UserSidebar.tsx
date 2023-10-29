@@ -5,11 +5,15 @@ import Link from "next/link";
 
 interface UserSidebarProps {
   active?: UserSidebarItemSlug;
+  className?: string;
 }
 
-const UserSidebar: FC<UserSidebarProps> = ({ active = "hero" }) => {
+const UserSidebar: FC<UserSidebarProps> = ({
+  active = "hero",
+  className = "",
+}) => {
   return (
-    <ul className="flex flex-col gap-4 text-[0.9375rem]">
+    <ul className={"flex flex-col gap-4 text-[0.9375rem] " + className}>
       {sidebarItems.map((item) => (
         <li
           key={item.slug}

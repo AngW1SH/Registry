@@ -18,7 +18,7 @@ const NamedBlock: FC<NamedBlockProps> = ({
   return (
     <div
       className={
-        `flex flex-col rounded-xl p-11 shadow-center-lg ${
+        `flex flex-col rounded-xl px-6 py-11 shadow-center-lg sm:p-11 ${
           accent ? "bg-primary text-white" : ""
         } ` + className
       }

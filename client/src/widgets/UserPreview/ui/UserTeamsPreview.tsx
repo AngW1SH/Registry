@@ -74,7 +74,9 @@ const UserTeamsPreview: FC<UserTeamsPreviewProps> = ({ className }) => {
       <NamedBlock className={className} title="Команды">
         <ul className="flex flex-wrap text-center font-[0.9375rem] leading-7 text-[#898989] lg:text-left lg:text-sm xl:text-base">
           {displayData.map(({ user }) => (
-            <li className="w-full sm:w-1/2">{formatNameShort(user.name)}</li>
+            <li key={user.id} className="w-full sm:w-1/2">
+              {formatNameShort(user.name)}
+            </li>
           ))}
         </ul>
         <div className="pt-7" />

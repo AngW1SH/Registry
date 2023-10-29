@@ -35,8 +35,6 @@ const userControllerFactory = () => {
         signed: true,
       });
 
-      console.log(req.signedCookies["redirect-url"]);
-
       const redirectUrl = req.signedCookies["redirect-url"] || "/";
       res.cookie("redirect-url", null, {
         maxAge: 0,

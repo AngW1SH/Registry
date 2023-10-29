@@ -26,8 +26,6 @@ const UserProjectsPreview: FC<UserProjectsPreviewProps> = ({
 
   const projects = getProjectsByProjectIds(projectIds, profile.projects);
 
-  console.log(projects);
-
   return (
     <NamedBlock className={className} title={"Проекты"}>
       {projects.length == 1 && <ProjectCardWithStatus project={projects[0]} />}

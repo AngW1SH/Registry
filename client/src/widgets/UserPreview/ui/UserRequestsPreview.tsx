@@ -26,6 +26,7 @@ const UserRequestsPreview: FC<UserRequestsPreviewProps> = ({ className }) => {
             {profile.requests.length}
           </p>
         </div>
+        <div className="pt-11" />
         {profile.user.administratedTeams.length > 0 && (
           <Button className="mt-auto rounded-full px-8 py-3">
             Управление заявками

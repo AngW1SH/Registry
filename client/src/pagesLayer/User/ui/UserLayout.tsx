@@ -47,9 +47,10 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
       <UserHero />
       <div className="pt-8" />
       <Container>
-        <div className="flex gap-14">
-          <div className="w-max whitespace-nowrap">
+        <div className="flex flex-col gap-x-14 gap-y-8 xl:flex-row">
+          <div className="whitespace-nowrap lg:w-full xl:w-max">
             <UserSidebar
+              className="hidden md:flex md:flex-row md:justify-between md:text-sm lg:text-[0.9375rem] xl:flex-col"
               active={
                 slug && slugs.includes(slug as UserSidebarItemSlug)
                   ? slug
