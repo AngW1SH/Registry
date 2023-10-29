@@ -14,11 +14,16 @@ const UserForms: FC<UserFormsProps> = () => {
     <div>
       <h2 className="text-3xl uppercase">Анкеты</h2>
       <div className="pt-5" />
-      <ul className="flex flex-col gap-5">
-        {profile.forms.map((form) => (
-          <FormCard key={form.id} form={form} />
-        ))}
-      </ul>
+      {profile.forms.length > 0 && (
+        <ul className="flex flex-col gap-5">
+          {profile.forms.map((form) => (
+            <FormCard key={form.id} form={form} />
+          ))}
+        </ul>
+      )}
+      {profile.forms.length == 0 && (
+        <p className="text-[#898989]">Пока нет доступных анкет</p>
+      )}
     </div>
   );
 };
