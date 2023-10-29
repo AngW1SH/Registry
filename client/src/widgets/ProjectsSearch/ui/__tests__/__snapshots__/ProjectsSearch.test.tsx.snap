@@ -64,158 +64,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
             <div
               class="absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md"
               style="transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; visibility: hidden;"
-            >
-              <div
-                class="flex cursor-pointer items-center"
-              >
-                <input
-                  class="hidden"
-                  name="option-0"
-                  type="checkbox"
-                />
-                <div
-                  class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                >
-                  <img
-                    alt=""
-                    class="hidden"
-                    data-nimg="1"
-                    decoding="async"
-                    height="12"
-                    loading="lazy"
-                    src="/checked-icon-white.svg"
-                    style="color: transparent;"
-                    width="14"
-                  />
-                </div>
-                <label
-                  class="cursor-pointer pl-3"
-                  for="option-0"
-                >
-                  Генетика
-                </label>
-              </div>
-              <div
-                class="flex cursor-pointer items-center"
-              >
-                <input
-                  class="hidden"
-                  name="option-1"
-                  type="checkbox"
-                />
-                <div
-                  class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                >
-                  <img
-                    alt=""
-                    class="hidden"
-                    data-nimg="1"
-                    decoding="async"
-                    height="12"
-                    loading="lazy"
-                    src="/checked-icon-white.svg"
-                    style="color: transparent;"
-                    width="14"
-                  />
-                </div>
-                <label
-                  class="cursor-pointer pl-3"
-                  for="option-1"
-                >
-                  Общество
-                </label>
-              </div>
-              <div
-                class="flex cursor-pointer items-center"
-              >
-                <input
-                  class="hidden"
-                  name="option-2"
-                  type="checkbox"
-                />
-                <div
-                  class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                >
-                  <img
-                    alt=""
-                    class="hidden"
-                    data-nimg="1"
-                    decoding="async"
-                    height="12"
-                    loading="lazy"
-                    src="/checked-icon-white.svg"
-                    style="color: transparent;"
-                    width="14"
-                  />
-                </div>
-                <label
-                  class="cursor-pointer pl-3"
-                  for="option-2"
-                >
-                  Социология
-                </label>
-              </div>
-              <div
-                class="flex cursor-pointer items-center"
-              >
-                <input
-                  class="hidden"
-                  name="option-3"
-                  type="checkbox"
-                />
-                <div
-                  class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                >
-                  <img
-                    alt=""
-                    class="hidden"
-                    data-nimg="1"
-                    decoding="async"
-                    height="12"
-                    loading="lazy"
-                    src="/checked-icon-white.svg"
-                    style="color: transparent;"
-                    width="14"
-                  />
-                </div>
-                <label
-                  class="cursor-pointer pl-3"
-                  for="option-3"
-                >
-                  Финансы
-                </label>
-              </div>
-              <div
-                class="flex cursor-pointer items-center"
-              >
-                <input
-                  class="hidden"
-                  name="option-4"
-                  type="checkbox"
-                />
-                <div
-                  class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                >
-                  <img
-                    alt=""
-                    class="hidden"
-                    data-nimg="1"
-                    decoding="async"
-                    height="12"
-                    loading="lazy"
-                    src="/checked-icon-white.svg"
-                    style="color: transparent;"
-                    width="14"
-                  />
-                </div>
-                <label
-                  class="cursor-pointer pl-3"
-                  for="option-4"
-                >
-                  Медицина
-                </label>
-              </div>
-            </div>
+            />
           </div>
         </div>
         <div
@@ -1295,7 +1144,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                         </span>
                       </button>
                       <button
-                        class="rdrDay rdrDayToday"
+                        class="rdrDay"
                         style="color: rgb(61, 145, 255);"
                         type="button"
                       >
@@ -1618,7 +1467,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                         </span>
                       </button>
                       <button
-                        class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
+                        class="rdrDay rdrDayToday rdrDayWeekend rdrDayEndOfWeek"
                         style="color: rgb(61, 145, 255);"
                         type="button"
                       >
@@ -2842,7 +2691,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                         </span>
                       </button>
                       <button
-                        class="rdrDay rdrDayToday"
+                        class="rdrDay"
                         style="color: rgb(61, 145, 255);"
                         type="button"
                       >
@@ -3165,7 +3014,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                         </span>
                       </button>
                       <button
-                        class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
+                        class="rdrDay rdrDayToday rdrDayWeekend rdrDayEndOfWeek"
                         style="color: rgb(61, 145, 255);"
                         type="button"
                       >
@@ -3370,98 +3219,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                   <div
                     class="absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md"
                     style="transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; visibility: hidden;"
-                  >
-                    <div
-                      class="flex cursor-pointer items-center"
-                    >
-                      <input
-                        class="hidden"
-                        name="option-0"
-                        type="checkbox"
-                      />
-                      <div
-                        class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                      >
-                        <img
-                          alt=""
-                          class="hidden"
-                          data-nimg="1"
-                          decoding="async"
-                          height="12"
-                          loading="lazy"
-                          src="/checked-icon-white.svg"
-                          style="color: transparent;"
-                          width="14"
-                        />
-                      </div>
-                      <label
-                        class="cursor-pointer pl-3"
-                        for="option-0"
-                      >
-                        1
-                      </label>
-                    </div>
-                    <div
-                      class="flex cursor-pointer items-center"
-                    >
-                      <input
-                        class="hidden"
-                        name="option-1"
-                        type="checkbox"
-                      />
-                      <div
-                        class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                      >
-                        <img
-                          alt=""
-                          class="hidden"
-                          data-nimg="1"
-                          decoding="async"
-                          height="12"
-                          loading="lazy"
-                          src="/checked-icon-white.svg"
-                          style="color: transparent;"
-                          width="14"
-                        />
-                      </div>
-                      <label
-                        class="cursor-pointer pl-3"
-                        for="option-1"
-                      >
-                        2123
-                      </label>
-                    </div>
-                    <div
-                      class="flex cursor-pointer items-center"
-                    >
-                      <input
-                        class="hidden"
-                        name="option-2"
-                        type="checkbox"
-                      />
-                      <div
-                        class="flex h-5 min-h-[1.25rem] w-5 min-w-[1.25rem] items-center justify-center rounded-sm border border-[#a1a1a1] "
-                      >
-                        <img
-                          alt=""
-                          class="hidden"
-                          data-nimg="1"
-                          decoding="async"
-                          height="12"
-                          loading="lazy"
-                          src="/checked-icon-white.svg"
-                          style="color: transparent;"
-                          width="14"
-                        />
-                      </div>
-                      <label
-                        class="cursor-pointer pl-3"
-                        for="option-2"
-                      >
-                        3
-                      </label>
-                    </div>
-                  </div>
+                  />
                 </div>
               </div>
               <div
@@ -4541,7 +4299,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                               </span>
                             </button>
                             <button
-                              class="rdrDay rdrDayToday"
+                              class="rdrDay"
                               style="color: rgb(61, 145, 255);"
                               type="button"
                             >
@@ -4864,7 +4622,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                               </span>
                             </button>
                             <button
-                              class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
+                              class="rdrDay rdrDayToday rdrDayWeekend rdrDayEndOfWeek"
                               style="color: rgb(61, 145, 255);"
                               type="button"
                             >
@@ -6088,7 +5846,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                               </span>
                             </button>
                             <button
-                              class="rdrDay rdrDayToday"
+                              class="rdrDay"
                               style="color: rgb(61, 145, 255);"
                               type="button"
                             >
@@ -6411,7 +6169,7 @@ exports[`ProjectsSearch Widget UI snapshot test 1`] = `
                               </span>
                             </button>
                             <button
-                              class="rdrDay rdrDayWeekend rdrDayEndOfWeek"
+                              class="rdrDay rdrDayToday rdrDayWeekend rdrDayEndOfWeek"
                               style="color: rgb(61, 145, 255);"
                               type="button"
                             >

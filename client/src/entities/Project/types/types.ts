@@ -7,7 +7,6 @@ export type IProject = {
   id: number;
   name: string;
   description: string;
-  developerRequirements: string[];
   dateStart: Date;
   dateEnd: Date;
   enrollmentStart: Date;
@@ -16,7 +15,6 @@ export type IProject = {
   supervisor: string;
   curator: string;
   client: string;
-  requestCount: number;
   tags: number[];
   teams: number[];
   teamLimit: number;
@@ -26,7 +24,6 @@ export type ProjectDTO = {
   id: number;
   name: string;
   description: string;
-  developerRequirements: string[];
   dateStart: string;
   dateEnd: string;
   enrollmentStart: string;
@@ -35,13 +32,14 @@ export type ProjectDTO = {
   supervisor: string;
   curator: string;
   client: string;
-  requestCount: number;
   tags: number[];
   teams: number[];
   teamLimit: number;
 };
 
 export interface IProjectSingle extends IProject {
+  requestCount: number;
+  developerRequirements: string[];
   descriptionFiles: {
     id: number;
     name: string;
@@ -59,6 +57,8 @@ export interface IProjectSingle extends IProject {
 }
 
 export interface IProjectSingleDTO extends ProjectDTO {
+  requestCount: number;
+  developerRequirements: string[];
   descriptionFiles: {
     id: number;
     name: string;

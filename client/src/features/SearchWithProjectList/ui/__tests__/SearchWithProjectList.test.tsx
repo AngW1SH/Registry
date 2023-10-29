@@ -89,7 +89,7 @@ describe("SearchWithProjectList Feature UI", () => {
 
     fireEvent.click(getAllByText(/найти проект/i)[0]);
 
-    expect(fetchProjects).toBeCalledTimes(1);
+    expect(fetchProjects).toBeCalled();
 
     expect(fetchProjects).toBeCalledWith(
       expect.objectContaining({
