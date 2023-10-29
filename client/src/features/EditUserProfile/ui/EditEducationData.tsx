@@ -9,14 +9,14 @@ const EditEducationData: FC<EditEducationDataProps> = () => {
     <NamedBlock title={"Учебные данные"} border={false}>
       <div className="flex flex-col gap-y-6">
         <FormInput
-          className="w-[calc(50%+1px)] pt-0"
+          className="w-3/4 pt-0 sm:w-[calc(50%+1px)]"
           value={"20.БО7-пу"}
           label={"Группа"}
           id={"userProfileClass"}
           readOnly={true}
         />
         <FormInput
-          className="w-[calc(50%+1px)] pt-0"
+          className="w-3/4 pt-0 sm:w-[calc(50%+1px)]"
           value={"3"}
           label="Курс"
           id={"userProfileYear"}
