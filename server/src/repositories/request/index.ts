@@ -20,6 +20,7 @@ const requestRepositoryFactory = () => {
   return Object.freeze({
     add,
     getActive,
+    countActive,
   });
 
   async function add(team: number, project: number, files: UploadedFile[]) {
@@ -64,6 +65,35 @@ const requestRepositoryFactory = () => {
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
 
     return 1;
+  }
+
+  async function countActive(filters: {
+    user?: number;
+    project?: number;
+  }): Promise<number> {
+    const params = {
+      filters: {
+        ...(filters.user && filterUserRequests(filters.user)),
+        ...(filters.project && { project: filters.project }),
+        ...filterActiveRequests(),
+      },
+      populate: {
+        requests: {
+          count: true,
+        },
+      },
+    };
+
+    const response = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    if (!response.data.length) return 0;
+
+    return response.data[0].attributes.requests
+      ? response.data[0].attributes.requests.data.attributes.count
+      : 0;
   }
 
   async function getActive(

@@ -28,14 +28,13 @@ import {
 import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
+import requestRepository from "../request";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
     getNew,
     findOne,
     findMany,
-    getActiveRequests,
-    countActiveRequests,
     getReferences,
   });
 
@@ -68,58 +67,6 @@ const projectRepositoryFactory = () => {
       projects: projects!,
       tags: tags!,
     };
-  }
-
-  async function countActiveRequests(id: number): Promise<number> {
-    const params = {
-      filters: {
-        id: id,
-        requests: filterActiveRequests(),
-      },
-      populate: {
-        requests: {
-          count: true,
-        },
-      },
-    };
-
-    const response = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN!,
-      params,
-    });
-
-    if (!response.data.length) return 0;
-
-    return response.data[0].attributes.requests
-      ? response.data[0].attributes.requests.data.attributes.count
-      : 0;
-  }
-
-  async function getActiveRequests(id: number): Promise<Request[] | null> {
-    const params = {
-      filters: {
-        id: id,
-        requests: filterActiveRequests(),
-      },
-      fields: ["id"],
-      populate: {
-        requests: selectRequest({
-          team: selectTeam({
-            members: selectMember({
-              user: selectUser(),
-            }),
-            administrators: selectUser(),
-          }),
-        }),
-      },
-    };
-
-    const response: ProjectListStrapi = await strapi.get("projects", {
-      token: process.env.PROJECTS_TOKEN!,
-      params,
-    });
-
-    return getProjectListFromStrapiDTO(response).requests;
   }
 
   async function findOne(id: number): Promise<{
@@ -158,7 +105,7 @@ const projectRepositoryFactory = () => {
 
     if (!response.data) return null;
 
-    const countRequests = await countActiveRequests(response.data.id);
+    const countRequests = await requestRepository.countActive(response.data.id);
 
     response.data.attributes.requests.data.attributes.count = countRequests;
 
