@@ -13,8 +13,6 @@ const userRepositoryFactory = () => {
   return Object.freeze({
     findOne,
     create,
-    getFormResults,
-    submitForm,
   });
 
   async function findOne(filters: {
@@ -52,61 +50,6 @@ const userRepositoryFactory = () => {
     if (!response.data.id) throw new Error("User not created");
 
     return getUserFromStrapiDTO(response);
-  }
-
-  async function getFormResults(userId: number): Promise<FormResult[]> {
-    const params = {
-      populate: {
-        forms: selectFormResult(),
-      },
-    };
-
-    const response = await strapi.get("students/" + userId, {
-      token: process.env.USER_TOKEN!,
-      params,
-    });
-
-    return getUserFormResultsFromStrapiDTO(response);
-  }
-
-  async function submitForm(formId: string, response: any, userId: number) {
-    const forms: FormResult[] = await getFormResults(userId);
-
-    const formData = new FormData();
-
-    formData.append(
-      "files",
-      new Blob([JSON.stringify(response)]),
-      userId + "-" + formId + "-" + new Date().toTimeString() + ".json"
-    );
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData as any,
-    }).then((res) => (res.ok ? res.json() : null));
-
-    const body = {
-      data: {
-        forms: [
-          ...forms,
-          {
-            form: { connect: [{ id: formId }] },
-            date: new Date(),
-            file: fileUploadResponse[0] ? fileUploadResponse[0].id : null,
-          },
-        ],
-      },
-    };
-
-    const createResponse = await strapi.put("students/" + userId, {
-      token: process.env.USER_TOKEN!,
-      body,
-    });
-
-    return 1;
   }
 };
 

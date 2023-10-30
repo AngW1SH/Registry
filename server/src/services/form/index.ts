@@ -8,8 +8,8 @@ const formServiceFactory = () => {
 
   async function getAll(user: User): Promise<FormResultClient[] | null> {
     const [formsResponse, formResultsResponse] = await Promise.allSettled([
-      formRepository.findActive(),
-      userRepository.getFormResults(user.id),
+      formRepository.findMany({ active: true }),
+      formRepository.findResults(user.id),
     ]);
 
     const forms =
@@ -40,7 +40,7 @@ const formServiceFactory = () => {
     return formResultsClient;
   }
 
-  async function submit(formId: string, response: any) {
+  async function submit(formId: number, response: any) {
     // Will use an adapter later on
     const user = await userRepository.findOne({
       email: response["Единая учетная запись (например, ST000000)"],
@@ -48,10 +48,10 @@ const formServiceFactory = () => {
 
     if (!user) throw new Error("No such user found");
 
-    const form = await formRepository.findByFormId(formId);
+    const form = await formRepository.findOne({ formId: formId });
     if (!form) throw new Error("No such form found");
 
-    return userRepository.submitForm(form.data[0].id, response, user.id);
+    return formRepository.submit(form.id, response, user.id);
   }
 };
 
