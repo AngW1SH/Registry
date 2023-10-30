@@ -2,7 +2,7 @@ import { ProjectFilters, ProjectFiltersDTO } from "../types/types";
 
 export const getProjectFiltersFromDTO = (
   filtersDTO: ProjectFiltersDTO
-): ProjectFilters => {
+): ProjectFilters | undefined => {
   if (!filtersDTO) return;
 
   return {

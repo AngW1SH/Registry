@@ -7,9 +7,8 @@ import OAuth2Strategy, { InternalOAuthError } from "passport-oauth2";
 
 class CustomYandexStrategy extends OAuth2Strategy {
   name: string;
-  _oauth2: OAuth2;
 
-  constructor(options, verify) {
+  constructor(options: any, verify: any) {
     options = options || {};
     options.authorizationURL =
       options.authorizationURL || "https://oauth.yandex.ru/authorize";
@@ -27,7 +26,7 @@ class CustomYandexStrategy extends OAuth2Strategy {
     this._oauth2.setAccessTokenName("oauth_token");
   }
 
-  userProfile(accessToken, done) {
+  userProfile(accessToken: string, done: any) {
     var url = "https://login.yandex.ru/info?format=json";
 
     this._oauth2.get(url, accessToken, function (err, body, res) {
@@ -84,7 +83,12 @@ const customYandexStrategy = new CustomYandexStrategy(
     clientSecret: process.env.CUSTOM_YANDEX_CLIENT_SECRET,
     callbackURL: process.env.WEBSITE_URL + "/api/user/yandeexcallback",
   },
-  async function (accessToken, refreshToken, profile, done) {
+  async function (
+    accessToken: string,
+    refreshToken: string,
+    profile: any,
+    done: any
+  ) {
     const user = await userService.findOrCreate({
       email: profile.default_email || profile.emails[0].value,
       name: profile.displayName,

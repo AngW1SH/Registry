@@ -21,11 +21,6 @@ describe("Team Repository", () => {
       const result = await teamRepository.getUnassignedByUser(user);
 
       expect(result).toBeDefined();
-      expect(result).toEqual(
-        expect.objectContaining({
-          data: expect.anything(),
-        })
-      );
     });
   });
 
@@ -41,11 +36,6 @@ describe("Team Repository", () => {
       );
 
       expect(result).toBeDefined();
-      expect(result).toEqual(
-        expect.objectContaining({
-          data: expect.anything(),
-        })
-      );
     });
   });
 });

@@ -109,6 +109,7 @@ const userServiceFactory = () => {
       teamRepository.getUnassignedAdministratedByUser(user),
     ]);
 
+    console.log(teams);
     const teamIdList =
       teams.status == "fulfilled" ? teams.value.map((team) => team.id) : [];
     const administratedIdList =

@@ -1,7 +1,4 @@
-import {
-  ProjectStrapiPopulated,
-  ProjectWithTagsListStrapi,
-} from "@/db/strapi/types/project";
+import { ProjectListStrapi, ProjectStrapi } from "@/db/strapi/types/project";
 
 export const staticProjectsWithTagsPrisma = [
   {
@@ -103,7 +100,7 @@ export const staticProjectsWithTags = [
   },
 ];
 
-export const staticProjectListStrapi: ProjectWithTagsListStrapi = {
+export const staticProjectListStrapi: ProjectListStrapi = {
   data: [
     {
       id: 1,
@@ -333,7 +330,7 @@ export const staticProjectsWithTagsResult = {
   },
 };
 
-export const staticProjectDetailedNoTeamStrapi: ProjectStrapiPopulated = {
+export const staticProjectDetailedNoTeamStrapi: ProjectStrapi = {
   data: {
     id: 4,
     attributes: {
@@ -379,7 +376,7 @@ export const staticProjectDetailedNoTeamStrapi: ProjectStrapiPopulated = {
   },
 };
 
-export const staticProjectDetailedStrapi: ProjectStrapiPopulated = {
+export const staticProjectDetailedStrapi: ProjectStrapi = {
   data: {
     id: 1,
     attributes: {

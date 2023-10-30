@@ -1,6 +1,7 @@
 import userService from "@/services/user";
 import userController from "..";
 import { staticUser } from "@/entities/user";
+import tokenService from "@/services/token";
 
 const req: any = {};
 
@@ -15,13 +16,14 @@ const res: any = {
 };
 
 jest.mock("@/services/user");
+jest.mock("@/services/token");
 
 describe("User Controller", () => {
   describe("authorize", () => {
     it("should write access- and refresh-tokens into cookies", async () => {
       req.user = staticUser;
 
-      (userService.createTokens as jest.Mock).mockReturnValueOnce({
+      (tokenService.generate as jest.Mock).mockReturnValueOnce({
         accessToken: "1",
         refreshToken: "2",
       });
@@ -29,20 +31,6 @@ describe("User Controller", () => {
       const result = await userController.authorize(req, res);
 
       expect(res.cookie).toBeCalledTimes(2);
-    });
-  });
-
-  describe("getPublicUserInfo method", () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-    it("should not contain user id", async () => {
-      req.user = staticUser;
-
-      const result = await userController.getPublicUserInfo(req, res);
-
-      //expect(res.json.mock.calls[0][0].id).not.toBeDefined();
-      //expect(res.json.mock.calls[0][0].email).toBeDefined();
     });
   });
 

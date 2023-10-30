@@ -51,7 +51,7 @@ const userControllerFactory = () => {
 
   async function logout(req: Request, res: Response) {
     try {
-      await tokenRepository.erase(req.signedCookies["user-refresh"]);
+      await tokenService.deleteRefresh(req.signedCookies["user-refresh"]);
 
       res.cookie("user-access", null, {
         maxAge: 0,

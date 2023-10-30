@@ -1,6 +1,5 @@
 import passport from "passport";
 
-import loginStrategy from "./loginStrategy";
 import authenticateStrategy from "./authenticateStrategy";
 import customYandexStrategy from "./customYandexStrategy";
 import userRepository from "@/repositories/user";
@@ -11,7 +10,7 @@ passport.serializeUser(function (user, cb) {
   });
 });
 
-passport.deserializeUser(function (id, cb) {
+passport.deserializeUser(function (id: number, cb) {
   return userRepository
     .findById(+id)
     .then((user) => {
@@ -21,7 +20,6 @@ passport.deserializeUser(function (id, cb) {
 });
 
 passport.use("jwt-authenticate", authenticateStrategy);
-passport.use("local-login", loginStrategy);
 passport.use("custom-yandex", customYandexStrategy);
 
 export default passport;

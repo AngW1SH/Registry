@@ -2,7 +2,7 @@ import { ProjectFilters } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
 import { Project, ProjectDTO } from "@/entities/project/types/types";
-import { RequestListStrapi, Team } from "@/entities/team";
+import { Team } from "@/entities/team";
 import {
   filterActiveRequests,
   selectRequest,
@@ -20,18 +20,14 @@ import {
 import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
 import { Tag } from "@/entities/tag";
-import {
-  ProjectListStrapi,
-  ProjectReferenceListStrapi,
-  ProjectStrapi,
-} from "@/db/strapi/types/project";
+import { ProjectListStrapi } from "@/db/strapi/types/project";
 import {
   getProjectFromStrapiDTO,
   getProjectListFromStrapiDTO,
-  getProjectReferenceListFromStrapiDTO,
 } from "@/db/strapi/adapters/project";
 import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
+import { Request } from "@/entities/request";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -99,7 +95,7 @@ const projectRepositoryFactory = () => {
       : 0;
   }
 
-  async function getActiveRequests(id: number): Promise<RequestListStrapi> {
+  async function getActiveRequests(id: number): Promise<Request[] | null> {
     const params = {
       filters: {
         id: id,
@@ -123,9 +119,7 @@ const projectRepositoryFactory = () => {
       params,
     });
 
-    return response.data?.length
-      ? response.data[0].attributes.requests
-      : { data: [] };
+    return getProjectListFromStrapiDTO(response).requests;
   }
 
   async function findOne(id: number): Promise<{

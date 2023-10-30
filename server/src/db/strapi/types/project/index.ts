@@ -18,10 +18,10 @@ interface ProjectStrapiInner {
     supervisor: string;
     curator: string;
     client: string;
-    requests: ProjectRequestCountStrapi;
+    requests?: ProjectRequestCountStrapi;
     tags?: TagListStrapi | IdListStrapi;
     teams?: TeamListStrapi | IdListStrapi;
-    teamLimit: number;
+    teamLimit: number | null;
   };
 }
 

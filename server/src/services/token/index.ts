@@ -12,6 +12,8 @@ const tokenServiceFactory = () => {
   });
 
   async function generate(userId: number) {
+    if (!userId) throw new Error("Unauthorized");
+
     const refreshToken = generateRefreshToken(userId);
 
     await tokenRepository.save(refreshToken);

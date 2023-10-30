@@ -12,7 +12,9 @@ const mimeToDisplayType = {
 
 export const getNamedFileListFromStrapiDTO = (
   dto: NamedFileStrapi[]
-): { id: number; name: string; url: string; type: string; size: string }[] => {
+):
+  | { id: number; name: string; url: string; type: string; size: string }[]
+  | null => {
   if (!dto) return null;
 
   return dto
@@ -21,13 +23,16 @@ export const getNamedFileListFromStrapiDTO = (
       return {
         id: namedFileDTO.id,
         name: namedFileDTO.name,
-        url: namedFileDTO.file.data.attributes.url,
+        url: namedFileDTO.file.data?.attributes.url || "",
         type: Object.keys(mimeToDisplayType).includes(
-          namedFileDTO.file.data.attributes.mime
+          namedFileDTO.file.data?.attributes.mime!
         )
-          ? mimeToDisplayType[namedFileDTO.file.data.attributes.mime]
+          ? (mimeToDisplayType[
+              namedFileDTO.file.data?.attributes
+                .mime as keyof typeof mimeToDisplayType
+            ] as string)
           : "FILE",
-        size: parseInt("" + namedFileDTO.file.data.attributes.size) + "Кб",
+        size: parseInt("" + namedFileDTO.file.data?.attributes.size) + "Кб",
       };
     });
 };

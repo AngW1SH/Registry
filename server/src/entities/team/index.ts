@@ -1,13 +1,13 @@
-import type {
-  Team,
-  TeamMemberStrapiPopulated,
-  TeamStrapiPopulated,
-  RequestListStrapi,
-} from "./types/types";
+import type { Team } from "./types/types";
+import {
+  staticTeamListStrapiPopulatedWithAdministrators,
+  staticTeams,
+  staticTeamsExtended,
+} from "./static/staticTeams";
 
-export type {
-  Team,
-  TeamMemberStrapiPopulated,
-  TeamStrapiPopulated,
-  RequestListStrapi,
+export type { Team };
+export {
+  staticTeamListStrapiPopulatedWithAdministrators,
+  staticTeams,
+  staticTeamsExtended,
 };

@@ -17,6 +17,7 @@ import { getNamedFileListFromStrapiDTO } from "../components/named-file";
 import { Member } from "@/entities/member";
 import { TeamListStrapi, TeamStrapi, TeamStrapiInner } from "../../types/team";
 import { TagStrapi } from "../../types/tag";
+import { Request } from "@/entities/request";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectListStrapi
@@ -27,6 +28,7 @@ export const getProjectListFromStrapiDTO = (
   users: User[] | null;
   members: Member[] | null;
   administrators: User[] | null;
+  requests: Request[] | null;
 } => {
   if (!projects.data)
     return {
@@ -36,6 +38,7 @@ export const getProjectListFromStrapiDTO = (
       users: null,
       members: null,
       administrators: null,
+      requests: null,
     };
 
   const usedTagIds = new Set();
@@ -53,6 +56,9 @@ export const getProjectListFromStrapiDTO = (
   const usedAdministratorIds = new Set();
   const administrators: User[] = [];
 
+  const usedRequestIds = new Set();
+  const requests: Request[] = [];
+
   projects.data.forEach((project) => {
     project.attributes.tags?.data?.[0]?.attributes?.hasOwnProperty("name") &&
       project.attributes.tags.data.forEach((projectTag) => {
@@ -69,6 +75,7 @@ export const getProjectListFromStrapiDTO = (
           users: teamUsers,
           administrators: teamAdmins,
           members: teamMembers,
+          requests: teamRequests,
         } = getTeamFromStrapiDTO({ data: teamStrapi } as TeamStrapi);
 
         if (team && !usedTeamIds.has(team.id)) {
@@ -99,6 +106,14 @@ export const getProjectListFromStrapiDTO = (
             usedAdministratorIds.add(teamAdmin.id);
             administrators.push(teamAdmin);
           });
+
+        teamRequests &&
+          teamRequests.forEach((teamRequest) => {
+            if (usedRequestIds.has(teamRequest.id)) return;
+
+            usedRequestIds.add(teamRequest.id);
+            requests.push(teamRequest);
+          });
       });
   });
 
@@ -116,6 +131,7 @@ export const getProjectListFromStrapiDTO = (
     administrators,
     members,
     teams,
+    requests,
   };
 };
 

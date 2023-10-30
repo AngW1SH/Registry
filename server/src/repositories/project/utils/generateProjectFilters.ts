@@ -2,8 +2,8 @@ import { ProjectFilters } from "@/entities/project";
 
 const generateDateFilters = (
   prefix: string,
-  filterStart?: Date,
-  filterEnd?: Date
+  filterStart?: Date | null,
+  filterEnd?: Date | null
 ) => {
   if (
     filterStart &&

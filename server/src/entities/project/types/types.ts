@@ -19,7 +19,7 @@ export interface Project {
   client: string;
   tags: number[];
   teams: number[];
-  teamLimit: number;
+  teamLimit: number | null;
 }
 
 export interface ProjectDTO {
@@ -36,15 +36,15 @@ export interface ProjectDTO {
   client: string;
   tags: number[];
   teams: number[];
-  teamLimit: number;
+  teamLimit: number | null;
 }
 
 export interface ProjectFilters {
   text?: string;
-  dateStart?: Date;
-  dateEnd?: Date;
-  enrollmentStart?: Date;
-  enrollmentEnd?: Date;
+  dateStart?: Date | null;
+  dateEnd?: Date | null;
+  enrollmentStart?: Date | null;
+  enrollmentEnd?: Date | null;
   status?: string;
   tags?: string[];
 }
@@ -62,35 +62,43 @@ export interface ProjectFiltersDTO {
 export interface ProjectDetailed extends Project {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles: {
-    id: number;
-    name: string;
-    url: string;
-  }[];
-  resultFiles: {
-    id: number;
-    name: string;
-    url: string;
-  }[];
+  descriptionFiles:
+    | {
+        id: number;
+        name: string;
+        url: string;
+      }[]
+    | null;
+  resultFiles:
+    | {
+        id: number;
+        name: string;
+        url: string;
+      }[]
+    | null;
 }
 
 export interface ProjectDetailedDTO extends ProjectDTO {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles: {
-    id: number;
-    name: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
-  resultFiles: {
-    id: number;
-    name: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
+  descriptionFiles:
+    | {
+        id: number;
+        name: string;
+        url: string;
+        type: string;
+        size: string;
+      }[]
+    | null;
+  resultFiles:
+    | {
+        id: number;
+        name: string;
+        url: string;
+        type: string;
+        size: string;
+      }[]
+    | null;
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {

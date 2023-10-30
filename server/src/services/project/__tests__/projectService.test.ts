@@ -45,10 +45,10 @@ describe("Project Service", () => {
       const result = await projectService.findById(1);
 
       expect(result).toBeDefined();
-      expect(result.project).toBeDefined();
-      expect(result.tags).toBeDefined();
-      expect(result.teams).toBeDefined();
-      expect(result.users).toBeDefined();
+      expect(result!.project).toBeDefined();
+      expect(result!.tags).toBeDefined();
+      expect(result!.teams).toBeDefined();
+      expect(result!.users).toBeDefined();
     });
   });
 });
