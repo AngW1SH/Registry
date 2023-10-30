@@ -1,5 +1,4 @@
 import { Strategy as JWTStrategy } from "passport-jwt";
-import { prisma } from "@/db/prisma-client";
 import { Request } from "express";
 import userService from "@/services/user";
 
