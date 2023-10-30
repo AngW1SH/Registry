@@ -7,7 +7,9 @@ export function useProfileQuery() {
   const { data: user } = useAuthQuery();
 
   return useQuery<Profile | null>({
-    queryKey: ["profile", user],
+    queryKey: ["profile", user?.id],
     queryFn: () => (user ? Promise.resolve(fetchProfile()) : null),
+    keepPreviousData: true,
+    enabled: !!user?.id,
   });
 }

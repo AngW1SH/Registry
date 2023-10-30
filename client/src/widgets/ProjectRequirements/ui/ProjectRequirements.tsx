@@ -1,9 +1,9 @@
-import { IProject } from "@/entities/Project";
+import { IProject, IProjectSingle } from "@/entities/Project";
 import LabeledBlock from "@/shared/ui/LabeledBlock/LabeledBlock";
 import { FC } from "react";
 
 interface ProjectRequirementsProps {
-  project: IProject;
+  project: IProjectSingle;
 }
 
 const ProjectRequirements: FC<ProjectRequirementsProps> = ({ project }) => {
