@@ -20,7 +20,7 @@ interface SendNewRequestProps {}
 */
 
 const SendNewRequest: FC<SendNewRequestProps> = () => {
-  const [team, setTeam] = useState(staticTeams[0].name);
+  const [team, setTeam] = useState<string | null>(null);
   const [project, setProject] = useState<string | null>(null);
 
   const [selected, setSelected] = useState("");
