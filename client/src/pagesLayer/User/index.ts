@@ -4,6 +4,7 @@ import UserFormsPage from "./ui/UserFormsPage";
 import UserProfilePage from "./ui/UserProfilePage";
 import UserTeamsPage from "./ui/UserTeamsPage";
 import UserRequestsPage from "./ui/UserRequestsPage";
+import UserProjectsPage from "./ui/UserProjectsPage";
 
 export {
   UserLayout,
@@ -12,4 +13,5 @@ export {
   UserProfilePage,
   UserTeamsPage,
   UserRequestsPage,
+  UserProjectsPage,
 };

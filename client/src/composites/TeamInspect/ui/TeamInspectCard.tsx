@@ -1,4 +1,4 @@
-import { Block } from "@/shared/ui";
+import { Block, RoleTable } from "@/shared/ui";
 import Link from "next/link";
 import { FC } from "react";
 import { TeamInspect } from "../types/types";
@@ -18,12 +18,6 @@ const TeamInspectCard: FC<TeamInspectCardProps> = ({ user, teamDetailed }) => {
 
   const membersPopulated = getMembersByMemberIds(team.members, members);
 
-  // Get corresponding user for each member
-  const displayData = membersPopulated.map((member) => ({
-    member,
-    user: users.find((userMapped) => userMapped.id == member.user)!,
-  }));
-
   const requestsProjects = team.requests
     ? getRequestsByRequestIds(team.requests, requests)
         .filter((request) => request.project)
@@ -33,36 +27,21 @@ const TeamInspectCard: FC<TeamInspectCardProps> = ({ user, teamDetailed }) => {
         )
     : [];
 
+  const tableData = membersPopulated.map((member) => {
+    const teamUser = users.find((userMapped) => userMapped.id == member.user)!;
+
+    return {
+      id: member.id,
+      name: formatNameShort(teamUser.name),
+      role: member.role,
+      label: member.isAdministrator ? "Представитель команды" : null,
+      selected: user.id == teamUser.id,
+    };
+  });
+
   return (
     <Block className="rounded-xl py-12">
-      <ul>
-        {displayData.map(({ member, user: teamUser }) => (
-          <li
-            key={member.id}
-            className={
-              "relative px-10 [&:last-child>div]:border-b [&>div]:border-t [&>div]:border-[#b7b7b7] " +
-              (user.id == teamUser.id ? "bg-secondary" : "")
-            }
-          >
-            <div
-              className={
-                "flex flex-col items-center py-3 sm:flex-row sm:py-5 " +
-                (member.isAdministrator ? "pt-8" : "")
-              }
-            >
-              <p className="sm:w-min sm:min-w-[40%]">{member.role}</p>
-              <p className="whitespace-nowrap pl-2 pt-1 font-bold uppercase sm:pt-0 sm:font-medium md:text-lg">
-                {formatNameShort(teamUser.name)}
-              </p>
-              {member.isAdministrator && (
-                <p className="absolute left-0 top-2 w-full text-center text-[0.9375rem] text-primary sm:static sm:ml-10 sm:w-auto sm:text-left">
-                  Представитель команды
-                </p>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <RoleTable displayData={tableData} />
       <div className="px-10">
         <div className="pt-16" />
         <div>

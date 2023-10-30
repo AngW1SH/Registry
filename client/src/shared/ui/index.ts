@@ -20,6 +20,7 @@ import ToggleOpen from "./ToggleOpen/ToggleOpen";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import File from "./File/File";
 import FileUpload from "./FileUpload/FileUpload";
+import RoleTable from "./RoleTable/RoleTable";
 
 export {
   Container,
@@ -44,4 +45,5 @@ export {
   Breadcrumbs,
   File,
   FileUpload,
+  RoleTable,
 };
