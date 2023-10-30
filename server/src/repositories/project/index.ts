@@ -107,7 +107,9 @@ const projectRepositoryFactory = () => {
 
     if (!response.data) return null;
 
-    const countRequests = await requestRepository.countActive(response.data.id);
+    const countRequests = await requestRepository.countActive({
+      project: response.data.id,
+    });
 
     response.data.attributes.requests.data.attributes.count = countRequests;
 

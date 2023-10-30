@@ -85,7 +85,7 @@ const requestRepositoryFactory = () => {
       },
     };
 
-    const response = await strapi.get("projects", {
+    const response = await strapi.get("requests", {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
