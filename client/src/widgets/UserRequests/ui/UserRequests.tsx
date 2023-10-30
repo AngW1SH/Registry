@@ -1,7 +1,7 @@
 import { SendNewRequest } from "@/features/SendNewRequest";
 import { FC } from "react";
 import NewRequest from "./NewRequest";
-import { RequestDetailedCard } from "@/composites/TeamDetailed";
+import RequestInspectCard from "@/composites/RequestInspect/ui/RequestInspectCard";
 
 interface UserRequestsProps {}
 
@@ -13,7 +13,7 @@ const UserRequests: FC<UserRequestsProps> = () => {
       <NewRequest />
       <div className="pt-5" />
       <div className="flex gap-5">
-        <RequestDetailedCard />
+        <RequestInspectCard />
       </div>
     </div>
   );

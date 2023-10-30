@@ -4,7 +4,7 @@ import { IRequest } from "@/entities/Request";
 import { ITeamExtended } from "@/entities/Team";
 import { IUser } from "@/entities/User";
 
-export interface TeamDetailed {
+export interface TeamInspect {
   team: ITeamExtended;
   projects: IProject[];
   users: IUser[];
@@ -12,7 +12,7 @@ export interface TeamDetailed {
   requests: IRequest[];
 }
 
-export interface TeamListDetailed {
+export interface TeamInspectList {
   teams: ITeamExtended[];
   projects: IProject[];
   users: IUser[];

@@ -1,6 +1,6 @@
 "use client";
 import { useProfileQuery } from "@/composites/Profile";
-import { TeamDetailedCard } from "@/composites/TeamDetailed";
+import { TeamInspectCard } from "@/composites/TeamInspect";
 import { getTeamsByTeamIds } from "@/entities/Team";
 import { useAuthQuery } from "@/entities/User";
 import { FC } from "react";
@@ -22,7 +22,7 @@ const UserTeams: FC<UserTeamsProps> = () => {
         <>
           <div className="pt-5" />
           {teams.map((team) => (
-            <TeamDetailedCard
+            <TeamInspectCard
               key={team.id}
               user={user}
               teamDetailed={{

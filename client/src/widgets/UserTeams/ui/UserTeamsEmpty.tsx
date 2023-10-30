@@ -1,4 +1,3 @@
-import { TeamDetailedCard } from "@/composites/TeamDetailed";
 import { FC } from "react";
 
 interface UserTeamsEmptyProps {}

@@ -1,9 +1,9 @@
 import { Block, ButtonAlt } from "@/shared/ui";
 import { FC } from "react";
 
-interface RequestDetailedCardProps {}
+interface RequestInspectCardProps {}
 
-const RequestDetailedCard: FC<RequestDetailedCardProps> = () => {
+const RequestInspectCard: FC<RequestInspectCardProps> = () => {
   return (
     <Block className="w-full rounded-2xl px-11 py-8">
       <div className="w-3/4">
@@ -37,4 +37,4 @@ const RequestDetailedCard: FC<RequestDetailedCardProps> = () => {
   );
 };
 
-export default RequestDetailedCard;
+export default RequestInspectCard;

@@ -1,22 +1,19 @@
 import { Block } from "@/shared/ui";
 import Link from "next/link";
 import { FC } from "react";
-import { TeamDetailed } from "../types/types";
+import { TeamInspect } from "../types/types";
 import { ITeamExtended } from "@/entities/Team";
 import { IProject, getProjectsByProjectIds } from "@/entities/Project";
 import { IUser, formatNameShort } from "@/entities/User";
 import { IMember, getMembersByMemberIds } from "@/entities/Member";
 import { IRequest, getRequestsByRequestIds } from "@/entities/Request";
 
-interface TeamDetailedCardProps {
+interface TeamInspectCardProps {
   user: IUser;
-  teamDetailed: TeamDetailed;
+  teamDetailed: TeamInspect;
 }
 
-const TeamDetailedCard: FC<TeamDetailedCardProps> = ({
-  user,
-  teamDetailed,
-}) => {
+const TeamInspectCard: FC<TeamInspectCardProps> = ({ user, teamDetailed }) => {
   const { team, members, users, projects, requests } = teamDetailed;
 
   const membersPopulated = getMembersByMemberIds(team.members, members);
@@ -100,4 +97,4 @@ const TeamDetailedCard: FC<TeamDetailedCardProps> = ({
   );
 };
 
-export default TeamDetailedCard;
+export default TeamInspectCard;
