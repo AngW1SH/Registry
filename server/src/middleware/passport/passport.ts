@@ -12,7 +12,7 @@ passport.serializeUser(function (user, cb) {
 
 passport.deserializeUser(function (id: number, cb) {
   return userRepository
-    .findById(+id)
+    .findOne({ id: +id })
     .then((user) => {
       return cb(null, user);
     })

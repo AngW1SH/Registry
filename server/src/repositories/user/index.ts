@@ -11,35 +11,20 @@ import { User, UserCreate } from "@/entities/user";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
-    findByEmail,
-    findById,
+    findOne,
     create,
     getFormResults,
     submitForm,
   });
 
-  async function findByEmail(email: string): Promise<User | null> {
+  async function findOne(filters: {
+    email?: string;
+    id?: number;
+  }): Promise<User | null> {
     const params = {
       filters: {
-        email: email,
-      },
-      ...selectUser(),
-    };
-
-    const response: UserListStrapi = await strapi.get("students", {
-      token: process.env.USER_TOKEN!,
-      params,
-    });
-
-    if (!response.data || !response.data.length) return null;
-
-    return getUserFromStrapiDTO({ data: response.data[0] });
-  }
-
-  async function findById(id: number): Promise<User | null> {
-    const params = {
-      filters: {
-        id: id,
+        ...(filters.email && { email: filters.email }),
+        ...(filters.id && { id: filters.id }),
       },
       ...selectUser(),
     };

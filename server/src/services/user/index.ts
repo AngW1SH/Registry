@@ -27,13 +27,13 @@ const userServiceFactory = () => {
   });
 
   async function findById(id: number): Promise<User | null> {
-    const user = await userRepository.findById(id);
+    const user = await userRepository.findOne({ id: id });
 
     return user;
   }
 
   async function findOrCreate(user: UserCreate): Promise<User | null> {
-    const userFound = await userRepository.findByEmail(user.email);
+    const userFound = await userRepository.findOne({ email: user.email });
 
     if (userFound) return userFound;
 

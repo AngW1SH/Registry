@@ -24,11 +24,15 @@ describe("User Repository", () => {
     ) as jest.Mock;
   });
 
-  describe("findByEmail method", () => {
+  describe("findOne method", () => {
     it("should return a user when everything is okay", async () => {
-      const user = await userRepository.findByEmail("st072603@student.spbu.ru");
+      const userByEmail = await userRepository.findOne({
+        email: "st072603@student.spbu.ru",
+      });
+      const userById = await userRepository.findOne({ id: 2 });
 
-      expect(user).toBeDefined();
+      expect(userByEmail).toBeDefined();
+      expect(userById).toBeDefined();
     });
 
     it("should return null if no user is found", async () => {
@@ -36,25 +40,9 @@ describe("User Repository", () => {
         status: 200,
         json: () => Promise.resolve({ data: [] }),
       });
-      const user = await userRepository.findByEmail("st072603@student.spbu.ru");
-
-      expect(user).toBeNull();
-    });
-  });
-
-  describe("findById method", () => {
-    it("should return a user when everything is okay", async () => {
-      const user = await userRepository.findById(2);
-
-      expect(user).toBeDefined();
-    });
-
-    it("should return null if no user is found", async () => {
-      (fetch as jest.Mock).mockResolvedValueOnce({
-        status: 200,
-        json: () => Promise.resolve({ data: [] }),
+      const user = await userRepository.findOne({
+        email: "st072603@student.spbu.ru",
       });
-      const user = await userRepository.findById(2);
 
       expect(user).toBeNull();
     });

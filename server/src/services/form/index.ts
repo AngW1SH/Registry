@@ -42,9 +42,9 @@ const formServiceFactory = () => {
 
   async function submit(formId: string, response: any) {
     // Will use an adapter later on
-    const user = await userRepository.findByEmail(
-      response["Единая учетная запись (например, ST000000)"]
-    );
+    const user = await userRepository.findOne({
+      email: response["Единая учетная запись (например, ST000000)"],
+    });
 
     if (!user) throw new Error("No such user found");
 
