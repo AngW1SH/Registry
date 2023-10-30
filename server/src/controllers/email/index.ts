@@ -1,3 +1,4 @@
+import { BadRequestError } from "@/helpers/errors";
 import emailService from "@/services/email";
 import { Request, Response } from "express";
 
@@ -7,21 +8,16 @@ const emailControllerFactory = () => {
   });
 
   async function send(req: Request, res: Response) {
-    try {
-      if (req.method !== "POST")
-        return res.status(400).send("Unsupported method");
-      if (!req.body.name) return res.status(400).send("Missing name");
-      if (!req.body.email) return res.status(400).send("Missing email");
+    if (req.method !== "POST") throw new BadRequestError("Unsupported method");
+    if (!req.body.name) throw new BadRequestError("Missing name");
+    if (!req.body.email) throw new BadRequestError("Missing email");
 
-      const result = await emailService.send({
-        name: req.body.name,
-        email: req.body.email,
-      });
+    const result = await emailService.send({
+      name: req.body.name,
+      email: req.body.email,
+    });
 
-      res.status(200).send(result);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).send(result);
   }
 };
 

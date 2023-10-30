@@ -1,4 +1,5 @@
 import { getProjectFiltersFromDTO } from "@/entities/project";
+import { BadRequestError } from "@/helpers/errors";
 import projectService from "@/services/project";
 import { Request, Response } from "express";
 
@@ -11,51 +12,36 @@ const projectControllerFactory = () => {
   });
 
   async function getActive(req: Request, res: Response) {
-    try {
-      const tagIds = req.body ? (req.body.tagIds as string[]) : undefined;
+    const tagIds = req.body ? (req.body.tagIds as string[]) : undefined;
 
-      const projects = await projectService.getActive(tagIds);
+    const projects = await projectService.getActive(tagIds);
 
-      res.status(200).json(projects);
-    } catch {
-      res.sendStatus(500);
-    }
+    res.status(200).json(projects);
   }
 
   async function getNew(req: Request, res: Response) {
-    try {
-      const projects = await projectService.getNew();
+    const projects = await projectService.getNew();
 
-      res.status(200).json(projects);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).json(projects);
   }
 
   async function findById(req: Request, res: Response) {
-    try {
-      if (!req.body.id && !req.params.id) return res.status(400).send();
+    if (!req.body.id && !req.params.id)
+      throw new BadRequestError("Missing project identifier");
 
-      const result = await projectService.findById(
-        +req.body.id || +req.params.id
-      );
+    const result = await projectService.findById(
+      +req.body.id || +req.params.id
+    );
 
-      res.status(200).json(result);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).json(result);
   }
 
   async function findMany(req: Request, res: Response) {
-    try {
-      const result = await projectService.findMany(
-        getProjectFiltersFromDTO(req.body.filters)
-      );
+    const result = await projectService.findMany(
+      getProjectFiltersFromDTO(req.body.filters)
+    );
 
-      res.status(200).json(result);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).json(result);
   }
 };
 

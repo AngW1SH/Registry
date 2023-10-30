@@ -29,6 +29,7 @@ import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
 import requestRepository from "../request";
+import { BadRequestError } from "@/helpers/errors";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -76,7 +77,8 @@ const projectRepositoryFactory = () => {
     users: User[];
     members: Member[];
   } | null> {
-    if (typeof id != "number") throw new Error("Provided ID is not a number");
+    if (typeof id != "number")
+      throw new BadRequestError("Provided ID is not a number");
 
     const params = {
       filters: {

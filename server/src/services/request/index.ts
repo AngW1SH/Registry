@@ -1,6 +1,7 @@
 import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 import { User } from "@/entities/user";
+import { UnauthorizedError } from "@/helpers/errors";
 import requestRepository from "@/repositories/request";
 import teamRepository from "@/repositories/team";
 import { UploadedFile } from "express-fileupload";
@@ -19,7 +20,7 @@ const requestServiceFactory = () => {
   ) {
     const teamAdministrators = await teamRepository.getAdministrators(team);
     if (!teamAdministrators.find((admin) => admin.id == user.id))
-      throw new Error("Unauthorized");
+      throw new UnauthorizedError("User not found in team administrator list");
 
     return requestRepository.add(team, project, files);
   }

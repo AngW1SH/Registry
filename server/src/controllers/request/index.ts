@@ -1,3 +1,4 @@
+import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import requestService from "@/services/request";
 import { Request, Response } from "express";
 
@@ -7,28 +8,26 @@ const requestControllerFactory = () => {
   });
 
   async function add(req: Request, res: Response) {
-    try {
-      if (
-        !req.body.team ||
-        !req.body.project ||
-        !req.files ||
-        Array.from(Object.keys(req.files)).length === 0
-      )
-        return res.status(400).send();
+    if (!req.body.team)
+      throw new BadRequestError("Missing required body parameter: team");
+    if (!req.body.project)
+      throw new BadRequestError("Missing required body parameter: project");
+    if (!req.files || Array.from(Object.keys(req.files)).length === 0)
+      throw new BadRequestError("Missing required body parameter: files");
 
-      if (!req.user) return res.status(401).send();
-
-      const result = await requestService.add(
-        req.body.team,
-        req.body.project,
-        req.user,
-        Array.isArray(req.files.files) ? req.files.files : [req.files.files]
+    if (!req.user)
+      throw new UnauthorizedError(
+        "req.user not specified in requestController.add"
       );
 
-      res.status(200).send();
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    const result = await requestService.add(
+      req.body.team,
+      req.body.project,
+      req.user,
+      Array.isArray(req.files.files) ? req.files.files : [req.files.files]
+    );
+
+    res.status(200).send();
   }
 };
 

@@ -14,6 +14,7 @@ import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
 import { User } from "@/entities/user";
+import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
 
 const requestRepositoryFactory = () => {
@@ -38,7 +39,7 @@ const requestRepositoryFactory = () => {
     });
 
     if (!createResponse.data || !createResponse.data.id)
-      throw new Error("Failed to create a Request");
+      throw new ServerError("Failed to create a Request");
 
     const formData = new FormData();
 

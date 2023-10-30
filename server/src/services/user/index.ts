@@ -16,6 +16,7 @@ import { Member } from "@/entities/member";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
 import requestService from "../request";
 import formService from "../form";
+import { ServerError, UnauthorizedError } from "@/helpers/errors";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -46,7 +47,7 @@ const userServiceFactory = () => {
     projectId: number,
     userId?: number | null
   ): Promise<UserProjectStatusData> {
-    if (!userId) throw new Error("Access denied");
+    if (!userId) throw new UnauthorizedError("No userId specified");
 
     let hasApplied = false;
 
@@ -61,7 +62,7 @@ const userServiceFactory = () => {
       { project: projectId },
       { populate: true }
     );
-    if (!requestsData) throw new Error("Couldn't fetch request data");
+    if (!requestsData) throw new ServerError("Couldn't fetch request data");
 
     const { teams, members, users } = requestsData;
 
@@ -103,7 +104,7 @@ const userServiceFactory = () => {
   }
 
   async function getData(user: User) {
-    if (!user) throw new Error("Unauthorized");
+    if (!user) throw new UnauthorizedError("User not specified");
 
     const { id, ...inlineData } = user;
 

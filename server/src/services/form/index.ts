@@ -1,5 +1,6 @@
 import { FormResultClient } from "@/entities/form";
 import { User } from "@/entities/user";
+import { ServerError } from "@/helpers/errors";
 import formRepository from "@/repositories/form";
 import userRepository from "@/repositories/user";
 
@@ -46,10 +47,10 @@ const formServiceFactory = () => {
       email: response["Единая учетная запись (например, ST000000)"],
     });
 
-    if (!user) throw new Error("No such user found");
+    if (!user) throw new ServerError("No such user found");
 
     const form = await formRepository.findOne({ formId: formId });
-    if (!form) throw new Error("No such form found");
+    if (!form) throw new ServerError("No such form found");
 
     return formRepository.submit(form.id, response, user.id);
   }

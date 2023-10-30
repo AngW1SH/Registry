@@ -2,6 +2,7 @@ import { generateAccessToken, generateRefreshToken } from "@/helpers/jwt";
 import jwt, { JwtPayload, verify } from "jsonwebtoken";
 import userService from "../user";
 import tokenRepository from "@/repositories/token";
+import { UnauthorizedError } from "@/helpers/errors";
 
 const tokenServiceFactory = () => {
   return Object.freeze({
@@ -12,7 +13,7 @@ const tokenServiceFactory = () => {
   });
 
   async function generate(userId: number) {
-    if (!userId) throw new Error("Unauthorized");
+    if (!userId) throw new UnauthorizedError("No userId specified");
 
     const refreshToken = generateRefreshToken(userId);
 
@@ -33,28 +34,22 @@ const tokenServiceFactory = () => {
   }
 
   async function refreshAccess(refreshToken: string) {
-    try {
-      const { id: userId } = verify(
-        refreshToken,
-        process.env.TOKEN_SECRET!
-      ) as {
-        id: number;
-      };
+    const { id: userId } = verify(refreshToken, process.env.TOKEN_SECRET!) as {
+      id: number;
+    };
 
-      const refreshFromDB = await tokenRepository.get(userId);
+    const refreshFromDB = await tokenRepository.get(userId);
 
-      if (!refreshFromDB || refreshToken != refreshFromDB)
-        throw new Error("Unauthorized");
+    if (!refreshFromDB || refreshToken != refreshFromDB)
+      throw new UnauthorizedError("No refresh token found in the database");
 
-      const doesUserExist = await userService.findById(userId);
-      if (!doesUserExist) throw new Error("Unauthorized");
+    const doesUserExist = await userService.findById(userId);
+    if (!doesUserExist)
+      throw new UnauthorizedError("User not found in the database");
 
-      const newAccessToken = generateAccessToken(doesUserExist.id);
+    const newAccessToken = generateAccessToken(doesUserExist.id);
 
-      return newAccessToken;
-    } catch (err) {
-      throw new Error("Unauthorized");
-    }
+    return newAccessToken;
   }
 };
 

@@ -1,9 +1,10 @@
+import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import { generateAccessToken } from "@/helpers/jwt";
 import tokenRepository from "@/repositories/token";
 import formService from "@/services/form";
 import tokenService from "@/services/token";
 import userService from "@/services/user";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const userControllerFactory = () => {
@@ -19,74 +20,70 @@ const userControllerFactory = () => {
   });
 
   async function authorize(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
-
-      const { accessToken, refreshToken } = await tokenService.generate(
-        req.user.id
+    if (!req.user)
+      throw new UnauthorizedError(
+        "req.user not specified in userController.authorize"
       );
 
-      res.cookie("user-access", accessToken, {
-        maxAge: 1000 * 60 * 60, // expires after an hour
-        httpOnly: true,
-        signed: true,
-      });
+    const { accessToken, refreshToken } = await tokenService.generate(
+      req.user.id
+    );
 
-      res.cookie("user-refresh", refreshToken, {
-        maxAge: 1000 * 60 * 60 * 24 * 10, // expires after 10 days
-        httpOnly: true,
-        signed: true,
-      });
+    res.cookie("user-access", accessToken, {
+      maxAge: 1000 * 60 * 60, // expires after an hour
+      httpOnly: true,
+      signed: true,
+    });
 
-      const redirectUrl = req.signedCookies["redirect-url"] || "/";
-      res.cookie("redirect-url", null, {
-        maxAge: 0,
-        httpOnly: true,
-        signed: true,
-      });
-      res.redirect(redirectUrl);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.cookie("user-refresh", refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 10, // expires after 10 days
+      httpOnly: true,
+      signed: true,
+    });
+
+    const redirectUrl = req.signedCookies["redirect-url"] || "/";
+    res.cookie("redirect-url", null, {
+      maxAge: 0,
+      httpOnly: true,
+      signed: true,
+    });
+    res.redirect(redirectUrl);
   }
 
   async function logout(req: Request, res: Response) {
-    try {
-      await tokenService.deleteRefresh(req.signedCookies["user-refresh"]);
+    await tokenService.deleteRefresh(req.signedCookies["user-refresh"]);
 
-      res.cookie("user-access", null, {
-        maxAge: 0,
-        httpOnly: true,
-        signed: true,
-      });
-      res.cookie("user-refresh", null, {
-        maxAge: 0,
-        httpOnly: true,
-        signed: true,
-      });
-      res.status(200).send();
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.cookie("user-access", null, {
+      maxAge: 0,
+      httpOnly: true,
+      signed: true,
+    });
+    res.cookie("user-refresh", null, {
+      maxAge: 0,
+      httpOnly: true,
+      signed: true,
+    });
+    res.status(200).send();
   }
 
   async function getProjectStatusData(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
-      if (!req.params.projectId) return res.status(400).send();
-
-      const info = await userService.getProjectStatusData(
-        +req.params.projectId,
-        req.user.id
+    if (!req.user)
+      throw new UnauthorizedError(
+        "req.user not specified in userController.getProjectStatusData"
       );
 
-      res.status(200).json(info);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    if (!req.params.projectId)
+      throw new BadRequestError("Missing project identifier");
+
+    const info = await userService.getProjectStatusData(
+      +req.params.projectId,
+      req.user.id
+    );
+
+    res.status(200).json(info);
   }
 
-  async function token(req: Request, res: Response) {
+  async function token(req: Request, res: Response, next: NextFunction) {
     try {
       const newAccessToken = await tokenService.refreshAccess(
         req.signedCookies["user-refresh"]
@@ -99,62 +96,53 @@ const userControllerFactory = () => {
       });
 
       return res.status(205).send();
-    } catch (err: any) {
-      if (err.message == "Unauthorized") {
+    } catch (err) {
+      if (err instanceof UnauthorizedError) {
         res.clearCookie("user-access");
         res.clearCookie("user-refresh");
-        return res.status(401).send();
       }
-      res.status(500).send();
+      next(err);
     }
   }
 
   async function getData(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
+    if (!req.user) throw new UnauthorizedError("req.user not specified");
 
-      const result = await userService.getData(req.user);
+    const result = await userService.getData(req.user);
 
-      res.status(200).send(result);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).send(result);
   }
 
   async function submitForm(req: Request, res: Response) {
-    try {
-      if (!req.body || !req.body.form || !req.body.response)
-        return res.status(400).send();
-      const result = formService.submit(
-        JSON.parse(req.body.form).id,
-        JSON.parse(req.body.response).data
-      );
-      res.status(200).send();
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    if (!req.body.form)
+      throw new BadRequestError("Missing required body parameter: form");
+    if (!req.body.response)
+      throw new BadRequestError("Missing required body parameter: response");
+
+    const form = JSON.parse(req.body.form);
+    const response = JSON.parse(req.body.response);
+
+    if (!form.hasOwnProperty("id"))
+      throw new BadRequestError("Form must have an identificator");
+    if (!response.hasOwnProperty("data"))
+      throw new BadRequestError("Response must have a body");
+
+    const result = formService.submit(form.id, response.data);
+    res.status(200).send();
   }
 
   async function getProfileData(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
+    if (!req.user) throw new UnauthorizedError("req.user not specified");
 
-      const result = await userService.getProfileData(req.user);
+    const result = await userService.getProfileData(req.user);
 
-      res.status(200).send(result);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).send(result);
   }
 
   async function getUser(req: Request, res: Response) {
-    try {
-      if (!req.user) return res.status(401).send();
+    if (!req.user) throw new UnauthorizedError("req.user not specified");
 
-      res.status(200).send(req.user);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+    res.status(200).send(req.user);
   }
 };
 

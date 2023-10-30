@@ -8,6 +8,7 @@ import { selectUser } from "@/db/strapi/queries/user";
 import { UserListStrapi, UserStrapi } from "@/db/strapi/types/user";
 import { FormResult } from "@/entities/form";
 import { User, UserCreate } from "@/entities/user";
+import { ServerError } from "@/helpers/errors";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
@@ -47,7 +48,7 @@ const userRepositoryFactory = () => {
       body: params,
     });
 
-    if (!response.data.id) throw new Error("User not created");
+    if (!response.data.id) throw new ServerError("User not created");
 
     return getUserFromStrapiDTO(response);
   }
