@@ -19,8 +19,7 @@ import { UploadedFile } from "express-fileupload";
 const requestRepositoryFactory = () => {
   return Object.freeze({
     add,
-    getActiveByUser,
-    getActiveByProject,
+    getActive,
   });
 
   async function add(team: number, project: number, files: UploadedFile[]) {
@@ -67,26 +66,12 @@ const requestRepositoryFactory = () => {
     return 1;
   }
 
-  async function getActiveByUser(userId: number): Promise<Request[]> {
-    const params = {
-      filters: {
-        ...filterUserRequests(userId),
-        ...filterActiveRequests(),
-      },
-      ...selectRequest(),
-    };
-
-    const result: RequestListStrapi = await strapi.get("requests", {
-      token: process.env.REQUESTS_TOKEN!,
-      params,
-    });
-
-    if (!result.data) return [];
-
-    return getRequestListFromStrapiDTO(result).requests!;
-  }
-
-  async function getActiveByProject(projectId: number): Promise<{
+  async function getActive(
+    filters: { user?: number; project?: number },
+    options?: {
+      populate?: boolean;
+    }
+  ): Promise<{
     requests: Request[] | null;
     teams: Team[] | TeamWithAdministrators[] | null;
     users: User[] | null;
@@ -95,16 +80,22 @@ const requestRepositoryFactory = () => {
   } | null> {
     const params = {
       filters: {
-        project: projectId,
+        ...(filters.user && filterUserRequests(filters.user)),
+        ...(filters.project && { project: filters.project }),
+        ...filterActiveRequests(),
       },
-      ...selectRequest({
-        team: selectTeam({
-          members: selectMember({
-            user: selectUser(),
-          }),
-          administrators: selectUser(),
-        }),
-      }),
+      ...selectRequest(
+        options && options.populate
+          ? {
+              team: selectTeam({
+                members: selectMember({
+                  user: selectUser(),
+                }),
+                administrators: selectUser(),
+              }),
+            }
+          : undefined
+      ),
     };
 
     const result: RequestListStrapi = await strapi.get("requests", {
@@ -114,7 +105,7 @@ const requestRepositoryFactory = () => {
 
     if (!result.data) return null;
 
-    return getRequestListFromStrapiDTO(result, { includeAdmin: true });
+    return getRequestListFromStrapiDTO(result);
   }
 };
 

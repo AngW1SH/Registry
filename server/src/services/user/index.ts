@@ -15,6 +15,7 @@ import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
 import requestService from "../request";
+import formService from "../form";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -22,8 +23,6 @@ const userServiceFactory = () => {
     findOrCreate,
     getProjectStatusData,
     getData,
-    getFormData,
-    submitForm,
     getProfileData,
   });
 
@@ -43,40 +42,6 @@ const userServiceFactory = () => {
     return userCreated;
   }
 
-  async function getFormData(user: User): Promise<FormResultClient[] | null> {
-    const [formsResponse, formResultsResponse] = await Promise.allSettled([
-      formRepository.findActive(),
-      userRepository.getFormResults(user.id),
-    ]);
-
-    const forms =
-      formsResponse.status == "fulfilled" ? formsResponse.value : [];
-    const formResults =
-      formResultsResponse.status == "fulfilled"
-        ? formResultsResponse.value
-        : [];
-
-    const formResultsClient: FormResultClient[] = forms.map((form) => ({
-      id: form.id,
-      name: form.name,
-      link: form.link,
-      completed: null,
-    }));
-
-    /* 
-    Assumes the forms are sorted by date in ASC order
-    They should be, by default, because the new form results are pushed to the end of the list
-    */
-    formResults.forEach((result) => {
-      const formIndex = forms.findIndex((form) => form.id == result.form);
-
-      if (formIndex !== -1)
-        formResultsClient[formIndex].completed = new Date(result.date);
-    });
-
-    return formResultsClient;
-  }
-
   async function getProjectStatusData(
     projectId: number,
     userId?: number | null
@@ -92,7 +57,10 @@ const userServiceFactory = () => {
     const assignableTeams = new Set<number>();
     administrated.forEach((team) => assignableTeams.add(team.id));
 
-    const requestsData = await requestRepository.getActiveByProject(projectId);
+    const requestsData = await requestRepository.getActive(
+      { project: projectId },
+      { populate: true }
+    );
     if (!requestsData) throw new Error("Couldn't fetch request data");
 
     const { teams, members, users } = requestsData;
@@ -164,20 +132,6 @@ const userServiceFactory = () => {
     };
   }
 
-  async function submitForm(formId: string, response: any) {
-    // Will use an adapter later on
-    const user = await userRepository.findByEmail(
-      response["Единая учетная запись (например, ST000000)"]
-    );
-
-    if (!user) throw new Error("No such user found");
-
-    const form = await formRepository.findByFormId(formId);
-    if (!form) throw new Error("No such form found");
-
-    return userRepository.submitForm(form.data[0].id, response, user.id);
-  }
-
   async function getProfileData(user: User): Promise<UserProfileData> {
     const [
       formsResult,
@@ -185,8 +139,8 @@ const userServiceFactory = () => {
       activeTeamsResult,
       activeAdministratedTeamsResult,
     ] = await Promise.allSettled([
-      getFormData(user),
-      requestRepository.getActiveByUser(user.id), // not all the requests associated with each team
+      formService.getAll(user),
+      requestRepository.getActive({ user: user.id }), // not all the requests associated with each team
       teamRepository.getActive(user.id), // is considered 'active', hence the separate calls
       teamRepository.getAdministratedActive(user.id),
     ]);
@@ -194,7 +148,12 @@ const userServiceFactory = () => {
       formsResult.status == "fulfilled" ? formsResult.value || [] : [];
 
     const requests =
-      requestsResult.status == "fulfilled" ? requestsResult.value : [];
+      requestsResult.status == "fulfilled"
+        ? requestsResult.value && requestsResult.value.requests
+          ? requestsResult.value.requests
+          : []
+        : [];
+
     const { teams, members, users } =
       activeTeamsResult.status == "fulfilled"
         ? activeTeamsResult.value

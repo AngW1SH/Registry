@@ -1,5 +1,6 @@
 import { generateAccessToken } from "@/helpers/jwt";
 import tokenRepository from "@/repositories/token";
+import formService from "@/services/form";
 import tokenService from "@/services/token";
 import userService from "@/services/user";
 import { Request, Response } from "express";
@@ -124,7 +125,7 @@ const userControllerFactory = () => {
     try {
       if (!req.body || !req.body.form || !req.body.response)
         return res.status(400).send();
-      const result = userService.submitForm(
+      const result = formService.submit(
         JSON.parse(req.body.form).id,
         JSON.parse(req.body.response).data
       );
