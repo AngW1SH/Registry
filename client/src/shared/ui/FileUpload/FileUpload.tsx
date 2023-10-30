@@ -6,9 +6,15 @@ interface FileUploadProps {
   name: string;
   label: string;
   onChange?: (files: File[] | null) => any;
+  large?: boolean;
 }
 
-const FileUpload: FC<FileUploadProps> = ({ onChange, name, label }) => {
+const FileUpload: FC<FileUploadProps> = ({
+  onChange,
+  name,
+  label,
+  large = false,
+}) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +45,18 @@ const FileUpload: FC<FileUploadProps> = ({ onChange, name, label }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-end">
-        <p className="pr-5 text-sm">{label}</p>
+      <div
+        className={`flex justify-end ${
+          large ? "flex-col items-start" : "items-center"
+        }`}
+      >
+        <p
+          className={`pr-5 ${
+            large ? "pb-5 text-lg text-[#898989]" : "text-sm"
+          }`}
+        >
+          {label}
+        </p>
         <div>
           <input
             id={name}

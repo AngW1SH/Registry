@@ -76,7 +76,7 @@ const Dropdown: FC<DropdownProps> = ({
       <CSSTransition in={opened && options.length != 0} timeout={100}>
         {(state: TransitionStatus) => (
           <div
-            className={`absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-2 rounded-md bg-white px-6 py-5 shadow-center-md`}
+            className={`absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-6 rounded-md bg-white px-6 py-5 shadow-center-md`}
             style={{
               ...defaultStyle,
               ...transitionStyles[state],
