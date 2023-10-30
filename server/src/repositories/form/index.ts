@@ -22,7 +22,7 @@ const formRepositoryFactory = () => {
         ...(filters.formId && { formId: filters.formId }),
         ...(filters.active && { active: filters.active }),
       },
-      fields: ["id"],
+      fields: ["id", "name", "link"],
     };
 
     const response: FormListStrapi = await strapi.get("forms", {
