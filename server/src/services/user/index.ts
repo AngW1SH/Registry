@@ -14,6 +14,7 @@ import { mergeUnique } from "./utils/mergeUnique";
 import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
+import requestService from "../request";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -21,6 +22,7 @@ const userServiceFactory = () => {
     findOrCreate,
     getProjectStatusData,
     getData,
+    getFormData,
     submitForm,
     getProfileData,
   });
@@ -41,31 +43,63 @@ const userServiceFactory = () => {
     return userCreated;
   }
 
+  async function getFormData(user: User): Promise<FormResultClient[] | null> {
+    const [formsResponse, formResultsResponse] = await Promise.allSettled([
+      formRepository.findActive(),
+      userRepository.getFormResults(user.id),
+    ]);
+
+    const forms =
+      formsResponse.status == "fulfilled" ? formsResponse.value : [];
+    const formResults =
+      formResultsResponse.status == "fulfilled"
+        ? formResultsResponse.value
+        : [];
+
+    const formResultsClient: FormResultClient[] = forms.map((form) => ({
+      id: form.id,
+      name: form.name,
+      link: form.link,
+      completed: null,
+    }));
+
+    /* 
+    Assumes the forms are sorted by date in ASC order
+    They should be, by default, because the new form results are pushed to the end of the list
+    */
+    formResults.forEach((result) => {
+      const formIndex = forms.findIndex((form) => form.id == result.form);
+
+      if (formIndex !== -1)
+        formResultsClient[formIndex].completed = new Date(result.date);
+    });
+
+    return formResultsClient;
+  }
+
   async function getProjectStatusData(
     projectId: number,
-    userId: number,
-    authUser: User
+    userId?: number | null
   ): Promise<UserProjectStatusData> {
-    if (userId != authUser.id) throw new Error("Access denied");
-
-    const administratedByUser =
-      await teamRepository.getUnassignedAdministratedByUser(authUser);
-
-    const assignableTeams = new Set<number>();
+    if (!userId) throw new Error("Access denied");
 
     let hasApplied = false;
 
-    administratedByUser.forEach((team) => assignableTeams.add(team.id));
+    const administrated = await teamRepository.getUnassignedAdministrated(
+      userId
+    );
+
+    const assignableTeams = new Set<number>();
+    administrated.forEach((team) => assignableTeams.add(team.id));
 
     const requestsData = await requestRepository.getActiveByProject(projectId);
-
     if (!requestsData) throw new Error("Couldn't fetch request data");
 
     const { teams, members, users } = requestsData;
 
     teams &&
       teams.forEach((team) => {
-        // remove all the teams that have already signed up for the project
+        // remove all the administrated teams that have already signed up for the project
         team.hasOwnProperty("administrators") &&
           (team as TeamWithAdministrators).administrators.forEach(
             (administrator) => {
@@ -75,6 +109,7 @@ const userServiceFactory = () => {
             }
           );
 
+        // try to find at least one user's team that has signed up for the projects
         if (!hasApplied)
           team.members.forEach((teamMember) => {
             const member = members?.find((member) => member.id == teamMember);
@@ -93,7 +128,7 @@ const userServiceFactory = () => {
       },
       teams: teams
         ? Array.from(assignableTeams).map(
-            (teamId) => administratedByUser.find((team) => team.id == teamId)!
+            (teamId) => administrated.find((team) => team.id == teamId)!
           )
         : [],
     };
@@ -105,11 +140,10 @@ const userServiceFactory = () => {
     const { id, ...inlineData } = user;
 
     const [teams, administrated] = await Promise.allSettled([
-      teamRepository.getUnassignedByUser(user),
-      teamRepository.getUnassignedAdministratedByUser(user),
+      teamRepository.getUnassigned(user.id),
+      teamRepository.getUnassignedAdministrated(user.id),
     ]);
 
-    console.log(teams);
     const teamIdList =
       teams.status == "fulfilled" ? teams.value.map((team) => team.id) : [];
     const administratedIdList =
@@ -147,38 +181,17 @@ const userServiceFactory = () => {
   async function getProfileData(user: User): Promise<UserProfileData> {
     const [
       formsResult,
-      formResultsResult,
       requestsResult,
       activeTeamsResult,
       activeAdministratedTeamsResult,
     ] = await Promise.allSettled([
-      formRepository.findActive(),
-      userRepository.getFormResults(user.id),
-      requestRepository.getActiveByUser(user.id),
-      teamRepository.getActiveByUser(user.id),
-      teamRepository.getAdministratedActiveByUser(user.id),
+      getFormData(user),
+      requestRepository.getActiveByUser(user.id), // not all the requests associated with each team
+      teamRepository.getActive(user.id), // is considered 'active', hence the separate calls
+      teamRepository.getAdministratedActive(user.id),
     ]);
-    const forms = formsResult.status == "fulfilled" ? formsResult.value : [];
-    const formResults =
-      formResultsResult.status == "fulfilled" ? formResultsResult.value : [];
-
-    const formResultsClient: FormResultClient[] = forms.map((form) => ({
-      id: form.id,
-      name: form.name,
-      link: form.link,
-      completed: null,
-    }));
-
-    /* 
-    Assumes the forms are sorted by date in ASC order
-    They should be, by default, because the new form results are pushed to the end of the list
-    */
-    formResults.forEach((result) => {
-      const formIndex = forms.findIndex((form) => form.id == result.form);
-
-      if (formIndex !== -1)
-        formResultsClient[formIndex].completed = new Date(result.date);
-    });
+    const forms =
+      formsResult.status == "fulfilled" ? formsResult.value || [] : [];
 
     const requests =
       requestsResult.status == "fulfilled" ? requestsResult.value : [];
@@ -195,55 +208,41 @@ const userServiceFactory = () => {
       ? activeAdministratedTeamsResult.value
       : { teams: [] as Team[], members: [] as Member[], users: [] as User[] };
 
-    requests &&
-      requests.forEach((request) => {
-        if (teams) {
-          const teamFound = teams?.findIndex((team) => team.id == request.team);
-          if (teamFound !== -1) {
-            if (!teams[teamFound].requests) teams[teamFound].requests = [];
-            teams[teamFound].requests!.push(request.id);
-          }
-        }
-        if (adminTeams) {
-          console.log(adminTeams);
-          const administratedFound = adminTeams?.findIndex(
-            (team) => team.id == request.team
-          );
+    const teamsPopulated = teams
+      ? requestService.populateTeams(teams, requests)
+      : [];
+    const adminTeamsPopulated = adminTeams
+      ? requestService.populateTeams(adminTeams, requests)
+      : [];
 
-          console.log(administratedFound);
-
-          if (administratedFound !== -1) {
-            if (!adminTeams[administratedFound].requests)
-              adminTeams[administratedFound].requests = [];
-            adminTeams[administratedFound].requests!.push(request.id);
-          }
-        }
-      });
+    const usedProjectIds = teams
+      ? teams
+          .filter((team) => team.project)
+          .map((team) => team.project!)
+          .concat(
+            requests.reduce(
+              (acc, cur) => (cur.project ? [...acc, cur.project] : acc),
+              [] as number[]
+            )
+          )
+      : [];
 
     const projects = teams
-      ? await projectRepository.getReferences(
-          teams
-            .filter((team) => team.project)
-            .map((team) => team.project!)
-            .concat(
-              requests.reduce(
-                (acc, cur) => (cur.project ? [...acc, cur.project] : acc),
-                [] as number[]
-              )
-            )
-        )
+      ? await projectRepository.getReferences(usedProjectIds)
       : [];
 
     return {
-      forms: formResultsClient,
+      forms,
       requests,
-      teams: mergeUnique(teams, adminTeams),
+      teams: mergeUnique(teamsPopulated, adminTeamsPopulated),
       members: mergeUnique(members, adminMembers),
       users: mergeUnique(users, adminUsers),
       projects: projects!,
       user: {
-        teams: teams ? teams.map((team) => team.id) : [],
-        administratedTeams: adminTeams ? adminTeams.map((team) => team.id) : [],
+        teams: teamsPopulated ? teamsPopulated.map((team) => team.id) : [],
+        administratedTeams: adminTeamsPopulated
+          ? adminTeamsPopulated.map((team) => team.id)
+          : [],
       },
     };
   }

@@ -76,8 +76,7 @@ const userControllerFactory = () => {
 
       const info = await userService.getProjectStatusData(
         +req.params.projectId,
-        req.user.id,
-        req.user
+        req.user.id
       );
 
       res.status(200).json(info);

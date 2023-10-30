@@ -7,10 +7,7 @@ import {
 import userRepository from "@/repositories/user";
 import userService from "..";
 import teamRepository from "@/repositories/team";
-import {
-  staticTeamListStrapiPopulatedWithAdministrators,
-  staticTeams,
-} from "@/entities/team/static/staticTeams";
+import { staticTeams } from "@/entities/team/static/staticTeams";
 
 jest.mock("@/repositories/user");
 jest.mock("@/repositories/team");
@@ -76,11 +73,11 @@ describe("User Service", () => {
     beforeEach(() => {
       jest.clearAllMocks();
 
-      (teamRepository.getUnassignedByUser as jest.Mock).mockResolvedValue(
+      (teamRepository.getUnassigned as jest.Mock).mockResolvedValue(
         staticTeams
       );
       (
-        teamRepository.getUnassignedAdministratedByUser as jest.Mock
+        teamRepository.getUnassignedAdministrated as jest.Mock
       ).mockResolvedValue(staticTeams);
     });
     it("should throw an error if the user is not found", async () => {
@@ -91,10 +88,8 @@ describe("User Service", () => {
 
       const result = await userService.getData(user);
 
-      expect(teamRepository.getUnassignedByUser).toBeCalledTimes(1);
-      expect(teamRepository.getUnassignedAdministratedByUser).toBeCalledTimes(
-        1
-      );
+      expect(teamRepository.getUnassigned).toBeCalledTimes(1);
+      expect(teamRepository.getUnassignedAdministrated).toBeCalledTimes(1);
     });
     it("should return the user's data and teams", async () => {
       const user = staticUser;

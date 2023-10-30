@@ -23,16 +23,16 @@ import { User } from "@/entities/user";
 
 const teamRepositoryFactory = () => {
   return Object.freeze({
-    getUnassignedByUser,
+    getUnassigned,
     getAdministrators,
-    getUnassignedAdministratedByUser,
-    getActiveByUser,
-    getAdministratedActiveByUser,
+    getUnassignedAdministrated,
+    getActive,
+    getAdministratedActive,
   });
 
-  async function getUnassignedByUser(user: User): Promise<Team[]> {
+  async function getUnassigned(userId: number): Promise<Team[]> {
     const params = {
-      filters: filterUnassigned(user.id),
+      filters: filterUnassigned(userId),
       ...selectTeam({
         members: selectMember({
           user: selectUser(),
@@ -76,7 +76,7 @@ const teamRepositoryFactory = () => {
     );
   }
 
-  async function getAdministratedActiveByUser(userId: number): Promise<{
+  async function getAdministratedActive(userId: number): Promise<{
     teams: Team[] | null;
     members: Member[] | null;
     users: User[] | null;
@@ -98,9 +98,9 @@ const teamRepositoryFactory = () => {
     return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }
 
-  async function getUnassignedAdministratedByUser(user: User): Promise<Team[]> {
+  async function getUnassignedAdministrated(userId: number): Promise<Team[]> {
     const params = {
-      filters: filterUnassignedAdministrated(user.id),
+      filters: filterUnassignedAdministrated(userId),
       ...selectTeam({
         members: selectMember({
           user: selectUser(),
@@ -117,7 +117,7 @@ const teamRepositoryFactory = () => {
     return getTeamListFromStrapiDTO(response).teams!;
   }
 
-  async function getActiveByUser(userId: number): Promise<{
+  async function getActive(userId: number): Promise<{
     teams: Team[] | null;
     members: Member[] | null;
     users: User[] | null;

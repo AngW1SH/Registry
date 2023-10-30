@@ -11,29 +11,27 @@ global.fetch = jest.fn(() =>
 ) as jest.Mock;
 
 describe("Team Repository", () => {
-  describe("getUnassignedByUser", () => {
+  describe("getUnassigned", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
     it("should return a list of teams when everything is okay", async () => {
       const user = staticUser;
 
-      const result = await teamRepository.getUnassignedByUser(user);
+      const result = await teamRepository.getUnassigned(user.id);
 
       expect(result).toBeDefined();
     });
   });
 
-  describe("getUnassignedAdministratedByUser", () => {
+  describe("getUnassignedAdministrated", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
     it("should return a list of teams when everything is okay", async () => {
       const user = staticUser;
 
-      const result = await teamRepository.getUnassignedAdministratedByUser(
-        user
-      );
+      const result = await teamRepository.getUnassignedAdministrated(user.id);
 
       expect(result).toBeDefined();
     });
