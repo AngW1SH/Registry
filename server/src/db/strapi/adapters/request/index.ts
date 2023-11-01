@@ -9,6 +9,8 @@ import { TeamWithAdministrators } from "@/entities/team/types/types";
 import { getProjectFromStrapiDTO } from "../project";
 import { ProjectStrapi } from "../../types/project";
 import { ProjectDTO } from "@/entities/project/types/types";
+import { getNamedFileListFromStrapiDTO } from "../components/named-file";
+import { mimeToDisplayType } from "@/helpers/mime/mimeToDisplayType";
 
 export const getRequestListFromStrapiDTO = (
   requests: RequestListStrapi,
@@ -108,6 +110,18 @@ export const getRequestListFromStrapiDTO = (
       project: request.attributes.project?.data
         ? request.attributes.project.data.id
         : null,
+      files:
+        request.attributes.files?.data.map((file) => ({
+          id: file.id,
+          name: file.attributes.name || "",
+          url: file.attributes.url || "",
+          type: Object.keys(mimeToDisplayType).includes(file.attributes.mime!)
+            ? (mimeToDisplayType[
+                file.attributes.mime as keyof typeof mimeToDisplayType
+              ] as string)
+            : "FILE",
+          size: parseInt("" + file.attributes.size) + "Кб",
+        })) || [],
     })),
     administrators,
     users,

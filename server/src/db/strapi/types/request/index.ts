@@ -1,5 +1,6 @@
 import { IdStrapi } from "@/db/types/types";
 import { TeamStrapi } from "../team";
+import { NamedFileStrapi } from "../components/named-file";
 
 interface RequestStrapiInner {
   id: number;
@@ -7,6 +8,17 @@ interface RequestStrapiInner {
     name: string;
     team?: TeamStrapi | IdStrapi;
     project?: IdStrapi;
+    files?: {
+      data: {
+        id: number;
+        attributes: {
+          name: string;
+          url: string;
+          mime: string;
+          size: number;
+        };
+      }[];
+    };
   };
 }
 

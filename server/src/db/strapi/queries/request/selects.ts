@@ -12,6 +12,7 @@ export const selectRequest = (populate?: SelectPopulate<PopulateOptions>) => {
       project: {
         id: true,
       },
+      files: true,
       ...populate,
     },
   };

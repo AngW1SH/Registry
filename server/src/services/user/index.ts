@@ -90,8 +90,6 @@ const userServiceFactory = () => {
           });
       });
 
-    console.log(teams);
-
     return {
       user: {
         assignableTeams: Array.from(assignableTeams),
