@@ -119,8 +119,8 @@ const userControllerFactory = () => {
     if (!req.body.response)
       throw new BadRequestError("Missing required body parameter: response");
 
-    const form = JSON.parse(req.body.form);
-    const response = JSON.parse(req.body.response);
+    const form = req.body.form;
+    const response = req.body.response;
 
     if (!form.hasOwnProperty("id"))
       throw new BadRequestError("Form must have an identificator");

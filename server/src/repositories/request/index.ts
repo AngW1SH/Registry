@@ -136,7 +136,7 @@ const requestRepositoryFactory = () => {
 
     if (!result.data) return null;
 
-    return getRequestListFromStrapiDTO(result);
+    return getRequestListFromStrapiDTO(result, { includeAdmin: true });
   }
 };
 
