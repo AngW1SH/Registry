@@ -1,7 +1,7 @@
 import { getProjectFiltersFromDTO } from "@/entities/project";
 import { BadRequestError } from "@/helpers/errors";
 import projectService from "@/services/project";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 const projectControllerFactory = () => {
   return Object.freeze({
@@ -11,37 +11,53 @@ const projectControllerFactory = () => {
     findMany,
   });
 
-  async function getActive(req: Request, res: Response) {
-    const tagIds = req.body ? (req.body.tagIds as string[]) : undefined;
+  async function getActive(req: Request, res: Response, next: NextFunction) {
+    try {
+      const tagIds = req.body ? (req.body.tagIds as string[]) : undefined;
 
-    const projects = await projectService.getActive(tagIds);
+      const projects = await projectService.getActive(tagIds);
 
-    res.status(200).json(projects);
+      res.status(200).json(projects);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async function getNew(req: Request, res: Response) {
-    const projects = await projectService.getNew();
+  async function getNew(req: Request, res: Response, next: NextFunction) {
+    try {
+      const projects = await projectService.getNew();
 
-    res.status(200).json(projects);
+      res.status(200).json(projects);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async function findById(req: Request, res: Response) {
-    if (!req.body.id && !req.params.id)
-      throw new BadRequestError("Missing project identifier");
+  async function findById(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.body.id && !req.params.id)
+        throw new BadRequestError("Missing project identifier");
 
-    const result = await projectService.findById(
-      +req.body.id || +req.params.id
-    );
+      const result = await projectService.findById(
+        +req.body.id || +req.params.id
+      );
 
-    res.status(200).json(result);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async function findMany(req: Request, res: Response) {
-    const result = await projectService.findMany(
-      getProjectFiltersFromDTO(req.body.filters)
-    );
+  async function findMany(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await projectService.findMany(
+        getProjectFiltersFromDTO(req.body.filters)
+      );
 
-    res.status(200).json(result);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
   }
 };
 
