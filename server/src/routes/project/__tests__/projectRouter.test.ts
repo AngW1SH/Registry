@@ -50,7 +50,7 @@ describe("Project Router", () => {
     });
   });
 
-  describe("/findbyid route", () => {
+  describe("findbyid route", () => {
     describe("when everything is okay", () => {
       beforeEach(() => {
         jest.clearAllMocks();
@@ -64,14 +64,14 @@ describe("Project Router", () => {
       });
       it("should send a json with a 200 status", async () => {
         const result = await request(generateApp())
-          .get("/project/findbyid/1")
+          .get("/project/1")
           .expect("Content-Type", /json/);
 
         expect(result.status).toBe(200);
       });
 
       it("should send an object with a project and its tags", async () => {
-        const result = await request(generateApp()).get("/project/findbyid/1");
+        const result = await request(generateApp()).get("/project/1");
         expect(result.body.project).toBeDefined();
         expect(result.body.tags).toBeDefined();
       });

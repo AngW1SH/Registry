@@ -10,8 +10,8 @@ projectRouter.post("/active", projectController.getActive);
 projectRouter.get("/new", projectController.getNew);
 projectRouter.get("/new", projectController.getNew);
 
-projectRouter.get("/findbyid/:id", projectController.findById);
-projectRouter.post("/findbyid", projectController.findById);
+projectRouter.get("/:id", projectController.findById);
+projectRouter.post("/", projectController.findById);
 
 projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
