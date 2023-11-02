@@ -16,6 +16,7 @@ export interface Profile {
   user: {
     teams: number[];
     administratedTeams: number[];
+    projects: number[];
   };
 }
 
@@ -29,5 +30,6 @@ export interface ProfileDTO {
   user: {
     teams: number[];
     administratedTeams: number[];
+    projects: number[];
   };
 }

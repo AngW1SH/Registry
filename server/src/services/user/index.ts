@@ -203,6 +203,14 @@ const userServiceFactory = () => {
         administratedTeams: adminTeamsPopulated
           ? adminTeamsPopulated.map((team) => team.id)
           : [],
+        projects:
+          teams
+            ?.map((team) => team.id)
+            .map((teamId) =>
+              projects?.find((project) => project.teams.includes(teamId))
+            )
+            .filter((project) => project)
+            .map((project) => project!.id) || [],
       },
     };
   }

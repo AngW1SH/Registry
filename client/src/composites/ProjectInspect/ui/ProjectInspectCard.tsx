@@ -1,56 +1,40 @@
+import { IUser } from "@/entities/User";
 import { Block, RoleTable } from "@/shared/ui";
 import Image from "next/image";
 import { FC } from "react";
+import { ProjectInspect } from "../types/types";
+import { getMembersByMemberIds } from "@/entities/Member";
 
-interface ProjectInspectCardProps {}
+interface ProjectInspectCardProps {
+  user: IUser;
+  projectInspect: ProjectInspect;
+}
 
-const ProjectInspectCard: FC<ProjectInspectCardProps> = () => {
-  const displayData = [
-    {
-      id: 1,
-      role: "Продакт-менеджер",
-      name: "Иванов С.А.",
-      label: "Вы - представитель команды",
-      selected: true,
-    },
-    {
-      id: 2,
-      role: "Бэкенд-разработчик",
-      name: "Петров С.А.",
-      label: null,
-      selected: false,
-    },
-    {
-      id: 3,
-      role: "Фронтэнд-разработчик",
-      name: "Самойлова С.А.",
-      label: null,
-      selected: false,
-    },
-    {
-      id: 4,
-      role: "Тестировщик",
-      name: "Вяземский С.Г.",
-      label: null,
-      selected: false,
-    },
-    {
-      id: 5,
-      role: "Технический писатель",
-      name: "Кирьянов С.А.",
-      label: null,
-      selected: false,
-    },
-  ];
+const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
+  user,
+  projectInspect,
+}) => {
+  const { project, team, members, users } = projectInspect;
+
+  const teamMembers = getMembersByMemberIds(team.members, members);
+
+  const displayData = teamMembers.map((member) => {
+    const teamUser = users.find((user) => user.id == member.user)!;
+
+    return {
+      id: member.id,
+      role: member.role,
+      name: teamUser.name,
+      label: member.isAdministrator ? "Представитель команды" : null,
+      selected: user.id == teamUser.id,
+    };
+  });
 
   return (
     <Block className="overflow-hidden rounded-2xl">
       <div className="bg-[#f4f4f4] px-9 pb-7 pt-11">
         <div className="w-3/4">
-          <h2 className="text-xl font-semibold">
-            Изучение социально-экономических проблем соверменного испанского
-            общества
-          </h2>
+          <h2 className="text-xl font-semibold">{project.name}</h2>
           <div className="pt-5" />
           <div className="flex">
             <div className="w-1/3">
@@ -58,19 +42,31 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = () => {
                 Срок записи на проект
               </h3>
               <div className="pt-1" />
-              <p className="text-[0.9375rem]">09.09.2023</p>
+              <p className="text-[0.9375rem]">
+                {project.enrollmentEnd.toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </p>
             </div>
             <div className="w-1/3">
               <h3 className="text-[0.9375rem] text-[#898989]">
                 Срок реализации проекта
               </h3>
               <div className="pt-1" />
-              <p>09.09.2023</p>
+              <p>
+                {project.dateEnd.toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </p>
             </div>
             <div className="w-1/3">
               <h3 className="text-[0.9375rem] text-[#898989]">Руководитель</h3>
               <div className="pt-1" />
-              <p>Иванов П.М.</p>
+              <p>{project.supervisor}</p>
             </div>
           </div>
         </div>
