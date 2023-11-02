@@ -19,6 +19,7 @@ const config: Config = {
           "0 1px 15px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(16 24 40 / 0.1)",
         "center-lg":
           "0 1px 25px -1px rgb(0 0 0 / 0.1), 0 2px 0px -2px rgb(16 24 40 / 0.1)",
+        "center-xl": "0 0 10px #85888C",
       },
     },
     colors: {
