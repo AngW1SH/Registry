@@ -90,7 +90,9 @@ const customYandexStrategy = new CustomYandexStrategy(
     done: any
   ) {
     const user = await userService.findOrCreate({
-      email: profile.default_email || profile.emails[0].value,
+      email:
+        profile.default_email.toLowerCase() ||
+        profile.emails[0].value.toLowerCase(),
       name: profile.displayName,
     });
     return done(null, user);
