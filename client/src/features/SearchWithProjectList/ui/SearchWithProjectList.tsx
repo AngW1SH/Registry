@@ -26,6 +26,39 @@ interface SearchWithProjectListProps {
   };
 }
 
+/*
+      <Transition in={shouldRenderFixedHeader} timeout={300}>
+        {(state) => (
+          <div
+            className="fixed left-0 right-0 z-[1000]"
+            style={{
+              ...defaultStyles,
+              ...transitionStyles[state],
+            }}
+          >
+            <div
+              ref={filtersSmallRef}
+              className="relative z-10 w-full bg-[#e0efef] py-3 backdrop-blur-[12px]"
+            >
+              <Container className="px-8">
+                <div className="md:-ml-12 md:-mr-12 xl:ml-0 xl:mr-0">
+                  <ProjectFiltersSmall
+                    filters={filters}
+                    onConfirm={setFilters}
+                  />
+                </div>
+              </Container>
+            </div>
+          </div>
+        )}
+      </Transition>
+
+*/
+
+/*
+<DetailedProjectFilters />
+*/
+
 const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   initialData,
   searchParams,
@@ -64,33 +97,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
           dynamic={true}
         />
       </div>
-      <Transition in={shouldRenderFixedHeader} timeout={300}>
-        {(state) => (
-          <div
-            className="fixed left-0 right-0 z-[1000]"
-            style={{
-              ...defaultStyles,
-              ...transitionStyles[state],
-            }}
-          >
-            <div
-              ref={filtersSmallRef}
-              className="relative z-10 w-full bg-[#e0efef] py-3 backdrop-blur-[12px]"
-            >
-              <Container className="px-8">
-                <div className="md:-ml-12 md:-mr-12 xl:ml-0 xl:mr-0">
-                  <ProjectFiltersSmall
-                    filters={filters}
-                    onConfirm={setFilters}
-                  />
-                </div>
-              </Container>
-            </div>
-          </div>
-        )}
-      </Transition>
       <div className="pt-10" />
-      <DetailedProjectFilters />
       <div className="border-b border-black pt-5" />
       {(!projectData || isLoading) && <LoadingCircle />}
       {projectData && <ProjectsWithTagsListLarge projectData={projectData} />}
