@@ -38,6 +38,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
       <div className="pt-2" />
       {displayData.map(({ project, team }) => (
         <ProjectInspectCard
+          key={project.id + "-" + team.id}
           user={user}
           projectInspect={{
             project: project,

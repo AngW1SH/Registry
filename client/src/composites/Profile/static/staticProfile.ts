@@ -120,7 +120,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
       tags: [],
     },
   ],
-  user: { teams: [4], administratedTeams: [4] },
+  user: { teams: [4], administratedTeams: [4], projects: [] },
 };
 
 export const staticProfileTeamHiring: ProfileDTO = {
@@ -138,7 +138,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
       completed: null,
     },
   ],
-  requests: [{ id: 29, team: 4, project: 1 }],
+  requests: [{ id: 29, team: 4, project: 1, files: [] }],
   teams: [
     {
       id: 4,
@@ -244,5 +244,5 @@ export const staticProfileTeamHiring: ProfileDTO = {
       tags: [],
     },
   ],
-  user: { teams: [4], administratedTeams: [4] },
+  user: { teams: [4], administratedTeams: [4], projects: [1] },
 };
