@@ -6,8 +6,16 @@ import { Footer } from "@/widgets/Footer";
 import { Header } from "@/widgets/Header";
 import { UserHero } from "@/widgets/UserHero";
 import { UserSidebar, UserSidebarItemSlug } from "@/widgets/UserSidebar";
+import { Metadata } from "next";
+import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
+
+export const UserLayoutMetadata: Metadata = {
+  title: "Личный кабинет - Реестр клинической практики СПбГУ",
+  description:
+    "Платформа для размещения образовательных проектов для выполнения студентами СПбГУ. Наш сервис предоставляет возможность совместной работы над учебными заданиями, расширения знаний и навыков, а также создания перспектив для будущей карьеры.",
+};
 
 interface UserLayoutProps {
   children: ReactNode;
@@ -39,6 +47,15 @@ const UserLayout: FC<UserLayoutProps> = ({ children }) => {
 
   return (
     <>
+      <Head>
+        <title>
+          Личный кабинет - Реестр проектов клинической практики СПбГУ
+        </title>
+        <meta
+          name="description"
+          content="Платформа для размещения образовательных проектов для выполнения студентами СПбГУ. Наш сервис предоставляет возможность совместной работы над учебными заданиями, расширения знаний и навыков, а также создания перспектив для будущей карьеры."
+        />
+      </Head>
       <Container>
         <div className="pt-6" />
         <Header text="dark" />

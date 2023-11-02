@@ -12,6 +12,27 @@ import { Footer } from "@/widgets/Footer";
 import { ProjectTeam } from "@/widgets/ProjectTeam";
 import { fetchProjectDetailed } from "@/composites/ProjectDetailed/api/fetchProjectDetailed";
 import ProjectTeamList from "@/widgets/ProjectTeam/ui/ProjectTeamList";
+import Head from "next/head";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateProjectPageMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  console.log(params.slug);
+  const projectData = await fetchProjectDetailed(+params.slug);
+
+  return {
+    title: projectData.project.name + " - Реестр клинической практики СПбГУ",
+    description:
+      "Платформа для размещения образовательных проектов для выполнения студентами СПбГУ. Наш сервис предоставляет возможность совместной работы над учебными заданиями, расширения знаний и навыков, а также создания перспектив для будущей карьеры.",
+  };
+}
 
 interface ProjectPageProps {
   params: {
@@ -24,6 +45,12 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
 
   return (
     <>
+      <Head>
+        <title>
+          {projectData.project.name} - Реестр клинической практики СПбГУ
+        </title>
+        <meta name="description" content={projectData.project.description} />
+      </Head>
       <Container>
         <div className="pt-6" />
         <Header text="dark" />

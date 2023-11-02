@@ -4,6 +4,13 @@ import { FC } from "react";
 import { ProjectsSearch } from "@/widgets/ProjectsSearch";
 import { Subscribe } from "@/widgets/Subscribe";
 import { Footer } from "@/widgets/Footer";
+import { Metadata } from "next";
+
+export const ProjectsPageMetadata: Metadata = {
+  title: "Проекты - Реестр проектов клинической практики СПбГУ",
+  description:
+    "Платформа для размещения образовательных проектов для выполнения студентами СПбГУ. Наш сервис предоставляет возможность совместной работы над учебными заданиями, расширения знаний и навыков, а также создания перспектив для будущей карьеры.",
+};
 
 interface ProjectsPageProps {
   params: {};

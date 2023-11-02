@@ -1,4 +1,9 @@
-import { ProjectPage } from "@/pagesLayer/Project";
+import {
+  ProjectPage,
+  generateProjectPageMetadata as generateMetadata,
+} from "@/pagesLayer/Project";
+
+export { generateMetadata };
 
 export const dynamic = "force-dynamic";
 

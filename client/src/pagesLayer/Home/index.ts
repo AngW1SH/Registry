@@ -1,3 +1,4 @@
 import HomePage from "./ui/HomePage";
+import { HomePageMetadata } from "./ui/HomePage";
 
-export { HomePage };
+export { HomePage, HomePageMetadata };

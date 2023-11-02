@@ -16,9 +16,17 @@ import { HeroTitle } from "@/widgets/HeroTitle";
 import { NewProjects } from "@/widgets/NewProjects";
 import { OtherLinks } from "@/widgets/OtherLinks";
 import { Subscribe } from "@/widgets/Subscribe";
+import { Metadata } from "next";
+import Head from "next/head";
 import { FC } from "react";
 
 interface HomePageProps {}
+
+export const HomePageMetadata: Metadata = {
+  title: "Реестр проектов клинической практики СПбГУ",
+  description:
+    "Платформа для размещения образовательных проектов для выполнения студентами СПбГУ. Наш сервис предоставляет возможность совместной работы над учебными заданиями, расширения знаний и навыков, а также создания перспектив для будущей карьеры.",
+};
 
 const HomePage: FC<HomePageProps> = () => {
   return (
