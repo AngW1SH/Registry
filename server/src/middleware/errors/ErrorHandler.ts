@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import BaseError from "./BaseError";
-import { ServerError, UnauthorizedError } from ".";
+import BaseError from "../../helpers/errors/BaseError";
+import { ServerError, UnauthorizedError } from "../../helpers/errors";
 
 const errorHandler = (
   err: Error,

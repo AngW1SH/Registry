@@ -11,8 +11,8 @@ import tagRouter from "@/routes/tag/router";
 import requestRouter from "@/routes/request/router";
 import fileUpload from "express-fileupload";
 import emailRouter from "@/routes/email/router";
-import { errorLogger } from "@/helpers/errors";
-import errorHandler from "@/helpers/errors/ErrorHandler";
+import errorLogger from "@/middleware/errors/ErrorLogger";
+import errorHandler from "@/middleware/errors/ErrorHandler";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -41,6 +41,9 @@ const generateApp = (port?: number) => {
   app.use("/request", requestRouter);
   app.use("/email", emailRouter);
 
+  app.use(errorLogger);
+  app.use(errorHandler);
+
   app.use("/public", express.static(path.resolve(__dirname + "/../public")));
 
   app.get("/", (req: Request, res: Response) => {
@@ -53,9 +56,6 @@ const generateApp = (port?: number) => {
     "/assets",
     express.static(path.resolve(__dirname + "/../client/dist/assets"))
   );
-
-  app.use(errorLogger);
-  app.use(errorHandler);
 
   return app;
 };
