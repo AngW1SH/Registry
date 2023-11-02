@@ -16,6 +16,7 @@ const EmailSubscribe: FC<EmailSubscribeProps> = () => {
         onChange={setValue}
         className="w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
         placeholder="Электронная почта"
+        dark={false}
       />
       <button
         type="submit"

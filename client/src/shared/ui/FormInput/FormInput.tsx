@@ -8,6 +8,7 @@ interface FormInputProps {
   readOnly?: boolean;
   label?: string;
   id?: string;
+  dark?: boolean;
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -18,6 +19,7 @@ const FormInput: FC<FormInputProps> = ({
   id,
   label,
   onChange,
+  dark = true,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onChange) onChange(e.target.value);
@@ -31,9 +33,9 @@ const FormInput: FC<FormInputProps> = ({
         </label>
       )}
       <input
-        className={
-          "border-b border-[#898989] bg-transparent pb-2 placeholder-black outline-none"
-        }
+        className={`border-b border-[#898989] bg-transparent pb-2 font-normal ${
+          dark ? "placeholder-black" : "placeholder-white"
+        } outline-none`}
         id={id}
         placeholder={placeholder}
         value={value}

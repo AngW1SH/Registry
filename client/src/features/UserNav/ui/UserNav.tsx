@@ -105,7 +105,11 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
             </div>
             <div className="pt-10 sm:hidden" />
             <div className="flex flex-col-reverse items-center sm:flex-row">
-              <p className="pt-3 text-xl text-[#898989] sm:pt-0 sm:text-[0.9375rem] ">
+              <p
+                className={`"pt-3 text-xl text-[#898989] ${
+                  text == "bright" ? "sm:text-white" : ""
+                } sm:pt-0 sm:text-[0.9375rem] `}
+              >
                 {data.name.split(" ")[1]}
               </p>
               <div className="pr-3" />
