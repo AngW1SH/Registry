@@ -5,6 +5,7 @@ import NewRequest from "./NewRequest";
 import RequestInspectCard from "@/composites/RequestInspect/ui/RequestInspectCard";
 import { useProfileQuery } from "@/composites/Profile";
 import { useAuthQuery } from "@/entities/User";
+import { EditRequestFiles } from "@/features/EditRequestFiles";
 
 interface UserRequestsProps {}
 
@@ -25,6 +26,7 @@ const UserRequests: FC<UserRequestsProps> = () => {
           profile.requests.map((request) => (
             <RequestInspectCard
               user={user}
+              editFiles={<EditRequestFiles request={request} />}
               requestInspect={{
                 request,
                 teams: profile.teams,

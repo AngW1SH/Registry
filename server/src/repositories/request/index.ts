@@ -20,9 +20,45 @@ import { UploadedFile } from "express-fileupload";
 const requestRepositoryFactory = () => {
   return Object.freeze({
     add,
+    edit,
+    findMany,
     getActive,
     countActive,
   });
+
+  async function findMany(
+    filters: { id?: number },
+    options?: {
+      populate?: boolean;
+    }
+  ) {
+    const params = {
+      filters: {
+        ...(filters.id && { id: filters.id }),
+      },
+      ...selectRequest(
+        options && options.populate
+          ? {
+              team: selectTeam({
+                members: selectMember({
+                  user: selectUser(),
+                }),
+                administrators: selectUser(),
+              }),
+            }
+          : undefined
+      ),
+    };
+
+    const result: RequestListStrapi = await strapi.get("requests", {
+      token: process.env.REQUESTS_TOKEN!,
+      params,
+    });
+
+    if (!result.data) return null;
+
+    return getRequestListFromStrapiDTO(result, { includeAdmin: true });
+  }
 
   async function add(team: number, project: number, files: UploadedFile[]) {
     const body = {
@@ -53,6 +89,45 @@ const requestRepositoryFactory = () => {
 
     formData.append("ref", "api::request.request");
     formData.append("refId", createResponse.data.id);
+    formData.append("field", "files");
+
+    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
+      headers: {
+        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
+      },
+      method: "POST",
+      body: formData,
+    });
+
+    if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
+
+    return 1;
+  }
+
+  async function edit(request: number, files: UploadedFile[]) {
+    const body = {
+      data: {
+        files: { set: [] },
+      },
+    };
+
+    const deleteOldFilesResponse = await strapi.put("requests/" + request, {
+      token: process.env.REQUESTS_TOKEN!,
+      body,
+    });
+
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append(
+        "files",
+        new Blob([file.data]),
+        new Date().toTimeString() + file.name
+      );
+    });
+
+    formData.append("ref", "api::request.request");
+    formData.append("refId", "" + request);
     formData.append("field", "files");
 
     const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {

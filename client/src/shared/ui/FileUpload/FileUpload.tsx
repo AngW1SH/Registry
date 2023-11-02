@@ -7,6 +7,7 @@ interface FileUploadProps {
   label: string;
   onChange?: (files: File[] | null) => any;
   large?: boolean;
+  justify?: "start" | "end";
 }
 
 const FileUpload: FC<FileUploadProps> = ({
@@ -14,6 +15,7 @@ const FileUpload: FC<FileUploadProps> = ({
   name,
   label,
   large = false,
+  justify = "end",
 }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -46,9 +48,13 @@ const FileUpload: FC<FileUploadProps> = ({
   return (
     <div>
       <div
-        className={`flex justify-end ${
-          large ? "flex-col items-start" : "items-center"
-        }`}
+        className={
+          `flex ${large ? "flex-col items-start" : "items-center"} ` +
+            justify ==
+          "start"
+            ? "justify-start"
+            : "justify-end"
+        }
       >
         <p
           className={`pr-5 ${

@@ -1,19 +1,20 @@
-import { IMember, getMembersByMemberIds } from "@/entities/Member";
-import { IRequest } from "@/entities/Request";
-import { ITeam } from "@/entities/Team";
-import { Block, ButtonAlt } from "@/shared/ui";
-import { FC } from "react";
+"use client";
+import { getMembersByMemberIds } from "@/entities/Member";
+import { Block, ButtonAlt, File } from "@/shared/ui";
+import { FC, ReactNode, useState } from "react";
 import { RequestInspect } from "../types/types";
 import { IUser, formatNameShort } from "@/entities/User";
 
 interface RequestInspectCardProps {
   user: IUser;
   requestInspect: RequestInspect;
+  editFiles?: ReactNode;
 }
 
 const RequestInspectCard: FC<RequestInspectCardProps> = ({
   user,
   requestInspect,
+  editFiles,
 }) => {
   const { request, teams, members, users, projects } = requestInspect;
 
@@ -34,8 +35,10 @@ const RequestInspectCard: FC<RequestInspectCardProps> = ({
     };
   });
 
+  const [files, setFiles] = useState<File[] | null>(null);
+
   return (
-    <Block className="w-full rounded-2xl px-11 py-8">
+    <Block className="relative w-full rounded-2xl px-11 py-8">
       <div className="w-3/4">
         <h3 className="text-sm text-[#898989]">Заявка на проект</h3>
         <div className="pt-1" />
@@ -62,6 +65,19 @@ const RequestInspectCard: FC<RequestInspectCardProps> = ({
         <ButtonAlt className="rounded-full border px-16 py-[0.65rem]">
           Отозвать
         </ButtonAlt>
+      </div>
+      <div className="absolute right-0 top-4 px-11 py-8">
+        {request.files.map((file) => (
+          <File
+            key={file.id}
+            label={"Название файла"}
+            link={file.url}
+            type={file.type}
+            size={file.size}
+          />
+        ))}
+        <div className="pt-8" />
+        {editFiles}
       </div>
     </Block>
   );

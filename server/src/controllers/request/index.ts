@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 const requestControllerFactory = () => {
   return Object.freeze({
     add,
+    edit,
   });
 
   async function add(req: Request, res: Response) {
@@ -28,6 +29,26 @@ const requestControllerFactory = () => {
     );
 
     res.status(200).send();
+  }
+
+  async function edit(req: Request, res: Response) {
+    if (req.method !== "PUT") throw new BadRequestError("Unsupported method");
+
+    if (!req.body.request)
+      throw new BadRequestError("Missing required body parameter: request");
+    if (!req.files || Array.from(Object.keys(req.files)).length === 0)
+      throw new BadRequestError("Missing required body parameter: files");
+
+    if (!req.user)
+      throw new UnauthorizedError(
+        "req.user not specified in requestController.edit"
+      );
+
+    const result = await requestService.edit(
+      req.body.request,
+      req.user,
+      Array.isArray(req.files.files) ? req.files.files : [req.files.files]
+    );
   }
 };
 
