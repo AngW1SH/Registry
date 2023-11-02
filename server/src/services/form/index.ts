@@ -45,7 +45,7 @@ const formServiceFactory = () => {
     // Will use an adapter later on
     const user = await userRepository.findOne({
       email:
-        response["Единая учетная запись (например, ST000000)"].toLowerCase(),
+        response["Электронная почта, указанная при авторизации"].toLowerCase(),
     });
 
     if (!user) throw new ServerError("No such user found");
