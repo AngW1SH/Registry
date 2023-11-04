@@ -70,6 +70,17 @@ const userControllerFactory = () => {
       });
       res.status(200).send();
     } catch (err) {
+      res.cookie("user-access", null, {
+        maxAge: 0,
+        httpOnly: true,
+        signed: true,
+      });
+      res.cookie("user-refresh", null, {
+        maxAge: 0,
+        httpOnly: true,
+        signed: true,
+      });
+
       next(err);
     }
   }

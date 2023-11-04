@@ -16,7 +16,9 @@ const UserName: FC<UserNameProps> = () => {
     );
   }
 
-  const name = authUser.name.split(" ")[1];
+  const nameArray = authUser.name.split(" ");
+
+  const name = nameArray.length > 1 ? nameArray[1] : nameArray[0];
 
   return (
     <div className="flex items-center">
