@@ -13,11 +13,15 @@ export const generateEditUIByTeam = (
 
   const isUserAnAdmin = teamAdmins.map((admin) => admin.user).includes(user.id);
 
-  return teamMembers.map((teamMember) => {
-    if (isUserAnAdmin) return <EditMember />;
+  return teamMembers.map((member) => {
+    const memberUser = users.find((user) => user.id == member.user);
 
-    return teamMember.user && teamMember.user == user.id ? (
-      <EditMember />
+    if (!memberUser) return null;
+
+    if (isUserAnAdmin) return <EditMember member={member} user={memberUser} />;
+
+    return member.user && member.user == user.id ? (
+      <EditMember member={member} user={memberUser} />
     ) : null;
   });
 };

@@ -60,7 +60,7 @@ const MemberInspect: FC<MemberInspectProps> = ({ edit, data }) => {
                 ...styles.transition[state],
               }}
             >
-              <div ref={editRef} className="px-9 py-6">
+              <div ref={editRef} className="border-t border-[#ddd] py-6">
                 {edit}
               </div>
             </div>
