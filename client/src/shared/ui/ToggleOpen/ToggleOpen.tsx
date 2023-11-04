@@ -1,4 +1,5 @@
 "use client";
+import { useToggleOpen } from "@/shared/hooks";
 import {
   FC,
   ReactNode,
@@ -21,43 +22,9 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
   children,
   open = false,
 }) => {
-  const [opened, setOpened] = useState(open);
-  const [innerHeight, setInnerHeight] = useState(0);
-
   const ref = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
 
-  const updateSize = useCallback(() => {
-    if (innerRef.current) setInnerHeight(innerRef.current.clientHeight);
-  }, [innerRef.current]);
-
-  useEffect(() => {
-    updateSize();
-
-    window.addEventListener("resize", updateSize);
-
-    return () => {
-      window.removeEventListener("resize", updateSize);
-    };
-  }, [innerRef.current]);
-
-  const handleToggle = useCallback(() => {
-    updateSize();
-    setOpened((prevOpened) => !prevOpened);
-  }, []);
-
-  const defaultStyle = {
-    transition: `height ${150}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-    height: 0,
-  };
-
-  const transitionStyles = {
-    entering: { height: innerHeight },
-    entered: { height: innerHeight },
-    exiting: { height: 0 },
-    exited: { height: 0 },
-    unmounted: { height: 0 },
-  };
+  const { opened, toggleOpened, styles } = useToggleOpen(ref);
 
   return (
     <Transition in={opened} timeout={150}>
@@ -68,21 +35,20 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
           }`}
         >
           <div
-            onClick={handleToggle}
+            onClick={toggleOpened}
             className="relative cursor-pointer bg-white"
           >
             {triggerElement}
           </div>
           <div
-            ref={ref}
             className="relative"
             style={{
-              ...defaultStyle,
-              ...transitionStyles[state],
+              ...styles.default,
+              ...styles.transition[state],
             }}
           >
             <div>
-              <div ref={innerRef}>{children}</div>
+              <div ref={ref}>{children}</div>
             </div>
           </div>
         </div>

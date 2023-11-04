@@ -1,18 +1,22 @@
 import { IUser } from "@/entities/User";
-import { Block, RoleTable } from "@/shared/ui";
+import { Block, RoleTable, ToggleOpen } from "@/shared/ui";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, ReactNode, useRef } from "react";
 import { ProjectInspect } from "../types/types";
 import { getMembersByMemberIds } from "@/entities/Member";
+import { useToggleOpen } from "@/shared/hooks";
+import { Transition, TransitionStatus } from "react-transition-group";
 
 interface ProjectInspectCardProps {
   user: IUser;
   projectInspect: ProjectInspect;
+  edit: ReactNode;
 }
 
 const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
   user,
   projectInspect,
+  edit,
 }) => {
   const { project, team, members, users } = projectInspect;
 
@@ -29,6 +33,10 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
       selected: user.id == teamUser.id,
     };
   });
+
+  const editRef = useRef<HTMLDivElement>(null);
+
+  const { opened, toggleOpened, styles } = useToggleOpen(editRef);
 
   return (
     <Block className="overflow-hidden rounded-2xl">
@@ -71,11 +79,47 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
           </div>
         </div>
         <div className="pt-4" />
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-primary">Подробнее о проекте</span>
-          <Image src="/arrow-right-red.svg" alt="" height={12} width={7} />
+        <div className="flex justify-between">
+          <div className="flex cursor-pointer items-center gap-2">
+            <span className="text-sm text-primary">Подробнее о проекте</span>
+            <Image src="/arrow-right-red.svg" alt="" height={12} width={7} />
+          </div>
+          <div
+            onClick={toggleOpened}
+            className="flex cursor-pointer items-center gap-3"
+          >
+            <span className="text-sm text-primary">Редактировать</span>
+            <Image
+              className="rotate-90"
+              src="/arrow-right-red.svg"
+              alt=""
+              height={12}
+              width={7}
+            />
+          </div>
         </div>
       </div>
+      <Transition in={opened} timeout={150}>
+        {(state: TransitionStatus) => (
+          <div
+            className={`relative ${
+              state == "entered" ? "overflow-visible" : "overflow-hidden"
+            }`}
+          >
+            <div
+              className="relative"
+              style={{
+                ...styles.default,
+                ...styles.transition[state],
+              }}
+            >
+              <div ref={editRef} className="px-9 py-6">
+                {edit}
+              </div>
+            </div>
+          </div>
+        )}
+      </Transition>
       <div className="pb-11">
         <RoleTable displayData={displayData} />
       </div>

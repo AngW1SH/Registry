@@ -4,6 +4,7 @@ import ProjectInspectCard from "@/composites/ProjectInspect/ui/ProjectInspectCar
 import { IProject, getProjectsByProjectIds } from "@/entities/Project";
 import { ITeamExtended, getTeamsByTeamIds } from "@/entities/Team";
 import { useAuthQuery } from "@/entities/User";
+import { EditProject } from "@/features/EditProject";
 import { FC } from "react";
 
 interface UserProjectsProps {}
@@ -34,7 +35,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
 
   return (
     <div>
-      <h2 className="text-3xl uppercase">Команды</h2>
+      <h2 className="text-3xl uppercase">Проекты</h2>
       <div className="pt-2" />
       {displayData.map(({ project, team }) => (
         <ProjectInspectCard
@@ -46,6 +47,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
             members: profile.members,
             users: profile.users,
           }}
+          edit={<EditProject />}
         />
       ))}
     </div>
