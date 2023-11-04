@@ -1,19 +1,25 @@
 import { Block, RoleTable } from "@/shared/ui";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { TeamInspect } from "../types/types";
 import { ITeamExtended } from "@/entities/Team";
 import { IProject, getProjectsByProjectIds } from "@/entities/Project";
 import { IUser, formatNameShort } from "@/entities/User";
 import { IMember, getMembersByMemberIds } from "@/entities/Member";
 import { IRequest, getRequestsByRequestIds } from "@/entities/Request";
+import MemberInspect from "./MemberInspect";
 
 interface TeamInspectCardProps {
   user: IUser;
   teamDetailed: TeamInspect;
+  edit?: (ReactNode | null)[];
 }
 
-const TeamInspectCard: FC<TeamInspectCardProps> = ({ user, teamDetailed }) => {
+const TeamInspectCard: FC<TeamInspectCardProps> = ({
+  user,
+  teamDetailed,
+  edit,
+}) => {
   const { team, members, users, projects, requests } = teamDetailed;
 
   const membersPopulated = getMembersByMemberIds(team.members, members);
@@ -41,7 +47,22 @@ const TeamInspectCard: FC<TeamInspectCardProps> = ({ user, teamDetailed }) => {
 
   return (
     <Block className="rounded-xl py-12">
-      <RoleTable displayData={tableData} />
+      <ul>
+        {tableData.map((data, index) => (
+          <li
+            key={data.id}
+            className={
+              "relative px-10 [&:last-child>div]:border-b [&>div]:border-t [&>div]:border-[#b7b7b7] " +
+              (data.selected ? "bg-secondary" : "")
+            }
+          >
+            <MemberInspect
+              data={data}
+              edit={edit && edit[index] ? edit[index] : null}
+            />
+          </li>
+        ))}
+      </ul>
       <div className="px-10">
         <div className="pt-16" />
         <div>
