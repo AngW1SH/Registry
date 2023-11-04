@@ -13,6 +13,7 @@ import fileUpload from "express-fileupload";
 import emailRouter from "@/routes/email/router";
 import errorLogger from "@/middleware/errors/ErrorLogger";
 import errorHandler from "@/middleware/errors/ErrorHandler";
+import memberRouter from "@/routes/member/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -40,6 +41,7 @@ const generateApp = (port?: number) => {
   app.use("/tag", tagRouter);
   app.use("/request", requestRouter);
   app.use("/email", emailRouter);
+  app.use("/member", memberRouter);
 
   app.use(errorLogger);
   app.use(errorHandler);

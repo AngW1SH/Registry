@@ -1,6 +1,6 @@
 import { Block, RoleTable } from "@/shared/ui";
 import Link from "next/link";
-import { FC, ReactNode } from "react";
+import { FC, ReactElement } from "react";
 import { TeamInspect } from "../types/types";
 import { ITeamExtended } from "@/entities/Team";
 import { IProject, getProjectsByProjectIds } from "@/entities/Project";
@@ -12,7 +12,7 @@ import MemberInspect from "./MemberInspect";
 interface TeamInspectCardProps {
   user: IUser;
   teamDetailed: TeamInspect;
-  edit?: (ReactNode | null)[];
+  edit?: (ReactElement | null)[];
 }
 
 const TeamInspectCard: FC<TeamInspectCardProps> = ({

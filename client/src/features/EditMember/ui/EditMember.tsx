@@ -2,18 +2,22 @@
 import { IMember } from "@/entities/Member";
 import { IUser } from "@/entities/User";
 import { Button, FormInput, LoadingCircle } from "@/shared/ui";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useMemberMutation } from "../model/useMemberMutation";
 
 interface EditMemberProps {
   member: IMember;
-  user: IUser;
+  onSuccess?: () => any;
 }
 
-const EditMember: FC<EditMemberProps> = ({ member, user }) => {
+const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
   const [role, setRole] = useState(member.role);
 
-  const { mutate, isLoading, isError } = useMemberMutation();
+  const { mutate, isLoading, isError, isSuccess } = useMemberMutation();
+
+  useEffect(() => {
+    if (isSuccess && onSuccess) onSuccess();
+  }, [isSuccess]);
 
   if (isLoading)
     return (

@@ -23,12 +23,46 @@ import { User } from "@/entities/user";
 
 const teamRepositoryFactory = () => {
   return Object.freeze({
+    findOne,
+    findMany,
     getUnassigned,
     getAdministrators,
     getUnassignedAdministrated,
     getActive,
     getAdministratedActive,
   });
+
+  async function findOne(filters: { member?: number }) {
+    const findManyResult = await findMany(filters);
+
+    return findManyResult.teams.length ? findManyResult : null;
+  }
+
+  async function findMany(filters: { member?: number }) {
+    const params = {
+      filters: {
+        ...(filters &&
+          filters.member && {
+            members: {
+              id: filters.member,
+            },
+          }),
+      },
+      ...selectTeam({
+        members: selectMember({
+          user: selectUser(),
+        }),
+        administrators: selectUser(),
+      }),
+    };
+
+    const response: TeamListStrapi = await strapi.get("teams", {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
+  }
 
   async function getUnassigned(userId: number): Promise<Team[]> {
     const params = {

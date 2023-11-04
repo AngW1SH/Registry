@@ -12,10 +12,13 @@ export const fetchEditRequestFiles = async (
 
   formData.append("request", "" + requestId);
 
-  const response = await authorizedFetch("/api/request", {
-    method: "PUT",
-    body: formData,
-  }).then((res) => {
+  const response = await authorizedFetch(
+    process.env.NEXT_PUBLIC_WEBSITE_URL + "/api/request",
+    {
+      method: "PUT",
+      body: formData,
+    },
+  ).then((res) => {
     if (res.status !== 200) throw new Error("Failed to send a request");
 
     return res.status;

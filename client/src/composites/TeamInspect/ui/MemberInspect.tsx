@@ -2,11 +2,11 @@
 import { IUser } from "@/entities/User";
 import { useToggleOpen } from "@/shared/hooks";
 import Image from "next/image";
-import { FC, ReactNode, useRef } from "react";
+import { FC, ReactElement, ReactNode, cloneElement, useRef } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 
 interface MemberInspectProps {
-  edit: ReactNode | null;
+  edit: ReactElement | null;
   data: {
     id: number;
     name: string;
@@ -20,6 +20,11 @@ const MemberInspect: FC<MemberInspectProps> = ({ edit, data }) => {
   const editRef = useRef<HTMLDivElement>(null);
 
   const { opened, toggleOpened, styles } = useToggleOpen(editRef);
+
+  const EditWithOnSuccess = edit
+    ? cloneElement(edit, { onSuccess: toggleOpened })
+    : null;
+
   return (
     <div>
       <div
@@ -61,7 +66,7 @@ const MemberInspect: FC<MemberInspectProps> = ({ edit, data }) => {
               }}
             >
               <div ref={editRef} className="border-t border-[#ddd] py-6">
-                {edit}
+                {EditWithOnSuccess}
               </div>
             </div>
           </div>
