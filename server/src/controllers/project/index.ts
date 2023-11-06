@@ -103,11 +103,12 @@ const projectControllerFactory = () => {
 
       if (!req.body.project)
         throw new BadRequestError("Missing project identifier");
-      if (!req.body.files) throw new BadRequestError("Missing files to upload");
+      if (!req.files || Array.from(Object.keys(req.files)).length === 0)
+        throw new BadRequestError("Missing files to upload");
 
-      const result = projectService.uploadResultFiles(
-        req.body.project,
-        req.body.files,
+      const result = await projectService.uploadResultFiles(
+        +req.body.project,
+        Array.isArray(req.files.files) ? req.files.files : [req.files.files],
         req.user
       );
 

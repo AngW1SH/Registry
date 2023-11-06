@@ -24,7 +24,6 @@ export async function generateProjectPageMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  console.log(params.slug);
   const projectData = await fetchProjectDetailed(+params.slug);
 
   return {

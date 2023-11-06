@@ -18,7 +18,7 @@ projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
 
 projectRouter.put(
-  "/result-files",
+  "/result-files/",
   passport.authenticate("jwt-authenticate"),
   projectController.uploadResultFiles
 );
@@ -27,6 +27,12 @@ projectRouter.delete(
   "/:id/result-files/:fileid",
   passport.authenticate("jwt-authenticate"),
   projectController.deleteResultFile
+);
+
+projectRouter.post(
+  "/:id/result-files/",
+  passport.authenticate("jwt-authenticate"),
+  projectController.uploadResultFiles
 );
 
 export default projectRouter;
