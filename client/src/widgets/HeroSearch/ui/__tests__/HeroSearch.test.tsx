@@ -14,6 +14,13 @@ jest.mock("next/navigation", () => ({
   },
 }));
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve({}),
+  }),
+) as jest.Mock;
+
 describe("HeroSearch Widget UI", () => {
   test("snapshot test", () => {
     const { asFragment } = render(

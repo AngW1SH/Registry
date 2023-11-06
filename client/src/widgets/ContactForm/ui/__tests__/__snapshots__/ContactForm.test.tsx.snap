@@ -31,19 +31,27 @@ exports[`ContactForm Widget UI snapshot test 1`] = `
     <div
       class="flex flex-col w-full sm:w-80"
     >
-      <input
-        class="border-b border-black bg-transparent py-3 placeholder-black outline-none "
-        placeholder="Имя"
-        value=""
-      />
+      <div
+        class="flex flex-col pt-3 "
+      >
+        <input
+          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-black outline-none"
+          placeholder="Имя"
+          value=""
+        />
+      </div>
       <div
         class="pt-5"
       />
-      <input
-        class="border-b border-black bg-transparent py-3 placeholder-black outline-none "
-        placeholder="E-mail"
-        value=""
-      />
+      <div
+        class="flex flex-col pt-3 "
+      >
+        <input
+          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-black outline-none"
+          placeholder="E-mail"
+          value=""
+        />
+      </div>
       <div
         class="pt-5"
       />

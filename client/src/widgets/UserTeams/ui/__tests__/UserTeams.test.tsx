@@ -12,9 +12,10 @@ import { staticTeamsExtended } from "@/entities/Team";
 import { getMembersByMemberIds, staticMembers } from "@/entities/Member";
 import { getProjectsByProjectIds, staticProjects } from "@/entities/Project";
 import { getRequestsByRequestIds, staticRequests } from "@/entities/Request";
+import { useMemberMutation } from "@/features/EditMember";
 
 jest.mock("@/entities/User", () => {
-  const original = jest.requireActual("@/entities/User");
+  var original = jest.requireActual("@/entities/User");
 
   return {
     ...original,
@@ -23,11 +24,17 @@ jest.mock("@/entities/User", () => {
 });
 
 jest.mock("@/composites/Profile", () => {
-  const original = jest.requireActual("@/composites/Profile");
+  var original = jest.requireActual("@/composites/Profile");
 
   return {
     ...original,
     useProfileQuery: jest.fn(),
+  };
+});
+
+jest.mock("@/features/EditMember/model/useMemberMutation", () => {
+  return {
+    useMemberMutation: jest.fn(),
   };
 });
 
@@ -59,6 +66,10 @@ describe("UserTeams widget UI", () => {
     describe("User has at least one team", () => {
       beforeAll(() => {
         jest.clearAllMocks();
+        (useMemberMutation as jest.Mock).mockReturnValue({
+          mutate: jest.fn(),
+          isLoading: false,
+        });
         (useAuthQuery as jest.Mock).mockReturnValue({ data: staticUsers[0] });
         (useProfileQuery as jest.Mock).mockReturnValue({
           data: {

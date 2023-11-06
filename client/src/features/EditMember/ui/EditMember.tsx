@@ -1,9 +1,8 @@
 "use client";
 import { IMember } from "@/entities/Member";
-import { IUser } from "@/entities/User";
 import { Button, FormInput, LoadingCircle } from "@/shared/ui";
 import { FC, useEffect, useState } from "react";
-import { useMemberMutation } from "../model/useMemberMutation";
+import { useMemberMutation } from "@/features/EditMember";
 
 interface EditMemberProps {
   member: IMember;

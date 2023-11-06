@@ -39,11 +39,15 @@ exports[`Subscribe Widget UI snapshot test 1`] = `
         <div
           class="relative"
         >
-          <input
-            class="border-b border-black bg-transparent py-3 placeholder-black outline-none w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
-            placeholder="Электронная почта"
-            value=""
-          />
+          <div
+            class="flex flex-col pt-3 w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
+          >
+            <input
+              class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-white outline-none"
+              placeholder="Электронная почта"
+              value=""
+            />
+          </div>
           <button
             class="absolute right-2 top-[calc(50%-10px)] h-5 w-5 cursor-pointer"
             type="submit"

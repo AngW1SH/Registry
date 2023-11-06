@@ -11,6 +11,13 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    status: 200,
+    json: () => Promise.resolve({}),
+  }),
+) as jest.Mock;
+
 describe("ProjectFilters Entity UI", () => {
   beforeAll(() => {
     jest.useFakeTimers();
