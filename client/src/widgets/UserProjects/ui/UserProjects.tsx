@@ -6,6 +6,7 @@ import { ITeamExtended, getTeamsByTeamIds } from "@/entities/Team";
 import { useAuthQuery } from "@/entities/User";
 import { EditProject } from "@/features/EditProject";
 import { FC } from "react";
+import ProjectFileList from "./ProjectFileList";
 
 interface UserProjectsProps {}
 
@@ -47,7 +48,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
             members: profile.members,
             users: profile.users,
           }}
-          edit={<EditProject />}
+          edit={<ProjectFileList />}
         />
       ))}
     </div>
