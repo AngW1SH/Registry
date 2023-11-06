@@ -19,7 +19,7 @@ interface MemberInspectProps {
 const MemberInspect: FC<MemberInspectProps> = ({ edit, data }) => {
   const editRef = useRef<HTMLDivElement>(null);
 
-  const { opened, toggleOpened, styles } = useToggleOpen(editRef);
+  const { opened, toggleOpened, styles } = useToggleOpen(editRef, edit);
 
   const EditWithOnSuccess = edit
     ? cloneElement(edit, { onSuccess: toggleOpened })

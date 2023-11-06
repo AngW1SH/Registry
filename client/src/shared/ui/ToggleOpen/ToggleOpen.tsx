@@ -24,7 +24,7 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const { opened, toggleOpened, styles } = useToggleOpen(ref);
+  const { opened, toggleOpened, styles } = useToggleOpen(ref, children);
 
   return (
     <Transition in={opened} timeout={150}>
