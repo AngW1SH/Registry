@@ -4,6 +4,7 @@ import {
   selectDescriptionFiles,
   selectResultFiles,
   selectProjectReference,
+  selectUserProject,
 } from "./selects";
 
 export {
@@ -12,4 +13,5 @@ export {
   selectDescriptionFiles,
   selectResultFiles,
   selectProjectReference,
+  selectUserProject,
 };

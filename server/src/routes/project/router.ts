@@ -16,4 +16,6 @@ projectRouter.post("/", projectController.findById);
 projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
 
+projectRouter.put("/result-files", projectController.uploadResultFiles);
+
 export default projectRouter;

@@ -43,6 +43,7 @@ export interface IProjectSingle extends IProject {
   descriptionFiles: {
     id: number;
     name: string;
+    date: string;
     url: string;
     type: string;
     size: string;
@@ -50,6 +51,7 @@ export interface IProjectSingle extends IProject {
   resultFiles: {
     id: number;
     name: string;
+    date: string;
     url: string;
     type: string;
     size: string;
@@ -62,6 +64,7 @@ export interface IProjectSingleDTO extends ProjectDTO {
   descriptionFiles: {
     id: number;
     name: string;
+    date: string;
     url: string;
     type: string;
     size: string;
@@ -69,6 +72,7 @@ export interface IProjectSingleDTO extends ProjectDTO {
   resultFiles: {
     id: number;
     name: string;
+    date: string;
     url: string;
     type: string;
     size: string;

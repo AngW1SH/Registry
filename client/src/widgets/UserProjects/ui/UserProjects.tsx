@@ -7,6 +7,7 @@ import { useAuthQuery } from "@/entities/User";
 import { EditProject } from "@/features/EditProject";
 import { FC } from "react";
 import ProjectFileList from "./ProjectFileList";
+import { UserProject } from "@/composites/ProjectInspect";
 
 interface UserProjectsProps {}
 
@@ -19,9 +20,9 @@ const UserProjects: FC<UserProjectsProps> = () => {
   const userProjects = getProjectsByProjectIds(
     profile.user.projects,
     profile.projects,
-  );
+  ) as UserProject[];
 
-  const displayData: { project: IProject; team: ITeamExtended }[] = [];
+  const displayData: { project: UserProject; team: ITeamExtended }[] = [];
 
   userProjects.forEach((project) => {
     // If we managed to find a corresponding team in profile.teams,
@@ -48,7 +49,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
             members: profile.members,
             users: profile.users,
           }}
-          edit={<ProjectFileList />}
+          edit={<ProjectFileList project={project} />}
         />
       ))}
     </div>

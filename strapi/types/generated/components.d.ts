@@ -18,10 +18,12 @@ export interface NamedFileNamedFile extends Schema.Component {
   info: {
     displayName: 'Named File';
     icon: 'filePdf';
+    description: '';
   };
   attributes: {
     name: Attribute.String;
     file: Attribute.Media;
+    date: Attribute.Date;
   };
 }
 

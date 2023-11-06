@@ -136,7 +136,10 @@ export const getProjectListFromStrapiDTO = (
 };
 
 export const getProjectFromStrapiDTO = (
-  project: ProjectStrapi
+  project: ProjectStrapi,
+  options?: {
+    includeAdmin?: boolean;
+  }
 ): {
   project: ProjectDetailedDTO | null;
   tags: Tag[];
@@ -192,7 +195,8 @@ export const getProjectFromStrapiDTO = (
       "name"
     )
       ? getTeamListFromStrapiDTO(
-          project.data.attributes.teams as TeamListStrapi
+          project.data.attributes.teams as TeamListStrapi,
+          options
         )
       : {
           teams: [],

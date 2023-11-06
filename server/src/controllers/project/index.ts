@@ -1,5 +1,5 @@
 import { getProjectFiltersFromDTO } from "@/entities/project";
-import { BadRequestError } from "@/helpers/errors";
+import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import projectService from "@/services/project";
 import { NextFunction, Request, Response } from "express";
 
@@ -9,6 +9,7 @@ const projectControllerFactory = () => {
     getNew,
     findById,
     findMany,
+    uploadResultFiles,
   });
 
   async function getActive(req: Request, res: Response, next: NextFunction) {
@@ -55,6 +56,33 @@ const projectControllerFactory = () => {
       );
 
       res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function uploadResultFiles(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in projectController.uploadFileResults"
+        );
+
+      if (!req.body.project)
+        throw new BadRequestError("Missing project identifier");
+      if (!req.body.files) throw new BadRequestError("Missing files to upload");
+
+      const result = projectService.uploadResultFiles(
+        req.body.project,
+        req.body.files,
+        req.user
+      );
+
+      res.status(200).send(result);
     } catch (err) {
       next(err);
     }

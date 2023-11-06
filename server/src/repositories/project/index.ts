@@ -16,6 +16,7 @@ import {
   selectProjectInList,
   selectProjectReference,
   selectResultFiles,
+  selectUserProject,
 } from "@/db/strapi/queries/project";
 import { selectTag } from "@/db/strapi/queries/tag/selects";
 import { strapi } from "@/db/strapi/client";
@@ -30,6 +31,8 @@ import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
 import requestRepository from "../request";
 import { BadRequestError } from "@/helpers/errors";
+import { UploadedFile } from "express-fileupload";
+import { selectNamedFile } from "@/db/strapi/queries/components/named-file";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -37,6 +40,8 @@ const projectRepositoryFactory = () => {
     findOne,
     findMany,
     getReferences,
+    findResultFiles,
+    addResultFiles,
   });
 
   async function getNew(limit?: number): Promise<{
@@ -70,12 +75,18 @@ const projectRepositoryFactory = () => {
     };
   }
 
-  async function findOne(id: number): Promise<{
+  async function findOne(
+    id: number,
+    options?: {
+      includeAdmin: boolean;
+    }
+  ): Promise<{
     project: ProjectDTO | null;
     tags: Tag[];
     teams: Team[];
     users: User[];
     members: Member[];
+    administrators?: User[];
   } | null> {
     if (typeof id != "number")
       throw new BadRequestError("Provided ID is not a number");
@@ -90,6 +101,8 @@ const projectRepositoryFactory = () => {
           members: selectMember({
             user: selectUser(),
           }),
+          ...(options &&
+            options.includeAdmin && { administrators: selectUser() }),
         }),
         developerRequirements: selectDeveloperRequirements(),
         requests: {
@@ -113,7 +126,10 @@ const projectRepositoryFactory = () => {
 
     response.data.attributes.requests.data.attributes.count = countRequests;
 
-    return getProjectFromStrapiDTO({ data: response.data });
+    return getProjectFromStrapiDTO(
+      { data: response.data },
+      { includeAdmin: true }
+    );
   }
 
   async function findMany(filters?: ProjectFilters): Promise<{
@@ -152,7 +168,7 @@ const projectRepositoryFactory = () => {
           $in: ids,
         },
       },
-      ...selectProjectInList(),
+      ...selectUserProject(),
     };
 
     const response: ProjectListStrapi = await strapi.get("projects", {
@@ -161,6 +177,65 @@ const projectRepositoryFactory = () => {
     });
 
     return getProjectListFromStrapiDTO(response).projects;
+  }
+
+  async function findResultFiles(project: number) {
+    const params = {
+      populate: {
+        resultFiles: selectNamedFile(),
+      },
+    };
+
+    const response = await strapi.get("projects/" + project, {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    return getProjectFromStrapiDTO(response).project?.resultFiles;
+  }
+
+  async function addResultFiles(project: number, files: UploadedFile[]) {
+    const resultFiles = await findResultFiles(project);
+
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append(
+        "files",
+        new Blob([file.data]),
+        new Date().toTimeString() + file.name
+      );
+    });
+
+    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
+      headers: {
+        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
+      },
+      method: "POST",
+      body: formData as any,
+    }).then((res) => (res.ok ? res.json() : null));
+
+    console.log(fileUploadResponse);
+
+    const body = {
+      data: {
+        resultFiles: [
+          ...(resultFiles ? [...resultFiles] : []),
+          ...fileUploadResponse.map((file: any) => ({
+            name: 123123,
+            date: new Date(),
+            file: file.id,
+          })),
+        ],
+      },
+    };
+
+    const createResponse = await strapi.put("projects/" + project, {
+      token: process.env.PROJECTS_TOKEN!,
+      body,
+    });
+
+    return 1;
   }
 };
 const projectRepository = projectRepositoryFactory();

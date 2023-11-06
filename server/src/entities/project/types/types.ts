@@ -66,6 +66,7 @@ export interface ProjectDetailed extends Project {
     | {
         id: number;
         name: string;
+        date: string;
         url: string;
       }[]
     | null;
@@ -73,6 +74,7 @@ export interface ProjectDetailed extends Project {
     | {
         id: number;
         name: string;
+        date: string;
         url: string;
       }[]
     | null;

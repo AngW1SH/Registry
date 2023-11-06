@@ -1,3 +1,9 @@
-import type { ProjectInspect, ProjectInspectList } from "./types/types";
+import type {
+  ProjectInspect,
+  ProjectInspectList,
+  UserProject,
+} from "./types/types";
+import ProjectInspectCard from "./ui/ProjectInspectCard";
 
-export type { ProjectInspect, ProjectInspectList };
+export type { ProjectInspect, ProjectInspectList, UserProject };
+export { ProjectInspectCard };

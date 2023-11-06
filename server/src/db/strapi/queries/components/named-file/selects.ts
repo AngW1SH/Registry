@@ -1,6 +1,6 @@
 export const selectNamedFile = () => {
   return {
-    fields: ["name"],
+    fields: ["name", "date"],
     populate: {
       file: {
         fields: ["name", "url", "mime", "size"],

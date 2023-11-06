@@ -1,6 +1,7 @@
 export interface NamedFileStrapi {
   id: number;
   name: string;
+  date: string;
   file: {
     data: {
       id: number;

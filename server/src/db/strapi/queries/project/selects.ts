@@ -36,10 +36,10 @@ export const selectProjectInList = (
       "teamLimit",
     ],
     populate: {
-      ...populate,
       teams: {
         fields: ["id"],
       },
+      ...populate,
     },
   };
 };
@@ -58,5 +58,31 @@ export const selectProjectReference = () => {
       "client",
       "teamLimit",
     ],
+  };
+};
+
+export const selectUserProject = (
+  populate: SelectPopulate<PopulateOptions> = {}
+) => {
+  return {
+    fields: [
+      "name",
+      "description",
+      "dateStart",
+      "dateEnd",
+      "enrollmentStart",
+      "enrollmentEnd",
+      "supervisor",
+      "curator",
+      "client",
+      "teamLimit",
+    ],
+    populate: {
+      teams: {
+        fields: ["id"],
+      },
+      resultFiles: true,
+      ...populate,
+    },
   };
 };

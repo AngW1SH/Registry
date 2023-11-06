@@ -4,7 +4,14 @@ import { mimeToDisplayType } from "@/helpers/mime/mimeToDisplayType";
 export const getNamedFileListFromStrapiDTO = (
   dto: NamedFileStrapi[]
 ):
-  | { id: number; name: string; url: string; type: string; size: string }[]
+  | {
+      id: number;
+      name: string;
+      date: string;
+      url: string;
+      type: string;
+      size: string;
+    }[]
   | null => {
   if (!dto) return null;
 
@@ -14,6 +21,7 @@ export const getNamedFileListFromStrapiDTO = (
       return {
         id: namedFileDTO.id,
         name: namedFileDTO.name,
+        date: namedFileDTO.date,
         url: namedFileDTO.file.data?.attributes.url || "",
         type: Object.keys(mimeToDisplayType).includes(
           namedFileDTO.file.data?.attributes.mime!
