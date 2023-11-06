@@ -1,6 +1,7 @@
 import { UserProject } from "@/composites/ProjectInspect";
 import { IProject, IProjectSingle } from "@/entities/Project";
 import { ChangeProjectFile, DeleteProjectFile } from "@/features/EditProject";
+import { NamedFile } from "@/shared/types";
 import { Button } from "@/shared/ui";
 import Link from "next/link";
 import { FC } from "react";
@@ -33,10 +34,17 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
           <div className="flex border-t border-[#b7b7b7] last:border-b">
             <div className="w-1/5 pt-4">{date}</div>
             <div className="w-4/5">
-              {files[date].map((file: any) => (
-                <div className="relative border-b border-[#b7b7b7] py-4 last:border-none">
+              {files[date].map((file: NamedFile) => (
+                <div
+                  key={file.id}
+                  className="relative border-b border-[#b7b7b7] py-4 last:border-none"
+                >
                   <p>{file.name}</p>
-                  <DeleteProjectFile className="absolute right-10 top-1/2 -translate-y-1/2" />
+                  <DeleteProjectFile
+                    projectId={project.id}
+                    fileId={file.id}
+                    className="absolute right-10 top-1/2 -translate-y-1/2"
+                  />
                   <ChangeProjectFile className="absolute right-0 top-1/2 -translate-y-1/2" />
                 </div>
               ))}

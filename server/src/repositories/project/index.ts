@@ -30,9 +30,10 @@ import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
 import { Request } from "@/entities/request";
 import requestRepository from "../request";
-import { BadRequestError } from "@/helpers/errors";
+import { BadRequestError, ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
 import { selectNamedFile } from "@/db/strapi/queries/components/named-file";
+import { NamedFileStrapi } from "@/db/strapi/types/components/named-file";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -42,6 +43,7 @@ const projectRepositoryFactory = () => {
     getReferences,
     findResultFiles,
     addResultFiles,
+    deleteResultFile,
   });
 
   async function getNew(limit?: number): Promise<{
@@ -236,6 +238,47 @@ const projectRepositoryFactory = () => {
     });
 
     return 1;
+  }
+
+  async function deleteResultFile(projectId: number, fileId: number) {
+    const params = {
+      populate: {
+        resultFiles: selectNamedFile(),
+      },
+    };
+
+    const response = await strapi.get("projects/" + projectId, {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    if (!response.data.attributes.resultFiles)
+      throw new ServerError("Couldn't find project's resultFiles");
+
+    const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
+
+    const body = {
+      data: {
+        resultFiles: resultFiles
+          ?.filter((file) => file.id != fileId)
+          .map((file) => ({ ...file, file: file.file?.data?.id })),
+      },
+    };
+
+    console.log(
+      resultFiles
+        ?.filter((file) => file.id != fileId)
+        .map((file) => ({ ...file, file: file.file?.data?.id }))
+    );
+
+    const updatedResponse = await strapi.put("projects/" + projectId, {
+      token: process.env.PROJECTS_TOKEN!,
+      body,
+    });
+
+    console.log(updatedResponse);
+
+    return 200;
   }
 };
 const projectRepository = projectRepositoryFactory();

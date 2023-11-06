@@ -1,7 +1,10 @@
 "use client";
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { ReactNode, RefObject, useCallback, useEffect, useState } from "react";
 
-export const useToggleOpen = (ref: RefObject<HTMLElement>) => {
+export const useToggleOpen = (
+  ref: RefObject<HTMLElement>,
+  element: ReactNode,
+) => {
   const [opened, setOpened] = useState(false);
   const [innerHeight, setInnerHeight] = useState(0);
 
@@ -17,7 +20,7 @@ export const useToggleOpen = (ref: RefObject<HTMLElement>) => {
     return () => {
       window.removeEventListener("resize", updateSize);
     };
-  }, [ref.current]);
+  }, [ref.current, element]);
 
   const handleToggle = useCallback(() => {
     updateSize();

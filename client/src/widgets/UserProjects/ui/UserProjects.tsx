@@ -49,7 +49,12 @@ const UserProjects: FC<UserProjectsProps> = () => {
             members: profile.members,
             users: profile.users,
           }}
-          edit={<ProjectFileList project={project} />}
+          edit={
+            <ProjectFileList
+              key={project.resultFiles.length}
+              project={project}
+            />
+          }
         />
       ))}
     </div>

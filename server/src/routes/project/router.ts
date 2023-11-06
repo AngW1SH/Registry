@@ -1,4 +1,5 @@
 import projectController from "@/controllers/project";
+import passport from "@/middleware/passport";
 import express, { Request, Response } from "express";
 
 const projectRouter = express();
@@ -16,6 +17,16 @@ projectRouter.post("/", projectController.findById);
 projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
 
-projectRouter.put("/result-files", projectController.uploadResultFiles);
+projectRouter.put(
+  "/result-files",
+  passport.authenticate("jwt-authenticate"),
+  projectController.uploadResultFiles
+);
+
+projectRouter.delete(
+  "/:id/result-files/:fileid",
+  passport.authenticate("jwt-authenticate"),
+  projectController.deleteResultFile
+);
 
 export default projectRouter;

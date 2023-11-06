@@ -36,7 +36,7 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
 
   const editRef = useRef<HTMLDivElement>(null);
 
-  const { opened, toggleOpened, styles } = useToggleOpen(editRef);
+  const { opened, toggleOpened, styles } = useToggleOpen(editRef, edit);
 
   return (
     <Block className="overflow-hidden rounded-2xl">

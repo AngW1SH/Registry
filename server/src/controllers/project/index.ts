@@ -10,6 +10,7 @@ const projectControllerFactory = () => {
     findById,
     findMany,
     uploadResultFiles,
+    deleteResultFile,
   });
 
   async function getActive(req: Request, res: Response, next: NextFunction) {
@@ -56,6 +57,34 @@ const projectControllerFactory = () => {
       );
 
       res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function deleteResultFile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in projectController.deleteResultFile"
+        );
+
+      if (!req.params.id)
+        throw new BadRequestError("Missing required param: project id");
+      if (!req.params.fileid)
+        throw new BadRequestError("Missing required param: file id");
+
+      const result = await projectService.deleteResultFile(
+        +req.params.id,
+        +req.params.fileid,
+        req.user
+      );
+
+      res.status(200).send(result);
     } catch (err) {
       next(err);
     }
