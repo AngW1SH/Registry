@@ -1,6 +1,8 @@
 import { getProjectFiltersFromDTO } from "@/entities/project";
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import projectService from "@/services/project";
+import projectResultsService from "@/services/project-results";
+import projectResultService from "@/services/project-results";
 import { NextFunction, Request, Response } from "express";
 
 const projectControllerFactory = () => {
@@ -79,7 +81,7 @@ const projectControllerFactory = () => {
       if (!req.params.fileid)
         throw new BadRequestError("Missing required param: file id");
 
-      const result = await projectService.deleteResultFile(
+      const result = await projectResultsService.deleteFile(
         +req.params.id,
         +req.params.fileid,
         req.user
@@ -107,7 +109,7 @@ const projectControllerFactory = () => {
       if (!req.files || Array.from(Object.keys(req.files)).length === 0)
         throw new BadRequestError("Missing files to upload");
 
-      const result = await projectService.uploadResultFiles(
+      const result = await projectResultService.uploadFiles(
         +req.params.id,
         Array.isArray(req.files.files) ? req.files.files : [req.files.files],
         req.user
@@ -137,7 +139,7 @@ const projectControllerFactory = () => {
       if (!req.files || Array.from(Object.keys(req.files)).length === 0)
         throw new BadRequestError("Missing files to upload");
 
-      const result = await projectService.changeResultFile(
+      const result = await projectResultService.changeFile(
         +req.params.id,
         +req.params.fileid,
         Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
