@@ -1,15 +1,14 @@
 "use client";
-import { staticProjects } from "@/entities/Project";
-import { staticTeams } from "@/entities/Team";
 import {
   Block,
   Button,
-  ButtonAlt,
   Dropdown,
   FileUpload,
-  FormInput,
+  LoadingCircle,
 } from "@/shared/ui";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useAvailableRequestsQuery } from "../model/useAvailableRequestsQuery";
+import { useNewRequestMutation } from "../model/useNewRequestMutation";
 
 interface SendNewRequestProps {}
 
@@ -20,43 +19,104 @@ interface SendNewRequestProps {}
 */
 
 const SendNewRequest: FC<SendNewRequestProps> = () => {
-  const [team, setTeam] = useState<string | null>(null);
-  const [project, setProject] = useState<string | null>(null);
+  const { data } = useAvailableRequestsQuery();
 
-  const [selected, setSelected] = useState("");
+  const [team, setTeam] = useState<string | null>(
+    data?.teams.length == 1 ? data.teams[0].name : null || null,
+  );
+  const [project, setProject] = useState<string | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+
+  useEffect(() => {
+    if (!team)
+      setTeam(data?.teams.length == 1 ? data.teams[0].name : null || null);
+  }, [data]);
+
+  const { mutate, isLoading } = useNewRequestMutation();
+
+  const handleConfirm = () => {
+    if (!data || !selectedFiles || !selectedFiles.length) return;
+    const teamSelected = data.teams.find(
+      (teamMapped) => teamMapped.name == team,
+    );
+    const projectSelected = data.projectReferences.find(
+      (projectMapped) => projectMapped.name == project,
+    );
+
+    if (!teamSelected || !projectSelected) return;
+
+    mutate({
+      teamId: teamSelected.id,
+      files: selectedFiles,
+      project: projectSelected.id,
+    });
+
+    setTeam(null);
+    setProject(null);
+  };
+
+  if (!data || !data.teams.length) return <></>;
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-10">
+        <LoadingCircle />
+      </div>
+    );
 
   return (
     <>
-      <div className="flex gap-16">
-        <div className="w-2/3">
-          <Dropdown
-            className="text-sm"
-            namePrefix="team"
-            placeholder="Команда"
-            options={staticTeams.map((team) => team.name)}
-            value={team}
-            onChange={setTeam}
-          />
-          <div className="pt-10" />
-          <Dropdown
-            className="text-sm"
-            namePrefix="project"
-            placeholder="Проект"
-            options={staticProjects.map((project) => project.name)}
-            value={project}
-            onChange={setProject}
-          />
+      <Block className="rounded-2xl px-11 py-10">
+        <h2 className="text-xl font-semibold">Подать новую заявку</h2>
+        <div className="pt-10" />
+        <div className="flex gap-16">
+          <div className="w-2/3">
+            {data.teams.length > 1 && (
+              <>
+                <Dropdown
+                  className="text-sm"
+                  namePrefix="team"
+                  placeholder="Команда"
+                  options={data.teams.map((team) => team.name)}
+                  value={team}
+                  onChange={setTeam}
+                />
+                <div className="pt-10" />
+              </>
+            )}
+            <Dropdown
+              className="text-sm"
+              namePrefix="project"
+              placeholder="Проект"
+              options={
+                data.teams
+                  .find((teamMapped) => teamMapped.name == team)
+                  ?.projects.map(
+                    (project) =>
+                      data.projectReferences.find(
+                        (projectRef) => projectRef.id == project,
+                      )?.name!,
+                  ) || []
+              }
+              value={project}
+              onChange={setProject}
+            />
+          </div>
+          <div className="w-1/3">
+            <FileUpload
+              large={true}
+              name="Презентация"
+              label="Презентация команды"
+              onChange={setSelectedFiles}
+            />
+          </div>
         </div>
-        <div className="w-1/3">
-          <FileUpload
-            large={true}
-            name="Презентация"
-            label="Презентация команды"
-          />
-        </div>
-      </div>
-      <div className="pt-7" />
-      <Button className="px-14 py-3">Отправить</Button>
+        <div className="pt-7" />
+        <Button className="px-14 py-3" onClick={handleConfirm}>
+          Отправить
+        </Button>
+      </Block>
+      <div className="pt-5" />
     </>
   );
 };

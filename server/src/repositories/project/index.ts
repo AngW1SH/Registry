@@ -38,6 +38,7 @@ import { NamedFileStrapi } from "@/db/strapi/types/components/named-file";
 const projectRepositoryFactory = () => {
   return Object.freeze({
     getNew,
+    getAvailable,
     findOne,
     findMany,
     getReferences,
@@ -76,6 +77,31 @@ const projectRepositoryFactory = () => {
       projects: projects!,
       tags: tags!,
     };
+  }
+
+  async function getAvailable() {
+    const now = new Date();
+
+    const params = {
+      sort: ["dateStart:desc"],
+      filters: {
+        dateStart: {
+          $gte: now,
+        },
+      },
+      ...selectProjectInList(),
+    };
+
+    const response: ProjectListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    const { projects } = getProjectListFromStrapiDTO(response);
+
+    return projects?.filter(
+      (project) => project.teamLimit && project.teams.length < project.teamLimit
+    );
   }
 
   async function findOne(

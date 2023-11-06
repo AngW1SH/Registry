@@ -32,19 +32,28 @@ const teamRepositoryFactory = () => {
     getAdministratedActive,
   });
 
-  async function findOne(filters: { member?: number }) {
+  async function findOne(filters: { member?: number; administrator?: number }) {
     const findManyResult = await findMany(filters);
 
     return findManyResult.teams.length ? findManyResult : null;
   }
 
-  async function findMany(filters: { member?: number }) {
+  async function findMany(filters: {
+    member?: number;
+    administrator?: number;
+  }) {
     const params = {
       filters: {
         ...(filters &&
           filters.member && {
             members: {
               id: filters.member,
+            },
+          }),
+        ...(filters &&
+          filters.administrator && {
+            administrators: {
+              id: filters.administrator,
             },
           }),
       },

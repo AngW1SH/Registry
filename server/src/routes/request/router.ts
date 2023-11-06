@@ -17,4 +17,10 @@ requestRouter.put(
   requestController.edit
 );
 
+requestRouter.get(
+  "/available",
+  passport.authenticate("jwt-authenticate"),
+  requestController.getAvailable
+);
+
 export default requestRouter;

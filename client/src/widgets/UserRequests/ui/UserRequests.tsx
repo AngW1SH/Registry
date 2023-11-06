@@ -19,9 +19,8 @@ const UserRequests: FC<UserRequestsProps> = () => {
     <div>
       <h2 className="text-3xl uppercase">Заявки</h2>
       <div className="pt-2" />
-      <NewRequest />
-      <div className="pt-5" />
-      <div className="flex gap-5">
+      <SendNewRequest />
+      <div className="flex flex-col gap-5">
         {profile.requests.length > 0 &&
           profile.requests.map((request) => (
             <RequestInspectCard

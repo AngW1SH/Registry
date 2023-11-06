@@ -6,6 +6,7 @@ const requestControllerFactory = () => {
   return Object.freeze({
     add,
     edit,
+    getAvailable,
   });
 
   async function add(req: Request, res: Response, next: NextFunction) {
@@ -54,6 +55,23 @@ const requestControllerFactory = () => {
         req.user,
         Array.isArray(req.files.files) ? req.files.files : [req.files.files]
       );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function getAvailable(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (req.method !== "GET") throw new BadRequestError("Unsupported method");
+
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in requestController.getAvailable"
+        );
+
+      const result = await requestService.getAvailable(req.user);
+
+      res.status(200).send(result);
     } catch (err) {
       next(err);
     }

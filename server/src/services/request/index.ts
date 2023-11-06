@@ -2,15 +2,18 @@ import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 import { User } from "@/entities/user";
 import { ServerError, UnauthorizedError } from "@/helpers/errors";
+import projectRepository from "@/repositories/project";
 import requestRepository from "@/repositories/request";
 import teamRepository from "@/repositories/team";
 import { UploadedFile } from "express-fileupload";
+import { mergeUnique } from "../user/utils/mergeUnique";
 
 const requestServiceFactory = () => {
   return Object.freeze({
     add,
     populateTeams,
     edit,
+    getAvailable,
   });
 
   async function add(
@@ -68,6 +71,61 @@ const requestServiceFactory = () => {
       throw new UnauthorizedError("User not found in team administrator list");
 
     return requestRepository.edit(requestId, files);
+  }
+
+  async function getAvailable(user: User) {
+    const [projectsResult, teamsResult, requestResult] =
+      await Promise.allSettled([
+        projectRepository.getAvailable(),
+        teamRepository.getUnassignedAdministrated(user.id),
+        requestRepository.getActive({ user: user.id }),
+      ]);
+
+    if (
+      requestResult.status != "fulfilled" ||
+      !requestResult.value ||
+      !requestResult.value.requests
+    )
+      throw new ServerError("Couldn't fetch the user's requests");
+    const { requests } = requestResult.value;
+
+    const teams = teamsResult.status == "fulfilled" ? teamsResult.value : [];
+    const projects =
+      projectsResult.status == "fulfilled" && projectsResult.value
+        ? projectsResult.value
+        : [];
+
+    const result = {
+      teams: [] as { id: number; name: string; projects: number[] }[],
+      projectReferences: [] as { id: number; name: string }[],
+    };
+
+    teams.forEach((team) => {
+      const teamProjects = projects
+        .filter(
+          (project) =>
+            !requests.find((request) => request.project == project.id)
+        )
+        .filter((project) => !project.teams.includes(team.id))
+        .map((project) => ({
+          id: project.id,
+          name: project.name,
+        }));
+
+      if (!teamProjects.length) return;
+
+      result.teams.push({
+        id: team.id,
+        name: team.name,
+        projects: teamProjects.map((project) => project.id),
+      });
+      result.projectReferences = mergeUnique(
+        result.projectReferences,
+        teamProjects
+      );
+    });
+
+    return result;
   }
 };
 
