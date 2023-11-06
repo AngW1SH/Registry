@@ -43,7 +43,7 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
             <div className="w-4/5">
               {files[date].map((file: NamedFile) => (
                 <div
-                  key={file.id}
+                  key={file.id + "-" + file.url}
                   className="relative border-b border-[#b7b7b7] py-4 last:border-none"
                 >
                   <p>{file.name}</p>
@@ -52,7 +52,11 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
                     fileId={file.id}
                     className="absolute right-10 top-1/2 -translate-y-1/2"
                   />
-                  <ChangeProjectFile className="absolute right-0 top-1/2 -translate-y-1/2" />
+                  <ChangeProjectFile
+                    projectId={project.id}
+                    fileId={file.id}
+                    className="absolute right-0 top-1/2 -translate-y-1/2"
+                  />
                 </div>
               ))}
             </div>

@@ -11,6 +11,7 @@ const projectControllerFactory = () => {
     findMany,
     uploadResultFiles,
     deleteResultFile,
+    changeResultFile,
   });
 
   async function getActive(req: Request, res: Response, next: NextFunction) {
@@ -98,17 +99,48 @@ const projectControllerFactory = () => {
     try {
       if (!req.user)
         throw new UnauthorizedError(
-          "req.user not specified in projectController.uploadFileResults"
+          "req.user not specified in projectController.uploadResulFiles"
         );
 
-      if (!req.body.project)
+      if (!req.params.id)
         throw new BadRequestError("Missing project identifier");
       if (!req.files || Array.from(Object.keys(req.files)).length === 0)
         throw new BadRequestError("Missing files to upload");
 
       const result = await projectService.uploadResultFiles(
-        +req.body.project,
+        +req.params.id,
         Array.isArray(req.files.files) ? req.files.files : [req.files.files],
+        req.user
+      );
+
+      res.status(200).send(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function changeResultFile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in projectController.changeResultFile"
+        );
+
+      if (!req.params.id)
+        throw new BadRequestError("Missing project identifier");
+      if (!req.params.fileid)
+        throw new BadRequestError("Missing file identifier");
+      if (!req.files || Array.from(Object.keys(req.files)).length === 0)
+        throw new BadRequestError("Missing files to upload");
+
+      const result = await projectService.changeResultFile(
+        +req.params.id,
+        +req.params.fileid,
+        Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
         req.user
       );
 

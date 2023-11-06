@@ -44,6 +44,7 @@ const projectRepositoryFactory = () => {
     findResultFiles,
     addResultFiles,
     deleteResultFile,
+    changeResultFile,
   });
 
   async function getNew(limit?: number): Promise<{
@@ -279,6 +280,57 @@ const projectRepositoryFactory = () => {
         resultFiles: resultFiles
           ?.filter((file) => file.id != fileId)
           .map((file) => ({ ...file, file: file.file?.data?.id })),
+      },
+    };
+
+    const updatedResponse = await strapi.put("projects/" + projectId, {
+      token: process.env.PROJECTS_TOKEN!,
+      body,
+    });
+
+    return 200;
+  }
+
+  async function changeResultFile(
+    projectId: number,
+    fileId: number,
+    file: UploadedFile
+  ) {
+    const params = {
+      populate: {
+        resultFiles: selectNamedFile(),
+      },
+    };
+
+    const response = await strapi.get("projects/" + projectId, {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    if (!response.data.attributes.resultFiles)
+      throw new ServerError("Couldn't find project's resultFiles");
+
+    const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
+
+    const formData = new FormData();
+    formData.append("files", new Blob([file.data]), file.name);
+
+    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
+      headers: {
+        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
+      },
+      method: "POST",
+      body: formData as any,
+    }).then((res) => (res.ok ? res.json() : null));
+
+    const body = {
+      data: {
+        resultFiles: resultFiles.map((file) => ({
+          ...file,
+          file:
+            file.id == fileId ? fileUploadResponse[0].id : file.file?.data?.id,
+          name: file.id == fileId ? fileUploadResponse[0].name : file.name,
+        })),
       },
     };
 
