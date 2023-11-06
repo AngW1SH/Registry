@@ -125,6 +125,9 @@ export const getProjectListFromStrapiDTO = (
       teams: project.attributes.teams?.data
         ? project.attributes.teams.data.map((team) => team.id)
         : [],
+      resultFiles: project.attributes.resultFiles
+        ? getNamedFileListFromStrapiDTO(project.attributes.resultFiles)
+        : [],
     })),
     tags: tags,
     users,

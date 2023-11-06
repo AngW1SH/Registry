@@ -2,16 +2,10 @@ import { IMember } from "@/entities/Member";
 import { IProject } from "@/entities/Project";
 import { ITeam } from "@/entities/Team";
 import { IUser } from "@/entities/User";
+import { NamedFile } from "@/shared/types";
 
 export interface UserProject extends IProject {
-  resultFiles: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
+  resultFiles: NamedFile[];
 }
 
 export interface ProjectInspect {

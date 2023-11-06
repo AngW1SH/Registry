@@ -1,3 +1,4 @@
+import { NamedFile } from "@/entities/components/named-file";
 import { Tag } from "@/entities/tag";
 
 export interface ProjectReference {
@@ -20,6 +21,7 @@ export interface Project {
   tags: number[];
   teams: number[];
   teamLimit: number | null;
+  resultFiles?: NamedFile[] | null;
 }
 
 export interface ProjectDTO {
@@ -62,45 +64,15 @@ export interface ProjectFiltersDTO {
 export interface ProjectDetailed extends Project {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles:
-    | {
-        id: number;
-        name: string;
-        date: string;
-        url: string;
-      }[]
-    | null;
-  resultFiles:
-    | {
-        id: number;
-        name: string;
-        date: string;
-        url: string;
-      }[]
-    | null;
+  descriptionFiles: NamedFile[] | null;
+  resultFiles: NamedFile[] | null;
 }
 
 export interface ProjectDetailedDTO extends ProjectDTO {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles:
-    | {
-        id: number;
-        name: string;
-        url: string;
-        type: string;
-        size: string;
-      }[]
-    | null;
-  resultFiles:
-    | {
-        id: number;
-        name: string;
-        url: string;
-        type: string;
-        size: string;
-      }[]
-    | null;
+  descriptionFiles: NamedFile[] | null;
+  resultFiles: NamedFile[] | null;
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {

@@ -1,3 +1,5 @@
+import { NamedFile } from "@/shared/types";
+
 export interface IProjectReference {
   id: number;
   name: string;
@@ -40,43 +42,15 @@ export type ProjectDTO = {
 export interface IProjectSingle extends IProject {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
-  resultFiles: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
+  descriptionFiles: NamedFile[];
+  resultFiles: NamedFile[];
 }
 
 export interface IProjectSingleDTO extends ProjectDTO {
   requestCount: number;
   developerRequirements: string[];
-  descriptionFiles: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
-  resultFiles: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-  }[];
+  descriptionFiles: NamedFile[];
+  resultFiles: NamedFile[];
 }
 
 export enum ProjectStage {

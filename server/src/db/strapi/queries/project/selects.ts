@@ -81,7 +81,7 @@ export const selectUserProject = (
       teams: {
         fields: ["id"],
       },
-      resultFiles: true,
+      resultFiles: selectNamedFile(),
       ...populate,
     },
   };
