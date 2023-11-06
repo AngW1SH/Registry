@@ -4,6 +4,7 @@ import { selectNamedFile } from "@/db/strapi/queries/components/named-file";
 import { NamedFileStrapi } from "@/db/strapi/types/components/named-file";
 import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
+import uploadRepository from "../upload";
 
 const projectResultsRepositoryFactory = () => {
   return Object.freeze({
@@ -45,19 +46,7 @@ const projectResultsRepositoryFactory = () => {
 
     const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
 
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append("files", new Blob([file.data]), file.name);
-    });
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData as any,
-    }).then((res) => (res.ok ? res.json() : null));
+    const fileUploadResponse = await uploadRepository.upload(files);
 
     const body = {
       select: {
@@ -143,16 +132,7 @@ const projectResultsRepositoryFactory = () => {
 
     const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
 
-    const formData = new FormData();
-    formData.append("files", new Blob([file.data]), file.name);
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData as any,
-    }).then((res) => (res.ok ? res.json() : null));
+    const fileUploadResponse = await uploadRepository.upload(file);
 
     const body = {
       data: {

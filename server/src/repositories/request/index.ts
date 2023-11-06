@@ -16,6 +16,7 @@ import { TeamWithAdministrators } from "@/entities/team/types/types";
 import { User } from "@/entities/user";
 import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
+import uploadRepository from "../upload";
 
 const requestRepositoryFactory = () => {
   return Object.freeze({
@@ -78,26 +79,10 @@ const requestRepositoryFactory = () => {
     if (!createResponse.data || !createResponse.data.id)
       throw new ServerError("Failed to create a Request");
 
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append(
-        "files",
-        new Blob([file.data]),
-        new Date().toTimeString() + file.name
-      );
-    });
-
-    formData.append("ref", "api::request.request");
-    formData.append("refId", createResponse.data.id);
-    formData.append("field", "files");
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData,
+    const fileUploadResponse = await uploadRepository.upload(files, {
+      ref: "api::request.request",
+      refId: createResponse.data.id,
+      field: "files",
     });
 
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
@@ -117,26 +102,10 @@ const requestRepositoryFactory = () => {
       body,
     });
 
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append(
-        "files",
-        new Blob([file.data]),
-        new Date().toTimeString() + file.name
-      );
-    });
-
-    formData.append("ref", "api::request.request");
-    formData.append("refId", "" + request);
-    formData.append("field", "files");
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData,
+    const fileUploadResponse = await uploadRepository.upload(files, {
+      ref: "api::request.request",
+      refId: "" + request,
+      field: "files",
     });
 
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");

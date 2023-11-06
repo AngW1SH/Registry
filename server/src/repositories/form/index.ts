@@ -4,6 +4,7 @@ import { strapi } from "@/db/strapi/client";
 import { selectFormResult } from "@/db/strapi/queries/components/form-result";
 import { FormListStrapi } from "@/db/strapi/types/form";
 import { Form, FormResult } from "@/entities/form";
+import uploadRepository from "../upload";
 
 const formRepositoryFactory = () => {
   return {
@@ -62,21 +63,10 @@ const formRepositoryFactory = () => {
   async function submit(formId: number, response: any, userId: number) {
     const forms: FormResult[] = await findResults(userId);
 
-    const formData = new FormData();
-
-    formData.append(
-      "files",
-      new Blob([JSON.stringify(response)]),
-      userId + "-" + formId + "-" + new Date().toTimeString() + ".json"
-    );
-
-    const fileUploadResponse = await fetch(process.env.STRAPI_URL + "upload", {
-      headers: {
-        Authorization: "bearer " + process.env.UPLOAD_TOKEN,
-      },
-      method: "POST",
-      body: formData as any,
-    }).then((res) => (res.ok ? res.json() : null));
+    const fileUploadResponse = await uploadRepository.upload({
+      data: JSON.stringify(response),
+      name: userId + "-" + formId + "-" + new Date().toTimeString() + ".json",
+    });
 
     const body = {
       data: {
