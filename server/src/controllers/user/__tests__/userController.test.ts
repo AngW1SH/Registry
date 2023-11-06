@@ -28,7 +28,7 @@ describe("User Controller", () => {
         refreshToken: "2",
       });
 
-      const result = await userController.authorize(req, res);
+      const result = await userController.authorize(req, res, jest.fn());
 
       expect(res.cookie).toBeCalledTimes(2);
     });
@@ -44,7 +44,7 @@ describe("User Controller", () => {
         "user-refresh": "456",
       };
 
-      const result = await userController.logout(req, res);
+      const result = await userController.logout(req, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
@@ -54,7 +54,7 @@ describe("User Controller", () => {
         "user-refresh": "456",
       };
 
-      const result = await userController.logout(req, res);
+      const result = await userController.logout(req, res, jest.fn());
 
       expect(res.cookie).toBeCalled();
       expect(res.cookie).toBeCalledWith(

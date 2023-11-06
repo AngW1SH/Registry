@@ -34,13 +34,13 @@ describe("Project Controller", () => {
       jest.clearAllMocks();
     });
     it("should send a json", async () => {
-      await projectController.getActive(req, res);
+      await projectController.getActive(req, res, jest.fn());
 
       expect(res.json).toHaveBeenCalled();
     });
 
     it("should send a 200 status", async () => {
-      await projectController.getActive(req, res);
+      await projectController.getActive(req, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
@@ -61,7 +61,7 @@ describe("Project Controller", () => {
       req.body = {
         id: 1,
       };
-      await projectController.findById(req, res);
+      await projectController.findById(req, res, jest.fn());
 
       expect(res.json).toHaveBeenCalled();
     });
@@ -70,7 +70,7 @@ describe("Project Controller", () => {
       req.params = {
         id: 1,
       };
-      await projectController.findById(req, res);
+      await projectController.findById(req, res, jest.fn());
 
       expect(res.json).toHaveBeenCalled();
     });
@@ -79,7 +79,7 @@ describe("Project Controller", () => {
       req.body = {
         id: 1,
       };
-      await projectController.findById(req, res);
+      await projectController.findById(req, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
@@ -90,13 +90,13 @@ describe("Project Controller", () => {
       jest.clearAllMocks();
     });
     it("should send a json", async () => {
-      await projectController.findMany(req, res);
+      await projectController.findMany(req, res, jest.fn());
 
       expect(res.json).toHaveBeenCalled();
     });
 
     it("should send a 200 status", async () => {
-      await projectController.findMany(req, res);
+      await projectController.findMany(req, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
