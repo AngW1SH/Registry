@@ -24,6 +24,7 @@ const requestRepositoryFactory = () => {
     findMany,
     getActive,
     countActive,
+    deleteOne,
   });
 
   async function findMany(
@@ -198,6 +199,7 @@ const requestRepositoryFactory = () => {
                   user: selectUser(),
                 }),
                 administrators: selectUser(),
+                requests: selectRequest(),
               }),
             }
           : undefined
@@ -212,6 +214,14 @@ const requestRepositoryFactory = () => {
     if (!result.data) return null;
 
     return getRequestListFromStrapiDTO(result, { includeAdmin: true });
+  }
+
+  async function deleteOne(id: number) {
+    const result = await strapi.delete("requests/" + id, {
+      token: process.env.REQUESTS_TOKEN!,
+    });
+
+    return 200;
   }
 };
 

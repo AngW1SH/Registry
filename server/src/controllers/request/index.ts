@@ -7,6 +7,7 @@ const requestControllerFactory = () => {
     add,
     edit,
     getAvailable,
+    deleteOne,
   });
 
   async function add(req: Request, res: Response, next: NextFunction) {
@@ -70,6 +71,27 @@ const requestControllerFactory = () => {
         );
 
       const result = await requestService.getAvailable(req.user);
+
+      res.status(200).send(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function deleteOne(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (req.method !== "DELETE")
+        throw new BadRequestError("Unsupported method");
+
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in requestController.getAvailable"
+        );
+
+      if (!req.params.id)
+        throw new BadRequestError("Missing request identifier");
+
+      const result = await requestService.deleteOne(+req.params.id, req.user);
 
       res.status(200).send(result);
     } catch (err) {

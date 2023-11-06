@@ -7,6 +7,7 @@ import requestRepository from "@/repositories/request";
 import teamRepository from "@/repositories/team";
 import { UploadedFile } from "express-fileupload";
 import { mergeUnique } from "../user/utils/mergeUnique";
+import { TeamWithAdministrators } from "@/entities/team/types/types";
 
 const requestServiceFactory = () => {
   return Object.freeze({
@@ -14,6 +15,7 @@ const requestServiceFactory = () => {
     populateTeams,
     edit,
     getAvailable,
+    deleteOne,
   });
 
   async function add(
@@ -126,6 +128,34 @@ const requestServiceFactory = () => {
     });
 
     return result;
+  }
+
+  async function deleteOne(requestId: number, user: User) {
+    const userRequests = await requestRepository.getActive(
+      { user: user.id },
+      { populate: true }
+    );
+
+    if (!userRequests || !userRequests.requests)
+      throw new ServerError("Couldn't fetch the user's requests");
+
+    const { requests, teams } = userRequests;
+
+    const requestFound = requests.find((request) => {
+      const team = teams?.find((team) => team.id == request.team);
+
+      if (!team || !team.hasOwnProperty("administrators")) return false;
+      return (
+        (team as TeamWithAdministrators).administrators.includes(user.id) &&
+        !!requests.find((request) => request.id == requestId) &&
+        team.requests?.includes(requestId)
+      );
+    });
+
+    if (!requestFound)
+      throw new UnauthorizedError("User not authorized to perform this action");
+
+    return requestRepository.deleteOne(requestId);
   }
 };
 

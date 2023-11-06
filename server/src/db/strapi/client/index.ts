@@ -54,4 +54,19 @@ export const strapi = {
       body: JSON.stringify(options.body),
     }).then((data) => data.json());
   },
+
+  async delete(
+    entityWithId: string,
+    options: {
+      token: string;
+    }
+  ) {
+    return fetch(process.env.STRAPI_URL + entityWithId, {
+      headers: {
+        Authorization: "bearer " + options.token,
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+    }).then((data) => data.json());
+  },
 };

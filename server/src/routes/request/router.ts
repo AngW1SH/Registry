@@ -23,4 +23,10 @@ requestRouter.get(
   requestController.getAvailable
 );
 
+requestRouter.delete(
+  "/:id",
+  passport.authenticate("jwt-authenticate"),
+  requestController.deleteOne
+);
+
 export default requestRouter;

@@ -9,10 +9,12 @@ interface RequestInspectCardProps {
   user: IUser;
   requestInspect: RequestInspect;
   editFiles?: ReactNode;
+  deleteRequest?: ReactNode;
 }
 
 const RequestInspectCard: FC<RequestInspectCardProps> = ({
   user,
+  deleteRequest,
   requestInspect,
   editFiles,
 }) => {
@@ -62,9 +64,7 @@ const RequestInspectCard: FC<RequestInspectCardProps> = ({
           <p>В рассмотрении</p>
         </div>
         <div className="pt-4" />
-        <ButtonAlt className="rounded-full border px-16 py-[0.65rem]">
-          Отозвать
-        </ButtonAlt>
+        {deleteRequest}
       </div>
       <div className="absolute right-0 top-4 px-11 py-8">
         {request.files.map((file) => (
