@@ -15,7 +15,7 @@ const StatusBuilder: FC<StatusBuilderProps> = ({ project, users }) => {
 
   switch (stage) {
     case ProjectStage.active:
-      return <StatusActive users={users} />;
+      return <StatusActive project={project} users={users} />;
     case ProjectStage.hiring:
       return <StatusHiring project={project} />;
     case ProjectStage.completed:

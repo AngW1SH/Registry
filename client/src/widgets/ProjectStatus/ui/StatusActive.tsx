@@ -1,12 +1,14 @@
+import { IProject, IProjectSingle } from "@/entities/Project";
 import { IUser, formatNameShort } from "@/entities/User";
 import { Button } from "@/shared/ui";
 import { FC } from "react";
 
 interface StatusActiveProps {
+  project: IProject;
   users: IUser[] | null;
 }
 
-const StatusActive: FC<StatusActiveProps> = ({ users }) => {
+const StatusActive: FC<StatusActiveProps> = ({ project, users }) => {
   return (
     <div className="my-auto flex flex-col overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
       <h2 className="text-center text-4xl text-primary lg:text-left">
@@ -18,13 +20,13 @@ const StatusActive: FC<StatusActiveProps> = ({ users }) => {
       <div className="pt-7" />
       <ul className="flex flex-wrap text-center leading-7 lg:text-left lg:text-sm xl:text-base">
         {users &&
-          users.length < 10 &&
+          project.teams.length < 2 &&
           users.map((user) => (
             <li key={user.email} className="w-full sm:w-1/2">
               {formatNameShort(user.name)}
             </li>
           ))}
-        {(!users || users.length >= 10) && (
+        {(!users || project.teams.length > 1) && (
           <p>Вы можете ознакомиться с командами-исполнителями ниже</p>
         )}
       </ul>

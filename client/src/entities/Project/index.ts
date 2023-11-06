@@ -2,6 +2,11 @@ import ProjectCard from "./ui/ProjectCard";
 import ProjectCardAlt from "./ui/ProjectCardAlt";
 import ProjectCardWithStatus from "./ui/ProjectCardWithStatus";
 import { staticProjects } from "./static/staticProjects";
+import {
+  staticProjectSingleNotStarted,
+  staticProjectSingleOngoing,
+  staticProjectSingleCompleted,
+} from "./static/staticProjectsSingle";
 import { getProjectStage } from "./utils/getProjectStage";
 import {
   getProjectSingleFromDTO,
@@ -22,6 +27,9 @@ export {
   ProjectCardAlt,
   ProjectCardWithStatus,
   staticProjects,
+  staticProjectSingleNotStarted,
+  staticProjectSingleOngoing,
+  staticProjectSingleCompleted,
   getProjectStage,
   ProjectStage,
   getProjectFromDTO,
