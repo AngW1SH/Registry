@@ -138,7 +138,7 @@ const userControllerFactory = () => {
 
       const result = await userService.getData(req.user);
 
-      res.status(200).send(result);
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }
@@ -176,7 +176,7 @@ const userControllerFactory = () => {
 
       const result = await userService.getProfileData(req.user);
 
-      res.status(200).send(result);
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }
