@@ -5,14 +5,14 @@ import type {
   ProjectReference,
 } from "./types/types";
 import {
-  staticProjectsWithTags,
+  staticProjectList,
   staticProjectsWithTagsResult,
 } from "./static/projectsWithTags";
 import { getProjectFromDTO } from "./utils/getProjectFromDTO";
 import { getProjectFiltersFromDTO } from "./utils/getProjectFiltersFromDTO";
 
 export {
-  staticProjectsWithTags,
+  staticProjectList,
   staticProjectsWithTagsResult,
   getProjectFromDTO,
   getProjectFiltersFromDTO,
