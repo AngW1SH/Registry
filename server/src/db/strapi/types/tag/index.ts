@@ -2,6 +2,13 @@ export interface TagStrapiInner {
   id: number;
   attributes: {
     name: string;
+    projects?: {
+      data: {
+        attributes: {
+          count: number;
+        };
+      } | null;
+    };
   };
 }
 

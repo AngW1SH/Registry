@@ -7,7 +7,7 @@ export const getDetailedCategoryFromStrapiDTO = (
 ): DetailedCategory | null => {
   if (!dto || !dto.tags.data || !dto.tags.data.length) return null;
 
-  const tags = getTagListFromStrapiDTO(dto.tags);
+  const tags = getTagListFromStrapiDTO(dto.tags, { projectCount: true });
 
   return {
     type: "detailed",
@@ -25,7 +25,7 @@ export const getDetailedCategoryFromStrapiDTO = (
     tags: tags.map((tag) => ({
       id: "" + tag.id,
       name: tag.name,
-      projectsCount: 0,
+      projectsCount: tag.projectCount || 0,
     })),
   };
 };

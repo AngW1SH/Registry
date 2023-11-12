@@ -1,5 +1,7 @@
 import { getCategoryFromStrapiDTO } from "@/db/strapi/adapters/category";
 import { strapi } from "@/db/strapi/client";
+import { selectTag } from "@/db/strapi/queries/tag";
+import { populate } from "dotenv";
 
 const categoryRepositoryFactory = () => {
   return Object.freeze({ getFeatured });
@@ -9,8 +11,8 @@ const categoryRepositoryFactory = () => {
       populate: {
         Featured: {
           populate: {
-            tag: true,
-            tags: true,
+            tag: selectTag({ projectsCount: true }),
+            tags: selectTag({ projectsCount: true }),
             image: {
               fields: ["id", "name", "url", "mime", "size"],
             },

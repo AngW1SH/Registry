@@ -7,13 +7,13 @@ export const getImageCategoryFromStrapiDTO = (
 ): ImageCategory | null => {
   if (!dto || !dto.tag.data || !dto.image.data) return null;
 
-  const { tag } = getTagFromStrapiDTO(dto.tag);
+  const { tag } = getTagFromStrapiDTO(dto.tag, { projectCount: true });
 
   return {
     type: "image",
     name: tag.name,
     link: "projects?tag0=" + tag.name,
     image: "/strapi" + dto.image.data.attributes.url,
-    projectsCount: 0,
+    projectsCount: tag.projectCount || 0,
   };
 };
