@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_image_category_image_categories",
+  "info": {
+    "displayName": "ImageCategory",
+    "icon": "picture",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": false
+    },
+    "tag": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tag.tag"
+    }
+  }
+}

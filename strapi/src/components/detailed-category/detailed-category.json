@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_detailed_category_detailed_categories",
+  "info": {
+    "displayName": "DetailedCategory",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tag.tag"
+    }
+  }
+}

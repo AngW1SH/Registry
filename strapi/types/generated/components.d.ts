@@ -1,5 +1,22 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface DetailedCategoryDetailedCategory extends Schema.Component {
+  collectionName: 'components_detailed_category_detailed_categories';
+  info: {
+    displayName: 'DetailedCategory';
+    icon: 'bulletList';
+    description: '';
+  };
+  attributes: {
+    name: Attribute.String;
+    tags: Attribute.Relation<
+      'detailed-category.detailed-category',
+      'oneToMany',
+      'api::tag.tag'
+    >;
+  };
+}
+
 export interface DeveloperRequirementDeveloperRequirement
   extends Schema.Component {
   collectionName: 'components_developer_requirement_developer_requirements';
@@ -10,6 +27,23 @@ export interface DeveloperRequirementDeveloperRequirement
   };
   attributes: {
     developerRequirement: Attribute.String;
+  };
+}
+
+export interface ImageCategoryImageCategory extends Schema.Component {
+  collectionName: 'components_image_category_image_categories';
+  info: {
+    displayName: 'ImageCategory';
+    icon: 'picture';
+    description: '';
+  };
+  attributes: {
+    image: Attribute.Media;
+    tag: Attribute.Relation<
+      'image-category.image-category',
+      'oneToOne',
+      'api::tag.tag'
+    >;
   };
 }
 
@@ -48,7 +82,9 @@ export interface UserFormUserForm extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'detailed-category.detailed-category': DetailedCategoryDetailedCategory;
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
+      'image-category.image-category': ImageCategoryImageCategory;
       'named-file.named-file': NamedFileNamedFile;
       'user-form.user-form': UserFormUserForm;
     }
