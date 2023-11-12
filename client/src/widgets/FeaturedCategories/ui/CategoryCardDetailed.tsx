@@ -21,7 +21,7 @@ const CategoryCardDetailed: FC<CategoryCardDetailedProps> = ({
       <ul>
         {category.tags.map((tag) => (
           <li key={tag.id} className="pb-1 text-[13px]">
-            <Link href={"/tag/" + tag.id}>{tag.name} </Link>
+            <Link href={"/projects?tag0=" + tag.name}>{tag.name} </Link>
             <span className="pl-2 text-[#808285]">{tag.projectsCount}</span>
           </li>
         ))}

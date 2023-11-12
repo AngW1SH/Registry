@@ -2,6 +2,7 @@ import { FC } from "react";
 import { CategoryCardWithImage } from "../types/types";
 import Image from "next/image";
 import { ButtonTransparent } from "@/shared/ui";
+import Link from "next/link";
 
 interface CategoryCardWithImageProps {
   category: CategoryCardWithImage;
@@ -33,7 +34,7 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
         </h2>
         <div className="pt-4" />
         <ButtonTransparent className="w-max text-xs font-normal">
-          {category.projectsCount} проектов
+          <Link href={category.link}>{category.projectsCount} проектов</Link>
         </ButtonTransparent>
       </div>
     </div>
