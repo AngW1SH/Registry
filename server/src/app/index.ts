@@ -14,6 +14,7 @@ import emailRouter from "@/routes/email/router";
 import errorLogger from "@/middleware/errors/ErrorLogger";
 import errorHandler from "@/middleware/errors/ErrorHandler";
 import memberRouter from "@/routes/member/router";
+import categoryRouter from "@/routes/category/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -42,6 +43,7 @@ const generateApp = (port?: number) => {
   app.use("/request", requestRouter);
   app.use("/email", emailRouter);
   app.use("/member", memberRouter);
+  app.use("/category", categoryRouter);
 
   app.use(errorLogger);
   app.use(errorHandler);
