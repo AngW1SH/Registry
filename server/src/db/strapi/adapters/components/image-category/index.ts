@@ -13,7 +13,7 @@ export const getImageCategoryFromStrapiDTO = (
     type: "image",
     name: tag.name,
     link: "projects?tag0=" + tag.name,
-    image: dto.image.data.attributes.url,
+    image: "/strapi" + dto.image.data.attributes.url,
     projectsCount: 0,
   };
 };
