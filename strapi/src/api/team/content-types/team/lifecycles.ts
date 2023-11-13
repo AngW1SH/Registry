@@ -136,4 +136,39 @@ export default {
 
     if (projectName) event.params.data.name += " - " + projectName;
   },
+
+  async afterUpdate(event) {
+    const { result, params } = event;
+
+    const events = await strapi.entityService.findMany("api::project.project", {
+      populate: {
+        teams: {
+          populate: {
+            administrators: false,
+            members: {
+              populate: {
+                user: true,
+              },
+            },
+          },
+        },
+        developerRequirements: true,
+        tags: true,
+      },
+      filters: {
+        teams: {
+          id: {
+            $eq: params.data.id,
+          },
+        },
+      },
+    });
+
+    const meilisearch = strapi.plugin("meilisearch").service("meilisearch");
+    meilisearch.updateEntriesInMeilisearch({
+      contentType: "api::project.project",
+      entries: events,
+    });
+    // do something to the result;
+  },
 };
