@@ -104,7 +104,10 @@ const generateStatusFilters = (status?: string) => {
   }
 };
 
-export const generateProjectFilters = (filters: ProjectFilters) => {
+export const generateProjectFilters = (
+  filters: ProjectFilters,
+  idList?: number[]
+) => {
   const dateFilters = generateDateFilters(
     "date",
     filters.dateStart,
@@ -116,13 +119,21 @@ export const generateProjectFilters = (filters: ProjectFilters) => {
     filters.enrollmentEnd
   );
 
+  const idFilters = idList
+    ? {
+        id: {
+          $in: idList,
+        },
+      }
+    : null;
+
   return {
     $and: [
       (filters.dateStart || filters.dateEnd) && dateFilters,
       (filters.enrollmentStart || filters.enrollmentEnd) && enrollmentFilters,
-      filters.text && generateTextFilters(filters.text),
       filters.tags && generateTagFilters(filters.tags),
       filters.status && generateStatusFilters(filters.status),
+      idFilters,
     ].filter((elem) => elem),
   };
 };

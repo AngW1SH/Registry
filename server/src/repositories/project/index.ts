@@ -25,6 +25,7 @@ import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
 import requestRepository from "../request";
 import { BadRequestError } from "@/helpers/errors";
+import meilisearch from "@/db/meilisearch/client";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -154,9 +155,20 @@ const projectRepositoryFactory = () => {
   }> {
     if (!checkFilterValidity(filters)) return { projects: [], tags: [] };
 
+    const meiliResult =
+      filters && filters.text
+        ? await meilisearch.index("project").search(filters.text)
+        : null;
+
+    const idList = meiliResult
+      ? meiliResult.hits.map((hit) => hit.id)
+      : undefined;
+
+    if (idList && !idList.length) return { projects: [], tags: [] };
+
     const params = {
       sort: ["dateStart:desc"],
-      filters: filters ? generateProjectFilters(filters) : undefined,
+      filters: filters ? generateProjectFilters(filters, idList) : undefined,
       ...selectProjectInList({
         tags: selectTag(),
       }),
