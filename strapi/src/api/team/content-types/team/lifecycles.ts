@@ -27,9 +27,10 @@ export default {
 
     const membersData = event.params.data.members;
 
-    const membersAddedIds = membersData.connect.length
-      ? membersData.connect.map((data) => data.id)
-      : [];
+    const membersAddedIds =
+      membersData && membersData.connect.length
+        ? membersData.connect.map((data) => data.id)
+        : [];
 
     const membersAddedNames = !membersAddedIds.length
       ? []
@@ -49,9 +50,10 @@ export default {
           .filter((member) => member.user)
           .map((member) => formatName(member.user.name));
 
-    const membersRemovedIds = membersData.disconnect.length
-      ? membersData.disconnect.map((data) => data.id)
-      : [];
+    const membersRemovedIds =
+      membersData && membersData.disconnect.length
+        ? membersData.disconnect.map((data) => data.id)
+        : [];
 
     const memberNotRemovedNames = existingData.members
       .filter(
@@ -64,17 +66,18 @@ export default {
 
     const projectData = event.params.data.project;
 
-    const projectAdded = !projectData.connect.length
-      ? null
-      : (
-          await strapi.entityService.findOne(
-            "api::project.project",
-            projectData.connect[0].id,
-            {
-              fields: ["name"],
-            }
-          )
-        ).name;
+    const projectAdded =
+      !projectData || !projectData.connect.length
+        ? null
+        : (
+            await strapi.entityService.findOne(
+              "api::project.project",
+              projectData.connect[0].id,
+              {
+                fields: ["name"],
+              }
+            )
+          ).name;
 
     const projectName =
       projectAdded ||
@@ -139,6 +142,8 @@ export default {
 
   async afterUpdate(event) {
     const { result, params } = event;
+
+    if (!params.data.id) return;
 
     const events = await strapi.entityService.findMany("api::project.project", {
       populate: {
