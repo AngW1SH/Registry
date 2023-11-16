@@ -4,15 +4,31 @@
  *
  */
 
-import React from 'react';
-import pluginId from '../../pluginId';
+import React from "react";
+import pluginId from "../../pluginId";
+import {
+  Layout,
+  BaseHeaderLayout,
+  ContentLayout,
+  Button,
+} from "@strapi/design-system";
+
+import { Plus, Pencil } from "@strapi/icons";
+import DraftList from "../../components/DraftList";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Layout>
+      <BaseHeaderLayout
+        primaryAction={<Button startIcon={<Plus />}>Add an entry</Button>}
+        title="Team Drafts"
+        subtitle="5 entries found"
+        as="h2"
+      />
+      <ContentLayout>
+        <DraftList />
+      </ContentLayout>
+    </Layout>
   );
 };
 
