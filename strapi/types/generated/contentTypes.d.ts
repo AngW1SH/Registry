@@ -482,6 +482,81 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginTeamBuilderDraft extends Schema.CollectionType {
+  collectionName: 'drafts';
+  info: {
+    singularName: 'draft';
+    pluralName: 'drafts';
+    displayName: 'Draft';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::team-builder.draft',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::team-builder.draft',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface PluginTeamBuilderTeamDraft extends Schema.CollectionType {
+  collectionName: 'team_drafts';
+  info: {
+    singularName: 'team-draft';
+    pluralName: 'team-drafts';
+    displayName: 'Team Draft';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::team-builder.team-draft',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::team-builder.team-draft',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -861,6 +936,8 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::team-builder.draft': PluginTeamBuilderDraft;
+      'plugin::team-builder.team-draft': PluginTeamBuilderTeamDraft;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::category.category': ApiCategoryCategory;
       'api::form.form': ApiFormForm;

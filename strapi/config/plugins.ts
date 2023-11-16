@@ -35,6 +35,10 @@ const conf = () => ({
       },
     },
   },
+  "team-builder": {
+    enabled: true,
+    resolve: "./src/plugins/team-builder",
+  },
 });
 
 export default conf;
