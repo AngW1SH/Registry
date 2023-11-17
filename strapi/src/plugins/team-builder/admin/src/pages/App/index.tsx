@@ -19,7 +19,7 @@ const App = () => {
         <HomePage />
       </Route>
       <Route path={"/plugins/" + pluginId + "/:id"}>
-        <EditPage />
+        <EditPage pluginId={pluginId} />
       </Route>
     </div>
   );
