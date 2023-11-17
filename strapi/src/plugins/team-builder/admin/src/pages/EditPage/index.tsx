@@ -13,6 +13,7 @@ import UserSelect from "../../components/UserSelect";
 import FormSelect from "../../components/FormSelect";
 import FormFieldSelect from "../../components/FormFieldSelect";
 import AutoGenerate from "../../components/AutoGenerate";
+import TeamList from "../../components/TeamList";
 
 interface EditPageProps {
   pluginId: string;
@@ -29,8 +30,8 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
           background="neutral0"
           hasRadius
           shadow="filterShadow"
-          paddingTop={6}
-          paddingBottom={6}
+          paddingTop={8}
+          paddingBottom={8}
           paddingLeft={7}
           paddingRight={7}
         >
@@ -53,6 +54,8 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
           <Marginer vertical={25} />
           <AutoGenerate />
         </Box>
+        <Marginer vertical={30} />
+        <TeamList />
       </ContentLayout>
     </Layout>
   );
