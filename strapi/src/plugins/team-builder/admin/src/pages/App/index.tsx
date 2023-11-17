@@ -6,16 +6,20 @@
  */
 
 import React from "react";
-import { Route } from "react-router-dom";
 import { AnErrorOccurred } from "@strapi/helper-plugin";
 import pluginId from "../../pluginId";
 import HomePage from "../HomePage";
+import { Route } from "react-router-dom";
+import EditPage from "../EditPage";
 
 const App = () => {
   return (
     <div>
-      <Route path={`/plugins/${pluginId}`}>
+      <Route path={"/plugins/" + pluginId} exact>
         <HomePage />
+      </Route>
+      <Route path={"/plugins/" + pluginId + "/:id"}>
+        <EditPage />
       </Route>
     </div>
   );
