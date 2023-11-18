@@ -26,7 +26,7 @@ const TeamList: FC<TeamListProps> = () => {
   const { draggedTo, handleDragStart } = useDnD();
   const [userAddTeamIndex, setUserAddTeamIndex] = useState<number | null>(null);
 
-  const { teams, addStudents, removeStudent } = useDraftTeamsStore();
+  const { teams, addTeam, addStudents, removeStudent } = useDraftTeamsStore();
 
   return (
     <>
@@ -109,6 +109,24 @@ const TeamList: FC<TeamListProps> = () => {
             </Box>
           </TeamInList>
         ))}
+        <TeamInList>
+          <Box
+            background="primary100"
+            hasRadius
+            shadow="filterShadow"
+            paddingTop={3}
+            paddingBottom={3}
+            paddingLeft={7}
+            paddingRight={7}
+            height="100%"
+            width="100%"
+            onClick={addTeam}
+          >
+            <AddTeamInList>
+              <Plus />
+            </AddTeamInList>
+          </Box>
+        </TeamInList>
       </TeamListStyled>
     </>
   );

@@ -11,10 +11,30 @@ interface DraftTeamsState {
     from: { teamIndex: number; studentIndex: number },
     to: { teamIndex: number; studentIndex: number }
   ) => void;
+  addTeam: () => void;
 }
 
 export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
   teams: staticTeamList,
+  addTeam: () =>
+    set((state) => ({
+      teams: [
+        ...state.teams,
+        {
+          id: state.teams.reduce(
+            (acc, cur) => (acc < cur.id ? cur.id : acc),
+            0
+          ),
+          name:
+            "Team " +
+            state.teams.reduce(
+              (acc, cur) => (acc <= cur.id ? cur.id + 1 : acc),
+              0
+            ),
+          students: [],
+        },
+      ],
+    })),
   addStudents: (teamIndex: number, students: IStudent[]) =>
     set((state) => ({
       teams: state.teams.map((team, index) =>
