@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Box } from "@strapi/design-system";
 import { Plus } from "@strapi/icons";
 import {
@@ -16,16 +16,28 @@ import Marginer from "../shared/Marginer";
 import { useDnD } from "./hooks/useDnD";
 import { useDraftTeamsStore } from "../../entities/Team/model";
 import { formatNameShort } from "../../entities/Student";
+import { ITeam } from "../../entities/Team";
+import UserAdd from "../UserAdd";
 
 interface TeamListProps {}
 
 const TeamList: FC<TeamListProps> = () => {
   const { draggedTo, handleDragStart } = useDnD();
+  const [userAddTeamIndex, setUserAddTeamIndex] = useState<number | null>(null);
 
-  const teams = useDraftTeamsStore().teams;
+  const { teams, addStudents } = useDraftTeamsStore();
 
   return (
     <>
+      {userAddTeamIndex !== null && (
+        <UserAdd
+          onCancel={() => setUserAddTeamIndex(null)}
+          onConfirm={(students) => {
+            addStudents(userAddTeamIndex, students);
+            setUserAddTeamIndex(null);
+          }}
+        />
+      )}
       <TeamListStyled onMouseDown={handleDragStart}>
         {teams.map((team, index) => (
           <TeamInList>
@@ -81,6 +93,7 @@ const TeamList: FC<TeamListProps> = () => {
                 paddingBottom={3}
                 paddingLeft={7}
                 paddingRight={7}
+                onClick={() => setUserAddTeamIndex(index)}
               >
                 <Plus />
               </Box>

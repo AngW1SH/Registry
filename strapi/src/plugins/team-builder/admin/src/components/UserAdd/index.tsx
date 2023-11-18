@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import {
   ModalLayout,
   ModalHeader,
@@ -10,12 +10,36 @@ import {
   MultiSelectOption,
 } from "@strapi/design-system";
 import Marginer from "../shared/Marginer";
+import { ITeam } from "../../entities/Team";
+import { IStudent, useStudentStore } from "../../entities/Student";
+import { useDraftTeamsStore } from "../../entities/Team/model";
 
-interface UserAddProps {}
+interface UserAddProps {
+  onCancel: () => void;
+  onConfirm: (students: IStudent[]) => void;
+}
 
-const UserAdd: FC<UserAddProps> = () => {
+const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
+  const [selected, setSelected] = useState<string[] | null>(null);
+
+  const { active } = useStudentStore();
+  const { teams } = useDraftTeamsStore();
+
+  const unassigned = useMemo(() => {
+    return active.filter((student) => {
+      let found = false;
+
+      teams.forEach((team) => {
+        if (team.students.find((teamStudent) => teamStudent.id == student.id))
+          found = true;
+      });
+
+      return !found;
+    });
+  }, [active, teams]);
+
   return (
-    <ModalLayout labelledBy="Add to Team 1">
+    <ModalLayout labelledBy="Add to Team 1" onClose={onCancel}>
       <ModalHeader>
         <Typography
           fontWeight="bold"
@@ -28,24 +52,41 @@ const UserAdd: FC<UserAddProps> = () => {
       </ModalHeader>
       <ModalBody>
         <Marginer vertical={10} />
-        <MultiSelect label="Students" required placeholder="Select students">
-          <MultiSelectOption value="apple">Apple</MultiSelectOption>
-          <MultiSelectOption value="avocado">Avocado</MultiSelectOption>
-          <MultiSelectOption value="banana">Banana</MultiSelectOption>
-          <MultiSelectOption value="kiwi">Kiwi</MultiSelectOption>
-          <MultiSelectOption value="mango">Mango</MultiSelectOption>
-          <MultiSelectOption value="orange">Orange</MultiSelectOption>
-          <MultiSelectOption value="strawberry">Strawberry</MultiSelectOption>
+        <MultiSelect
+          value={selected}
+          onChange={setSelected}
+          label="Students"
+          required
+          placeholder="Select students"
+        >
+          {unassigned.map((student) => (
+            <MultiSelectOption value={student.name}>
+              {student.name}
+            </MultiSelectOption>
+          ))}
         </MultiSelect>
         <Marginer vertical={30} />
       </ModalBody>
       <ModalFooter
         startActions={
-          <Button variant="tertiary" size="L">
+          <Button variant="tertiary" size="L" onClick={onCancel}>
             Cancel
           </Button>
         }
-        endActions={<Button size="L">Confirm</Button>}
+        endActions={
+          <Button
+            size="L"
+            onClick={() =>
+              onConfirm(
+                selected?.map(
+                  (name) => active.find((student) => student.name == name)!
+                ) || []
+              )
+            }
+          >
+            Confirm
+          </Button>
+        }
       />
     </ModalLayout>
   );
