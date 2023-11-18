@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { IForm } from "../types";
 import { staticFormList } from "../static";
+import { useStudentStore } from "../../Student";
 
 interface FormState {
   form: IForm | null;
@@ -12,7 +13,11 @@ export const useFormStore = create<FormState>()((set) => ({
   form: null,
   options: staticFormList,
   setForm: (formName: string) =>
-    set((state) => ({
-      form: state.options.find((form) => form.name == formName) || null,
-    })),
+    set((state) => {
+      const form = state.options.find((form) => form.name == formName);
+
+      return {
+        form: state.options.find((form) => form.name == formName) || null,
+      };
+    }),
 }));

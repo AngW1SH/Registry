@@ -1,4 +1,3 @@
-import { useAvailableStudentsStore } from "./useAvailableStudentsStore";
-import { useSelectedStudentsStore } from "./useSelectedStudentsStore";
+import { useStudentStore } from "./useStudentStore";
 
-export { useAvailableStudentsStore, useSelectedStudentsStore };
+export { useStudentStore };
