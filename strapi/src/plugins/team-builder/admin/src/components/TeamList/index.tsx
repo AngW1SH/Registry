@@ -11,13 +11,14 @@ import {
 } from "./styles";
 import Marginer from "../shared/Marginer";
 import TeamInspect from "../TeamInspect";
+import UserAdd from "../UserAdd";
 
 interface TeamListProps {}
 
 const TeamList: FC<TeamListProps> = () => {
   return (
     <>
-      <TeamInspect />
+      <UserAdd />
       <TeamListStyled>
         <TeamInList>
           <Box
