@@ -12,6 +12,7 @@ interface DraftTeamsState {
     to: { teamIndex: number; studentIndex: number }
   ) => void;
   addTeam: () => void;
+  removeTeam: (index: number) => void;
 }
 
 export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
@@ -34,6 +35,10 @@ export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
           students: [],
         },
       ],
+    })),
+  removeTeam: (teamIndex: number) =>
+    set((state) => ({
+      teams: state.teams.filter((_, index) => index != teamIndex),
     })),
   addStudents: (teamIndex: number, students: IStudent[]) =>
     set((state) => ({

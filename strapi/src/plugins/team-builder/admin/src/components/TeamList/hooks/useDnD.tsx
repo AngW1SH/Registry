@@ -35,14 +35,16 @@ export const useDnD = () => {
     if (e.target instanceof HTMLElement && e.target.dataset.drag) {
       // Find the dragged element's team index using DOM
       Array.from(e.currentTarget.children).forEach((child, index) => {
+        if (index == e.currentTarget.children.length - 1) return; // The "Add Team" element
         if (e.target == child || child.contains(e.target as HTMLElement)) {
           const box = (e.target as HTMLElement).getBoundingClientRect();
 
           // Find the studentIndex by name
-          const fromStudentIndex = teams[index].students.findIndex(
-            (student) =>
-              formatNameShort(student.name) ==
-              (e.target as HTMLElement).innerHTML
+          const fromStudentIndex = Array.from(
+            studentListElements[index].children
+          ).findIndex(
+            (child) =>
+              e.target == child || child.contains(e.target as HTMLElement)
           );
 
           dragInfo.current = {
@@ -66,8 +68,9 @@ export const useDnD = () => {
     }
 
     // Calculate all of the students'coordinates when dragging starts
-    const positions = Array.from(e.currentTarget.children).map(
-      (team, index) => {
+    const positions = Array.from(e.currentTarget.children)
+      .filter((_, index) => index != e.currentTarget.children.length - 1) // Exclude the "Add Team" element
+      .map((team, index) => {
         const teamRect = team.getBoundingClientRect();
 
         return {
@@ -84,8 +87,7 @@ export const useDnD = () => {
             }
           ),
         };
-      }
-    );
+      });
 
     const handleDrag = (e: MouseEvent) => {
       // Find the hovered team index

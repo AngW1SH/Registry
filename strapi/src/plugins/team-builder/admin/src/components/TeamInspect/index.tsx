@@ -12,16 +12,19 @@ import {
   Thead,
   Tr,
   Th,
-  BaseCheckbox,
   Tbody,
   Td,
-  VisuallyHidden,
 } from "@strapi/design-system";
 import { TableAnswer, TableContainer, TableQuestion } from "./styles";
+import { ITeam } from "../../entities/Team";
 
-interface TeamInspectProps {}
+interface TeamInspectProps {
+  team: ITeam;
+  onCancel: () => void;
+  onDelete: () => void;
+}
 
-const TeamInspect: FC<TeamInspectProps> = () => {
+const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
   const data = [
     {
       question:
@@ -59,7 +62,7 @@ const TeamInspect: FC<TeamInspectProps> = () => {
 
   return (
     <>
-      <ModalLayout labelledBy="Team 1">
+      <ModalLayout labelledBy="Team 1" onClose={onCancel}>
         <ModalHeader>
           <Typography
             fontWeight="bold"
@@ -115,7 +118,7 @@ const TeamInspect: FC<TeamInspectProps> = () => {
         </ModalBody>
         <ModalFooter
           startActions={
-            <Button variant="secondary" size="L">
+            <Button variant="secondary" size="L" onClick={onDelete}>
               Delete Team
             </Button>
           }

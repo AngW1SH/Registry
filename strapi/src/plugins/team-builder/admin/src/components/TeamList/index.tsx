@@ -19,14 +19,19 @@ import { useDraftTeamsStore } from "../../entities/Team/model";
 import { formatNameShort, useStudentStore } from "../../entities/Student";
 import { ITeam } from "../../entities/Team";
 import UserAdd from "../UserAdd";
+import TeamInspect from "../TeamInspect";
 
 interface TeamListProps {}
 
 const TeamList: FC<TeamListProps> = () => {
   const { draggedTo, handleDragStart } = useDnD();
   const [userAddTeamIndex, setUserAddTeamIndex] = useState<number | null>(null);
+  const [selectedTeamIndex, setSelectedTeamIndex] = useState<number | null>(
+    null
+  );
 
-  const { teams, addTeam, addStudents, removeStudent } = useDraftTeamsStore();
+  const { teams, addTeam, removeTeam, addStudents, removeStudent } =
+    useDraftTeamsStore();
 
   return (
     <>
@@ -36,6 +41,16 @@ const TeamList: FC<TeamListProps> = () => {
           onConfirm={(students) => {
             addStudents(userAddTeamIndex, students);
             setUserAddTeamIndex(null);
+          }}
+        />
+      )}
+      {selectedTeamIndex !== null && (
+        <TeamInspect
+          team={teams[selectedTeamIndex]}
+          onCancel={() => setSelectedTeamIndex(null)}
+          onDelete={() => {
+            removeTeam(selectedTeamIndex);
+            setSelectedTeamIndex(null);
           }}
         />
       )}
@@ -52,7 +67,9 @@ const TeamList: FC<TeamListProps> = () => {
               paddingRight={7}
               height="100%"
             >
-              <TeamName>Team 1</TeamName>
+              <TeamName onClick={() => setSelectedTeamIndex(index)}>
+                Team 1
+              </TeamName>
               <Marginer vertical={20} />
               <StudentList>
                 {team.students.map((student, studentIndex) => (
@@ -74,7 +91,6 @@ const TeamList: FC<TeamListProps> = () => {
                         <Draggable data-drag>
                           <StudentRemove
                             onClick={(e: React.MouseEvent) => {
-                              e.stopPropagation();
                               removeStudent(index, studentIndex);
                             }}
                           >
