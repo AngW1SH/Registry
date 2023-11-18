@@ -18,7 +18,6 @@ interface TeamListProps {}
 const TeamList: FC<TeamListProps> = () => {
   return (
     <>
-      <UserAdd />
       <TeamListStyled>
         <TeamInList>
           <Box
