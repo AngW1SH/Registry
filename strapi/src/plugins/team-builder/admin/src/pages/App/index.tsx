@@ -7,6 +7,7 @@
 
 import React from "react";
 import { AnErrorOccurred } from "@strapi/helper-plugin";
+import "./globals.css";
 import pluginId from "../../pluginId";
 import HomePage from "../HomePage";
 import { Route } from "react-router-dom";
