@@ -8,6 +8,7 @@ import {
   StudentBorder,
   StudentInList,
   StudentList,
+  StudentRemove,
   TeamInList,
   TeamListStyled,
   TeamName,
@@ -15,7 +16,7 @@ import {
 import Marginer from "../shared/Marginer";
 import { useDnD } from "./hooks/useDnD";
 import { useDraftTeamsStore } from "../../entities/Team/model";
-import { formatNameShort } from "../../entities/Student";
+import { formatNameShort, useStudentStore } from "../../entities/Student";
 import { ITeam } from "../../entities/Team";
 import UserAdd from "../UserAdd";
 
@@ -25,7 +26,7 @@ const TeamList: FC<TeamListProps> = () => {
   const { draggedTo, handleDragStart } = useDnD();
   const [userAddTeamIndex, setUserAddTeamIndex] = useState<number | null>(null);
 
-  const { teams, addStudents } = useDraftTeamsStore();
+  const { teams, addStudents, removeStudent } = useDraftTeamsStore();
 
   return (
     <>
@@ -71,6 +72,14 @@ const TeamList: FC<TeamListProps> = () => {
                         height="35px"
                       >
                         <Draggable data-drag>
+                          <StudentRemove
+                            onClick={(e: React.MouseEvent) => {
+                              e.stopPropagation();
+                              removeStudent(index, studentIndex);
+                            }}
+                          >
+                            <Plus />
+                          </StudentRemove>
                           {formatNameShort(student.name)}
                         </Draggable>
                       </Box>

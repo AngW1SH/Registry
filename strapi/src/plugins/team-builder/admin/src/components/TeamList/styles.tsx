@@ -68,3 +68,17 @@ export const Draggable = styled.div`
   border: 1px solid #d9d8ff;
   color: #7b79ff;
 `;
+
+export const StudentRemove = styled.div`
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  transform: rotate(45deg);
+  top: calc(50% - 6px);
+  right: 10px;
+
+  & svg {
+    height: 100%;
+    width: 100%;
+  }
+`;
