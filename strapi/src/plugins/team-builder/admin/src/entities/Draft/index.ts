@@ -1,3 +1,3 @@
-import { IDraft } from "./types";
+import type { IDraft } from "./types";
 
-export { IDraft };
+export type { IDraft };

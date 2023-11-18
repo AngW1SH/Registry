@@ -35,11 +35,36 @@ export const StudentList = styled.ul`
   display: flex;
   gap: 10px;
   flex-direction: column;
+  user-select: none;
 `;
 
 export const StudentInList = styled.li`
   white-space: nowrap;
-  & > div {
-    height: 100%;
-  }
+  height: 35px;
+  position: relative;
+  user-select: none;
+`;
+
+export const StudentBorder = styled.div`
+  position: absolute;
+  inset: 0;
+  border: 1px dashed #d9d8ff;
+  user-select: none;
+`;
+
+export const StudentBackground = styled.div`
+  position: absolute;
+  inset: 0;
+  border: 1px dashed #d9d8ff;
+  background-color: #f0f0ff;
+  user-select: none;
+`;
+
+export const Draggable = styled.div`
+  position: relative;
+  padding: 9px 20px;
+  user-select: none;
+  background: #f0f0ff;
+  border: 1px solid #d9d8ff;
+  color: #7b79ff;
 `;
