@@ -2,11 +2,12 @@ import React, { FC, useEffect } from "react";
 import { SingleSelect, SingleSelectOption } from "@strapi/design-system";
 import { useFormStore } from "../../entities/Form/model";
 import { useStudentStore } from "../../entities/Student";
+import { getFetchClient } from "@strapi/helper-plugin";
 
 interface FormSelectProps {}
 
 const FormSelect: FC<FormSelectProps> = () => {
-  const { form, options, setForm } = useFormStore();
+  const { form, options, setForm, fetch: fetchForms } = useFormStore();
 
   const { clearActive, fetchByForm } = useStudentStore();
 
@@ -16,6 +17,10 @@ const FormSelect: FC<FormSelectProps> = () => {
       fetchByForm(form.id);
     }
   }, [form]);
+
+  useEffect(() => {
+    fetchForms();
+  }, []);
 
   return (
     <SingleSelect
