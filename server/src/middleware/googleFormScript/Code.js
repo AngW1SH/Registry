@@ -16,14 +16,10 @@ function sendResponse(e) {
         .getItemResponses()
         .map(function (y) {
           return {
-            h: y.getItem().getTitle(),
-            k: y.getResponse(),
+            question: y.getItem().getTitle(),
+            answer: y.getResponse(),
           };
-        }, this)
-        .reduce(function (r, y) {
-          r[y.h] = y.k;
-          return r;
-        }, {}),
+        }, this),
     },
   };
 

@@ -1,6 +1,6 @@
 import { FormResultClient } from "@/entities/form";
 import { User } from "@/entities/user";
-import { ServerError } from "@/helpers/errors";
+import { BadRequestError, ServerError } from "@/helpers/errors";
 import formRepository from "@/repositories/form";
 import userRepository from "@/repositories/user";
 
@@ -42,10 +42,18 @@ const formServiceFactory = () => {
   }
 
   async function submit(formId: number, response: any) {
+    console.log(response);
+    const email = response.find(
+      (data: { question: string; answer: string }) =>
+        data.question == "Электронная почта, указанная при авторизации"
+    );
+
+    if (!email || !email.answer)
+      throw new BadRequestError("Email not specified");
+
     // Will use an adapter later on
     const user = await userRepository.findOne({
-      email:
-        response["Электронная почта, указанная при авторизации"].toLowerCase(),
+      email: email.answer.toLowerCase(),
     });
 
     if (!user) throw new ServerError("No such user found");
