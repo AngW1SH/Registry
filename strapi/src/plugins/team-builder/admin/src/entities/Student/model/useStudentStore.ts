@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { IStudent } from "../types";
 import { staticStudentList } from "../static";
+import { getFetchClient } from "@strapi/helper-plugin";
 
 interface StudentState {
   students: IStudent[];
@@ -23,5 +24,13 @@ export const useStudentStore = create<StudentState>()((set) => ({
   setStudents: (newStudents: IStudent[]) =>
     set((state) => ({ students: newStudents })),
   clearActive: () => set((state) => ({ active: [] })),
-  fetchByForm: (formId: number) => {},
+  fetchByForm: async (formId: number) => {
+    const { get } = getFetchClient();
+
+    const response = await get("/team-builder/student/" + formId);
+
+    if (response.status != 200) set({ students: [] });
+
+    set({ students: response.data });
+  },
 }));

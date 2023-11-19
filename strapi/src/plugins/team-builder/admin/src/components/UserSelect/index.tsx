@@ -1,11 +1,20 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { MultiSelect, MultiSelectOption } from "@strapi/design-system";
 import { useStudentStore } from "../../entities/Student";
+import { useFormStore } from "../../entities/Form/model";
 
 interface UserSelectProps {}
 
 const UserSelect: FC<UserSelectProps> = () => {
-  const { active, setActive, students } = useStudentStore();
+  const { active, setActive, students, fetchByForm } = useStudentStore();
+
+  const { form } = useFormStore();
+
+  useEffect(() => {
+    if (form) {
+      fetchByForm(form.id);
+    }
+  }, [form]);
 
   return (
     <MultiSelect

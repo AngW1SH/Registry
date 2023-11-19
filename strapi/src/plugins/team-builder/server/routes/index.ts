@@ -15,4 +15,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "GET",
+    path: "/student/:formId",
+    handler: "myController.getStudents",
+    config: {
+      policies: [],
+    },
+  },
 ];

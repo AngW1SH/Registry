@@ -14,4 +14,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .getForms();
   },
+
+  async getStudents(ctx) {
+    if (!ctx.params || !ctx.params.formId) return (ctx.body = []);
+
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .getStudents(ctx.params.formId);
+  },
 });
