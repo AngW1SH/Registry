@@ -48,8 +48,6 @@ export const userAdapter = async (
         },
       };
 
-    console.log(process.env["STRAPI_URL"] + data.url);
-
     const { data: fileData } = await axios.get(
       process.env["STRAPI_URL"] + data.url
     );
@@ -65,8 +63,21 @@ export const userAdapter = async (
   };
 
   const fetchData = userListStrapi.map((userStrapi) => {
-    const found =
-      userStrapi.forms.find((form) => form.form.id == formId) || null;
+    const candidates = userStrapi.forms.filter(
+      (form) => form.form.id == formId
+    );
+
+    if (!candidates.length)
+      return {
+        id: userStrapi.id,
+        name: userStrapi.name,
+        url: null,
+      };
+
+    const found = candidates.reduce(
+      (acc, cur) => (acc.date < cur.date ? cur : acc),
+      candidates[0]
+    );
 
     return {
       id: userStrapi.id,
