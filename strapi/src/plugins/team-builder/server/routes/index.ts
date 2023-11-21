@@ -31,4 +31,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/create",
+    handler: "myController.createDraft",
+    config: {
+      policies: [],
+    },
+  },
 ];

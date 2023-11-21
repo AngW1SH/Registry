@@ -25,11 +25,18 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
 
   async generateTeams(ctx) {
-    if (ctx.method != "POST" || !ctx.request.body.teams) return (ctx.body = 0);
+    if (!ctx.request.body.teams) return (ctx.body = 0);
 
     ctx.body = await strapi
       .plugin("team-builder")
       .service("myService")
       .generateTeams(ctx.request.body.teams);
+  },
+
+  async createDraft(ctx) {
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .createDraft();
   },
 });

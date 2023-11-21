@@ -41,6 +41,31 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return userAdapter(students as any, formId);
   },
 
+  async createDraft() {
+    const createDraftResponse = await strapi.entityService?.create(
+      "plugin::team-builder.draft",
+      {
+        data: {},
+      }
+    );
+
+    if (!createDraftResponse || !createDraftResponse.id)
+      throw new Error("Couldn't create a draft");
+
+    const updateDraftResponse = await strapi.db
+      ?.query("plugin::team-builder.draft")
+      .update({
+        where: {
+          id: createDraftResponse.id,
+        },
+        data: {
+          name: "Черновик " + createDraftResponse.id,
+        },
+      });
+
+    return updateDraftResponse;
+  },
+
   async generateTeams(teams: Team[]) {
     const createTeamsResponse = await strapi.db
       ?.query("api::team.team")
