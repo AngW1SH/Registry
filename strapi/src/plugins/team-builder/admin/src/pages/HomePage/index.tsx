@@ -4,7 +4,7 @@
  *
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pluginId from "../../pluginId";
 import {
   Layout,
@@ -16,15 +16,28 @@ import {
 import { Plus, Pencil } from "@strapi/icons";
 import DraftList from "../../components/DraftList";
 import { useFetchClient } from "@strapi/helper-plugin";
+import { IDraftInList } from "../../entities/Draft/types";
 
 const HomePage = () => {
-  const { post } = useFetchClient();
+  const { get, post } = useFetchClient();
+
+  const [drafts, setDrafts] = useState<IDraftInList[]>([]);
 
   async function createDraft() {
     const response = await post("/team-builder/create");
 
     console.log(response);
   }
+
+  async function getDrafts() {
+    const response = await get("/team-builder/draft");
+
+    if (response.status == 200 && response.data) setDrafts(response.data);
+  }
+
+  useEffect(() => {
+    getDrafts();
+  }, []);
 
   return (
     <Layout>
@@ -39,7 +52,7 @@ const HomePage = () => {
         as="h2"
       />
       <ContentLayout>
-        <DraftList />
+        <DraftList drafts={drafts} />
       </ContentLayout>
     </Layout>
   );

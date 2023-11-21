@@ -9,3 +9,10 @@ export interface IDraft {
   students: IStudent[];
   teams: ITeam[];
 }
+
+export interface IDraftInList {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}

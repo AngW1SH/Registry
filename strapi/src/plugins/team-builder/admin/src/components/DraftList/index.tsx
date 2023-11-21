@@ -16,28 +16,15 @@ import {
   VisuallyHidden,
 } from "@strapi/design-system";
 import { Plus, Pencil, Trash } from "@strapi/icons";
+import { IDraftInList } from "../../entities/Draft/types";
 
-interface DraftListProps {}
+interface DraftListProps {
+  drafts: IDraftInList[];
+}
 
-const DraftList: FC<DraftListProps> = () => {
+const DraftList: FC<DraftListProps> = ({ drafts }) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
-  const entry = {
-    name: "ПМИ Осень 2023",
-    createdAt: "2023-11-16",
-    updatedAt: "2023-11-17",
-  };
-  const entries: Array<
-    {
-      id: number;
-    } & typeof entry
-  > = [];
-  for (let i = 0; i < 5; i++) {
-    entries.push({
-      ...entry,
-      id: i,
-    });
-  }
 
   return (
     <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
@@ -64,7 +51,7 @@ const DraftList: FC<DraftListProps> = () => {
         </Tr>
       </Thead>
       <Tbody>
-        {entries.map((entry) => (
+        {drafts.map((entry) => (
           <Tr key={entry.id}>
             <Td>
               <BaseCheckbox aria-label={`Select ${entry.name}`} />

@@ -39,4 +39,11 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .createDraft();
   },
+
+  async getDrafts(ctx) {
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .getDrafts();
+  },
 });
