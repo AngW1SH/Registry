@@ -20,9 +20,13 @@ export const TableQuestion = styled.div`
   font-size: 12px;
 `;
 
-export const TableAnswer = styled.div`
+interface TableAnswerProps {
+  widthWV?: number;
+}
+
+export const TableAnswer = styled.div<TableAnswerProps>`
   display: inline-block;
   white-space: normal;
-  width: 11vw;
+  width: ${(props) => props.widthWV || 11}vw;
   font-size: 12px;
 `;

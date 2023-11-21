@@ -13,7 +13,10 @@ const FormFieldSelect: FC<FormFieldSelectProps> = () => {
       required
       value={displayedFields || []}
       onChange={setDisplayedFields}
-      placeholder="Select students"
+      placeholder="Select form fields"
+      customizeContent={(values: string[]) =>
+        displayedFields ? displayedFields.length + " questions selected" : ""
+      }
     >
       {fields?.map((field) => (
         <MultiSelectOption value={field}>{field}</MultiSelectOption>

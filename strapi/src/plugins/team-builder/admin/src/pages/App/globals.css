@@ -1,5 +1,16 @@
 body div[aria-modal] {
   width: 80vw !important;
+  height: 80vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+body div[aria-modal] > div:nth-child(2) {
+  max-height: 70vh !important;
+}
+
+body div[aria-modal] > div:last-child {
+  margin-top: auto !important;
 }
 
 body div[data-radix-popper-content-wrapper] > div > div {

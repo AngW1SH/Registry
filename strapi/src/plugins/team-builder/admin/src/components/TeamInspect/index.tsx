@@ -69,6 +69,10 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
 
   const selected = displayedFields || fields || [];
 
+  const answerWidthVW = team.students.length
+    ? (70 - 16 - 2) / Math.min(team.students.length, 5)
+    : 11;
+
   return (
     <>
       <ModalLayout labelledBy="Team 1" onClose={onCancel}>
@@ -114,7 +118,10 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                     {team.students.map((student, studentIndex) => (
                       <Td>
                         <Typography textColor="neutral800">
-                          <TableAnswer key={selected.length + studentIndex}>
+                          <TableAnswer
+                            widthWV={answerWidthVW}
+                            key={selected.length + studentIndex}
+                          >
                             {student.form?.data.find(
                               (data) => data.question == entry
                             )?.answer || ""}
