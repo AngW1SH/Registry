@@ -43,10 +43,6 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
               <UserSelect />
             </HalfWidthLargeScreen>
           </Flex>
-          <Marginer vertical={20} />
-          <Box>
-            <FormFieldSelect />
-          </Box>
           <Marginer vertical={25} />
           <Box padding={4}>
             <Divider />

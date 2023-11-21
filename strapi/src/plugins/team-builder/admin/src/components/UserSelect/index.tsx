@@ -8,13 +8,21 @@ interface UserSelectProps {}
 const UserSelect: FC<UserSelectProps> = () => {
   const { active, setActive, students, fetchByForm } = useStudentStore();
 
-  const { form } = useFormStore();
+  const { form, setFields } = useFormStore();
 
   useEffect(() => {
     if (form) {
       fetchByForm(form.id);
     }
   }, [form]);
+
+  useEffect(() => {
+    if (students.length && form && students[0].form.formId == form.id) {
+      console.log(students);
+      const fields = students[0].form.data.map((row) => row.question);
+      setFields(fields);
+    }
+  }, [students]);
 
   return (
     <MultiSelect

@@ -17,6 +17,10 @@ import {
 } from "@strapi/design-system";
 import { TableAnswer, TableContainer, TableQuestion } from "./styles";
 import { ITeam } from "../../entities/Team";
+import FormFieldSelect from "../FormFieldSelect";
+import Marginer from "../shared/Marginer";
+import { useFormStore } from "../../entities/Form/model";
+import { formatNameShort, useStudentStore } from "../../entities/Student";
 
 interface TeamInspectProps {
   team: ITeam;
@@ -60,6 +64,11 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
     });
   }
 
+  const { displayedFields, fields } = useFormStore();
+  const { students } = useStudentStore();
+
+  const selected = displayedFields || fields || [];
+
   return (
     <>
       <ModalLayout labelledBy="Team 1" onClose={onCancel}>
@@ -74,6 +83,10 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
           </Typography>
         </ModalHeader>
         <ModalBody>
+          <Box>
+            <FormFieldSelect />
+          </Box>
+          <Marginer vertical={20} />
           <TableContainer>
             <Table colCount={6} rowCount={10}>
               <Thead>
@@ -81,32 +94,29 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                   <Th>
                     <Typography variant="sigma">Вопрос</Typography>
                   </Th>
-                  <Th>
-                    <Typography variant="sigma">Лалуев Д.В.</Typography>
-                  </Th>
-                  <Th>
-                    <Typography variant="sigma">Лалуев Д.В.</Typography>
-                  </Th>
-                  <Th>
-                    <Typography variant="sigma">Лалуев Д.В.</Typography>
-                  </Th>
-                  <Th>
-                    <Typography variant="sigma">Лалуев Д.В.</Typography>
-                  </Th>
+                  {team.students.map((student) => (
+                    <Th>
+                      <Typography variant="sigma">
+                        {formatNameShort(student.name)}
+                      </Typography>
+                    </Th>
+                  ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((entry) => (
-                  <Tr key={entry.question}>
+                {selected.map((entry, index) => (
+                  <Tr key={entry}>
                     <Td>
                       <Typography textColor="neutral800">
-                        <TableQuestion>{entry.question}</TableQuestion>
+                        <TableQuestion>{entry}</TableQuestion>
                       </Typography>
                     </Td>
-                    {entry.answers.map((answer) => (
+                    {team.students.map((student) => (
                       <Td>
                         <Typography textColor="neutral800">
-                          <TableAnswer>{answer}</TableAnswer>
+                          <TableAnswer>
+                            {student.form?.data[index]?.answer || ""}
+                          </TableAnswer>
                         </Typography>
                       </Td>
                     ))}

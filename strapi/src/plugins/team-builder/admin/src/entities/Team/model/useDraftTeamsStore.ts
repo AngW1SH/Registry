@@ -2,10 +2,11 @@ import { create } from "zustand";
 import { ITeam } from "../types";
 import { IStudent } from "../../Student";
 import { staticTeamList } from "../static";
+import { IStudentDetailed } from "../../Student/types";
 
 interface DraftTeamsState {
   teams: ITeam[];
-  addStudents: (teamIndex: number, students: IStudent[]) => void;
+  addStudents: (teamIndex: number, students: IStudentDetailed[]) => void;
   removeStudent: (teamIndex: number, studentIndex: number) => void;
   moveStudent: (
     from: { teamIndex: number; studentIndex: number },
@@ -40,7 +41,7 @@ export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
     set((state) => ({
       teams: state.teams.filter((_, index) => index != teamIndex),
     })),
-  addStudents: (teamIndex: number, students: IStudent[]) =>
+  addStudents: (teamIndex: number, students: IStudentDetailed[]) =>
     set((state) => ({
       teams: state.teams.map((team, index) =>
         index == teamIndex

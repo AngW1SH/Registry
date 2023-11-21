@@ -13,10 +13,11 @@ import Marginer from "../shared/Marginer";
 import { ITeam } from "../../entities/Team";
 import { IStudent, useStudentStore } from "../../entities/Student";
 import { useDraftTeamsStore } from "../../entities/Team/model";
+import { IStudentDetailed } from "../../entities/Student/types";
 
 interface UserAddProps {
   onCancel: () => void;
-  onConfirm: (students: IStudent[]) => void;
+  onConfirm: (students: IStudentDetailed[]) => void;
 }
 
 const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {

@@ -4,8 +4,8 @@ export interface IStudent {
 }
 
 export interface IStudentDetailed extends IStudent {
-  formResults: {
-    form: number;
+  form: {
+    formId: number;
     data: FormRow[];
   };
 }

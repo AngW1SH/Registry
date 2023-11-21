@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { IStudent } from "../types";
+import { IStudent, IStudentDetailed } from "../types";
 import { staticStudentList } from "../static";
 import { getFetchClient } from "@strapi/helper-plugin";
 
 interface StudentState {
-  students: IStudent[];
-  active: IStudent[];
-  setStudents: (newStudents: IStudent[]) => void;
+  students: IStudentDetailed[];
+  active: IStudentDetailed[];
+  setStudents: (newStudents: IStudentDetailed[]) => void;
   setActive: (newActive: string[]) => void;
   clearActive: () => void;
   fetchByForm: (formId: number) => void;
@@ -21,7 +21,7 @@ export const useStudentStore = create<StudentState>()((set) => ({
         .map((name) => state.students.find((student) => student.name == name)!)
         .filter((student) => student),
     })),
-  setStudents: (newStudents: IStudent[]) =>
+  setStudents: (newStudents: IStudentDetailed[]) =>
     set((state) => ({ students: newStudents })),
   clearActive: () => set((state) => ({ active: [] })),
   fetchByForm: async (formId: number) => {

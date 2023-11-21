@@ -1,3 +1,7 @@
 body div[aria-modal] {
   width: 80vw !important;
 }
+
+body div[data-radix-popper-content-wrapper] > div > div {
+  white-space: normal !important;
+}

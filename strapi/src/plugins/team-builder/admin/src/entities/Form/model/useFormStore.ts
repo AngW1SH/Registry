@@ -9,11 +9,17 @@ interface FormState {
   options: IForm[];
   setForm: (formName: string) => void;
   fetch: () => void;
+  fields: string[] | null;
+  setFields: (newFields: string[] | null) => void;
+  displayedFields: string[] | null;
+  setDisplayedFields: (newFields: string[] | null) => void;
 }
 
 export const useFormStore = create<FormState>()((set) => ({
   form: null,
   options: staticFormList,
+  fields: null,
+  displayedFields: null,
   setForm: (formName: string) =>
     set((state) => {
       const form = state.options.find((form) => form.name == formName);
@@ -31,5 +37,12 @@ export const useFormStore = create<FormState>()((set) => ({
     if (response.status != 200) set({ options: [] });
 
     set({ options: response.data });
+  },
+
+  setFields: async (newFields: string[] | null) => {
+    set((state) => ({ fields: newFields }));
+  },
+  setDisplayedFields: async (newFields: string[] | null) => {
+    set((state) => ({ displayedFields: newFields }));
   },
 }));
