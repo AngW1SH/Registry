@@ -503,6 +503,11 @@ export interface PluginTeamBuilderDraft extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
+    teams: Attribute.Relation<
+      'plugin::team-builder.draft',
+      'oneToMany',
+      'plugin::team-builder.team-draft'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -540,6 +545,16 @@ export interface PluginTeamBuilderTeamDraft extends Schema.CollectionType {
     };
   };
   attributes: {
+    draft: Attribute.Relation<
+      'plugin::team-builder.team-draft',
+      'manyToOne',
+      'plugin::team-builder.draft'
+    >;
+    users: Attribute.Relation<
+      'plugin::team-builder.team-draft',
+      'manyToMany',
+      'api::student.student'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

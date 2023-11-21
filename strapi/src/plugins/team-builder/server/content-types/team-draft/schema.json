@@ -18,5 +18,17 @@
       "visible": false
     }
   },
-  "attributes": {}
+  "attributes": {
+    "draft": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::team-builder.draft",
+      "inversedBy": "teams"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::student.student"
+    }
+  }
 }

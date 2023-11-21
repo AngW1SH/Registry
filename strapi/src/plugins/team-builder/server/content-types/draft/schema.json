@@ -21,6 +21,12 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "teams": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::team-builder.team-draft",
+      "mappedBy": "draft"
     }
   }
 }
