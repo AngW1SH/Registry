@@ -23,4 +23,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/generate",
+    handler: "myController.generateTeams",
+    config: {
+      policies: [],
+    },
+  },
 ];

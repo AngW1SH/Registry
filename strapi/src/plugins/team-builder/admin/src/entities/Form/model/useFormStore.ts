@@ -43,6 +43,8 @@ export const useFormStore = create<FormState>()((set) => ({
     set((state) => ({ fields: newFields }));
   },
   setDisplayedFields: async (newFields: string[] | null) => {
-    set((state) => ({ displayedFields: newFields }));
+    set((state) => ({
+      displayedFields: newFields && newFields.length ? newFields : state.fields,
+    }));
   },
 }));

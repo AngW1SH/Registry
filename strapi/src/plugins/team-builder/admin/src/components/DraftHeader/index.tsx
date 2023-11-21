@@ -2,12 +2,26 @@ import React, { FC } from "react";
 import { BaseHeaderLayout, Button, Link, Flex } from "@strapi/design-system";
 import { Plus, ArrowLeft, Pencil } from "@strapi/icons";
 import Marginer from "../shared/Marginer";
+import { useDraftTeamsStore } from "../../entities/Team/model";
+import { useFetchClient } from "@strapi/helper-plugin";
+import { ITeam } from "../../entities/Team";
 
 interface DraftHeaderProps {
   pluginId: string;
 }
 
 const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
+  const { teams } = useDraftTeamsStore();
+  const { post } = useFetchClient();
+
+  const generateTeams = async (teams: ITeam[]) => {
+    const response = await post("/team-builder/generate", {
+      teams,
+    });
+    console.log(teams);
+    console.log(response);
+  };
+
   return (
     <BaseHeaderLayout
       navigationAction={
@@ -19,7 +33,7 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
         <Flex>
           <Button variant="secondary">Save Draft</Button>
           <Marginer horizontal={20} />
-          <Button>Generate Teams</Button>
+          <Button onClick={() => generateTeams(teams)}>Generate Teams</Button>
         </Flex>
       }
       secondaryAction={

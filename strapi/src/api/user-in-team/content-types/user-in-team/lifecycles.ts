@@ -21,7 +21,6 @@ export default {
       }
     );
 
-    const teamData = event.params.data.team;
     const userData = event.params.data.user;
 
     const userAdded =
@@ -53,20 +52,17 @@ export default {
   },
 
   async beforeCreate(event) {
-    const userName =
-      event.params.data.user &&
-      event.params.data.user.connect &&
-      event.params.data.user.connect.length
-        ? (
-            await strapi.entityService.findOne(
-              "api::student.student",
-              event.params.data.user.connect[0].id,
-              {
-                fields: ["name"],
-              }
-            )
-          ).name
-        : "";
+    const userName = event.params.data.user
+      ? (
+          await strapi.entityService.findOne(
+            "api::student.student",
+            event.params.data.user,
+            {
+              fields: ["name"],
+            }
+          )
+        ).name
+      : "";
 
     event.params.data.name = formatName(userName);
 

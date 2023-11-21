@@ -23,4 +23,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .getStudents(ctx.params.formId);
   },
+
+  async generateTeams(ctx) {
+    if (ctx.method != "POST" || !ctx.request.body.teams) return (ctx.body = 0);
+
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .generateTeams(ctx.request.body.teams);
+  },
 });
