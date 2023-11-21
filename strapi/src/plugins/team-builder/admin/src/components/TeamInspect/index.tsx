@@ -103,7 +103,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                   ))}
                 </Tr>
               </Thead>
-              <Tbody>
+              <Tbody key={selected.length}>
                 {selected.map((entry, index) => (
                   <Tr key={entry}>
                     <Td>
@@ -111,11 +111,13 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                         <TableQuestion>{entry}</TableQuestion>
                       </Typography>
                     </Td>
-                    {team.students.map((student) => (
+                    {team.students.map((student, studentIndex) => (
                       <Td>
                         <Typography textColor="neutral800">
-                          <TableAnswer>
-                            {student.form?.data[index]?.answer || ""}
+                          <TableAnswer key={selected.length + studentIndex}>
+                            {student.form?.data.find(
+                              (data) => data.question == entry
+                            )?.answer || ""}
                           </TableAnswer>
                         </Typography>
                       </Td>
