@@ -74,6 +74,15 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return findDraftsResponse;
   },
 
+  async getDraftById(id: number | string) {
+    const findDraftResponse = await strapi.entityService?.findOne(
+      "plugin::team-builder.draft",
+      +id
+    );
+
+    return findDraftResponse;
+  },
+
   async generateTeams(teams: Team[]) {
     const createTeamsResponse = await strapi.db
       ?.query("api::team.team")

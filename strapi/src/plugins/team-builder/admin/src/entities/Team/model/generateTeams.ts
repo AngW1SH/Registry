@@ -6,6 +6,4 @@ export const generateTeams = async (teams: ITeam[]) => {
   const response = post("/team-builder/generate", {
     teams,
   });
-  console.log(teams);
-  console.log(response);
 };

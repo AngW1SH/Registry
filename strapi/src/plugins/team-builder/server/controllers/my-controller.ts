@@ -46,4 +46,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .getDrafts();
   },
+
+  async getDraftById(ctx) {
+    if (!ctx.params.id) throw new Error("No draft id specified");
+
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .getDraftById(ctx.params.id);
+  },
 });

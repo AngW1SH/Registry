@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { IDraft } from "..";
-import { useFetchClient } from "@strapi/helper-plugin";
 import { useDraftTeamsStore } from "../../Team/model";
+import { getFetchClient } from "@strapi/helper-plugin";
 
 interface DraftState {
   active: IDraft | null;
@@ -17,5 +17,13 @@ export const useDraftStore = create<DraftState>()((set) => ({
         active: newActive,
       };
     }),
-  fetchActive: (id: number) => {},
+  fetchActive: async (id: number) => {
+    const { get } = getFetchClient();
+
+    const response = await get("/team-builder/draft/" + id);
+
+    if (response.status != 200) set({ active: null });
+
+    set({ active: response.data });
+  },
 }));

@@ -47,4 +47,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "GET",
+    path: "/draft/:id",
+    handler: "myController.getDraftById",
+    config: {
+      policies: [],
+    },
+  },
 ];

@@ -5,6 +5,7 @@ import Marginer from "../shared/Marginer";
 import { useDraftTeamsStore } from "../../entities/Team/model";
 import { useFetchClient } from "@strapi/helper-plugin";
 import { ITeam } from "../../entities/Team";
+import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
 
 interface DraftHeaderProps {
   pluginId: string;
@@ -13,6 +14,7 @@ interface DraftHeaderProps {
 const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
   const { teams } = useDraftTeamsStore();
   const { post } = useFetchClient();
+  const { active } = useDraftStore();
 
   const generateTeams = async (teams: ITeam[]) => {
     const response = await post("/team-builder/generate", {
@@ -36,12 +38,7 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
           <Button onClick={() => generateTeams(teams)}>Generate Teams</Button>
         </Flex>
       }
-      secondaryAction={
-        <Button variant="tertiary" startIcon={<Pencil />}>
-          Edit title
-        </Button>
-      }
-      title="ПМИ осень 2023"
+      title={active?.name || ""}
       subtitle="API ID: draft"
       as="h2"
     />
