@@ -88,9 +88,18 @@ export default ({ strapi }: { strapi: Strapi }) => ({
           activeStudents: {
             fields: ["id"],
           },
+          teams: {
+            populate: {
+              users: {
+                fields: ["id"],
+              },
+            },
+          },
         },
       }
     );
+
+    if (!findDraftResponse) throw new Error("Couldn't find the draft");
 
     return findDraftResponse;
   },

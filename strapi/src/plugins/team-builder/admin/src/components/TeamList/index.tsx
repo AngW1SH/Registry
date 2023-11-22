@@ -68,7 +68,7 @@ const TeamList: FC<TeamListProps> = () => {
               height="100%"
             >
               <TeamName onClick={() => setSelectedTeamIndex(index)}>
-                Team 1
+                Team {index + 1}
               </TeamName>
               <Marginer vertical={20} />
               <StudentList>

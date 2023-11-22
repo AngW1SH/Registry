@@ -6,6 +6,7 @@ import { IStudentDetailed } from "../../Student/types";
 
 interface DraftTeamsState {
   teams: ITeam[];
+  setTeams: (teams: ITeam[]) => void;
   addStudents: (teamIndex: number, students: IStudentDetailed[]) => void;
   removeStudent: (teamIndex: number, studentIndex: number) => void;
   moveStudent: (
@@ -23,16 +24,7 @@ export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
       teams: [
         ...state.teams,
         {
-          id: state.teams.reduce(
-            (acc, cur) => (acc < cur.id ? cur.id : acc),
-            0
-          ),
-          name:
-            "Team " +
-            state.teams.reduce(
-              (acc, cur) => (acc <= cur.id ? cur.id + 1 : acc),
-              0
-            ),
+          name: "Team " + state.teams.length + 1,
           students: [],
         },
       ],
@@ -41,6 +33,7 @@ export const useDraftTeamsStore = create<DraftTeamsState>()((set) => ({
     set((state) => ({
       teams: state.teams.filter((_, index) => index != teamIndex),
     })),
+  setTeams: (teams: ITeam[]) => set((state) => ({ teams })),
   addStudents: (teamIndex: number, students: IStudentDetailed[]) =>
     set((state) => ({
       teams: state.teams.map((team, index) =>

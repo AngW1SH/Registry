@@ -538,14 +538,6 @@ export interface PluginTeamBuilderTeamDraft extends Schema.CollectionType {
     draftAndPublish: false;
     comment: '';
   };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
   attributes: {
     draft: Attribute.Relation<
       'plugin::team-builder.team-draft',

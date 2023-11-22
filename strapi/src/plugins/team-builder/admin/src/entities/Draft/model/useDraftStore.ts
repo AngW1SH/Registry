@@ -31,6 +31,9 @@ export const useDraftStore = create<DraftState>()((set) => ({
         activeStudents: response.data?.activeStudents
           ? response.data.activeStudents.map((student: any) => student.id)
           : null,
+        teams: response.data.teams.map((team: { users: { id: number }[] }) =>
+          team.users.map((user) => user.id)
+        ),
       },
     });
   },

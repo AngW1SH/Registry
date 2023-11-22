@@ -7,6 +7,7 @@ export interface IDraft {
   name: string;
   form: number | null;
   activeStudents: number[];
+  teams: number[][];
 }
 
 export interface IDraftDTO {

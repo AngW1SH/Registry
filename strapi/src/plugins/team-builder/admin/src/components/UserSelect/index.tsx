@@ -3,6 +3,7 @@ import { MultiSelect, MultiSelectOption } from "@strapi/design-system";
 import { useStudentStore } from "../../entities/Student";
 import { useFormStore } from "../../entities/Form/model";
 import { useDraftStore } from "../../entities/Draft";
+import { useDraftTeamsStore } from "../../entities/Team/model";
 
 interface UserSelectProps {}
 
@@ -13,6 +14,8 @@ const UserSelect: FC<UserSelectProps> = () => {
   const [hasLoaded, setHasLoaded] = useState();
 
   const { form, setFields } = useFormStore();
+
+  const { setTeams } = useDraftTeamsStore();
 
   const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
 
@@ -30,6 +33,14 @@ const UserSelect: FC<UserSelectProps> = () => {
 
     if (!hasLoaded && form && activeDraft) {
       setActiveById(activeDraft.activeStudents);
+
+      const teams = activeDraft.teams.map((team) => ({
+        students: team.map(
+          (userId) => students.find((user) => user.id == userId)!
+        ),
+      }));
+
+      setTeams(teams);
     }
   }, [students]);
 

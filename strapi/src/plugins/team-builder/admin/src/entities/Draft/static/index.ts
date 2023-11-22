@@ -8,4 +8,5 @@ export const staticDraft: IDraft = {
   name: "Черновик 1",
   form: staticFormList[0].id,
   activeStudents: [24],
+  teams: [[24]],
 };
