@@ -55,4 +55,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "PUT",
+    path: "/draft/:id",
+    handler: "myController.saveDraft",
+    config: {
+      policies: [],
+    },
+  },
 ];

@@ -24,6 +24,8 @@ export const useDraftStore = create<DraftState>()((set) => ({
 
     if (response.status != 200) set({ active: null });
 
-    set({ active: response.data });
+    set({
+      active: { ...response.data, form: response.data?.form?.id || null },
+    });
   },
 }));

@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import { useFetchClient } from "@strapi/helper-plugin";
 import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
 import { useFormStore } from "../../entities/Form/model";
+import DraftNameEdit from "../../components/DraftNameEdit";
 
 interface EditPageProps {
   pluginId: string;
@@ -57,6 +58,8 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
           paddingLeft={7}
           paddingRight={7}
         >
+          <DraftNameEdit />
+          <Marginer vertical={20} />
           <Flex justifyContent="space-between">
             <HalfWidthLargeScreen>
               <FormSelect />

@@ -8,6 +8,7 @@ interface FormState {
   form: IForm | null;
   options: IForm[];
   setForm: (formName: string) => void;
+  setFormById: (id: number) => void;
   fetch: () => void;
   fields: string[] | null;
   setFields: (newFields: string[] | null) => void;
@@ -22,13 +23,18 @@ export const useFormStore = create<FormState>()((set) => ({
   displayedFields: null,
   setForm: (formName: string) =>
     set((state) => {
-      const form = state.options.find((form) => form.name == formName);
-
       return {
         form: state.options.find((form) => form.name == formName) || null,
       };
     }),
+  setFormById: (id: number) =>
+    set((state) => {
+      const form = state.options.find((form) => form.id == id);
 
+      return {
+        form: form || null,
+      };
+    }),
   fetch: async () => {
     const { get } = getFetchClient();
 

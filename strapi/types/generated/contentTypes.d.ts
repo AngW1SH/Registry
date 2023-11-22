@@ -500,6 +500,11 @@ export interface PluginTeamBuilderDraft extends Schema.CollectionType {
       'oneToMany',
       'plugin::team-builder.team-draft'
     >;
+    form: Attribute.Relation<
+      'plugin::team-builder.draft',
+      'manyToOne',
+      'api::form.form'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

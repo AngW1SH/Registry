@@ -2,6 +2,7 @@ import { Strapi } from "@strapi/strapi";
 import { FormStrapi, formAdapter } from "../entities/Form";
 import { Team } from "../entities/Team";
 import { User, formatName, userAdapter } from "../entities/User";
+import { Draft } from "../entities/Draft";
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   getWelcomeMessage() {
@@ -77,10 +78,33 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   async getDraftById(id: number | string) {
     const findDraftResponse = await strapi.entityService?.findOne(
       "plugin::team-builder.draft",
-      +id
+      +id,
+      {
+        fields: ["id", "name"],
+        populate: {
+          form: {
+            fields: ["id"],
+          },
+        },
+      }
     );
 
     return findDraftResponse;
+  },
+
+  async saveDraft(data: Draft) {
+    const { id: _, ...dataToSave } = data;
+
+    const updateDraftResponse = await strapi.db
+      ?.query("plugin::team-builder.draft")
+      .update({
+        where: {
+          id: data.id,
+        },
+        data: dataToSave,
+      });
+
+    return updateDraftResponse;
   },
 
   async generateTeams(teams: Team[]) {

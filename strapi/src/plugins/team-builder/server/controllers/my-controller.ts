@@ -55,4 +55,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .getDraftById(ctx.params.id);
   },
+
+  async saveDraft(ctx) {
+    if (!ctx.request.body.draft) throw new Error("No draft to save");
+
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .saveDraft(ctx.request.body.draft);
+  },
 });

@@ -5,9 +5,15 @@ import { ITeam } from "../../Team";
 export interface IDraft {
   id: number;
   name: string;
-  form: IForm | null;
+  form: number | null;
   students: IStudent[];
   teams: ITeam[];
+}
+
+export interface IDraftDTO {
+  id: number;
+  name: string;
+  form: number | null;
 }
 
 export interface IDraftInList {

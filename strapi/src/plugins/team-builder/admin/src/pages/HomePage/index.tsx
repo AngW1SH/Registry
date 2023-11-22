@@ -25,8 +25,6 @@ const HomePage = () => {
 
   async function createDraft() {
     const response = await post("/team-builder/create");
-
-    console.log(response);
   }
 
   async function getDrafts() {

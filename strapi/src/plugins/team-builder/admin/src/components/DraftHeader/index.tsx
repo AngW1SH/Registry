@@ -6,6 +6,7 @@ import { useDraftTeamsStore } from "../../entities/Team/model";
 import { useFetchClient } from "@strapi/helper-plugin";
 import { ITeam } from "../../entities/Team";
 import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
+import DraftSave from "../DraftSave";
 
 interface DraftHeaderProps {
   pluginId: string;
@@ -20,8 +21,6 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
     const response = await post("/team-builder/generate", {
       teams,
     });
-    console.log(teams);
-    console.log(response);
   };
 
   return (
@@ -33,7 +32,7 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
       }
       primaryAction={
         <Flex>
-          <Button variant="secondary">Save Draft</Button>
+          <DraftSave />
           <Marginer horizontal={20} />
           <Button onClick={() => generateTeams(teams)}>Generate Teams</Button>
         </Flex>
