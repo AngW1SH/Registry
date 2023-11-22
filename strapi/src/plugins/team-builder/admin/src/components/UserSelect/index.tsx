@@ -1,14 +1,20 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MultiSelect, MultiSelectOption } from "@strapi/design-system";
 import { useStudentStore } from "../../entities/Student";
 import { useFormStore } from "../../entities/Form/model";
+import { useDraftStore } from "../../entities/Draft";
 
 interface UserSelectProps {}
 
 const UserSelect: FC<UserSelectProps> = () => {
-  const { active, setActive, students, fetchByForm } = useStudentStore();
+  const { active, setActive, setActiveById, students, fetchByForm } =
+    useStudentStore();
+
+  const [hasLoaded, setHasLoaded] = useState();
 
   const { form, setFields } = useFormStore();
+
+  const { active: activeDraft } = useDraftStore();
 
   useEffect(() => {
     if (form) {
@@ -20,6 +26,10 @@ const UserSelect: FC<UserSelectProps> = () => {
     if (students.length && form && students[0].form.formId == form.id) {
       const fields = students[0].form.data.map((row) => row.question);
       setFields(fields);
+    }
+
+    if (!hasLoaded && form && activeDraft) {
+      setActiveById(activeDraft.activeStudents);
     }
   }, [students]);
 

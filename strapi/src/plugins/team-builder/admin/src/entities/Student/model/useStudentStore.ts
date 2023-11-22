@@ -8,7 +8,7 @@ interface StudentState {
   active: IStudentDetailed[];
   setStudents: (newStudents: IStudentDetailed[]) => void;
   setActive: (newActive: string[]) => void;
-  clearActive: () => void;
+  setActiveById: (newActive: number[]) => void;
   fetchByForm: (formId: number) => void;
 }
 
@@ -21,9 +21,19 @@ export const useStudentStore = create<StudentState>()((set) => ({
         .map((name) => state.students.find((student) => student.name == name)!)
         .filter((student) => student),
     })),
+  setActiveById: (newActive: number[]) =>
+    set((state) => ({
+      active: newActive
+        .map((id) => state.students.find((student) => student.id == id)!)
+        .filter((student) => student),
+    })),
   setStudents: (newStudents: IStudentDetailed[]) =>
-    set((state) => ({ students: newStudents })),
-  clearActive: () => set((state) => ({ active: [] })),
+    set((state) => ({
+      students: newStudents,
+      active: state.active.filter((active) =>
+        state.students.find((student) => student.id == active.id)
+      ),
+    })),
   fetchByForm: async (formId: number) => {
     const { get } = getFetchClient();
 

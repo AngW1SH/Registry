@@ -6,14 +6,14 @@ export interface IDraft {
   id: number;
   name: string;
   form: number | null;
-  students: IStudent[];
-  teams: ITeam[];
+  activeStudents: number[];
 }
 
 export interface IDraftDTO {
   id: number;
   name: string;
   form: number | null;
+  activeStudents: number[];
 }
 
 export interface IDraftInList {

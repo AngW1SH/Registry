@@ -14,6 +14,7 @@ const DraftSave: FC<DraftSaveProps> = () => {
         id: active.id,
         name: active.name,
         form: active.form || null,
+        activeStudents: active.activeStudents,
       });
   };
 

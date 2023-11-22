@@ -85,6 +85,9 @@ export default ({ strapi }: { strapi: Strapi }) => ({
           form: {
             fields: ["id"],
           },
+          activeStudents: {
+            fields: ["id"],
+          },
         },
       }
     );

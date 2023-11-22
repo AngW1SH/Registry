@@ -7,6 +7,5 @@ export const staticDraft: IDraft = {
   id: 1,
   name: "Черновик 1",
   form: staticFormList[0].id,
-  students: staticStudentList,
-  teams: staticTeamList,
+  activeStudents: [24],
 };

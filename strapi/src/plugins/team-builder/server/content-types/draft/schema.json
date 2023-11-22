@@ -24,6 +24,11 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::form.form"
+    },
+    "activeStudents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::student.student"
     }
   }
 }

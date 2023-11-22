@@ -16,7 +16,7 @@ const FormSelect: FC<FormSelectProps> = () => {
     fetch: fetchForms,
   } = useFormStore();
 
-  const { clearActive, fetchByForm } = useStudentStore();
+  const { fetchByForm } = useStudentStore();
 
   const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
 
@@ -24,7 +24,6 @@ const FormSelect: FC<FormSelectProps> = () => {
 
   useEffect(() => {
     if (form) {
-      clearActive();
       fetchByForm(form.id);
       if (activeDraft) setActiveDraft({ ...activeDraft, form: form.id });
     }
