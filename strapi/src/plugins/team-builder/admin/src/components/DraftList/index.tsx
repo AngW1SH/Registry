@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, MouseEvent } from "react";
 import pluginId from "../../pluginId";
 import {
   Table,
@@ -17,17 +17,39 @@ import {
 } from "@strapi/design-system";
 import { Plus, Pencil, Trash } from "@strapi/icons";
 import { IDraftInList } from "../../entities/Draft/types";
+import { useHistory } from "react-router-dom";
+import { ClickableTr } from "./styles";
 
 interface DraftListProps {
   drafts: IDraftInList[];
 }
 
 const DraftList: FC<DraftListProps> = ({ drafts }) => {
+  const history = useHistory();
+
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
+  const handleTableRowClick = (e: MouseEvent<HTMLElement>) => {
+    const closestRedirect = (e.target as HTMLElement).closest(
+      "tr[data-redirect]"
+    );
+
+    if (
+      closestRedirect &&
+      closestRedirect instanceof HTMLElement &&
+      closestRedirect.dataset.redirect !== undefined
+    ) {
+      history.push("/plugins/team-builder/" + closestRedirect.dataset.redirect);
+    }
+  };
+
   return (
-    <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
+    <Table
+      colCount={COL_COUNT}
+      rowCount={ROW_COUNT}
+      onClick={handleTableRowClick}
+    >
       <Thead>
         <Tr>
           <Th>
@@ -52,7 +74,7 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
       </Thead>
       <Tbody>
         {drafts.map((entry) => (
-          <Tr key={entry.id}>
+          <ClickableTr key={entry.id} data-redirect={entry.id}>
             <Td>
               <BaseCheckbox aria-label={`Select ${entry.name}`} />
             </Td>
@@ -98,7 +120,7 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
                 </Box>
               </Flex>
             </Td>
-          </Tr>
+          </ClickableTr>
         ))}
       </Tbody>
     </Table>
