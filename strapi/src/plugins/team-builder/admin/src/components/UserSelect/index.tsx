@@ -14,7 +14,7 @@ const UserSelect: FC<UserSelectProps> = () => {
 
   const { form, setFields } = useFormStore();
 
-  const { active: activeDraft } = useDraftStore();
+  const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
 
   useEffect(() => {
     if (form) {
@@ -32,6 +32,14 @@ const UserSelect: FC<UserSelectProps> = () => {
       setActiveById(activeDraft.activeStudents);
     }
   }, [students]);
+
+  useEffect(() => {
+    if (activeDraft)
+      setActiveDraft({
+        ...activeDraft,
+        activeStudents: active.map((student) => student.id),
+      });
+  }, [active]);
 
   return (
     <MultiSelect

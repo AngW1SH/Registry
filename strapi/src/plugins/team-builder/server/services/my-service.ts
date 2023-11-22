@@ -98,6 +98,8 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   async saveDraft(data: Draft) {
     const { id: _, ...dataToSave } = data;
 
+    console.log(dataToSave);
+
     const updateDraftResponse = await strapi.db
       ?.query("plugin::team-builder.draft")
       .update({
