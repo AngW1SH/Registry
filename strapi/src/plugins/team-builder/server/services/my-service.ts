@@ -105,9 +105,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
 
   async saveDraft(data: Draft) {
-    const { id: _, ...dataToSave } = data;
-
-    console.log(dataToSave);
+    const { id: _, teams, ...dataToSave } = data;
 
     const updateDraftResponse = await strapi.db
       ?.query("plugin::team-builder.draft")
@@ -117,6 +115,38 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         },
         data: dataToSave,
       });
+
+    const findDraftTeamsResponse = await strapi.db
+      ?.query("plugin::team-builder.team-draft")
+      .findMany({
+        where: {
+          draft: {
+            id: data.id,
+          },
+        },
+      });
+
+    if (findDraftTeamsResponse) {
+      for (const teamDraft of findDraftTeamsResponse) {
+        strapi.db?.query("plugin::team-builder.team-draft").delete({
+          where: {
+            id: teamDraft.id,
+          },
+        });
+      }
+    }
+
+    const teamsData = teams.map((team) => ({ draft: data.id, users: team }));
+
+    async function generateTeam(team: { draft: number; users: number[] }) {
+      return strapi.db?.query("plugin::team-builder.team-draft").create({
+        data: team,
+      });
+    }
+
+    const result = await Promise.all(
+      teamsData.map((team) => generateTeam(team))
+    );
 
     return updateDraftResponse;
   },

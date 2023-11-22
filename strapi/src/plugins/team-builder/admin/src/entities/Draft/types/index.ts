@@ -15,6 +15,7 @@ export interface IDraftDTO {
   name: string;
   form: number | null;
   activeStudents: number[];
+  teams: number[][];
 }
 
 export interface IDraftInList {
