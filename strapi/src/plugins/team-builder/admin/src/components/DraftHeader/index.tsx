@@ -5,13 +5,14 @@ import Marginer from "../shared/Marginer";
 import { useFetchClient } from "@strapi/helper-plugin";
 import DraftSave from "../DraftSave";
 import { useDraft } from "../../entities/Draft";
+import DraftGenerate from "../DraftGenerate";
 
 interface DraftHeaderProps {
   pluginId: string;
 }
 
 const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
-  const { draft, generateDraft } = useDraft();
+  const { draft } = useDraft();
 
   return (
     <BaseHeaderLayout
@@ -24,7 +25,7 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
         <Flex>
           <DraftSave />
           <Marginer horizontal={20} />
-          <Button onClick={() => generateDraft()}>Generate Teams</Button>
+          <DraftGenerate />
         </Flex>
       }
       title={draft?.name || ""}

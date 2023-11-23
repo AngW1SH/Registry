@@ -5,6 +5,11 @@ body div[aria-modal] {
   flex-direction: column !important;
 }
 
+body div[aria-modal][role="dialog"] {
+  height: auto !important;
+  text-align: center;
+}
+
 body div[aria-modal] > div:nth-child(2) {
   max-height: 70vh !important;
 }
