@@ -18,11 +18,13 @@ const UserSelect: FC<UserSelectProps> = () => {
 
   const [hasLoaded, setHasLoaded] = useState();
 
-  const { form, setFields } = useFormStore();
+  const { selectedForm, getSelectedForm, setFields } = useFormStore();
 
   const { setTeams } = useDraftTeamsStore();
 
   const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
+
+  const form = useMemo(getSelectedForm, [selectedForm]);
 
   const selectedStudents = useMemo(getSelectedStudents, [
     selectedStudentIds,

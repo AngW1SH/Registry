@@ -5,9 +5,10 @@ import { useStudentStore } from "../../Student";
 import { getFetchClient } from "@strapi/helper-plugin";
 
 interface FormState {
-  form: IForm | null;
+  selectedForm: number | null;
   options: IForm[];
-  setForm: (formName: string) => void;
+  setSelectedForm: (formName: string) => void;
+  getSelectedForm: () => IForm | null;
   setFormById: (id: number) => void;
   fetch: () => void;
   fields: string[] | null;
@@ -16,23 +17,28 @@ interface FormState {
   setDisplayedFields: (newFields: string[] | null) => void;
 }
 
-export const useFormStore = create<FormState>()((set) => ({
-  form: null,
+export const useFormStore = create<FormState>()((set, get) => ({
+  selectedForm: null,
   options: staticFormList,
   fields: null,
   displayedFields: null,
-  setForm: (formName: string) =>
+  setSelectedForm: (formName: string) =>
     set((state) => {
       return {
-        form: state.options.find((form) => form.name == formName) || null,
+        selectedForm:
+          state.options.find((form) => form.name == formName)?.id || null,
       };
     }),
+  getSelectedForm: () => {
+    const selectedFormId = get().selectedForm;
+    return get().options.find((form) => form.id == selectedFormId) || null;
+  },
   setFormById: (id: number) =>
     set((state) => {
       const form = state.options.find((form) => form.id == id);
 
       return {
-        form: form || null,
+        selectedForm: form?.id || null,
       };
     }),
   fetch: async () => {

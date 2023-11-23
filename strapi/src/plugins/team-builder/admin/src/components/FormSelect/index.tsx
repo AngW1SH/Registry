@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useMemo } from "react";
 import { SingleSelect, SingleSelectOption } from "@strapi/design-system";
 import { useFormStore } from "../../entities/Form/model";
 import { useStudentStore } from "../../entities/Student";
@@ -9,9 +9,10 @@ interface FormSelectProps {}
 
 const FormSelect: FC<FormSelectProps> = () => {
   const {
-    form,
+    selectedForm,
+    getSelectedForm,
     options,
-    setForm,
+    setSelectedForm,
     setFormById,
     fetch: fetchForms,
   } = useFormStore();
@@ -21,6 +22,8 @@ const FormSelect: FC<FormSelectProps> = () => {
   const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
 
   const [hasLoaded, setHasLoaded] = useState(false);
+
+  const form = useMemo(getSelectedForm, [selectedForm]);
 
   useEffect(() => {
     if (form) {
@@ -45,7 +48,7 @@ const FormSelect: FC<FormSelectProps> = () => {
   return (
     <SingleSelect
       value={form ? form.name : null}
-      onChange={setForm}
+      onChange={setSelectedForm}
       label="Form"
       required
       placeholder="Select a form"
