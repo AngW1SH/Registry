@@ -1,10 +1,10 @@
 {
   "name": "team-builder",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "A plugin to simplify the process of creating teams.",
   "strapi": {
-    "name": "team-builder",
-    "description": "Description of team-builder plugin",
+    "name": "Team Builder",
+    "description": "A plugin to simplify the process of creating teams.",
     "kind": "plugin"
   },
   "dependencies": {

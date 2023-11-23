@@ -1,13 +1,13 @@
 body div[aria-modal] {
-  width: 80vw !important;
-  height: 80vh !important;
-  display: flex !important;
-  flex-direction: column !important;
+  text-align: center;
 }
 
-body div[aria-modal][role="dialog"] {
-  height: auto !important;
-  text-align: center;
+body div[aria-modal][aria-labelledby="Inspect Team"] {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 80vh !important;
+  width: 80vw !important;
+  text-align: left;
 }
 
 body div[aria-modal] > div:nth-child(2) {

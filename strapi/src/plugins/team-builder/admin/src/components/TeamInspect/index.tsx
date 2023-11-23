@@ -51,7 +51,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
 
   return (
     <>
-      <ModalLayout labelledBy="Team 1" onClose={onCancel}>
+      <ModalLayout labelledBy="Inspect Team" onClose={onCancel}>
         <ModalHeader>
           <Typography
             fontWeight="bold"
