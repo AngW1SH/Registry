@@ -5,3 +5,7 @@ export interface Team {
   name: string;
   students: UserDetailed[];
 }
+
+export interface TeamToSave {
+  students: UserDetailed[];
+}

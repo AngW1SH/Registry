@@ -19,6 +19,7 @@ import { useFetchClient } from "@strapi/helper-plugin";
 import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
 import { useFormStore } from "../../entities/Form/model";
 import DraftNameEdit from "../../components/DraftNameEdit";
+import { useDraft } from "../../entities/Draft";
 
 interface EditPageProps {
   pluginId: string;
@@ -27,23 +28,11 @@ interface EditPageProps {
 const EditPage: FC<EditPageProps> = ({ pluginId }) => {
   const params = useParams<{ id: string | undefined }>();
 
-  const { active: activeDraft, fetchActive: fetchActiveDraft } =
-    useDraftStore();
-
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const { initialize } = useDraft();
 
   useEffect(() => {
-    if (params.id) {
-      fetchActiveDraft(+params.id);
-    }
+    if (params && params.id) initialize(+params.id);
   }, []);
-
-  useEffect(() => {
-    if (!hasLoaded && activeDraft) {
-      // active user-, team-draft- and form- fetching goes here
-      setHasLoaded(true);
-    }
-  }, [activeDraft]);
 
   return (
     <Layout>

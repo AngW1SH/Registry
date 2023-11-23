@@ -10,14 +10,12 @@ import {
   MultiSelectOption,
 } from "@strapi/design-system";
 import Marginer from "../shared/Marginer";
-import { ITeam } from "../../entities/Team";
-import { IStudent, useStudentStore } from "../../entities/Student";
+import { useStudentStore } from "../../entities/Student";
 import { useDraftTeamsStore } from "../../entities/Team/model";
-import { IStudentDetailed } from "../../entities/Student/types";
 
 interface UserAddProps {
   onCancel: () => void;
-  onConfirm: (students: IStudentDetailed[]) => void;
+  onConfirm: (students: number[]) => void;
 }
 
 const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
@@ -33,7 +31,7 @@ const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
       let found = false;
 
       teams.forEach((team) => {
-        if (team.students.find((teamStudent) => teamStudent.id == student.id))
+        if (team.students.find((teamStudent) => teamStudent == student.id))
           found = true;
       });
 
@@ -83,7 +81,7 @@ const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
               onConfirm(
                 selected?.map(
                   (name) =>
-                    selectedStudents.find((student) => student.name == name)!
+                    selectedStudents.find((student) => student.name == name)!.id
                 ) || []
               )
             }

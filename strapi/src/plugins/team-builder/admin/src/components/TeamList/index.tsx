@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useMemo } from "react";
 import { Box } from "@strapi/design-system";
 import { Plus } from "@strapi/icons";
 import {
@@ -17,9 +17,9 @@ import Marginer from "../shared/Marginer";
 import { useDnD } from "./hooks/useDnD";
 import { useDraftTeamsStore } from "../../entities/Team/model";
 import { formatNameShort, useStudentStore } from "../../entities/Student";
-import { ITeam } from "../../entities/Team";
 import UserAdd from "../UserAdd";
 import TeamInspect from "../TeamInspect";
+import { IStudentDetailed } from "../../entities/Student/types";
 
 interface TeamListProps {}
 
@@ -32,6 +32,18 @@ const TeamList: FC<TeamListProps> = () => {
 
   const { teams, addTeam, removeTeam, addStudents, removeStudent } =
     useDraftTeamsStore();
+
+  const { students } = useStudentStore();
+
+  const studentsMap = useMemo(() => {
+    const map = new Map<number, IStudentDetailed>();
+
+    students.forEach((student) => {
+      map.set(student.id, student);
+    });
+
+    return map;
+  }, [students]);
 
   return (
     <>
@@ -96,7 +108,9 @@ const TeamList: FC<TeamListProps> = () => {
                           >
                             <Plus />
                           </StudentRemove>
-                          {formatNameShort(student.name)}
+                          {studentsMap.has(student)
+                            ? formatNameShort(studentsMap.get(student)!.name)
+                            : ""}
                         </Draggable>
                       </Box>
                     </StudentInList>

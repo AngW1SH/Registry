@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 
 import {
   ModalLayout,
@@ -21,6 +21,7 @@ import FormFieldSelect from "../FormFieldSelect";
 import Marginer from "../shared/Marginer";
 import { useFormStore } from "../../entities/Form/model";
 import { formatNameShort, useStudentStore } from "../../entities/Student";
+import { IStudentDetailed } from "../../entities/Student/types";
 
 interface TeamInspectProps {
   team: ITeam;
@@ -29,43 +30,18 @@ interface TeamInspectProps {
 }
 
 const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
-  const data = [
-    {
-      question:
-        "Контактная информация для оперативной обратной связи в https://vk.com/id0",
-      answers: [
-        "https://vk.com/id143280367",
-        "https://vk.com/id143280367",
-        "https://vk.com/id143280367",
-        "https://vk.com/id143280367",
-      ],
-    },
-    {
-      question:
-        "Если в предыдущем вопросе для Вас не было интересного направления деятельности, расскажите нам об области, в которой Вы хотите развиваться",
-      answers: ["", "", "", ""],
-    },
-  ];
-
-  const entry = {
-    name: "ПМИ Осень 2023",
-    createdAt: "2023-11-16",
-    updatedAt: "2023-11-17",
-  };
-  const entries: Array<
-    {
-      id: number;
-    } & typeof entry
-  > = [];
-  for (let i = 0; i < 4; i++) {
-    entries.push({
-      ...entry,
-      id: i,
-    });
-  }
-
   const { displayedFields, fields } = useFormStore();
   const { students } = useStudentStore();
+
+  const studentsMap = useMemo(() => {
+    const map = new Map<number, IStudentDetailed>();
+
+    students.forEach((student) => {
+      map.set(student.id, student);
+    });
+
+    return map;
+  }, [students]);
 
   const selected = displayedFields || fields || [];
 
@@ -101,7 +77,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                   {team.students.map((student) => (
                     <Th>
                       <Typography variant="sigma">
-                        {formatNameShort(student.name)}
+                        {formatNameShort(studentsMap.get(student)?.name || "")}
                       </Typography>
                     </Th>
                   ))}
@@ -122,9 +98,10 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                             widthWV={answerWidthVW}
                             key={selected.length + studentIndex}
                           >
-                            {student.form?.data.find(
-                              (data) => data.question == entry
-                            )?.answer || ""}
+                            {studentsMap
+                              .get(student)
+                              ?.form.data.find((data) => data.question == entry)
+                              ?.answer || ""}
                           </TableAnswer>
                         </Typography>
                       </Td>

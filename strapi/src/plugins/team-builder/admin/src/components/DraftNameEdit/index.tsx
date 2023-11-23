@@ -1,22 +1,16 @@
 import React, { FC, MouseEvent } from "react";
 
-import {
-  Field,
-  Box,
-  Flex,
-  FieldLabel,
-  FieldInput,
-} from "@strapi/design-system";
-import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
+import { Field, Flex, FieldLabel, FieldInput } from "@strapi/design-system";
+import { useDraft } from "../../entities/Draft";
 
 interface DraftNameEditProps {}
 
 const DraftNameEdit: FC<DraftNameEditProps> = () => {
-  const { active, setActive } = useDraftStore();
+  const { draft, setDraft } = useDraft();
 
   const onChange = (e: MouseEvent<HTMLInputElement>) => {
-    if (active && e.target instanceof HTMLInputElement) {
-      setActive({ ...active, name: e.target.value });
+    if (draft && e.target instanceof HTMLInputElement) {
+      setDraft({ ...draft, name: e.target.value });
     }
   };
 
@@ -24,11 +18,7 @@ const DraftNameEdit: FC<DraftNameEditProps> = () => {
     <Field name="email">
       <Flex direction="column" alignItems="stretch" gap={1}>
         <FieldLabel>Draft name</FieldLabel>
-        <FieldInput
-          type="text"
-          value={active?.name || ""}
-          onChange={onChange}
-        />
+        <FieldInput type="text" value={draft?.name || ""} onChange={onChange} />
       </Flex>
     </Field>
   );

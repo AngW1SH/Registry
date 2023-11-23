@@ -1,24 +1,15 @@
 import React, { FC } from "react";
 
 import { Button } from "@strapi/design-system";
-import { saveDraft, useDraftStore } from "../../entities/Draft";
-import { useDraftTeamsStore } from "../../entities/Team/model";
+import { useDraft } from "../../entities/Draft";
 
 interface DraftSaveProps {}
 
 const DraftSave: FC<DraftSaveProps> = () => {
-  const { active } = useDraftStore();
-  const { teams } = useDraftTeamsStore();
+  const { draft, saveDraft } = useDraft();
 
   const onClick = () => {
-    if (active)
-      saveDraft({
-        id: active.id,
-        name: active.name,
-        form: active.form || null,
-        activeStudents: active.activeStudents,
-        teams: teams.map((team) => team.students.map((student) => student.id)),
-      });
+    if (draft) saveDraft();
   };
 
   return (

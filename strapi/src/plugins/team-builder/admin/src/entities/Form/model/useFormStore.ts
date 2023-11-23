@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { IForm } from "../types";
 import { staticFormList } from "../static";
-import { useStudentStore } from "../../Student";
 import { getFetchClient } from "@strapi/helper-plugin";
 
 interface FormState {
@@ -22,13 +21,17 @@ export const useFormStore = create<FormState>()((set, get) => ({
   options: staticFormList,
   fields: null,
   displayedFields: null,
-  setSelectedForm: (formName: string) =>
+  setSelectedForm: (form?: string | number) => {
+    if (!form) return set({ selectedForm: null });
+    if (typeof form == "number") return set({ selectedForm: form });
+
     set((state) => {
       return {
         selectedForm:
-          state.options.find((form) => form.name == formName)?.id || null,
+          state.options.find((findForm) => findForm.name == form)?.id || null,
       };
-    }),
+    });
+  },
   getSelectedForm: () => {
     const selectedFormId = get().selectedForm;
     return get().options.find((form) => form.id == selectedFormId) || null;

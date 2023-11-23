@@ -1,6 +1,5 @@
-import { RefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDraftTeamsStore } from "../../../entities/Team/model";
-import { formatNameShort } from "../../../entities/Student";
 
 const notDraggedState = {
   isDragged: false,
@@ -26,7 +25,7 @@ export const useDnD = () => {
     studentIndex: -1,
   });
 
-  const { teams, moveStudent } = useDraftTeamsStore();
+  const { moveStudent } = useDraftTeamsStore();
 
   const handleDragStart = (e: React.MouseEvent) => {
     const studentListElements = e.currentTarget.querySelectorAll("ul");

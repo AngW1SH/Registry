@@ -5,9 +5,6 @@ import { ITeam } from "../../Team";
 export interface IDraft {
   id: number;
   name: string;
-  form: number | null;
-  activeStudents: number[];
-  teams: number[][];
 }
 
 export interface IDraftDTO {

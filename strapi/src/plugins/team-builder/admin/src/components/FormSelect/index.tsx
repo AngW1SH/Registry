@@ -1,9 +1,7 @@
-import React, { FC, useEffect, useState, useMemo } from "react";
+import React, { FC, useEffect, useMemo } from "react";
 import { SingleSelect, SingleSelectOption } from "@strapi/design-system";
 import { useFormStore } from "../../entities/Form/model";
 import { useStudentStore } from "../../entities/Student";
-import { getFetchClient } from "@strapi/helper-plugin";
-import { useDraftStore } from "../../entities/Draft";
 
 interface FormSelectProps {}
 
@@ -13,37 +11,22 @@ const FormSelect: FC<FormSelectProps> = () => {
     getSelectedForm,
     options,
     setSelectedForm,
-    setFormById,
     fetch: fetchForms,
   } = useFormStore();
 
-  const { fetchByForm } = useStudentStore();
-
-  const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
-
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const { fetchByForm: fetchStudentsByForm } = useStudentStore();
 
   const form = useMemo(getSelectedForm, [selectedForm]);
 
   useEffect(() => {
     if (form) {
-      fetchByForm(form.id);
-      if (activeDraft) setActiveDraft({ ...activeDraft, form: form.id });
+      fetchStudentsByForm(form.id);
     }
   }, [form]);
 
   useEffect(() => {
     fetchForms();
   }, []);
-
-  useEffect(() => {
-    if (!hasLoaded && activeDraft) {
-      if (activeDraft.form) {
-        setFormById(activeDraft.form);
-      }
-      setHasLoaded(true);
-    }
-  }, [activeDraft]);
 
   return (
     <SingleSelect

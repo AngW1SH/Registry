@@ -1,27 +1,17 @@
 import React, { FC } from "react";
 import { BaseHeaderLayout, Button, Link, Flex } from "@strapi/design-system";
-import { Plus, ArrowLeft, Pencil } from "@strapi/icons";
+import { ArrowLeft } from "@strapi/icons";
 import Marginer from "../shared/Marginer";
-import { useDraftTeamsStore } from "../../entities/Team/model";
 import { useFetchClient } from "@strapi/helper-plugin";
-import { ITeam } from "../../entities/Team";
-import { useDraftStore } from "../../entities/Draft/model/useDraftStore";
 import DraftSave from "../DraftSave";
+import { useDraft } from "../../entities/Draft";
 
 interface DraftHeaderProps {
   pluginId: string;
 }
 
 const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
-  const { teams } = useDraftTeamsStore();
-  const { post } = useFetchClient();
-  const { active } = useDraftStore();
-
-  const generateTeams = async (teams: ITeam[]) => {
-    const response = await post("/team-builder/generate", {
-      teams,
-    });
-  };
+  const { draft, generateDraft } = useDraft();
 
   return (
     <BaseHeaderLayout
@@ -34,10 +24,10 @@ const DraftHeader: FC<DraftHeaderProps> = ({ pluginId }) => {
         <Flex>
           <DraftSave />
           <Marginer horizontal={20} />
-          <Button onClick={() => generateTeams(teams)}>Generate Teams</Button>
+          <Button onClick={() => generateDraft()}>Generate Teams</Button>
         </Flex>
       }
-      title={active?.name || ""}
+      title={draft?.name || ""}
       subtitle="API ID: draft"
       as="h2"
     />

@@ -1,6 +1,6 @@
 import { Strapi } from "@strapi/strapi";
 import { FormStrapi, formAdapter } from "../entities/Form";
-import { Team } from "../entities/Team";
+import { TeamToSave } from "../entities/Team";
 import { User, formatName, userAdapter } from "../entities/User";
 import { Draft } from "../entities/Draft";
 
@@ -151,7 +151,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return updateDraftResponse;
   },
 
-  async generateTeams(teams: Team[]) {
+  async generateTeams(teams: TeamToSave[]) {
     const createTeamsResponse = await strapi.db
       ?.query("api::team.team")
       .createMany({

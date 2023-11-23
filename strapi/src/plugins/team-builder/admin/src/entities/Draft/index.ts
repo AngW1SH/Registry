@@ -1,6 +1,5 @@
 import type { IDraft } from "./types";
-import { saveDraft } from "./model/saveDraft";
-import { useDraftStore } from "./model/useDraftStore";
+import { useDraft } from "./model/useDraft";
 
 export type { IDraft };
-export { saveDraft, useDraftStore };
+export { useDraft };

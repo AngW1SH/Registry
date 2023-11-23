@@ -18,13 +18,13 @@ export const useStudentStore = create<StudentState>()((set, get) => ({
   setSelectedStudents: (students: string[] | number[]) => {
     if (!students.length) return set((state) => ({ selectedStudentIds: [] }));
 
-    const fieldKey = typeof students[0] == "number" ? "id" : "name";
+    if (typeof students[0] == "number")
+      return set((state) => ({ selectedStudentIds: students as number[] }));
 
     set((state) => ({
       selectedStudentIds: students
         .map(
-          (name) =>
-            state.students.find((student) => student[fieldKey] == name)!.id
+          (name) => state.students.find((student) => student.name == name)?.id!
         )
         .filter((student) => student),
     }));

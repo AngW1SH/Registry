@@ -1,5 +1,4 @@
 import React, { FC, MouseEvent } from "react";
-import pluginId from "../../pluginId";
 import {
   Table,
   Thead,
@@ -7,7 +6,6 @@ import {
   Th,
   Tbody,
   Td,
-  Avatar,
   IconButton,
   Box,
   Flex,
@@ -15,7 +13,7 @@ import {
   Typography,
   VisuallyHidden,
 } from "@strapi/design-system";
-import { Plus, Pencil, Trash } from "@strapi/icons";
+import { Pencil, Trash } from "@strapi/icons";
 import { IDraftInList } from "../../entities/Draft/types";
 import { useHistory } from "react-router-dom";
 import { ClickableTr } from "./styles";
