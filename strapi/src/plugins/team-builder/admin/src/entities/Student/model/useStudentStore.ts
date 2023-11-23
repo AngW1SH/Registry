@@ -5,34 +5,40 @@ import { getFetchClient } from "@strapi/helper-plugin";
 
 interface StudentState {
   students: IStudentDetailed[];
-  active: IStudentDetailed[];
+  selectedStudentIds: number[];
   setStudents: (newStudents: IStudentDetailed[]) => void;
-  setActive: (newActive: string[]) => void;
-  setActiveById: (newActive: number[]) => void;
+  getSelectedStudents: () => IStudentDetailed[];
+  setSelectedStudents: (students: string[] | number[]) => void;
   fetchByForm: (formId: number) => void;
 }
 
-export const useStudentStore = create<StudentState>()((set) => ({
+export const useStudentStore = create<StudentState>()((set, get) => ({
   students: staticStudentList,
-  active: [],
-  setActive: (newActive: string[]) =>
+  selectedStudentIds: [],
+  setSelectedStudents: (students: string[] | number[]) => {
+    if (!students.length) return set((state) => ({ selectedStudentIds: [] }));
+
+    const fieldKey = typeof students[0] == "number" ? "id" : "name";
+
     set((state) => ({
-      active: newActive
-        .map((name) => state.students.find((student) => student.name == name)!)
+      selectedStudentIds: students
+        .map(
+          (name) =>
+            state.students.find((student) => student[fieldKey] == name)!.id
+        )
         .filter((student) => student),
-    })),
-  setActiveById: (newActive: number[]) =>
-    set((state) => ({
-      active: newActive
-        .map((id) => state.students.find((student) => student.id == id)!)
-        .filter((student) => student),
-    })),
+    }));
+  },
+  getSelectedStudents: () => {
+    return get()
+      .selectedStudentIds.map(
+        (selected) => get().students.find((student) => student.id == selected)!
+      )
+      .filter((student) => student);
+  },
   setStudents: (newStudents: IStudentDetailed[]) =>
     set((state) => ({
       students: newStudents,
-      active: state.active.filter((active) =>
-        state.students.find((student) => student.id == active.id)
-      ),
     })),
   fetchByForm: async (formId: number) => {
     const { get } = getFetchClient();

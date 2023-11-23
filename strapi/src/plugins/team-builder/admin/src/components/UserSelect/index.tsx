@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState, useMemo } from "react";
 import { MultiSelect, MultiSelectOption } from "@strapi/design-system";
 import { useStudentStore } from "../../entities/Student";
 import { useFormStore } from "../../entities/Form/model";
@@ -8,8 +8,13 @@ import { useDraftTeamsStore } from "../../entities/Team/model";
 interface UserSelectProps {}
 
 const UserSelect: FC<UserSelectProps> = () => {
-  const { active, setActive, setActiveById, students, fetchByForm } =
-    useStudentStore();
+  const {
+    selectedStudentIds,
+    getSelectedStudents,
+    setSelectedStudents,
+    students,
+    fetchByForm,
+  } = useStudentStore();
 
   const [hasLoaded, setHasLoaded] = useState();
 
@@ -18,6 +23,11 @@ const UserSelect: FC<UserSelectProps> = () => {
   const { setTeams } = useDraftTeamsStore();
 
   const { active: activeDraft, setActive: setActiveDraft } = useDraftStore();
+
+  const selectedStudents = useMemo(getSelectedStudents, [
+    selectedStudentIds,
+    students,
+  ]);
 
   useEffect(() => {
     if (form) {
@@ -32,7 +42,7 @@ const UserSelect: FC<UserSelectProps> = () => {
     }
 
     if (!hasLoaded && form && activeDraft) {
-      setActiveById(activeDraft.activeStudents);
+      setSelectedStudents(activeDraft.activeStudents);
 
       const teams = activeDraft.teams.map((team) => ({
         students: team.map(
@@ -48,14 +58,14 @@ const UserSelect: FC<UserSelectProps> = () => {
     if (activeDraft)
       setActiveDraft({
         ...activeDraft,
-        activeStudents: active.map((student) => student.id),
+        activeStudents: selectedStudents.map((student) => student.id),
       });
-  }, [active]);
+  }, [selectedStudentIds, students]);
 
   return (
     <MultiSelect
-      value={active.map((student) => student.name)}
-      onChange={setActive}
+      value={selectedStudents.map((student) => student.name)}
+      onChange={setSelectedStudents}
       label="Students"
       customizeContent={(values: string[]) =>
         values.length + " students selected"

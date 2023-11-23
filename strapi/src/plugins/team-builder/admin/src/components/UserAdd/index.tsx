@@ -23,11 +23,13 @@ interface UserAddProps {
 const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
   const [selected, setSelected] = useState<string[] | null>(null);
 
-  const { active } = useStudentStore();
+  const { selectedStudentIds, getSelectedStudents } = useStudentStore();
   const { teams } = useDraftTeamsStore();
 
+  const selectedStudents = useMemo(getSelectedStudents, [selectedStudentIds]);
+
   const unassigned = useMemo(() => {
-    return active.filter((student) => {
+    return selectedStudents.filter((student) => {
       let found = false;
 
       teams.forEach((team) => {
@@ -37,7 +39,7 @@ const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
 
       return !found;
     });
-  }, [active, teams]);
+  }, [selectedStudentIds, teams]);
 
   return (
     <ModalLayout labelledBy="Add to Team 1" onClose={onCancel}>
@@ -80,7 +82,8 @@ const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
             onClick={() =>
               onConfirm(
                 selected?.map(
-                  (name) => active.find((student) => student.name == name)!
+                  (name) =>
+                    selectedStudents.find((student) => student.name == name)!
                 ) || []
               )
             }
