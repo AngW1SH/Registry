@@ -64,4 +64,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .service("myService")
       .saveDraft(ctx.request.body.draft);
   },
+
+  async deleteDraft(ctx) {
+    if (!ctx.params.id) throw new Error("No draft to delete");
+
+    ctx.body = await strapi
+      .plugin("team-builder")
+      .service("myService")
+      .deleteDraft(ctx.params.id);
+  },
 });

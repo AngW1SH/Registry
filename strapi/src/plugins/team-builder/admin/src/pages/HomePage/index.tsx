@@ -19,23 +19,11 @@ import { useFetchClient } from "@strapi/helper-plugin";
 import { IDraftInList } from "../../entities/Draft/types";
 
 const HomePage = () => {
-  const { get, post } = useFetchClient();
-
-  const [drafts, setDrafts] = useState<IDraftInList[]>([]);
+  const { post } = useFetchClient();
 
   async function createDraft() {
     const response = await post("/team-builder/create");
   }
-
-  async function getDrafts() {
-    const response = await get("/team-builder/draft");
-
-    if (response.status == 200 && response.data) setDrafts(response.data);
-  }
-
-  useEffect(() => {
-    getDrafts();
-  }, []);
 
   return (
     <Layout>
@@ -50,7 +38,7 @@ const HomePage = () => {
         as="h2"
       />
       <ContentLayout>
-        <DraftList drafts={drafts} />
+        <DraftList />
       </ContentLayout>
     </Layout>
   );

@@ -151,6 +151,37 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     return updateDraftResponse;
   },
 
+  async deleteDraft(id: number) {
+    const findDraftTeamsResponse = await strapi.db
+      ?.query("plugin::team-builder.team-draft")
+      .findMany({
+        where: {
+          draft: {
+            id: id,
+          },
+        },
+      });
+
+    console.log(findDraftTeamsResponse);
+
+    if (findDraftTeamsResponse) {
+      for (const teamDraft of findDraftTeamsResponse) {
+        strapi.db?.query("plugin::team-builder.team-draft").delete({
+          where: {
+            id: teamDraft.id,
+          },
+        });
+      }
+    }
+
+    const deleteDraftResponse = await strapi.entityService?.delete(
+      "plugin::team-builder.draft",
+      id
+    );
+
+    return deleteDraftResponse;
+  },
+
   async generateTeams(teams: TeamToSave[]) {
     const createTeamsResponse = await strapi.db
       ?.query("api::team.team")

@@ -63,4 +63,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "DELETE",
+    path: "/draft/:id",
+    handler: "myController.deleteDraft",
+    config: {
+      policies: [],
+    },
+  },
 ];

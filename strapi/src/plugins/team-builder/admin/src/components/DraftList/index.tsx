@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from "react";
+import React, { FC, MouseEvent, useState, useEffect } from "react";
 import {
   Table,
   Thead,
@@ -17,12 +17,15 @@ import { Pencil, Trash } from "@strapi/icons";
 import { IDraftInList } from "../../entities/Draft/types";
 import { useHistory } from "react-router-dom";
 import { ClickableTr } from "./styles";
+import DraftDelete from "../DraftDelete";
+import { useFetchClient } from "@strapi/helper-plugin";
 
-interface DraftListProps {
-  drafts: IDraftInList[];
-}
+interface DraftListProps {}
 
-const DraftList: FC<DraftListProps> = ({ drafts }) => {
+const DraftList: FC<DraftListProps> = () => {
+  const [drafts, setDrafts] = useState<IDraftInList[]>([]);
+  const { get } = useFetchClient();
+
   const history = useHistory();
 
   const ROW_COUNT = 6;
@@ -42,6 +45,20 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
     }
   };
 
+  async function getDrafts() {
+    const response = await get("/team-builder/draft");
+
+    if (response.status == 200 && response.data) setDrafts(response.data);
+  }
+
+  const onDraftDelete = (id: number) => {
+    setDrafts(drafts.filter((draft) => draft.id != id));
+  };
+
+  useEffect(() => {
+    getDrafts();
+  }, []);
+
   return (
     <Table
       colCount={COL_COUNT}
@@ -50,9 +67,6 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
     >
       <Thead>
         <Tr>
-          <Th>
-            <BaseCheckbox aria-label="Select all entries" />
-          </Th>
           <Th>
             <Typography variant="sigma">ID</Typography>
           </Th>
@@ -73,9 +87,6 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
       <Tbody>
         {drafts.map((entry) => (
           <ClickableTr key={entry.id} data-redirect={entry.id}>
-            <Td>
-              <BaseCheckbox aria-label={`Select ${entry.name}`} />
-            </Td>
             <Td>
               <Typography textColor="neutral800">{entry.id}</Typography>
             </Td>
@@ -101,7 +112,7 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
               </Typography>
             </Td>
             <Td>
-              <Flex>
+              <Flex justifyContent="flex-end">
                 <IconButton
                   onClick={() => console.log("edit")}
                   label="Edit"
@@ -109,12 +120,7 @@ const DraftList: FC<DraftListProps> = ({ drafts }) => {
                   icon={<Pencil />}
                 />
                 <Box paddingLeft={1}>
-                  <IconButton
-                    onClick={() => console.log("delete")}
-                    label="Delete"
-                    noBorder
-                    icon={<Trash />}
-                  />
+                  <DraftDelete id={entry.id} onDelete={onDraftDelete} />
                 </Box>
               </Flex>
             </Td>
