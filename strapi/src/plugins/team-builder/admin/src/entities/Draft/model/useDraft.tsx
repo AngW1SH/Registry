@@ -21,8 +21,6 @@ export const useDraft = () => {
 
     if (response.status != 200) return;
 
-    setDraft({ id: response?.data?.id, name: response?.data?.name });
-
     setSelectedForm(response.data?.form?.id || null);
     setSelectedStudents(
       response?.data?.activeStudents?.map(
@@ -34,6 +32,8 @@ export const useDraft = () => {
         students: team.users.map((user) => user.id),
       }))
     );
+
+    setDraft({ id: response?.data?.id, name: response?.data?.name });
   };
 
   const saveDraft = async () => {

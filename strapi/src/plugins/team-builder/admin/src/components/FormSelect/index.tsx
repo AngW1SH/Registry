@@ -16,7 +16,7 @@ const FormSelect: FC<FormSelectProps> = () => {
 
   const { fetchByForm: fetchStudentsByForm } = useStudentStore();
 
-  const form = useMemo(getSelectedForm, [selectedForm]);
+  const form = useMemo(getSelectedForm, [selectedForm, options]);
 
   useEffect(() => {
     if (form) {
@@ -30,7 +30,7 @@ const FormSelect: FC<FormSelectProps> = () => {
 
   return (
     <SingleSelect
-      value={form ? form.name : null}
+      value={form ? form.name : ""}
       onChange={setSelectedForm}
       label="Form"
       required
