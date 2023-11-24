@@ -47,19 +47,9 @@ const DraftList: FC<DraftListProps> = ({ drafts, setDrafts }) => {
     }
   };
 
-  async function getDrafts() {
-    const response = await get("/team-builder/draft");
-
-    if (response.status == 200 && response.data) setDrafts(response.data);
-  }
-
   const onDraftDelete = (id: number) => {
     setDrafts(drafts.filter((draft) => draft.id != id));
   };
-
-  useEffect(() => {
-    getDrafts();
-  }, []);
 
   return (
     <Table

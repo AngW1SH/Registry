@@ -34,7 +34,7 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
   if (!draft)
     return (
       <Layout>
-        <Flex justifyContent="center" alignItems="center" height="100vh">
+        <Flex justifyContent="center" alignItems="center" height="90vh">
           <Loader>Loading content...</Loader>
         </Flex>
       </Layout>
