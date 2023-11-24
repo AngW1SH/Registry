@@ -62,6 +62,8 @@ export const useDraft = () => {
           .filter((student) => student),
       })),
     });
+
+    return response.status;
   };
 
   return { draft, setDraft, initialize, saveDraft, generateDraft };

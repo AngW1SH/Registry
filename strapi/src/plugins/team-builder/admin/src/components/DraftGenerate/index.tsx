@@ -9,18 +9,33 @@ import {
   DialogFooter,
 } from "@strapi/design-system";
 import { useDraft } from "../../entities/Draft";
+import { useFetchClient } from "@strapi/helper-plugin";
+import { useHistory } from "react-router-dom";
 
 interface DraftGenerateProps {}
 
 const DraftGenerate: FC<DraftGenerateProps> = () => {
-  const { generateDraft } = useDraft();
+  const { draft, generateDraft } = useDraft();
+  const history = useHistory();
+
+  const { del } = useFetchClient();
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const fetchDraftDelete = async (id: number) => {
+    const result = await del("/team-builder/draft/" + id);
+
+    return result.status;
+  };
+
   const handleConfirm = async () => {
     const isDone = await generateDraft();
-
     setShowPopup(false);
+
+    if (isDone == 200) {
+      const deleteStatus = draft ? await fetchDraftDelete(draft.id) : 400;
+      if (deleteStatus == 200) history.push("/plugins/team-builder");
+    }
   };
 
   return (
