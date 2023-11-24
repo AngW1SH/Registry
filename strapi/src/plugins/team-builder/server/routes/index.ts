@@ -56,6 +56,14 @@ export default [
     },
   },
   {
+    method: "POST",
+    path: "/draft",
+    handler: "myController.deleteDraft",
+    config: {
+      policies: [],
+    },
+  },
+  {
     method: "PUT",
     path: "/draft/:id",
     handler: "myController.saveDraft",

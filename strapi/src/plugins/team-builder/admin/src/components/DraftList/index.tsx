@@ -20,10 +20,12 @@ import { ClickableTr } from "./styles";
 import DraftDelete from "../DraftDelete";
 import { useFetchClient } from "@strapi/helper-plugin";
 
-interface DraftListProps {}
+interface DraftListProps {
+  drafts: IDraftInList[];
+  setDrafts: (drafts: IDraftInList[]) => any;
+}
 
-const DraftList: FC<DraftListProps> = () => {
-  const [drafts, setDrafts] = useState<IDraftInList[]>([]);
+const DraftList: FC<DraftListProps> = ({ drafts, setDrafts }) => {
   const { get } = useFetchClient();
 
   const history = useHistory();

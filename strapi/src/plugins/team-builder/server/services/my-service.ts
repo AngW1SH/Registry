@@ -162,8 +162,6 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         },
       });
 
-    console.log(findDraftTeamsResponse);
-
     if (findDraftTeamsResponse) {
       for (const teamDraft of findDraftTeamsResponse) {
         strapi.db?.query("plugin::team-builder.team-draft").delete({

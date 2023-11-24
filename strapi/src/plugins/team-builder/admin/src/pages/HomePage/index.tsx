@@ -17,28 +17,23 @@ import { Plus, Pencil } from "@strapi/icons";
 import DraftList from "../../components/DraftList";
 import { useFetchClient } from "@strapi/helper-plugin";
 import { IDraftInList } from "../../entities/Draft/types";
+import DraftCreate from "../../components/DraftCreate";
 
 const HomePage = () => {
   const { post } = useFetchClient();
 
-  async function createDraft() {
-    const response = await post("/team-builder/create");
-  }
+  const [drafts, setDrafts] = useState<IDraftInList[]>([]);
 
   return (
     <Layout>
       <BaseHeaderLayout
-        primaryAction={
-          <Button onClick={createDraft} startIcon={<Plus />}>
-            Add an entry
-          </Button>
-        }
+        primaryAction={<DraftCreate />}
         title="Team Drafts"
-        subtitle="5 entries found"
+        subtitle={drafts.length + " entries found"}
         as="h2"
       />
       <ContentLayout>
-        <DraftList />
+        <DraftList drafts={drafts} setDrafts={setDrafts} />
       </ContentLayout>
     </Layout>
   );
