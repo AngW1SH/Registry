@@ -1,5 +1,11 @@
-import myController from './my-controller';
+import draftController from "./draft";
+import teamDraftController from "./team-draft";
+import formController from "./form";
+import userController from "./user";
 
 export default {
-  myController,
+  draftController,
+  teamDraftController,
+  formController,
+  userController,
 };

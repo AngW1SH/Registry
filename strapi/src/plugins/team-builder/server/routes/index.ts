@@ -1,16 +1,8 @@
 export default [
   {
     method: "GET",
-    path: "/",
-    handler: "myController.index",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "GET",
     path: "/form",
-    handler: "myController.getForms",
+    handler: "formController.getForms",
     config: {
       policies: [],
     },
@@ -18,7 +10,7 @@ export default [
   {
     method: "GET",
     path: "/student/:formId",
-    handler: "myController.getStudents",
+    handler: "userController.getUsers",
     config: {
       policies: [],
     },
@@ -26,7 +18,7 @@ export default [
   {
     method: "POST",
     path: "/generate",
-    handler: "myController.generateTeams",
+    handler: "teamDraftController.generateTeams",
     config: {
       policies: [],
     },
@@ -34,7 +26,7 @@ export default [
   {
     method: "POST",
     path: "/create",
-    handler: "myController.createDraft",
+    handler: "draftController.createDraft",
     config: {
       policies: [],
     },
@@ -42,7 +34,7 @@ export default [
   {
     method: "GET",
     path: "/draft",
-    handler: "myController.getDrafts",
+    handler: "draftController.getDrafts",
     config: {
       policies: [],
     },
@@ -50,15 +42,7 @@ export default [
   {
     method: "GET",
     path: "/draft/:id",
-    handler: "myController.getDraftById",
-    config: {
-      policies: [],
-    },
-  },
-  {
-    method: "POST",
-    path: "/draft",
-    handler: "myController.deleteDraft",
+    handler: "draftController.getDraftById",
     config: {
       policies: [],
     },
@@ -66,7 +50,7 @@ export default [
   {
     method: "PUT",
     path: "/draft/:id",
-    handler: "myController.saveDraft",
+    handler: "draftController.saveDraft",
     config: {
       policies: [],
     },
@@ -74,7 +58,7 @@ export default [
   {
     method: "DELETE",
     path: "/draft/:id",
-    handler: "myController.deleteDraft",
+    handler: "draftController.deleteDraft",
     config: {
       policies: [],
     },

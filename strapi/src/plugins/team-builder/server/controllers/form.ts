@@ -5,12 +5,10 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     ctx.body = "";
   },
 
-  async generateTeams(ctx) {
-    if (!ctx.request.body.teams) return (ctx.body = 0);
-
+  async getForms(ctx) {
     ctx.body = await strapi
       .plugin("team-builder")
-      .service("teamDraftService")
-      .generateTeams(ctx.request.body.teams);
+      .service("formService")
+      .getForms();
   },
 });
