@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { HalfWidthLargeScreen } from "./styles";
 import {
   Flex,
@@ -6,10 +6,36 @@ import {
   SingleSelect,
   SingleSelectOption,
 } from "@strapi/design-system";
+import { useStudentStore } from "../../entities/Student";
+import { useFetchClient } from "@strapi/helper-plugin";
+import { useDraftTeamsStore } from "../../entities/Team/model";
 
 interface AutoGenerateProps {}
 
 const AutoGenerate: FC<AutoGenerateProps> = () => {
+  const [options, setOptions] = useState([{ name: "Random" }]);
+
+  const { post } = useFetchClient();
+
+  const { selectedStudentIds, getSelectedStudents } = useStudentStore();
+  const { setTeams } = useDraftTeamsStore();
+
+  const selectedStudents = useMemo(getSelectedStudents, [selectedStudentIds]);
+
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const handleGenerate = async () => {
+    if (selected) {
+      const result = await post("/team-builder/autogenerate", {
+        users: selectedStudents,
+      });
+
+      if (result.status == 200 && result.data && result.data) {
+        setTeams(result.data);
+      }
+    }
+  };
+
   return (
     <Flex alignItems="flex-end" justifyContent="space-between">
       <HalfWidthLargeScreen>
@@ -17,18 +43,23 @@ const AutoGenerate: FC<AutoGenerateProps> = () => {
           label="Algorithm"
           required
           placeholder="Select an algorithm"
+          value={selected}
+          onChange={setSelected}
         >
-          <SingleSelectOption value="apple">Apple</SingleSelectOption>
-          <SingleSelectOption value="avocado">Avocado</SingleSelectOption>
-          <SingleSelectOption value="banana">Banana</SingleSelectOption>
-          <SingleSelectOption value="kiwi">Kiwi</SingleSelectOption>
-          <SingleSelectOption value="mango">Mango</SingleSelectOption>
-          <SingleSelectOption value="orange">Orange</SingleSelectOption>
-          <SingleSelectOption value="strawberry">Strawberry</SingleSelectOption>
+          {options.map((option) => (
+            <SingleSelectOption value={option.name}>
+              {option.name}
+            </SingleSelectOption>
+          ))}
         </SingleSelect>
       </HalfWidthLargeScreen>
       <HalfWidthLargeScreen>
-        <Button fullWidth={true} variant="secondary" size="L">
+        <Button
+          fullWidth={true}
+          onClick={handleGenerate}
+          variant="secondary"
+          size="L"
+        >
           AutoGenerate
         </Button>
       </HalfWidthLargeScreen>

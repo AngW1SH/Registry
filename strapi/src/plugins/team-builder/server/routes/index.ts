@@ -63,4 +63,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "POST",
+    path: "/autogenerate",
+    handler: "teamDraftController.autogenerate",
+    config: {
+      policies: [],
+    },
+  },
 ];
