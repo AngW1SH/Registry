@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { MultiSelect, MultiSelectOption } from "@strapi/design-system";
+import React, { FC, useMemo } from "react";
+import { MultiSelectNested } from "@strapi/design-system";
 import { useFormStore } from "../../entities/Form/model";
 
 interface FormFieldSelectProps {}
@@ -7,8 +7,26 @@ interface FormFieldSelectProps {}
 const FormFieldSelect: FC<FormFieldSelectProps> = () => {
   const { displayedFields, fields, setDisplayedFields } = useFormStore();
 
+  const options = useMemo(() => {
+    return fields?.map((field) => {
+      if (field.type == "GRID")
+        return {
+          label: field.question,
+          children: field.rows.map((row) => ({
+            value: row,
+            label: row,
+          })),
+        };
+
+      return {
+        label: field.question,
+        value: field.question,
+      };
+    });
+  }, [fields]);
+
   return (
-    <MultiSelect
+    <MultiSelectNested
       label="Displayed form fields"
       required
       value={displayedFields || []}
@@ -17,11 +35,8 @@ const FormFieldSelect: FC<FormFieldSelectProps> = () => {
       customizeContent={(values: string[]) =>
         displayedFields ? displayedFields.length + " questions selected" : ""
       }
-    >
-      {fields?.map((field) => (
-        <MultiSelectOption value={field}>{field}</MultiSelectOption>
-      ))}
-    </MultiSelect>
+      options={options}
+    ></MultiSelectNested>
   );
 };
 

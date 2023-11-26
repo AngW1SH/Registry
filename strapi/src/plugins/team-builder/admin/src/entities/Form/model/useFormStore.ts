@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { IForm } from "../types";
 import { staticFormList } from "../static";
 import { getFetchClient } from "@strapi/helper-plugin";
+import { FormRow } from "../../Student/types";
 
 interface FormState {
   selectedForm: number | null;
@@ -10,8 +11,8 @@ interface FormState {
   getSelectedForm: () => IForm | null;
   setFormById: (id: number) => void;
   fetch: () => void;
-  fields: string[] | null;
-  setFields: (newFields: string[] | null) => void;
+  fields: FormRow[] | null;
+  setFields: (newFields: FormRow[] | null) => void;
   displayedFields: string[] | null;
   setDisplayedFields: (newFields: string[] | null) => void;
 }
@@ -54,7 +55,7 @@ export const useFormStore = create<FormState>()((set, get) => ({
     set({ options: response.data });
   },
 
-  setFields: async (newFields: string[] | null) => {
+  setFields: async (newFields: FormRow[] | null) => {
     set((state) => ({ fields: newFields }));
   },
   setDisplayedFields: async (newFields: string[] | null) => {

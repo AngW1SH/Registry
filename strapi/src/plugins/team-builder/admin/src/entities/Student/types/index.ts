@@ -10,7 +10,17 @@ export interface IStudentDetailed extends IStudent {
   };
 }
 
-export interface FormRow {
+export type FormRow = FormRowDefault | FormRowGrid;
+
+export interface FormRowDefault {
+  type: "DEFAULT";
   question: string;
   answer: string;
+}
+
+export interface FormRowGrid {
+  type: "GRID";
+  question: string;
+  rows: string[];
+  answers: string[];
 }

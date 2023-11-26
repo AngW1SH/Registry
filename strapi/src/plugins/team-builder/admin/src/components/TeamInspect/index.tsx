@@ -21,7 +21,13 @@ import FormFieldSelect from "../FormFieldSelect";
 import Marginer from "../shared/Marginer";
 import { useFormStore } from "../../entities/Form/model";
 import { formatNameShort, useStudentStore } from "../../entities/Student";
-import { IStudentDetailed } from "../../entities/Student/types";
+import {
+  FormRow,
+  FormRowDefault,
+  FormRowGrid,
+  IStudentDetailed,
+} from "../../entities/Student/types";
+import { IFormQuestion } from "../../entities/Form/types";
 
 interface TeamInspectProps {
   team: ITeam;
@@ -43,11 +49,56 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
     return map;
   }, [students]);
 
-  const selected = displayedFields || fields || [];
-
   const answerWidthVW = team.students.length
     ? (70 - 16 - 2) / Math.min(team.students.length, 5)
     : 11;
+
+  const selected =
+    displayedFields ||
+    fields?.reduce<string[]>(
+      (allQuestions, field) =>
+        field.type == "GRID"
+          ? [...allQuestions, ...field.rows]
+          : [...allQuestions, field.question],
+      []
+    ) ||
+    [];
+
+  const displayData = useMemo(() => {
+    const result = [] as IFormQuestion[];
+
+    selected.forEach((question) => {
+      const foundField = fields?.find(
+        (field) => field.type == "DEFAULT" && field.question == question
+      );
+
+      if (foundField) {
+        result.push(foundField);
+      } else {
+        const foundFieldRow = fields?.find(
+          (field) => field.type == "GRID" && field.rows.includes(question)
+        );
+
+        if (foundFieldRow) {
+          const foundIndexInResult = result.findIndex(
+            (field) => field.question == foundFieldRow?.question
+          );
+
+          if (foundIndexInResult == -1) {
+            result.push({
+              question: foundFieldRow.question,
+              type: "GRID",
+              rows: [question],
+            });
+          } else if (result[foundIndexInResult].type == "GRID") {
+            (result[foundIndexInResult] as FormRowGrid).rows.push(question);
+          }
+        }
+      }
+    });
+
+    return result;
+  }, [selected]);
 
   return (
     <>
@@ -84,30 +135,69 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                 </Tr>
               </Thead>
               <Tbody key={selected.length}>
-                {selected.map((entry, index) => (
-                  <Tr key={entry}>
-                    <Td>
-                      <Typography textColor="neutral800">
-                        <TableQuestion>{entry}</TableQuestion>
-                      </Typography>
-                    </Td>
-                    {team.students.map((student, studentIndex) => (
+                {displayData.map((entry, index) => {
+                  if (entry.type == "GRID") {
+                    return entry.rows.map((row, rowIndex) => (
+                      <Tr key={row}>
+                        <Td>
+                          <Typography textColor="neutral800">
+                            <TableQuestion>{row}</TableQuestion>
+                          </Typography>
+                        </Td>
+                        {team.students.map((student, studentIndex) => (
+                          <Td>
+                            <Typography textColor="neutral800">
+                              <TableAnswer
+                                widthWV={answerWidthVW}
+                                key={"" + selected.length + studentIndex}
+                              >
+                                {(
+                                  studentsMap
+                                    .get(student)
+                                    ?.form.data.find(
+                                      (data) =>
+                                        data.type == "GRID" &&
+                                        data.rows.includes(row)
+                                    ) as FormRowGrid | null
+                                )?.answers[rowIndex] || ""}
+                              </TableAnswer>
+                            </Typography>
+                          </Td>
+                        ))}
+                      </Tr>
+                    ));
+                  }
+
+                  return (
+                    <Tr key={entry.question}>
                       <Td>
                         <Typography textColor="neutral800">
-                          <TableAnswer
-                            widthWV={answerWidthVW}
-                            key={selected.length + studentIndex}
-                          >
-                            {studentsMap
-                              .get(student)
-                              ?.form.data.find((data) => data.question == entry)
-                              ?.answer || ""}
-                          </TableAnswer>
+                          <TableQuestion>{entry.question}</TableQuestion>
                         </Typography>
                       </Td>
-                    ))}
-                  </Tr>
-                ))}
+                      {team.students.map((student, studentIndex) => (
+                        <Td>
+                          <Typography textColor="neutral800">
+                            <TableAnswer
+                              widthWV={answerWidthVW}
+                              key={"" + selected.length + studentIndex}
+                            >
+                              {(
+                                studentsMap
+                                  .get(student)
+                                  ?.form.data.find(
+                                    (data) =>
+                                      data.type == "DEFAULT" &&
+                                      data.question == entry.question
+                                  ) as FormRowDefault
+                              )?.answer || ""}
+                            </TableAnswer>
+                          </Typography>
+                        </Td>
+                      ))}
+                    </Tr>
+                  );
+                })}
               </Tbody>
             </Table>
           </TableContainer>

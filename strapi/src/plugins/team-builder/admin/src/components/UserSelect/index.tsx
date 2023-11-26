@@ -31,7 +31,7 @@ const UserSelect: FC<UserSelectProps> = () => {
 
   useEffect(() => {
     if (students.length && form && students[0].form.formId == form.id) {
-      const fields = students[0].form.data.map((row) => row.question);
+      const fields = students[0].form.data;
       setFields(fields);
     }
   }, [students]);
