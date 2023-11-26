@@ -31,6 +31,7 @@ const FormFieldSelect: FC<FormFieldSelectProps> = () => {
       required
       value={displayedFields || []}
       onChange={setDisplayedFields}
+      onClear={() => setDisplayedFields([])}
       placeholder="Select form fields"
       customizeContent={(values: string[]) =>
         displayedFields ? displayedFields.length + " questions selected" : ""
