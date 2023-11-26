@@ -7,7 +7,7 @@ const userRouter = express();
 
 userRouter.get(
   "/yandeexcallback",
-  passport.authenticate("custom-yandex", { failureRedirect: "/login" }),
+  passport.authenticate("custom-yandex", { failureRedirect: "/" }),
   userController.authorize
 );
 

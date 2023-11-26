@@ -30,7 +30,7 @@ const AutoGenerate: FC<AutoGenerateProps> = () => {
         users: selectedStudents,
       });
 
-      if (result.status == 200 && result.data && result.data) {
+      if (result.status == 200 && result.data) {
         setTeams(result.data);
       }
     }
