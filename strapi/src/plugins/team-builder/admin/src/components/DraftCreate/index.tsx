@@ -14,8 +14,6 @@ const DraftCreate: FC<DraftCreateProps> = () => {
   async function createDraft() {
     const response = await post("/team-builder/create");
 
-    console.log(response);
-
     if (response.status == 200) {
       history.push("/plugins/team-builder/" + response.data.id);
     }

@@ -6,7 +6,7 @@ body div[aria-modal][aria-labelledby="Inspect Team"] {
   display: flex !important;
   flex-direction: column !important;
   height: 80vh !important;
-  width: 80vw !important;
+  width: 85vw !important;
   text-align: left;
 }
 

@@ -34,6 +34,7 @@ const tokenServiceFactory = () => {
   }
 
   async function refreshAccess(refreshToken: string) {
+    if (!refreshToken) throw new UnauthorizedError("No refresh token provided");
     const { id: userId } = verify(refreshToken, process.env.TOKEN_SECRET!) as {
       id: number;
     };

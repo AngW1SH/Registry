@@ -58,6 +58,9 @@ const UserAdd: FC<UserAddProps> = ({ onCancel, onConfirm }) => {
           onChange={setSelected}
           label="Students"
           required
+          customizeContent={(values: string[]) =>
+            values.length + " students selected"
+          }
           placeholder="Select students"
         >
           {unassigned.map((student) => (

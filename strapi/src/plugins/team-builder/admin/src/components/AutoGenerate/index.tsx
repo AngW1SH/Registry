@@ -20,11 +20,10 @@ const AutoGenerate: FC<AutoGenerateProps> = () => {
   const { selectedStudentIds, getSelectedStudents } = useStudentStore();
   const { setTeams } = useDraftTeamsStore();
 
-  const selectedStudents = useMemo(getSelectedStudents, [selectedStudentIds]);
-
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleGenerate = async () => {
+    const selectedStudents = getSelectedStudents();
     if (selected) {
       const result = await post("/team-builder/autogenerate", {
         users: selectedStudents,

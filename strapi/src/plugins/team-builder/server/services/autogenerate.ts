@@ -23,7 +23,7 @@ function shuffle<T>(array: T[]) {
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async autogenerate(users: UserDetailed[]) {
-    const length = Math.floor(users.length / 5) + 1;
+    const length = Math.floor(users.length / 5);
 
     const randomized = shuffle(users.map((user) => user.id));
 

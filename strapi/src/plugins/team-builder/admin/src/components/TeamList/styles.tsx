@@ -47,6 +47,7 @@ export const StudentInList = styled.li`
 
 export const StudentBorder = styled.div`
   position: absolute;
+  height: 35px;
   inset: 0;
   border: 1px dashed #d9d8ff;
   user-select: none;
@@ -55,6 +56,7 @@ export const StudentBorder = styled.div`
 export const StudentBackground = styled.div`
   position: absolute;
   inset: 0;
+  height: 35px;
   border: 1px dashed #d9d8ff;
   background-color: #f0f0ff;
   user-select: none;

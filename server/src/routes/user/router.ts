@@ -36,11 +36,7 @@ userRouter.get(
   userController.getData
 );
 
-userRouter.get(
-  "/logout",
-  passport.authenticate("jwt-authenticate"),
-  userController.logout
-);
+userRouter.get("/logout", userController.logout);
 
 userRouter.get(
   "/profile",

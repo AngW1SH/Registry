@@ -42,7 +42,6 @@ const formServiceFactory = () => {
   }
 
   async function submit(formId: number, response: any) {
-    console.log(response);
     const email = response.find(
       (data: { question: string; answer: string }) =>
         data.question == "Электронная почта, указанная при авторизации"

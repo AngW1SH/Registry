@@ -27,7 +27,7 @@ import {
   FormRowGrid,
   IStudentDetailed,
 } from "../../entities/Student/types";
-import { IFormQuestion } from "../../entities/Form/types";
+import { IFormQuestion, IFormQuestionGrid } from "../../entities/Form/types";
 
 interface TeamInspectProps {
   team: ITeam;
@@ -145,21 +145,25 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                           </Typography>
                         </Td>
                         {team.students.map((student, studentIndex) => (
-                          <Td>
+                          <Td key={row + student}>
                             <Typography textColor="neutral800">
-                              <TableAnswer
-                                widthWV={answerWidthVW}
-                                key={"" + selected.length + studentIndex}
-                              >
+                              <TableAnswer widthWV={answerWidthVW}>
                                 {(
                                   studentsMap
                                     .get(student)
-                                    ?.form.data.find(
+                                    ?.form?.data?.find(
                                       (data) =>
                                         data.type == "GRID" &&
                                         data.rows.includes(row)
                                     ) as FormRowGrid | null
-                                )?.answers[rowIndex] || ""}
+                                )?.answers[
+                                  (
+                                    fields?.find(
+                                      (field) =>
+                                        field.question == entry.question
+                                    ) as IFormQuestionGrid
+                                  ).rows.findIndex((mapRow) => mapRow == row)
+                                ] || ""}
                               </TableAnswer>
                             </Typography>
                           </Td>
@@ -185,7 +189,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                               {(
                                 studentsMap
                                   .get(student)
-                                  ?.form.data.find(
+                                  ?.form?.data?.find(
                                     (data) =>
                                       data.type == "DEFAULT" &&
                                       data.question == entry.question
