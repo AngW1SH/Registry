@@ -8,7 +8,7 @@ export default function useProjectDetailedQuery(
   id: number,
   placeholderData: ProjectDetailed,
 ) {
-  return useQuery<ProjectDetailed>({
+  return useQuery<ProjectDetailed | null>({
     queryKey: ["active-projects", id],
     queryFn: () => Promise.resolve(fetchProjectDetailed(id)),
     keepPreviousData: true,

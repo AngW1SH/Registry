@@ -24,7 +24,7 @@ import {
 import { User } from "@/entities/user";
 import { Member } from "@/entities/member";
 import requestRepository from "../request";
-import { BadRequestError } from "@/helpers/errors";
+import { BadRequestError, ServerError } from "@/helpers/errors";
 import meilisearch from "@/db/meilisearch/client";
 
 const projectRepositoryFactory = () => {
@@ -59,6 +59,8 @@ const projectRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch new projects");
+
     const { projects, tags } = getProjectListFromStrapiDTO(response);
 
     return {
@@ -84,6 +86,8 @@ const projectRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+
+    if (!response) throw new ServerError("Couldn't fetch available projects");
 
     const { projects } = getProjectListFromStrapiDTO(response);
 
@@ -135,6 +139,8 @@ const projectRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch project");
+
     if (!response.data) return null;
 
     const countRequests = await requestRepository.countActive({
@@ -179,6 +185,8 @@ const projectRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch projects");
+
     const { projects, tags } = getProjectListFromStrapiDTO(response);
 
     return {
@@ -203,6 +211,8 @@ const projectRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+
+    if (!response) throw new ServerError("Couldn't fetch project references");
 
     return getProjectListFromStrapiDTO(response).projects;
   }

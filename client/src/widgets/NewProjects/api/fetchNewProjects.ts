@@ -4,10 +4,16 @@ import {
 } from "@/composites/ProjectsWithTags";
 import { IProjectsWithTagsDTO } from "@/composites/ProjectsWithTags/types/types";
 
-export const fetchNewProjects = async (): Promise<IProjectsWithTags> => {
-  const resultDTO: IProjectsWithTagsDTO = await fetch(
+export const fetchNewProjects = async (): Promise<IProjectsWithTags | null> => {
+  const resultDTO: IProjectsWithTagsDTO | null = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/new",
-  ).then((data) => data.json());
+  ).then((response) => {
+    try {
+      return response.ok ? response.json() : null;
+    } catch {
+      return null;
+    }
+  });
 
-  return getProjectsWithTagsFromDTO(resultDTO);
+  return resultDTO ? getProjectsWithTagsFromDTO(resultDTO) : null;
 };

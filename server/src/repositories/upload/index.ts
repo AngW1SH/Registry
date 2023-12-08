@@ -36,7 +36,14 @@ const uploadRepositoryFactory = () => {
       },
       method: "POST",
       body: formData as any,
-    }).then((res) => (res.ok ? res.json() : null));
+    }).then((res) => {
+      if (!res.ok) return null;
+      try {
+        return res.json();
+      } catch {
+        return null;
+      }
+    });
 
     return fileUploadResponse;
   }

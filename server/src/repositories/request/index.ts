@@ -76,7 +76,7 @@ const requestRepositoryFactory = () => {
       body,
     });
 
-    if (!createResponse.data || !createResponse.data.id)
+    if (!createResponse || !createResponse.data || !createResponse.data.id)
       throw new ServerError("Failed to create a Request");
 
     const fileUploadResponse = await uploadRepository.upload(files, {
@@ -84,6 +84,8 @@ const requestRepositoryFactory = () => {
       refId: createResponse.data.id,
       field: "files",
     });
+
+    if (!fileUploadResponse) throw new ServerError("Couldn't upload files");
 
     if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
 

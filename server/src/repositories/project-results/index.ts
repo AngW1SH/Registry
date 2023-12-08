@@ -26,6 +26,8 @@ const projectResultsRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch project files");
+
     return getProjectFromStrapiDTO(response).project?.resultFiles;
   }
 
@@ -40,6 +42,8 @@ const projectResultsRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+
+    if (!response) throw new ServerError("Couldn't fetch project files");
 
     if (!response.data.attributes.resultFiles)
       throw new ServerError("Couldn't find project's resultFiles");
@@ -74,6 +78,8 @@ const projectResultsRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       body,
     });
+
+    if (!response) throw new ServerError("Couldn't update project files");
 
     return 200;
   }

@@ -7,8 +7,8 @@ import { getProjectsWithTagsFromDTO } from "@/composites/ProjectsWithTags";
 
 export const fetchActiveProjectsData = async (
   tags?: ITag[],
-): Promise<IProjectsWithTags> => {
-  const resultDTO: IProjectsWithTagsDTO = await fetch(
+): Promise<IProjectsWithTags | null> => {
+  const resultDTO: IProjectsWithTagsDTO | null = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/active",
     {
       method: "POST",
@@ -19,7 +19,13 @@ export const fetchActiveProjectsData = async (
         tagIds: tags ? tags.map((tag) => tag.name) : [],
       }),
     },
-  ).then((response) => response.json());
+  ).then((response) => {
+    try {
+      return response.ok ? response.json() : null;
+    } catch {
+      return null;
+    }
+  });
 
-  return getProjectsWithTagsFromDTO(resultDTO);
+  return resultDTO ? getProjectsWithTagsFromDTO(resultDTO) : null;
 };

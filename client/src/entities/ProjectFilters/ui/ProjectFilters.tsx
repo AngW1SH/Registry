@@ -12,6 +12,11 @@ interface ProjectFiltersProps {
   onConfirm?: (filters: Filters) => any;
 }
 
+const fetchTagsWithErrorHandling = async (query: string) => {
+  const result = await fetchFiltersTags(query);
+  return result || [];
+};
+
 const ProjectFilters: FC<ProjectFiltersProps> = ({
   filters,
   onConfirm,
@@ -97,7 +102,7 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
             onChange={(tags: string[]) =>
               setFiltersDraft({ ...filtersDraft, tags: tags })
             }
-            fetchSuggestions={fetchFiltersTags}
+            fetchSuggestions={fetchTagsWithErrorHandling}
           />
         </div>
         <div

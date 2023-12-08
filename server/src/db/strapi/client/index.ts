@@ -18,7 +18,13 @@ export const strapi = {
           Authorization: "bearer " + options.token,
         },
       }
-    ).then((data) => data.json());
+    ).then((data) => {
+      try {
+        return data.json();
+      } catch {
+        return null;
+      }
+    });
   },
 
   async post(
@@ -35,7 +41,13 @@ export const strapi = {
       },
       method: "POST",
       body: JSON.stringify(options.body),
-    }).then((data) => data.json());
+    }).then((data) => {
+      try {
+        return data.json();
+      } catch {
+        return null;
+      }
+    });
   },
 
   async put(
@@ -52,7 +64,13 @@ export const strapi = {
       },
       method: "PUT",
       body: JSON.stringify(options.body),
-    }).then((data) => data.json());
+    }).then((data) => {
+      try {
+        return data.json();
+      } catch {
+        return null;
+      }
+    });
   },
 
   async delete(
@@ -67,6 +85,12 @@ export const strapi = {
         "Content-Type": "application/json",
       },
       method: "DELETE",
-    }).then((data) => data.json());
+    }).then((data) => {
+      try {
+        return data.json();
+      } catch {
+        return null;
+      }
+    });
   },
 };

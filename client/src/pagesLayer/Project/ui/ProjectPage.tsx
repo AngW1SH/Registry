@@ -14,6 +14,7 @@ import { fetchProjectDetailed } from "@/composites/ProjectDetailed/api/fetchProj
 import ProjectTeamList from "@/widgets/ProjectTeam/ui/ProjectTeamList";
 import Head from "next/head";
 import { Metadata, ResolvingMetadata } from "next";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { slug: string };
@@ -25,6 +26,8 @@ export async function generateProjectPageMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const projectData = await fetchProjectDetailed(+params.slug);
+
+  if (!projectData) return {};
 
   return {
     title: projectData.project.name + " - Реестр клинической практики СПбГУ",
@@ -41,6 +44,10 @@ interface ProjectPageProps {
 
 const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
   const projectData = await fetchProjectDetailed(+params.slug);
+
+  if (!projectData) {
+    redirect("/");
+  }
 
   return (
     <>

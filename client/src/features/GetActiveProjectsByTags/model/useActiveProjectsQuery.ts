@@ -16,7 +16,7 @@ export default function useActiveProjectsQuery(
     }, "");
   }, []);
 
-  return useQuery<IProjectsWithTags>({
+  return useQuery<IProjectsWithTags | null>({
     queryKey: ["active-projects", serializeTagList(selectedTags)],
     queryFn: () => Promise.resolve(fetchActiveProjectsData(selectedTags)),
     keepPreviousData: true,

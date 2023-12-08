@@ -16,7 +16,7 @@ export default function useProjectsQuery(
     return JSON.stringify(filters);
   }, []);
 
-  return useQuery<IProjectsWithTags>({
+  return useQuery<IProjectsWithTags | null>({
     queryKey: ["projects-list", serializeFilters(filters)],
     queryFn: () => Promise.resolve(fetchProjects(filters)),
     keepPreviousData: true,

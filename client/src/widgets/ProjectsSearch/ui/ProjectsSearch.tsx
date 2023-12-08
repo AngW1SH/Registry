@@ -26,16 +26,20 @@ const ProjectsSearch: FC<ProjectsSearchProps> = async ({
     ? getFiltersByParams(searchParams)
     : initialFilters;
 
-  const { projects, tags } = data ? data : await fetchProjects(filters);
+  const endData = data ? data : await fetchProjects(filters);
 
   return (
-    <SearchWithProjectList
-      initialData={{
-        projects: projects,
-        tags: tags,
-      }}
-      searchParams={searchParams}
-    />
+    <>
+      {endData && (
+        <SearchWithProjectList
+          initialData={{
+            projects: endData.projects,
+            tags: endData.tags,
+          }}
+          searchParams={searchParams}
+        />
+      )}
+    </>
   );
 };
 

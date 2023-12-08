@@ -5,6 +5,7 @@ import { selectFormResult } from "@/db/strapi/queries/components/form-result";
 import { FormListStrapi } from "@/db/strapi/types/form";
 import { Form, FormResult } from "@/entities/form";
 import uploadRepository from "../upload";
+import { ServerError } from "@/helpers/errors";
 
 const formRepositoryFactory = () => {
   return {
@@ -31,6 +32,8 @@ const formRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch forms");
+
     return getFormListFromStrapiDTO(response);
   }
 
@@ -56,6 +59,8 @@ const formRepositoryFactory = () => {
       token: process.env.USER_TOKEN!,
       params,
     });
+
+    if (!response) throw new ServerError("Couldn't fetch student");
 
     return getUserFormResultsFromStrapiDTO(response);
   }
@@ -85,6 +90,8 @@ const formRepositoryFactory = () => {
       token: process.env.USER_TOKEN!,
       body,
     });
+
+    if (!response) throw new ServerError("Couldn't submit form");
 
     return 1;
   }

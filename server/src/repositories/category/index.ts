@@ -1,7 +1,7 @@
 import { getCategoryFromStrapiDTO } from "@/db/strapi/adapters/category";
 import { strapi } from "@/db/strapi/client";
 import { selectTag } from "@/db/strapi/queries/tag";
-import { populate } from "dotenv";
+import { ServerError } from "@/helpers/errors";
 
 const categoryRepositoryFactory = () => {
   return Object.freeze({ getFeatured });
@@ -25,6 +25,8 @@ const categoryRepositoryFactory = () => {
       params,
       token: process.env.CATEGORY_TOKEN!,
     });
+
+    if (!result) throw new ServerError("Couldn't fetch featured categories");
 
     return getCategoryFromStrapiDTO(result);
   }

@@ -6,7 +6,11 @@ export const fetchAvailableRequests = async () => {
   ).then((response) => {
     if (!response.ok) return { teams: [], projectReferences: [] };
 
-    return response.json();
+    try {
+      response.json();
+    } catch {
+      return { teams: [], projectReferences: [] };
+    }
   });
 
   return result;

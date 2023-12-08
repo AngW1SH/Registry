@@ -7,8 +7,8 @@ import { getProjectsWithTagsFromDTO } from "@/composites/ProjectsWithTags";
 
 export const fetchProjects = async (
   filters?: Filters,
-): Promise<IProjectsWithTags> => {
-  const resultDTO: IProjectsWithTagsDTO = await fetch(
+): Promise<IProjectsWithTags | null> => {
+  const resultDTO: IProjectsWithTagsDTO | null = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/findmany",
     {
       cache: "no-cache",
@@ -18,7 +18,13 @@ export const fetchProjects = async (
       },
       body: JSON.stringify(filters ? { filters } : {}),
     },
-  ).then((response) => response.json());
+  ).then((response) => {
+    try {
+      return response.ok ? response.json() : null;
+    } catch {
+      return null;
+    }
+  });
 
-  return getProjectsWithTagsFromDTO(resultDTO);
+  return resultDTO ? getProjectsWithTagsFromDTO(resultDTO) : null;
 };

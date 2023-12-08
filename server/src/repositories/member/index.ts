@@ -1,5 +1,6 @@
 import { strapi } from "@/db/strapi/client";
 import { Member } from "@/entities/member";
+import { ServerError } from "@/helpers/errors";
 
 const memberRepositoryFactory = () => {
   return {
@@ -17,6 +18,10 @@ const memberRepositoryFactory = () => {
       token: process.env.USER_TOKEN!,
       body,
     });
+
+    if (!result) throw new ServerError("Couldn't update member");
+
+    return result;
   }
 };
 

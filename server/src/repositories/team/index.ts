@@ -20,6 +20,7 @@ import { Project } from "@/entities/project";
 import { Request } from "@/entities/request";
 import { Team } from "@/entities/team";
 import { User } from "@/entities/user";
+import { ServerError } from "@/helpers/errors";
 
 const teamRepositoryFactory = () => {
   return Object.freeze({
@@ -70,6 +71,8 @@ const teamRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch teams");
+
     return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }
 
@@ -89,6 +92,8 @@ const teamRepositoryFactory = () => {
       params,
     });
 
+    if (!response) throw new ServerError("Couldn't fetch unassigned teams");
+
     return getTeamListFromStrapiDTO(response).teams!;
   }
 
@@ -106,6 +111,8 @@ const teamRepositoryFactory = () => {
         params,
       }
     );
+
+    if (!response) throw new ServerError("Couldn't fetch team");
 
     if (
       !response.data ||
@@ -137,6 +144,7 @@ const teamRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+    if (!response) throw new ServerError("Couldn't fetch teams");
 
     return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }
@@ -156,6 +164,7 @@ const teamRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+    if (!response) throw new ServerError("Couldn't fetch teams");
 
     return getTeamListFromStrapiDTO(response).teams!;
   }
@@ -181,6 +190,7 @@ const teamRepositoryFactory = () => {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
+    if (!response) throw new ServerError("Couldn't fetch teams");
 
     return getTeamListFromStrapiDTO(response, { includeAdmin: true });
   }

@@ -6,12 +6,16 @@ export const fetchProjectStatusData = async (projectId: number) => {
     process.env.NEXT_PUBLIC_WEBSITE_URL +
       "/api/user/projectstatus/" +
       projectId,
-  ).then((data) => {
-    if (!data.ok)
+  ).then((response) => {
+    if (!response.ok)
       return {
         assignableTeams: 0,
       };
-    return data.json();
+    try {
+      return response.json();
+    } catch {
+      return { assignableTeams: 0 };
+    }
   });
 
   return result;

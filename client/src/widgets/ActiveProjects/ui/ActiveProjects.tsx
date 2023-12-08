@@ -15,11 +15,11 @@ interface ActiveProjectsProps {
 }
 
 const ActiveProjects: FC<ActiveProjectsProps> = async ({ data }) => {
-  data = data ? data : await fetchActiveProjectsData();
+  const endData = data ? data : await fetchActiveProjectsData();
 
   return (
     <div>
-      <GetActiveProjectsByTags initialProjectsWithTags={data} />
+      {endData && <GetActiveProjectsByTags initialProjectsWithTags={endData} />}
       <div className="pt-7" />
       <LinkWithIcon href="/">Показать ещё</LinkWithIcon>
     </div>

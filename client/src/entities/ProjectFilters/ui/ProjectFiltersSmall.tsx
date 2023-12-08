@@ -10,6 +10,11 @@ interface ProjectFiltersSmallProps {
   onConfirm?: (filters: Filters) => any;
 }
 
+const fetchTagsWithErrorHandling = async (query: string) => {
+  const result = await fetchFiltersTags(query);
+  return result || [];
+};
+
 const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
   filters,
   onConfirm,
@@ -46,7 +51,7 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
             onChange={(tags: string[]) =>
               setFiltersDraft({ ...filtersDraft, tags: tags })
             }
-            fetchSuggestions={fetchFiltersTags}
+            fetchSuggestions={fetchTagsWithErrorHandling}
           />
         </div>
         <div
