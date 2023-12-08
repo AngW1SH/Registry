@@ -3,6 +3,11 @@ export const fetchFiltersTags = async (
 ): Promise<string[] | null> => {
   const data: { name: string }[] = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/tag/filters/" + query,
+    {
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    },
   ).then((response) => {
     try {
       return response.ok ? response.json() : null;
