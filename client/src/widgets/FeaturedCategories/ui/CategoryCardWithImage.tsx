@@ -34,7 +34,9 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
         </h2>
         <div className="pt-4" />
         <ButtonTransparent className="w-max text-xs font-normal">
-          <Link href={category.link}>{category.projectsCount} проектов</Link>
+          <Link href={category.link} prefetch={false}>
+            {category.projectsCount} проектов
+          </Link>
         </ButtonTransparent>
       </div>
     </div>

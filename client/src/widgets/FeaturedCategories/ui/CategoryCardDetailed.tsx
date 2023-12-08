@@ -28,7 +28,9 @@ const CategoryCardDetailed: FC<CategoryCardDetailedProps> = ({
       </ul>
       {category.showMore && (
         <span className="text-[13px] text-primary">
-          <Link href={category.link}>Ещё...</Link>
+          <Link href={category.link} prefetch={false}>
+            Ещё...
+          </Link>
         </span>
       )}
     </Block>
