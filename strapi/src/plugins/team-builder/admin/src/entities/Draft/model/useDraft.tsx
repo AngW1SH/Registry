@@ -54,7 +54,6 @@ export const useDraft = () => {
   };
 
   const generateDraft = async () => {
-    console.log();
     const response = await post("/team-builder/generate", {
       teams: teams.map((team) => ({
         students: team.students
