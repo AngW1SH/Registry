@@ -5,7 +5,7 @@ import { getProjectSingleFromDTO } from "@/entities/Project";
 export const fetchProjectDetailed = async (
   id: number,
 ): Promise<ProjectDetailed | null> => {
-  const resultDTO: ProjectDetailedDTO = await fetch(
+  const resultDTO: ProjectDetailedDTO | null = await fetch(
     process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/" + id,
   ).then((response) => {
     try {
@@ -15,8 +15,10 @@ export const fetchProjectDetailed = async (
     }
   });
 
-  return {
-    ...resultDTO,
-    project: getProjectSingleFromDTO(resultDTO.project),
-  };
+  return resultDTO
+    ? {
+        ...resultDTO,
+        project: getProjectSingleFromDTO(resultDTO.project),
+      }
+    : null;
 };

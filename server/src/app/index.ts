@@ -20,6 +20,7 @@ const generateApp = (port?: number) => {
   const app = express();
   if (port) app.listen(port, () => console.log("listening port 8000"));
 
+  app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(process.env.TOKEN_SECRET));
   app.use(fileUpload());

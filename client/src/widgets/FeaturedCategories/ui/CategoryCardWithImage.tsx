@@ -1,8 +1,9 @@
+"use client";
 import { FC } from "react";
 import { CategoryCardWithImage } from "../types/types";
 import Image from "next/image";
 import { ButtonTransparent } from "@/shared/ui";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface CategoryCardWithImageProps {
   category: CategoryCardWithImage;
@@ -13,6 +14,10 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
   category,
   className = "",
 }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push("/projects?tag0=" + category.name);
+  };
   return (
     <div
       className={
@@ -33,10 +38,11 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
           {category.name}
         </h2>
         <div className="pt-4" />
-        <ButtonTransparent className="w-max text-xs font-normal">
-          <Link href={category.link} prefetch={false}>
-            {category.projectsCount} проектов
-          </Link>
+        <ButtonTransparent
+          onClick={handleClick}
+          className="w-max text-xs font-normal"
+        >
+          {category.projectsCount} проектов
         </ButtonTransparent>
       </div>
     </div>

@@ -7,7 +7,7 @@ export const fetchAvailableRequests = async () => {
     if (!response.ok) return { teams: [], projectReferences: [] };
 
     try {
-      response.json();
+      return response.json();
     } catch {
       return { teams: [], projectReferences: [] };
     }

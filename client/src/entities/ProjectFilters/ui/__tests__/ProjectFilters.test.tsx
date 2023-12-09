@@ -10,6 +10,8 @@ import {
   getByDisplayValue,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { fetchFiltersTags } from "../../api/fetchFiltersTags";
+import { staticTags } from "@/entities/Tag";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -17,6 +19,10 @@ global.fetch = jest.fn(() =>
     json: () => Promise.resolve({}),
   }),
 ) as jest.Mock;
+
+jest.mock("../../api/fetchFiltersTags", () => ({
+  fetchFiltersTags: async () => staticTags.map((tag) => tag.name),
+}));
 
 describe("ProjectFilters Entity UI", () => {
   beforeAll(() => {

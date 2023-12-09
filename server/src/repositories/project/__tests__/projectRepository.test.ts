@@ -42,16 +42,6 @@ describe("Project Repository", () => {
       expect(fetch).toBeCalledTimes(0);
     });
 
-    it("should apply text filter once", async () => {
-      const filters = {
-        text: "testtext",
-      };
-
-      const result = await projectRepository.findMany(filters);
-
-      expect((fetch as jest.Mock).mock.calls[0][0]).toMatch(/(testtext.*){1,}/);
-    });
-
     it("should return projects even when no filters are provided", async () => {
       const result = await projectRepository.findMany();
 

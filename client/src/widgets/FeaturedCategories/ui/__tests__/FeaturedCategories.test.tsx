@@ -3,6 +3,8 @@ import "@testing-library/jest-dom";
 import FeaturedCategories from "../FeaturedCategories";
 import { staticValues } from "../../config/staticValues";
 
+jest.mock("next/navigation");
+
 describe("FeaturedCategories Widget UI", () => {
   it('renders a "suggest project" banner', async () => {
     const Component = FeaturedCategories({ categories: staticValues });

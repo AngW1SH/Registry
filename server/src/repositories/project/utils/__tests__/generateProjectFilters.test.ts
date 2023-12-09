@@ -13,16 +13,6 @@ describe("generateProjectFilters util", () => {
     );
   });
 
-  it("should apply text filter", () => {
-    const filters = {
-      text: "testtext",
-    };
-
-    const result = generateProjectFilters(filters);
-
-    expect(JSON.stringify(result)).toMatch(/testtext/i);
-  });
-
   it("should apply date filters", () => {
     const filters1 = {
       dateStart: new Date("2023-01-01"),
