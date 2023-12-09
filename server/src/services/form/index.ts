@@ -1,8 +1,9 @@
-import { FormResultClient } from "@/entities/form";
+import { Form, FormResultClient } from "@/entities/form";
 import { User } from "@/entities/user";
 import { BadRequestError, ServerError } from "@/helpers/errors";
 import formRepository from "@/repositories/form";
 import userRepository from "@/repositories/user";
+import { getEmailFromFormResults } from "./utils/getEmailFromFormResults";
 
 const formServiceFactory = () => {
   return Object.freeze({ getAll, submit });
@@ -41,23 +42,29 @@ const formServiceFactory = () => {
     return formResultsClient;
   }
 
-  async function submit(formId: number, response: any) {
-    const email = response.find(
-      (data: { question: string; answer: string }) =>
-        data.question == "Электронная почта, указанная при авторизации"
-    );
+  async function findUser(response: any): Promise<User | null> {
+    const email = getEmailFromFormResults(response);
 
-    if (!email || !email.answer)
-      throw new BadRequestError("Email not specified");
+    if (!email) throw new BadRequestError("Email not specified");
 
-    // Will use an adapter later on
-    const user = await userRepository.findOne({
-      email: email.answer.toLowerCase(),
+    return userRepository.findOne({
+      email,
     });
+  }
+
+  async function findForm(formId: number): Promise<Form | null> {
+    if (typeof formId != "number")
+      throw new BadRequestError("Form id not specified");
+    return formRepository.findOne({ formId: formId });
+  }
+
+  async function submit(formId: number, response: any) {
+    const [user, form] = await Promise.all([
+      findUser(response),
+      findForm(formId),
+    ]);
 
     if (!user) throw new ServerError("No such user found");
-
-    const form = await formRepository.findOne({ formId: formId });
     if (!form) throw new ServerError("No such form found");
 
     return formRepository.submit(form.id, response, user.id);
