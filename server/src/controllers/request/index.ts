@@ -41,8 +41,11 @@ const requestControllerFactory = () => {
     try {
       if (req.method !== "PUT") throw new BadRequestError("Unsupported method");
 
-      if (!req.body.request)
+      if (!req.body.hasOwnProperty("request"))
         throw new BadRequestError("Missing required body parameter: request");
+
+      // May want to remove that bit later, but right now editing a request
+      // essentially just means replacing files, so this is why now it's an error
       if (!req.files || Array.from(Object.keys(req.files)).length === 0)
         throw new BadRequestError("Missing required body parameter: files");
 
@@ -56,6 +59,8 @@ const requestControllerFactory = () => {
         req.user,
         Array.isArray(req.files.files) ? req.files.files : [req.files.files]
       );
+
+      res.status(200).send();
     } catch (err) {
       next(err);
     }
