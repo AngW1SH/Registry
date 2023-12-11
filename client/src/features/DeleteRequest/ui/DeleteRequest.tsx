@@ -1,7 +1,7 @@
 "use client";
 import { useProfileQuery } from "@/composites/Profile";
 import { ButtonAlt } from "@/shared/ui";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDeleteRequest } from "../model/useDeleteRequestMutation";
 
 interface DeleteRequestProps {
@@ -20,13 +20,17 @@ const DeleteRequest: FC<DeleteRequestProps> = ({ requestId, teamId }) => {
   if (!teamId || !profile || !profile.user.administratedTeams.includes(teamId))
     return <></>;
 
+  const [show, setShow] = useState(false);
+
   return (
-    <ButtonAlt
-      onClick={handleConfirm}
-      className="rounded-full border px-16 py-[0.65rem]"
-    >
-      Отозвать
-    </ButtonAlt>
+    <>
+      <ButtonAlt
+        onClick={handleConfirm}
+        className="rounded-full border px-16 py-[0.65rem]"
+      >
+        Отозвать
+      </ButtonAlt>
+    </>
   );
 };
 
