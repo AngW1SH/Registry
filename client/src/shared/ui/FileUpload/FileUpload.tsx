@@ -8,6 +8,8 @@ interface FileUploadProps {
   onChange?: (files: File[] | null) => any;
   large?: boolean;
   justify?: "start" | "end";
+  items?: "start" | "center";
+  fileListHeight?: number;
 }
 
 const FileUpload: FC<FileUploadProps> = ({
@@ -16,6 +18,7 @@ const FileUpload: FC<FileUploadProps> = ({
   label,
   large = false,
   justify = "end",
+  fileListHeight = 100,
 }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -63,6 +66,7 @@ const FileUpload: FC<FileUploadProps> = ({
         >
           {label}
         </p>
+        <div className="pt-5" />
         <div>
           <input
             id={name}
@@ -80,29 +84,38 @@ const FileUpload: FC<FileUploadProps> = ({
           </label>
         </div>
       </div>
+      <div className="pt-3" />
       {selectedFiles.length > 0 && (
-        <div className="mt-5 overflow-y-auto" onClick={handleFileRemove}>
+        <ul
+          className={"mt-5 flex flex-col gap-2 overflow-y-auto pr-3"}
+          style={{
+            maxHeight: fileListHeight + "px",
+          }}
+          onClick={handleFileRemove}
+        >
           {selectedFiles.map((file, index) => {
             return (
-              <p key={file.name + index} className="flex items-center">
+              <li key={file.name + index} className="flex items-center">
                 <Image
                   src="/file-icon.svg"
                   height={20}
                   width={20}
                   alt="Загруженные файлы"
                 />
-                <span className="pl-2 pr-4">{file.name}</span>
+                <span className="max-w-[calc(100%-55px)] overflow-hidden pl-2 pr-4">
+                  {file.name}
+                </span>
                 <Image
                   src="/x-gray.svg"
-                  className="cursor-pointer"
+                  className="ml-auto cursor-pointer"
                   height={12}
                   width={12}
                   alt="Загруженные файлы"
                 />
-              </p>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
     </div>
   );

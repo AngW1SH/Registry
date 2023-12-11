@@ -38,6 +38,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
         }}
       >
         <div className="flex h-full min-w-full flex-col">
+          <div className="pt-5 lg:pt-0" />
           <h2 className="text-center text-3xl text-primary lg:text-left xl:text-4xl">
             Открыта запись
             <br className="hidden lg:block" /> на проект
@@ -71,7 +72,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
               alt="Вернуться к числу заявок"
             />
           </button>
-          <div className="pt-10" />
+          <div className="pt-5" />
           <SendRequest project={project} assignableTeams={assignableTeams} />
         </div>
       </div>
