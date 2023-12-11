@@ -20,6 +20,7 @@ const EditRequestFiles: FC<EditRequestFilesProps> = ({ request }) => {
         name={request.id + "-files"}
         label=""
         onChange={setFiles}
+        actionText="Заменить файлы"
       />
       {files && files.length > 0 && (
         <Button

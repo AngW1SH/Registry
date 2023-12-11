@@ -10,6 +10,7 @@ interface FileUploadProps {
   justify?: "start" | "end";
   items?: "start" | "center";
   fileListHeight?: number;
+  actionText?: string;
 }
 
 const FileUpload: FC<FileUploadProps> = ({
@@ -19,6 +20,7 @@ const FileUpload: FC<FileUploadProps> = ({
   large = false,
   justify = "end",
   fileListHeight = 100,
+  actionText = "Прикрепить",
 }) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
@@ -80,7 +82,7 @@ const FileUpload: FC<FileUploadProps> = ({
             className="cursor-pointer rounded-3xl border px-6 py-3 text-sm"
             htmlFor={name}
           >
-            Прикрепить
+            {actionText}
           </label>
         </div>
       </div>

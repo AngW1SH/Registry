@@ -11,20 +11,18 @@ interface FileProps {
 
 const File: FC<FileProps> = ({ label, size, link, type = "FILE" }) => {
   return (
-    <div className="flex items-center gap-2">
-      <div className="relative h-6 w-7">
+    <div className="flex items-center gap-2 overflow-hidden">
+      <div className="relative max-h-[1.5rem] min-h-[1.5rem] min-w-[1.75rem] max-w-[1.75rem]">
         <Image src="/file-icon-pdf.svg" fill={true} alt="PDF-файл" />
       </div>
-      <p>
-        <a
-          className="text-primary"
-          href={process.env.NEXT_PUBLIC_STRAPI_URL + link}
-        >
-          {label}
-        </a>
+      <p
+        className="overflow-hidden text-ellipsis whitespace-nowrap text-primary"
+        title={label}
+      >
+        <a href={process.env.NEXT_PUBLIC_STRAPI_URL + link}>{label}</a>
       </p>
-      <p>
-        ({type}, {size} )
+      <p className="whitespace-nowrap">
+        {type}, {size}
       </p>
     </div>
   );
