@@ -7,16 +7,14 @@ import {
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
-import formRepository from "@/repositories/form";
 import requestRepository from "@/repositories/request";
-import { FormResultClient } from "@/entities/form";
 import { mergeUnique } from "./utils/mergeUnique";
 import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
 import requestService from "../request";
-import formService from "../form";
 import { ServerError, UnauthorizedError } from "@/helpers/errors";
+import formResultService from "../form-result";
 
 const userServiceFactory = () => {
   return Object.freeze({
@@ -140,7 +138,7 @@ const userServiceFactory = () => {
       activeTeamsResult,
       activeAdministratedTeamsResult,
     ] = await Promise.allSettled([
-      formService.getAll(user),
+      formResultService.getAllByUser(user),
       requestRepository.getActive({ user: user.id }), // not all the requests associated with each team
       teamRepository.getActive(user.id), // is considered 'active', hence the separate calls
       teamRepository.getAdministratedActive(user.id),

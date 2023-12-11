@@ -1,11 +1,8 @@
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
-import { generateAccessToken } from "@/helpers/jwt";
-import tokenRepository from "@/repositories/token";
-import formService from "@/services/form";
+import formResultService from "@/services/form-result";
 import tokenService from "@/services/token";
 import userService from "@/services/user";
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 const userControllerFactory = () => {
   return Object.freeze({
@@ -159,7 +156,7 @@ const userControllerFactory = () => {
       if (!response.hasOwnProperty("data"))
         throw new BadRequestError("Response must have a body");
 
-      const result = formService.submit(form.id, response.data);
+      const result = formResultService.submit(form.id, response.data);
       res.status(200).send();
     } catch (err) {
       next(err);

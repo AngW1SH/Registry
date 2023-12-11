@@ -1,10 +1,11 @@
 import userRepository from "@/repositories/user";
-import formService from "..";
 import * as getEmailFromFormResults from "../utils/getEmailFromFormResults";
 import { staticUser } from "@/entities/user";
 import formRepository from "@/repositories/form";
 import { staticForms } from "@/entities/form";
 import { BadRequestError, ServerError } from "@/helpers/errors";
+import formResultService from "..";
+import formResultRepository from "@/repositories/form-result";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -15,10 +16,9 @@ global.fetch = jest.fn(() =>
 
 jest.mock("@/repositories/user");
 jest.mock("@/repositories/form");
+jest.mock("@/repositories/form-result");
 
-describe("formService", () => {
-  describe("getAll method", () => {});
-
+describe("formRepositoryService", () => {
   describe("submit method", () => {
     beforeEach(() => {
       jest.clearAllMocks();
@@ -40,7 +40,7 @@ describe("formService", () => {
         "getEmailFromFormResults"
       );
 
-      const result = await formService.submit(formId, response);
+      const result = await formResultService.submit(formId, response);
 
       expect(emailSpy).toHaveBeenCalledWith(expect.objectContaining(response));
     });
@@ -56,7 +56,7 @@ describe("formService", () => {
 
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
-      await expect(formService.submit(formId, response)).rejects.toThrow(
+      await expect(formResultService.submit(formId, response)).rejects.toThrow(
         BadRequestError
       );
     });
@@ -73,7 +73,7 @@ describe("formService", () => {
       (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
-      const result = await formService.submit(formId, response);
+      const result = await formResultService.submit(formId, response);
 
       expect(userRepository.findOne).toHaveBeenCalledWith(
         expect.objectContaining({ email: "test@test.com" })
@@ -92,7 +92,7 @@ describe("formService", () => {
       (userRepository.findOne as jest.Mock).mockResolvedValue(null);
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
-      await expect(formService.submit(formId, response)).rejects.toThrow(
+      await expect(formResultService.submit(formId, response)).rejects.toThrow(
         ServerError
       );
     });
@@ -109,7 +109,7 @@ describe("formService", () => {
       (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
-      const result = await formService.submit(formId, response);
+      const result = await formResultService.submit(formId, response);
 
       expect(formRepository.findOne).toHaveBeenCalledWith(
         expect.objectContaining({ formId: formId })
@@ -128,7 +128,7 @@ describe("formService", () => {
       (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
       (formRepository.findOne as jest.Mock).mockResolvedValue(null);
 
-      await expect(formService.submit(formId, response)).rejects.toThrow(
+      await expect(formResultService.submit(formId, response)).rejects.toThrow(
         ServerError
       );
     });
@@ -144,9 +144,9 @@ describe("formService", () => {
 
       (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
 
-      await expect(formService.submit(formId as any, response)).rejects.toThrow(
-        BadRequestError
-      );
+      await expect(
+        formResultService.submit(formId as any, response)
+      ).rejects.toThrow(BadRequestError);
     });
 
     it("should call the formRepository.submit method if everything is okay", async () => {
@@ -161,9 +161,9 @@ describe("formService", () => {
       (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
-      const result = await formService.submit(formId, response);
+      const result = await formResultService.submit(formId, response);
 
-      expect(formRepository.submit).toHaveBeenCalledWith(
+      expect(formResultRepository.submit).toHaveBeenCalledWith(
         staticForms[0].id,
         expect.arrayContaining(response),
         staticUser.id
