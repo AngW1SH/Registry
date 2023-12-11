@@ -52,6 +52,9 @@ const UserProjects: FC<UserProjectsProps> = () => {
           edit={<ProjectFileList project={project} />}
         />
       ))}
+      {displayData.length == 0 && (
+        <p className="text-[#898989]">У Вас пока нет активных проектов</p>
+      )}
     </div>
   );
 };
