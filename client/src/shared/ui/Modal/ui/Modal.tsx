@@ -33,7 +33,7 @@ const Modal: FC<ModalProps> = ({ show, children, timeout = 100, onClose }) => {
     <Transition in={show} timeout={timeout}>
       {(state: TransitionStatus) => (
         <div
-          className="fixed left-0 top-0 h-screen w-screen bg-[#00000022]"
+          className="fixed left-0 top-0 z-[1000] flex h-screen w-screen items-center justify-center bg-[#00000022]"
           onClick={handleClickOutside}
           style={{
             ...(defaultStyle as any),

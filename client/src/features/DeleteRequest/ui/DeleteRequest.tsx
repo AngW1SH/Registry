@@ -3,6 +3,8 @@ import { useProfileQuery } from "@/composites/Profile";
 import { ButtonAlt } from "@/shared/ui";
 import { FC, useState } from "react";
 import { useDeleteRequest } from "../model/useDeleteRequestMutation";
+import { Modal } from "@/shared/ui/Modal";
+import DeleteRequestConfirmModal from "./DeleteRequestConfirmModal";
 
 interface DeleteRequestProps {
   requestId: number;
@@ -14,6 +16,7 @@ const DeleteRequest: FC<DeleteRequestProps> = ({ requestId, teamId }) => {
   const { mutate: deleteRequest } = useDeleteRequest();
 
   const handleConfirm = () => {
+    setShow(false);
     if (teamId && profile) deleteRequest({ requestId });
   };
 
@@ -25,11 +28,16 @@ const DeleteRequest: FC<DeleteRequestProps> = ({ requestId, teamId }) => {
   return (
     <>
       <ButtonAlt
-        onClick={handleConfirm}
+        onClick={() => setShow(true)}
         className="rounded-full border px-16 py-[0.65rem]"
       >
         Отозвать
       </ButtonAlt>
+      <DeleteRequestConfirmModal
+        show={show}
+        onClose={() => setShow(false)}
+        onConfirm={handleConfirm}
+      />
     </>
   );
 };
