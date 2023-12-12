@@ -286,4 +286,96 @@ describe("requestController", () => {
       );
     });
   });
+
+  describe("deleteOne method", () => {
+    it("should send a 200 status when everything is okay", async () => {
+      req.params = { id: 1 };
+      req.method = "DELETE";
+      req.user = staticUser;
+
+      await requestController.deleteOne(req, res, jest.fn());
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
+
+    it("should call requestService.deleteOne with the correct function arguments", async () => {
+      req.params = { id: 1 };
+      req.method = "DELETE";
+      req.user = staticUser;
+
+      await requestController.deleteOne(req, res, jest.fn());
+
+      expect(requestService.deleteOne).toHaveBeenCalledWith(
+        req.params.id,
+        staticUser
+      );
+    });
+
+    it("should call requestService.deleteOne with the correct function arguments", async () => {
+      (requestService.deleteOne as jest.Mock).mockImplementationOnce(() => {
+        throw new ServerError("");
+      });
+
+      req.params = { id: 1 };
+      req.method = "DELETE";
+      req.user = staticUser;
+
+      const nextMock = jest.fn();
+      await requestController.deleteOne(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(ServerError);
+    });
+
+    it("should throw a BadRequestError when the method is anything but DELETE", async () => {
+      req.params = { id: 1 };
+      req.user = staticUser;
+
+      const nextMock = jest.fn();
+
+      req.method = "GET";
+      await requestController.deleteOne(req, res, nextMock);
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
+
+      req.method = "POST";
+      await requestController.deleteOne(req, res, nextMock);
+      expect(nextMock.mock.calls[1][0]).toBeInstanceOf(BadRequestError);
+
+      req.method = "PUT";
+      await requestController.deleteOne(req, res, nextMock);
+      expect(nextMock.mock.calls[2][0]).toBeInstanceOf(BadRequestError);
+    });
+
+    it("should throw a BadRequestError if the req.params.id is not specified", async () => {
+      req.params = {};
+      req.method = "DELETE";
+      req.user = staticUser;
+
+      const nextMock = jest.fn();
+      await requestController.deleteOne(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
+    });
+
+    it("should throw a BadRequestError if the req.params.id is not a number", async () => {
+      req.params = { id: "identifier" };
+      req.method = "DELETE";
+      req.user = staticUser;
+
+      const nextMock = jest.fn();
+      await requestController.deleteOne(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
+    });
+
+    it("should throw an UnauthorizedError if req.user is not defined", async () => {
+      req.params = { id: 1 };
+      req.method = "DELETE";
+      req.user = undefined;
+
+      const nextMock = jest.fn();
+      await requestController.deleteOne(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(UnauthorizedError);
+    });
+  });
 });

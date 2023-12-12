@@ -96,6 +96,12 @@ const requestControllerFactory = () => {
       if (!req.params.id)
         throw new BadRequestError("Missing request identifier");
 
+      if (!req.params.id)
+        throw new BadRequestError("Missing request identifier");
+
+      if (isNaN(+req.params.id))
+        throw new BadRequestError("Request identifier must be a number");
+
       const result = await requestService.deleteOne(+req.params.id, req.user);
 
       res.status(200).send(result);
