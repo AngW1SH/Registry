@@ -12,7 +12,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  "/try",
+  "/authenticate",
   (req: Request, res: Response, next: NextFunction) => {
     res.cookie("redirect-url", req.headers.referer, {
       signed: true,

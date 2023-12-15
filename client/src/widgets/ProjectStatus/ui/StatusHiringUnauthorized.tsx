@@ -20,7 +20,7 @@ const StatusHiringUnauthorized: FC<StatusHiringUnauthorizedProps> = () => {
       </p>
       <div className="pt-10 lg:hidden" />
       <Button className="mt-auto block self-center px-9">
-        <Link href="/api/user/try">Авторизоваться</Link>
+        <Link href="/api/user/authenticate">Авторизоваться</Link>
       </Button>
     </div>
   );
