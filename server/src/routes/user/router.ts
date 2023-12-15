@@ -6,7 +6,7 @@ import { strapi } from "@/db/strapi/client";
 const userRouter = express();
 
 userRouter.get(
-  "/yandeexcallback",
+  "/ssocallback",
   passport.authenticate("sso-strategy", { failureRedirect: "/" }),
   userController.authorize
 );
