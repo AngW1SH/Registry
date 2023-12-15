@@ -9,7 +9,7 @@ export const fetchActiveProjectsData = async (
   tags?: ITag[],
 ): Promise<IProjectsWithTags | null> => {
   const resultDTO: IProjectsWithTagsDTO | null = await fetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/active",
+    process.env.NEXT_PUBLIC_SERVER_URL + "api/project/active",
     {
       method: "POST",
       headers: {

@@ -6,7 +6,7 @@ import { IProjectsWithTagsDTO } from "@/composites/ProjectsWithTags/types/types"
 
 export const fetchNewProjects = async (): Promise<IProjectsWithTags | null> => {
   const resultDTO: IProjectsWithTagsDTO | null = await fetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/new",
+    process.env.NEXT_PUBLIC_SERVER_URL + "api/project/new",
   ).then((response) => {
     try {
       return response.ok ? response.json() : null;

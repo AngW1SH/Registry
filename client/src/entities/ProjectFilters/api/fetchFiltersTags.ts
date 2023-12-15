@@ -2,7 +2,7 @@ export const fetchFiltersTags = async (
   query?: string,
 ): Promise<string[] | null> => {
   const data: { name: string }[] = await fetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/tag/filters/" + query,
+    process.env.NEXT_PUBLIC_SERVER_URL + "api/tag/filters/" + query,
     {
       headers: {
         "Cache-Control": "no-cache",

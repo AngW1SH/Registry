@@ -5,7 +5,7 @@ import { getFormFromDTO } from "@/entities/Form";
 
 export const fetchProfile = async (): Promise<Profile | null> => {
   const result: ProfileDTO | null = await authorizedFetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "/api/user/profile",
+    process.env.NEXT_PUBLIC_SERVER_URL + "/api/user/profile",
   ).then((response) => {
     try {
       return response.ok ? response.json() : null;

@@ -9,7 +9,7 @@ export const fetchProjects = async (
   filters?: Filters,
 ): Promise<IProjectsWithTags | null> => {
   const resultDTO: IProjectsWithTagsDTO | null = await fetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/findmany",
+    process.env.NEXT_PUBLIC_SERVER_URL + "api/project/findmany",
     {
       cache: "no-cache",
       method: "POST",

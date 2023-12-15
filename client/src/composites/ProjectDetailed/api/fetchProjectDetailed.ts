@@ -6,7 +6,7 @@ export const fetchProjectDetailed = async (
   id: number,
 ): Promise<ProjectDetailed | null> => {
   const resultDTO: ProjectDetailedDTO | null = await fetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL + "api/project/" + id,
+    process.env.NEXT_PUBLIC_SERVER_URL + "api/project/" + id,
   ).then((response) => {
     try {
       return response.ok ? response.json() : null;

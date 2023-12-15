@@ -5,7 +5,7 @@ export const fetchDeleteProjectFile = async (
   fileId: number,
 ) => {
   const result: any = await authorizedFetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL +
+    process.env.NEXT_PUBLIC_SERVER_URL +
       "/api/project/" +
       projectId +
       "/result-files/" +

@@ -3,9 +3,7 @@ import { ProjectStatusData } from "../types/types";
 
 export const fetchProjectStatusData = async (projectId: number) => {
   const result: ProjectStatusData = await authorizedFetch(
-    process.env.NEXT_PUBLIC_WEBSITE_URL +
-      "/api/user/projectstatus/" +
-      projectId,
+    process.env.NEXT_PUBLIC_SERVER_URL + "/api/user/projectstatus/" + projectId,
   ).then((response) => {
     if (!response.ok)
       return {

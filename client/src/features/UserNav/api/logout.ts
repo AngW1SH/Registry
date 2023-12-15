@@ -1,5 +1,5 @@
 export const logout = async () => {
-  return fetch(process.env.NEXT_PUBLIC_WEBSITE_URL + "api/user/logout").then(
+  return fetch(process.env.NEXT_PUBLIC_SERVER_URL + "api/user/logout").then(
     (result) => result.status == 200 || result.status == 401,
   );
   /* 
