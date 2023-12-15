@@ -7,7 +7,7 @@ const userRouter = express();
 
 userRouter.get(
   "/yandeexcallback",
-  passport.authenticate("custom-yandex", { failureRedirect: "/" }),
+  passport.authenticate("sso-strategy", { failureRedirect: "/" }),
   userController.authorize
 );
 
@@ -19,7 +19,7 @@ userRouter.get(
     });
     next();
   },
-  passport.authenticate("custom-yandex")
+  passport.authenticate("sso-strategy")
 );
 
 userRouter.get("/token", userController.token);

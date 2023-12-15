@@ -20,6 +20,6 @@ passport.deserializeUser(function (id: number, cb) {
 });
 
 passport.use("jwt-authenticate", authenticateStrategy);
-passport.use("custom-yandex", customYandexStrategy);
+passport.use("sso-strategy", customYandexStrategy);
 
 export default passport;
