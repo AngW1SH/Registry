@@ -11,8 +11,8 @@ class CustomYandexStrategy extends OAuth2Strategy {
   constructor(options: any, verify: any) {
     options = options || {};
     options.authorizationURL =
-      options.authorizationURL || "https://oauth.yandex.ru/authorize";
-    options.tokenURL = options.tokenURL || "https://oauth.yandex.ru/token";
+      options.authorizationURL || process.env.CUSTOM_YANDEX_AUTHORIZATION_URL;
+    options.tokenURL = options.tokenURL || process.env.CUSTOM_YANDEX_TOKEN_URL;
 
     super(options, verify);
     this.name = "yandex";
@@ -77,8 +77,8 @@ class CustomYandexStrategy extends OAuth2Strategy {
 
 const customYandexStrategy = new CustomYandexStrategy(
   {
-    authorizationURL: "https://oauth.yandex.ru/authorize",
-    tokenURL: "https://oauth.yandex.ru/token",
+    authorizationURL: process.env.CUSTOM_YANDEX_AUTHORIZATION_URL,
+    tokenURL: process.env.CUSTOM_YANDEX_TOKEN_URL,
     clientID: process.env.CUSTOM_YANDEX_CLIENT_ID,
     clientSecret: process.env.CUSTOM_YANDEX_CLIENT_SECRET,
     callbackURL: process.env.WEBSITE_URL + "/api/user/ssocallback",
