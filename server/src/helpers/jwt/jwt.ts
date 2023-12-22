@@ -8,7 +8,7 @@ export function generateAccessToken(id: number) {
 
 export function generateRefreshToken(id: number) {
   return jwt.sign({ id: id }, process.env.TOKEN_SECRET!, {
-    expiresIn: 60 * 60 * 48,
+    expiresIn: 60 * 60 * 24 * 180,
   });
 }
 
