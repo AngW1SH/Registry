@@ -21,7 +21,7 @@ const ActiveProjects: FC<ActiveProjectsProps> = async ({ data }) => {
     <div>
       {endData && <GetActiveProjectsByTags initialProjectsWithTags={endData} />}
       <div className="pt-7" />
-      <LinkWithIcon href="/">Показать ещё</LinkWithIcon>
+      <LinkWithIcon href="/projects">Показать ещё</LinkWithIcon>
     </div>
   );
 };
