@@ -1,5 +1,5 @@
 import { UserProject } from "@/composites/ProjectInspect";
-import { DeleteProjectLink } from "@/features/EditProject";
+import { AddProjectLink, DeleteProjectLink } from "@/features/EditProject";
 import { Button, Dropdown, FormInput } from "@/shared/ui";
 import Link from "next/link";
 import { FC } from "react";
@@ -16,18 +16,7 @@ const ProjectLinkList: FC<ProjectLinkListProps> = ({ project }) => {
       <div className="rounded-lg border border-[#898989] p-5">
         <h2 className="text-sm text-[#898989]">Новый ресурс</h2>
         <div className="pt-3" />
-        <div className="flex items-end">
-          <Dropdown
-            className="w-[35%]"
-            options={["A", "B"]}
-            value={""}
-            placeholder="Название ресурса"
-            onChange={() => {}}
-            namePrefix={"resource-" + project.id}
-          />
-          <FormInput className="ml-8 w-[35%]" placeholder="Ссылка на ресурс" />
-          <Button className="ml-auto px-10">Добавить</Button>
-        </div>
+        <AddProjectLink projectId={project.id} />
       </div>
       <div className="pt-6" />
       <div className="relative flex border-t border-[#b7b7b7] py-4 pr-12 last:border-b">
