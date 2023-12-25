@@ -6,6 +6,11 @@ import { NamedFile } from "@/shared/types";
 
 export interface UserProject extends IProject {
   resultFiles: NamedFile[];
+  links: {
+    id: number;
+    platform: string;
+    link: string;
+  }[];
 }
 
 export interface ProjectInspect {

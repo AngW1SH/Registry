@@ -19,19 +19,24 @@ const ProjectLinkList: FC<ProjectLinkListProps> = ({ project }) => {
         <AddProjectLink projectId={project.id} />
       </div>
       <div className="pt-6" />
-      <div className="relative flex border-t border-[#b7b7b7] py-4 pr-12 last:border-b">
-        <p className="w-1/5">Github</p>
-        <p className="max-w-[calc(80%-50px)] text-ellipsis">
-          <Link href="https://github.com/AngW1SH/Registry">
-            https://github.com/AngW1SH/Registry
-          </Link>
-        </p>
-        <DeleteProjectLink
-          projectId={1}
-          linkId={1}
-          className="absolute right-0 top-1/2 -translate-y-1/2"
-        />
-      </div>
+      <ul>
+        {project.links.map((link) => (
+          <li
+            key={link.id}
+            className="relative flex border-t border-[#b7b7b7] py-4 pr-12 last:border-b"
+          >
+            <p className="w-1/5">{link.platform}</p>
+            <p className="max-w-[calc(80%-50px)] text-ellipsis">
+              <Link href={link.link}>{link.link}</Link>
+            </p>
+            <DeleteProjectLink
+              projectId={1}
+              linkId={1}
+              className="absolute right-0 top-1/2 -translate-y-1/2"
+            />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

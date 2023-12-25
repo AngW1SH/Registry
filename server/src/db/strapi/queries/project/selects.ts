@@ -87,6 +87,7 @@ export const selectUserProject = (
         fields: ["id"],
       },
       resultFiles: selectNamedFile(),
+      projectLink: selectProjectLinks(),
       ...populate,
     },
   };

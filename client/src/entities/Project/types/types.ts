@@ -44,6 +44,11 @@ export interface IProjectSingle extends IProject {
   developerRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
+  links: {
+    id: number;
+    platform: string;
+    link: string;
+  };
 }
 
 export interface IProjectSingleDTO extends ProjectDTO {
@@ -51,6 +56,11 @@ export interface IProjectSingleDTO extends ProjectDTO {
   developerRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
+  links: {
+    id: number;
+    platform: string;
+    link: string;
+  };
 }
 
 export enum ProjectStage {
