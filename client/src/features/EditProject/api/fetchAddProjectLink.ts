@@ -9,7 +9,10 @@ export const fetchAddProjectLink = async (
     process.env.NEXT_PUBLIC_SERVER_URL + "/api/project/" + projectId + "/link",
     {
       method: "POST",
-      body: JSON.stringify({ resource, link }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ platform: resource, link }),
     },
   ).then((response) => {
     if (!response.ok) return 0;

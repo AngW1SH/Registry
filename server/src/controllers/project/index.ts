@@ -1,6 +1,7 @@
 import { getProjectFiltersFromDTO } from "@/entities/project";
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import projectService from "@/services/project";
+import projectLinksService from "@/services/project-links";
 import projectResultsService from "@/services/project-results";
 import projectResultService from "@/services/project-results";
 import { NextFunction, Request, Response } from "express";
@@ -14,6 +15,7 @@ const projectControllerFactory = () => {
     uploadResultFiles,
     deleteResultFile,
     changeResultFile,
+    addLink,
   });
 
   async function getActive(req: Request, res: Response, next: NextFunction) {
@@ -143,6 +145,33 @@ const projectControllerFactory = () => {
         +req.params.id,
         +req.params.fileid,
         Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
+        req.user
+      );
+
+      res.status(200).send(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function addLink(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in projectController.addLink"
+        );
+
+      if (!req.params.id)
+        throw new BadRequestError("Missing project identifier");
+      if (!req.body.platform)
+        throw new BadRequestError("Missing required parameter: platform");
+      if (!req.body.link)
+        throw new BadRequestError("Missing required parameter: link");
+
+      const result = await projectLinksService.add(
+        +req.params.id,
+        req.body.platform,
+        req.body.link,
         req.user
       );
 

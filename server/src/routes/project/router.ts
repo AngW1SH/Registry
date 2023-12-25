@@ -35,4 +35,10 @@ projectRouter.post(
   projectController.uploadResultFiles
 );
 
+projectRouter.post(
+  "/:id/link/",
+  passport.authenticate("jwt-authenticate"),
+  projectController.addLink
+);
+
 export default projectRouter;
