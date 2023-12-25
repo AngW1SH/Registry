@@ -66,6 +66,7 @@ export interface ProjectDetailed extends Project {
   developerRequirements: string[];
   descriptionFiles: NamedFile[] | null;
   resultFiles: NamedFile[] | null;
+  links: { id: number; platform: string; link: string }[];
 }
 
 export interface ProjectDetailedDTO extends ProjectDTO {
@@ -73,6 +74,7 @@ export interface ProjectDetailedDTO extends ProjectDTO {
   developerRequirements: string[];
   descriptionFiles: NamedFile[] | null;
   resultFiles: NamedFile[] | null;
+  links: { id: number; platform: string; link: string }[];
 }
 
 export interface ProjectWithTags extends Omit<Project, "tags"> {

@@ -18,6 +18,7 @@ import { Member } from "@/entities/member";
 import { TeamListStrapi, TeamStrapi, TeamStrapiInner } from "../../types/team";
 import { TagStrapi } from "../../types/tag";
 import { Request } from "@/entities/request";
+import { getProjectLinkListFromStrapiDTO } from "../components/project-link";
 
 export const getProjectListFromStrapiDTO = (
   projects: ProjectListStrapi
@@ -128,6 +129,9 @@ export const getProjectListFromStrapiDTO = (
       resultFiles: project.attributes.resultFiles
         ? getNamedFileListFromStrapiDTO(project.attributes.resultFiles)
         : [],
+      links: project.attributes.projectLink
+        ? getProjectLinkListFromStrapiDTO(project.attributes.projectLink)
+        : [],
     })),
     tags: tags,
     users,
@@ -191,6 +195,9 @@ export const getProjectFromStrapiDTO = (
         : [],
       resultFiles: project.data.attributes.resultFiles
         ? getNamedFileListFromStrapiDTO(project.data.attributes.resultFiles)
+        : [],
+      links: project.data.attributes.projectLink
+        ? getProjectLinkListFromStrapiDTO(project.data.attributes.projectLink)
         : [],
     },
     tags,

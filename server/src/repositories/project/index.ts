@@ -10,6 +10,7 @@ import {
   selectDescriptionFiles,
   selectDeveloperRequirements,
   selectProjectInList,
+  selectProjectLinks,
   selectResultFiles,
   selectUserProject,
 } from "@/db/strapi/queries/project";
@@ -131,6 +132,7 @@ const projectRepositoryFactory = () => {
         },
         descriptionFiles: selectDescriptionFiles(),
         resultFiles: selectResultFiles(),
+        projectLink: selectProjectLinks(),
       },
     };
 

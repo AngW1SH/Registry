@@ -2,6 +2,7 @@ import { IdListStrapi } from "@/db/types/types";
 import { NamedFileStrapi } from "../components/named-file";
 import { TagListStrapi } from "../tag";
 import { TeamListStrapi } from "../team";
+import { ProjectLinkStrapi } from "../components/project-link";
 
 interface ProjectStrapiInner {
   id: number;
@@ -11,6 +12,7 @@ interface ProjectStrapiInner {
     descriptionFiles?: NamedFileStrapi[];
     resultFiles?: NamedFileStrapi[];
     developerRequirements?: ProjectStrapiDeveloperRequirement[];
+    projectLink?: ProjectLinkStrapi[];
     dateStart: string;
     dateEnd: string;
     enrollmentStart: string;

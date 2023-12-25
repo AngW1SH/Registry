@@ -1,5 +1,6 @@
 import { SelectPopulate } from "@/db/types/types";
 import { selectNamedFile } from "../components/named-file";
+import { selectProjectLink } from "../components/project-link";
 
 export const selectDeveloperRequirements = () => {
   return {
@@ -15,6 +16,10 @@ export const selectDescriptionFiles = () => {
 
 export const selectResultFiles = () => {
   return selectNamedFile();
+};
+
+export const selectProjectLinks = () => {
+  return selectProjectLink();
 };
 
 type PopulateOptions = "tags" | "team";
