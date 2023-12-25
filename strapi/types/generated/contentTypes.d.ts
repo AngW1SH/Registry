@@ -669,6 +669,36 @@ export interface ApiFormForm extends Schema.CollectionType {
   };
 }
 
+export interface ApiPlatformPlatform extends Schema.CollectionType {
+  collectionName: 'platforms';
+  info: {
+    singularName: 'platform';
+    pluralName: 'platforms';
+    displayName: 'Platform';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::platform.platform',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::platform.platform',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProjectProject extends Schema.CollectionType {
   collectionName: 'projects';
   info: {
@@ -717,6 +747,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     teamLimit: Attribute.Integer;
     descriptionFiles: Attribute.Component<'named-file.named-file', true>;
     resultFiles: Attribute.Component<'named-file.named-file', true>;
+    projectLink: Attribute.Component<'project-link.project-link', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -950,6 +981,7 @@ declare module '@strapi/types' {
       'plugin::i18n.locale': PluginI18NLocale;
       'api::category.category': ApiCategoryCategory;
       'api::form.form': ApiFormForm;
+      'api::platform.platform': ApiPlatformPlatform;
       'api::project.project': ApiProjectProject;
       'api::request.request': ApiRequestRequest;
       'api::student.student': ApiStudentStudent;

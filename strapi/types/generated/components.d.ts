@@ -61,6 +61,23 @@ export interface NamedFileNamedFile extends Schema.Component {
   };
 }
 
+export interface ProjectLinkProjectLink extends Schema.Component {
+  collectionName: 'components_project_link_project_links';
+  info: {
+    displayName: 'Project Link';
+    icon: 'link';
+    description: '';
+  };
+  attributes: {
+    platform: Attribute.Relation<
+      'project-link.project-link',
+      'oneToOne',
+      'api::platform.platform'
+    >;
+    link: Attribute.String;
+  };
+}
+
 export interface UserFormUserForm extends Schema.Component {
   collectionName: 'components_user_form_user_forms';
   info: {
@@ -86,6 +103,7 @@ declare module '@strapi/types' {
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
       'image-category.image-category': ImageCategoryImageCategory;
       'named-file.named-file': NamedFileNamedFile;
+      'project-link.project-link': ProjectLinkProjectLink;
       'user-form.user-form': UserFormUserForm;
     }
   }

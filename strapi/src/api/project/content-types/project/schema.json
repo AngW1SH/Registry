@@ -79,6 +79,12 @@
       "type": "component",
       "repeatable": true,
       "component": "named-file.named-file"
+    },
+    "projectLink": {
+      "displayName": "Project Link",
+      "type": "component",
+      "repeatable": true,
+      "component": "project-link.project-link"
     }
   }
 }
