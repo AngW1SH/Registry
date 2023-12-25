@@ -14,6 +14,8 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
 
   const handleSubmit = () => {
     if (resource && link) addLink({ projectId, resource, link });
+    setResource(null);
+    setLink("");
   };
 
   return (
