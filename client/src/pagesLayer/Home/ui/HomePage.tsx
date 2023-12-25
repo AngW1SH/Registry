@@ -43,8 +43,6 @@ const HomePage: FC<HomePageProps> = () => {
               <HeroTitle />
               <div className="pt-10" />
               <HeroSearch />
-              <div className="pt-7" />
-              <HeroNav />
             </div>
           </div>
         </Container>
@@ -62,10 +60,6 @@ const HomePage: FC<HomePageProps> = () => {
       <div className="pt-8" />
       <Container>
         <ActiveProjects />
-      </Container>
-      <div className="pt-24" />
-      <Container>
-        <OtherLinks />
       </Container>
       <div className="pt-16" />
       <BackgroundFill image="/contact-form-bg.png">
@@ -89,10 +83,6 @@ const HomePage: FC<HomePageProps> = () => {
         <NewProjects />
       </Container>
       <div className="pt-16" />
-      <Container>
-        <Subscribe />
-      </Container>
-      <div className="pt-8" />
       <Footer />
     </>
   );
