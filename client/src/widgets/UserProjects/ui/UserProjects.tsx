@@ -8,6 +8,7 @@ import { EditProject } from "@/features/EditProject";
 import { FC } from "react";
 import ProjectFileList from "./ProjectFileList";
 import { UserProject } from "@/composites/ProjectInspect";
+import ProjectLinkList from "./ProjectLinkList";
 
 interface UserProjectsProps {}
 
@@ -49,7 +50,13 @@ const UserProjects: FC<UserProjectsProps> = () => {
             members: profile.members,
             users: profile.users,
           }}
-          edit={<ProjectFileList project={project} />}
+          edit={
+            <>
+              <ProjectFileList project={project} />
+              <div className="pt-10" />
+              <ProjectLinkList project={project} />
+            </>
+          }
         />
       ))}
       {displayData.length == 0 && (
