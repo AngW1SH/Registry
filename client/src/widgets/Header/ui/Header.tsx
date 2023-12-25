@@ -31,7 +31,9 @@ const Header: FC<HeaderProps> = ({ text = "bright" }) => {
             <li className="mr-4">
               <Link href="/projects">Список проектов</Link>
             </li>
-            <li>Заказчикам</li>
+            <li>
+              <Link href="/#contact">Заказчикам</Link>
+            </li>
           </ul>
           <UserNav text={text} />
         </div>

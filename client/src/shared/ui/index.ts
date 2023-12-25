@@ -21,6 +21,7 @@ import Breadcrumbs from "./Breadcrumbs/Breadcrumbs";
 import File from "./File/File";
 import FileUpload from "./FileUpload/FileUpload";
 import RoleTable from "./RoleTable/RoleTable";
+import MarginnedAnchor from "./MarginnedAnchor/MarginnedAnchor";
 
 export {
   Container,
@@ -46,4 +47,5 @@ export {
   File,
   FileUpload,
   RoleTable,
+  MarginnedAnchor,
 };

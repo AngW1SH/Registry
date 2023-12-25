@@ -4,6 +4,7 @@ import {
   FullScreenWithBackground,
   Headline,
   LinkWithIcon,
+  MarginnedAnchor,
 } from "@/shared/ui";
 import { ActiveProjects } from "@/widgets/ActiveProjects";
 import { ContactForm } from "@/widgets/ContactForm";
@@ -62,6 +63,7 @@ const HomePage: FC<HomePageProps> = () => {
         <ActiveProjects />
       </Container>
       <div className="pt-16" />
+      <MarginnedAnchor id="contact" />
       <BackgroundFill image="/contact-form-bg.png">
         <Container>
           <div className="pt-20" />
