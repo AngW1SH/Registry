@@ -73,7 +73,7 @@ const HomePage: FC<HomePageProps> = () => {
       <Container>
         <div className="flex items-end justify-between">
           <h1 className="text-4xl font-bold uppercase">Свежие проекты</h1>
-          <LinkWithIcon href="/" className="uppercase">
+          <LinkWithIcon href="/projects" className="uppercase">
             <span className="pr-4">Выбрать период</span>
           </LinkWithIcon>
         </div>

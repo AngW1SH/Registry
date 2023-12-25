@@ -16,7 +16,7 @@ const NewProjects: FC<NewProjectsProps> = async ({ data }) => {
     <>
       {projectData && <ProjectsWithTagsListAlt projectData={projectData} />}
       <div className="pt-6" />
-      <LinkWithIcon href="/" className="font-medium" iconSize={10}>
+      <LinkWithIcon href="/projects" className="font-medium" iconSize={10}>
         Показать ещё
       </LinkWithIcon>
     </>
