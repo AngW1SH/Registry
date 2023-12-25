@@ -30,8 +30,8 @@ const ProjectLinkList: FC<ProjectLinkListProps> = ({ project }) => {
               <Link href={link.link}>{link.link}</Link>
             </p>
             <DeleteProjectLink
-              projectId={1}
-              linkId={1}
+              projectId={project.id}
+              linkId={link.id}
               className="absolute right-0 top-1/2 -translate-y-1/2"
             />
           </li>

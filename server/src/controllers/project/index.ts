@@ -16,6 +16,7 @@ const projectControllerFactory = () => {
     deleteResultFile,
     changeResultFile,
     addLink,
+    deleteLink,
   });
 
   async function getActive(req: Request, res: Response, next: NextFunction) {
@@ -172,6 +173,30 @@ const projectControllerFactory = () => {
         +req.params.id,
         req.body.platform,
         req.body.link,
+        req.user
+      );
+
+      res.status(200).send(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async function deleteLink(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user)
+        throw new UnauthorizedError(
+          "req.user not specified in projectController.addLink"
+        );
+
+      if (!req.params.id)
+        throw new BadRequestError("Missing project identifier");
+      if (!req.params.linkid)
+        throw new BadRequestError("Missing required parameter: linkId");
+
+      const result = await projectLinksService.deleteLink(
+        +req.params.id,
+        +req.params.linkid,
         req.user
       );
 

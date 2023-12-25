@@ -41,4 +41,10 @@ projectRouter.post(
   projectController.addLink
 );
 
+projectRouter.delete(
+  "/:id/link/:linkid",
+  passport.authenticate("jwt-authenticate"),
+  projectController.deleteLink
+);
+
 export default projectRouter;
