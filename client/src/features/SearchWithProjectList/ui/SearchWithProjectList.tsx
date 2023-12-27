@@ -1,5 +1,5 @@
 "use client";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import {
   DetailedProjectFilters,
   ProjectFilters,
@@ -18,6 +18,7 @@ import {
   IProjectsWithTags,
   ProjectsWithTagsListLarge,
 } from "@/composites/ProjectsWithTags";
+import { useNextPageCallback } from "../hooks/useNextPageCallback";
 
 interface SearchWithProjectListProps {
   initialData: IProjectsWithTags;
@@ -69,21 +70,30 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
 
   const filtersSmallRef = useRef<HTMLDivElement>(null);
   const filtersSmallHeight = useRefHeight(filtersSmallRef, 250);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { data: projectData, isLoading } = useProjectsQuery(
-    filters,
-    initialData,
-  );
+  const {
+    data: projectData,
+    isLoading,
+    fetchNextPage,
+  } = useProjectsQuery(filters, initialData);
 
   const {
     isRefVisible: areFiltersVisible,
     shouldRender: shouldRenderFixedHeader,
   } = useFixedFilters(ref);
 
+  /*
   const { defaultStyles, transitionStyles } = useFixedHeaderTransitionStyles(
     filtersSmallHeight,
     areFiltersVisible,
   );
+  */
+
+  useNextPageCallback(bottomRef, (entry) => {
+    if (!isLoading && bottomRef.current && entry[0].isIntersecting)
+      fetchNextPage();
+  });
 
   return (
     <>
@@ -99,8 +109,21 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
       </div>
       <div className="pt-10" />
       <div className="border-b border-black pt-5" />
-      {(!projectData || isLoading) && <LoadingCircle />}
-      {projectData && <ProjectsWithTagsListLarge projectData={projectData} />}
+      <div>
+        {projectData &&
+          projectData.pages &&
+          projectData.pages
+            .filter((page) => page)
+            .map((page, index) => (
+              <ProjectsWithTagsListLarge key={index} projectData={page!} />
+            ))}
+      </div>
+      <div ref={bottomRef}></div>
+      {isLoading && (
+        <div className="mt-5 flex justify-center">
+          <LoadingCircle />
+        </div>
+      )}
     </>
   );
 };

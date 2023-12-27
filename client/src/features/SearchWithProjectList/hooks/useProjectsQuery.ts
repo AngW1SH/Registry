@@ -1,5 +1,5 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { Filters } from "@/entities/ProjectFilters";
 import { fetchProjects } from "../api/fetchProjects";
@@ -16,10 +16,14 @@ export default function useProjectsQuery(
     return JSON.stringify(filters);
   }, []);
 
-  return useQuery<IProjectsWithTags | null>({
+  return useInfiniteQuery<IProjectsWithTags | null>({
     queryKey: ["projects-list", serializeFilters(filters)],
-    queryFn: () => Promise.resolve(fetchProjects(filters)),
-    keepPreviousData: true,
-    placeholderData: placeholderData,
+    initialData: { pages: [placeholderData], pageParams: [1] },
+    queryFn: ({ pageParam = 1 }) =>
+      Promise.resolve(fetchProjects(filters, pageParam)),
+    getNextPageParam: (lastPage, pages) =>
+      lastPage?.projects && lastPage?.projects.length
+        ? pages.length + 1
+        : undefined,
   });
 }

@@ -25,8 +25,8 @@ const projectServiceFactory = () => {
     return projectRepository.findOne(id);
   }
 
-  async function findMany(filters?: ProjectFilters) {
-    return projectRepository.findMany(filters);
+  async function findMany(filters?: ProjectFilters, page?: number) {
+    return projectRepository.findMany(filters, page);
   }
 };
 

@@ -59,7 +59,8 @@ const projectControllerFactory = () => {
   async function findMany(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await projectService.findMany(
-        getProjectFiltersFromDTO(req.body.filters)
+        getProjectFiltersFromDTO(req.body.filters),
+        +req.body.page
       );
 
       res.status(200).json(result);

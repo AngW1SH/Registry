@@ -159,12 +159,18 @@ const projectRepositoryFactory = () => {
     );
   }
 
-  async function findMany(filters?: ProjectFilters): Promise<{
+  async function findMany(
+    filters?: ProjectFilters,
+    page = 1
+  ): Promise<{
     projects: ProjectDTO[];
     tags: Tag[];
   }> {
     if (!checkFilterValidity(filters)) return { projects: [], tags: [] };
 
+    // Kind of a problem that we will have to fetch all of the projects, without
+    // considering that we only need 'pageSize' of them, but there's really
+    // nothing I can do about it rn
     const meiliResult =
       filters && filters.text
         ? await meilisearch.index("project").search(filters.text)
@@ -177,11 +183,15 @@ const projectRepositoryFactory = () => {
     if (idList && !idList.length) return { projects: [], tags: [] };
 
     const params = {
-      sort: ["dateStart:desc"],
+      sort: ["dateStart:desc", "name"],
       filters: filters ? generateProjectFilters(filters, idList) : undefined,
       ...selectProjectInList({
         tags: selectTag(),
       }),
+      pagination: {
+        pageSize: 5,
+        page: page,
+      },
     };
 
     const response: ProjectListStrapi = await strapi.get("projects", {
