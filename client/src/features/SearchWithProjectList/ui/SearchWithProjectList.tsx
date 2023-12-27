@@ -74,8 +74,8 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
 
   const {
     data: projectData,
-    isLoading,
     fetchNextPage,
+    isFetchingNextPage,
   } = useProjectsQuery(filters, initialData);
 
   const {
@@ -91,7 +91,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
   */
 
   useNextPageCallback(bottomRef, (entry) => {
-    if (!isLoading && bottomRef.current && entry[0].isIntersecting)
+    if (!isFetchingNextPage && bottomRef.current && entry[0].isIntersecting)
       fetchNextPage();
   });
 
@@ -119,7 +119,7 @@ const SearchWithProjectList: FC<SearchWithProjectListProps> = ({
             ))}
       </div>
       <div ref={bottomRef}></div>
-      {isLoading && (
+      {isFetchingNextPage && (
         <div className="mt-5 flex justify-center">
           <LoadingCircle />
         </div>
