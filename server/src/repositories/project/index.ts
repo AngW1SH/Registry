@@ -45,11 +45,13 @@ const projectRepositoryFactory = () => {
 
     const params = {
       sort: ["dateStart:desc"],
-      filters: {
-        dateEnd: {
-          $gte: now,
-        },
-      },
+      ...(limit
+        ? {
+            pagination: {
+              limit: limit,
+            },
+          }
+        : {}),
       ...selectProjectInList({
         tags: selectTag(),
       }),
