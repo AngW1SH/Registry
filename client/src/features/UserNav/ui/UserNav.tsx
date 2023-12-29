@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { logout } from "../api/logout";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useAuthQuery } from "@/entities/User";
@@ -13,6 +13,7 @@ interface UserNavProps {
 
 const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const { data } = useAuthQuery();
 
@@ -56,6 +57,10 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [ref.current]);
+
+  useEffect(() => {
+    setOpened(false);
+  }, [pathname]);
 
   return (
     <div ref={ref} className="group relative z-[60] cursor-pointer">
