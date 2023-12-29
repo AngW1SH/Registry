@@ -82,18 +82,20 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         />
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
-        <div className="pt-24" />
         {projectData.teams &&
           projectData.teams.length > 0 &&
           projectData.members &&
           projectData.users && (
-            <ProjectTeamList
-              teams={projectData.teams}
-              members={projectData.members}
-              users={projectData.users}
-            />
+            <>
+              <div className="pt-16 lg:pt-24" />
+              <ProjectTeamList
+                teams={projectData.teams}
+                members={projectData.members}
+                users={projectData.users}
+              />
+            </>
           )}
-        <div className="pt-24" />
+        <div className="pt-16 lg:pt-24" />
         <ProjectRequirements project={projectData.project} />
         <div className="pt-16" />
       </Container>
