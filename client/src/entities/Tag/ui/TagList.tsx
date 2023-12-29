@@ -2,6 +2,7 @@ import { FC } from "react";
 import { staticTags } from "../static/staticTags";
 import TagInList from "./TagInList";
 import { ITag } from "../types/types";
+import Link from "next/link";
 
 interface TagListProps {
   tags: ITag[] | string[];
@@ -21,7 +22,9 @@ const TagList: FC<TagListProps> = ({ tags, className }) => {
 
         return (
           <li key={tag.id}>
-            <TagInList>{tag.name}</TagInList>
+            <Link href={"/projects/?tag0=" + tag.name}>
+              <TagInList>{tag.name}</TagInList>
+            </Link>
           </li>
         );
       })}
