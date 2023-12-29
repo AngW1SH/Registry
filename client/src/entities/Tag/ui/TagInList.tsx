@@ -10,7 +10,7 @@ const TagInList: FC<TagInListProps> = ({ children, className = "" }) => {
   return (
     <ButtonTransparentAlt
       className={
-        "w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] " +
+        "w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] " +
         className
       }
     >

@@ -34,14 +34,12 @@ const ProjectCardAlt: FC<ProjectCardAltProps> = ({
             <h2 className="text-sm font-medium">{project.name}</h2>
           </div>
         </div>
-        <div className="ml-auto sm:ml-0 xl:pl-20">
-          {tags && (
-            <>
-              <div className="pt-5 xl:pt-10" />
-              <div>{tags}</div>
-            </>
-          )}
-        </div>
+        {tags && (
+          <>
+            <div className="pt-5 xl:pt-10" />
+            <div>{tags}</div>
+          </>
+        )}
       </div>
     </Link>
   );
