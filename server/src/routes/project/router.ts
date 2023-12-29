@@ -1,6 +1,8 @@
 import projectController from "@/controllers/project";
 import passport from "@/middleware/passport";
 import express, { Request, Response } from "express";
+import projectResultsRouter from "./results/router";
+import projectLinksRouter from "./links/router";
 
 const projectRouter = express();
 
@@ -17,34 +19,7 @@ projectRouter.post("/", projectController.findById);
 projectRouter.get("/findmany", projectController.findMany);
 projectRouter.post("/findmany", projectController.findMany);
 
-projectRouter.put(
-  "/:id/result-files/:fileid",
-  passport.authenticate("jwt-authenticate"),
-  projectController.changeResultFile
-);
-
-projectRouter.delete(
-  "/:id/result-files/:fileid",
-  passport.authenticate("jwt-authenticate"),
-  projectController.deleteResultFile
-);
-
-projectRouter.post(
-  "/:id/result-files/",
-  passport.authenticate("jwt-authenticate"),
-  projectController.uploadResultFiles
-);
-
-projectRouter.post(
-  "/:id/link/",
-  passport.authenticate("jwt-authenticate"),
-  projectController.addLink
-);
-
-projectRouter.delete(
-  "/:id/link/:linkid",
-  passport.authenticate("jwt-authenticate"),
-  projectController.deleteLink
-);
+projectRouter.use("/:id/result-files", projectResultsRouter);
+projectRouter.use("/:id/link", projectLinksRouter);
 
 export default projectRouter;
