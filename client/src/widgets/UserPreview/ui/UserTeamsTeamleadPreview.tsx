@@ -10,7 +10,7 @@ const UserTeamsTeamleadPreview: FC<UserTeamsTeamleadPreviewProps> = ({
   className,
 }) => {
   return (
-    <NamedBlock className={className} title="Команды">
+    <NamedBlock className={className} title="Команды" link="/user/teams">
       <ul className="flex flex-wrap text-center font-[0.9375rem] leading-7 text-[#898989] lg:text-left lg:text-sm xl:text-base">
         <li className="w-full text-primary sm:w-1/2">Габдрахманов С.А.</li>
         <li className="w-full sm:w-1/2">Иванов Е.К.</li>

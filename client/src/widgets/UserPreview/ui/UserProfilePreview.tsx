@@ -16,7 +16,11 @@ const UserProfilePreview: FC<UserProfilePreviewProps> = ({
   if (!user) return <div></div>;
 
   return (
-    <NamedBlock title={"Личные данные"} className={className}>
+    <NamedBlock
+      title={"Личные данные"}
+      className={className}
+      link="/user/profile"
+    >
       <ul className="flex flex-col gap-6">
         <li className="flex">
           <p className="w-1/4 font-[0.9375rem] text-[#a1a1a1]">E-mail</p>

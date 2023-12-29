@@ -1,6 +1,7 @@
 "use client";
 import { useProfileQuery } from "@/composites/Profile";
 import { Button, NamedBlock } from "@/shared/ui";
+import Link from "next/link";
 import { FC } from "react";
 
 interface UserRequestsPreviewProps {
@@ -13,7 +14,11 @@ const UserRequestsPreview: FC<UserRequestsPreviewProps> = ({ className }) => {
   if (!profile) return <div></div>;
 
   return (
-    <NamedBlock className={className} title={"Заявки на проекты"}>
+    <NamedBlock
+      className={className}
+      title={"Заявки на проекты"}
+      link="/user/requests"
+    >
       <div className="flex h-full flex-col items-start">
         <div className="flex items-end">
           <p className="font-[0.9375rem] text-[#898989]">
@@ -28,9 +33,11 @@ const UserRequestsPreview: FC<UserRequestsPreviewProps> = ({ className }) => {
         </div>
         <div className="pt-11" />
         {profile.user.administratedTeams.length > 0 && (
-          <Button className="mt-auto rounded-full px-8 py-3">
-            Управление заявками
-          </Button>
+          <Link href="/user/requests">
+            <Button className="mt-auto rounded-full px-8 py-3">
+              Управление заявками
+            </Button>
+          </Link>
         )}
       </div>
     </NamedBlock>

@@ -10,7 +10,7 @@ const UserTeamsMultiplePreview: FC<UserTeamsMultiplePreviewProps> = ({
   className = "",
 }) => {
   return (
-    <NamedBlock className={className} title="Команды">
+    <NamedBlock className={className} title="Команды" link="/user/teams">
       <div className="flex items-end justify-between pr-10">
         <p className="text-[0.9375rem] text-[#898989]">
           Количество команд,

@@ -9,7 +9,11 @@ const UserRequestsTeamleadPreview: FC<UserRequestsTeamleadPreviewProps> = ({
   className,
 }) => {
   return (
-    <NamedBlock className={className} title={"Заявки на проекты"}>
+    <NamedBlock
+      className={className}
+      title={"Заявки на проекты"}
+      link="/user/requests"
+    >
       <div className="flex h-full flex-col items-start">
         <div className="flex items-end">
           <p className="font-[0.9375rem] text-[#898989]">

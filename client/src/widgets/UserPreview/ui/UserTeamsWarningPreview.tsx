@@ -10,7 +10,7 @@ const UserTeamsWarningPreview: FC<UserTeamsWarningPreviewProps> = ({
   className,
 }) => {
   return (
-    <NamedBlock className={className} title="Команды">
+    <NamedBlock className={className} title="Команды" link="/user/teams">
       <div className="flex items-center">
         <div className="relative min-h-[2.5rem] min-w-[2.5rem]">
           <Image fill={true} src="/warning-circle-icon-alt.svg" alt="" />

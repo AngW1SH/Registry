@@ -2,6 +2,7 @@
 import { useProfileQuery } from "@/composites/Profile";
 import { Button, ButtonAlt, NamedBlock } from "@/shared/ui";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 interface UserFormsPreviewProps {
@@ -17,7 +18,12 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
 
   if (!completedForms.length)
     return (
-      <NamedBlock accent={true} className={className} title={"Анкеты"}>
+      <NamedBlock
+        accent={true}
+        className={className}
+        title={"Анкеты"}
+        link="/user/forms"
+      >
         <div className="flex h-full flex-col items-start">
           <div className="flex items-center">
             <div className="relative h-10 w-10">
@@ -27,15 +33,17 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
             <p className="font-medium">У вас нет заполненных анкет</p>
           </div>
           <div className="pt-11" />
-          <ButtonAlt className="mt-auto rounded-full px-8 py-3">
-            Заполнить анкету
-          </ButtonAlt>
+          <Link href="/user/forms">
+            <Button className="mt-auto rounded-full px-8 py-3">
+              Заполнить анкету
+            </Button>
+          </Link>
         </div>
       </NamedBlock>
     );
 
   return (
-    <NamedBlock className={className} title={"Анкеты"}>
+    <NamedBlock className={className} title={"Анкеты"} link="/user/forms">
       <div className="flex h-full flex-col items-start">
         <div className="flex items-end">
           <p className="font-[0.9375rem] text-[#898989]">Вы заполнили анкет </p>
@@ -45,9 +53,11 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
           </p>
         </div>
         <div className="pt-11" />
-        <Button className="mt-auto rounded-full px-8 py-3">
-          Заполнить анкету
-        </Button>
+        <Link href="/user/forms">
+          <Button className="mt-auto rounded-full px-8 py-3">
+            Заполнить анкету
+          </Button>
+        </Link>
       </div>
     </NamedBlock>
   );

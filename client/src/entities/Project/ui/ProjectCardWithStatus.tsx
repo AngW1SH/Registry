@@ -3,6 +3,7 @@ import { IProject, ProjectStage } from "../types/types";
 import { getProjectStage } from "../utils/getProjectStage";
 import Image from "next/image";
 import { monthShortNames } from "@/shared/static";
+import Link from "next/link";
 
 interface ProjectCardWithStatusProps {
   project: IProject;
@@ -53,7 +54,9 @@ const ProjectCardWithStatus: FC<ProjectCardWithStatusProps> = ({ project }) => {
 
       <div className="pr-5" />
       <div>
-        <h3 className="font-[1.0625rem]">{project.name}</h3>
+        <h3 className="font-[1.0625rem]">
+          <Link href="/user/projects">{project.name}</Link>
+        </h3>
       </div>
     </div>
   );

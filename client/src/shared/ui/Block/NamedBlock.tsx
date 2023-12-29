@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FC, ReactNode } from "react";
 
 interface NamedBlockProps {
@@ -6,6 +7,7 @@ interface NamedBlockProps {
   className?: string;
   accent?: boolean;
   border?: boolean;
+  link?: string;
 }
 
 const NamedBlock: FC<NamedBlockProps> = ({
@@ -14,6 +16,7 @@ const NamedBlock: FC<NamedBlockProps> = ({
   className = "",
   accent = false,
   border = true,
+  link,
 }) => {
   return (
     <div
@@ -23,13 +26,26 @@ const NamedBlock: FC<NamedBlockProps> = ({
         } ` + className
       }
     >
-      <h2
-        className={`${border ? "border-b pb-4" : "pb-2"} ${
-          accent ? "border-white" : "border-[#a1a1a1]"
-        } text-[1.375rem] font-semibold`}
-      >
-        {title}
-      </h2>
+      {link && (
+        <Link href={link}>
+          <h2
+            className={`${border ? "border-b pb-4" : "pb-2"} ${
+              accent ? "border-white" : "border-[#a1a1a1]"
+            } text-[1.375rem] font-semibold`}
+          >
+            {title}
+          </h2>
+        </Link>
+      )}
+      {!link && (
+        <h2
+          className={`${border ? "border-b pb-4" : "pb-2"} ${
+            accent ? "border-white" : "border-[#a1a1a1]"
+          } text-[1.375rem] font-semibold`}
+        >
+          {title}
+        </h2>
+      )}
       <div className="pb-5" />
       {children}
     </div>

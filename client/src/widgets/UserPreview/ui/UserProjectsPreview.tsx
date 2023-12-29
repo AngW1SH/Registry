@@ -27,7 +27,7 @@ const UserProjectsPreview: FC<UserProjectsPreviewProps> = ({
   const projects = getProjectsByProjectIds(projectIds, profile.projects);
 
   return (
-    <NamedBlock className={className} title={"Проекты"}>
+    <NamedBlock className={className} title={"Проекты"} link="/user/projects">
       {projects.length > 0 && <ProjectCardWithStatus project={projects[0]} />}
       {projects.length > 1 && (
         <p className="pl-16 pt-1 font-[0.9375rem] text-[#898989]">
