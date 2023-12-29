@@ -8,6 +8,7 @@ import Image from "next/image";
 import { getTeamsByTeamIds } from "@/entities/Team";
 import { getProjectHiringSlotCount } from "@/entities/Project/utils/getProjectHiringSlotCount";
 import { useAuthQuery } from "@/entities/User";
+import { LoadingCircle } from "@/shared/ui";
 
 interface StatusHiringProps {
   project: IProject;
@@ -18,7 +19,12 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
   const { data: projectStatusData, isLoading: isStatusDataLoading } =
     useProjectStatusDataQuery(project.id);
 
-  if (isAuthUserLoading || isStatusDataLoading) return <div></div>;
+  if (isAuthUserLoading || isStatusDataLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <LoadingCircle />
+      </div>
+    );
 
   if (!authUser || !projectStatusData) return <StatusHiringUnauthorized />;
 
