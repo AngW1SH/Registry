@@ -24,8 +24,7 @@ const UserHomePage: FC<UserHomePageProps> = () => {
       <UserFormsPreview className="col-span-4 lg:col-span-2" />
       <UserTeamsPreview className="col-span-4 lg:col-span-2" />
       <UserRequestsPreview className="col-span-4 lg:col-span-2" />
-      <UserProjectsPreview className="col-span-4 lg:col-span-3" />
-      <UserArchivePreview className="col-span-4 lg:col-span-1" />
+      <UserProjectsPreview className="col-span-4" />
     </div>
   );
 };
