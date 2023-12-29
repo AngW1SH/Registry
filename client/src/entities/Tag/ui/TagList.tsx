@@ -22,9 +22,9 @@ const TagList: FC<TagListProps> = ({ tags, className }) => {
 
         return (
           <li key={tag.id}>
-            <Link href={"/projects/?tag0=" + tag.name}>
-              <TagInList>{tag.name}</TagInList>
-            </Link>
+            <TagInList>
+              <Link href={"/projects/?tag0=" + tag.name}>{tag.name}</Link>
+            </TagInList>
           </li>
         );
       })}

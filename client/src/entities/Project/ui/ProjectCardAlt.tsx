@@ -16,32 +16,34 @@ const ProjectCardAlt: FC<ProjectCardAltProps> = ({
 }) => {
   //border-r border-t border-black p-3
   return (
-    <Link href={"/projects/" + project.id}>
-      <div className={"flex flex-col " + className}>
-        <div className="flex justify-between">
-          <div className="w-15 whitespace-nowrap text-xs font-bold">
-            <div className="pt-1" />
-            <span className="block text-3xl">
-              {project.dateStart.toLocaleDateString("ru-RU", {
-                day: "2-digit",
-              })}
-            </span>
-            {monthShortNames[project.dateStart.getMonth()]}{" "}
-            {project.dateStart.getFullYear()}
-          </div>
-          <div className="pr-7" />
-          <div>
-            <h2 className="text-sm font-medium">{project.name}</h2>
-          </div>
+    <div className={"relative flex flex-col " + className}>
+      <Link
+        className="absolute inset-0"
+        href={"/projects/" + project.id}
+      ></Link>
+      <div className="flex justify-between">
+        <div className="w-15 whitespace-nowrap text-xs font-bold">
+          <div className="pt-1" />
+          <span className="block text-3xl">
+            {project.dateStart.toLocaleDateString("ru-RU", {
+              day: "2-digit",
+            })}
+          </span>
+          {monthShortNames[project.dateStart.getMonth()]}{" "}
+          {project.dateStart.getFullYear()}
         </div>
-        {tags && (
-          <>
-            <div className="pt-5 xl:pt-10" />
-            <div>{tags}</div>
-          </>
-        )}
+        <div className="pr-7" />
+        <div>
+          <h2 className="text-sm font-medium">{project.name}</h2>
+        </div>
       </div>
-    </Link>
+      {tags && (
+        <>
+          <div className="pt-5 xl:pt-10" />
+          <div>{tags}</div>
+        </>
+      )}
+    </div>
   );
 };
 
