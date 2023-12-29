@@ -24,5 +24,6 @@ export const getProjectSingleFromDTO = (
     dateEnd: new Date(projectDTO.dateEnd),
     enrollmentStart: new Date(projectDTO.enrollmentStart),
     enrollmentEnd: new Date(projectDTO.enrollmentEnd),
+    related: projectDTO.related.map((project) => getProjectFromDTO(project)),
   };
 };

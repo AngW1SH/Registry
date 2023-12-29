@@ -175,6 +175,14 @@ export const getProjectFromStrapiDTO = (
         )
       : [];
 
+  const related = project.data.attributes.related?.data
+    ? getProjectListFromStrapiDTO(project.data.attributes.related)
+    : null;
+
+  if (related) {
+    related.tags?.forEach((tag) => tags.push(tag));
+  }
+
   return {
     project: {
       id: project.data.id,
@@ -183,6 +191,7 @@ export const getProjectFromStrapiDTO = (
         project.data.attributes.developerRequirements?.map(
           (requirement) => requirement.developerRequirement
         ) || [],
+      related: related && related.projects ? related.projects : [],
       teams: project.data.attributes.teams?.data
         ? project.data.attributes.teams.data.map((team) => team.id)
         : [],

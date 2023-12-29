@@ -24,6 +24,7 @@ interface ProjectStrapiInner {
     tags?: TagListStrapi | IdListStrapi;
     teams?: TeamListStrapi | IdListStrapi;
     teamLimit: number | null;
+    related?: ProjectListStrapi;
   };
 }
 

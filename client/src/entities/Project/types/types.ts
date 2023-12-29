@@ -44,6 +44,7 @@ export interface IProjectSingle extends IProject {
   developerRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
+  related: IProject[];
   links: {
     id: number;
     platform: string;
@@ -56,6 +57,7 @@ export interface IProjectSingleDTO extends ProjectDTO {
   developerRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
+  related: ProjectDTO[];
   links: {
     id: number;
     platform: string;

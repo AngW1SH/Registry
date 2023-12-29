@@ -95,15 +95,24 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         <ProjectRequirements project={projectData.project} />
         <div className="pt-16" />
       </Container>
-      <Headline>
-        <Container>
-          <h2 className="text-2xl font-bold uppercase">Связанные проекты</h2>
-        </Container>
-      </Headline>
-      <div className="pt-8" />
-      <Container>
-        <LinkedProjects />
-      </Container>
+      {projectData.project.related.length > 0 && (
+        <>
+          <Headline>
+            <Container>
+              <h2 className="text-2xl font-bold uppercase">
+                Связанные проекты
+              </h2>
+            </Container>
+          </Headline>
+          <div className="pt-8" />
+          <Container>
+            <LinkedProjects
+              projects={projectData.project.related}
+              tags={projectData.tags}
+            />
+          </Container>
+        </>
+      )}
       <div className="pt-32" />
       <Footer />
     </>

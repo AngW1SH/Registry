@@ -135,6 +135,9 @@ const projectRepositoryFactory = () => {
         descriptionFiles: selectDescriptionFiles(),
         resultFiles: selectResultFiles(),
         projectLink: selectProjectLinks(),
+        related: selectProjectInList({
+          tags: selectTag(),
+        }),
       },
     };
 
