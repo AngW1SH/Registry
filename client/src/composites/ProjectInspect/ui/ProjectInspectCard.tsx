@@ -41,11 +41,11 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
   return (
     <Block className="overflow-hidden rounded-2xl">
       <div className="bg-[#f4f4f4] px-9 pb-7 pt-11">
-        <div className="w-3/4">
+        <div className="md:w-3/4">
           <h2 className="text-xl font-semibold">{project.name}</h2>
           <div className="pt-5" />
-          <div className="flex">
-            <div className="w-1/3">
+          <div className="flex flex-col gap-y-2 sm:flex-row">
+            <div className="sm:w-1/3">
               <h3 className="text-[0.9375rem] text-[#898989]">
                 Срок записи на проект
               </h3>
@@ -58,7 +58,7 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
                 })}
               </p>
             </div>
-            <div className="w-1/3">
+            <div className="sm:w-1/3">
               <h3 className="text-[0.9375rem] text-[#898989]">
                 Срок реализации проекта
               </h3>
@@ -71,7 +71,7 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
                 })}
               </p>
             </div>
-            <div className="w-1/3">
+            <div className="sm:w-1/3">
               <h3 className="text-[0.9375rem] text-[#898989]">Руководитель</h3>
               <div className="pt-1" />
               <p>{project.supervisor}</p>
@@ -79,7 +79,7 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
           </div>
         </div>
         <div className="pt-4" />
-        <div className="flex justify-between">
+        <div className="flex flex-col justify-between gap-y-2 sm:flex-row">
           <div className="flex cursor-pointer items-center gap-2">
             <span className="text-sm text-primary">Подробнее о проекте</span>
             <Image src="/arrow-right-red.svg" alt="" height={12} width={7} />
