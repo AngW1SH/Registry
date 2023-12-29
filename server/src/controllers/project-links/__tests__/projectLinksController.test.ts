@@ -39,7 +39,7 @@ describe("projectLinksController", () => {
         req.user
       );
     });
-    it("should send a 200 status when everything is ok", async () => {
+    it("should send a status 200 when everything is ok", async () => {
       req.user = staticUser;
       req.params = { id: 1 };
       req.body = {
@@ -51,7 +51,7 @@ describe("projectLinksController", () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
-    it("should pass errors to middleware", async () => {
+    it("should pass all errors to middleware", async () => {
       (projectLinksService.add as jest.Mock).mockImplementationOnce(
         async () => {
           throw new ServerError("");
@@ -103,6 +103,89 @@ describe("projectLinksController", () => {
       const nextMock = jest.fn();
 
       await projectLinksController.addLink(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
+    });
+  });
+  describe("deleteLink method", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should call projectLinksService.deleteLink when everything is ok", async () => {
+      req.user = staticUser;
+      req.params = {
+        id: 1,
+        linkid: 2,
+      };
+
+      await projectLinksController.deleteLink(req, res, jest.fn());
+
+      expect(projectLinksService.deleteLink).toHaveBeenCalledWith(
+        +req.params.id,
+        +req.params.linkid,
+        req.user
+      );
+    });
+    it("should send status 200 when everything is ok", async () => {
+      req.user = staticUser;
+      req.params = {
+        id: 1,
+        linkid: 2,
+      };
+
+      await projectLinksController.deleteLink(req, res, jest.fn());
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
+    it("should pass all errors to middleware", async () => {
+      (projectLinksService.deleteLink as jest.Mock).mockImplementationOnce(
+        async () => {
+          throw new ServerError("");
+        }
+      );
+      req.user = staticUser;
+      req.params = {
+        id: 1,
+        linkid: 2,
+      };
+
+      const nextMock = jest.fn();
+      await projectLinksController.deleteLink(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(ServerError);
+    });
+    it("should throw an UnauthorizedError when no user is specified in req.user", async () => {
+      req.user = null;
+      req.params = {
+        id: 1,
+        linkid: 2,
+      };
+
+      const nextMock = jest.fn();
+      await projectLinksController.deleteLink(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(UnauthorizedError);
+    });
+    it("should throw a BadRequestError when the 'id' param is not specified", async () => {
+      req.user = staticUser;
+      req.params = {
+        linkid: 2,
+      };
+
+      const nextMock = jest.fn();
+      await projectLinksController.deleteLink(req, res, nextMock);
+
+      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
+    });
+
+    it("should throw a BadRequestError when the 'linkid' param is not specified", async () => {
+      req.user = staticUser;
+      req.params = {
+        id: 1,
+      };
+
+      const nextMock = jest.fn();
+      await projectLinksController.deleteLink(req, res, nextMock);
 
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
     });
