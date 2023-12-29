@@ -1,5 +1,5 @@
 import { IUser } from "@/entities/User";
-import { Block, RoleTable, ToggleOpen } from "@/shared/ui";
+import { Block, Button, RoleTable, ToggleOpen } from "@/shared/ui";
 import Image from "next/image";
 import { FC, ReactNode, useRef } from "react";
 import { ProjectInspect } from "../types/types";
@@ -79,24 +79,14 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
           </div>
         </div>
         <div className="pt-4" />
-        <div className="flex flex-col justify-between gap-y-2 sm:flex-row">
+        <div className="flex flex-col items-start justify-between gap-y-4 sm:flex-row sm:items-center">
           <div className="flex cursor-pointer items-center gap-2">
             <span className="text-sm text-primary">Подробнее о проекте</span>
             <Image src="/arrow-right-red.svg" alt="" height={12} width={7} />
           </div>
-          <div
-            onClick={toggleOpened}
-            className="flex cursor-pointer items-center gap-3"
-          >
-            <span className="text-sm text-primary">Редактировать</span>
-            <Image
-              className="rotate-90"
-              src="/arrow-right-red.svg"
-              alt=""
-              height={12}
-              width={7}
-            />
-          </div>
+          <Button onClick={toggleOpened} className="cursor-pointer px-10 py-2">
+            <span className="text-sm">Редактировать</span>
+          </Button>
         </div>
       </div>
       <Transition in={opened} timeout={150}>
