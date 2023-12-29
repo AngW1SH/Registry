@@ -40,25 +40,28 @@ const UserProjects: FC<UserProjectsProps> = () => {
     <div>
       <h2 className="text-3xl uppercase">Проекты</h2>
       <div className="pt-2" />
-      {displayData.map(({ project, team }) => (
-        <ProjectInspectCard
-          key={project.id + "-" + team.id}
-          user={user}
-          projectInspect={{
-            project: project,
-            team: team,
-            members: profile.members,
-            users: profile.users,
-          }}
-          edit={
-            <>
-              <ProjectFileList project={project} />
-              <div className="pt-10" />
-              <ProjectLinkList project={project} />
-            </>
-          }
-        />
-      ))}
+      <div className="flex flex-col gap-y-10 ">
+        {displayData.map(({ project, team }) => (
+          <ProjectInspectCard
+            key={project.id + "-" + team.id}
+            user={user}
+            projectInspect={{
+              project: project,
+              team: team,
+              members: profile.members,
+              users: profile.users,
+            }}
+            edit={
+              <>
+                <ProjectFileList project={project} />
+                <div className="pt-10" />
+                <ProjectLinkList project={project} />
+              </>
+            }
+          />
+        ))}
+      </div>
+
       {displayData.length == 0 && (
         <p className="text-[#898989]">У Вас пока нет активных проектов</p>
       )}
