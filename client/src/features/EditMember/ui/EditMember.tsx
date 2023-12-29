@@ -38,7 +38,7 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
   return (
     <div>
       <FormInput
-        className="w-1/3"
+        className="w-full md:w-1/2 lg:w-1/3"
         id={"member-role-" + member.id}
         label="Роль"
         value={role}
@@ -46,7 +46,7 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
       />
       <div className="pt-8" />
       <Button
-        className="px-10 font-medium"
+        className="px-5 text-sm font-medium md:px-10 md:text-base"
         onClick={() => mutate({ member: { ...member, role } })}
       >
         Подтвердить изменения
