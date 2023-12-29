@@ -49,7 +49,7 @@ const StatusHiring: FC<StatusHiringProps> = ({ project }) => {
   */
 
   return (
-    <div className="my-auto overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
+    <div className="my-auto w-full overflow-hidden py-4 lg:h-full lg:w-full xl:py-0">
       <h2 className="text-center text-3xl text-primary lg:text-left xl:text-4xl">
         Открыта запись
         <br className="hidden lg:block" /> на проект

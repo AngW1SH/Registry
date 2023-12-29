@@ -6,7 +6,7 @@ interface StatusHiringUnauthorizedProps {}
 
 const StatusHiringUnauthorized: FC<StatusHiringUnauthorizedProps> = () => {
   return (
-    <div className="my-auto flex flex-col overflow-hidden py-4 lg:h-full lg:w-full xl:py-0">
+    <div className="my-auto flex w-full flex-col overflow-hidden py-4 lg:h-full lg:w-full xl:py-0">
       <h2 className="text-center text-3xl text-primary lg:text-left xl:text-4xl">
         Открыта запись
         <br className="hidden lg:block" /> на проект

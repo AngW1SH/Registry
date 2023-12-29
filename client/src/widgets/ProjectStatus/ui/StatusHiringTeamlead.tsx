@@ -30,7 +30,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
   */
 
   return (
-    <div className="my-auto w-full overflow-hidden lg:h-full lg:w-full lg:py-4 xl:py-0">
+    <div className="my-auto w-full overflow-hidden py-4 lg:h-full lg:w-full xl:py-0">
       <div
         className="flex h-full transition-transform"
         style={{
