@@ -19,9 +19,9 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
   };
 
   return (
-    <div className="flex items-end">
+    <div className="flex flex-wrap items-end">
       <Dropdown
-        className="max-w-[35%]"
+        className="max-w-full sm:max-w-[46%] lg:max-w-[35%]"
         options={["Github", "Jira"]}
         value={resource}
         placeholder="Название ресурса"
@@ -31,10 +31,10 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
       <FormInput
         value={link}
         onChange={setLink}
-        className="ml-8 w-[35%] max-w-[35%]"
+        className="mt-5 w-full max-w-full sm:ml-8 sm:mt-0 sm:w-[46%] sm:max-w-[46%] lg:w-[35%] lg:max-w-[35%]"
         placeholder="Ссылка на ресурс"
       />
-      <Button className="ml-auto px-10" onClick={handleSubmit}>
+      <Button className="mt-4 px-10 lg:ml-auto lg:mt-0" onClick={handleSubmit}>
         Добавить
       </Button>
     </div>

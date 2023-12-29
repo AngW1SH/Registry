@@ -23,16 +23,16 @@ const ProjectLinkList: FC<ProjectLinkListProps> = ({ project }) => {
         {project.links.map((link) => (
           <li
             key={link.id}
-            className="relative flex border-t border-[#b7b7b7] py-4 pr-12 last:border-b"
+            className="relative flex flex-col items-center border-t border-[#b7b7b7] py-4 last:border-b sm:flex-row sm:pr-12"
           >
-            <p className="w-1/5">{link.platform}</p>
-            <p className="max-w-[calc(80%-50px)] text-ellipsis">
+            <p className="w-1/5 min-w-max pr-3">{link.platform}</p>
+            <p className="max-w-full overflow-hidden text-ellipsis">
               <Link href={link.link}>{link.link}</Link>
             </p>
             <DeleteProjectLink
               projectId={project.id}
               linkId={link.id}
-              className="absolute right-0 top-1/2 -translate-y-1/2"
+              className="absolute right-0 top-1 sm:top-1/2 sm:-translate-y-1/2"
             />
           </li>
         ))}
