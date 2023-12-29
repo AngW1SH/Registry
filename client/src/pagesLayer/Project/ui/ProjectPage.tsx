@@ -1,4 +1,4 @@
-import { TagList, staticTags } from "@/entities/Tag";
+import { TagList, getTagsByTagIds, staticTags } from "@/entities/Tag";
 import { Container, Headline } from "@/shared/ui";
 import { LinkedProjects } from "@/widgets/LinkedProjects";
 import { Header } from "@/widgets/Header";
@@ -77,7 +77,9 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
       </Container>
       <div className="pt-10" />
       <Container>
-        <TagList tags={projectData.tags} />
+        <TagList
+          tags={getTagsByTagIds(projectData.project.tags, projectData.tags)}
+        />
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
         <div className="pt-24" />

@@ -180,7 +180,9 @@ export const getProjectFromStrapiDTO = (
     : null;
 
   if (related) {
-    related.tags?.forEach((tag) => tags.push(tag));
+    related.tags?.forEach((tag) => {
+      if (!tags.find((mapped) => mapped.name == tag.name)) tags.push(tag);
+    });
   }
 
   return {
