@@ -149,6 +149,9 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
                   <Link href="/user/projects">Проекты</Link>
                 </li>
                 <li className="cursor-pointer sm:px-7">
+                  <Link href="/user/requests">Заявки</Link>
+                </li>
+                <li className="cursor-pointer sm:px-7">
                   <Link href="/user/forms">Анкеты</Link>
                 </li>
                 <li
