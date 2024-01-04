@@ -18,6 +18,11 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
     if (isSuccess && onSuccess) onSuccess();
   }, [isSuccess]);
 
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    mutate({ member: { ...member, role } });
+  };
+
   if (isLoading)
     return (
       <div className="flex w-full items-center justify-center pt-10">
@@ -36,7 +41,7 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
     );
 
   return (
-    <div>
+    <form>
       <FormInput
         className="w-full md:w-1/2 lg:w-1/3"
         id={"member-role-" + member.id}
@@ -46,12 +51,13 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
       />
       <div className="pt-8" />
       <Button
+        type="submit"
         className="px-5 text-sm font-medium md:px-10 md:text-base"
-        onClick={() => mutate({ member: { ...member, role } })}
+        onClick={handleSubmit}
       >
         Подтвердить изменения
       </Button>
-    </div>
+    </form>
   );
 };
 

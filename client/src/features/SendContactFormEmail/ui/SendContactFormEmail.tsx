@@ -17,8 +17,13 @@ const SendContactFormEmail: FC<SendContactFormEmailProps> = ({
     email: "",
   });
 
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    submitContactFormData(formData);
+  };
+
   return (
-    <div className={"flex flex-col " + className}>
+    <form className={"flex flex-col " + className}>
       <FormInput
         placeholder="Имя"
         value={formData.name}
@@ -32,13 +37,13 @@ const SendContactFormEmail: FC<SendContactFormEmailProps> = ({
       />
       <div className="pt-5" />
       <Button
-        onClick={() => submitContactFormData(formData)}
+        onClick={handleSubmit}
         type="submit"
         className="mt-auto w-max px-12"
       >
         Отправить
       </Button>
-    </div>
+    </form>
   );
 };
 

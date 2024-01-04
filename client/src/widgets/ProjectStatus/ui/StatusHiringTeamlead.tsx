@@ -60,7 +60,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
             Подать заявку
           </Button>
         </div>
-        <div className="flex min-w-full flex-col lg:h-full">
+        <form className="flex min-w-full flex-col lg:h-full">
           <button
             className="relative h-6 w-6"
             onClick={() => setIsApplying(false)}
@@ -74,7 +74,7 @@ const StatusHiringTeamlead: FC<StatusHiringTeamleadProps> = ({
           </button>
           <div className="pt-5" />
           <SendRequest project={project} assignableTeams={assignableTeams} />
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ interface ButtonProps {
   children: ReactNode;
   className?: string;
   type?: "button" | "submit";
-  onClick?: () => any;
+  onClick?: (e: React.MouseEvent) => any;
 }
 
 const Button: FC<ButtonProps> = ({

@@ -24,7 +24,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
   };
 
   return (
-    <>
+    <form>
       <input
         ref={inputRef}
         onChange={handleSubmitFiles}
@@ -33,10 +33,14 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
         multiple
         hidden
       />
-      <Button className="rounded-full px-8 py-2" onClick={handleSelectFiles}>
+      <Button
+        type="button"
+        className="rounded-full px-8 py-2"
+        onClick={handleSelectFiles}
+      >
         Добавить отчёт
       </Button>
-    </>
+    </form>
   );
 };
 

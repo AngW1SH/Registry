@@ -21,7 +21,8 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
 }) => {
   const [filtersDraft, setFiltersDraft] = useState(filters);
 
-  const handleConfirm = () => {
+  const handleConfirm = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (onConfirm) onConfirm(filtersDraft);
   };
 
@@ -30,7 +31,7 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
   }, [filters]);
 
   return (
-    <div>
+    <form>
       <div className="flex flex-col flex-wrap rounded-2xl sm:flex-row lg:flex-nowrap lg:rounded-full lg:bg-white">
         <div className="relative flex w-full items-center overflow-hidden rounded-lg rounded-t-lg bg-white px-10 py-4 before:absolute before:bottom-0 before:left-[5%] before:hidden before:h-px before:w-[90%] before:bg-[#848686] after:absolute after:right-0 after:top-[10%] after:hidden after:h-[80%] after:w-px after:bg-[#848686] sm:w-1/2 sm:rounded-r-none sm:px-6 sm:py-2 sm:before:left-[8%] sm:before:w-[92%] sm:after:block md:rounded-r-none lg:w-full lg:rounded-l-full lg:before:hidden">
           <input
@@ -112,6 +113,7 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
         </div>
         <div className="relative w-full rounded-r-full pb-1 pt-4 lg:w-auto lg:bg-white lg:pl-1 lg:pr-1 lg:pt-1 xl:pl-5">
           <Button
+            type="submit"
             onClick={handleConfirm}
             className="w-full whitespace-nowrap rounded-lg px-4 text-sm lg:w-max lg:rounded-full xl:px-8 xl:text-base"
           >
@@ -119,7 +121,7 @@ const ProjectFiltersSmall: FC<ProjectFiltersSmallProps> = ({
           </Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

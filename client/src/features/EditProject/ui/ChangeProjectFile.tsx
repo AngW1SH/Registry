@@ -29,7 +29,7 @@ const ChangeProjectFile: FC<ChangeProjectFileProps> = ({
   };
 
   return (
-    <>
+    <form>
       <input
         ref={inputRef}
         onChange={handleSubmitFiles}
@@ -37,7 +37,8 @@ const ChangeProjectFile: FC<ChangeProjectFileProps> = ({
         accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt"
         hidden
       />
-      <div
+      <button
+        type="button"
         onClick={handleSelectFile}
         className={
           "group h-7 w-7 cursor-pointer overflow-hidden rounded-full transition-[background-color,border]  " +
@@ -50,8 +51,8 @@ const ChangeProjectFile: FC<ChangeProjectFileProps> = ({
           alt="Заменить файл"
           fill={true}
         />
-      </div>
-    </>
+      </button>
+    </form>
   );
 };
 

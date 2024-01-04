@@ -33,7 +33,8 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (onConfirm) onConfirm(filtersDraft);
   };
 
@@ -63,7 +64,7 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
   }, [filters]);
 
   return (
-    <div>
+    <form>
       <ul
         className="hidden flex-wrap text-sm sm:flex lg:text-base"
         onClick={handleSelectStatus}
@@ -167,6 +168,7 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
         </div>
         <div className="relative w-full rounded-r-full pb-1 pt-4 lg:w-auto lg:bg-white lg:pl-1 lg:pr-1 lg:pt-1 xl:pl-5">
           <Button
+            type="submit"
             onClick={handleConfirm}
             className="w-full whitespace-nowrap rounded-lg px-4 text-sm lg:w-max lg:rounded-full xl:px-8 xl:text-base"
           >
@@ -192,7 +194,7 @@ const ProjectFilters: FC<ProjectFiltersProps> = ({
             ))}
           </ul>
         )}
-    </div>
+    </form>
   );
 };
 

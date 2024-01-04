@@ -13,10 +13,11 @@ interface SendRequestProps {
 
 const SendRequest: FC<SendRequestProps> = ({ project, assignableTeams }) => {
   const [selected, setSelected] = useState<ITeam | null>(assignableTeams[0]);
-  const [selectedFiles, setSelectedFiles] = useState<File[] | null>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { mutate: sendRequest, status } = useRequestMutation();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (selected && selectedFiles && selectedFiles.length) {
       sendRequest({
         team: selected.id,
@@ -83,9 +84,14 @@ const SendRequest: FC<SendRequestProps> = ({ project, assignableTeams }) => {
       <FileUpload
         name="team-document"
         label="Презентация команды"
+        files={selectedFiles}
         onChange={setSelectedFiles}
       />
-      <Button className="mt-auto block self-center px-9" onClick={handleSubmit}>
+      <Button
+        type="submit"
+        className="mt-auto block self-center px-9"
+        onClick={handleSubmit}
+      >
         Отправить
       </Button>
     </>
