@@ -5,10 +5,11 @@ import { FC, useEffect, useState } from "react";
 interface FileUploadProps {
   name: string;
   label: string;
-  onChange?: (files: File[] | null) => any;
+  onChange?: (files: File[]) => any;
   large?: boolean;
   justify?: "start" | "end";
   items?: "start" | "center";
+  files?: File[];
   fileListHeight?: number;
   actionText?: string;
 }
@@ -17,12 +18,13 @@ const FileUpload: FC<FileUploadProps> = ({
   onChange,
   name,
   label,
+  files = [],
   large = false,
   justify = "end",
   fileListHeight = 100,
   actionText = "Прикрепить",
 }) => {
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>(files);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -30,7 +32,7 @@ const FileUpload: FC<FileUploadProps> = ({
   };
 
   const handleFileRemove = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.target instanceof HTMLElement) {
+    if (e.target instanceof HTMLElement && e.target.dataset.delete) {
       Array.prototype.forEach.call(
         e.currentTarget.children,
         (child: HTMLElement, index: number) => {
@@ -49,6 +51,10 @@ const FileUpload: FC<FileUploadProps> = ({
       onChange(selectedFiles);
     }
   }, [selectedFiles]);
+
+  useEffect(() => {
+    if (files) setSelectedFiles(files);
+  }, [files]);
 
   return (
     <div>
@@ -108,6 +114,7 @@ const FileUpload: FC<FileUploadProps> = ({
                   {file.name}
                 </span>
                 <Image
+                  data-delete
                   src="/x-gray.svg"
                   className="ml-auto cursor-pointer"
                   height={12}

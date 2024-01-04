@@ -23,7 +23,12 @@ const generateApp = (port?: number) => {
   app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(process.env.TOKEN_SECRET));
-  app.use(fileUpload());
+  app.use(
+    fileUpload({
+      defCharset: "utf-8",
+      defParamCharset: "utf8",
+    })
+  );
   app.use(
     session({
       secret: process.env.TOKEN_SECRET!,

@@ -108,7 +108,7 @@ const requestRepositoryFactory = () => {
       field: "files",
     });
 
-    if (!fileUploadResponse.ok) throw new Error("Failed to upload files");
+    if (!fileUploadResponse) throw new Error("Failed to upload files");
 
     return 1;
   }
