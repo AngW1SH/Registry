@@ -115,11 +115,7 @@ export const getRequestListFromStrapiDTO = (
           id: file.id,
           name: file.attributes.name || "",
           url: file.attributes.url || "",
-          type: Object.keys(mimeToDisplayType).includes(file.attributes.mime!)
-            ? (mimeToDisplayType[
-                file.attributes.mime as keyof typeof mimeToDisplayType
-              ] as string)
-            : "FILE",
+          type: file.attributes.name.split(".").pop()?.toUpperCase() || "FILE",
           size: parseInt("" + file.attributes.size) + "Кб",
         })) || [],
     })),

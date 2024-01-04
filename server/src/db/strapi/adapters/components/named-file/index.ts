@@ -15,6 +15,12 @@ export const getNamedFileListFromStrapiDTO = (
   | null => {
   if (!dto) return null;
 
+  console.log(
+    dto.map((namedFileDTO) =>
+      namedFileDTO.file.data?.attributes.name.split(".").pop()
+    )
+  );
+
   return dto
     .filter((namedFileDTO) => namedFileDTO.file.data)
     .map((namedFileDTO) => {
@@ -23,14 +29,11 @@ export const getNamedFileListFromStrapiDTO = (
         name: namedFileDTO.name,
         date: namedFileDTO.date,
         url: namedFileDTO.file.data?.attributes.url || "",
-        type: Object.keys(mimeToDisplayType).includes(
-          namedFileDTO.file.data?.attributes.mime!
-        )
-          ? (mimeToDisplayType[
-              namedFileDTO.file.data?.attributes
-                .mime as keyof typeof mimeToDisplayType
-            ] as string)
-          : "FILE",
+        type:
+          namedFileDTO.file.data?.attributes.name
+            .split(".")
+            .pop()
+            ?.toUpperCase() || "FILE",
         size: parseInt("" + namedFileDTO.file.data?.attributes.size) + "Кб",
       };
     });
