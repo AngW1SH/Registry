@@ -34,7 +34,7 @@ const FormInput: FC<FormInputProps> = ({
       )}
       <input
         className={`border-b border-[#898989] bg-transparent pb-2 font-normal ${
-          dark ? "placeholder-black" : "placeholder-white"
+          dark ? "placeholder-#898989" : "placeholder-white"
         } outline-none`}
         id={id}
         placeholder={placeholder}
