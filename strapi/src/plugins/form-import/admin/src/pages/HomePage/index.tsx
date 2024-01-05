@@ -4,15 +4,29 @@
  *
  */
 
-import React from 'react';
-import pluginId from '../../pluginId';
+import React from "react";
+import pluginId from "../../pluginId";
+
+import {
+  Layout,
+  BaseHeaderLayout,
+  ContentLayout,
+  Flex,
+  Loader,
+} from "@strapi/design-system";
+import ConfirmImport from "../../components/ConfirmImport";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Layout>
+      <BaseHeaderLayout
+        primaryAction={<ConfirmImport />}
+        title="Form Import"
+        subtitle={"Manually insert form results from backups"}
+        as="h2"
+      />
+      <ContentLayout>456</ContentLayout>
+    </Layout>
   );
 };
 
