@@ -39,6 +39,10 @@ const conf = () => ({
     enabled: true,
     resolve: "./src/plugins/team-builder",
   },
+  "form-import": {
+    enabled: true,
+    resolve: "./src/plugins/form-import",
+  },
 });
 
 export default conf;
