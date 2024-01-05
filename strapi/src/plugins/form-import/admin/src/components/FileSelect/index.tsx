@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import {
   ChangeFile,
   DeleteFile,
@@ -11,6 +11,7 @@ import {
 import { Icon } from "@strapi/design-system";
 import { Pencil, Trash } from "@strapi/icons";
 import Marginer from "../Marginer";
+import { convertGoogle } from "../../entities/Form";
 
 interface FileSelectProps {}
 
@@ -23,6 +24,10 @@ const FileSelect: FC<FileSelectProps> = () => {
     const files = Array.from(e.target.files || []);
     if (files.length) setFile(files[0]);
   };
+
+  useEffect(() => {
+    if (file) convertGoogle(file);
+  }, [file]);
 
   return (
     <>
