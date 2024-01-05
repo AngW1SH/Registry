@@ -19,6 +19,7 @@ import Marginer from "../../components/Marginer";
 import { HalfWidthLargeScreen } from "./styles";
 import FormSelect from "../../components/FormSelect";
 import FileSelect from "../../components/FileSelect";
+import ResultsList from "../../components/ResultsList";
 
 const HomePage = () => {
   return (
@@ -48,6 +49,8 @@ const HomePage = () => {
               <FileSelect />
             </HalfWidthLargeScreen>
           </Flex>
+          <Marginer vertical={30} />
+          <ResultsList />
         </Box>
       </ContentLayout>
     </Layout>
