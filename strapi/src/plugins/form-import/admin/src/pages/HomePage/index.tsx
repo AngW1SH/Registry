@@ -18,6 +18,7 @@ import ConfirmImport from "../../components/ConfirmImport";
 import Marginer from "../../components/Marginer";
 import { HalfWidthLargeScreen } from "./styles";
 import FormSelect from "../../components/FormSelect";
+import FileSelect from "../../components/FileSelect";
 
 const HomePage = () => {
   return (
@@ -42,6 +43,9 @@ const HomePage = () => {
           <Flex justifyContent="space-between">
             <HalfWidthLargeScreen>
               <FormSelect />
+            </HalfWidthLargeScreen>
+            <HalfWidthLargeScreen>
+              <FileSelect />
             </HalfWidthLargeScreen>
           </Flex>
         </Box>
