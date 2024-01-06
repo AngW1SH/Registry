@@ -12,6 +12,7 @@ export const useFormStore = create<FormState>()((set, get) => ({
   results: [],
   selected: [],
   setType: (type: string | null) => set((state) => ({ type })),
-  setResults: (results: IFormQuestion[][]) => set((state) => ({ results })),
+  setResults: (results: IFormQuestion[][]) =>
+    set((state) => ({ results, selected: results.map((_, index) => index) })),
   setSelected: (selected: number[]) => set((state) => ({ selected })),
 }));
