@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { SingleSelect, SingleSelectOption } from "@strapi/design-system";
+import { useFormStore } from "../../entities/Form";
 
 interface FormSelectProps {}
 
 const FormSelect: FC<FormSelectProps> = () => {
-  const [form, setForm] = useState<string | null>(null);
+  const { type: form, setType: setForm } = useFormStore();
 
   return (
     <SingleSelect
