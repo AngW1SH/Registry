@@ -659,6 +659,7 @@ export interface ApiFormForm extends Schema.CollectionType {
     link: Attribute.String;
     active: Attribute.Boolean;
     formId: Attribute.String;
+    type: Attribute.Enumeration<['Google Forms']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

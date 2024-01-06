@@ -23,6 +23,12 @@
     },
     "formId": {
       "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Google Forms"
+      ]
     }
   }
 }
