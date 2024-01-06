@@ -1,7 +1,10 @@
 import * as xlsx from "xlsx";
 import { IFormQuestion, IFormQuestionGrid } from "..";
 
-export const convertGoogle = (file: File) => {
+export const convertGoogle = (
+  file: File,
+  callback: (results: IFormQuestion[][]) => any
+) => {
   const reader = new FileReader();
 
   reader.onload = function (e) {
@@ -9,7 +12,6 @@ export const convertGoogle = (file: File) => {
 
     if (!content) return;
     const workbook = xlsx.read(content, { type: "binary" });
-    console.log(workbook);
 
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
@@ -66,7 +68,7 @@ export const convertGoogle = (file: File) => {
       result.push(formData);
     }
 
-    console.log(result);
+    callback(result);
   };
 
   reader.readAsBinaryString(file);
