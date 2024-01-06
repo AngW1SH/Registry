@@ -5,7 +5,7 @@ import { IFormTemplate } from "../types";
 export const fetchForms = async (): Promise<IFormTemplate[]> => {
   const { get } = getFetchClient();
 
-  const response = await get("/team-builder/form");
+  const response = await get("/form-import/form");
 
   if (response.status != 200) return [];
 

@@ -7,7 +7,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
 
   async getForms(ctx) {
     ctx.body = await strapi
-      .plugin("team-builder")
+      .plugin("form-import")
       .service("formService")
       .getForms();
   },

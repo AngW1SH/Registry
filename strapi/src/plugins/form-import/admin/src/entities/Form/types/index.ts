@@ -8,6 +8,7 @@ export interface IFormTemplate {
   id: number;
   name: string;
   link: string;
+  type: string;
   formid: string;
 }
 
