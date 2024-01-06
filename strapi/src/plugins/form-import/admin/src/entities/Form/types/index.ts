@@ -4,6 +4,13 @@ export interface IForm {
   selected: number[]; // the indices of the selected results
 }
 
+export interface IFormTemplate {
+  id: number;
+  name: string;
+  link: string;
+  formid: string;
+}
+
 export type IFormQuestion = IFormQuestionDefault | IFormQuestionGrid;
 
 export interface IFormQuestionDefault {

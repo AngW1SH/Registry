@@ -1,8 +1,8 @@
 export default [
   {
-    method: 'GET',
-    path: '/',
-    handler: 'myController.index',
+    method: "GET",
+    path: "/form",
+    handler: "formController.getForms",
     config: {
       policies: [],
     },

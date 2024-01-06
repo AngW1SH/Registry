@@ -1,11 +1,24 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { SingleSelect, SingleSelectOption } from "@strapi/design-system";
-import { useFormStore } from "../../entities/Form";
+import { IForm, fetchForms, useFormStore } from "../../entities/Form";
+import { IFormTemplate } from "../../entities/Form/types";
 
 interface FormSelectProps {}
 
 const FormSelect: FC<FormSelectProps> = () => {
   const { type: form, setType: setForm } = useFormStore();
+
+  const [options, setOptions] = useState<IFormTemplate[]>([]);
+
+  const initializeForms = async () => {
+    const forms = await fetchForms();
+
+    setOptions(forms);
+  };
+
+  useEffect(() => {
+    initializeForms();
+  }, []);
 
   return (
     <SingleSelect
@@ -15,7 +28,9 @@ const FormSelect: FC<FormSelectProps> = () => {
       required
       placeholder="Select a form"
     >
-      <SingleSelectOption value={"Google"}>Google Form</SingleSelectOption>
+      {options.map((option) => (
+        <SingleSelectOption value={option}>{option.name}</SingleSelectOption>
+      ))}
     </SingleSelect>
   );
 };
