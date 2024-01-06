@@ -29,6 +29,7 @@ const FileSelect: FC<FileSelectProps> = () => {
 
   useEffect(() => {
     if (file) convertGoogle(file, setResults);
+    if (!file) setResults([]);
   }, [file]);
 
   return (
