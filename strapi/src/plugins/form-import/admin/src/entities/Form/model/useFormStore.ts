@@ -1,18 +1,19 @@
 import { create } from "zustand";
 import { IForm, IFormQuestion } from "..";
 import { getFetchClient } from "@strapi/helper-plugin";
+import { IFormTemplate } from "../types";
 
 interface FormState extends IForm {
-  setType: (type: string | null) => void;
+  setForm: (form: IFormTemplate | null) => void;
   setResults: (results: IFormQuestion[][]) => void;
   setSelected: (selected: number[]) => void;
 }
 
 export const useFormStore = create<FormState>()((set, get) => ({
-  type: null,
+  form: null,
   results: [],
   selected: [],
-  setType: (type: string | null) => set((state) => ({ type })),
+  setForm: (form: IFormTemplate | null) => set((state) => ({ form })),
   setResults: (results: IFormQuestion[][]) =>
     set((state) => ({ results, selected: results.map((_, index) => index) })),
   setSelected: (selected: number[]) => set((state) => ({ selected })),

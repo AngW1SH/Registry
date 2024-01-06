@@ -1,5 +1,5 @@
 export interface IForm {
-  type: string | null;
+  form: IFormTemplate | null;
   results: IFormQuestion[][];
   selected: number[]; // the indices of the selected results
 }

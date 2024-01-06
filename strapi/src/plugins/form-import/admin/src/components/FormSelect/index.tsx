@@ -6,7 +6,7 @@ import { IFormTemplate } from "../../entities/Form/types";
 interface FormSelectProps {}
 
 const FormSelect: FC<FormSelectProps> = () => {
-  const { type: form, setType: setForm } = useFormStore();
+  const { form, setForm } = useFormStore();
 
   const [options, setOptions] = useState<IFormTemplate[]>([]);
 
