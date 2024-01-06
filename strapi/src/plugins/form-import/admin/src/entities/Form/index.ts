@@ -5,6 +5,7 @@ import type {
   IFormQuestionGrid,
 } from "./types";
 import { convertGoogle } from "./model/convertGoogle";
+import { useFormStore } from "./model/useFormStore";
 
 export type { IForm, IFormQuestion, IFormQuestionDefault, IFormQuestionGrid };
-export { convertGoogle };
+export { convertGoogle, useFormStore };
