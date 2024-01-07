@@ -59,13 +59,13 @@ const formResultServiceFactory = () => {
     });
   }
 
-  async function findForm(formId: number): Promise<Form | null> {
-    if (typeof formId != "number")
+  async function findForm(formId: string): Promise<Form | null> {
+    if (typeof formId != "string")
       throw new BadRequestError("Form id not specified");
     return formRepository.findOne({ formId: formId });
   }
 
-  async function submit(formId: number, response: any) {
+  async function submit(formId: string, response: any) {
     const [user, form] = await Promise.all([
       findUser(response),
       findForm(formId),

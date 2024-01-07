@@ -9,7 +9,7 @@ export interface IFormTemplate {
   name: string;
   link: string;
   type: string;
-  formid: string;
+  formId: string;
 }
 
 export type IFormQuestion = IFormQuestionDefault | IFormQuestionGrid;

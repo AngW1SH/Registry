@@ -16,20 +16,26 @@ const FormSelect: FC<FormSelectProps> = () => {
     setOptions(forms);
   };
 
+  const updateForm = (name: string) => {
+    setForm(options.find((option) => option.name == name)!);
+  };
+
   useEffect(() => {
     initializeForms();
   }, []);
 
   return (
     <SingleSelect
-      value={form ? form : ""}
-      onChange={setForm}
+      value={form ? form.name : ""}
+      onChange={updateForm}
       label="Form"
       required
       placeholder="Select a form"
     >
       {options.map((option) => (
-        <SingleSelectOption value={option}>{option.name}</SingleSelectOption>
+        <SingleSelectOption value={option.name}>
+          {option.name}
+        </SingleSelectOption>
       ))}
     </SingleSelect>
   );

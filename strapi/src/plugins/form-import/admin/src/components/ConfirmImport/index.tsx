@@ -7,13 +7,42 @@ import {
   DialogBody,
   DialogFooter,
 } from "@strapi/design-system";
+import { useFormStore } from "../../entities/Form";
 
 interface ConfirmImportProps {}
 
 const ConfirmImport: FC<ConfirmImportProps> = () => {
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleConfirm = () => {};
+  const { form, results, selected } = useFormStore();
+
+  const handleConfirm = async () => {
+    console.log(form);
+    console.log(results);
+    const result = await Promise.allSettled(
+      results
+        .filter((_, index) => selected.includes(index))
+        .map((response) => {
+          const [_, ...responseFinal] = response; // removes timestamp
+          return fetch(process.env.SERVER_URL + "/user/form", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              form: {
+                id: form?.formId,
+              },
+              response: {
+                data: responseFinal,
+              },
+            }),
+          });
+        })
+    );
+
+    console.log(result);
+  };
 
   return (
     <>

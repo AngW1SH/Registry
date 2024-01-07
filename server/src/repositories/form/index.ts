@@ -11,7 +11,7 @@ const formRepositoryFactory = () => {
   };
 
   async function findMany(filters: {
-    formId?: number;
+    formId?: string;
     active?: boolean;
   }): Promise<Form[]> {
     const params = {
@@ -33,7 +33,7 @@ const formRepositoryFactory = () => {
   }
 
   async function findOne(filters: {
-    formId?: number;
+    formId?: string;
     active?: boolean;
   }): Promise<Form | null> {
     const forms = await findMany(filters);
