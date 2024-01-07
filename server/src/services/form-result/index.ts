@@ -3,7 +3,7 @@ import formRepository from "@/repositories/form";
 import userRepository from "@/repositories/user";
 import { getEmailFromFormResults } from "./utils/getEmailFromFormResults";
 import { User } from "@/entities/user";
-import { Form, FormResultClient } from "@/entities/form";
+import { Form, FormResultClient, FormType } from "@/entities/form";
 import formService from "../form";
 import formResultRepository from "@/repositories/form-result";
 
@@ -74,7 +74,12 @@ const formResultServiceFactory = () => {
     if (!user) throw new ServerError("No such user found");
     if (!form) throw new ServerError("No such form found");
 
-    return formResultRepository.submit(form.id, response, user.id);
+    switch (form.type.toLowerCase()) {
+      case FormType.google.toLowerCase():
+        return formResultRepository.submit(form.id, response, user.id);
+      default:
+        throw new BadRequestError("Form type not supported");
+    }
   }
 };
 

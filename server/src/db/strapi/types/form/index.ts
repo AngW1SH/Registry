@@ -3,6 +3,7 @@ interface FormStrapiInner {
   attributes: {
     name: string;
     link: string;
+    type: string;
   };
 }
 

@@ -1,4 +1,4 @@
-import { Form } from "@/entities/form";
+import { Form, FormType } from "@/entities/form";
 import { FormListStrapi } from "../../types/form";
 
 export const getFormListFromStrapiDTO = (forms: FormListStrapi): Form[] => {
@@ -6,5 +6,6 @@ export const getFormListFromStrapiDTO = (forms: FormListStrapi): Form[] => {
     id: form.id,
     name: form.attributes.name,
     link: form.attributes.link,
+    type: form.attributes.type as FormType,
   }));
 };

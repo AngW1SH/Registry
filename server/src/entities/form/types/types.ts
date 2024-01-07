@@ -1,7 +1,12 @@
+export enum FormType {
+  google = "Google Forms",
+}
+
 export interface Form {
   id: number;
   name: string;
   link: string;
+  type: FormType;
 }
 
 export interface FormResultClient {
