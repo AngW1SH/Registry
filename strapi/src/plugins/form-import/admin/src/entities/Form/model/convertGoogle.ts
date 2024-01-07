@@ -1,9 +1,10 @@
 import * as xlsx from "xlsx";
 import { IFormQuestion, IFormQuestionGrid } from "..";
+import { IFormResults, ImportStatus } from "../types";
 
 export const convertGoogle = (
   file: File,
-  callback: (results: IFormQuestion[][]) => any
+  callback: (results: IFormResults[]) => any
 ) => {
   const reader = new FileReader();
 
@@ -22,7 +23,7 @@ export const convertGoogle = (
 
     const range = xlsx.utils.decode_range(sheet["!ref"]);
 
-    const result: IFormQuestion[][] = [];
+    const result: IFormResults[] = [];
 
     for (let rowNum = range.s.r + 1; rowNum <= range.e.r; rowNum++) {
       // Create an object to store data for each row
@@ -65,7 +66,7 @@ export const convertGoogle = (
         }
       }
 
-      result.push(formData);
+      result.push({ status: ImportStatus.default, value: formData });
     }
 
     callback(result);

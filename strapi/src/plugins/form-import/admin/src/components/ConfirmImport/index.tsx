@@ -7,23 +7,21 @@ import {
   DialogBody,
   DialogFooter,
 } from "@strapi/design-system";
-import { useFormStore } from "../../entities/Form";
+import { ImportStatus, useFormStore } from "../../entities/Form";
 
 interface ConfirmImportProps {}
 
 const ConfirmImport: FC<ConfirmImportProps> = () => {
   const [showPopup, setShowPopup] = useState(false);
 
-  const { form, results, selected } = useFormStore();
+  const { form, results, selected, setResults } = useFormStore();
 
   const handleConfirm = async () => {
-    console.log(form);
-    console.log(results);
     const result = await Promise.allSettled(
       results
         .filter((_, index) => selected.includes(index))
         .map((response) => {
-          const [_, ...responseFinal] = response; // removes timestamp
+          const [_, ...responseFinal] = response.value; // removes timestamp
           return fetch(process.env.SERVER_URL + "/user/form", {
             method: "POST",
             headers: {
@@ -41,7 +39,29 @@ const ConfirmImport: FC<ConfirmImportProps> = () => {
         })
     );
 
-    console.log(result);
+    const statuses = result.map(
+      (result) => result.status == "fulfilled" && result.value.ok
+    );
+
+    const selectedResults = results.filter((_, index) =>
+      selected.includes(index)
+    );
+
+    const updatedResults = results.map((result, index) => {
+      const indexInSelected = selected.findIndex((mapped) => mapped == index);
+
+      if (indexInSelected == -1) return result;
+
+      return {
+        ...result,
+        status: statuses[indexInSelected]
+          ? ImportStatus.fulfilled
+          : ImportStatus.rejected,
+      };
+    });
+
+    setResults(updatedResults);
+    setShowPopup(false);
   };
 
   return (

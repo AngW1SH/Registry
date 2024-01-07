@@ -9,6 +9,7 @@ import React from "react";
 import pluginId from "../../pluginId";
 import HomePage from "../HomePage";
 import { Route } from "react-router-dom";
+import "./globals.css";
 
 const App = () => {
   return (

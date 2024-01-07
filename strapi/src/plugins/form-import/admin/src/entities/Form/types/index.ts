@@ -1,7 +1,13 @@
 export interface IForm {
   form: IFormTemplate | null;
-  results: IFormQuestion[][];
+  results: IFormResults[];
   selected: number[]; // the indices of the selected results
+}
+
+export enum ImportStatus {
+  default = "DEFAULT",
+  fulfilled = "FULFILLED",
+  rejected = "REJECTED",
 }
 
 export interface IFormTemplate {
@@ -13,6 +19,11 @@ export interface IFormTemplate {
 }
 
 export type IFormQuestion = IFormQuestionDefault | IFormQuestionGrid;
+
+export type IFormResults = {
+  status: ImportStatus;
+  value: IFormQuestion[];
+};
 
 export interface IFormQuestionDefault {
   type: "DEFAULT";

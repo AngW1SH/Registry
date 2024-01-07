@@ -26,17 +26,18 @@ const ResultsList: FC<ResultsListProps> = () => {
   const { results, selected, setSelected } = useFormStore();
 
   const formattedResults = results.map((result, index) => {
-    const nameFind = result.find(
+    const nameFind = result.value.find(
       (row) => row.question == "Фамилия Имя Отчество"
     );
-    const emailFind = result.find(
+    const emailFind = result.value.find(
       (row) => row.question == "Электронная почта, указанная при авторизации"
     );
-    const dateFind = result.find((row) => (row.question = "Timestamp"));
+    const dateFind = result.value.find((row) => (row.question = "Timestamp"));
 
     return {
       name: nameFind && nameFind.type == "DEFAULT" ? nameFind.answer : "",
       selected: selected.includes(index),
+      status: result.status,
       email: emailFind && emailFind.type == "DEFAULT" ? emailFind.answer : "",
       date:
         dateFind && dateFind.type == "DEFAULT"
@@ -103,7 +104,7 @@ const ResultsList: FC<ResultsListProps> = () => {
       </Thead>
       <Tbody onClick={handleCheck}>
         {formattedResults.map((result, index) => (
-          <ClickableTr key={result.email + result.date}>
+          <ClickableTr status={result.status} key={result.email + result.date}>
             <Td>
               <BaseCheckbox
                 data-select={index}
