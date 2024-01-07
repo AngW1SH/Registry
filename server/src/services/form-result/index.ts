@@ -71,8 +71,8 @@ const formResultServiceFactory = () => {
       findForm(formId),
     ]);
 
-    if (!user) throw new ServerError("No such user found");
-    if (!form) throw new ServerError("No such form found");
+    if (!user) throw new BadRequestError("No such user found");
+    if (!form) throw new BadRequestError("No such form found");
 
     switch (form.type.toLowerCase()) {
       case FormType.google.toLowerCase():
