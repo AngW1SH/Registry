@@ -155,8 +155,7 @@ const userControllerFactory = () => {
         throw new BadRequestError("Form must have an identificator");
       if (!response.hasOwnProperty("data"))
         throw new BadRequestError("Response must have a body");
-
-      const result = formResultService.submit(form.id, response.data);
+      const result = await formResultService.submit(form.id, response.data);
       res.status(200).send();
     } catch (err) {
       next(err);
