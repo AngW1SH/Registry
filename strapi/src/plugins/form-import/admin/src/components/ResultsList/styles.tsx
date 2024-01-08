@@ -9,7 +9,7 @@ interface ResultsTrProps {
 const statusToColor = {
   [ImportStatus.default]: "inherit",
   [ImportStatus.fulfilled]: "#bbf7d0",
-  [ImportStatus.rejected]: "#ef4444",
+  [ImportStatus.rejected]: "#f87171",
 };
 
 export const ClickableTr = styled(Tr)<ResultsTrProps>`
