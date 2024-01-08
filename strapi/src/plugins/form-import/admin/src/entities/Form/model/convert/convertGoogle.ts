@@ -1,6 +1,6 @@
 import * as xlsx from "xlsx";
-import { IFormQuestion, IFormQuestionGrid } from "..";
-import { IFormResults, ImportStatus } from "../types";
+import { IFormQuestion, IFormQuestionGrid } from "../..";
+import { IFormResults, ImportStatus } from "../../types";
 
 export const convertGoogle = (
   file: File,

@@ -10,11 +10,15 @@ export enum ImportStatus {
   rejected = "REJECTED",
 }
 
+export enum IFormType {
+  google = "Google Forms",
+}
+
 export interface IFormTemplate {
   id: number;
   name: string;
   link: string;
-  type: string;
+  type: IFormType;
   formId: string;
 }
 

@@ -11,7 +11,7 @@ import {
 import { Icon } from "@strapi/design-system";
 import { Pencil, Trash } from "@strapi/icons";
 import Marginer from "../Marginer";
-import { convertGoogle, useFormStore } from "../../entities/Form";
+import { convert, useFormStore } from "../../entities/Form";
 
 interface FileSelectProps {}
 
@@ -20,7 +20,7 @@ const FileSelect: FC<FileSelectProps> = () => {
 
   const [file, setFile] = useState<File | null>();
 
-  const { results, setResults } = useFormStore();
+  const { form, setResults } = useFormStore();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -28,7 +28,7 @@ const FileSelect: FC<FileSelectProps> = () => {
   };
 
   useEffect(() => {
-    if (file) convertGoogle(file, setResults);
+    if (file && form) convert(file, form.type, setResults);
     if (!file) setResults([]);
   }, [file]);
 

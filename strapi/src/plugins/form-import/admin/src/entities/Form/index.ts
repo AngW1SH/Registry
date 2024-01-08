@@ -4,10 +4,10 @@ import type {
   IFormQuestionDefault,
   IFormQuestionGrid,
 } from "./types";
-import { convertGoogle } from "./model/convertGoogle";
+import { convert } from "./model/convert";
 import { useFormStore } from "./model/useFormStore";
 import { fetchForms } from "./api/fetchForms";
 import { ImportStatus } from "./types";
 
 export type { IForm, IFormQuestion, IFormQuestionDefault, IFormQuestionGrid };
-export { convertGoogle, useFormStore, fetchForms, ImportStatus };
+export { convert, useFormStore, fetchForms, ImportStatus };
