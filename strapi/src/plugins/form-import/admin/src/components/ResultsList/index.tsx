@@ -74,6 +74,8 @@ const ResultsList: FC<ResultsListProps> = () => {
     }
   };
 
+  if (!results || !results.length) return <></>;
+
   return (
     <Table colCount={COL_COUNT} rowCount={ROW_COUNT} onClick={() => {}}>
       <Thead>

@@ -32,6 +32,8 @@ const FileSelect: FC<FileSelectProps> = () => {
     if (!file) setResults([]);
   }, [file]);
 
+  if (!form) return <></>;
+
   return (
     <>
       <TypographyFlex
