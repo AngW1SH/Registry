@@ -36,16 +36,40 @@ const formResultRepositoryFactory = () => {
       name: userId + "-" + formId + "-" + new Date().toTimeString() + ".json",
     });
 
+    const timestampRow = response.find(
+      (row: any) => row.question == "Timestamp"
+    );
+
+    const timestamp = timestampRow ? new Date(timestampRow.answer) : new Date();
+
+    if (!timestampRow) {
+      response = [
+        { type: "DEFAULT", question: "Timestamp", answer: new Date() },
+        ...response,
+      ];
+    }
+
+    const newResult = {
+      form: formId,
+      date: timestamp,
+      file: fileUploadResponse[0] ? fileUploadResponse[0].id : null,
+    };
+
+    const sameResultIndex = results.findIndex(
+      (result) => Math.abs(Date.parse(result.date) - timestamp.getTime()) < 1000
+    );
+
+    if (sameResultIndex != -1) {
+      // @ts-ignore
+      results[sameResultIndex] = newResult;
+    } else {
+      // @ts-ignore
+      results.push(newResult);
+    }
+
     const body = {
       data: {
-        forms: [
-          ...results,
-          {
-            form: { connect: [{ id: formId }] },
-            date: new Date(),
-            file: fileUploadResponse[0] ? fileUploadResponse[0].id : null,
-          },
-        ],
+        forms: results,
       },
     };
 

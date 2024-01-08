@@ -21,7 +21,6 @@ const ConfirmImport: FC<ConfirmImportProps> = () => {
       results
         .filter((_, index) => selected.includes(index))
         .map((response) => {
-          const [_, ...responseFinal] = response.value; // removes timestamp
           return fetch(process.env.SERVER_URL + "/user/form", {
             method: "POST",
             headers: {
@@ -32,7 +31,7 @@ const ConfirmImport: FC<ConfirmImportProps> = () => {
                 id: form?.formId,
               },
               response: {
-                data: responseFinal,
+                data: response.value,
               },
             }),
           });
