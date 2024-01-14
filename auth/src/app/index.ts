@@ -7,6 +7,7 @@ import authRouter from "@/routes/auth/router";
 
 const generateApp = (port?: number) => {
   const app = express();
+  if (port) app.listen(port, () => console.log("listening port 8000"));
 
   app.use(bodyParser.json());
   app.use(express.urlencoded({ extended: true }));

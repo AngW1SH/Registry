@@ -81,7 +81,7 @@ const customYandexStrategy = new CustomYandexStrategy(
     tokenURL: process.env.CUSTOM_YANDEX_TOKEN_URL,
     clientID: process.env.CUSTOM_YANDEX_CLIENT_ID,
     clientSecret: process.env.CUSTOM_YANDEX_CLIENT_SECRET,
-    callbackURL: process.env.WEBSITE_URL + "/api/user/ssocallback",
+    callbackURL: process.env.WEBSITE_URL + "/auth/ssocallback",
   },
   async function (
     accessToken: string,

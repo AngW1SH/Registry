@@ -2,7 +2,7 @@ import { User, UserCreate } from "@/entities/user";
 import userRepository from "@/repositories/user";
 
 const userServiceFactory = () => {
-  return Object.freeze({ findById });
+  return Object.freeze({ findById, findOrCreate });
 
   async function findById(id: number): Promise<User | null> {
     const user = await userRepository.findOne({ id: id });

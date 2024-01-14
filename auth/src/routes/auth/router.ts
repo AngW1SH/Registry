@@ -5,12 +5,9 @@ import authController from "@/controllers/auth";
 const authRouter = express();
 
 authRouter.get(
-  "ssocallback",
-  passport.authenticate(
-    "sso-strategy",
-    { failureRedirect: "/" },
-    authController.authorize
-  )
+  "/ssocallback",
+  passport.authenticate("sso-strategy", { failureRedirect: "/" }),
+  authController.authorize
 );
 
 authRouter.get(

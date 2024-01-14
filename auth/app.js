@@ -30321,9 +30321,9 @@ var require_utils5 = __commonJS({
   }
 });
 
-// node_modules/oauth/lib/sha1.js
+// node_modules/passport-oauth2/node_modules/oauth/lib/sha1.js
 var require_sha1 = __commonJS({
-  "node_modules/oauth/lib/sha1.js"(exports2) {
+  "node_modules/passport-oauth2/node_modules/oauth/lib/sha1.js"(exports2) {
     var b64pad = "=";
     function b64_hmac_sha1(k, d) {
       return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(k), str2rstr_utf8(d)));
@@ -30472,18 +30472,18 @@ var require_sha1 = __commonJS({
   }
 });
 
-// node_modules/oauth/lib/_utils.js
+// node_modules/passport-oauth2/node_modules/oauth/lib/_utils.js
 var require_utils6 = __commonJS({
-  "node_modules/oauth/lib/_utils.js"(exports2, module2) {
+  "node_modules/passport-oauth2/node_modules/oauth/lib/_utils.js"(exports2, module2) {
     module2.exports.isAnEarlyCloseHost = function(hostName) {
       return hostName && hostName.match(".*google(apis)?.com$");
     };
   }
 });
 
-// node_modules/oauth/lib/oauth.js
+// node_modules/passport-oauth2/node_modules/oauth/lib/oauth.js
 var require_oauth = __commonJS({
-  "node_modules/oauth/lib/oauth.js"(exports2) {
+  "node_modules/passport-oauth2/node_modules/oauth/lib/oauth.js"(exports2) {
     var crypto = require("crypto");
     var sha1 = require_sha1();
     var http = require("http");
@@ -31008,9 +31008,9 @@ var require_oauth = __commonJS({
   }
 });
 
-// node_modules/oauth/lib/oauth2.js
+// node_modules/passport-oauth2/node_modules/oauth/lib/oauth2.js
 var require_oauth2 = __commonJS({
-  "node_modules/oauth/lib/oauth2.js"(exports2) {
+  "node_modules/passport-oauth2/node_modules/oauth/lib/oauth2.js"(exports2) {
     var querystring = require("querystring");
     var crypto = require("crypto");
     var https = require("https");
@@ -31186,9 +31186,9 @@ var require_oauth2 = __commonJS({
   }
 });
 
-// node_modules/oauth/index.js
+// node_modules/passport-oauth2/node_modules/oauth/index.js
 var require_oauth3 = __commonJS({
-  "node_modules/oauth/index.js"(exports2) {
+  "node_modules/passport-oauth2/node_modules/oauth/index.js"(exports2) {
     exports2.OAuth = require_oauth().OAuth;
     exports2.OAuthEcho = require_oauth().OAuthEcho;
     exports2.OAuth2 = require_oauth2().OAuth2;
@@ -41237,7 +41237,7 @@ var user_default = userRepository;
 
 // src/services/user/index.ts
 var userServiceFactory = () => {
-  return Object.freeze({ findById });
+  return Object.freeze({ findById, findOrCreate });
   async function findById(id) {
     const user = await user_default.findOne({ id });
     return user;
@@ -41328,7 +41328,7 @@ var customYandexStrategy = new CustomYandexStrategy(
     tokenURL: process.env.CUSTOM_YANDEX_TOKEN_URL,
     clientID: process.env.CUSTOM_YANDEX_CLIENT_ID,
     clientSecret: process.env.CUSTOM_YANDEX_CLIENT_SECRET,
-    callbackURL: process.env.WEBSITE_URL + "/api/user/ssocallback"
+    callbackURL: process.env.WEBSITE_URL + "/auth/ssocallback"
   },
   async function(accessToken, refreshToken, profile, done) {
     const user = await user_default2.findOrCreate({
@@ -41531,12 +41531,9 @@ var auth_default = authController;
 // src/routes/auth/router.ts
 var authRouter = (0, import_express.default)();
 authRouter.get(
-  "ssocallback",
-  passport_default2.authenticate(
-    "sso-strategy",
-    { failureRedirect: "/" },
-    auth_default.authorize
-  )
+  "/ssocallback",
+  passport_default2.authenticate("sso-strategy", { failureRedirect: "/" }),
+  auth_default.authorize
 );
 authRouter.get(
   "/authenticate",
@@ -41555,6 +41552,8 @@ var router_default = authRouter;
 // src/app/index.ts
 var generateApp = (port) => {
   const app = (0, import_express2.default)();
+  if (port)
+    app.listen(port, () => console.log("listening port 8000"));
   app.use(import_body_parser.default.json());
   app.use(import_express2.default.urlencoded({ extended: true }));
   app.use((0, import_cookie_parser.default)(process.env.TOKEN_SECRET));
