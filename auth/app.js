@@ -41568,7 +41568,7 @@ var generateApp = (port) => {
   );
   app.set("trust proxy", 1);
   app.use(passport_default2.initialize());
-  app.use("/auth", router_default);
+  app.use("/", router_default);
   return app;
 };
 var app_default = generateApp;

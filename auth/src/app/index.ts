@@ -23,7 +23,7 @@ const generateApp = (port?: number) => {
 
   app.use(passport.initialize());
 
-  app.use("/auth", authRouter);
+  app.use("/", authRouter);
 
   return app;
 };
