@@ -4,7 +4,6 @@ import ProjectInspectCard from "@/composites/ProjectInspect/ui/ProjectInspectCar
 import { IProject, getProjectsByProjectIds } from "@/entities/Project";
 import { ITeamExtended, getTeamsByTeamIds } from "@/entities/Team";
 import { useAuthQuery } from "@/entities/User";
-import { EditProject } from "@/features/EditProject";
 import { FC } from "react";
 import ProjectFileList from "./ProjectFileList";
 import { UserProject } from "@/composites/ProjectInspect";

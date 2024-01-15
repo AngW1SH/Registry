@@ -49,7 +49,7 @@ export interface IProjectSingle extends IProject {
     id: number;
     platform: string;
     link: string;
-  };
+  }[];
 }
 
 export interface IProjectSingleDTO extends ProjectDTO {
@@ -62,7 +62,7 @@ export interface IProjectSingleDTO extends ProjectDTO {
     id: number;
     platform: string;
     link: string;
-  };
+  }[];
 }
 
 export enum ProjectStage {

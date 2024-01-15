@@ -23,6 +23,8 @@ export const staticProjectSingleNotStarted: IProjectSingle = {
   teamLimit: 2,
   tags: [8],
   teams: [],
+  related: [],
+  links: [],
   developerRequirements: [
     "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
     "Глубокое понимание биологии растений и их реакции на изменения климата",
@@ -73,6 +75,8 @@ export const staticProjectSingleOngoing: IProjectSingle = {
   client: 'ООО "Рога и Копыто"',
   teamLimit: 1,
   tags: [8],
+  related: [],
+  links: [],
   teams: [4],
   developerRequirements: [
     "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
@@ -119,6 +123,8 @@ export const staticProjectSingleCompleted: IProjectSingle = {
   dateEnd: yesterday,
   enrollmentStart: yesterday,
   enrollmentEnd: yesterday,
+  related: [],
+  links: [],
   supervisor: "Иванов П. М.",
   curator: "Калашникова П. М.",
   client: 'ООО "Рога и Копыто"',

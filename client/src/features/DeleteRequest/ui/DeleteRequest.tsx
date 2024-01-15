@@ -15,6 +15,8 @@ const DeleteRequest: FC<DeleteRequestProps> = ({ requestId, teamId }) => {
   const { data: profile } = useProfileQuery();
   const { mutate: deleteRequest } = useDeleteRequest();
 
+  const [show, setShow] = useState(false);
+
   const handleConfirm = () => {
     setShow(false);
     if (teamId && profile) deleteRequest({ requestId });
@@ -22,8 +24,6 @@ const DeleteRequest: FC<DeleteRequestProps> = ({ requestId, teamId }) => {
 
   if (!teamId || !profile || !profile.user.administratedTeams.includes(teamId))
     return <></>;
-
-  const [show, setShow] = useState(false);
 
   return (
     <>
