@@ -6,25 +6,6 @@ import { strapi } from "@/db/strapi/client";
 const userRouter = express();
 
 userRouter.get(
-  "/ssocallback",
-  passport.authenticate("sso-strategy", { failureRedirect: "/" }),
-  userController.authorize
-);
-
-userRouter.get(
-  "/authenticate",
-  (req: Request, res: Response, next: NextFunction) => {
-    res.cookie("redirect-url", req.headers.referer, {
-      signed: true,
-    });
-    next();
-  },
-  passport.authenticate("sso-strategy")
-);
-
-userRouter.get("/token", userController.token);
-
-userRouter.get(
   "/projectstatus/:projectId",
   passport.authenticate("jwt-authenticate"),
   userController.getProjectStatusData
@@ -35,8 +16,6 @@ userRouter.get(
   passport.authenticate("jwt-authenticate"),
   userController.getData
 );
-
-userRouter.get("/logout", userController.logout);
 
 userRouter.get(
   "/profile",
