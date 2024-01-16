@@ -1,0 +1,73 @@
+version: "3"
+volumes:
+  redis_data: {}
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - ./.env
+      - ./server/.env
+  client:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+      - ./client/.env.local
+  auth:
+    build:
+      context: ./auth
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis
+    env_file:
+      - ./.env
+      - ./auth/.env
+  strapi:
+    build:
+      context: ./strapi
+    ports:
+      - "7000:7000"
+    depends_on:
+      - meilisearch
+      - redis
+      - postgres
+    env_file:
+      - ./.env
+      - ./strapi/.env
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    ports:
+      - "7700:7700"
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6380:6380"
+    command: "--requirepass ${REDIS_PASSWORD}"
+    volumes:
+      - redis_data:/data
+    env_file:
+      - .env
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./postgres/01_structure.sql:/docker-entrypoint-initdb.d/01_structure.sql
+      - ./postgres/02_contents.sql:/docker-entrypoint-initdb.d/02_contents.sql
+      - ./postgres/data:/var/lib/postgresql/data
