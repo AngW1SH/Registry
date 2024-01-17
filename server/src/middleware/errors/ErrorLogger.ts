@@ -8,8 +8,10 @@ const errorLogger = (
   next: NextFunction
 ) => {
   if (err instanceof BaseError) {
-    console.error(err.name);
-    console.error(err.stack);
+    if (!err.isOperational) {
+      console.error(err.name);
+      console.error(err.stack);
+    }
   } else {
     console.error(err);
   }
