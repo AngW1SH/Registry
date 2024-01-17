@@ -8,4 +8,10 @@ export default ({ env }) => ({
     populateRelations: env.bool("WEBHOOKS_POPULATE_RELATIONS", false),
   },
   url: env("STRAPI_URL", "http://localhost/strapi"),
+  admin: {
+    url: env("STRAPI_URL", "http://localhost/strapi") + "/admin",
+    auth: {
+      secret: env("JWT_SECRET", "<hide>"),
+    },
+  },
 });

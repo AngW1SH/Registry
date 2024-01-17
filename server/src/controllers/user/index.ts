@@ -51,6 +51,14 @@ const userControllerFactory = () => {
 
   async function submitForm(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.headers.authorization) {
+        throw new UnauthorizedError("No credentials sent");
+      }
+      const token = req.headers.authorization.split(" ")[1];
+      if (!token) throw new UnauthorizedError("No credentials sent");
+      if (token != process.env.SUBMIT_FORM_TOKEN)
+        throw new UnauthorizedError("Invalid credentials");
+
       if (!req.body.form)
         throw new BadRequestError("Missing required body parameter: form");
       if (!req.body.response)

@@ -25,6 +25,7 @@ const ConfirmImport: FC<ConfirmImportProps> = () => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: "Bearer " + process.env.SUBMIT_FORM_TOKEN,
             },
             body: JSON.stringify({
               form: {
