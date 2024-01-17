@@ -13,6 +13,9 @@ RUN npm install
 # Copy the app source code to the container
 COPY . .
 
+# Build the application
+RUN npm run build
+
 # Expose the port that the Express.js app will run on
 EXPOSE 8000
 

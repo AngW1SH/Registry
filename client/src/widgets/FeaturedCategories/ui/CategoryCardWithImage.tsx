@@ -29,6 +29,7 @@ const CategoryCardWithImage: FC<CategoryCardWithImageProps> = ({
           src={category.image}
           alt=""
           className="object-cover  grayscale"
+          unoptimized
           sizes="100%"
           fill={true}
         />

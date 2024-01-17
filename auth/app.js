@@ -41553,7 +41553,7 @@ var router_default = authRouter;
 var generateApp = (port) => {
   const app = (0, import_express2.default)();
   if (port)
-    app.listen(port, () => console.log("listening port 8000"));
+    app.listen(port, () => console.log("listening port " + port));
   app.use(import_body_parser.default.json());
   app.use(import_express2.default.urlencoded({ extended: true }));
   app.use((0, import_cookie_parser.default)(process.env.TOKEN_SECRET));

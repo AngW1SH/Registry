@@ -19,7 +19,7 @@ COPY . .
 RUN npm run build
 
 # Expose the required port
-EXPOSE 3000
+EXPOSE 8001
 
 # Use pm2 to start the Node.js application
 CMD ["pm2-runtime", "start", "--name", "auth", "npm", "--", "start"]
