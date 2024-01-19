@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "@/middleware/passport";
 import authRouter from "@/routes/auth/router";
+import errorLogger from "@/middleware/errors/ErrorLogger";
+import errorHandler from "@/middleware/errors/ErrorHandler";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -25,6 +27,9 @@ const generateApp = (port?: number) => {
   app.use(passport.initialize());
 
   app.use("/", authRouter);
+
+  app.use(errorLogger);
+  app.use(errorHandler);
 
   return app;
 };

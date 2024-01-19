@@ -40311,13 +40311,13 @@ var require_event_handler = __commonJS({
       }
     }
     exports2.closeHandler = closeHandler;
-    function errorHandler(self) {
+    function errorHandler2(self) {
       return function(error) {
         debug("error: %s", error);
         self.silentEmit("error", error);
       };
     }
-    exports2.errorHandler = errorHandler;
+    exports2.errorHandler = errorHandler2;
     function readyHandler(self) {
       return function() {
         self.setStatus("ready");
@@ -41381,6 +41381,7 @@ var import_jsonwebtoken3 = __toESM(require_jsonwebtoken());
 var import_jsonwebtoken2 = __toESM(require_jsonwebtoken());
 var import_ioredis = __toESM(require_built3());
 var redis = new import_ioredis.Redis({
+  host: "redis",
   password: process.env.REDIS_PASSWORD,
   port: +process.env.REDIS_PORT
 });
@@ -41549,6 +41550,34 @@ authRouter.get("/token", auth_default.token);
 authRouter.get("/logout", auth_default.logout);
 var router_default = authRouter;
 
+// src/middleware/errors/ErrorLogger.ts
+var errorLogger = (err, req, res, next) => {
+  if (err instanceof BaseError_default) {
+    if (!err.isOperational) {
+      console.error(err.name);
+      console.error(err.stack);
+    }
+  } else {
+    console.error(err);
+  }
+  next(err);
+};
+var ErrorLogger_default = errorLogger;
+
+// src/middleware/errors/ErrorHandler.ts
+var errorHandler = (err, req, res, next) => {
+  if (err instanceof BaseError_default) {
+    return res.status(err.statusCode).send(err.message);
+  }
+  if (err.message == "Unauthorized") {
+    const unauthorizedError = new UnauthorizedError_default("");
+    return res.status(unauthorizedError.statusCode).send(unauthorizedError.message);
+  }
+  const serverError = new ServerError_default("");
+  res.status(serverError.statusCode).send({ message: serverError.message });
+};
+var ErrorHandler_default = errorHandler;
+
 // src/app/index.ts
 var generateApp = (port) => {
   const app = (0, import_express2.default)();
@@ -41568,6 +41597,8 @@ var generateApp = (port) => {
   app.set("trust proxy", 1);
   app.use(passport_default2.initialize());
   app.use("/", router_default);
+  app.use(ErrorLogger_default);
+  app.use(ErrorHandler_default);
   return app;
 };
 var app_default = generateApp;
