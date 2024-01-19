@@ -41213,8 +41213,10 @@ var userRepositoryFactory = () => {
       process.env.STRAPI_URL + "students",
       {
         headers: {
-          Authorization: "bearer " + process.env.USER_TOKEN
+          Authorization: "bearer " + process.env.USER_TOKEN,
+          "Content-Type": "application/json"
         },
+        method: "POST",
         body: JSON.stringify(params)
       }
     ).then((data) => {
@@ -41224,6 +41226,7 @@ var userRepositoryFactory = () => {
         return null;
       }
     });
+    console.log(response);
     if (!response.data.id)
       throw new ServerError_default("User not created");
     return {

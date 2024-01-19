@@ -50,7 +50,9 @@ const userRepositoryFactory = () => {
       {
         headers: {
           Authorization: "bearer " + process.env.USER_TOKEN!,
+          "Content-Type": "application/json",
         },
+        method: "POST",
         body: JSON.stringify(params),
       }
     ).then((data) => {
@@ -60,6 +62,8 @@ const userRepositoryFactory = () => {
         return null;
       }
     });
+
+    console.log(response);
 
     if (!response.data.id) throw new ServerError("User not created");
 
