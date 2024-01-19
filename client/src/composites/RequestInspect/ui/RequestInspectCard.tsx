@@ -31,10 +31,12 @@ const RequestInspectCard: FC<RequestInspectCardProps> = ({
   const displayData = membersPopulated.map((member) => {
     const teamUser = users.find((userMapped) => userMapped.id == member.user)!;
 
-    return {
-      id: member.id,
-      name: formatNameShort(teamUser.name),
-    };
+    return teamUser
+      ? {
+          id: member.id,
+          name: formatNameShort(teamUser.name),
+        }
+      : { id: 1, name: "" };
   });
 
   return (

@@ -25,7 +25,7 @@ const SendNewRequest: FC<SendNewRequestProps> = () => {
     data?.teams.length == 1 ? data.teams[0].name : null || null,
   );
   const [project, setProject] = useState<string | null>(null);
-  const [selectedFiles, setSelectedFiles] = useState<File[] | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   useEffect(() => {
     if (!team)
@@ -106,6 +106,7 @@ const SendNewRequest: FC<SendNewRequestProps> = () => {
             <FileUpload
               large={true}
               name="Презентация"
+              files={selectedFiles}
               label="Презентация команды"
               onChange={setSelectedFiles}
             />
