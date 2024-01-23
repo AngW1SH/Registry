@@ -142,6 +142,7 @@ const CalendarInput: FC<CalendarInputProps> = ({
           editableDateInputs={false}
           startDatePlaceholder="Начало"
           endDatePlaceholder="Конец"
+          rangeColors={["#a52019"]}
           onChange={(item) => setState([item.selection])}
           locale={ru}
           moveRangeOnFirstSelection={false}

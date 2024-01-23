@@ -8,3 +8,7 @@
   background: url("/x-gray.svg");
   cursor: pointer;
 }
+
+.rdrDayToday .rdrDayNumber span:after {
+  background: #a52019;
+}
