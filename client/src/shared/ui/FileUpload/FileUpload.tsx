@@ -14,6 +14,8 @@ interface FileUploadProps {
   actionText?: string;
 }
 
+const FILE_COUNT_LIMIT = 5;
+
 const FileUpload: FC<FileUploadProps> = ({
   onChange,
   name,
@@ -28,7 +30,10 @@ const FileUpload: FC<FileUploadProps> = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length) setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+    if (files.length)
+      setSelectedFiles((prevFiles) =>
+        [...prevFiles, ...files].slice(0, FILE_COUNT_LIMIT),
+      );
   };
 
   const handleFileRemove = (e: React.MouseEvent<HTMLElement>) => {
@@ -84,12 +89,14 @@ const FileUpload: FC<FileUploadProps> = ({
             hidden
             onChange={handleFileChange}
           />
-          <label
-            className="cursor-pointer rounded-3xl border px-6 py-3 text-sm"
-            htmlFor={name}
-          >
-            {actionText}
-          </label>
+          {selectedFiles.length < FILE_COUNT_LIMIT && (
+            <label
+              className="cursor-pointer rounded-3xl border px-6 py-3 text-sm"
+              htmlFor={name}
+            >
+              {actionText}
+            </label>
+          )}
         </div>
       </div>
       <div className="pt-3" />
