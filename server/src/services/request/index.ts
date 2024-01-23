@@ -18,6 +18,12 @@ const requestServiceFactory = () => {
     deleteOne,
   });
 
+  function isFileValid(file: UploadedFile) {
+    if (file.size > 1024 * 1024 * 30) return false; // 30MB
+
+    return true;
+  }
+
   async function add(
     team: number,
     project: number,
@@ -28,7 +34,11 @@ const requestServiceFactory = () => {
     if (!teamAdministrators.find((admin) => admin.id == user.id))
       throw new UnauthorizedError("User not found in team administrator list");
 
-    return requestRepository.add(team, project, files);
+    return requestRepository.add(
+      team,
+      project,
+      files.filter((file) => isFileValid(file))
+    );
   }
 
   function populateTeams(teams: Team[], requests: Request[]): Team[] {
@@ -72,7 +82,10 @@ const requestServiceFactory = () => {
     if (!teamAdministrators.find((admin) => admin.id == user.id))
       throw new UnauthorizedError("User not found in team administrator list");
 
-    return requestRepository.edit(requestId, files);
+    return requestRepository.edit(
+      requestId,
+      files.filter((file) => isFileValid(file))
+    );
   }
 
   async function getAvailable(user: User) {
