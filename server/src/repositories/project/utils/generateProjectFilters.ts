@@ -93,10 +93,13 @@ const generateStatusFilters = (status?: string) => {
       };
     case "С вакансиями":
       return {
-        team: {
+        teams: {
           id: {
             $null: true,
           },
+        },
+        dateStart: {
+          $gte: new Date(),
         },
       };
     default:
