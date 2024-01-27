@@ -8,12 +8,14 @@ import (
 	"time"
 )
 
-var limit int
+var limit, load int
 
 var queue helpers.PriorityQueue
 
+
 func InitializeQueue(lim int) {
 	limit = lim
+	load = 0
 
 	tasks := []models.Task{ 
 		{ Metric: "1", Data: []string{ "1-1", "1-2" }, UpdatedAt: time.Now(), Weight: 1 },
@@ -34,22 +36,26 @@ func InitializeQueue(lim int) {
 }
 
 func AdvanceTasks() {
-	load := 0
-	queueIndex := 0
 
-	for load + queue[queueIndex].Weight < limit {
+	for load + queue.Peek().Weight < limit {
+
+		oldestUpdated := heap.Pop(&queue).(*models.Task)
 
 		found := false
 
 		for _, v := range metrics.List {
-			if (v.Name == queue[queueIndex].Metric) {
+			if (v.Name == oldestUpdated.Metric) {
 				v.Payload()
 				found = true
 			}
 		}
 
 		if found {
-			load += queue[queueIndex].Weight
+			load += oldestUpdated.Weight		
 		}
+
+		oldestUpdated.UpdatedAt = time.Now()
+
+		heap.Push(&queue, oldestUpdated)
 	}
 }
