@@ -27,3 +27,10 @@ func (pq *PriorityQueue) Pop() interface{} {
     *pq = old[0 : n-1]
     return item
 }
+
+func (pq PriorityQueue) Peek() *models.Task {
+    if pq.Len() == 0 {
+        return nil
+    }
+    return &pq[0]
+}
