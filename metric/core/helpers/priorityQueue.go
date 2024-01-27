@@ -2,7 +2,7 @@ package helpers
 
 import "core/models"
 
-type PriorityQueue []models.Task
+type PriorityQueue []*models.Task
 
 func (pq PriorityQueue) Len() int { return len(pq) }
 
@@ -15,7 +15,7 @@ func (pq PriorityQueue) Swap(i, j int) {
 }
 
 func (pq *PriorityQueue) Push(x interface{}) {
-    item := *x.(*models.Task)
+    item := x.(*models.Task)
     *pq = append(*pq, item)
 }
 
@@ -32,5 +32,5 @@ func (pq PriorityQueue) Peek() *models.Task {
     if pq.Len() == 0 {
         return nil
     }
-    return &pq[0]
+    return pq[0]
 }
