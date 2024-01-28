@@ -37,6 +37,11 @@ func InitializeQueue(lim int) {
 	AdvanceTasks()
 }
 
+func AddTask(task models.Task) {
+	task.AttemptedAt = task.UpdatedAt
+	heap.Push(&queue, &task)
+}
+
 func onFinish(task models.Task) {
 	load -= task.Weight
 
