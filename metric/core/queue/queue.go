@@ -18,17 +18,18 @@ func InitializeQueue(lim int) {
 	load = 0
 
 	tasks := []models.Task{ 
-		{ Metric: "1", Data: []string{ "1-1", "1-2" }, UpdatedAt: time.Now(), Weight: 1 },
-		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Now(), Weight: 2 },
-		{ Metric: "1", Data: []string{ "1-3", "1-4" }, UpdatedAt: time.Now(), Weight: 3 },
-		{ Metric: "3", Data: []string{ "3" }, UpdatedAt: time.Now(), Weight: 4 },
-		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Now(), Weight: 1 },
+		{ Metric: "1", Data: []string{ "1-1", "1-2" }, UpdatedAt: time.Date(2024, time.January, 28, 12, 0, 0, 0, time.UTC), Weight: 1 },
+		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), Weight: 2 },
+		{ Metric: "1", Data: []string{ "1-3", "1-4" }, UpdatedAt: time.Date(2024, time.January, 28, 14, 0, 0, 0, time.UTC), Weight: 3 },
+		{ Metric: "3", Data: []string{ "3" }, UpdatedAt: time.Date(2024, time.January, 28, 10, 0, 0, 0, time.UTC), Weight: 4 },
+		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 9, 0, 0, 0, time.UTC), Weight: 1 },
 	}
 
 	queue = make(helpers.PriorityQueue, len(tasks))
 
-	for i, obj := range(tasks) {
-		queue[i] = &obj
+	for i := 0; i < len(tasks); i++ {
+		task := &tasks[i]
+		queue[i] = task
 	}
 	heap.Init(&queue)
 
@@ -40,21 +41,20 @@ func onFinish(task models.Task) {
 
 	task.UpdatedAt = time.Now()
 
-	heap.Push(&queue, task)
+	heap.Push(&queue, &task)
 
 	AdvanceTasks()
 }
 
 func AdvanceTasks() {
 
-	for load + queue.Peek().Weight < limit {
+	for load + queue.Peek().Weight <= limit {
 
-		oldestUpdated := heap.Pop(&queue).(*models.Task)
-
+		oldestUpdated := *heap.Pop(&queue).(*models.Task)
 		found := false
 
 		if metrics.List[oldestUpdated.Metric] != nil {
-			metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
+			metrics.Run(oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
 			found = true
 		}
 
