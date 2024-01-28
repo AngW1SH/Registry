@@ -56,6 +56,12 @@ func onFinish(task models.Task) {
 func AdvanceTasks() {
 
 	for load + queue.Peek().Weight <= limit {
+
+		if (queue.Len() == 0) {
+			time.Sleep(time.Second)
+			continue
+		}
+		
 		oldestUpdated := heap.Pop(&queue).(*models.Task)
 		found := false
 
