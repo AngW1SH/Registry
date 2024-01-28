@@ -18,11 +18,11 @@ func InitializeQueue(lim int) {
 	load = 0
 
 	tasks := []models.Task{ 
-		{ Metric: "1", Data: []string{ "1-1", "1-2" }, UpdatedAt: time.Date(2024, time.January, 28, 12, 0, 0, 0, time.UTC), Weight: 1 },
-		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), Weight: 2 },
-		{ Metric: "1", Data: []string{ "1-3", "1-4" }, UpdatedAt: time.Date(2024, time.January, 28, 14, 0, 0, 0, time.UTC), Weight: 3 },
-		{ Metric: "3", Data: []string{ "3" }, UpdatedAt: time.Date(2024, time.January, 28, 10, 0, 0, 0, time.UTC), Weight: 4 },
-		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 9, 0, 0, 0, time.UTC), Weight: 1 },
+		{ Metric: "1", Data: []string{ "1-1", "1-2" }, UpdatedAt: time.Date(2024, time.January, 28, 12, 0, 0, 0, time.UTC), AttemptedAt: time.Date(2024, time.January, 28, 12, 0, 0, 0, time.UTC), Weight: 1, UpdateRate: 20 * time.Second },
+		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), Weight: 2, AttemptedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second },
+		{ Metric: "1", Data: []string{ "1-3", "1-4" }, UpdatedAt: time.Date(2024, time.January, 28, 14, 0, 0, 0, time.UTC), AttemptedAt: time.Date(2024, time.January, 28, 14, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second },
+		{ Metric: "3", Data: []string{ "3" }, UpdatedAt: time.Date(2024, time.January, 28, 10, 0, 0, 0, time.UTC), Weight: 4, AttemptedAt: time.Date(2024, time.January, 28, 10, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second },
+		{ Metric: "2", Data: []string{ "2" }, UpdatedAt: time.Date(2024, time.January, 28, 9, 0, 0, 0, time.UTC), Weight: 1, AttemptedAt: time.Date(2024, time.January, 28, 9, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second },
 	}
 
 	queue = make(helpers.PriorityQueue, len(tasks))
@@ -40,6 +40,7 @@ func onFinish(task models.Task) {
 	load -= task.Weight
 
 	task.UpdatedAt = time.Now()
+	task.AttemptedAt = time.Now()
 
 	heap.Push(&queue, &task)
 
@@ -49,13 +50,17 @@ func onFinish(task models.Task) {
 func AdvanceTasks() {
 
 	for load + queue.Peek().Weight <= limit {
-
-		oldestUpdated := *heap.Pop(&queue).(*models.Task)
+		oldestUpdated := heap.Pop(&queue).(*models.Task)
 		found := false
 
 		if metrics.List[oldestUpdated.Metric] != nil {
-			metrics.Run(oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
-			found = true
+			if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
+				metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
+				found = true
+			} else {
+				oldestUpdated.AttemptedAt = time.Now()
+				heap.Push(&queue, oldestUpdated)
+			}
 		}
 
 		if found {

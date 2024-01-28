@@ -7,7 +7,7 @@ type PriorityQueue []*models.Task
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
-    return pq[i].UpdatedAt.Before(pq[j].UpdatedAt)
+    return pq[i].AttemptedAt.Before(pq[j].AttemptedAt)
 }
 
 func (pq PriorityQueue) Swap(i, j int) {
