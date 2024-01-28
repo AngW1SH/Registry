@@ -43,11 +43,9 @@ func AdvanceTasks() {
 
 		found := false
 
-		for _, v := range metrics.List {
-			if (v.Name == oldestUpdated.Metric) {
-				v.Payload()
-				found = true
-			}
+		if metrics.List[oldestUpdated.Metric] != nil {
+			metrics.List[oldestUpdated.Metric](oldestUpdated.Data);
+			found = true
 		}
 
 		if found {

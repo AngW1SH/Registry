@@ -1,5 +1,5 @@
 package metrics
 
-func MetricTwo() {
+func MetricTwo(data interface{}) {
 
 }
