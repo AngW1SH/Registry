@@ -35,6 +35,16 @@ func InitializeQueue(lim int) {
 	AdvanceTasks()
 }
 
+func onFinish(task models.Task) {
+	load -= task.Weight
+
+	task.UpdatedAt = time.Now()
+
+	heap.Push(&queue, task)
+
+	AdvanceTasks()
+}
+
 func AdvanceTasks() {
 
 	for load + queue.Peek().Weight < limit {
@@ -44,16 +54,12 @@ func AdvanceTasks() {
 		found := false
 
 		if metrics.List[oldestUpdated.Metric] != nil {
-			metrics.List[oldestUpdated.Metric](oldestUpdated.Data);
+			metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
 			found = true
 		}
 
 		if found {
 			load += oldestUpdated.Weight		
 		}
-
-		oldestUpdated.UpdatedAt = time.Now()
-
-		heap.Push(&queue, oldestUpdated)
 	}
 }
