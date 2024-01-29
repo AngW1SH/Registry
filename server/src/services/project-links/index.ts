@@ -8,7 +8,7 @@ const projectLinksServiceFactory = () => {
   return Object.freeze({ add, deleteLink });
 
   async function add(
-    projectId: number,
+    projectId: string,
     platformName: string,
     link: string,
     user: User
@@ -38,7 +38,7 @@ const projectLinksServiceFactory = () => {
     return projectLinksRepository.add(projectId, platform.id, link);
   }
 
-  async function deleteLink(projectId: number, linkId: number, user: User) {
+  async function deleteLink(projectId: string, linkId: number, user: User) {
     const projectFindResult = await projectRepository.findOne(projectId, {
       includeAdmin: true,
     });

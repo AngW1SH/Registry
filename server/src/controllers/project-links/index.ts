@@ -23,7 +23,7 @@ const projectLinksControllerFactory = () => {
         throw new BadRequestError("Missing required parameter: link");
 
       const result = await projectLinksService.add(
-        +req.params.id,
+        req.params.id,
         req.body.platform,
         req.body.link,
         req.user
@@ -48,7 +48,7 @@ const projectLinksControllerFactory = () => {
         throw new BadRequestError("Missing required parameter: linkId");
 
       const result = await projectLinksService.deleteLink(
-        +req.params.id,
+        req.params.id,
         +req.params.linkid,
         req.user
       );

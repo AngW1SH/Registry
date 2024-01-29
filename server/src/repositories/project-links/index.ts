@@ -2,11 +2,14 @@ import { strapi } from "@/db/strapi/client";
 import { selectProjectLinks } from "@/db/strapi/queries/project";
 import { ProjectLinkStrapi } from "@/db/strapi/types/components/project-link";
 import { ServerError } from "@/helpers/errors";
+import projectRepository from "../project";
 
 const projectLinksRepositoryFactory = () => {
   return Object.freeze({ add, deleteLink });
 
-  async function add(projectId: number, platformId: number, link: string) {
+  async function add(projectSlug: string, platformId: number, link: string) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         projectLink: selectProjectLinks(),
@@ -42,7 +45,9 @@ const projectLinksRepositoryFactory = () => {
     return 200;
   }
 
-  async function deleteLink(projectId: number, linkId: number) {
+  async function deleteLink(projectSlug: string, linkId: number) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         projectLink: selectProjectLinks(),
