@@ -12,7 +12,7 @@ const projectResultsServiceFactory = () => {
   });
 
   async function uploadFiles(
-    projectId: number,
+    projectId: string,
     files: UploadedFile[],
     user: User
   ) {
@@ -36,7 +36,7 @@ const projectResultsServiceFactory = () => {
     return projectResultsRepository.addFiles(projectId, files);
   }
 
-  async function deleteFile(projectId: number, fileId: number, user: User) {
+  async function deleteFile(projectId: string, fileId: number, user: User) {
     const projectFindResult = await projectRepository.findOne(projectId, {
       includeAdmin: true,
     });
@@ -58,7 +58,7 @@ const projectResultsServiceFactory = () => {
   }
 
   async function changeFile(
-    projectId: number,
+    projectId: string,
     fileId: number,
     file: UploadedFile,
     user: User

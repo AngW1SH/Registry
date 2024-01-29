@@ -22,7 +22,7 @@ const projectResultsControllerFactory = () => {
         throw new BadRequestError("Missing required param: file id");
 
       const result = await projectResultsService.deleteFile(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         req.user
       );
@@ -46,7 +46,7 @@ const projectResultsControllerFactory = () => {
         throw new BadRequestError("Missing files to upload");
 
       const result = await projectResultsService.uploadFiles(
-        +req.params.id,
+        req.params.id,
         Array.isArray(req.files.files) ? req.files.files : [req.files.files],
         req.user
       );
@@ -72,7 +72,7 @@ const projectResultsControllerFactory = () => {
         throw new BadRequestError("Missing files to upload");
 
       const result = await projectResultsService.changeFile(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
         req.user

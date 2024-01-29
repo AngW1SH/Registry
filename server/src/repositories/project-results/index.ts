@@ -5,6 +5,7 @@ import { NamedFileStrapi } from "@/db/strapi/types/components/named-file";
 import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
 import uploadRepository from "../upload";
+import projectRepository from "../project";
 
 const projectResultsRepositoryFactory = () => {
   return Object.freeze({
@@ -14,14 +15,16 @@ const projectResultsRepositoryFactory = () => {
     findFiles,
   });
 
-  async function findFiles(project: number) {
+  async function findFiles(projectSlug: string) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         resultFiles: selectNamedFile(),
       },
     };
 
-    const response = await strapi.get("projects/" + project, {
+    const response = await strapi.get("projects/" + projectId, {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
@@ -31,14 +34,16 @@ const projectResultsRepositoryFactory = () => {
     return getProjectFromStrapiDTO(response).project?.resultFiles;
   }
 
-  async function addFiles(project: number, files: UploadedFile[]) {
+  async function addFiles(projectSlug: string, files: UploadedFile[]) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         resultFiles: selectNamedFile(),
       },
     };
 
-    const response = await strapi.get("projects/" + project, {
+    const response = await strapi.get("projects/" + projectId, {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
@@ -74,7 +79,7 @@ const projectResultsRepositoryFactory = () => {
       },
     };
 
-    const createResponse = await strapi.put("projects/" + project, {
+    const createResponse = await strapi.put("projects/" + projectId, {
       token: process.env.PROJECTS_TOKEN!,
       body,
     });
@@ -84,7 +89,9 @@ const projectResultsRepositoryFactory = () => {
     return 200;
   }
 
-  async function deleteFile(projectId: number, fileId: number) {
+  async function deleteFile(projectSlug: string, fileId: number) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         resultFiles: selectNamedFile(),
@@ -118,10 +125,12 @@ const projectResultsRepositoryFactory = () => {
   }
 
   async function changeFile(
-    projectId: number,
+    projectSlug: string,
     fileId: number,
     file: UploadedFile
   ) {
+    const projectId = await projectRepository.getInternalId(projectSlug);
+
     const params = {
       populate: {
         resultFiles: selectNamedFile(),
