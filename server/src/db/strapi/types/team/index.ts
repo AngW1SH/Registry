@@ -9,7 +9,14 @@ export interface TeamStrapiInner {
     name: string;
     members?: MemberListStrapi | IdListStrapi;
     administrators?: UserListStrapi | IdListStrapi;
-    project?: IdStrapi;
+    project?: {
+      data: {
+        id: number;
+        attributes: {
+          slug: string;
+        };
+      };
+    };
     requests?: RequestListStrapi | IdListStrapi;
   };
 }

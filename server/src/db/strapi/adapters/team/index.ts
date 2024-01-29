@@ -60,7 +60,7 @@ export const getTeamFromStrapiDTO = (
       name: team.data.attributes.name,
       members: members.map((member) => member.id),
       project: team.data.attributes.project?.data
-        ? team.data.attributes.project.data.id
+        ? team.data.attributes.project.data.attributes.slug
         : null,
       ...(options?.includeAdmin && {
         administrators: administrators.map((admin) => admin.id),

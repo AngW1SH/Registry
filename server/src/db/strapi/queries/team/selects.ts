@@ -7,7 +7,7 @@ export const selectTeam = (populate: SelectPopulate<PopulateOptions> = {}) => {
     fields: ["name"],
     populate: {
       project: {
-        fields: ["id"],
+        fields: ["id", "slug"],
       },
       ...populate,
     },
