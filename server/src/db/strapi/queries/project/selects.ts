@@ -39,6 +39,7 @@ export const selectProjectInList = (
       "curator",
       "client",
       "teamLimit",
+      "slug",
     ],
     populate: {
       teams: {
@@ -62,6 +63,7 @@ export const selectProjectReference = () => {
       "curator",
       "client",
       "teamLimit",
+      "slug",
     ],
   };
 };
@@ -81,6 +83,7 @@ export const selectUserProject = (
       "curator",
       "client",
       "teamLimit",
+      "slug",
     ],
     populate: {
       teams: {
