@@ -180,7 +180,7 @@ const userServiceFactory = () => {
           .concat(
             requests.reduce(
               (acc, cur) => (cur.project ? [...acc, cur.project] : acc),
-              [] as number[]
+              [] as string[]
             )
           )
       : [];

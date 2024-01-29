@@ -233,7 +233,7 @@ const projectRepositoryFactory = () => {
     };
   }
 
-  async function getReferences(ids: number[]) {
+  async function getReferences(ids: string[]) {
     if (!ids.length) return [];
 
     const params = {
