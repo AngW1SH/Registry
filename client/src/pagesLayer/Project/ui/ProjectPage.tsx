@@ -25,7 +25,7 @@ export async function generateProjectPageMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const projectData = await fetchProjectDetailed(+params.slug);
+  const projectData = await fetchProjectDetailed(params.slug);
 
   if (!projectData) return {};
 
@@ -43,7 +43,7 @@ interface ProjectPageProps {
 }
 
 const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
-  const projectData = await fetchProjectDetailed(+params.slug);
+  const projectData = await fetchProjectDetailed(params.slug);
 
   if (!projectData) {
     redirect("/");

@@ -3,7 +3,7 @@ import { ProjectDetailed, ProjectDetailedDTO } from "../types/types";
 import { getProjectSingleFromDTO } from "@/entities/Project";
 
 export const fetchProjectDetailed = async (
-  id: number,
+  id: string,
 ): Promise<ProjectDetailed | null> => {
   const resultDTO: ProjectDetailedDTO | null = await fetch(
     process.env.NEXT_PUBLIC_SERVER_URL + "api/project/" + id,

@@ -1,12 +1,12 @@
 import { NamedFile } from "@/shared/types";
 
 export interface IProjectReference {
-  id: number;
+  id: string;
   name: string;
 }
 
 export type IProject = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   dateStart: Date;
@@ -23,7 +23,7 @@ export type IProject = {
 };
 
 export type ProjectDTO = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   dateStart: string;
