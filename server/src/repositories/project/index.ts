@@ -35,6 +35,7 @@ const projectRepositoryFactory = () => {
     findOne,
     findMany,
     getReferences,
+    getInternalId,
   });
 
   async function getNew(limit?: number): Promise<{
@@ -70,6 +71,24 @@ const projectRepositoryFactory = () => {
       projects: projects!,
       tags: tags!,
     };
+  }
+
+  async function getInternalId(slug: string): Promise<number | null> {
+    const params = {
+      filters: {
+        slug: slug,
+      },
+      select: ["id"],
+    };
+
+    const result: ProjectListStrapi = await strapi.get("projects", {
+      token: process.env.PROJECTS_TOKEN!,
+      params,
+    });
+
+    if (!result || !result.data || !result.data.length) return null;
+
+    return result.data[0].id;
   }
 
   async function getAvailable() {
