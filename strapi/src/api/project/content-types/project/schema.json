@@ -85,6 +85,9 @@
       "type": "component",
       "repeatable": true,
       "component": "project-link.project-link"
+    },
+    "slug": {
+      "type": "uid"
     }
   }
 }

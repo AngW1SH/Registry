@@ -749,6 +749,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     descriptionFiles: Attribute.Component<'named-file.named-file', true>;
     resultFiles: Attribute.Component<'named-file.named-file', true>;
     projectLink: Attribute.Component<'project-link.project-link', true>;
+    slug: Attribute.UID;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
