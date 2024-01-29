@@ -7,7 +7,14 @@ interface RequestStrapiInner {
   attributes: {
     name: string;
     team?: TeamStrapi | IdStrapi;
-    project?: IdStrapi;
+    project?: {
+      data: {
+        id: number;
+        attributes: {
+          slug: string;
+        };
+      };
+    };
     files?: {
       data: {
         id: number;

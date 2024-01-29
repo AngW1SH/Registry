@@ -10,7 +10,7 @@ export const selectRequest = (populate?: SelectPopulate<PopulateOptions>) => {
         id: true,
       },
       project: {
-        id: true,
+        fields: ["id", "slug"],
       },
       files: true,
       ...populate,

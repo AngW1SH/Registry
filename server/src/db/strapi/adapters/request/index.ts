@@ -108,7 +108,7 @@ export const getRequestListFromStrapiDTO = (
         ? request.attributes.team.data.id
         : null,
       project: request.attributes.project?.data
-        ? request.attributes.project.data.id
+        ? request.attributes.project.data.attributes.slug
         : null,
       files:
         request.attributes.files?.data?.map((file) => ({
