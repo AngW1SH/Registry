@@ -2,12 +2,12 @@ import { NamedFile } from "@/entities/components/named-file";
 import { Tag } from "@/entities/tag";
 
 export interface ProjectReference {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface Project {
-  id: number;
+  id: string;
   name: string;
   description: string;
   dateStart: Date;
@@ -25,7 +25,7 @@ export interface Project {
 }
 
 export interface ProjectDTO {
-  id: number;
+  id: string;
   name: string;
   description: string;
   dateStart: string;

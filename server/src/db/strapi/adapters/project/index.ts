@@ -120,7 +120,7 @@ export const getProjectListFromStrapiDTO = (
 
   return {
     projects: projects.data.map((project) => ({
-      id: project.id,
+      id: project.attributes.slug,
       ...project.attributes,
       tags: project.attributes.tags?.data.map((tag) => tag.id) || [],
       teams: project.attributes.teams?.data
@@ -165,7 +165,7 @@ export const getProjectFromStrapiDTO = (
       administrators: [],
     };
 
-  const { requests, ...attributes } = project.data.attributes;
+  const { requests, slug, ...attributes } = project.data.attributes;
 
   const tags =
     project.data.attributes.tags?.data?.[0]?.attributes?.hasOwnProperty("name")
@@ -187,7 +187,7 @@ export const getProjectFromStrapiDTO = (
 
   return {
     project: {
-      id: project.data.id,
+      id: project.data.attributes.slug,
       ...{ ...attributes, team: undefined, requests: undefined },
       developerRequirements:
         project.data.attributes.developerRequirements?.map(
@@ -232,7 +232,7 @@ export const getProjectReferenceListFromStrapiDTO = (
   projects: ProjectReferenceListStrapi
 ): ProjectReference[] => {
   return projects.data.map((project) => ({
-    id: project.id,
+    id: project.attributes.slug,
     name: project.attributes.name,
   }));
 };

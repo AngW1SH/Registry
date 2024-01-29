@@ -17,6 +17,7 @@ interface ProjectStrapiInner {
     dateEnd: string;
     enrollmentStart: string;
     enrollmentEnd: string;
+    slug: string;
     supervisor: string;
     curator: string;
     client: string;
@@ -53,6 +54,7 @@ interface ProjectReferenceStrapiInner {
   id: number;
   attributes: {
     name: string;
+    slug: string;
   };
 }
 
