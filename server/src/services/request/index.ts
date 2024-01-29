@@ -26,7 +26,7 @@ const requestServiceFactory = () => {
 
   async function add(
     team: number,
-    project: number,
+    project: string,
     user: User,
     files: UploadedFile[]
   ) {

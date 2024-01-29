@@ -17,6 +17,7 @@ import { User } from "@/entities/user";
 import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
 import uploadRepository from "../upload";
+import projectRepository from "../project";
 
 const requestRepositoryFactory = () => {
   return Object.freeze({
@@ -62,11 +63,13 @@ const requestRepositoryFactory = () => {
     return getRequestListFromStrapiDTO(result, { includeAdmin: true });
   }
 
-  async function add(team: number, project: number, files: UploadedFile[]) {
+  async function add(team: number, project: string, files: UploadedFile[]) {
+    const projectId = await projectRepository.getInternalId(project);
+
     const body = {
       data: {
         team: { connect: [{ id: +team }] },
-        project: { connect: [{ id: project }] },
+        project: { connect: [{ id: projectId }] },
         name: "123",
       },
     };
