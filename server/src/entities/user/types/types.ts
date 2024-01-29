@@ -28,7 +28,7 @@ export interface UserProfileData {
   user: {
     teams: number[];
     administratedTeams: number[];
-    projects: number[];
+    projects: string[];
   };
   teams: Team[];
   users: User[];
