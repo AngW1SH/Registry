@@ -124,7 +124,7 @@ export const generateProjectFilters = (
 
   const idFilters = idList
     ? {
-        id: {
+        slug: {
           $in: idList,
         },
       }

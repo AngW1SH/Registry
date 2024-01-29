@@ -100,7 +100,7 @@ const projectRepositoryFactory = () => {
   }
 
   async function findOne(
-    id: number,
+    id: string | number,
     options?: {
       includeAdmin: boolean;
     }
@@ -112,12 +112,12 @@ const projectRepositoryFactory = () => {
     members: Member[];
     administrators?: User[];
   } | null> {
-    if (typeof id != "number")
-      throw new BadRequestError("Provided ID is not a number");
+    if (typeof id != "string" && typeof id != "number")
+      throw new BadRequestError("Provided ID is not a string or a number");
 
     const params = {
       filters: {
-        id: id,
+        slug: id,
       },
       populate: {
         tags: selectTag(),
@@ -141,23 +141,25 @@ const projectRepositoryFactory = () => {
       },
     };
 
-    const response = await strapi.get("projects/" + id, {
+    const response: ProjectListStrapi = await strapi.get("projects", {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
 
     if (!response) throw new ServerError("Couldn't fetch project");
 
-    if (!response.data) return null;
+    if (!response.data || !response.data.length) return null;
 
     const countRequests = await requestRepository.countActive({
-      project: response.data.id,
+      project: response.data[0].id,
     });
 
-    response.data.attributes.requests.data.attributes.count = countRequests;
+    if (response.data[0].attributes.requests)
+      response.data[0].attributes.requests.data.attributes.count =
+        countRequests;
 
     return getProjectFromStrapiDTO(
-      { data: response.data },
+      { data: response.data[0] },
       { includeAdmin: true }
     );
   }
@@ -180,7 +182,7 @@ const projectRepositoryFactory = () => {
         : null;
 
     const idList = meiliResult
-      ? meiliResult.hits.map((hit) => hit.id)
+      ? meiliResult.hits.map((hit) => hit.slug)
       : undefined;
 
     if (idList && !idList.length) return { projects: [], tags: [] };
@@ -217,7 +219,7 @@ const projectRepositoryFactory = () => {
 
     const params = {
       filters: {
-        id: {
+        slug: {
           $in: ids,
         },
       },

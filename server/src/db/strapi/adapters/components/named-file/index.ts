@@ -15,12 +15,6 @@ export const getNamedFileListFromStrapiDTO = (
   | null => {
   if (!dto) return null;
 
-  console.log(
-    dto.map((namedFileDTO) =>
-      namedFileDTO.file.data?.attributes.name.split(".").pop()
-    )
-  );
-
   return dto
     .filter((namedFileDTO) => namedFileDTO.file.data)
     .map((namedFileDTO) => {

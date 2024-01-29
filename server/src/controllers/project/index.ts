@@ -42,7 +42,7 @@ const projectControllerFactory = () => {
         throw new BadRequestError("Missing project identifier");
 
       const result = await projectService.findById(
-        +req.body.id || +req.params.id
+        req.body.id || req.params.id
       );
 
       res.status(200).json(result);
