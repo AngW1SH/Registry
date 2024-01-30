@@ -1,7 +1,7 @@
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import formResultService from "@/services/form-result";
+import profileService from "@/services/profile";
 import projectStatusService from "@/services/project-status";
-import userService from "@/services/user";
 import { NextFunction, Request, Response } from "express";
 
 const userControllerFactory = () => {
@@ -74,7 +74,7 @@ const userControllerFactory = () => {
     try {
       if (!req.user) throw new UnauthorizedError("req.user not specified");
 
-      const result = await userService.getProfileData(req.user);
+      const result = await profileService.getUserData(req.user);
 
       res.status(200).json(result);
     } catch (err) {
