@@ -21,7 +21,6 @@ const userServiceFactory = () => {
     findById,
     findOrCreate,
     getProjectStatusData,
-    getData,
     getProfileData,
   });
 
@@ -98,36 +97,6 @@ const userServiceFactory = () => {
             (teamId) => administrated.find((team) => team.id == teamId)!
           )
         : [],
-    };
-  }
-
-  async function getData(user: User) {
-    if (!user) throw new UnauthorizedError("User not specified");
-
-    const { id, ...inlineData } = user;
-
-    const [teams, administrated] = await Promise.allSettled([
-      teamRepository.getUnassigned(user.id),
-      teamRepository.getUnassignedAdministrated(user.id),
-    ]);
-
-    const teamIdList =
-      teams.status == "fulfilled" ? teams.value.map((team) => team.id) : [];
-    const administratedIdList =
-      administrated.status == "fulfilled"
-        ? administrated.value.map((team) => team.id)
-        : [];
-
-    return {
-      user: {
-        ...inlineData,
-        unassignedTeams: teamIdList,
-        unassignedAdministrated: administratedIdList,
-      },
-      teams: mergeUnique(
-        teams.status == "fulfilled" ? teams.value : [],
-        administrated.status == "fulfilled" ? administrated.value : []
-      ),
     };
   }
 

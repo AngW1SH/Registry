@@ -7,7 +7,6 @@ const userControllerFactory = () => {
   return Object.freeze({
     getProjectStatusData,
     getUser,
-    getData,
     submitForm,
     getProfileData,
   });
@@ -32,18 +31,6 @@ const userControllerFactory = () => {
       );
 
       res.status(200).json(info);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async function getData(req: Request, res: Response, next: NextFunction) {
-    try {
-      if (!req.user) throw new UnauthorizedError("req.user not specified");
-
-      const result = await userService.getData(req.user);
-
-      res.status(200).json(result);
     } catch (err) {
       next(err);
     }
