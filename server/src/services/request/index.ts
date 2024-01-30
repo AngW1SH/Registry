@@ -6,8 +6,8 @@ import projectRepository from "@/repositories/project";
 import requestRepository from "@/repositories/request";
 import teamRepository from "@/repositories/team";
 import { UploadedFile } from "express-fileupload";
-import { mergeUnique } from "../user/utils/mergeUnique";
 import { TeamWithAdministrators } from "@/entities/team/types/types";
+import { mergeUnique } from "@/helpers/mergeUnique";
 
 const requestServiceFactory = () => {
   return Object.freeze({

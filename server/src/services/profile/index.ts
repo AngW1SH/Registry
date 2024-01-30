@@ -6,7 +6,7 @@ import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
 import requestService from "../request";
 import projectRepository from "@/repositories/project";
-import { mergeUnique } from "./utils/mergeUnique";
+import { mergeUnique } from "@/helpers/mergeUnique";
 
 const profileServiceFactory = () => {
   return Object.freeze({ getUserData });
