@@ -1,9 +1,4 @@
-import {
-  User,
-  UserCreate,
-  UserProfileData,
-  UserProjectStatusData,
-} from "@/entities/user";
+import { User, UserCreate, UserProfileData } from "@/entities/user";
 import projectRepository from "@/repositories/project";
 import teamRepository from "@/repositories/team";
 import userRepository from "@/repositories/user";
@@ -11,16 +6,13 @@ import requestRepository from "@/repositories/request";
 import { mergeUnique } from "./utils/mergeUnique";
 import { Team } from "@/entities/team";
 import { Member } from "@/entities/member";
-import { TeamWithAdministrators } from "@/entities/team/types/types";
 import requestService from "../request";
-import { ServerError, UnauthorizedError } from "@/helpers/errors";
 import formResultService from "../form-result";
 
 const userServiceFactory = () => {
   return Object.freeze({
     findById,
     findOrCreate,
-    getProjectStatusData,
     getProfileData,
   });
 
@@ -38,66 +30,6 @@ const userServiceFactory = () => {
     const userCreated = await userRepository.create(user);
 
     return userCreated;
-  }
-
-  async function getProjectStatusData(
-    projectId: number,
-    userId?: number | null
-  ): Promise<UserProjectStatusData> {
-    if (!userId) throw new UnauthorizedError("No userId specified");
-
-    let hasApplied = false;
-
-    const administrated = await teamRepository.getUnassignedAdministrated(
-      userId
-    );
-
-    const assignableTeams = new Set<number>();
-    administrated.forEach((team) => assignableTeams.add(team.id));
-
-    const requestsData = await requestRepository.getActive(
-      { project: projectId },
-      { populate: true }
-    );
-    if (!requestsData) throw new ServerError("Couldn't fetch request data");
-
-    const { teams, members, users } = requestsData;
-
-    teams &&
-      teams.forEach((team) => {
-        // remove all the administrated teams that have already signed up for the project
-        team.hasOwnProperty("administrators") &&
-          (team as TeamWithAdministrators).administrators.forEach(
-            (administrator) => {
-              if (administrator === userId) {
-                assignableTeams.delete(team.id);
-              }
-            }
-          );
-
-        // try to find at least one user's team that has signed up for the projects
-        if (!hasApplied)
-          team.members.forEach((teamMember) => {
-            const member = members?.find((member) => member.id == teamMember);
-            const user = member
-              ? users?.find((user) => user.id == userId)
-              : null;
-
-            if (user && user.id === userId) hasApplied = true;
-          });
-      });
-
-    return {
-      user: {
-        assignableTeams: Array.from(assignableTeams),
-        hasTeamApplied: hasApplied,
-      },
-      teams: teams
-        ? Array.from(assignableTeams).map(
-            (teamId) => administrated.find((team) => team.id == teamId)!
-          )
-        : [],
-    };
   }
 
   async function getProfileData(user: User): Promise<UserProfileData> {

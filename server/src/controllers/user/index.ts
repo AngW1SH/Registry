@@ -1,5 +1,6 @@
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
 import formResultService from "@/services/form-result";
+import projectStatusService from "@/services/project-status";
 import userService from "@/services/user";
 import { NextFunction, Request, Response } from "express";
 
@@ -25,7 +26,7 @@ const userControllerFactory = () => {
       if (!req.params.projectId)
         throw new BadRequestError("Missing project identifier");
 
-      const info = await userService.getProjectStatusData(
+      const info = await projectStatusService.getAssignableTeams(
         +req.params.projectId,
         req.user.id
       );
