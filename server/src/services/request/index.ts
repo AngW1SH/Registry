@@ -111,8 +111,8 @@ const requestServiceFactory = () => {
         : [];
 
     const result = {
-      teams: [] as { id: number; name: string; projects: number[] }[],
-      projectReferences: [] as { id: number; name: string }[],
+      teams: [] as { id: number; name: string; projects: string[] }[],
+      projectReferences: [] as { id: string; name: string }[],
     };
 
     teams.forEach((team) => {

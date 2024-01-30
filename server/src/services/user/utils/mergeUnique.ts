@@ -1,4 +1,4 @@
-export const mergeUnique = <T extends { id: number }>(
+export const mergeUnique = <T extends { id: string | number }>(
   list1: T[] | null,
   list2: T[] | null
 ): T[] => {
