@@ -18,7 +18,6 @@ const res: any = {
 };
 
 jest.mock("@/services/user");
-jest.mock("@/services/token");
 jest.mock("@/services/project-status");
 jest.mock("@/services/profile");
 

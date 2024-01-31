@@ -18,13 +18,13 @@ jest.mock("@/repositories/user");
 jest.mock("@/repositories/form");
 jest.mock("@/repositories/form-result");
 
-describe("formRepositoryService", () => {
+describe("formResultService", () => {
   describe("submit method", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
     it("should get the email from the form response", async () => {
-      const formId = 123;
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
@@ -46,7 +46,7 @@ describe("formRepositoryService", () => {
     });
 
     it("should throw a BadRequestError if the email is not found", async () => {
-      const formId = 123;
+      const formId = "123";
       const response = [
         {
           question: "Имя",
@@ -62,7 +62,7 @@ describe("formRepositoryService", () => {
     });
 
     it("should search for a user in the database", async () => {
-      const formId = 123;
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
@@ -80,8 +80,8 @@ describe("formRepositoryService", () => {
       );
     });
 
-    it("should throw a ServerError if the user is not found", async () => {
-      const formId = 123;
+    it("should throw a BadRequestError if the user is not found", async () => {
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
@@ -93,12 +93,12 @@ describe("formRepositoryService", () => {
       (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
 
       await expect(formResultService.submit(formId, response)).rejects.toThrow(
-        ServerError
+        BadRequestError
       );
     });
 
     it("should search for a form in the database", async () => {
-      const formId = 123;
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
@@ -116,8 +116,8 @@ describe("formRepositoryService", () => {
       );
     });
 
-    it("should throw a ServerError if the form is not found", async () => {
-      const formId = 123;
+    it("should throw a BadRequestError if the form is not found", async () => {
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
@@ -129,7 +129,7 @@ describe("formRepositoryService", () => {
       (formRepository.findOne as jest.Mock).mockResolvedValue(null);
 
       await expect(formResultService.submit(formId, response)).rejects.toThrow(
-        ServerError
+        BadRequestError
       );
     });
 
@@ -150,7 +150,7 @@ describe("formRepositoryService", () => {
     });
 
     it("should call the formRepository.submit method if everything is okay", async () => {
-      const formId = 123;
+      const formId = "123";
       const response = [
         {
           question: "Электронная почта, указанная при авторизации",
