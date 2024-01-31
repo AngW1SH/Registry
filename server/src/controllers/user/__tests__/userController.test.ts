@@ -1,8 +1,9 @@
 import userService from "@/services/user";
 import userController from "..";
 import { staticUser } from "@/entities/user";
-import tokenService from "@/services/token";
 import { BadRequestError, UnauthorizedError } from "@/helpers/errors";
+import projectStatusService from "@/services/project-status";
+import profileService from "@/services/profile";
 
 const req: any = {};
 
@@ -18,6 +19,8 @@ const res: any = {
 
 jest.mock("@/services/user");
 jest.mock("@/services/token");
+jest.mock("@/services/project-status");
+jest.mock("@/services/profile");
 
 describe("User Controller", () => {
   describe("getProjectStatusData method", () => {
@@ -52,12 +55,12 @@ describe("User Controller", () => {
       expect(res.status).toHaveBeenCalledWith(200);
     });
 
-    it("should call userService.getProjectStatusData when everything is ok", async () => {
+    it("should call projectStatusService.getAssignableTeams when everything is ok", async () => {
       req.params = { projectId: "1" };
       req.user = staticUser;
       await userController.getProjectStatusData(req, res, jest.fn());
 
-      expect(userService.getProjectStatusData).toHaveBeenCalledWith(
+      expect(projectStatusService.getAssignableTeams).toHaveBeenCalledWith(
         1,
         staticUser.id
       );
@@ -91,11 +94,11 @@ describe("User Controller", () => {
       expect(res.status).toHaveBeenCalledWith(200);
     });
 
-    it("should call userService.getProfileData when everything is ok", async () => {
+    it("should call profileService.getUserData when everything is ok", async () => {
       req.user = staticUser;
       await userController.getProfileData(req, res, jest.fn());
 
-      expect(userService.getProfileData).toHaveBeenCalledWith(staticUser);
+      expect(profileService.getUserData).toHaveBeenCalledWith(staticUser);
     });
   });
 });
