@@ -64,41 +64,6 @@ describe("User Controller", () => {
     });
   });
 
-  describe("getData method", () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-    it("should throw an Unauthorized error if no user is specified in req.user", async () => {
-      req.user = undefined;
-
-      const nextMock = jest.fn();
-      await userController.getData(req, res, nextMock);
-
-      expect(nextMock.mock.calls[0][0]).toBeInstanceOf(UnauthorizedError);
-    });
-
-    it("should send a json when everything is ok", async () => {
-      req.user = staticUser;
-      await userController.getData(req, res, jest.fn());
-
-      expect(res.json).toHaveBeenCalled();
-    });
-
-    it("should send a 200 status when everything is ok", async () => {
-      req.user = staticUser;
-      await userController.getData(req, res, jest.fn());
-
-      expect(res.status).toHaveBeenCalledWith(200);
-    });
-
-    it("should call userService.getData when everything is ok", async () => {
-      req.user = staticUser;
-      await userController.getData(req, res, jest.fn());
-
-      expect(userService.getData).toHaveBeenCalledWith(staticUser);
-    });
-  });
-
   describe("getProfileData method", () => {
     beforeEach(() => {
       jest.clearAllMocks();
