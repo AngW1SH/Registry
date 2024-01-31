@@ -32,7 +32,7 @@ describe("projectResultsController", () => {
 
       expect(projectResultsService.uploadFiles).toHaveBeenCalled();
       expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         req.files.files,
         req.user
       );
@@ -122,7 +122,7 @@ describe("projectResultsController", () => {
         nextMock
       );
       expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         req.files.files,
         req.user
       );
@@ -135,7 +135,7 @@ describe("projectResultsController", () => {
         nextMock
       );
       expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         expect.arrayContaining([req.files.files]),
         req.user
       );
@@ -155,7 +155,7 @@ describe("projectResultsController", () => {
       await projectResultsController.deleteFile(req, res, jest.fn());
 
       expect(projectResultsService.deleteFile).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         req.user
       );
@@ -241,7 +241,7 @@ describe("projectResultsController", () => {
 
       expect(projectResultsService.changeFile).toHaveBeenCalled();
       expect(projectResultsService.changeFile).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         req.files.files[0],
         req.user
@@ -347,7 +347,7 @@ describe("projectResultsController", () => {
         nextMock
       );
       expect(projectResultsService.changeFile).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         req.files.files[0],
         req.user
@@ -361,7 +361,7 @@ describe("projectResultsController", () => {
         nextMock
       );
       expect(projectResultsService.changeFile).toHaveBeenCalledWith(
-        +req.params.id,
+        req.params.id,
         +req.params.fileid,
         req.files.files,
         req.user
