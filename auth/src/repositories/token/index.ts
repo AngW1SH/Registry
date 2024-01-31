@@ -1,11 +1,5 @@
 import jwt, { JwtPayload, verify } from "jsonwebtoken";
-import { Redis } from "ioredis";
-
-const redis = new Redis({
-  host: "redis",
-  password: process.env.REDIS_PASSWORD!,
-  port: +process.env.REDIS_PORT!,
-});
+import { redis } from "@/db/redis/client";
 
 const tokenRepositoryFactory = () => {
   return Object.freeze({ save, get, erase });

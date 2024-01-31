@@ -1,6 +1,6 @@
 import { verify } from "jsonwebtoken";
 import tokenRepository from "..";
-import redis from "@/db/redis/client";
+import { redis } from "@/db/redis/client";
 
 jest.mock("@/db/redis/client");
 
