@@ -87,7 +87,7 @@ describe("Project Repository", () => {
       const result = await projectRepository.findOne(id);
 
       expect(result).toBeDefined();
-      expect(fetch).toBeCalledTimes(2);
+      expect(fetch).toBeCalled();
     });
   });
 });

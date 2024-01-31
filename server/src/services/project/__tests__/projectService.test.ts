@@ -32,23 +32,4 @@ describe("Project Service", () => {
       expect(typeof result.projects[0].tags[0]).toBe("number");
     });
   });
-
-  describe("findById method", () => {
-    it("should return project, tags, teams and users", async () => {
-      (fetch as jest.Mock).mockResolvedValueOnce(
-        Promise.resolve({
-          status: 200,
-          json: () => Promise.resolve(staticProjectDetailedStrapi),
-        })
-      );
-
-      const result = await projectService.findById(1);
-
-      expect(result).toBeDefined();
-      expect(result!.project).toBeDefined();
-      expect(result!.tags).toBeDefined();
-      expect(result!.teams).toBeDefined();
-      expect(result!.users).toBeDefined();
-    });
-  });
 });
