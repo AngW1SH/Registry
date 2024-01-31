@@ -85,6 +85,9 @@ describe("projectResultsService", () => {
   });
 
   describe("deleteFile method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
     it("should fetch the project", async () => {
       try {
         await projectResultsService.deleteFile("1", 1, staticUser);
@@ -153,6 +156,81 @@ describe("projectResultsService", () => {
       await projectResultsService.deleteFile("1", 1, user);
 
       expect(projectResultsRepository.deleteFile).toHaveBeenCalled();
+    });
+  });
+
+  describe("changeFile method", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+    it("should fetch the project", async () => {
+      try {
+        await projectResultsService.changeFile("1", 1, {} as any, staticUser);
+      } catch {}
+
+      expect(projectRepository.findOne).toHaveBeenCalled();
+    });
+
+    it("should throw an error if the project is not in DB", async () => {
+      (projectRepository.findOne as jest.Mock).mockReturnValueOnce(null);
+
+      expect(
+        projectResultsService.changeFile("1", 1, {} as any, staticUser)
+      ).rejects.toThrow(ServerError);
+    });
+
+    it("should throw an error if the project's administrators property is not defined", async () => {
+      (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
+        project: staticProjectList[0],
+      });
+
+      expect(
+        projectResultsService.changeFile("1", 1, {} as any, staticUser)
+      ).rejects.toThrow(ServerError);
+    });
+
+    it("should throw an error if the user is not a project's administrator", async () => {
+      (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
+        project: staticProjectList[0],
+        administrators: [
+          {
+            id: 1,
+            name: "Test",
+            email: "test@test.com",
+          },
+        ],
+      });
+
+      const user = {
+        id: 2,
+        name: "User",
+        email: "user@test.com",
+      };
+
+      expect(
+        projectResultsService.changeFile("1", 1, {} as any, staticUser)
+      ).rejects.toThrow(UnauthorizedError);
+
+      expect(
+        projectResultsService.changeFile("1", 1, {} as any, staticUser)
+      ).rejects.toThrow(ServerError);
+    });
+
+    it("should call the repository's addFiles method if everything is ok", async () => {
+      const user = {
+        id: 2,
+        name: "User",
+        email: "user@test.com",
+      };
+
+      (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
+        project: staticProjectList[0],
+        administrators: [user],
+      });
+
+      await projectResultsService.changeFile("1", 1, {} as any, staticUser);
+
+      expect(projectResultsRepository.changeFile).toHaveBeenCalled();
     });
   });
 });
