@@ -21,3 +21,9 @@ export interface UserStrapi {
 export interface UserListStrapi {
   data: UserStrapiInner[];
 }
+
+export const staticUser = {
+  id: 2,
+  name: "Сатурнова Татьяна Тимофеевна ",
+  email: "st072603@student.spbu.ru",
+};
