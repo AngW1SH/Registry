@@ -6,6 +6,8 @@ import (
 	"core/metrics"
 	"core/models"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 var limit, load int
@@ -32,7 +34,16 @@ func InitializeQueue(lim int) {
 
 func AddTask(task models.Task) {
 	task.AttemptedAt = task.UpdatedAt
+	task.IsDeleted = false
 	heap.Push(&queue, &task)
+}
+
+func DeleteTask(id uuid.UUID) {
+	for i := 0; i < len(queue); i++ {
+		if queue[i].Id == id {
+			queue[i].IsDeleted = true
+		}
+	}
 }
 
 func onFinish(task models.Task) {
@@ -59,6 +70,10 @@ func AdvanceTasks() {
 	
 			oldestUpdated := heap.Pop(&queue).(*models.Task)
 			found := false
+
+			if oldestUpdated.IsDeleted {
+				continue
+			}
 	
 			if metrics.List[oldestUpdated.Metric] != nil {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {

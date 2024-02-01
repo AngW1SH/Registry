@@ -13,6 +13,7 @@ type Task struct {
 	UpdatedAt time.Time
 	AttemptedAt time.Time
 	UpdateRate time.Duration
+	IsDeleted bool
 	Weight 	  int
 }
 
