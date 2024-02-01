@@ -1,8 +1,13 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Task struct {
+	Id uuid.UUID
 	Metric    string
 	Data      []string
 	UpdatedAt time.Time
