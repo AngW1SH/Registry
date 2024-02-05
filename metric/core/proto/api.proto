@@ -1,0 +1,40 @@
+syntax = "proto3"
+
+package api;
+
+import "google/protobuf/timestamp.proto";
+
+message TaskStartInfo = {
+    reserved 1;
+    string metric = 2;
+    google.protobuf.Timestamp updated_at = 3;
+    google.protobuf.Duration update_rate = 4;
+    int32 weight = 5;
+    []string data = 6;
+}
+
+message TaskInfo = {
+    string id = 1;
+    string metric = 2;
+    google.protobuf.Timestamp updated_at = 3;
+    google.protobuf.Duration update_rate = 4;
+    int32 weight = 5;
+    []string data = 6;
+}
+
+
+message TaskStartRequest = {
+    TaskStartInfo task = 1;
+}
+
+message TaskStartResponse = {
+    TaskInfo task = 1;
+}
+
+message TaskStopRequest = {
+    string id = 1;
+}
+
+message TaskStopResponse = {
+    TaskInfo task = 1;
+}
