@@ -39,8 +39,9 @@ func AddTask(data *models.TaskCreate) *models.Task {
 		Weight: data.Weight,
 		UpdatedAt: data.UpdatedAt,
 		UpdateRate: data.UpdateRate,
+		Data: data.Data,
 	}
-	
+
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
 
