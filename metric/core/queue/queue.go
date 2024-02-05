@@ -32,10 +32,21 @@ func InitializeQueue(lim int) {
 	go AdvanceTasks()
 }
 
-func AddTask(task models.Task) {
+func AddTask(data *models.TaskCreate) *models.Task {
+	task := models.Task{
+		Id: uuid.New(),
+		Metric: data.Metric,
+		Weight: data.Weight,
+		UpdatedAt: data.UpdatedAt,
+		UpdateRate: data.UpdateRate,
+	}
+	
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
+
 	heap.Push(&queue, &task)
+
+	return &task
 }
 
 func DeleteTask(id uuid.UUID) {

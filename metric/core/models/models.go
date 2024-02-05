@@ -17,6 +17,14 @@ type Task struct {
 	Weight 	  int
 }
 
+type TaskCreate struct {
+	Metric string
+	UpdatedAt time.Time
+	UpdateRate time.Duration
+	Weight int
+	Data []string
+}
+
 type MetricType struct {
 	Name string
 	Payload func()
