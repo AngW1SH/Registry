@@ -6,6 +6,7 @@ import (
 )
 
 type Server struct {
+	UnimplementedTaskServiceServer
 }
 
 func (s *Server) Start(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {

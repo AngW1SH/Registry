@@ -1,6 +1,7 @@
 package main
 
 import (
+	"core/api"
 	"core/models"
 	"core/queue"
 	"log"
@@ -30,7 +31,11 @@ func main() {
 		log.Fatalf("Failed to listen on port 9000: %v", err)
 	}
 
+	s := api.Server{}
+
 	grpcServer := grpc.NewServer()
+
+	api.RegisterTaskServiceServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to server gRPC server over port 9000: %v", err)
