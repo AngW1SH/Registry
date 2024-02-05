@@ -19,15 +19,8 @@ func InitializeQueue(lim int) {
 	limit = lim
 	load = 0
 
-	tasks := []models.Task{ }
+	queue = helpers.PriorityQueue{}
 
-	queue = make(helpers.PriorityQueue, len(tasks))
-
-	for i := 0; i < len(tasks); i++ {
-		task := &tasks[i]
-		task.AttemptedAt = task.UpdatedAt
-		queue[i] = task
-	}
 	heap.Init(&queue)
 
 	go AdvanceTasks()
@@ -53,11 +46,11 @@ func AddTask(data *models.TaskCreate) *models.Task {
 
 func DeleteTask(id uuid.UUID) (*models.Task, error) {
 
-	for i := 0; i < len(queue); i++ {
-		if queue[i].Id == id {
-			queue[i].IsDeleted = true
+	for i := 0; i < len(queue.Entries); i++ {
+		if queue.Entries[i].Id == id {
+			queue.Entries[i].IsDeleted = true
 
-			return queue[i], nil
+			return queue.Entries[i], nil
 		}
 	}
 

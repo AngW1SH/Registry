@@ -1,36 +1,63 @@
 package helpers
 
-import "core/models"
+import (
+	"core/models"
+	"sync"
+)
 
-type PriorityQueue []*models.Task
-
-func (pq PriorityQueue) Len() int { return len(pq) }
-
-func (pq PriorityQueue) Less(i, j int) bool {
-    return pq[i].AttemptedAt.Before(pq[j].AttemptedAt)
+type PriorityQueue struct {
+    Entries []*models.Task
+    mu sync.Mutex
 }
 
-func (pq PriorityQueue) Swap(i, j int) {
-    pq[i], pq[j] = pq[j], pq[i]
+func (pq *PriorityQueue) Len() int { 
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    return len(pq.Entries) 
+}
+
+func (pq *PriorityQueue) Less(i, j int) bool {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    return pq.Entries[i].AttemptedAt.Before(pq.Entries[j].AttemptedAt)
+}
+
+func (pq *PriorityQueue) Swap(i, j int) {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    pq.Entries[i], pq.Entries[j] = pq.Entries[j], pq.Entries[i]
 }
 
 func (pq *PriorityQueue) Push(x interface{}) {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
     item := x.(*models.Task)
-    *pq = append(*pq, item)
+    pq.Entries = append(pq.Entries, item)
 }
 
 // Pop removes the smallest element (by updatedAt) from the priority queue.
 func (pq *PriorityQueue) Pop() interface{} {
-    old := *pq
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    old := pq.Entries
     n := len(old)
     item := old[n-1]
-    *pq = old[0 : n-1]
+    pq.Entries = old[0 : n-1]
+
     return item
 }
 
-func (pq PriorityQueue) Peek() *models.Task {
-    if pq.Len() == 0 {
+func (pq *PriorityQueue) Peek() *models.Task {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    if len(pq.Entries) == 0 {
         return nil
     }
-    return pq[0]
+    return pq.Entries[0]
 }
