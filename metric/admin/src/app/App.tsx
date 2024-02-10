@@ -1,5 +1,11 @@
+import { Sidebar } from "@/widgets/Sidebar";
+
 function App() {
-  return <>123</>;
+  return (
+    <>
+      <Sidebar />
+    </>
+  );
 }
 
 export default App;
