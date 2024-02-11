@@ -1,4 +1,5 @@
 import { ConfigureProject } from "@/features/ConfigureProject";
+import { SelectPeriod } from "@/features/SelectPeriod";
 import { PerformanceModule } from "@/widgets/PerformanceModule";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
@@ -20,6 +21,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ConfigureProject />
+        <div className="mt-16" />
+        <SelectPeriod />
       </div>
     </div>
   );

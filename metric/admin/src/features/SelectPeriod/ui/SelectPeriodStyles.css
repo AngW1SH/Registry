@@ -1,0 +1,122 @@
+.rdrDateInput__Delete {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background: black;
+  top: calc(50% - 5px);
+  right: 10px;
+  background: url("/x-gray.svg");
+  cursor: pointer;
+}
+
+.rdrDayToday .rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span:after {
+  background: #551fff;
+}
+
+.rdrDayEndOfWeek .rdrDayStartPreview,
+.rdrDayStartOfWeek .rdrDayEndPreview {
+  display: none;
+}
+
+.rdrDayEndOfWeek .rdrInRange {
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+.rdrDayStartOfWeek .rdrInRange {
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+.rdrDayStartPreview {
+  left: 15% !important;
+  z-index: 0;
+}
+
+.rdrDayEndPreview {
+  right: 15% !important;
+  z-index: 0;
+}
+
+.rdrDayHovered {
+  outline: none;
+  border: none;
+}
+
+.rdrInRange {
+  inset: 0;
+  background-color: #f3f0ff;
+}
+
+.rdrDay:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span {
+  color: #551fff !important;
+}
+
+.rdrStartEdge,
+.rdrEndEdge {
+  inset: 0;
+  background: none;
+  z-index: 1;
+}
+
+.rdrDayStartOfWeek .rdrEndEdge {
+  left: 0;
+}
+
+.rdrDayEndOfWeek .rdrStartEdge {
+  right: 0;
+}
+
+.rdrStartEdge::before,
+.rdrEndEdge::before {
+  content: "";
+  background: #f3f0ff;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.rdrStartEdge::after,
+.rdrEndEdge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: none;
+  background-image: url("data:image/svg+xml;utf8,<svg width='36' height='36' fill='%551fff' xmlns='http://www.w3.org/2000/svg'><circle cx='18' cy='18' r='18' fill='%23551fff'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.rdrStartEdge::before {
+  left: 50%;
+}
+
+.rdrEndEdge::before {
+  right: 50%;
+}
+
+.rdrDayNumber {
+  position: relative;
+  top: 0;
+  z-index: 2;
+}
+
+.rdrDateRangeWrapper,
+.rdrMonth {
+  width: 100%;
+}
+
+.rdrCalendarWrapper {
+  padding: 20px 10px;
+  background: #fcfcfcb2;
+  border-radius: 10px;
+}
+
+.rdrDateDisplayWrapper {
+  background: transparent;
+}
