@@ -32,7 +32,7 @@ const MetricList: FC<MetricListProps> = ({ type, data, className = "" }) => {
       )}
       <ul className="mt-6 flex h-full justify-between flex-col gap-y-2">
         {data.map((row) => (
-          <li className="flex justify-between ">
+          <li key={row.name + "-" + type} className="flex justify-between ">
             <p className="font-medium text-[#2B3674] text-ellipsis overflow-hidden whitespace-nowrap max-w-[55%]">
               {row.name}
             </p>
