@@ -34,7 +34,7 @@ const Meter: FC<MeterProps> = ({ progress, label = "", className = "" }) => {
     >
       <div className="relative mt-px w-full h-2 bg-[#E9EDF7] rounded-lg">
         <div
-          className="relative h-full bg-primary rounded-lg bg-current"
+          className="relative h-full rounded-lg bg-current"
           style={{ width: progress + "%" }}
         ></div>
       </div>
