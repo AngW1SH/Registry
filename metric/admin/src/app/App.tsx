@@ -1,11 +1,8 @@
+import { Layout } from "@/widgets/Layout";
 import { Sidebar } from "@/widgets/Sidebar";
 
 function App() {
-  return (
-    <>
-      <Sidebar />
-    </>
-  );
+  return <Layout aside={<Sidebar />}>123</Layout>;
 }
 
 export default App;

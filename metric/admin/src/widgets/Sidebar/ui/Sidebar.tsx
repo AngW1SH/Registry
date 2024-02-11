@@ -5,7 +5,7 @@ interface SidebarProps {}
 
 const Sidebar: FC<SidebarProps> = () => {
   return (
-    <nav className="fixed top-5 bottom-5 left-5 bg-background rounded-2xl px-5 pt-16 pb-10 flex flex-col">
+    <nav className="h-full bg-background rounded-2xl px-5 pt-16 pb-10 flex flex-col">
       <div className="px-6">
         <img className="mx-auto" src="/logo.svg" alt="Trackit" />
       </div>
