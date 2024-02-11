@@ -1,17 +1,26 @@
 "use client";
 import { useToggleOpen } from "@/shared/hooks/useToggleOpen";
-import { FC, ReactNode, useRef } from "react";
+import { FC, ReactNode, useEffect, useRef } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 
 interface ToggleOpenProps {
   triggerElement: ReactNode;
   children: ReactNode;
+  callback?: (opened: boolean) => void;
 }
 
-const ToggleOpen: FC<ToggleOpenProps> = ({ triggerElement, children }) => {
+const ToggleOpen: FC<ToggleOpenProps> = ({
+  triggerElement,
+  children,
+  callback,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const { opened, toggleOpened, styles } = useToggleOpen(ref, children);
+
+  useEffect(() => {
+    if (callback) callback(opened);
+  }, [opened]);
 
   return (
     <Transition in={opened} timeout={150}>
@@ -21,10 +30,7 @@ const ToggleOpen: FC<ToggleOpenProps> = ({ triggerElement, children }) => {
             state == "entered" ? "overflow-visible" : "overflow-hidden"
           }`}
         >
-          <div
-            onClick={toggleOpened}
-            className="relative cursor-pointer bg-white"
-          >
+          <div onClick={toggleOpened} className="relative cursor-pointer">
             {triggerElement}
           </div>
           <div
