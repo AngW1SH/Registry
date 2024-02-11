@@ -42,7 +42,7 @@ const Layout: FC<LayoutProps> = ({ aside, children, gap = 50 }) => {
         {aside}
       </div>
       <div
-        className="w-full relative top-5"
+        className="w-full relative top-5 pr-5"
         style={{
           marginLeft: contentOffset + "px",
         }}
