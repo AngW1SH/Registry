@@ -4,7 +4,7 @@ import {
   LogoutIcon,
   ProfileIcon,
   SettingsIcon,
-} from "@/shared/Icons";
+} from "@/shared/ui/Icons";
 import { FC } from "react";
 import MenuItem from "./MenuItem";
 

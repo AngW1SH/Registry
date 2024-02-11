@@ -1,4 +1,4 @@
-import { TextWithIcon } from "@/shared/TextWithIcon";
+import { TextWithIcon } from "@/shared/ui/TextWithIcon";
 import { FC, HTMLAttributes, ReactElement } from "react";
 
 interface MenuItemProps {
