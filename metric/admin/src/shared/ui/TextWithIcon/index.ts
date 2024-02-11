@@ -1,3 +1,3 @@
-import TextWithIcon from "./ui/TextWithIcon";
+import TextWithIcon from "./TextWithIcon";
 
 export { TextWithIcon };
