@@ -9,7 +9,7 @@ interface PlatformTitleProps {
 const PlatformTitle: FC<PlatformTitleProps> = ({ opened = true }) => {
   return (
     <div className="flex items-center justify-between px-7 py-4 rounded-lg bg-background">
-      <TextWithIcon size={33} icon={<GithubIcon />}>
+      <TextWithIcon className="font-medium" size={33} icon={<GithubIcon />}>
         AngW1SH/Registry
       </TextWithIcon>
       <div className={`transition-transform ${opened ? "" : "rotate-180"}`}>
