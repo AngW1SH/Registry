@@ -6,6 +6,8 @@ import CallIcon from "./Call/CallIcon";
 import LogoutIcon from "./Logout/LogoutIcon";
 import GithubIcon from "./Github/GithubIcon";
 import ArrowDown from "./ArrowDown/ArrowDown";
+import TrelloIcon from "./Trello/TrelloIcon";
+import GitLabIcon from "./GitLab/GitLabIcon";
 
 export {
   ProfileIcon,
@@ -16,4 +18,6 @@ export {
   LogoutIcon,
   GithubIcon,
   ArrowDown,
+  TrelloIcon,
+  GitLabIcon,
 };

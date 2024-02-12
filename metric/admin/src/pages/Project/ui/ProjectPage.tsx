@@ -3,6 +3,7 @@ import { SelectPeriod } from "@/features/SelectPeriod";
 import { PerformanceModule } from "@/widgets/PerformanceModule";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
+import { ResourceLinks } from "@/widgets/ResourceLinks";
 import { FC } from "react";
 
 interface ProjectPageProps {}
@@ -23,6 +24,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         <ConfigureProject />
         <div className="mt-16" />
         <SelectPeriod />
+        <div className="pt-20" />
+        <ResourceLinks />
       </div>
     </div>
   );
