@@ -48,6 +48,10 @@ func DeleteTask(id uuid.UUID) (*models.Task, error) {
 	return queue.MarkDelete(id)
 }
 
+func ListTasks() ([]*models.Task, error) {
+	return queue.GetEntries(), nil
+}
+
 func onFinish(task models.Task) {
 	load -= task.Weight
 

@@ -5,6 +5,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 
 interface TaskServiceGRPC {
   start: (data: { task: TaskCreate }) => Observable<Task>;
+  list: (data: {}) => Observable<Task[]>;
 }
 
 @Injectable()
@@ -20,5 +21,9 @@ export class TaskService {
 
   start(task: TaskCreate) {
     return this.taskServiceGRPC.start({ task });
+  }
+
+  list() {
+    return this.taskServiceGRPC.list({});
   }
 }

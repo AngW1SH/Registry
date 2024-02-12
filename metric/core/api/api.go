@@ -37,3 +37,21 @@ func (s *Server) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopR
 
 	return &TaskStopResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
+
+func (s *Server) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
+	fmt.Println("List")
+
+	tasks, err := queue.ListTasks()
+
+	if err != nil {
+		return &TaskListResponse{Tasks: []*TaskInfo{}}, err
+	}
+
+	result := []*TaskInfo{}
+
+	for i := 0; i < len(tasks); i++ {
+		result = append(result, ToGRPCTaskInfo(tasks[i]))
+	}
+
+	return &TaskListResponse{Tasks: result}, nil
+}

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { TaskCreateDTO } from './task.entity';
 
@@ -19,5 +19,10 @@ export class TaskController {
         seconds: +task.update_rate.seconds,
       },
     });
+  }
+
+  @Get()
+  list() {
+    return this.taskService.list();
   }
 }

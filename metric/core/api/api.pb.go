@@ -376,6 +376,91 @@ func (x *TaskStopResponse) GetTask() *TaskInfo {
 	return nil
 }
 
+type TaskListRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *TaskListRequest) Reset() {
+	*x = TaskListRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TaskListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskListRequest) ProtoMessage() {}
+
+func (x *TaskListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskListRequest.ProtoReflect.Descriptor instead.
+func (*TaskListRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_rawDescGZIP(), []int{6}
+}
+
+type TaskListResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Tasks []*TaskInfo `protobuf:"bytes,1,rep,name=tasks,proto3" json:"tasks,omitempty"`
+}
+
+func (x *TaskListResponse) Reset() {
+	*x = TaskListResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TaskListResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskListResponse) ProtoMessage() {}
+
+func (x *TaskListResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskListResponse.ProtoReflect.Descriptor instead.
+func (*TaskListResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *TaskListResponse) GetTasks() []*TaskInfo {
+	if x != nil {
+		return x.Tasks
+	}
+	return nil
+}
+
 var File_api_proto protoreflect.FileDescriptor
 
 var file_api_proto_rawDesc = []byte{
@@ -423,16 +508,24 @@ var file_api_proto_rawDesc = []byte{
 	0x02, 0x69, 0x64, 0x22, 0x35, 0x0a, 0x10, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x6f, 0x70, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x21, 0x0a, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b,
-	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x32, 0x7a, 0x0a, 0x0b, 0x54, 0x61,
-	0x73, 0x6b, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x53, 0x74, 0x61,
-	0x72, 0x74, 0x12, 0x15, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x61,
-	0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x33, 0x0a, 0x04, 0x53, 0x74, 0x6f, 0x70, 0x12, 0x14, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x15, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x5a, 0x04, 0x2f, 0x61, 0x70, 0x69, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x22, 0x11, 0x0a, 0x0f, 0x54, 0x61,
+	0x73, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x37, 0x0a,
+	0x10, 0x54, 0x61, 0x73, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x23, 0x0a, 0x05, 0x74, 0x61, 0x73, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x52,
+	0x05, 0x74, 0x61, 0x73, 0x6b, 0x73, 0x32, 0xaf, 0x01, 0x0a, 0x0b, 0x54, 0x61, 0x73, 0x6b, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x72, 0x74, 0x12,
+	0x15, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x61, 0x72, 0x74, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73,
+	0x6b, 0x53, 0x74, 0x61, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x33,
+	0x0a, 0x04, 0x53, 0x74, 0x6f, 0x70, 0x12, 0x14, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73,
+	0x6b, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x6f, 0x70, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x33, 0x0a, 0x04, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x14, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x15, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x4c, 0x69, 0x73, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x06, 0x5a, 0x04, 0x2f, 0x61, 0x70, 0x69,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -447,7 +540,7 @@ func file_api_proto_rawDescGZIP() []byte {
 	return file_api_proto_rawDescData
 }
 
-var file_api_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_api_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_api_proto_goTypes = []interface{}{
 	(*TaskStartInfo)(nil),         // 0: api.TaskStartInfo
 	(*TaskInfo)(nil),              // 1: api.TaskInfo
@@ -455,26 +548,31 @@ var file_api_proto_goTypes = []interface{}{
 	(*TaskStartResponse)(nil),     // 3: api.TaskStartResponse
 	(*TaskStopRequest)(nil),       // 4: api.TaskStopRequest
 	(*TaskStopResponse)(nil),      // 5: api.TaskStopResponse
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
-	(*durationpb.Duration)(nil),   // 7: google.protobuf.Duration
+	(*TaskListRequest)(nil),       // 6: api.TaskListRequest
+	(*TaskListResponse)(nil),      // 7: api.TaskListResponse
+	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 9: google.protobuf.Duration
 }
 var file_api_proto_depIdxs = []int32{
-	6, // 0: api.TaskStartInfo.updated_at:type_name -> google.protobuf.Timestamp
-	7, // 1: api.TaskStartInfo.update_rate:type_name -> google.protobuf.Duration
-	6, // 2: api.TaskInfo.updated_at:type_name -> google.protobuf.Timestamp
-	7, // 3: api.TaskInfo.update_rate:type_name -> google.protobuf.Duration
-	0, // 4: api.TaskStartRequest.task:type_name -> api.TaskStartInfo
-	1, // 5: api.TaskStartResponse.task:type_name -> api.TaskInfo
-	1, // 6: api.TaskStopResponse.task:type_name -> api.TaskInfo
-	2, // 7: api.TaskService.Start:input_type -> api.TaskStartRequest
-	4, // 8: api.TaskService.Stop:input_type -> api.TaskStopRequest
-	3, // 9: api.TaskService.Start:output_type -> api.TaskStartResponse
-	5, // 10: api.TaskService.Stop:output_type -> api.TaskStopResponse
-	9, // [9:11] is the sub-list for method output_type
-	7, // [7:9] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	8,  // 0: api.TaskStartInfo.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 1: api.TaskStartInfo.update_rate:type_name -> google.protobuf.Duration
+	8,  // 2: api.TaskInfo.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 3: api.TaskInfo.update_rate:type_name -> google.protobuf.Duration
+	0,  // 4: api.TaskStartRequest.task:type_name -> api.TaskStartInfo
+	1,  // 5: api.TaskStartResponse.task:type_name -> api.TaskInfo
+	1,  // 6: api.TaskStopResponse.task:type_name -> api.TaskInfo
+	1,  // 7: api.TaskListResponse.tasks:type_name -> api.TaskInfo
+	2,  // 8: api.TaskService.Start:input_type -> api.TaskStartRequest
+	4,  // 9: api.TaskService.Stop:input_type -> api.TaskStopRequest
+	6,  // 10: api.TaskService.List:input_type -> api.TaskListRequest
+	3,  // 11: api.TaskService.Start:output_type -> api.TaskStartResponse
+	5,  // 12: api.TaskService.Stop:output_type -> api.TaskStopResponse
+	7,  // 13: api.TaskService.List:output_type -> api.TaskListResponse
+	11, // [11:14] is the sub-list for method output_type
+	8,  // [8:11] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_init() }
@@ -555,6 +653,30 @@ func file_api_proto_init() {
 				return nil
 			}
 		}
+		file_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -562,7 +684,7 @@ func file_api_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
