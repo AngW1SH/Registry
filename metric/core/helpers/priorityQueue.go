@@ -9,7 +9,7 @@ import (
 )
 
 type PriorityQueue struct {
-    Entries []*models.Task
+    entries []*models.Task
     mu sync.Mutex
 }
 
@@ -17,21 +17,21 @@ func (pq *PriorityQueue) Len() int {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    return len(pq.Entries) 
+    return len(pq.entries) 
 }
 
 func (pq *PriorityQueue) Less(i, j int) bool {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    return pq.Entries[i].AttemptedAt.Before(pq.Entries[j].AttemptedAt)
+    return pq.entries[i].AttemptedAt.Before(pq.entries[j].AttemptedAt)
 }
 
 func (pq *PriorityQueue) Swap(i, j int) {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    pq.Entries[i], pq.Entries[j] = pq.Entries[j], pq.Entries[i]
+    pq.entries[i], pq.entries[j] = pq.entries[j], pq.entries[i]
 }
 
 func (pq *PriorityQueue) Push(x interface{}) {
@@ -39,7 +39,7 @@ func (pq *PriorityQueue) Push(x interface{}) {
     defer pq.mu.Unlock()
 
     item := x.(*models.Task)
-    pq.Entries = append(pq.Entries, item)
+    pq.entries = append(pq.entries, item)
 }
 
 // Pop removes the smallest element (by updatedAt) from the priority queue.
@@ -47,10 +47,10 @@ func (pq *PriorityQueue) Pop() interface{} {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    old := pq.Entries
+    old := pq.entries
     n := len(old)
     item := old[n-1]
-    pq.Entries = old[0 : n-1]
+    pq.entries = old[0 : n-1]
 
     return item
 }
@@ -59,11 +59,11 @@ func (pq *PriorityQueue) MarkDelete(id uuid.UUID) (*models.Task, error) {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    for i := 0; i < len(pq.Entries); i++ {
-		if pq.Entries[i].Id == id {
-			pq.Entries[i].IsDeleted = true
+    for i := 0; i < len(pq.entries); i++ {
+		if pq.entries[i].Id == id {
+			pq.entries[i].IsDeleted = true
 
-			return pq.Entries[i], nil
+			return pq.entries[i], nil
 		}
 	}
     
@@ -74,8 +74,8 @@ func (pq *PriorityQueue) Peek() *models.Task {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
-    if len(pq.Entries) == 0 {
+    if len(pq.entries) == 0 {
         return nil
     }
-    return pq.Entries[0]
+    return pq.entries[0]
 }
