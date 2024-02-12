@@ -1,6 +1,7 @@
 package initializers
 
 import (
+	"core/models"
 	"log"
 	"os"
 
@@ -20,4 +21,5 @@ func InitializeDB() {
 	if err != nil {
 		log.Fatal("Failed to start the database")
 	}
+	DB.AutoMigrate(&models.Snapshot{})
 }

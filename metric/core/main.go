@@ -5,6 +5,7 @@ import (
 	"core/initializers"
 	"core/models"
 	"core/queue"
+	"core/repositories"
 	"log"
 	"net"
 	"time"
@@ -34,6 +35,10 @@ func main() {
 	}
 
 	s := api.Server{}
+
+	repo := repositories.NewSnapshotRepository(initializers.DB)
+
+	repo.Create(&models.Snapshot{Metric: "123"})
 
 	grpcServer := grpc.NewServer()
 

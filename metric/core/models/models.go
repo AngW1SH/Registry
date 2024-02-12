@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Task struct {
@@ -28,4 +29,10 @@ type TaskCreate struct {
 type MetricType struct {
 	Name string
 	Payload func()
+}
+
+type Snapshot struct {
+	gorm.Model
+	Metric string
+	Data string
 }
