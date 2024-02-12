@@ -2,6 +2,7 @@ package main
 
 import (
 	"core/api"
+	"core/initializers"
 	"core/models"
 	"core/queue"
 	"log"
@@ -12,6 +13,8 @@ import (
 )
 
 func init() {
+	initializers.InitializeEnvVariables()
+	initializers.InitializeDB()
 	queue.InitializeQueue(4)
 }
 
