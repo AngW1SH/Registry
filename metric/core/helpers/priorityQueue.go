@@ -34,6 +34,10 @@ func (pq *PriorityQueue) Swap(i, j int) {
     pq.entries[i], pq.entries[j] = pq.entries[j], pq.entries[i]
 }
 
+func (pq *PriorityQueue) GetEntries() []*models.Task {
+    return pq.entries
+}
+
 func (pq *PriorityQueue) Push(x interface{}) {
     pq.mu.Lock()
     defer pq.mu.Unlock()
