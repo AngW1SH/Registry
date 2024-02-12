@@ -5,18 +5,22 @@ import (
 	"core/helpers"
 	"core/metrics"
 	"core/models"
+	"core/repositories"
 	"time"
 
 	"github.com/google/uuid"
 )
 
+var repo *repositories.SnapshotRepository
+
 var limit, load int
 
 var queue helpers.PriorityQueue
 
-func InitializeQueue(lim int) {
+func InitializeQueue(lim int, repository *repositories.SnapshotRepository) {
 	limit = lim
 	load = 0
+	repo = repository
 
 	queue = helpers.PriorityQueue{}
 
@@ -52,8 +56,10 @@ func ListTasks() ([]*models.Task, error) {
 	return queue.GetEntries(), nil
 }
 
-func onFinish(task models.Task) {
+func onFinish(task models.Task, result string) {
 	load -= task.Weight
+
+	repo.Create(&models.Snapshot{Metric: task.Metric, Data: result})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()

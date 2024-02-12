@@ -16,7 +16,7 @@ import (
 func init() {
 	initializers.InitializeEnvVariables()
 	initializers.InitializeDB()
-	queue.InitializeQueue(4)
+	queue.InitializeQueue(4, repositories.NewSnapshotRepository(initializers.DB))
 }
 
 func main() {
@@ -35,10 +35,6 @@ func main() {
 	}
 
 	s := api.Server{}
-
-	repo := repositories.NewSnapshotRepository(initializers.DB)
-
-	repo.Create(&models.Snapshot{Metric: "123"})
 
 	grpcServer := grpc.NewServer()
 
