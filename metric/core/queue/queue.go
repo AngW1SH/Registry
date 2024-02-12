@@ -5,7 +5,6 @@ import (
 	"core/helpers"
 	"core/metrics"
 	"core/models"
-	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -46,15 +45,7 @@ func AddTask(data *models.TaskCreate) *models.Task {
 
 func DeleteTask(id uuid.UUID) (*models.Task, error) {
 
-	for i := 0; i < len(queue.Entries); i++ {
-		if queue.Entries[i].Id == id {
-			queue.Entries[i].IsDeleted = true
-
-			return queue.Entries[i], nil
-		}
-	}
-
-	return nil, errors.New("Task not found")
+	return queue.MarkDelete(id)
 }
 
 func onFinish(task models.Task) {
