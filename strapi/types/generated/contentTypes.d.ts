@@ -835,6 +835,7 @@ export interface ApiStudentStudent extends Schema.CollectionType {
       'api::team.team'
     >;
     forms: Attribute.Component<'user-form.user-form', true>;
+    services: Attribute.Component<'user-service.user-service', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

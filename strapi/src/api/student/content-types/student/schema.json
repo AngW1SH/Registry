@@ -34,6 +34,12 @@
       "type": "component",
       "repeatable": true,
       "component": "user-form.user-form"
+    },
+    "services": {
+      "displayName": "User Service",
+      "type": "component",
+      "repeatable": true,
+      "component": "user-service.user-service"
     }
   }
 }

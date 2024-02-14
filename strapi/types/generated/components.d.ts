@@ -96,6 +96,19 @@ export interface UserFormUserForm extends Schema.Component {
   };
 }
 
+export interface UserServiceUserService extends Schema.Component {
+  collectionName: 'components_user_service_user_services';
+  info: {
+    displayName: 'User Service';
+    icon: 'key';
+    description: '';
+  };
+  attributes: {
+    provider: Attribute.String;
+    value: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -105,6 +118,7 @@ declare module '@strapi/types' {
       'named-file.named-file': NamedFileNamedFile;
       'project-link.project-link': ProjectLinkProjectLink;
       'user-form.user-form': UserFormUserForm;
+      'user-service.user-service': UserServiceUserService;
     }
   }
 }

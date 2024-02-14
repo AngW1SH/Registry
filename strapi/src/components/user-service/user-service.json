@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_user_service_user_services",
+  "info": {
+    "displayName": "User Service",
+    "icon": "key",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "provider": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  }
+}
