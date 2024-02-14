@@ -21,7 +21,7 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
 
   const handleLogin = async () => {
     if (!data) {
-      router.push("/auth/authenticate");
+      router.push("/auth/githubauthenticate");
     }
   };
 

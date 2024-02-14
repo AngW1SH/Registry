@@ -31754,6 +31754,122 @@ var require_lib8 = __commonJS({
   }
 });
 
+// node_modules/passport-github2/lib/profile.js
+var require_profile = __commonJS({
+  "node_modules/passport-github2/lib/profile.js"(exports2) {
+    exports2.parse = function(json) {
+      if ("string" == typeof json) {
+        json = JSON.parse(json);
+      }
+      var profile = {};
+      profile.id = String(json.id);
+      profile.nodeId = json.node_id;
+      profile.displayName = json.name;
+      profile.username = json.login;
+      profile.profileUrl = json.html_url;
+      if (json.email) {
+        profile.emails = [{ value: json.email }];
+      }
+      if (json.avatar_url) {
+        profile.photos = [{ value: json.avatar_url }];
+      }
+      return profile;
+    };
+  }
+});
+
+// node_modules/passport-github2/lib/strategy.js
+var require_strategy4 = __commonJS({
+  "node_modules/passport-github2/lib/strategy.js"(exports2, module2) {
+    var util = require("util");
+    var OAuth2Strategy2 = require_lib8();
+    var Profile = require_profile();
+    var InternalOAuthError2 = require_lib8().InternalOAuthError;
+    function Strategy(options, verify3) {
+      options = options || {};
+      options.authorizationURL = options.authorizationURL || "https://github.com/login/oauth/authorize";
+      options.tokenURL = options.tokenURL || "https://github.com/login/oauth/access_token";
+      options.scopeSeparator = options.scopeSeparator || ",";
+      options.customHeaders = options.customHeaders || {};
+      if (!options.customHeaders["User-Agent"]) {
+        options.customHeaders["User-Agent"] = options.userAgent || "passport-github";
+      }
+      OAuth2Strategy2.call(this, options, verify3);
+      this.name = options.name || "github";
+      this._userProfileURL = options.userProfileURL || "https://api.github.com/user";
+      this._userEmailURL = options.userEmailURL || "https://api.github.com/user/emails";
+      this._oauth2.useAuthorizationHeaderforGET(true);
+      this._allRawEmails = options.allRawEmails || false;
+    }
+    util.inherits(Strategy, OAuth2Strategy2);
+    Strategy.prototype.userProfile = function(accessToken, done) {
+      var self = this;
+      this._oauth2.get(this._userProfileURL, accessToken, function(err, body, res) {
+        var json;
+        if (err) {
+          return done(new InternalOAuthError2("Failed to fetch user profile", err));
+        }
+        try {
+          json = JSON.parse(body);
+        } catch (ex) {
+          return done(new Error("Failed to parse user profile"));
+        }
+        var profile = Profile.parse(json);
+        profile.provider = "github";
+        profile._raw = body;
+        profile._json = json;
+        var canAccessEmail = false;
+        var scopes = self._scope;
+        if (typeof scopes === "string") {
+          scopes = scopes.split(self._scopeSeparator);
+        }
+        if (Array.isArray(scopes)) {
+          canAccessEmail = scopes.some(function(scope) {
+            return scope === "user" || scope === "user:email";
+          });
+        }
+        if (!canAccessEmail) {
+          return done(null, profile);
+        }
+        self._oauth2.get(self._userEmailURL, accessToken, function(err2, body2, res2) {
+          if (err2) {
+            return done(new InternalOAuthError2("Failed to fetch user emails", err2));
+          }
+          var json2 = JSON.parse(body2);
+          if (!json2 || !json2.length) {
+            return done(new Error("Failed to fetch user emails"));
+          }
+          if (self._allRawEmails) {
+            profile.emails = json2.map(function(email) {
+              email.value = email.email;
+              delete email.email;
+              return email;
+            });
+          } else {
+            for (var index in json2) {
+              if (json2[index].primary) {
+                profile.emails = [{ value: json2[index].email }];
+                break;
+              }
+            }
+          }
+          done(null, profile);
+        });
+      });
+    };
+    module2.exports = Strategy;
+  }
+});
+
+// node_modules/passport-github2/lib/index.js
+var require_lib9 = __commonJS({
+  "node_modules/passport-github2/lib/index.js"(exports2, module2) {
+    var Strategy = require_strategy4();
+    exports2 = module2.exports = Strategy;
+    exports2.Strategy = Strategy;
+  }
+});
+
 // node_modules/@ioredis/commands/built/commands.json
 var require_commands = __commonJS({
   "node_modules/@ioredis/commands/built/commands.json"(exports2, module2) {
@@ -34618,7 +34734,7 @@ var require_redis_errors = __commonJS({
 });
 
 // node_modules/cluster-key-slot/lib/index.js
-var require_lib9 = __commonJS({
+var require_lib10 = __commonJS({
   "node_modules/cluster-key-slot/lib/index.js"(exports2, module2) {
     var lookup = [
       0,
@@ -36366,7 +36482,7 @@ var require_Command = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var commands_1 = require_built();
-    var calculateSlot = require_lib9();
+    var calculateSlot = require_lib10();
     var standard_as_callback_1 = require_built2();
     var utils_1 = require_utils8();
     var Command = class _Command {
@@ -36739,7 +36855,7 @@ var require_autoPipelining = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.executeWithAutoPipelining = exports2.getFirstValueInFlattenedArray = exports2.shouldUseAutoPipelining = exports2.notAllowedAutoPipelineCommands = exports2.kCallbacks = exports2.kExec = void 0;
     var lodash_1 = require_lodash10();
-    var calculateSlot = require_lib9();
+    var calculateSlot = require_lib10();
     var standard_as_callback_1 = require_built2();
     exports2.kExec = Symbol("exec");
     exports2.kCallbacks = Symbol("callbacks");
@@ -37040,7 +37156,7 @@ var require_Pipeline = __commonJS({
   "node_modules/ioredis/built/Pipeline.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var calculateSlot = require_lib9();
+    var calculateSlot = require_lib10();
     var commands_1 = require_built();
     var standard_as_callback_1 = require_built2();
     var util_1 = require("util");
@@ -41403,6 +41519,30 @@ var customYandexStrategy = new CustomYandexStrategy(
 );
 var customYandexStrategy_default = customYandexStrategy;
 
+// src/middleware/passport/githubStrategy.ts
+var import_passport_github2 = __toESM(require_lib9());
+var githubStrategy = new import_passport_github2.Strategy(
+  {
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost/auth/githubcallback"
+  },
+  async function(accessToken, refreshToken, profile, done) {
+    const user = await user_default2.findOrCreate({
+      email: profile.email,
+      name: profile.displayName,
+      services: [
+        {
+          provider: "github",
+          value: profile.username
+        }
+      ]
+    });
+    return done(null, user);
+  }
+);
+var githubStrategy_default = githubStrategy;
+
 // src/middleware/passport/passport.ts
 import_passport.default.serializeUser(function(user, cb) {
   process.nextTick(function() {
@@ -41416,6 +41556,7 @@ import_passport.default.deserializeUser(function(id, cb) {
 });
 import_passport.default.use("jwt-authenticate", authenticateStrategy_default);
 import_passport.default.use("sso-strategy", customYandexStrategy_default);
+import_passport.default.use("github-strategy", githubStrategy_default);
 var passport_default = import_passport.default;
 
 // src/middleware/passport/index.ts
@@ -41604,6 +41745,11 @@ authRouter.get(
   auth_default.authorize
 );
 authRouter.get(
+  "/githubcallback",
+  passport_default2.authenticate("github-strategy", { failureRedirect: "/" }),
+  auth_default.authorize
+);
+authRouter.get(
   "/authenticate",
   (req, res, next) => {
     res.cookie("redirect-url", req.headers.referer, {
@@ -41612,6 +41758,16 @@ authRouter.get(
     next();
   },
   passport_default2.authenticate("sso-strategy")
+);
+authRouter.get(
+  "/githubauthenticate",
+  (req, res, next) => {
+    res.cookie("redirect-url", req.headers.referer, {
+      signed: true
+    });
+    next();
+  },
+  passport_default2.authenticate("github-strategy")
 );
 authRouter.get("/token", auth_default.token);
 authRouter.get("/logout", auth_default.logout);

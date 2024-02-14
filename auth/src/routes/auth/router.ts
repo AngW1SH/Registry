@@ -11,6 +11,12 @@ authRouter.get(
 );
 
 authRouter.get(
+  "/githubcallback",
+  passport.authenticate("github-strategy", { failureRedirect: "/" }),
+  authController.authorize
+);
+
+authRouter.get(
   "/authenticate",
   (req: Request, res: Response, next: NextFunction) => {
     res.cookie("redirect-url", req.headers.referer, {
@@ -19,6 +25,17 @@ authRouter.get(
     next();
   },
   passport.authenticate("sso-strategy")
+);
+
+authRouter.get(
+  "/githubauthenticate",
+  (req: Request, res: Response, next: NextFunction) => {
+    res.cookie("redirect-url", req.headers.referer, {
+      signed: true,
+    });
+    next();
+  },
+  passport.authenticate("github-strategy")
 );
 
 authRouter.get("/token", authController.token);

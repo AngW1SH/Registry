@@ -3,6 +3,7 @@ import passport from "passport";
 import authenticateStrategy from "./authenticateStrategy";
 import customYandexStrategy from "./customYandexStrategy";
 import userRepository from "@/repositories/user";
+import githubStrategy from "./githubStrategy";
 
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
@@ -21,5 +22,6 @@ passport.deserializeUser(function (id: number, cb) {
 
 passport.use("jwt-authenticate", authenticateStrategy);
 passport.use("sso-strategy", customYandexStrategy);
+passport.use("github-strategy", githubStrategy);
 
 export default passport;
