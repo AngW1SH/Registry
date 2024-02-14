@@ -1,7 +1,7 @@
 import { IProject } from "../types/types";
 
 export const getProjectsByProjectIds = (
-  projectIds: number[],
+  projectIds: string[],
   allProjects: IProject[],
 ) => {
   return projectIds.map((projectId) => {

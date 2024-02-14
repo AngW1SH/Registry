@@ -6,7 +6,7 @@ export const useAddProjectFileMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { projectId: number; files: File[] }) => {
+    mutationFn: (data: { projectId: string; files: File[] }) => {
       return Promise.resolve(fetchAddProjectFiles(data.projectId, data.files));
     },
     onSuccess: () => {

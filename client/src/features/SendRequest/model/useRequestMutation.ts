@@ -3,7 +3,7 @@ import { sendRequest } from "../api/sendRequest";
 
 export const useRequestMutation = () => {
   return useMutation({
-    mutationFn: (data: { team: number; files: File[]; project: number }) =>
+    mutationFn: (data: { team: number; files: File[]; project: string }) =>
       Promise.resolve(sendRequest(data.team, data.files, data.project)),
   });
 };

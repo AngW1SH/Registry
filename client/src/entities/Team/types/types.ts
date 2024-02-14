@@ -5,6 +5,6 @@ export interface ITeam {
 }
 
 export interface ITeamExtended extends ITeam {
-  project?: number | null;
+  project?: string | null;
   requests?: number[];
 }

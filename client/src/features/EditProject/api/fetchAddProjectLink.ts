@@ -1,7 +1,7 @@
 import { authorizedFetch } from "@/shared/utils";
 
 export const fetchAddProjectLink = async (
-  projectId: number,
+  projectId: string,
   resource: string,
   link: string,
 ) => {

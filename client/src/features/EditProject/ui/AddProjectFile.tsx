@@ -4,7 +4,7 @@ import { FC, useRef } from "react";
 import { useAddProjectFileMutation } from "../model/useAddProjectFilesMutation";
 
 interface AddProjectFilesProps {
-  projectId: number;
+  projectId: string;
 }
 
 const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {

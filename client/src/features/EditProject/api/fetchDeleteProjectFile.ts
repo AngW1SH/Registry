@@ -1,7 +1,7 @@
 import { authorizedFetch } from "@/shared/utils";
 
 export const fetchDeleteProjectFile = async (
-  projectId: number,
+  projectId: string,
   fileId: number,
 ) => {
   const result: any = await authorizedFetch(

@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useDeleteProjectLinkMutation } from "../model/useDeleteProjectLinkMutation";
 
 interface DeleteProjectLinkProps {
-  projectId: number;
+  projectId: string;
   linkId: number;
   className?: string;
 }

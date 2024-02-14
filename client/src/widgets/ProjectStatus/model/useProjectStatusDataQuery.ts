@@ -3,7 +3,7 @@ import { ProjectStatusData } from "../types/types";
 import { fetchProjectStatusData } from "../api/fetchProjectStatusData";
 import { useAuthQuery } from "@/entities/User";
 
-export const useProjectStatusDataQuery = (projectId: number) => {
+export const useProjectStatusDataQuery = (projectId: string) => {
   const { data: user } = useAuthQuery();
 
   return useQuery<ProjectStatusData | null>({

@@ -6,7 +6,7 @@ export const useDeleteProjectFileMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { projectId: number; fileId: number }) => {
+    mutationFn: (data: { projectId: string; fileId: number }) => {
       return Promise.resolve(
         fetchDeleteProjectFile(data.projectId, data.fileId),
       );

@@ -3,7 +3,7 @@ import { FC, useRef } from "react";
 import { useChangeProjectFileMutation } from "../model/useChangeProjectFilesMutation";
 
 interface ChangeProjectFileProps {
-  projectId: number;
+  projectId: string;
   fileId: number;
   className?: string;
 }

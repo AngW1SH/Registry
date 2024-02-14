@@ -1,7 +1,7 @@
 export interface IRequest {
   id: number;
   team: number | null;
-  project: number | null;
+  project: string | null;
   files: {
     id: number;
     name: string;

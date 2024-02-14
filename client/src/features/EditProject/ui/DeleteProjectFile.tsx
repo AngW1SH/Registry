@@ -4,7 +4,7 @@ import { fetchDeleteProjectFile } from "../api/fetchDeleteProjectFile";
 import { useDeleteProjectFileMutation } from "../model/useDeleteProjectFileMutation";
 
 interface DeleteProjectFileProps {
-  projectId: number;
+  projectId: string;
   fileId: number;
   className?: string;
 }

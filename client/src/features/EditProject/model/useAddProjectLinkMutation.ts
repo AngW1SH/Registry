@@ -8,7 +8,7 @@ export const useAddProjectLinkMutation = () => {
 
   return useMutation({
     mutationFn: (data: {
-      projectId: number;
+      projectId: string;
       resource: string;
       link: string;
     }) => {

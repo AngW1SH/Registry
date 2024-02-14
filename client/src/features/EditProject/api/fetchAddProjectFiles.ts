@@ -1,7 +1,7 @@
 import { authorizedFetch } from "@/shared/utils";
 
 export const fetchAddProjectFiles = async (
-  projectId: number,
+  projectId: string,
   files: File[],
 ) => {
   const formData = new FormData();

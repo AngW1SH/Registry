@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { useAddProjectLinkMutation } from "../model/useAddProjectLinkMutation";
 
 interface AddProjectLinkProps {
-  projectId: number;
+  projectId: string;
 }
 
 const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {

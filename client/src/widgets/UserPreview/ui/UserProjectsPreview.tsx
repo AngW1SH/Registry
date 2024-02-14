@@ -22,7 +22,7 @@ const UserProjectsPreview: FC<UserProjectsPreviewProps> = ({
 
   const projectIds = getTeamsByTeamIds(profile.user.teams, profile.teams)
     .filter((team) => team.project)
-    .map((team) => team.project) as number[];
+    .map((team) => team.project) as string[];
 
   const projects = getProjectsByProjectIds(projectIds, profile.projects);
 

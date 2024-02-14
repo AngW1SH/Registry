@@ -1,7 +1,7 @@
 import { authorizedFetch } from "@/shared/utils";
 
 export const fetchChangeProjectFile = async (
-  projectId: number,
+  projectId: string,
   fileId: number,
   files: File[],
 ) => {

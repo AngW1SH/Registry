@@ -28,7 +28,7 @@ export const staticTeamsExtended: ITeamExtended[] = [
     id: 4,
     name: "4. Авдеева С.Д., Горшков И.Г., Гришкина С.К., Евдокимова В.А., Ермилов И.М.",
     members: [1, 2, 3, 4, 5],
-    project: 1,
+    project: "1",
   },
   {
     id: 5,
@@ -40,7 +40,7 @@ export const staticTeamsExtended: ITeamExtended[] = [
     id: 6,
     name: "6. Князева А.Л., Колесников Г.А., Кузнецова А.А., Ларионов Н.А., Матвеев М.И.",
     members: [1, 2, 3, 4],
-    project: 3,
+    project: "3",
     requests: [29],
   },
 ];

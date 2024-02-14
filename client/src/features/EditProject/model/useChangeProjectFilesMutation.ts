@@ -7,7 +7,7 @@ export const useChangeProjectFileMutation = () => {
 
   return useMutation({
     mutationFn: (data: {
-      projectId: number;
+      projectId: string;
       fileId: number;
       files: File[];
     }) => {

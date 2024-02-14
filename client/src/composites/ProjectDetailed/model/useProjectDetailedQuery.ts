@@ -5,7 +5,7 @@ import { fetchProjectDetailed } from "../api/fetchProjectDetailed";
 import { ProjectDetailed } from "../types/types";
 
 export default function useProjectDetailedQuery(
-  id: number,
+  id: string,
   placeholderData: ProjectDetailed,
 ) {
   return useQuery<ProjectDetailed | null>({

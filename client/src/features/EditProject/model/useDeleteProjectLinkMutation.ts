@@ -7,7 +7,7 @@ export const useDeleteProjectLinkMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { projectId: number; linkId: number }) => {
+    mutationFn: (data: { projectId: string; linkId: number }) => {
       return Promise.resolve(
         fetchDeleteProjectLink(data.projectId, data.linkId),
       );
