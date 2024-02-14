@@ -1,4 +1,5 @@
 import { User, UserCreate } from "@/entities/user";
+import { BadRequestError } from "@/helpers/errors";
 import userRepository from "@/repositories/user";
 
 const userServiceFactory = () => {
@@ -11,7 +12,13 @@ const userServiceFactory = () => {
   }
 
   async function findOrCreate(user: UserCreate): Promise<User | null> {
-    const userFound = await userRepository.findOne({ email: user.email });
+    if (!user.services.length)
+      throw new BadRequestError("user.services should not be empty");
+
+    const userFound = await userRepository.findOneByService({
+      provider: user.services[0].provider,
+      value: user.services[0].value,
+    });
 
     if (userFound) return userFound;
 

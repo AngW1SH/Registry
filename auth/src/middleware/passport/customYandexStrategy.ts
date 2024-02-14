@@ -94,6 +94,14 @@ const customYandexStrategy = new CustomYandexStrategy(
         profile.default_email?.toLowerCase() ||
         profile.emails[0].value.toLowerCase(),
       name: profile.displayName,
+      services: [
+        {
+          provider: "yandex",
+          value:
+            profile.default_email?.toLowerCase() ||
+            profile.emails[0].value.toLowerCase(),
+        },
+      ],
     });
     return done(null, user);
   }

@@ -2,6 +2,10 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  services: {
+    provider: string;
+    value: string;
+  }[];
 }
 
 export type UserCreate = Omit<User, "id">;
@@ -11,6 +15,10 @@ interface UserStrapiInner {
   attributes: {
     name: string;
     email: string;
+    services: {
+      provider: string;
+      value: string;
+    }[];
   };
 }
 

@@ -41156,6 +41156,14 @@ var BaseError = class extends Error {
 };
 var BaseError_default = BaseError;
 
+// src/helpers/errors/BadRequestError.ts
+var BadRequestError = class extends BaseError_default {
+  constructor(name, statusCode = 400 /* BAD_REQUEST */, description = "The server cannot or will not process the request due to an apparent client error", isOperational = true) {
+    super(name, statusCode, isOperational, description);
+  }
+};
+var BadRequestError_default = BadRequestError;
+
 // src/helpers/errors/ServerError.ts
 var ServerError = class extends BaseError_default {
   constructor(name, statusCode = 500 /* INTERNAL_SERVER */, description = "Internal Server Error", isOperational = false) {
@@ -41175,7 +41183,48 @@ var UnauthorizedError_default = UnauthorizedError;
 // src/repositories/user/index.ts
 var import_qs = __toESM(require_lib7());
 var userRepositoryFactory = () => {
-  return Object.freeze({ findOne, create });
+  return Object.freeze({ findOne, findOneByService, create });
+  async function findOneByService(filters) {
+    const params = {
+      filters: {
+        services: {
+          provider: {
+            $eqi: filters.provider
+          },
+          value: {
+            $equi: filters.value
+          }
+        }
+      },
+      fields: ["id", "name", "email"],
+      populate: {
+        services: {
+          provider: true,
+          value: true
+        }
+      }
+    };
+    const response = await fetch(
+      process.env.STRAPI_URL + "students?" + import_qs.default.stringify(params),
+      {
+        headers: {
+          Authorization: "bearer " + process.env.USER_TOKEN
+        }
+      }
+    ).then((data) => {
+      try {
+        return data.json();
+      } catch {
+        return null;
+      }
+    });
+    if (!response.data || !response.data.length)
+      return null;
+    return {
+      id: response.data[0].id,
+      ...response.data[0].attributes
+    };
+  }
   async function findOne(filters) {
     const params = {
       filters: {
@@ -41246,7 +41295,12 @@ var userServiceFactory = () => {
     return user;
   }
   async function findOrCreate(user) {
-    const userFound = await user_default.findOne({ email: user.email });
+    if (!user.services.length)
+      throw new BadRequestError_default("user.services should not be empty");
+    const userFound = await user_default.findOneByService({
+      provider: user.services[0].provider,
+      value: user.services[0].value
+    });
     if (userFound)
       return userFound;
     const userCreated = await user_default.create(user);
@@ -41336,7 +41390,13 @@ var customYandexStrategy = new CustomYandexStrategy(
   async function(accessToken, refreshToken, profile, done) {
     const user = await user_default2.findOrCreate({
       email: profile.default_email?.toLowerCase() || profile.emails[0].value.toLowerCase(),
-      name: profile.displayName
+      name: profile.displayName,
+      services: [
+        {
+          provider: "yandex",
+          value: profile.default_email?.toLowerCase() || profile.emails[0].value.toLowerCase()
+        }
+      ]
     });
     return done(null, user);
   }
@@ -41382,12 +41442,16 @@ var import_jsonwebtoken3 = __toESM(require_jsonwebtoken());
 
 // src/repositories/token/index.ts
 var import_jsonwebtoken2 = __toESM(require_jsonwebtoken());
+
+// src/db/redis/client/index.ts
 var import_ioredis = __toESM(require_built3());
 var redis = new import_ioredis.Redis({
-  host: "redis",
+  host: process.env.REDIS_HOST,
   password: process.env.REDIS_PASSWORD,
   port: +process.env.REDIS_PORT
 });
+
+// src/repositories/token/index.ts
 var tokenRepositoryFactory = () => {
   return Object.freeze({ save, get, erase });
   async function save(refreshToken) {
