@@ -30,12 +30,12 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
               <Image fill={true} src="/warning-circle-icon-white.svg" alt="" />
             </div>
             <div className="pr-5" />
-            <p className="font-medium">У вас нет заполненных анкет</p>
+            <p className="font-medium">У вас нет пройденных анкет</p>
           </div>
           <div className="pt-11" />
           <Link href="/user/forms">
             <ButtonAlt className="mt-auto rounded-full px-8 py-3">
-              Заполнить анкету
+              Пройти анкету
             </ButtonAlt>
           </Link>
         </div>

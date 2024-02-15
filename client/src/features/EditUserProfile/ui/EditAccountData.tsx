@@ -81,21 +81,25 @@ const EditAccountData: FC<EditAccountDataProps> = ({
         </div>
       </div>
       <div className="pt-8" />
-      {!isLoading && (
-        <Button
-          className={`self-start rounded-full px-14 pt-3`}
-          onClick={handleSubmit}
-          style={
-            hasUnsavedChanges && isSubmittable
-              ? {}
-              : {
-                  backgroundColor: "#bbb",
-                }
-          }
-        >
-          Сохранено
-        </Button>
-      )}
+      {!isLoading &&
+        (hasUnsavedChanges && isSubmittable ? (
+          <Button
+            className={`self-start rounded-full px-14 pt-3`}
+            onClick={handleSubmit}
+          >
+            Сохранить
+          </Button>
+        ) : (
+          <Button
+            className={`self-start rounded-full px-14 pt-3`}
+            style={{
+              backgroundColor: "#bbb",
+            }}
+            onClick={handleSubmit}
+          >
+            Сохранено
+          </Button>
+        ))}
       {isLoading && (
         <div className="px-14">
           <LoadingCircle />
