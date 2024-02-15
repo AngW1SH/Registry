@@ -7,6 +7,7 @@ import { Member } from "@/entities/member";
 import requestService from "../request";
 import projectRepository from "@/repositories/project";
 import { mergeUnique } from "@/helpers/mergeUnique";
+import userRepository from "@/repositories/user";
 
 const profileServiceFactory = () => {
   return Object.freeze({ getUserData, editAccountData, editPersonalData });
@@ -15,7 +16,13 @@ const profileServiceFactory = () => {
     data: { email: string; phone: string },
     user: User
   ) {
-    // TODO
+    return userRepository.edit(
+      {
+        email: data.email,
+        phone: data.phone,
+      },
+      user.id
+    );
   }
 
   async function editPersonalData(
@@ -28,7 +35,18 @@ const profileServiceFactory = () => {
     },
     user: User
   ) {
-    // TODO
+    const name = [
+      data.fullName.surname,
+      data.fullName.name,
+      data.fullName.patronymic,
+    ].join(" ");
+
+    return userRepository.edit(
+      {
+        name,
+      },
+      user.id
+    );
   }
 
   async function getUserData(user: User): Promise<UserProfileData> {
