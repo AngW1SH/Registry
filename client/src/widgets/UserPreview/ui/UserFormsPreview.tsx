@@ -34,9 +34,9 @@ const UserFormsPreview: FC<UserFormsPreviewProps> = ({ className }) => {
           </div>
           <div className="pt-11" />
           <Link href="/user/forms">
-            <Button className="mt-auto rounded-full px-8 py-3">
+            <ButtonAlt className="mt-auto rounded-full px-8 py-3">
               Заполнить анкету
-            </Button>
+            </ButtonAlt>
           </Link>
         </div>
       </NamedBlock>
