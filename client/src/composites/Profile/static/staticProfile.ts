@@ -120,7 +120,18 @@ export const staticProfileTeamAssigned: ProfileDTO = {
       tags: [],
     },
   ],
-  user: { teams: [4], administratedTeams: [4], projects: [] },
+  user: {
+    email: "email@mail.ru",
+    phone: "+7 999 999 99 99",
+    fullName: {
+      name: "Иван",
+      surname: "Иванов",
+      patronymic: "Иванович",
+    },
+    teams: [4],
+    administratedTeams: [4],
+    projects: [],
+  },
 };
 
 export const staticProfileTeamHiring: ProfileDTO = {
@@ -244,5 +255,16 @@ export const staticProfileTeamHiring: ProfileDTO = {
       tags: [],
     },
   ],
-  user: { teams: [4], administratedTeams: [4], projects: ["1"] },
+  user: {
+    email: "email@mail.ru",
+    phone: "+7 999 999 99 99",
+    fullName: {
+      name: "Иван",
+      surname: "Иванов",
+      patronymic: "Иванович",
+    },
+    teams: [4],
+    administratedTeams: [4],
+    projects: ["1"],
+  },
 };
