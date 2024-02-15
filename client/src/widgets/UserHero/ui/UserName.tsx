@@ -16,15 +16,15 @@ const UserName: FC<UserNameProps> = () => {
     );
   }
 
-  const nameArray = authUser.name.split(" ");
+  const nameArray = authUser.name?.split(" ") || [];
 
-  const name = nameArray.length > 1 ? nameArray[1] : nameArray[0];
+  const name = nameArray.length > 1 ? nameArray[1] : nameArray[0] || "";
 
   return (
     <div className="flex items-center">
       <div>
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-[2.0625rem] text-[#c4c6c8]">
-          {name[0].toUpperCase()}
+          {name[0]?.toUpperCase()}
         </div>
       </div>
       <div className="pr-6" />

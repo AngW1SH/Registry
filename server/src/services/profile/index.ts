@@ -68,7 +68,7 @@ const profileServiceFactory = () => {
     const userData =
       userResult.status == "fulfilled" ? userResult.value || null : null;
 
-    const nameArray = userData?.name.split(" ") || [];
+    const nameArray = userData?.name?.split(" ") || [];
 
     const forms =
       formsResult.status == "fulfilled" ? formsResult.value || [] : [];
