@@ -1,19 +1,15 @@
-import {
-  getUserFormResultsFromStrapiDTO,
-  getUserFromStrapiDTO,
-} from "@/db/strapi/adapters/user";
+import { getUserFromStrapiDTO } from "@/db/strapi/adapters/user";
 import { strapi } from "@/db/strapi/client";
-import { selectFormResult } from "@/db/strapi/queries/components/form-result";
 import { selectUser } from "@/db/strapi/queries/user";
 import { UserListStrapi, UserStrapi } from "@/db/strapi/types/user";
-import { FormResult } from "@/entities/form";
 import { User, UserCreate } from "@/entities/user";
-import { ServerError } from "@/helpers/errors";
+import { BadRequestError, ServerError } from "@/helpers/errors";
 
 const userRepositoryFactory = () => {
   return Object.freeze({
     findOne,
     create,
+    edit,
   });
 
   async function findOne(filters: {
@@ -49,6 +45,28 @@ const userRepositoryFactory = () => {
     });
 
     if (!response.data.id) throw new ServerError("User not created");
+
+    return getUserFromStrapiDTO(response);
+  }
+
+  async function edit(
+    data: {
+      name?: string;
+      email?: string;
+      phone?: string;
+    },
+    userId: number
+  ) {
+    if (!userId) throw new BadRequestError("User id not specified");
+
+    const params = {
+      data,
+    };
+
+    const response: UserStrapi = await strapi.put(`students/${userId}`, {
+      token: process.env.USER_TOKEN!,
+      body: params,
+    });
 
     return getUserFromStrapiDTO(response);
   }
