@@ -18,6 +18,9 @@
     "email": {
       "type": "email"
     },
+    "phone": {
+      "type": "string"
+    },
     "teams": {
       "type": "relation",
       "relation": "oneToMany",
