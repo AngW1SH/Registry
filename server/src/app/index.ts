@@ -15,6 +15,7 @@ import errorLogger from "@/middleware/errors/ErrorLogger";
 import errorHandler from "@/middleware/errors/ErrorHandler";
 import memberRouter from "@/routes/member/router";
 import categoryRouter from "@/routes/category/router";
+import profileRouter from "@/routes/profile/router";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -48,6 +49,7 @@ const generateApp = (port?: number) => {
   app.use("/email", emailRouter);
   app.use("/member", memberRouter);
   app.use("/category", categoryRouter);
+  app.use("/profile", profileRouter);
 
   app.use(errorLogger);
   app.use(errorHandler);
