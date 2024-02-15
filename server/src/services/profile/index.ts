@@ -8,6 +8,7 @@ import requestService from "../request";
 import projectRepository from "@/repositories/project";
 import { mergeUnique } from "@/helpers/mergeUnique";
 import userRepository from "@/repositories/user";
+import userService from "../user";
 
 const profileServiceFactory = () => {
   return Object.freeze({ getUserData, editAccountData, editPersonalData });
@@ -51,16 +52,24 @@ const profileServiceFactory = () => {
 
   async function getUserData(user: User): Promise<UserProfileData> {
     const [
+      userResult,
       formsResult,
       requestsResult,
       activeTeamsResult,
       activeAdministratedTeamsResult,
     ] = await Promise.allSettled([
+      userService.findById(user.id),
       formResultService.getAllByUser(user),
       requestRepository.getActive({ user: user.id }), // not all the requests associated with each team
       teamRepository.getActive(user.id), // is considered 'active', hence the separate calls
       teamRepository.getAdministratedActive(user.id),
     ]);
+
+    const userData =
+      userResult.status == "fulfilled" ? userResult.value || null : null;
+
+    const nameArray = userData?.name.split(" ") || [];
+
     const forms =
       formsResult.status == "fulfilled" ? formsResult.value || [] : [];
 
@@ -115,6 +124,13 @@ const profileServiceFactory = () => {
       users: mergeUnique(users, adminUsers),
       projects: projects!,
       user: {
+        email: userData?.email || "",
+        phone: userData?.phone || "",
+        fullName: {
+          name: nameArray[1] || "",
+          surname: nameArray[0] || "",
+          patronymic: nameArray[2] || "",
+        },
         teams: teamsPopulated ? teamsPopulated.map((team) => team.id) : [],
         administratedTeams: adminTeamsPopulated
           ? adminTeamsPopulated.map((team) => team.id)

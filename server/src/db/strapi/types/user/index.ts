@@ -5,6 +5,7 @@ interface UserStrapiInner {
   attributes: {
     name: string;
     email: string;
+    phone: string;
   };
 }
 

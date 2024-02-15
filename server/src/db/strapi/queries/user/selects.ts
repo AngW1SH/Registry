@@ -3,5 +3,5 @@ export type SelectUserOptions = {
 };
 
 export const selectUser = () => ({
-  fields: ["id", "name", "email"],
+  fields: ["id", "name", "email", "phone"],
 });

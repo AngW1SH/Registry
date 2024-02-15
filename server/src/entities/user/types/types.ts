@@ -9,6 +9,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  phone: string;
 }
 
 export type UserCreate = Omit<User, "id">;
@@ -26,6 +27,13 @@ export interface UserProfileData {
   projects: ProjectDTO[];
   requests: Request[];
   user: {
+    fullName: {
+      name: string;
+      surname: string;
+      patronymic: string;
+    };
+    email: string;
+    phone: string;
     teams: number[];
     administratedTeams: number[];
     projects: string[];
