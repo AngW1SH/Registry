@@ -15,12 +15,8 @@ const EditUserProfile: FC<EditUserProfileProps> = () => {
   return (
     <div>
       <EditPersonalData />
-      <div className="pt-4" />
-      <EditEducationData />
-      <div className="pt-4" />
-      <EditAccountData />
       <div className="pt-6" />
-      <Button className="rounded-full px-14 pt-3">Сохранить</Button>
+      <EditAccountData />
     </div>
   );
 };

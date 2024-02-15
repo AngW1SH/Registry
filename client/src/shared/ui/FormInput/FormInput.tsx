@@ -26,7 +26,7 @@ const FormInput: FC<FormInputProps> = ({
   };
 
   return (
-    <div className={"flex flex-col pt-3 " + className}>
+    <div className={"flex flex-col " + className}>
       {label && id && label.length && (
         <label className="pb-1 text-xs text-[#898989]" htmlFor={id}>
           {label}

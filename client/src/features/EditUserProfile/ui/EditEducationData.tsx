@@ -1,5 +1,5 @@
 "use client";
-import { FormInput, NamedBlock } from "@/shared/ui";
+import { Button, FormInput, NamedBlock } from "@/shared/ui";
 import { FC } from "react";
 
 interface EditEducationDataProps {}
@@ -39,6 +39,8 @@ const EditEducationData: FC<EditEducationDataProps> = () => {
           </p>
         </div>
       </div>
+      <div className="pt-8" />
+      <Button className="self-start rounded-full px-14 pt-3">Сохранить</Button>
     </NamedBlock>
   );
 };
