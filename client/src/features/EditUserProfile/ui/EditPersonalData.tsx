@@ -3,7 +3,13 @@ import { Button, FormInput, LoadingCircle, NamedBlock } from "@/shared/ui";
 import { FC, useMemo, useState } from "react";
 import { usePersonalDataMutation } from "../model/usePersonalDataMutation";
 
-interface EditPersonalDataProps {}
+interface EditPersonalDataProps {
+  fullNameParam: {
+    surname: string;
+    name: string;
+    patronymic: string;
+  };
+}
 
 /*
 
@@ -22,17 +28,13 @@ interface EditPersonalDataProps {}
         />
 */
 
-const EditPersonalData: FC<EditPersonalDataProps> = () => {
+const EditPersonalData: FC<EditPersonalDataProps> = ({ fullNameParam }) => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const { mutate: edit, isLoading } =
     usePersonalDataMutation(setHasUnsavedChanges);
 
-  const [fullName, setFullName] = useState({
-    surname: "",
-    name: "",
-    patronymic: "",
-  });
+  const [fullName, setFullName] = useState(fullNameParam);
 
   const updateFullName = (
     key: "surname" | "name" | "patronymic",
@@ -74,16 +76,25 @@ const EditPersonalData: FC<EditPersonalDataProps> = () => {
         />
       </div>
       <div className="pt-8" />
-      {!isLoading && (
-        <Button
-          className={`self-start rounded-full px-14 pt-3 ${
-            hasUnsavedChanges && isSubmittable ? "" : "bg-[#bbb]"
-          }`}
-          onClick={handleSubmit}
-        >
-          Сохранить
-        </Button>
-      )}
+      {!isLoading &&
+        (hasUnsavedChanges && isSubmittable ? (
+          <Button
+            className={`self-start rounded-full px-14 pt-3`}
+            onClick={handleSubmit}
+          >
+            Сохранить
+          </Button>
+        ) : (
+          <Button
+            className={`self-start rounded-full px-14 pt-3`}
+            style={{
+              backgroundColor: "#bbb",
+            }}
+            onClick={handleSubmit}
+          >
+            Сохранено
+          </Button>
+        ))}
       {isLoading && (
         <div className="px-14">
           <LoadingCircle />

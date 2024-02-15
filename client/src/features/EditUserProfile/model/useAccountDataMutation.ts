@@ -16,6 +16,9 @@ export const useAccountDataMutation = (
       queryClient.invalidateQueries({
         queryKey: ["profile"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["auth-user"],
+      });
       onComplete(false);
     },
     onError: () => {

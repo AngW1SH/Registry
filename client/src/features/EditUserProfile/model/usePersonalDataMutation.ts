@@ -22,6 +22,9 @@ export const usePersonalDataMutation = (
       queryClient.invalidateQueries({
         queryKey: ["profile"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["auth-user"],
+      });
       onComplete(false);
     },
     onError: () => {

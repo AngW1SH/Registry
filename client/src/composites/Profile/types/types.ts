@@ -14,6 +14,13 @@ export interface Profile {
   users: IUser[];
   members: IMember[];
   user: {
+    fullName: {
+      name: string;
+      surname: string;
+      patronymic: string;
+    };
+    email: string;
+    phone: string;
     teams: number[];
     administratedTeams: number[];
     projects: string[];
@@ -28,6 +35,13 @@ export interface ProfileDTO {
   users: IUser[];
   members: IMember[];
   user: {
+    fullName: {
+      name: string;
+      surname: string;
+      patronymic: string;
+    };
+    email: string;
+    phone: string;
     teams: number[];
     administratedTeams: number[];
     projects: string[];

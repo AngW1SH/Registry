@@ -3,20 +3,21 @@ import EditPersonalData from "./EditPersonalData";
 import EditEducationData from "./EditEducationData";
 import EditAccountData from "./EditAccountData";
 import { Button } from "@/shared/ui";
+import { Profile } from "@/composites/Profile";
 
-interface EditUserProfileProps {}
+interface EditUserProfileProps {
+  profile: Profile;
+}
 
-/*
-Technically, this should be a Widget, not a Feature, because almost no fields are interactive rn,
-but I still thought it would make more sense to place it here
-*/
-
-const EditUserProfile: FC<EditUserProfileProps> = () => {
+const EditUserProfile: FC<EditUserProfileProps> = ({ profile }) => {
   return (
     <div>
-      <EditPersonalData />
+      <EditPersonalData fullNameParam={profile.user.fullName} />
       <div className="pt-6" />
-      <EditAccountData />
+      <EditAccountData
+        emailParam={profile.user.email}
+        phoneParam={profile.user.phone}
+      />
     </div>
   );
 };

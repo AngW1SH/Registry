@@ -9,9 +9,15 @@ import {
 import { FC, useMemo, useState } from "react";
 import { useAccountDataMutation } from "../model/useAccountDataMutation";
 
-interface EditAccountDataProps {}
+interface EditAccountDataProps {
+  emailParam: string;
+  phoneParam: string;
+}
 
-const EditAccountData: FC<EditAccountDataProps> = () => {
+const EditAccountData: FC<EditAccountDataProps> = ({
+  emailParam,
+  phoneParam,
+}) => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   const { mutate: edit, isLoading } =
@@ -19,8 +25,8 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
 
   const [checked, setChecked] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState(emailParam);
+  const [phone, setPhone] = useState(phoneParam);
 
   const isSubmittable = useMemo(() => {
     return email || phone;
@@ -30,6 +36,8 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
     e.preventDefault();
     if (hasUnsavedChanges && isSubmittable) edit({ email, phone });
   };
+
+  console.log(hasUnsavedChanges && isSubmittable);
 
   return (
     <NamedBlock title={"Учётная запись"} border={false}>
@@ -75,12 +83,17 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
       <div className="pt-8" />
       {!isLoading && (
         <Button
-          className={`self-start rounded-full px-14 pt-3 ${
-            hasUnsavedChanges && isSubmittable ? "" : "bg-[#bbb]"
-          }`}
+          className={`self-start rounded-full px-14 pt-3`}
           onClick={handleSubmit}
+          style={
+            hasUnsavedChanges && isSubmittable
+              ? {}
+              : {
+                  backgroundColor: "#bbb",
+                }
+          }
         >
-          Сохранить
+          Сохранено
         </Button>
       )}
       {isLoading && (
