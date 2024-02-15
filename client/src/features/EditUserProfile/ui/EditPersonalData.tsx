@@ -1,6 +1,7 @@
 "use client";
-import { Button, FormInput, NamedBlock } from "@/shared/ui";
-import { FC, useState } from "react";
+import { Button, FormInput, LoadingCircle, NamedBlock } from "@/shared/ui";
+import { FC, useMemo, useState } from "react";
+import { usePersonalDataMutation } from "../model/usePersonalDataMutation";
 
 interface EditPersonalDataProps {}
 
@@ -22,11 +23,33 @@ interface EditPersonalDataProps {}
 */
 
 const EditPersonalData: FC<EditPersonalDataProps> = () => {
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  const { mutate: edit, isLoading } =
+    usePersonalDataMutation(setHasUnsavedChanges);
+
   const [fullName, setFullName] = useState({
     surname: "",
     name: "",
     patronymic: "",
   });
+
+  const updateFullName = (
+    key: "surname" | "name" | "patronymic",
+    value: string,
+  ) => {
+    setHasUnsavedChanges(true);
+    setFullName((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (hasUnsavedChanges && isSubmittable) edit({ fullName });
+  };
+
+  const isSubmittable = useMemo(() => {
+    return fullName.name || fullName.surname || fullName.patronymic;
+  }, [fullName]);
 
   return (
     <NamedBlock title={"Личные данные"} border={false}>
@@ -35,29 +58,37 @@ const EditPersonalData: FC<EditPersonalDataProps> = () => {
           className="order-1 w-full sm:w-[calc(50%+1px)]"
           value={fullName.surname}
           placeholder="Фамилия"
-          onChange={(value: string) =>
-            setFullName((prev) => ({ ...prev, surname: value }))
-          }
+          onChange={(value: string) => updateFullName("surname", value)}
         />
         <FormInput
           className="order-2 w-full sm:w-[calc(50%+1px)]"
           value={fullName.name}
           placeholder="Имя"
-          onChange={(value: string) =>
-            setFullName((prev) => ({ ...prev, name: value }))
-          }
+          onChange={(value: string) => updateFullName("name", value)}
         />
         <FormInput
           className="order-3 w-full sm:order-4 sm:w-[calc(50%+1px)]"
           value={fullName.patronymic}
           placeholder="Отчество"
-          onChange={(value: string) =>
-            setFullName((prev) => ({ ...prev, patronymic: value }))
-          }
+          onChange={(value: string) => updateFullName("patronymic", value)}
         />
       </div>
       <div className="pt-8" />
-      <Button className="self-start rounded-full px-14 pt-3">Сохранить</Button>
+      {!isLoading && (
+        <Button
+          className={`self-start rounded-full px-14 pt-3 ${
+            hasUnsavedChanges && isSubmittable ? "" : "bg-[#bbb]"
+          }`}
+          onClick={handleSubmit}
+        >
+          Сохранить
+        </Button>
+      )}
+      {isLoading && (
+        <div className="px-14">
+          <LoadingCircle />
+        </div>
+      )}
     </NamedBlock>
   );
 };

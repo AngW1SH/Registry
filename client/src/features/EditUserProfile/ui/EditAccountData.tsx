@@ -1,14 +1,35 @@
 "use client";
-import { Button, FormCheckbox, FormInput, NamedBlock } from "@/shared/ui";
-import { FC, useState } from "react";
+import {
+  Button,
+  FormCheckbox,
+  FormInput,
+  LoadingCircle,
+  NamedBlock,
+} from "@/shared/ui";
+import { FC, useMemo, useState } from "react";
+import { useAccountDataMutation } from "../model/useAccountDataMutation";
 
 interface EditAccountDataProps {}
 
 const EditAccountData: FC<EditAccountDataProps> = () => {
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  const { mutate: edit, isLoading } =
+    useAccountDataMutation(setHasUnsavedChanges);
+
   const [checked, setChecked] = useState(false);
 
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+
+  const isSubmittable = useMemo(() => {
+    return email || phone;
+  }, [email, phone]);
+
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (hasUnsavedChanges && isSubmittable) edit({ email, phone });
+  };
 
   return (
     <NamedBlock title={"Учётная запись"} border={false}>
@@ -17,7 +38,10 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
           <p className="w-24 text-[0.9375rem] text-[#898989]">E-mail</p>
           <FormInput
             className="-mt-px w-3/4 sm:w-[calc(50%+1px)]"
-            onChange={setEmail}
+            onChange={(value: string) => {
+              setEmail(value);
+              setHasUnsavedChanges(true);
+            }}
             value={email}
             placeholder="Введите E-mail"
             id={"userAccountEmail"}
@@ -27,7 +51,10 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
           <p className="w-24 text-[0.9375rem] text-[#898989]">Телефон</p>
           <FormInput
             className="-mt-[2px] w-3/4 sm:w-[calc(50%+1px)]"
-            onChange={setPhone}
+            onChange={(value: string) => {
+              setPhone(value);
+              setHasUnsavedChanges(true);
+            }}
             value={phone}
             placeholder="Введите телефон"
             id={"userAccountPhone"}
@@ -38,12 +65,29 @@ const EditAccountData: FC<EditAccountDataProps> = () => {
             label="Получать оповещения об изменении статуса проектов, в которых Вы участвуете"
             id="userProfileSubscribe"
             value={checked}
-            onToggle={setChecked}
+            onToggle={(value: boolean) => {
+              setChecked(value);
+              setHasUnsavedChanges(true);
+            }}
           />
         </div>
       </div>
       <div className="pt-8" />
-      <Button className="self-start rounded-full px-14 pt-3">Сохранить</Button>
+      {!isLoading && (
+        <Button
+          className={`self-start rounded-full px-14 pt-3 ${
+            hasUnsavedChanges && isSubmittable ? "" : "bg-[#bbb]"
+          }`}
+          onClick={handleSubmit}
+        >
+          Сохранить
+        </Button>
+      )}
+      {isLoading && (
+        <div className="px-14">
+          <LoadingCircle />
+        </div>
+      )}
     </NamedBlock>
   );
 };
