@@ -9,7 +9,27 @@ import projectRepository from "@/repositories/project";
 import { mergeUnique } from "@/helpers/mergeUnique";
 
 const profileServiceFactory = () => {
-  return Object.freeze({ getUserData });
+  return Object.freeze({ getUserData, editAccountData, editPersonalData });
+
+  async function editAccountData(
+    data: { email: string; phone: string },
+    user: User
+  ) {
+    // TODO
+  }
+
+  async function editPersonalData(
+    data: {
+      fullName: {
+        name: string;
+        surname: string;
+        patronymic: string;
+      };
+    },
+    user: User
+  ) {
+    // TODO
+  }
 
   async function getUserData(user: User): Promise<UserProfileData> {
     const [
