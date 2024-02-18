@@ -27,6 +27,7 @@ import { Member } from "@/entities/member";
 import requestRepository from "../request";
 import { BadRequestError, ServerError } from "@/helpers/errors";
 import meilisearch from "@/db/meilisearch/client";
+import { applyPostFilters } from "./utils/generateProjectPostFIlters";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -226,6 +227,13 @@ const projectRepositoryFactory = () => {
     if (!response) throw new ServerError("Couldn't fetch projects");
 
     const { projects, tags } = getProjectListFromStrapiDTO(response);
+
+    if (filters && filters.status == "С вакансиями") {
+      return {
+        projects: applyPostFilters(filters, projects || []),
+        tags: tags!,
+      };
+    }
 
     return {
       projects: projects!,

@@ -48,18 +48,6 @@ const generateDateFilters = (
   return {};
 };
 
-const generateTextFilters = (text: string) => {
-  return {
-    $or: [
-      {
-        name: {
-          $containsi: text,
-        },
-      },
-    ],
-  };
-};
-
 const generateTagFilters = (tagNames: string[]) => {
   return tagNames && tagNames.length
     ? {
@@ -91,13 +79,8 @@ const generateStatusFilters = (status?: string) => {
           $gte: new Date(),
         },
       };
-    case "С вакансиями":
+    case "С вакансиями": // also uses postFilters
       return {
-        teams: {
-          id: {
-            $null: true,
-          },
-        },
         dateStart: {
           $gte: new Date(),
         },
