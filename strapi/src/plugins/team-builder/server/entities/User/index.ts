@@ -48,18 +48,29 @@ export const userAdapter = async (
         },
       };
 
-    const { data: fileData } = await axios.get(
-      process.env["STRAPI_URL"] + data.url
-    );
+    try {
+      const { data: fileData } = await axios.get(
+        process.env["STRAPI_URL"] + data.url
+      );
 
-    return {
-      id: data.id,
-      name: data.name,
-      form: {
-        formId: formId,
-        data: fileData,
-      },
-    };
+      return {
+        id: data.id,
+        name: data.name,
+        form: {
+          formId: formId,
+          data: fileData,
+        },
+      };
+    } catch (e) {
+      return {
+        id: data.id,
+        name: data.name,
+        form: {
+          formId: formId,
+          data: null,
+        },
+      };
+    }
   };
 
   const fetchData = userListStrapi.map((userStrapi) => {
