@@ -43,6 +43,8 @@ services:
     env_file:
       - ./.env
       - ./strapi/.env
+    volumes:
+      - ./public/uploads:/opt/app/public/uploads
   meilisearch:
     image: getmeili/meilisearch:latest
     ports:
