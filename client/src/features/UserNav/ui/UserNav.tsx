@@ -154,6 +154,9 @@ const UserNav: FC<UserNavProps> = ({ text = "bright" }) => {
                 <li className="cursor-pointer sm:px-7">
                   <Link href="/user/forms">Анкеты</Link>
                 </li>
+                <li className="cursor-pointer sm:px-7">
+                  <Link href="/user/profile">Настройки</Link>
+                </li>
                 <li
                   className="cursor-pointer text-primary sm:px-7"
                   onClick={handleLogout}
