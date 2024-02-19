@@ -52,14 +52,23 @@ const formResultServiceFactory = () => {
   async function findUser(form: Form, response: any): Promise<User | null> {
     const services = form.identifiers
       .map((identifier) => {
+        const foundValue = (response
+          .find(
+            (data: { question: string; answer?: string }) =>
+              data.question == identifier.question
+          )
+          ?.answer?.toLowerCase() || "") as string;
+
+        if (identifier.provider == "spbu") {
+          return {
+            provider: identifier.provider,
+            value: foundValue.split("@")[0],
+          };
+        }
+
         return {
           provider: identifier.provider,
-          value: (response
-            .find(
-              (data: { question: string; answer?: string }) =>
-                data.question == identifier.question
-            )
-            ?.answer?.toLowerCase() || "") as string,
+          value: foundValue,
         };
       })
       .filter((service) => service.value);
