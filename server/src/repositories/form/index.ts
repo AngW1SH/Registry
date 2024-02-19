@@ -1,5 +1,6 @@
 import { getFormListFromStrapiDTO } from "@/db/strapi/adapters/form";
 import { strapi } from "@/db/strapi/client";
+import { selectForm } from "@/db/strapi/queries/form";
 import { FormListStrapi } from "@/db/strapi/types/form";
 import { Form } from "@/entities/form";
 import { ServerError } from "@/helpers/errors";
@@ -19,7 +20,7 @@ const formRepositoryFactory = () => {
         ...(filters.formId && { formId: filters.formId }),
         ...(filters.active && { active: filters.active }),
       },
-      fields: ["id", "name", "link", "type"],
+      ...selectForm(),
     };
 
     const response: FormListStrapi = await strapi.get("forms", {

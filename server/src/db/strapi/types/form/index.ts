@@ -4,6 +4,10 @@ interface FormStrapiInner {
     name: string;
     link: string;
     type: string;
+    identifiers: {
+      provider: string;
+      question: string;
+    }[];
   };
 }
 

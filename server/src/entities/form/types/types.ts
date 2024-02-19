@@ -7,6 +7,10 @@ export interface Form {
   name: string;
   link: string;
   type: FormType;
+  identifiers: {
+    provider: string;
+    question: string;
+  }[];
 }
 
 export interface FormResultClient {

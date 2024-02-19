@@ -7,5 +7,6 @@ export const getFormListFromStrapiDTO = (forms: FormListStrapi): Form[] => {
     name: form.attributes.name,
     link: form.attributes.link,
     type: form.attributes.type as FormType,
+    identifiers: form.attributes.identifiers,
   }));
 };
