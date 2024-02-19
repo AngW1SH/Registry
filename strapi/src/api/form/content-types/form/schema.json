@@ -29,6 +29,12 @@
       "enum": [
         "Google Forms"
       ]
+    },
+    "identifiers": {
+      "displayName": "User Identifier",
+      "type": "component",
+      "repeatable": true,
+      "component": "user-identifier.user-identifier"
     }
   }
 }

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_user_identifier_user_identifiers",
+  "info": {
+    "displayName": "User Identifier",
+    "icon": "oneToMany",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "provider": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    }
+  }
+}

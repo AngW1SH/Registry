@@ -96,6 +96,19 @@ export interface UserFormUserForm extends Schema.Component {
   };
 }
 
+export interface UserIdentifierUserIdentifier extends Schema.Component {
+  collectionName: 'components_user_identifier_user_identifiers';
+  info: {
+    displayName: 'User Identifier';
+    icon: 'oneToMany';
+    description: '';
+  };
+  attributes: {
+    provider: Attribute.String;
+    question: Attribute.String;
+  };
+}
+
 export interface UserServiceUserService extends Schema.Component {
   collectionName: 'components_user_service_user_services';
   info: {
@@ -118,6 +131,7 @@ declare module '@strapi/types' {
       'named-file.named-file': NamedFileNamedFile;
       'project-link.project-link': ProjectLinkProjectLink;
       'user-form.user-form': UserFormUserForm;
+      'user-identifier.user-identifier': UserIdentifierUserIdentifier;
       'user-service.user-service': UserServiceUserService;
     }
   }
