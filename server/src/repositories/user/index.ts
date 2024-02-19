@@ -15,6 +15,10 @@ const userRepositoryFactory = () => {
   async function findOne(filters: {
     email?: string;
     id?: number;
+    services?: {
+      provider: string;
+      value: string;
+    }[];
   }): Promise<User | null> {
     const params = {
       filters: {
@@ -25,6 +29,11 @@ const userRepositoryFactory = () => {
           },
         }),
         ...(filters.id && { id: filters.id }),
+        ...(filters.services && {
+          services: {
+            $or: filters.services,
+          },
+        }),
       },
       ...selectUser(),
     };

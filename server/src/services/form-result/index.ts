@@ -49,13 +49,23 @@ const formResultServiceFactory = () => {
     return formResultsClient;
   }
 
-  async function findUser(response: any): Promise<User | null> {
-    const email = getEmailFromFormResults(response);
-
-    if (!email) throw new BadRequestError("Email not specified");
+  async function findUser(form: Form, response: any): Promise<User | null> {
+    const services = form.identifiers
+      .map((identifier) => {
+        return {
+          provider: identifier.provider,
+          value: (response
+            .find(
+              (data: { question: string; answer?: string }) =>
+                data.question == identifier.question
+            )
+            ?.answer?.toLowerCase() || "") as string,
+        };
+      })
+      .filter((service) => service.value);
 
     return userRepository.findOne({
-      email,
+      services,
     });
   }
 
@@ -66,13 +76,11 @@ const formResultServiceFactory = () => {
   }
 
   async function submit(formId: string, response: any) {
-    const [user, form] = await Promise.all([
-      findUser(response),
-      findForm(formId),
-    ]);
-
-    if (!user) throw new BadRequestError("No such user found");
+    const form = await findForm(formId);
     if (!form) throw new BadRequestError("No such form found");
+
+    const user = await findUser(form, response);
+    if (!user) throw new BadRequestError("No such user found");
 
     switch (form.type.toLowerCase()) {
       case FormType.google.toLowerCase():
