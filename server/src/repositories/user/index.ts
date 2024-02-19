@@ -18,7 +18,12 @@ const userRepositoryFactory = () => {
   }): Promise<User | null> {
     const params = {
       filters: {
-        ...(filters.email && { email: filters.email }),
+        ...(filters.email && {
+          services: {
+            provider: "spbu",
+            value: filters.email.split("@")[0],
+          },
+        }),
         ...(filters.id && { id: filters.id }),
       },
       ...selectUser(),
@@ -35,8 +40,18 @@ const userRepositoryFactory = () => {
   }
 
   async function create(userCreate: UserCreate): Promise<User | null> {
+    const { email, ...data } = userCreate;
+
     const params = {
-      data: userCreate,
+      data: {
+        ...data,
+        services: [
+          {
+            provider: "spbu",
+            value: email.split("@")[0],
+          },
+        ],
+      },
     };
 
     const response: UserStrapi = await strapi.post("students", {
@@ -59,8 +74,41 @@ const userRepositoryFactory = () => {
   ) {
     if (!userId) throw new BadRequestError("User id not specified");
 
+    const userResponse: UserStrapi = await strapi.get(`students/${userId}`, {
+      token: process.env.USER_TOKEN!,
+      params: {
+        ...selectUser(),
+      },
+    });
+
+    if (!userResponse || !userResponse.data)
+      throw new BadRequestError("User with such id not found");
+
+    const { email, ...dataWithoutEmail } = data;
+
+    const services = userResponse.data.attributes.services.map((service) => {
+      if (service.provider == "spbu")
+        return {
+          ...service,
+          provider: "spbu",
+          value: email?.split("@")[0] || "",
+        };
+
+      return service;
+    });
+
+    if (!services.find((service) => service.provider == "spbu")) {
+      services.push({
+        provider: "spbu",
+        value: email?.split("@")[0] || "",
+      });
+    }
+
     const params = {
-      data,
+      data: {
+        ...dataWithoutEmail,
+        services: services,
+      },
     };
 
     const response: UserStrapi = await strapi.put(`students/${userId}`, {
@@ -68,7 +116,7 @@ const userRepositoryFactory = () => {
       body: params,
     });
 
-    return getUserFromStrapiDTO(response);
+    return 1;
   }
 };
 

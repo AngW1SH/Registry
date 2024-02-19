@@ -4,8 +4,11 @@ interface UserStrapiInner {
   id: number;
   attributes: {
     name: string;
-    email: string;
     phone: string;
+    services: {
+      provider: string;
+      value: string;
+    }[];
   };
 }
 

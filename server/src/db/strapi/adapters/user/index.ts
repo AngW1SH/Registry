@@ -1,12 +1,26 @@
 import { User } from "@/entities/user";
 import { UserStrapi, UserWithFormsStrapi } from "../../types/user";
 import { FormResult } from "@/entities/form";
-import { FormResultStrapi } from "../../types/components/form-result";
+
+const findUserEmail = (user: UserStrapi) => {
+  const email = user.data.attributes.services.find(
+    (service) => service.provider === "spbu"
+  );
+
+  if (!email) return "";
+
+  return email.value.indexOf("@") == -1
+    ? email.value + "@student.spbu.ru"
+    : email.value;
+};
 
 export const getUserFromStrapiDTO = (user: UserStrapi): User => {
+  const { services, ...attributes } = user.data.attributes;
+
   return {
     id: user.data.id,
-    ...user.data.attributes,
+    email: findUserEmail(user),
+    ...attributes,
   };
 };
 
