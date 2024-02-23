@@ -1,6 +1,7 @@
 import { LoginPage } from "@/pages/Login";
 import { ProjectPage } from "@/pages/Project";
 import { ProjectSettingsPage } from "@/pages/ProjectSettings";
+import { Background } from "@/widgets/Background";
 import { Layout } from "@/widgets/Layout";
 import { Sidebar } from "@/widgets/Sidebar";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -28,7 +29,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Background />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
