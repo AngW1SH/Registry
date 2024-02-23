@@ -18,14 +18,14 @@ const Tooltip: FC<TooltipProps> = ({
 }) => {
   return (
     <div
-      className={"inline-block relative " + className}
+      className={"inline-block relative z-10 " + className}
       style={{
         paddingRight: size + gap + "px",
       }}
     >
       <div>{children}</div>
       <div
-        className="absolute group top-1/2 -translate-y-1/2 right-0"
+        className="absolute z-10 group top-1/2 -translate-y-1/2 right-0"
         style={{
           height: size + "px",
           width: size + "px",
