@@ -5,6 +5,7 @@ import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { SetAPIEndpoint } from "@/features/SetAPIEndpoint";
 import { SetAPIKeys } from "@/features/SetAPIKeys";
+import MetricSettings from "@/widgets/MetricSettings/ui/MetricSettings";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -30,6 +31,15 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
           <AddMetric />
           <div className="pt-8"></div>
           <SearchMetric />
+          <div className="pt-8"></div>
+          <ul className="flex flex-wrap justify-between">
+            <li className="min-w-[47%] max-w-[47%]">
+              <MetricSettings />
+            </li>
+            <li className="min-w-[47%] max-w-[47%]">
+              <MetricSettings />
+            </li>
+          </ul>
         </PlatformMetrics>
       </div>
       <div className="min-w-[25%] flex flex-col">
