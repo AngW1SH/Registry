@@ -1,6 +1,7 @@
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureProject } from "@/features/ConfigureProject";
+import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { SetAPIEndpoint } from "@/features/SetAPIEndpoint";
 import { SetAPIKeys } from "@/features/SetAPIKeys";
@@ -27,6 +28,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
           <SetAPIKeys />
           <div className="pt-8"></div>
           <AddMetric />
+          <div className="pt-8"></div>
+          <SearchMetric />
         </PlatformMetrics>
       </div>
       <div className="min-w-[25%] flex flex-col">

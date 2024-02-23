@@ -52,7 +52,7 @@ const Dropdown: FC<DropdownProps> = ({
   }, [selected]);
 
   return (
-    <div className={"relative w-full rounded-lg " + className} ref={ref}>
+    <div className={"relative z-9 w-full rounded-lg " + className} ref={ref}>
       <div onClick={() => setOpened(!opened)}>
         <TextInput
           onClick={(e) => {
@@ -69,7 +69,7 @@ const Dropdown: FC<DropdownProps> = ({
       <CSSTransition in={opened && options.length != 0} timeout={100}>
         {(state: TransitionStatus) => (
           <div
-            className={`absolute left-0 top-full mt-2 z-10 flex w-min min-w-full flex-col gap-6 rounded-md bg-white px-6 py-5 shadow-center-md`}
+            className={`absolute left-0 top-full mt-2 z-[11] flex w-min min-w-full flex-col gap-6 rounded-md bg-white px-6 py-5 shadow-center-md`}
             style={{
               ...defaultStyle,
               ...transitionStyles[state],

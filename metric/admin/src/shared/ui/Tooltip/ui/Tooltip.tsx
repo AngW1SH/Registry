@@ -18,7 +18,7 @@ const Tooltip: FC<TooltipProps> = ({
 }) => {
   return (
     <div
-      className={"inline-block relative z-10 " + className}
+      className={"inline-block relative " + className}
       style={{
         paddingRight: size + gap + "px",
       }}
@@ -34,7 +34,7 @@ const Tooltip: FC<TooltipProps> = ({
         <div>
           <TooltipIcon />
         </div>
-        <div className="text-sm text-black absolute w-max max-w-60 top-full left-1/2 hidden mt-3 group-hover:flex shadow-xl bg-white py-4 px-7 rounded-lg -translate-x-1/2">
+        <div className="text-sm z-10 text-black absolute w-max max-w-60 top-full left-1/2 hidden mt-3 group-hover:flex shadow-xl bg-white py-4 px-7 rounded-lg -translate-x-1/2">
           {tooltip}
         </div>
       </div>
