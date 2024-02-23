@@ -9,6 +9,7 @@ import ArrowDown from "./ArrowDown/ArrowDown";
 import TrelloIcon from "./Trello/TrelloIcon";
 import GitLabIcon from "./GitLab/GitLabIcon";
 import TooltipIcon from "./Tooltip/TooltipIcon";
+import XCircleIcon from "./XCircle/XCircleIcon";
 
 export {
   ProfileIcon,
@@ -22,4 +23,5 @@ export {
   TrelloIcon,
   GitLabIcon,
   TooltipIcon,
+  XCircleIcon,
 };

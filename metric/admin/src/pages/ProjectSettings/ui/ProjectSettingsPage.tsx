@@ -2,6 +2,7 @@ import { AddProvider } from "@/features/AddProvider";
 import { ConfigureProject } from "@/features/ConfigureProject";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { SetAPIEndpoint } from "@/features/SetAPIEndpoint";
+import { SetAPIKeys } from "@/features/SetAPIKeys";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -21,6 +22,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <div className="pt-8"></div>
         <PlatformMetrics>
           <SetAPIEndpoint />
+          <div className="pt-8"></div>
+          <SetAPIKeys />
         </PlatformMetrics>
       </div>
       <div className="min-w-[25%] flex flex-col">
