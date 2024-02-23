@@ -10,6 +10,7 @@ import TrelloIcon from "./Trello/TrelloIcon";
 import GitLabIcon from "./GitLab/GitLabIcon";
 import TooltipIcon from "./Tooltip/TooltipIcon";
 import XCircleIcon from "./XCircle/XCircleIcon";
+import CheckIcon from "./Check/CheckIcon";
 
 export {
   ProfileIcon,
@@ -24,4 +25,5 @@ export {
   GitLabIcon,
   TooltipIcon,
   XCircleIcon,
+  CheckIcon,
 };
