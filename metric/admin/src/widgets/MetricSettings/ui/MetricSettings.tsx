@@ -1,6 +1,7 @@
 import { Checkbox } from "@/shared/ui/Checkbox";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC } from "react";
+import UpdateStatus from "./UpdateStatus";
 
 interface MetricSettingsProps {
   className?: string;
@@ -30,6 +31,8 @@ const MetricSettings: FC<MetricSettingsProps> = ({ className = "" }) => {
         labelSize="sm"
         placeholder="Every 7 days"
       />
+      <div className="pt-6"></div>
+      <UpdateStatus />
     </div>
   );
 };
