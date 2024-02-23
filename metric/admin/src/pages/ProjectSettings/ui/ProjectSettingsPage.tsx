@@ -1,3 +1,4 @@
+import { AddProvider } from "@/features/AddProvider";
 import { ConfigureProject } from "@/features/ConfigureProject";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
@@ -14,6 +15,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <ProjectTitle hint={"Система управления проектами"}>
           Реестр проектов клинической практики СПбГУ
         </ProjectTitle>
+        <div className="pt-8"></div>
+        <AddProvider className="w-full" />
         <div className="pt-8"></div>
         <PlatformMetrics>123</PlatformMetrics>
       </div>
