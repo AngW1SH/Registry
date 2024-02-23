@@ -3,11 +3,15 @@ import { FC, ReactNode, SVGProps } from "react";
 interface GenericIconProps extends SVGProps<SVGSVGElement> {
   children: ReactNode;
   viewBox: string;
+  hasStroke?: boolean;
+  hasFill?: boolean;
 }
 
 const GenericIcon: FC<GenericIconProps> = ({
   children,
   viewBox,
+  hasStroke = false,
+  hasFill = true,
   ...svgProps
 }) => {
   return (
@@ -15,7 +19,8 @@ const GenericIcon: FC<GenericIconProps> = ({
       {...svgProps}
       viewBox={viewBox}
       style={{
-        fill: "currentcolor",
+        ...(hasFill && { fill: "currentcolor" }),
+        ...(hasStroke && { stroke: "currentcolor" }),
         ...svgProps.style,
       }}
     >

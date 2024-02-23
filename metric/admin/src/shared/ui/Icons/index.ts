@@ -8,6 +8,7 @@ import GithubIcon from "./Github/GithubIcon";
 import ArrowDown from "./ArrowDown/ArrowDown";
 import TrelloIcon from "./Trello/TrelloIcon";
 import GitLabIcon from "./GitLab/GitLabIcon";
+import TooltipIcon from "./Tooltip/TooltipIcon";
 
 export {
   ProfileIcon,
@@ -20,4 +21,5 @@ export {
   ArrowDown,
   TrelloIcon,
   GitLabIcon,
+  TooltipIcon,
 };
