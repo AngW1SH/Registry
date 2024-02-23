@@ -2,6 +2,7 @@ import { Checkbox } from "@/shared/ui/Checkbox";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC } from "react";
 import UpdateStatus from "./UpdateStatus";
+import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 
 interface MetricSettingsProps {
   className?: string;
@@ -9,7 +10,11 @@ interface MetricSettingsProps {
 
 const MetricSettings: FC<MetricSettingsProps> = ({ className = "" }) => {
   return (
-    <div className={"bg-background pt-7 rounded-lg pb-11 px-7 " + className}>
+    <div
+      className={
+        "bg-background relative pt-7 rounded-lg pb-11 px-7 " + className
+      }
+    >
       <h3 className="text-xl text-[#A3AED0] font-medium">Commits Per Day</h3>
       <div className="pt-6" />
       <Checkbox
@@ -33,6 +38,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({ className = "" }) => {
       />
       <div className="pt-6"></div>
       <UpdateStatus />
+      <StopTrackingMetric className="absolute top-7 right-5" />
     </div>
   );
 };
