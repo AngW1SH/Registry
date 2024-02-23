@@ -824,7 +824,6 @@ export interface ApiStudentStudent extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    email: Attribute.Email;
     phone: Attribute.String;
     teams: Attribute.Relation<
       'api::student.student',
