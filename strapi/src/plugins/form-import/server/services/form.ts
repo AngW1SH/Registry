@@ -3,7 +3,11 @@ import { formAdapter } from "../entities/Form";
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async getForms() {
-    const forms = await strapi.entityService?.findMany("api::form.form");
+    const forms = await strapi.entityService?.findMany("api::form.form", {
+      populate: {
+        identifiers: true,
+      },
+    });
 
     if (!forms) return [];
 

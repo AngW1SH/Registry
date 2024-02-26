@@ -23,14 +23,14 @@ const ResultsList: FC<ResultsListProps> = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
-  const { results, selected, setSelected } = useFormStore();
+  const { results, form, selected, setSelected } = useFormStore();
 
   const formattedResults = results.map((result, index) => {
     const nameFind = result.value.find(
       (row) => row.question == "Фамилия Имя Отчество"
     );
-    const emailFind = result.value.find(
-      (row) => row.question == "Электронная почта, указанная при авторизации"
+    const identifierFind = result.value.find(
+      (row) => row.question == form?.identifiers[0]?.question
     );
     const dateFind = result.value.find((row) => (row.question = "Timestamp"));
 
@@ -38,7 +38,10 @@ const ResultsList: FC<ResultsListProps> = () => {
       name: nameFind && nameFind.type == "DEFAULT" ? nameFind.answer : "",
       selected: selected.includes(index),
       status: result.status,
-      email: emailFind && emailFind.type == "DEFAULT" ? emailFind.answer : "",
+      identifier:
+        identifierFind && identifierFind.type == "DEFAULT"
+          ? identifierFind.answer
+          : "",
       date:
         dateFind && dateFind.type == "DEFAULT"
           ? new Date(dateFind.answer).toLocaleTimeString("ru-RU", {
@@ -97,7 +100,9 @@ const ResultsList: FC<ResultsListProps> = () => {
             <Typography variant="sigma">Name</Typography>
           </Th>
           <Th>
-            <Typography variant="sigma">Email</Typography>
+            <Typography variant="sigma">
+              {form && form.identifiers[0].question}
+            </Typography>
           </Th>
           <Th>
             <Typography variant="sigma">Date</Typography>
@@ -106,7 +111,10 @@ const ResultsList: FC<ResultsListProps> = () => {
       </Thead>
       <Tbody onClick={handleCheck}>
         {formattedResults.map((result, index) => (
-          <ClickableTr status={result.status} key={result.email + result.date}>
+          <ClickableTr
+            status={result.status}
+            key={result.identifier + result.date}
+          >
             <Td>
               <BaseCheckbox
                 data-select={index}
@@ -121,7 +129,9 @@ const ResultsList: FC<ResultsListProps> = () => {
               <Typography textColor="neutral800">{result.name}</Typography>
             </Td>
             <Td>
-              <Typography textColor="neutral800">{result.email}</Typography>
+              <Typography textColor="neutral800">
+                {result.identifier}
+              </Typography>
             </Td>
             <Td>
               <Typography textColor="neutral800">{result.date}</Typography>

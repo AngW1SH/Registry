@@ -20,6 +20,11 @@ export interface IFormTemplate {
   link: string;
   type: IFormType;
   formId: string;
+  identifiers: {
+    id: number;
+    question: string;
+    provider: string;
+  }[];
 }
 
 export type IFormQuestion = IFormQuestionDefault | IFormQuestionGrid;

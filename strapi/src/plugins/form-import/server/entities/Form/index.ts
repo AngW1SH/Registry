@@ -4,6 +4,10 @@ export interface Form {
   formId: string;
   type: string;
   link: string;
+  identifiers: {
+    provider: string;
+    question: string;
+  }[];
 }
 
 export interface FormStrapi {
@@ -16,6 +20,10 @@ export interface FormStrapi {
   type: string;
   publishedAt: string;
   updatedAt: string;
+  identifiers: {
+    provider: string;
+    question: string;
+  }[];
 }
 
 export const formAdapter = <T extends Form>(formListStrapi: T[]): Form[] => {
@@ -25,5 +33,6 @@ export const formAdapter = <T extends Form>(formListStrapi: T[]): Form[] => {
     type: formStrapi.type,
     link: formStrapi.link,
     formId: formStrapi.formId,
+    identifiers: formStrapi.identifiers,
   }));
 };
