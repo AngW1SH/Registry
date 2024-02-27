@@ -11,16 +11,25 @@ const userServiceFactory = () => {
     return user;
   }
 
-  async function findOrCreate(user: UserCreate): Promise<User | null> {
+  async function findOrCreate(
+    user: UserCreate,
+    providerName: string
+  ): Promise<User | null> {
     if (!user.services.length)
       throw new BadRequestError("user.services should not be empty");
 
-    const userFound = await userRepository.findOneByService({
-      provider: user.services[0].provider,
-      value: user.services[0].value,
-    });
+    const provider = user.services.find(
+      (service) => service.provider == providerName
+    );
 
-    if (userFound) return userFound;
+    if (provider) {
+      const userFound = await userRepository.findOneByService({
+        provider: user.services[0].provider,
+        value: user.services[0].value,
+      });
+
+      if (userFound) return userFound;
+    }
 
     const userCreated = await userRepository.create(user);
 

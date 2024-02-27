@@ -3,43 +3,43 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "TTFirsNeue";
+  font-family: "Montserrat";
   font-weight: 400;
-  src: url("../public/fonts/TTFirsNeue/TTFirsNeue-Regular.ttf")
+  src: url("../public/fonts/Montserrat/Montserrat-Regular.ttf")
     format("truetype");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "TTFirsNeue";
-  src: url("../public/fonts/TTFirsNeue/TTFirsNeue-Light.ttf") format("truetype");
+  font-family: "Montserrat";
+  src: url("../public/fonts/Montserrat/Montserrat-Light.ttf") format("truetype");
   font-weight: 300;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "TTFirsNeue";
-  src: url("../public/fonts/TTFirsNeue/TTFirsNeue-Medium.ttf")
+  font-family: "Montserrat";
+  src: url("../public/fonts/Montserrat/Montserrat-Medium.ttf")
     format("truetype");
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "TTFirsNeue";
-  src: url("../public/fonts/TTFirsNeue/TTFirsNeue-DemiBold.ttf")
+  font-family: "Montserrat";
+  src: url("../public/fonts/Montserrat/Montserrat-SemiBold.ttf")
     format("truetype");
   font-weight: 600;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "TTFirsNeue";
-  src: url("../public/fonts/TTFirsNeue/TTFirsNeue-Bold.ttf") format("truetype");
+  font-family: "Montserrat";
+  src: url("../public/fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
   font-weight: 700;
   font-display: swap;
 }
 
 body {
-  font-family: "TTFirsNeue" !important;
+  font-family: "Montserrat" !important;
 }

@@ -13,16 +13,18 @@ const githubStrategy = new GithubStrategy(
     profile: any,
     done: any
   ) {
-    const user = await userService.findOrCreate({
-      email: profile.email,
-      name: profile.displayName,
-      services: [
-        {
-          provider: "github",
-          value: profile.username,
-        },
-      ],
-    });
+    const user = await userService.findOrCreate(
+      {
+        name: profile.displayName,
+        services: [
+          {
+            provider: "github",
+            value: profile.username,
+          },
+        ],
+      },
+      "github"
+    );
     return done(null, user);
   }
 );

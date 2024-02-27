@@ -16,11 +16,11 @@ const userRepositoryFactory = () => {
             $eqi: filters.provider,
           },
           value: {
-            $equi: filters.value,
+            $eqi: filters.value,
           },
         },
       },
-      fields: ["id", "name", "email"],
+      fields: ["id", "name"],
       populate: {
         services: {
           provider: true,
@@ -109,8 +109,6 @@ const userRepositoryFactory = () => {
         return null;
       }
     });
-
-    console.log(response);
 
     if (!response.data.id) throw new ServerError("User not created");
 

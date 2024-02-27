@@ -1,7 +1,6 @@
 export interface User {
   id: number;
   name: string;
-  email: string;
   services: {
     provider: string;
     value: string;
@@ -14,7 +13,6 @@ interface UserStrapiInner {
   id: number;
   attributes: {
     name: string;
-    email: string;
     services: {
       provider: string;
       value: string;
