@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Metric {
+  id        String           @id
+  name      String
+  instances ResourceMetric[]
+}
+
+model Platform {
+  id        String     @id
+  name      String
+  resources Resource[]
+}
+
+model Project {
+  id        String     @id
+  name      String
+  resources Resource[]
+}
+
+model Resource {
+  id         String           @id
+  name       String
+  platform   Platform         @relation(fields: [platformId], references: [id])
+  project    Project          @relation(fields: [projectId], references: [id])
+  data       String[]
+  platformId String
+  projectId  String
+  metrics    ResourceMetric[]
+}
+
+model ResourceMetric {
+  id         String   @id
+  metric     Metric   @relation(fields: [metricId], references: [id])
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  metricId   String
+  resourceId String
+  updateRate String
+  updatedAt  String
+  data       String[]
+}
