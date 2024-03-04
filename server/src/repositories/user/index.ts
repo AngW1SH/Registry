@@ -31,7 +31,12 @@ const userRepositoryFactory = () => {
         ...(filters.id && { id: filters.id }),
         ...(filters.services && {
           services: {
-            $or: filters.services,
+            $or: filters.services.map((service) => ({
+              provider: service.provider,
+              value: {
+                $eqi: service.value,
+              },
+            })),
           },
         }),
       },
