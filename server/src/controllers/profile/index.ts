@@ -47,9 +47,9 @@ const createProfileContoller = () => {
       const result = await profileService.editPersonalData(
         {
           fullName: {
-            name: req.body.name || "",
-            surname: req.body.surname || "",
-            patronymic: req.body.patronymic || "",
+            name: req.body.name.trim() || "",
+            surname: req.body.surname.trim() || "",
+            patronymic: req.body.patronymic.trim() || "",
           },
         },
         req.user
