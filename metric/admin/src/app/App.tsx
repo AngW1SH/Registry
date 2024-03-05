@@ -8,9 +8,18 @@ import { Sidebar } from "@/widgets/Sidebar";
 import { useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAppDispatch } from "./store";
+import { ProjectListPage } from "@/pages/ProjectList";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: (
+      <Layout aside={<Sidebar />}>
+        <ProjectListPage />
+      </Layout>
+    ),
+  },
+  {
+    path: "/project",
     element: (
       <Layout aside={<Sidebar />}>
         <ProjectPage />
