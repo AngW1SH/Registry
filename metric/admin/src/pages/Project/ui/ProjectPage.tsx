@@ -52,7 +52,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         ))}
       </div>
       <div className="min-w-[25%] flex flex-col">
-        <ConfigureProject />
+        <ConfigureProject link={"/project/" + id + "/settings"} />
         <div className="mt-16" />
         <SelectPeriod />
         <div className="pt-20" />

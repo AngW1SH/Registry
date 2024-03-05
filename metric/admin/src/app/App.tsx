@@ -19,18 +19,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/project/:id",
+    path: "/project/:id/settings",
     element: (
       <Layout aside={<Sidebar />}>
-        <ProjectPage />
+        <ProjectSettingsPage />
       </Layout>
     ),
   },
   {
-    path: "/settings",
+    path: "/project/:id",
     element: (
       <Layout aside={<Sidebar />}>
-        <ProjectSettingsPage />
+        <ProjectPage />
       </Layout>
     ),
   },
