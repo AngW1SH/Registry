@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ResourceService } from './resource.service';
-import { ResourceDTO } from './resource.entity';
+import { ResourceDTO, ResourceDetailedDTO } from './resource.entity';
 
 @Controller('resource')
 export class ResourceController {
@@ -11,7 +11,8 @@ export class ResourceController {
     return this.resourceService.findAll();
   }
 
-  async findOne(@Param('id') id: string): Promise<ResourceDTO | null> {
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     return this.resourceService.findOne(id);
   }
 }
