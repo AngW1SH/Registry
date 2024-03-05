@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/app/store";
+import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { ConfigureProject } from "@/features/ConfigureProject";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { PerformanceModule } from "@/widgets/PerformanceModule";
@@ -5,11 +7,17 @@ import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
 import { Task } from "@/widgets/Temp/Task";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 interface ProjectPageProps {}
 
 const ProjectPage: FC<ProjectPageProps> = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    initializeProjectDetailed(dispatch, "333");
+  }, []);
+
   return (
     <div className="flex gap-9">
       <div className="w-full">
