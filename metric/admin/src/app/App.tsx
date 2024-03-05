@@ -1,10 +1,13 @@
+import { fetchAllPlatforms } from "@/entities/Platform";
 import { LoginPage } from "@/pages/Login";
 import { ProjectPage } from "@/pages/Project";
 import { ProjectSettingsPage } from "@/pages/ProjectSettings";
 import { Background } from "@/widgets/Background";
 import { Layout } from "@/widgets/Layout";
 import { Sidebar } from "@/widgets/Sidebar";
+import { useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { useAppDispatch } from "./store";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +32,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllPlatforms());
+  }, []);
+
   return (
     <>
       <Background />

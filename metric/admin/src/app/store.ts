@@ -1,7 +1,10 @@
+import { platformSlice } from "@/entities/Platform";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  platform: platformSlice.reducer,
+});
 
 export const setupStore = () => {
   return configureStore({
