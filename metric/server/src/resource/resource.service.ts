@@ -10,6 +10,45 @@ export class ResourceService {
     private metricService: MetricService,
   ) {}
 
+  async findMany(filters: { project: string }): Promise<ResourceDetailed[]> {
+    const result = await this.prisma.resource.findMany({
+      where: {
+        projectId: filters.project,
+      },
+      select: {
+        id: true,
+        name: true,
+        projectId: true,
+        platformId: true,
+        metrics: {
+          select: {
+            id: true,
+            metric: {
+              select: {
+                name: true,
+              },
+            },
+            data: true,
+          },
+        },
+      },
+    });
+
+    return result.map((resource) => ({
+      id: resource.id,
+      name: resource.name,
+      project: resource.projectId,
+      platform: resource.platformId,
+      metrics: resource.metrics.map((metric) => ({
+        id: metric.id,
+        name: metric.metric.name,
+        data: metric.data,
+        resource: resource.id,
+        params: '',
+      })),
+    }));
+  }
+
   async findAll(): Promise<Resource[]> {
     const result = await this.prisma.resource.findMany();
 

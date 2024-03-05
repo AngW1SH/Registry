@@ -7,5 +7,6 @@ import { MetricModule } from 'src/metric/metric.module';
   imports: [MetricModule],
   controllers: [ResourceController],
   providers: [ResourceService],
+  exports: [ResourceService],
 })
 export class ResourceModule {}

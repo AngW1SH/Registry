@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Project } from './project.entity';
+import { Project, ProjectDetailed } from './project.entity';
+import { ResourceService } from 'src/resource/resource.service';
 
 @Injectable()
 export class ProjectService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private resourceService: ResourceService,
+  ) {}
 
   async findAll(): Promise<Project[]> {
     const result = await this.prisma.project.findMany();
@@ -12,13 +16,19 @@ export class ProjectService {
     return result;
   }
 
-  async findOne(id: string): Promise<Project | null> {
+  async findOne(id: string): Promise<ProjectDetailed | null> {
     const result = await this.prisma.project.findFirst({
       where: {
         id,
       },
     });
 
-    return result;
+    const resources = await this.resourceService.findMany({ project: id });
+
+    return {
+      id: result.id,
+      name: result.name,
+      resources,
+    };
   }
 }
