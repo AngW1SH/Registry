@@ -1,6 +1,6 @@
 import { metricSlice } from "@/entities/Metric";
 import { platformSlice } from "@/entities/Platform";
-import { projectSlice } from "@/entities/Project";
+import { projectSlice, projectListSlice } from "@/entities/Project";
 import { resourceSlice } from "@/entities/Resource";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const rootReducer = combineReducers({
   platform: platformSlice.reducer,
   project: projectSlice.reducer,
+  projectList: projectListSlice.reducer,
   resource: resourceSlice.reducer,
   metric: metricSlice.reducer,
 });
