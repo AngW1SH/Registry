@@ -18,8 +18,8 @@ export class MetricService {
             name: true,
           },
         },
-        data: true,
         resourceId: true,
+        params: true,
       },
     });
 
@@ -27,8 +27,8 @@ export class MetricService {
       id: metric.id,
       name: metric.metric.name,
       resource: metric.resourceId,
-      params: metric.data[0] || '',
-      data: metric.data,
+      params: metric.params,
+      data: [],
     }));
   }
 }

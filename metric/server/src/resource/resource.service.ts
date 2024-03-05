@@ -28,7 +28,6 @@ export class ResourceService {
                 name: true,
               },
             },
-            data: true,
           },
         },
       },
@@ -42,7 +41,7 @@ export class ResourceService {
       metrics: resource.metrics.map((metric) => ({
         id: metric.id,
         name: metric.metric.name,
-        data: metric.data,
+        data: [],
         resource: resource.id,
         params: '',
       })),
