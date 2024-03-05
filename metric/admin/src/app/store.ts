@@ -1,3 +1,4 @@
+import { metricSlice } from "@/entities/Metric";
 import { platformSlice } from "@/entities/Platform";
 import { projectSlice } from "@/entities/Project";
 import { resourceSlice } from "@/entities/Resource";
@@ -8,6 +9,7 @@ const rootReducer = combineReducers({
   platform: platformSlice.reducer,
   project: projectSlice.reducer,
   resource: resourceSlice.reducer,
+  metric: metricSlice.reducer,
 });
 
 export const setupStore = () => {
