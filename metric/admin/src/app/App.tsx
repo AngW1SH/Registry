@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/project",
+    path: "/project/:id",
     element: (
       <Layout aside={<Sidebar />}>
         <ProjectPage />
