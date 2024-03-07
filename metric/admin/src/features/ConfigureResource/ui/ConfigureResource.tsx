@@ -5,6 +5,7 @@ import { FC } from "react";
 import { configs } from "../config";
 import { PlatformName } from "@/entities/Platform/types";
 import { IResourceFieldValue } from "@/entities/Resource/types/fields";
+import { fetchSaveResource } from "../api/fetchSave";
 
 interface ConfigureResourceProps {
   resource: IResource;
@@ -42,14 +43,27 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
     );
   };
 
+  const handleSave = () => {
+    fetchSaveResource(resource);
+  };
+
   return (
-    <ul className="flex flex-col gap-8">
-      {config.data.map((field) => (
-        <li key={field.prop}>
-          <ResourceField field={field} onChange={handleChange} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <button
+        onClick={handleSave}
+        className="py-6 px-14 w-full text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg"
+      >
+        Save Resource Settings
+      </button>
+      <div className="pt-8" />
+      <ul className="flex flex-col gap-8">
+        {config.data.map((field) => (
+          <li key={field.prop}>
+            <ResourceField field={field} onChange={handleChange} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
