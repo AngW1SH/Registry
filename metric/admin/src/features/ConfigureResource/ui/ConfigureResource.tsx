@@ -57,11 +57,21 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
       </button>
       <div className="pt-8" />
       <ul className="flex flex-col gap-8">
-        {config.data.map((field) => (
-          <li key={field.prop}>
-            <ResourceField field={field} onChange={handleChange} />
-          </li>
-        ))}
+        {config.data.map((field) => {
+          const value: IResourceFieldValue = {
+            type: field.type,
+            value: resource.params[field.prop],
+          };
+          return (
+            <li key={field.prop}>
+              <ResourceField
+                field={field}
+                value={value}
+                onChange={handleChange}
+              />
+            </li>
+          );
+        })}
       </ul>
     </>
   );

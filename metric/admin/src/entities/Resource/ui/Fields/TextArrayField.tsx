@@ -6,10 +6,11 @@ import { XCircleIcon } from "@/shared/ui/Icons";
 
 interface TextArrayFieldProps extends ITextArrayField {
   onChange: (value: string[]) => void;
+  value: string[];
 }
 
-const TextArrayField: FC<TextArrayFieldProps> = ({ onChange }) => {
-  const [keys, setKeys] = useState<string[]>([]);
+const TextArrayField: FC<TextArrayFieldProps> = ({ value, onChange }) => {
+  const [keys, setKeys] = useState<string[]>(value);
 
   const addKey = () => {
     setKeys([...keys, ""]);

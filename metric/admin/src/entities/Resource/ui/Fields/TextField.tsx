@@ -4,10 +4,12 @@ import { Tooltip } from "@/shared/ui/Tooltip";
 import { TextInput } from "@/shared/ui/TextInput";
 
 interface TextFieldProps extends ITextField {
+  value: string;
   onChange: (value: string) => void;
 }
 
 const TextField: FC<TextFieldProps> = ({
+  value,
   label,
   placeholder,
   tooltip,
@@ -27,6 +29,7 @@ const TextField: FC<TextFieldProps> = ({
       {!tooltip && <h2 className="inline-block">{label}</h2>}
       <div className="pt-6" />
       <TextInput
+        value={value}
         className="w-full"
         placeholder={placeholder}
         onChange={handleChange}
