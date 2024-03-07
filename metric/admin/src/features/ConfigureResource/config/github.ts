@@ -1,4 +1,5 @@
-import { ResourceConfig, fieldType } from "../types";
+import { ResourceFieldType } from "@/entities/Resource";
+import { ResourceConfig } from "../types";
 
 export const githubConfig: ResourceConfig = {
   name: "GitHub",
@@ -6,13 +7,13 @@ export const githubConfig: ResourceConfig = {
     {
       prop: "apiEndpoint",
       label: "API Endpoint",
-      type: fieldType.text,
+      type: ResourceFieldType.text,
       placeholder: "https://api.github.com",
     },
     {
       prop: "apiKeys",
       label: "API Keys",
-      type: fieldType.textArray,
+      type: ResourceFieldType.textArray,
       placeholder: "Enter your API Key",
     },
   ],

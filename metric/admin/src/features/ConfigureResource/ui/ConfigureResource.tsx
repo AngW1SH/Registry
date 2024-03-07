@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/app/store";
 import { selectPlatformById } from "@/entities/Platform";
-import { IResource } from "@/entities/Resource";
+import { IResource, ResourceField } from "@/entities/Resource";
 import { FC } from "react";
 import { configs } from "../config";
 import { PlatformName } from "@/entities/Platform/types";
@@ -20,7 +20,13 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
 
   const config = configs[platform.name as PlatformName];
 
-  return <div>123</div>;
+  return (
+    <div>
+      {config.data.map((field) => (
+        <ResourceField key={field.prop} field={field} />
+      ))}
+    </div>
+  );
 };
 
 export default ConfigureResource;
