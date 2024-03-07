@@ -3,6 +3,7 @@ import { IResource } from "@/entities/Resource";
 export const fetchSaveResource = async (
   resource: IResource
 ): Promise<IResource | null> => {
+  console.log(resource);
   const response = await fetch(
     `http://localhost:5173/api/resource/${resource.id}`,
     {
@@ -10,6 +11,7 @@ export const fetchSaveResource = async (
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ resource: resource }),
     }
   );
 

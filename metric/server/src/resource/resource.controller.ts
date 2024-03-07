@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import { ResourceDTO, ResourceDetailedDTO } from './resource.entity';
 
@@ -25,7 +25,7 @@ export class ResourceController {
 
   @Put(':id')
   async updateOne(
-    @Param('resource') resource: ResourceDTO,
+    @Body('resource') resource: ResourceDTO,
   ): Promise<ResourceDTO> {
     const result = await this.resourceService.updateOne({
       ...resource,
