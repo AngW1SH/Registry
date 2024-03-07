@@ -20,6 +20,7 @@ export class ResourceService {
         name: true,
         projectId: true,
         platformId: true,
+        params: true,
         metrics: {
           select: {
             id: true,
@@ -37,6 +38,7 @@ export class ResourceService {
       id: resource.id,
       name: resource.name,
       project: resource.projectId,
+      params: resource.params,
       platform: resource.platformId,
       metrics: resource.metrics.map((metric) => ({
         id: metric.id,
@@ -54,6 +56,7 @@ export class ResourceService {
     return result.map((resource) => ({
       id: resource.id,
       name: resource.name,
+      params: resource.params,
       project: resource.projectId,
       platform: resource.platformId,
     }));
@@ -73,9 +76,32 @@ export class ResourceService {
     return {
       id: result.id,
       name: result.name,
+      params: result.params,
       project: result.projectId,
       platform: result.platformId,
       metrics,
+    };
+  }
+
+  async updateOne(resource: Resource): Promise<Resource> {
+    const result = await this.prisma.resource.update({
+      where: {
+        id: resource.id,
+      },
+      data: {
+        name: resource.name,
+        params: resource.params,
+        projectId: resource.project,
+        platformId: resource.platform,
+      },
+    });
+
+    return {
+      id: result.id,
+      name: result.name,
+      params: result.params,
+      project: result.projectId,
+      platform: result.platformId,
     };
   }
 }

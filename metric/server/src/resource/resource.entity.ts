@@ -5,6 +5,7 @@ export interface Resource {
   name: string;
   platform: string;
   project: string;
+  params: string;
 }
 
 export interface ResourceDTO {
@@ -12,6 +13,9 @@ export interface ResourceDTO {
   name: string;
   platform: string;
   project: string;
+  params: {
+    [key: string]: any;
+  };
 }
 
 export interface ResourceDetailedDTO extends ResourceDTO {

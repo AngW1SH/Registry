@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Put } from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import { ResourceDTO, ResourceDetailedDTO } from './resource.entity';
 
@@ -8,11 +8,30 @@ export class ResourceController {
 
   @Get()
   async findAll(): Promise<ResourceDTO[]> {
-    return this.resourceService.findAll();
+    const result = await this.resourceService.findAll();
+
+    return result.map((resource) => ({
+      ...resource,
+      params: JSON.parse(resource.params),
+    }));
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
-    return this.resourceService.findOne(id);
+    const result = await this.resourceService.findOne(id);
+
+    return { ...result, params: JSON.parse(result.params) };
+  }
+
+  @Put(':id')
+  async updateOne(
+    @Param('resource') resource: ResourceDTO,
+  ): Promise<ResourceDTO> {
+    const result = await this.resourceService.updateOne({
+      ...resource,
+      params: JSON.stringify(resource.params),
+    });
+
+    return { ...result, params: JSON.parse(result.params) };
   }
 }
