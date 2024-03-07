@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
+import { ConfigureResource } from "@/features/ConfigureResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
@@ -46,7 +47,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <AddProvider className="w-full" />
         <div className="pt-8"></div>
         {resources.map((resource) => (
-          <PlatformMetrics resource={resource}>
+          <PlatformMetrics key={resource.id} resource={resource}>
+            <ConfigureResource resource={resource} />
             <SetAPIEndpoint />
             <div className="pt-8"></div>
             <SetAPIKeys />

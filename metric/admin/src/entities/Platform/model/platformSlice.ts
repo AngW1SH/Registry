@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IPlatform } from "..";
 import { fetchAll } from "../api/fetchAll";
 
-interface PlatformState {
+export interface PlatformState {
   platforms: IPlatform[];
   isLoading: boolean;
   error: string;
