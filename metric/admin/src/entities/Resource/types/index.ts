@@ -4,6 +4,6 @@ export interface IResource {
   project: string; // Project id
   platform: string; // Platform id
   params: {
-    [key: string]: string;
+    [key: string]: any;
   }; // API Endpoint, API keys, etc
 }

@@ -8,7 +8,7 @@ export const extractResources = (data: IProjectDetailed): IResource[] => {
       name: resource.name,
       project: resource.project,
       platform: resource.platform,
-      params: resource.params,
+      params: resource.params || {},
     };
   });
 };

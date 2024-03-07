@@ -1,6 +1,6 @@
-import { useAppSelector } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 import { selectPlatformById } from "@/entities/Platform";
-import { IResource, ResourceField } from "@/entities/Resource";
+import { IResource, ResourceField, resourceSlice } from "@/entities/Resource";
 import { FC } from "react";
 import { configs } from "../config";
 import { PlatformName } from "@/entities/Platform/types";
@@ -11,6 +11,10 @@ interface ConfigureResourceProps {
 }
 
 const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
+  const dispatch = useAppDispatch();
+
+  const resources = useAppSelector((state) => state.resource.resources);
+
   const platform = useAppSelector((state) =>
     selectPlatformById(state.platform, resource.platform)
   );
@@ -22,8 +26,20 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
   const config = configs[platform.name as PlatformName];
 
   const handleChange = (value: IResourceFieldValue, prop: string) => {
-    console.log(value);
-    console.log(prop);
+    dispatch(
+      resourceSlice.actions.setResources(
+        resources.map((resourceMap) => {
+          if (resourceMap.id === resource.id) {
+            return {
+              ...resourceMap,
+              params: { ...resourceMap.params, [prop]: value.value },
+            };
+          }
+
+          return resourceMap;
+        })
+      )
+    );
   };
 
   return (
