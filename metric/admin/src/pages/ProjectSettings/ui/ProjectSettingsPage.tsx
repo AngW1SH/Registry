@@ -49,6 +49,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         {resources.map((resource) => (
           <PlatformMetrics key={resource.id} resource={resource}>
             <ConfigureResource resource={resource} />
+            <div className="pt-8"></div>
             <SetAPIEndpoint />
             <div className="pt-8"></div>
             <SetAPIKeys />
