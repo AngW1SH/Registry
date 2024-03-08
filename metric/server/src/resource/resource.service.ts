@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Resource, ResourceDetailed } from './resource.entity';
+import { Resource, ResourceCreate, ResourceDetailed } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
 
 @Injectable()
@@ -80,6 +80,34 @@ export class ResourceService {
       project: result.projectId,
       platform: result.platformId,
       metrics,
+    };
+  }
+
+  async createOne(resource: ResourceCreate): Promise<ResourceDetailed | null> {
+    const result = await this.prisma.resource.create({
+      data: {
+        name: resource.name,
+        params: '{}',
+        platform: {
+          connect: {
+            id: resource.platform,
+          },
+        },
+        project: {
+          connect: {
+            id: resource.project,
+          },
+        },
+      },
+    });
+
+    return {
+      id: result.id,
+      name: result.name,
+      params: result.params,
+      project: result.projectId,
+      platform: result.platformId,
+      metrics: [],
     };
   }
 

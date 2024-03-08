@@ -20,6 +20,9 @@ export const resourceSlice = createSlice({
     setResources: (state, action: PayloadAction<IResource[]>) => {
       state.resources = action.payload;
     },
+    addResource: (state, action: PayloadAction<IResource>) => {
+      state.resources.push(action.payload);
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },

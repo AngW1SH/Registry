@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ResourceService } from './resource.service';
-import { ResourceDTO, ResourceDetailedDTO } from './resource.entity';
+import {
+  ResourceCreateDTO,
+  ResourceDTO,
+  ResourceDetailedDTO,
+} from './resource.entity';
 
 @Controller('resource')
 export class ResourceController {
@@ -19,6 +23,15 @@ export class ResourceController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.findOne(id);
+
+    return { ...result, params: JSON.parse(result.params) };
+  }
+
+  @Post()
+  async createOne(
+    @Body('resource') resource: ResourceDTO,
+  ): Promise<ResourceDetailedDTO> {
+    const result = await this.resourceService.createOne(resource);
 
     return { ...result, params: JSON.parse(result.params) };
   }

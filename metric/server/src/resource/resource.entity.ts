@@ -25,3 +25,15 @@ export interface ResourceDetailedDTO extends ResourceDTO {
 export interface ResourceDetailed extends Resource {
   metrics: Metric[];
 }
+
+export interface ResourceCreateDTO {
+  name: string;
+  platform: string;
+  project: string;
+}
+
+export interface ResourceCreate {
+  name: string;
+  platform: string;
+  project: string;
+}

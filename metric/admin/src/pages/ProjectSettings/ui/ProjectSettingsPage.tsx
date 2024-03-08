@@ -46,28 +46,32 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <div className="pt-8"></div>
         <AddProvider className="w-full" />
         <div className="pt-8"></div>
-        {resources.map((resource) => (
-          <PlatformMetrics key={resource.id} resource={resource}>
-            <ConfigureResource resource={resource} />
-            <div className="pt-8"></div>
-            <SetAPIEndpoint />
-            <div className="pt-8"></div>
-            <SetAPIKeys />
-            <div className="pt-8"></div>
-            <AddMetric />
-            <div className="pt-8"></div>
-            <SearchMetric />
-            <div className="pt-8"></div>
-            <ul className="flex flex-wrap justify-between">
-              <li className="min-w-[47%] max-w-[47%]">
-                <MetricSettings />
-              </li>
-              <li className="min-w-[47%] max-w-[47%]">
-                <MetricSettings />
-              </li>
-            </ul>
-          </PlatformMetrics>
-        ))}
+        <ul className="flex flex-col gap-6">
+          {resources.map((resource) => (
+            <li>
+              <PlatformMetrics key={resource.id} resource={resource}>
+                <ConfigureResource resource={resource} />
+                <div className="pt-8"></div>
+                <SetAPIEndpoint />
+                <div className="pt-8"></div>
+                <SetAPIKeys />
+                <div className="pt-8"></div>
+                <AddMetric />
+                <div className="pt-8"></div>
+                <SearchMetric />
+                <div className="pt-8"></div>
+                <ul className="flex flex-wrap justify-between">
+                  <li className="min-w-[47%] max-w-[47%]">
+                    <MetricSettings />
+                  </li>
+                  <li className="min-w-[47%] max-w-[47%]">
+                    <MetricSettings />
+                  </li>
+                </ul>
+              </PlatformMetrics>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ReturnToProject link={"/project/" + id} />
