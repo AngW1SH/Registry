@@ -6,7 +6,7 @@ import { PerformanceModule } from "@/widgets/PerformanceModule";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
-import { Task } from "@/widgets/Temp/Task";
+import { MetricList } from "@/widgets/MetricList";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -17,9 +17,10 @@ const ProjectPage: FC<ProjectPageProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { project, resources } = useAppSelector((state) => ({
+  const { project, resources, metrics } = useAppSelector((state) => ({
     project: state.project.project,
     resources: state.resource.resources,
+    metrics: state.metric.metrics,
   }));
 
   useEffect(() => {
@@ -41,15 +42,15 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         <div className="pt-8"></div>
         <ul className="flex flex-col gap-6">
           {resources.map((resource) => (
-            <li>
+            <li key={resource.id}>
               <PlatformMetrics resource={resource} key={resource.id}>
                 <PerformanceModule />
                 <div className="pt-8" />
-                <div className="flex gap-8">
-                  <Task name="Task 1" metric="1" className="flex-1" />
-                  <Task name="Task 2" metric="2" className="flex-1" />
-                  <Task name="Task 3" metric="3" className="flex-1" />
-                </div>
+                <MetricList
+                  metrics={metrics.filter(
+                    (metric) => metric.resource == resource.id
+                  )}
+                />
               </PlatformMetrics>
             </li>
           ))}
