@@ -20,3 +20,11 @@ export interface ProjectDetailed extends Project {
 export interface ProjectDetailedDTO extends ProjectDTO {
   resources: ResourceDetailedDTO[];
 }
+
+export interface ProjectCreateDTO {
+  name: string;
+}
+
+export interface ProjectCreate {
+  name: string;
+}
