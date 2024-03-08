@@ -39,17 +39,21 @@ const ProjectPage: FC<ProjectPageProps> = () => {
           {project.name}
         </ProjectTitle>
         <div className="pt-8"></div>
-        {resources.map((resource) => (
-          <PlatformMetrics resource={resource} key={resource.id}>
-            <PerformanceModule />
-            <div className="pt-8" />
-            <div className="flex gap-8">
-              <Task name="Task 1" metric="1" className="flex-1" />
-              <Task name="Task 2" metric="2" className="flex-1" />
-              <Task name="Task 3" metric="3" className="flex-1" />
-            </div>
-          </PlatformMetrics>
-        ))}
+        <ul className="flex flex-col gap-6">
+          {resources.map((resource) => (
+            <li>
+              <PlatformMetrics resource={resource} key={resource.id}>
+                <PerformanceModule />
+                <div className="pt-8" />
+                <div className="flex gap-8">
+                  <Task name="Task 1" metric="1" className="flex-1" />
+                  <Task name="Task 2" metric="2" className="flex-1" />
+                  <Task name="Task 3" metric="3" className="flex-1" />
+                </div>
+              </PlatformMetrics>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ConfigureProject link={"/project/" + id + "/settings"} />
