@@ -6,8 +6,6 @@ import { ConfigureResource } from "@/features/ConfigureResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
-import { SetAPIEndpoint } from "@/features/SetAPIEndpoint";
-import { SetAPIKeys } from "@/features/SetAPIKeys";
 import MetricSettings from "@/widgets/MetricSettings/ui/MetricSettings";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
@@ -51,10 +49,6 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
             <li>
               <PlatformMetrics key={resource.id} resource={resource}>
                 <ConfigureResource resource={resource} />
-                <div className="pt-8"></div>
-                <SetAPIEndpoint />
-                <div className="pt-8"></div>
-                <SetAPIKeys />
                 <div className="pt-8"></div>
                 <AddMetric />
                 <div className="pt-8"></div>
