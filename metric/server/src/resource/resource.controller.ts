@@ -24,7 +24,14 @@ export class ResourceController {
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.findOne(id);
 
-    return { ...result, params: JSON.parse(result.params) };
+    return {
+      ...result,
+      params: JSON.parse(result.params),
+      metrics: result.metrics.map((metric) => ({
+        ...metric,
+        params: JSON.parse(metric.params),
+      })),
+    };
   }
 
   @Post()
@@ -33,7 +40,14 @@ export class ResourceController {
   ): Promise<ResourceDetailedDTO> {
     const result = await this.resourceService.createOne(resource);
 
-    return { ...result, params: JSON.parse(result.params) };
+    return {
+      ...result,
+      params: JSON.parse(result.params),
+      metrics: result.metrics.map((metric) => ({
+        ...metric,
+        params: JSON.parse(metric.params),
+      })),
+    };
   }
 
   @Put(':id')

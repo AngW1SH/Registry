@@ -20,6 +20,10 @@ export class ProjectController {
       resources: result.resources.map((resource) => ({
         ...resource,
         params: JSON.parse(resource.params),
+        metrics: resource.metrics.map((metric) => ({
+          ...metric,
+          params: JSON.parse(metric.params),
+        })),
       })),
     };
   }
@@ -35,6 +39,10 @@ export class ProjectController {
       resources: result.resources.map((resource) => ({
         ...resource,
         params: JSON.parse(resource.params),
+        metrics: resource.metrics.map((metric) => ({
+          ...metric,
+          params: JSON.parse(metric.params),
+        })),
       })),
     };
   }

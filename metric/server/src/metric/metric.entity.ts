@@ -11,7 +11,9 @@ export interface AbstractMetric {
 export interface MetricDTO {
   id: string;
   name: string;
-  params: string;
+  params: {
+    [key: string]: any;
+  };
   resource: string;
   data: string[];
 }

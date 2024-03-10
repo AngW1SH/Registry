@@ -29,6 +29,7 @@ export class ResourceService {
                 name: true,
               },
             },
+            params: true,
           },
         },
       },
@@ -45,7 +46,7 @@ export class ResourceService {
         name: metric.metric.name,
         data: [],
         resource: resource.id,
-        params: '',
+        params: metric.params || '[]',
       })),
     }));
   }

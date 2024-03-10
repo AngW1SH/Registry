@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { MetricDTO } from './metric.entity';
+import { Metric } from './metric.entity';
 
 @Injectable()
 export class MetricService {
   constructor(private prisma: PrismaService) {}
 
-  async findMany(filters: { resource: string }): Promise<MetricDTO[]> {
+  async findMany(filters: { resource: string }): Promise<Metric[]> {
     const result = await this.prisma.resourceMetric.findMany({
       where: {
         resourceId: filters.resource,
@@ -27,7 +27,7 @@ export class MetricService {
       id: metric.id,
       name: metric.metric.name,
       resource: metric.resourceId,
-      params: metric.params,
+      params: metric.params || '[]',
       data: [],
     }));
   }
