@@ -1,14 +1,18 @@
 import { Checkbox } from "@/shared/ui/Checkbox";
 import { TextInput } from "@/shared/ui/TextInput";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
 import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 
 interface MetricSettingsProps {
   className?: string;
+  children: ReactNode;
 }
 
-const MetricSettings: FC<MetricSettingsProps> = ({ className = "" }) => {
+const MetricSettings: FC<MetricSettingsProps> = ({
+  className = "",
+  children,
+}) => {
   return (
     <div
       className={
@@ -23,19 +27,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({ className = "" }) => {
         label="Use this metric for grading"
       />
       <div className="pt-4"></div>
-      <TextInput
-        tooltip="123"
-        label="Grade Weight"
-        labelSize="sm"
-        placeholder="0.4"
-      />
-      <div className="pt-4"></div>
-      <TextInput
-        tooltip="123"
-        label="Update Rate"
-        labelSize="sm"
-        placeholder="Every 7 days"
-      />
+      {children}
       <div className="pt-6"></div>
       <UpdateStatus />
       <StopTrackingMetric className="absolute top-7 right-5" />

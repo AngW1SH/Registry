@@ -1,3 +1,5 @@
+import { IMetricParam } from "./params";
+
 export interface IAbstractMetric {
   id: string;
   name: MetricName;
@@ -5,7 +7,7 @@ export interface IAbstractMetric {
 
 export interface IMetric extends IAbstractMetric {
   resource: string;
-  params: string[];
+  params: IMetricParam[];
   data: string[]; // Snapshots
 }
 

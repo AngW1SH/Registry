@@ -3,6 +3,7 @@ import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { MetricSettings } from "@/entities/Metric";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
+import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
 import { ConfigureResource } from "@/features/ConfigureResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
@@ -20,9 +21,10 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { project, resources } = useAppSelector((state) => ({
+  const { project, resources, metrics } = useAppSelector((state) => ({
     project: state.project.project,
     resources: state.resource.resources,
+    metrics: state.metric.metrics,
   }));
 
   useEffect(() => {
@@ -55,12 +57,15 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                 <SearchMetric />
                 <div className="pt-8"></div>
                 <ul className="flex flex-wrap justify-between">
-                  <li className="min-w-[47%] max-w-[47%]">
-                    <MetricSettings />
-                  </li>
-                  <li className="min-w-[47%] max-w-[47%]">
-                    <MetricSettings />
-                  </li>
+                  {metrics
+                    .filter((metric) => metric.resource === resource.id)
+                    .map((metric) => (
+                      <li key={metric.id} className="min-w-[47%] max-w-[47%]">
+                        <MetricSettings>
+                          <ConfigureMetricParams metric={metric} />
+                        </MetricSettings>
+                      </li>
+                    ))}
                 </ul>
               </PlatformMetrics>
             </li>
