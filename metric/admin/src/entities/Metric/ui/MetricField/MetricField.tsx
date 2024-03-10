@@ -5,9 +5,14 @@ import { IMetricParam, MetricParamType } from "../../types/params";
 interface MetricFieldProps {
   param: IMetricParam;
   onChange: (value: IMetricParam) => void;
+  className?: string;
 }
 
-const MetricField: FC<MetricFieldProps> = ({ param, onChange }) => {
+const MetricField: FC<MetricFieldProps> = ({
+  param,
+  onChange,
+  className = "",
+}) => {
   switch (param.type) {
     case MetricParamType.text: {
       return (
@@ -15,6 +20,7 @@ const MetricField: FC<MetricFieldProps> = ({ param, onChange }) => {
           {...param}
           value={param.value}
           onChange={(value) => onChange({ ...param, value: value })}
+          className={className}
         />
       );
     }

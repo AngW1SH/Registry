@@ -9,7 +9,12 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
   return (
     <div>
       {metric.params.map((param) => (
-        <MetricField key={param.name} param={param} onChange={() => {}} />
+        <MetricField
+          className="py-5"
+          key={param.name}
+          param={param}
+          onChange={() => {}}
+        />
       ))}
     </div>
   );
