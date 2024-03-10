@@ -31,4 +31,17 @@ export class MetricService {
       data: [],
     }));
   }
+
+  async updateParams(metric: Metric) {
+    const result = await this.prisma.resourceMetric.update({
+      where: {
+        id: metric.id,
+      },
+      data: {
+        params: metric.params,
+      },
+    });
+
+    return result;
+  }
 }

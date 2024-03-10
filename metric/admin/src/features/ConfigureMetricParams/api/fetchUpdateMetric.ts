@@ -6,7 +6,7 @@ export const fetchUpdateMetric = async (metric: IMetric) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(metric),
+    body: JSON.stringify({ metric: metric }),
   });
 
   if (!response.ok) throw new Error("Failed to update metric");
