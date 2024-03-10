@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { IMetric, MetricField, metricSlice } from "@/entities/Metric";
 import { IMetricParam } from "@/entities/Metric/types/params";
 import { FC } from "react";
+import { fetchUpdateMetric } from "../api/fetchUpdateMetric";
 
 interface ConfigureMetricParamsProps {
   metric: IMetric;
@@ -33,6 +34,10 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
     );
   };
 
+  const handleSubmit = () => {
+    fetchUpdateMetric(metric);
+  };
+
   return (
     <div>
       {metric.params.map((param) => (
@@ -43,6 +48,13 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
           onChange={handleChange}
         />
       ))}
+      <div className="pt-3" />
+      <button
+        onClick={handleSubmit}
+        className="py-3 w-full px-14 text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg"
+      >
+        Confirm Changes
+      </button>
     </div>
   );
 };
