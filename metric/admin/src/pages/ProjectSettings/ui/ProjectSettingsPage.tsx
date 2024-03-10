@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
+import { MetricSettings } from "@/entities/Metric";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureResource } from "@/features/ConfigureResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
-import MetricSettings from "@/widgets/MetricSettings/ui/MetricSettings";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
