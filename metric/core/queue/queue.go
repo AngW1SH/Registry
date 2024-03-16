@@ -34,6 +34,7 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 		Id: uuid.New(),
 		Metric: data.Metric,
 		Weight: data.Weight,
+		Groups: data.Groups,
 		UpdatedAt: data.UpdatedAt,
 		UpdateRate: data.UpdateRate,
 		Data: data.Data,
@@ -58,7 +59,7 @@ func (q *Queue) ListTasks() ([]*models.Task, error) {
 func (q *Queue) onFinish(task models.Task, result string) {
 	q.load -= task.Weight
 
-	q.repo.Create(&models.Snapshot{Metric: task.Metric, Data: result})
+	q.repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()

@@ -12,6 +12,7 @@ type Task struct {
 	Metric    string
 	Data      []string
 	UpdatedAt time.Time
+	Groups []string
 	AttemptedAt time.Time
 	UpdateRate time.Duration
 	IsDeleted bool
@@ -22,6 +23,7 @@ type TaskCreate struct {
 	Metric string
 	UpdatedAt time.Time
 	UpdateRate time.Duration
+	Groups []string
 	Weight int
 	Data []string
 }
@@ -32,7 +34,22 @@ type MetricType struct {
 }
 
 type Snapshot struct {
+	Metric string
+	Data string
+	Groups []string
+}
+
+type SnapshotDB struct {
 	gorm.Model
 	Metric string
 	Data string
+}
+
+// Sort of like a className in CSS,
+// Used to group metrics by project or group of projects
+// A snapshot can have multiple groups
+type SnapshotGroupDB struct {
+	gorm.Model
+	Name string
+	Metric string
 }
