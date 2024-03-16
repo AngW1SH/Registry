@@ -14,6 +14,7 @@ message TaskStartInfo {
     google.protobuf.Duration update_rate = 4;
     int32 weight = 5;
     repeated string data = 6;
+    repeated string groups = 7;
 }
 
 message TaskInfo {
@@ -23,6 +24,7 @@ message TaskInfo {
     google.protobuf.Duration update_rate = 4;
     int32 weight = 5;
     repeated string data = 6;
+    repeated string groups = 7;
 }
 
 
