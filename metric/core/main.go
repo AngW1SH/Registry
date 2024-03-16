@@ -9,11 +9,14 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"gorm.io/gorm"
 )
+
+var db *gorm.DB
 
 func init() {
 	initializers.InitializeEnvVariables()
-	initializers.InitializeDB()
+	db = initializers.InitializeDB()
 }
 
 func main() {
@@ -27,7 +30,7 @@ func main() {
 	queue.DeleteTask(task.Id)
 	*/
 
-	queue := queue.NewQueue(100, repositories.NewSnapshotRepository(initializers.DB))
+	queue := queue.NewQueue(100, repositories.NewSnapshotRepository(db))
 	queue.Start()
 
 	lis, err := net.Listen("tcp", ":9000")

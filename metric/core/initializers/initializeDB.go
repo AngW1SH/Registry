@@ -9,17 +9,17 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
-func InitializeDB() {
+func InitializeDB() *gorm.DB {
 
 	var err error
 
 	dsn := os.Getenv("DB_URL")
-	DB, err = gorm.Open(postgres.Open(dsn))
+	db, err := gorm.Open(postgres.Open(dsn))
 
 	if err != nil {
 		log.Fatal("Failed to start the database")
 	}
-	DB.AutoMigrate(&models.Snapshot{})
+	db.AutoMigrate(&models.Snapshot{})
+
+	return db
 }
