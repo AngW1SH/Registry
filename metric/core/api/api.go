@@ -9,13 +9,14 @@ import (
 )
 
 type Server struct {
+	Queue *queue.Queue
 	UnimplementedTaskServiceServer
 }
 
 func (s *Server) Start(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
 	fmt.Println("Start ", message.Task.Metric)
 
-	task := queue.AddTask(FromGRPCTaskStartInfo(message.Task))
+	task := s.Queue.AddTask(FromGRPCTaskStartInfo(message.Task))
 
 	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
@@ -29,7 +30,7 @@ func (s *Server) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopR
 		return &TaskStopResponse{Task: &TaskInfo{}}, err
 	}
 
-	task, err := queue.DeleteTask(parsedId)
+	task, err := s.Queue.DeleteTask(parsedId)
 
 	if err != nil {
 		return &TaskStopResponse{Task: &TaskInfo{}}, err
@@ -41,7 +42,7 @@ func (s *Server) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopR
 func (s *Server) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
 	fmt.Println("List")
 
-	tasks, err := queue.ListTasks()
+	tasks, err := s.Queue.ListTasks()
 
 	if err != nil {
 		return &TaskListResponse{Tasks: []*TaskInfo{}}, err

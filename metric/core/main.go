@@ -14,7 +14,6 @@ import (
 func init() {
 	initializers.InitializeEnvVariables()
 	initializers.InitializeDB()
-	queue.InitializeQueue(4, repositories.NewSnapshotRepository(initializers.DB))
 }
 
 func main() {
@@ -28,16 +27,17 @@ func main() {
 	queue.DeleteTask(task.Id)
 	*/
 
+	queue := queue.NewQueue(100, repositories.NewSnapshotRepository(initializers.DB))
+	queue.Start()
+
 	lis, err := net.Listen("tcp", ":9000")
 
 	if err != nil {
 		log.Fatalf("Failed to listen on port 9000: %v", err)
 	}
 
-	s := api.Server{}
-
+	s := api.Server{Queue: queue}
 	grpcServer := grpc.NewServer()
-
 	api.RegisterTaskServiceServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {

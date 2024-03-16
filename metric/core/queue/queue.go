@@ -10,26 +10,26 @@ import (
 
 	"github.com/google/uuid"
 )
-
-var repo *repositories.SnapshotRepository
-
-var limit, load int
-
-var queue helpers.PriorityQueue
-
-func InitializeQueue(lim int, repository *repositories.SnapshotRepository) {
-	limit = lim
-	load = 0
-	repo = repository
-
-	queue = helpers.PriorityQueue{}
-
-	heap.Init(&queue)
-
-	go AdvanceTasks()
+type Queue struct {
+	Limit int
+	load int
+	repo *repositories.SnapshotRepository
+	queue helpers.PriorityQueue
 }
 
-func AddTask(data *models.TaskCreate) *models.Task {
+func NewQueue(limit int, repo *repositories.SnapshotRepository) *Queue {
+	return &Queue{Limit: limit, load: 0, repo: repo}
+}
+
+func (q *Queue) Start() {
+	q.queue = helpers.PriorityQueue{}
+
+	heap.Init(&q.queue)
+
+	go q.AdvanceTasks()
+}
+
+func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	task := models.Task{
 		Id: uuid.New(),
 		Metric: data.Metric,
@@ -42,45 +42,43 @@ func AddTask(data *models.TaskCreate) *models.Task {
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
 
-	heap.Push(&queue, &task)
+	heap.Push(&q.queue, &task)
 
 	return &task
 }
 
-func DeleteTask(id uuid.UUID) (*models.Task, error) {
-
-	return queue.MarkDelete(id)
+func (q *Queue) DeleteTask(id uuid.UUID) (*models.Task, error) {
+	return q.queue.MarkDelete(id)
 }
 
-func ListTasks() ([]*models.Task, error) {
-	return queue.GetEntries(), nil
+func (q *Queue) ListTasks() ([]*models.Task, error) {
+	return q.queue.GetEntries(), nil
 }
 
-func onFinish(task models.Task, result string) {
-	load -= task.Weight
+func (q *Queue) onFinish(task models.Task, result string) {
+	q.load -= task.Weight
 
-	repo.Create(&models.Snapshot{Metric: task.Metric, Data: result})
+	q.repo.Create(&models.Snapshot{Metric: task.Metric, Data: result})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()
 
-	heap.Push(&queue, &task)
+	heap.Push(&q.queue, &task)
 }
 
-func AdvanceTasks() {
+func (q *Queue) AdvanceTasks() {
 	for ;; {
-
-		if (queue.Len() == 0) {
+		if (q.queue.Len() == 0) {
 			time.Sleep(time.Second)
 			continue;
 		}
 
-		for load < limit {
-			if queue.Len() == 0 || (load + queue.Peek().Weight > limit) {
+		for q.load < q.Limit {
+			if q.queue.Len() == 0 || (q.load + q.queue.Peek().Weight > q.Limit) {
 				break
 			}
 	
-			oldestUpdated := heap.Pop(&queue).(*models.Task)
+			oldestUpdated := heap.Pop(&q.queue).(*models.Task)
 			found := false
 
 			if oldestUpdated.IsDeleted {
@@ -89,16 +87,16 @@ func AdvanceTasks() {
 	
 			if metrics.List[oldestUpdated.Metric] != nil {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
-					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], onFinish);
+					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish);
 					found = true
 				} else {
 					oldestUpdated.AttemptedAt = time.Now()
-					heap.Push(&queue, oldestUpdated)
+					heap.Push(&q.queue, oldestUpdated)
 				}
 			}
 	
 			if found {
-				load += oldestUpdated.Weight		
+				q.load += oldestUpdated.Weight		
 			}
 		}
 
