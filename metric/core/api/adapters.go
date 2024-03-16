@@ -27,3 +27,18 @@ func ToGRPCTaskInfo(dto *models.Task) *TaskInfo {
 		Data:       dto.Data,
 	}
 }
+
+func ToGRPCSnapshotInfo(dto *models.SnapshotDB) *SnapshotInfo {
+
+	groups := []string{}
+
+	for i := 0; i < len(dto.Groups); i++ {
+		groups = append(groups, dto.Groups[i].Name)
+	}
+
+	return &SnapshotInfo{
+		Metric:     dto.Metric,
+		Data:       dto.Data,
+		Groups:     groups,
+	}
+}

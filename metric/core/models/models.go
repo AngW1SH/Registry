@@ -43,6 +43,7 @@ type SnapshotDB struct {
 	gorm.Model
 	Metric string
 	Data string
+	Groups []SnapshotGroupDB
 }
 
 // Sort of like a className in CSS,
@@ -51,5 +52,5 @@ type SnapshotDB struct {
 type SnapshotGroupDB struct {
 	gorm.Model
 	Name string
-	Metric string
+	SnapshotDBID uint 
 }

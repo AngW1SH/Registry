@@ -13,12 +13,12 @@ import (
 type Queue struct {
 	Limit int
 	load int
-	repo *repositories.SnapshotRepository
+	Repo *repositories.SnapshotRepository
 	queue helpers.PriorityQueue
 }
 
 func NewQueue(limit int, repo *repositories.SnapshotRepository) *Queue {
-	return &Queue{Limit: limit, load: 0, repo: repo}
+	return &Queue{Limit: limit, load: 0, Repo: repo}
 }
 
 func (q *Queue) Start() {
@@ -59,7 +59,7 @@ func (q *Queue) ListTasks() ([]*models.Task, error) {
 func (q *Queue) onFinish(task models.Task, result string) {
 	q.load -= task.Weight
 
-	q.repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups})
+	q.Repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()

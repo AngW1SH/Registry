@@ -56,3 +56,21 @@ func (s *Server) List(ctx context.Context, message *TaskListRequest) (*TaskListR
 
 	return &TaskListResponse{Tasks: result}, nil
 }
+
+func (s *Server) SnapshotList(ctx context.Context, message *SnapshotListRequest) (*SnapshotListResult, error) {
+	fmt.Println("SnapshotList", message.Group)
+
+	snapshots, err := s.Queue.Repo.GetByGroup(message.Group)
+
+	if err != nil {
+		return &SnapshotListResult{Snapshots: []*SnapshotInfo{}}, err
+	}
+
+	result := []*SnapshotInfo{}
+
+	for i := 0; i < len(snapshots); i++ {
+		result = append(result, ToGRPCSnapshotInfo(&snapshots[i]))
+	}
+
+	return &SnapshotListResult{Snapshots: result }, nil
+}

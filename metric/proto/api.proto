@@ -27,6 +27,11 @@ message TaskInfo {
     repeated string groups = 7;
 }
 
+message SnapshotInfo {
+    string Metric = 1;
+    string Data = 2;
+    repeated string Groups = 3;
+}
 
 message TaskStartRequest {
     TaskStartInfo task = 1;
@@ -52,8 +57,17 @@ message TaskListResponse {
     repeated TaskInfo tasks = 1;
 }
 
+message SnapshotListRequest {
+    string Group = 1;
+}
+
+message SnapshotListResult {
+    repeated SnapshotInfo Snapshots = 1;
+}
+
 service TaskService {
     rpc Start(TaskStartRequest) returns (TaskStartResponse);
     rpc Stop(TaskStopRequest) returns (TaskStopResponse);
     rpc List(TaskListRequest) returns(TaskListResponse);
+    rpc SnapshotList(SnapshotListRequest) returns (SnapshotListResult);
 }

@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TaskService_Start_FullMethodName = "/api.TaskService/Start"
-	TaskService_Stop_FullMethodName  = "/api.TaskService/Stop"
-	TaskService_List_FullMethodName  = "/api.TaskService/List"
+	TaskService_Start_FullMethodName        = "/api.TaskService/Start"
+	TaskService_Stop_FullMethodName         = "/api.TaskService/Stop"
+	TaskService_List_FullMethodName         = "/api.TaskService/List"
+	TaskService_SnapshotList_FullMethodName = "/api.TaskService/SnapshotList"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -31,6 +32,7 @@ type TaskServiceClient interface {
 	Start(ctx context.Context, in *TaskStartRequest, opts ...grpc.CallOption) (*TaskStartResponse, error)
 	Stop(ctx context.Context, in *TaskStopRequest, opts ...grpc.CallOption) (*TaskStopResponse, error)
 	List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error)
+	SnapshotList(ctx context.Context, in *SnapshotListRequest, opts ...grpc.CallOption) (*SnapshotListResult, error)
 }
 
 type taskServiceClient struct {
@@ -68,6 +70,15 @@ func (c *taskServiceClient) List(ctx context.Context, in *TaskListRequest, opts 
 	return out, nil
 }
 
+func (c *taskServiceClient) SnapshotList(ctx context.Context, in *SnapshotListRequest, opts ...grpc.CallOption) (*SnapshotListResult, error) {
+	out := new(SnapshotListResult)
+	err := c.cc.Invoke(ctx, TaskService_SnapshotList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type TaskServiceServer interface {
 	Start(context.Context, *TaskStartRequest) (*TaskStartResponse, error)
 	Stop(context.Context, *TaskStopRequest) (*TaskStopResponse, error)
 	List(context.Context, *TaskListRequest) (*TaskListResponse, error)
+	SnapshotList(context.Context, *SnapshotListRequest) (*SnapshotListResult, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedTaskServiceServer) Stop(context.Context, *TaskStopRequest) (*
 }
 func (UnimplementedTaskServiceServer) List(context.Context, *TaskListRequest) (*TaskListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (UnimplementedTaskServiceServer) SnapshotList(context.Context, *SnapshotListRequest) (*SnapshotListResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SnapshotList not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 
@@ -158,6 +173,24 @@ func _TaskService_List_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_SnapshotList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SnapshotListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).SnapshotList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_SnapshotList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).SnapshotList(ctx, req.(*SnapshotListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "List",
 			Handler:    _TaskService_List_Handler,
+		},
+		{
+			MethodName: "SnapshotList",
+			Handler:    _TaskService_SnapshotList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

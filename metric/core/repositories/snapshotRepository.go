@@ -19,7 +19,9 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 
 	groups := snapshot.Groups
 
-	err := r.db.Create(&models.SnapshotDB{Metric: snapshot.Metric, Data: snapshot.Data}).Error
+	snapshotDB := models.SnapshotDB{Metric: snapshot.Metric, Data: snapshot.Data}
+
+	err := r.db.Create(&snapshotDB).Error
 
 	fmt.Println(groups)
 
@@ -29,7 +31,7 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 
 		for _, group := range groups {
 			groupsDB = append(groupsDB, models.SnapshotGroupDB{
-				Metric: snapshot.Metric,
+				SnapshotDBID: snapshotDB.ID,
 				Name: group,
 			})
 		}
@@ -42,4 +44,12 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 	}
 
 	return RepositoryResult{Result: snapshot}
+}
+
+func (r *SnapshotRepository) GetByGroup(group string) ([]models.SnapshotDB, error) {
+	var snapshots []models.SnapshotDB
+
+	err := r.db.Preload("Groups").Where("id IN (?)", r.db.Table("snapshot_group_dbs").Select("snapshot_db_id").Where("name = ?", group)).Find(&snapshots).Error
+
+	return snapshots, err
 }
