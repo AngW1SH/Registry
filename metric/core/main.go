@@ -30,7 +30,9 @@ func main() {
 	queue.DeleteTask(task.Id)
 	*/
 
-	queue := queue.NewQueue(100, repositories.NewSnapshotRepository(db))
+	repo := repositories.NewSnapshotRepository(db)
+
+	queue := queue.NewQueue(100, repo)
 	queue.Start()
 	// queue.AddTask(&models.TaskCreate{ Metric: "2", Data: []string{ "2" }, Groups: []string{"project:project-name", "resource:resource-name", "section:section-name"}, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second })
 
@@ -40,9 +42,11 @@ func main() {
 		log.Fatalf("Failed to listen on port 9000: %v", err)
 	}
 
-	s := api.Server{Queue: queue}
+	taskServer := api.TaskServer{Queue: queue}
+	snapshotServer := api.SnapshotServer{Repo: repo}
 	grpcServer := grpc.NewServer()
-	api.RegisterTaskServiceServer(grpcServer, &s)
+	api.RegisterTaskServiceServer(grpcServer, &taskServer)
+	api.RegisterSnapshotServiceServer(grpcServer, &snapshotServer)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to server gRPC server over port 9000: %v", err)

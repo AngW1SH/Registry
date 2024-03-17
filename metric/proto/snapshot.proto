@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "/api";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+message SnapshotInfo {
+    string Metric = 1;
+    string Data = 2;
+    repeated string Groups = 3;
+}
+
+message SnapshotListRequest {
+    string Group = 1;
+}
+
+message SnapshotListResult {
+    repeated SnapshotInfo Snapshots = 1;
+}
+
+service SnapshotService {
+    rpc List(SnapshotListRequest) returns (SnapshotListResult);
+}
