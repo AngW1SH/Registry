@@ -49,7 +49,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <div className="pt-8"></div>
         <ul className="flex flex-col gap-6">
           {resources.map((resource) => (
-            <li>
+            <li key={resource.id}>
               <PlatformMetrics key={resource.id} resource={resource}>
                 <ConfigureResource resource={resource} />
                 <div className="pt-8"></div>
