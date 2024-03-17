@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Resource, ResourceCreate, ResourceDetailed } from './resource.entity';
+import {
+  Resource,
+  ResourceCreate,
+  ResourceDetailed,
+  ResourceSnapshots,
+} from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
 
 @Injectable()
@@ -131,6 +136,21 @@ export class ResourceService {
       params: result.params,
       project: result.projectId,
       platform: result.platformId,
+    };
+  }
+
+  populateWithSnapshots(
+    resource: ResourceDetailed,
+    snapshots: ResourceSnapshots,
+  ) {
+    return {
+      ...resource,
+      metrics: resource.metrics.map((metric) =>
+        this.metricService.populateWithSnapshots(
+          metric,
+          snapshots[metric.name],
+        ),
+      ),
     };
   }
 }

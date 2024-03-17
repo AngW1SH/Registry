@@ -37,3 +37,7 @@ export interface ResourceCreate {
   platform: string;
   project: string;
 }
+
+export interface ResourceSnapshots {
+  [metric: string]: string[];
+}

@@ -44,4 +44,8 @@ export class MetricService {
 
     return result;
   }
+
+  populateWithSnapshots(metric: Metric, snapshots: string[]) {
+    return { ...metric, data: snapshots };
+  }
 }

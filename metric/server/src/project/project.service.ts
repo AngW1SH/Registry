@@ -32,10 +32,17 @@ export class ProjectService {
       await this.snapshotService.list('project:' + result.name),
     );
 
+    const resourcesPopulated = resources.map((resource) =>
+      this.resourceService.populateWithSnapshots(
+        resource,
+        snapshots[resource.name],
+      ),
+    );
+
     return {
       id: result.id,
       name: result.name,
-      resources,
+      resources: resourcesPopulated,
     };
   }
 
