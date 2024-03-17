@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AbstractMetric, Metric, MetricWithSnapshots } from './metric.entity';
+import {
+  AbstractMetric,
+  Metric,
+  MetricCreate,
+  MetricWithSnapshots,
+} from './metric.entity';
 
 @Injectable()
 export class MetricService {
@@ -49,6 +54,50 @@ export class MetricService {
     });
 
     return result;
+  }
+
+  async create(metric: MetricCreate) {
+    const abstractMetric = await this.prisma.metric.findFirst({
+      where: {
+        name: metric.name,
+      },
+    });
+
+    if (!abstractMetric) throw new Error('Metric not found');
+
+    const result = await this.prisma.resourceMetric.create({
+      data: {
+        params: '[]',
+        resource: {
+          connect: {
+            id: metric.resource,
+          },
+        },
+        metric: {
+          connect: {
+            id: abstractMetric.id,
+          },
+        },
+      },
+      select: {
+        id: true,
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resourceId: true,
+        params: true,
+      },
+    });
+
+    return {
+      id: result.id,
+      name: result.metric.name,
+      resource: result.resourceId,
+      params: result.params || '[]',
+      data: [],
+    };
   }
 
   populateWithSnapshots(

@@ -52,7 +52,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
               <PlatformMetrics key={resource.id} resource={resource}>
                 <ConfigureResource resource={resource} />
                 <div className="pt-8"></div>
-                <AddMetric />
+                <AddMetric resource={resource.id} project={project.id} />
                 <div className="pt-8"></div>
                 <SearchMetric />
                 <div className="pt-8"></div>

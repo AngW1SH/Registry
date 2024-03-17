@@ -25,6 +25,8 @@ export interface Metric {
   resource: string;
 }
 
+export type MetricCreate = Omit<Metric, 'id'>;
+
 export interface MetricWithSnapshots extends Metric {
   data: string[];
 }
