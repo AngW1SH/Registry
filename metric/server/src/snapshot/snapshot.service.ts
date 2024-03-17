@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { Snapshot } from './snapshot.entity';
+import { Observable, firstValueFrom } from 'rxjs';
+import { Snapshot, SnapshotGRPC } from './snapshot.entity';
 import { ClientGrpc } from '@nestjs/microservices';
+import { fromGRPC } from './utils/fromGRPC';
 
 interface SnapshotServiceGRPC {
-  list: (data: { group: string }) => Observable<Snapshot[]>;
+  list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
 }
 
 @Injectable()
@@ -18,7 +19,10 @@ export class SnapshotService {
       this.client.getService<SnapshotServiceGRPC>('SnapshotService');
   }
 
-  list(group: string) {
-    return this.snapshotServiceGRPC.list({ group });
+  async list(group: string): Promise<Snapshot[]> {
+    const result = await firstValueFrom(
+      this.snapshotServiceGRPC.list({ Group: group }),
+    );
+    return result.Snapshots.map((snapshot) => fromGRPC(snapshot));
   }
 }

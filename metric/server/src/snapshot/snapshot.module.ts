@@ -6,7 +6,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   imports: [
     ClientsModule.register([
       {
-        name: 'TASK_SERVICE',
+        name: 'SNAPSHOT_SERVICE',
         transport: Transport.GRPC,
         options: {
           package: 'api',
@@ -20,5 +20,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ]),
   ],
   providers: [SnapshotService],
+  exports: [SnapshotService],
 })
 export class SnapshotModule {}
