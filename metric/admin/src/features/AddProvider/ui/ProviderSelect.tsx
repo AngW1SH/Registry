@@ -21,6 +21,7 @@ const ProviderSelect: FC<ProviderSelectProps> = ({
       <ul className="flex items-center gap-10">
         {options.map((option) => (
           <li
+            key={option.name}
             className="cursor-pointer h-28 w-28 p-6 rounded-lg shadow-center-lg transition-[border]"
             onClick={() => onSelect(option.name)}
             style={{
