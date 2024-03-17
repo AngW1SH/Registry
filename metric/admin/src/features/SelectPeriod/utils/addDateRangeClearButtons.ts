@@ -5,8 +5,6 @@ export const addRangeClearButtons = (
 ) => {
   const calendar = container.querySelector(".rdrDateDisplay");
 
-  console.log(calendar);
-
   if (calendar) {
     if (calendar.children[0]) {
       const deleteStart = document.createElement("div");
