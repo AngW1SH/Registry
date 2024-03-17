@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { MetricCreate, MetricDTO } from './metric.entity';
 import { MetricService } from './metric.service';
 
@@ -26,6 +34,13 @@ export class MetricController {
   @Get()
   async listAll(): Promise<string[]> {
     const result = await this.metricService.listAll();
+
+    return result;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const result = await this.metricService.deleteOne(id);
 
     return result;
   }

@@ -8,6 +8,7 @@ import { ConfigureResource } from "@/features/ConfigureResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
+import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -61,7 +62,9 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                     .filter((metric) => metric.resource === resource.id)
                     .map((metric) => (
                       <li key={metric.id} className="min-w-[47%] max-w-[47%]">
-                        <MetricSettings>
+                        <MetricSettings
+                          aside={<StopTrackingMetric metricId={metric.id} />}
+                        >
                           <ConfigureMetricParams metric={metric} />
                         </MetricSettings>
                       </li>

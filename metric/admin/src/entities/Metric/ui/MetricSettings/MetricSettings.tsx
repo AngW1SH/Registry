@@ -1,17 +1,17 @@
 import { Checkbox } from "@/shared/ui/Checkbox";
-import { TextInput } from "@/shared/ui/TextInput";
 import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
-import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 
 interface MetricSettingsProps {
   className?: string;
   children: ReactNode;
+  aside?: React.ReactNode;
 }
 
 const MetricSettings: FC<MetricSettingsProps> = ({
   className = "",
   children,
+  aside,
 }) => {
   return (
     <div
@@ -30,7 +30,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       {children}
       <div className="pt-6"></div>
       <UpdateStatus />
-      <StopTrackingMetric className="absolute top-7 right-5" />
+      {aside && <div className="absolute top-7 right-5">{aside}</div>}
     </div>
   );
 };

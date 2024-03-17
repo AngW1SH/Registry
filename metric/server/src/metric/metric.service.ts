@@ -107,6 +107,14 @@ export class MetricService {
     };
   }
 
+  async deleteOne(id) {
+    await this.prisma.resourceMetric.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
   populateWithSnapshots(
     metric: Metric,
     snapshots: string[],
