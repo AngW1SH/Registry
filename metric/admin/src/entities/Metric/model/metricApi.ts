@@ -1,8 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { MetricParams } from "../types";
 
-export const metricNamesApi = createApi({
-  reducerPath: "metricNamesApi",
+export interface MetricParams {
+  project: string;
+  resource: string;
+  name: string;
+}
+
+export const metricApi = createApi({
+  reducerPath: "metricApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5173/api/" }),
   endpoints: (build) => ({
     getMetricNames: build.query<string[], void>({
@@ -18,5 +23,4 @@ export const metricNamesApi = createApi({
   }),
 });
 
-export const { useGetMetricNamesQuery, useCreateMetricMutation } =
-  metricNamesApi;
+export const { useGetMetricNamesQuery, useCreateMetricMutation } = metricApi;

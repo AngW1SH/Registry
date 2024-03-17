@@ -1,8 +1,8 @@
 import { metricSlice } from "@/entities/Metric";
+import { metricApi } from "@/entities/Metric/model/metricApi";
 import { platformSlice } from "@/entities/Platform";
 import { projectSlice, projectListSlice } from "@/entities/Project";
 import { resourceSlice } from "@/entities/Resource";
-import { metricNamesApi } from "@/features/AddMetric/model/useGetMetricNamesQuery";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
@@ -12,14 +12,14 @@ const rootReducer = combineReducers({
   projectList: projectListSlice.reducer,
   resource: resourceSlice.reducer,
   metric: metricSlice.reducer,
-  metricNamesApi: metricNamesApi.reducer,
+  metricApi: metricApi.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware().concat(metricNamesApi.middleware);
+      return getDefaultMiddleware().concat(metricApi.middleware);
     },
   });
 };

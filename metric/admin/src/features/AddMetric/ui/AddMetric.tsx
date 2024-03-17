@@ -1,11 +1,11 @@
 import { Dropdown } from "@/shared/ui/Dropdown";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { FC, useState } from "react";
+import { useAppSelector } from "@/app/store";
 import {
   useCreateMetricMutation,
   useGetMetricNamesQuery,
-} from "../model/useGetMetricNamesQuery";
-import { useAppSelector } from "@/app/store";
+} from "@/entities/Metric/model/metricApi";
 
 interface AddMetricProps {
   project: string;
