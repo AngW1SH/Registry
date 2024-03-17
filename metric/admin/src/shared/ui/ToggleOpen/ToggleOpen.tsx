@@ -15,6 +15,7 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
   callback,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef(null);
 
   const { opened, toggleOpened, styles } = useToggleOpen(ref, children);
 
@@ -23,9 +24,10 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
   }, [opened]);
 
   return (
-    <Transition in={opened} timeout={150}>
+    <Transition nodeRef={nodeRef} in={opened} timeout={150}>
       {(state: TransitionStatus) => (
         <div
+          ref={nodeRef}
           className={`relative ${
             state == "entered" ? "overflow-visible" : "overflow-hidden"
           }`}
