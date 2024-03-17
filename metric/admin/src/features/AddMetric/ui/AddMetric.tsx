@@ -5,6 +5,7 @@ import {
   useCreateMetricMutation,
   useGetMetricNamesQuery,
 } from "../model/useGetMetricNamesQuery";
+import { useAppSelector } from "@/app/store";
 
 interface AddMetricProps {
   project: string;
@@ -14,7 +15,15 @@ interface AddMetricProps {
 const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
   const [selected, setSelected] = useState("");
 
+  const metrics = useAppSelector((state) =>
+    state.metric.metrics.filter((metric) => metric.resource == resource)
+  );
+
   const { data } = useGetMetricNamesQuery();
+
+  const filteredData =
+    data?.filter((name) => !metrics.find((metric) => metric.name == name)) ||
+    [];
 
   const [mutate] = useCreateMetricMutation();
 
@@ -40,7 +49,7 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
           value={selected}
           onChange={setSelected}
           namePrefix="new-metric"
-          options={data}
+          options={filteredData}
         />
         <button
           onClick={handleConfirm}

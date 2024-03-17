@@ -149,7 +149,7 @@ export class ResourceService {
       metrics: resource.metrics.map((metric) =>
         this.metricService.populateWithSnapshots(
           metric,
-          snapshots[metric.name],
+          snapshots ? snapshots[metric.name] : [],
         ),
       ),
     };
