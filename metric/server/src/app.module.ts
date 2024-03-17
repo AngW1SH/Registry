@@ -7,9 +7,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ProjectModule } from './project/project.module';
 import { ResourceModule } from './resource/resource.module';
 import { MetricModule } from './metric/metric.module';
+import { SnapshotModule } from './snapshot/snapshot.module';
 
 @Module({
-  imports: [TaskModule, PlatformModule, PrismaModule, ProjectModule, ResourceModule, MetricModule],
+  imports: [TaskModule, PlatformModule, PrismaModule, ProjectModule, ResourceModule, MetricModule, SnapshotModule],
   controllers: [AppController],
   providers: [AppService],
 })

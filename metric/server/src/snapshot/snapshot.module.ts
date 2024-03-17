@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { TaskController } from './task.controller';
+import { SnapshotService } from './snapshot.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
@@ -11,7 +10,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         transport: Transport.GRPC,
         options: {
           package: 'api',
-          protoPath: '../proto/task.proto',
+          protoPath: '../proto/snapshot.proto',
           url: 'localhost:9000',
           loader: {
             keepCase: true,
@@ -20,7 +19,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  controllers: [TaskController],
-  providers: [TaskService],
+  providers: [SnapshotService],
 })
-export class TaskModule {}
+export class SnapshotModule {}
