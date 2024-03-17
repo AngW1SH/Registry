@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Project, ProjectCreate, ProjectDetailed } from './project.entity';
+import {
+  Project,
+  ProjectCreate,
+  ProjectDetailed,
+  ProjectDetailedWithSnapshots,
+} from './project.entity';
 import { ResourceService } from 'src/resource/resource.service';
 import { SnapshotService } from 'src/snapshot/snapshot.service';
 import { structureSnapshots } from './utils/structureSnapshots';
@@ -19,7 +24,7 @@ export class ProjectService {
     return result;
   }
 
-  async findOne(id: string): Promise<ProjectDetailed | null> {
+  async findOne(id: string): Promise<ProjectDetailedWithSnapshots | null> {
     const result = await this.prisma.project.findFirst({
       where: {
         id,

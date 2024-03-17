@@ -1,4 +1,8 @@
-import { Metric, MetricDTO } from 'src/metric/metric.entity';
+import {
+  Metric,
+  MetricDTO,
+  MetricWithSnapshots,
+} from 'src/metric/metric.entity';
 
 export interface Resource {
   id: string;
@@ -24,6 +28,10 @@ export interface ResourceDetailedDTO extends ResourceDTO {
 
 export interface ResourceDetailed extends Resource {
   metrics: Metric[];
+}
+
+export interface ResourceDetailedWithSnapshots extends Resource {
+  metrics: MetricWithSnapshots[];
 }
 
 export interface ResourceCreateDTO {

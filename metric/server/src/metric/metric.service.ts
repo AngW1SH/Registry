@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Metric } from './metric.entity';
+import { Metric, MetricWithSnapshots } from './metric.entity';
 
 @Injectable()
 export class MetricService {
@@ -45,7 +45,10 @@ export class MetricService {
     return result;
   }
 
-  populateWithSnapshots(metric: Metric, snapshots: string[]) {
+  populateWithSnapshots(
+    metric: Metric,
+    snapshots: string[],
+  ): MetricWithSnapshots {
     return { ...metric, data: snapshots };
   }
 }

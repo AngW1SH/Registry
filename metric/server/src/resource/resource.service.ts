@@ -4,6 +4,7 @@ import {
   Resource,
   ResourceCreate,
   ResourceDetailed,
+  ResourceDetailedWithSnapshots,
   ResourceSnapshots,
 } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
@@ -142,7 +143,7 @@ export class ResourceService {
   populateWithSnapshots(
     resource: ResourceDetailed,
     snapshots: ResourceSnapshots,
-  ) {
+  ): ResourceDetailedWithSnapshots {
     return {
       ...resource,
       metrics: resource.metrics.map((metric) =>

@@ -23,5 +23,8 @@ export interface Metric {
   name: string;
   params: string;
   resource: string;
+}
+
+export interface MetricWithSnapshots extends Metric {
   data: string[];
 }
