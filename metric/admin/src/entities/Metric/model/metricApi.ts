@@ -20,7 +20,17 @@ export const metricApi = createApi({
         body: metricParams,
       }),
     }),
+    deleteMetric: build.mutation<void, string>({
+      query: (id) => ({
+        url: `metric/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetMetricNamesQuery, useCreateMetricMutation } = metricApi;
+export const {
+  useGetMetricNamesQuery,
+  useCreateMetricMutation,
+  useDeleteMetricMutation,
+} = metricApi;

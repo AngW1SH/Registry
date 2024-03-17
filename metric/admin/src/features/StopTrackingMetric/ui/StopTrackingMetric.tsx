@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { fetchStopTracking } from "../api/fetchStopTracking";
+import { useDeleteMetricMutation } from "@/entities/Metric/model/metricApi";
 
 interface StopTrackingMetricProps {
   className?: string;
@@ -10,8 +10,10 @@ const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
   metricId,
   className,
 }) => {
+  const [stopTracking] = useDeleteMetricMutation();
+
   const handleClick = async () => {
-    fetchStopTracking(metricId);
+    stopTracking(metricId);
   };
 
   return (
