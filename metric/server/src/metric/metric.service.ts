@@ -6,6 +6,7 @@ import {
   MetricCreate,
   MetricWithSnapshots,
 } from './metric.entity';
+import { metricParams } from './config/metricParams';
 
 @Injectable()
 export class MetricService {
@@ -57,6 +58,10 @@ export class MetricService {
   }
 
   async create(metric: MetricCreate) {
+    const config = metricParams[metric.name];
+
+    if (!config) throw new Error('Metric not found');
+
     const abstractMetric = await this.prisma.metric.findFirst({
       where: {
         name: metric.name,
@@ -67,7 +72,9 @@ export class MetricService {
 
     const result = await this.prisma.resourceMetric.create({
       data: {
-        params: '[]',
+        params: JSON.stringify(
+          config.map((param) => ({ ...param, value: '' })),
+        ),
         resource: {
           connect: {
             id: metric.resource,
