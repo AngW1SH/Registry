@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { MetricDTO } from './metric.entity';
 import { MetricService } from './metric.service';
 
@@ -12,6 +12,13 @@ export class MetricController {
       ...metric,
       params: JSON.stringify(metric.params),
     });
+
+    return result;
+  }
+
+  @Get()
+  async listAll(): Promise<string[]> {
+    const result = await this.metricService.listAll();
 
     return result;
   }

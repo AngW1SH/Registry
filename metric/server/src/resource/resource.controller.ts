@@ -30,6 +30,7 @@ export class ResourceController {
       metrics: result.metrics.map((metric) => ({
         ...metric,
         params: JSON.parse(metric.params),
+        data: [],
       })),
     };
   }
@@ -46,6 +47,7 @@ export class ResourceController {
       metrics: result.metrics.map((metric) => ({
         ...metric,
         params: JSON.parse(metric.params),
+        data: [],
       })),
     };
   }

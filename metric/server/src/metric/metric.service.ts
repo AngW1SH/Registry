@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Metric, MetricWithSnapshots } from './metric.entity';
+import { AbstractMetric, Metric, MetricWithSnapshots } from './metric.entity';
 
 @Injectable()
 export class MetricService {
@@ -30,6 +30,12 @@ export class MetricService {
       params: metric.params || '[]',
       data: [],
     }));
+  }
+
+  async listAll(): Promise<string[]> {
+    const result = await this.prisma.metric.findMany();
+
+    return result.map((metric) => metric.name);
   }
 
   async updateParams(metric: Metric) {

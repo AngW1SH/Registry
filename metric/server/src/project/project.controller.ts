@@ -42,6 +42,7 @@ export class ProjectController {
         metrics: resource.metrics.map((metric) => ({
           ...metric,
           params: JSON.parse(metric.params),
+          data: [],
         })),
       })),
     };
