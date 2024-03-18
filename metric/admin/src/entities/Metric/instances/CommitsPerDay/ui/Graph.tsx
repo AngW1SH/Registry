@@ -66,12 +66,17 @@ export const options = {
   },
 };
 
-const Graph: FC<GraphProps> = ({ data: values }) => {
+const Graph: FC<GraphProps> = ({ data }) => {
   const ref = useRef();
 
-  console.log(values);
+  const values = labels.map((_, i) => data[i]?.value || 0);
 
-  const data: any = {
+  const max = values.reduce((a, b) => Math.max(a, b), 0);
+  const maxValues = values.map((_) => max);
+
+  console.log(maxValues);
+
+  const formattedData: any = {
     labels: labels,
     datasets: [
       {
@@ -88,7 +93,7 @@ const Graph: FC<GraphProps> = ({ data: values }) => {
       },
       {
         label: "Layout",
-        data: [6, 6, 6, 6, 6],
+        data: maxValues,
         backgroundColor: "#E9EDF7",
         borderColor: "#E9EDF7",
         borderWidth: 1,
@@ -96,7 +101,7 @@ const Graph: FC<GraphProps> = ({ data: values }) => {
         borderSkipped: false,
         datalabels: {
           formatter: function (_: any, context: any) {
-            return values[context.dataIndex];
+            return values[context.dataIndex] || 0;
           },
           color: "#B0BBD5",
           align: "top",
@@ -114,7 +119,7 @@ const Graph: FC<GraphProps> = ({ data: values }) => {
       <Bar
         ref={ref}
         plugins={[ChartDataLabels]}
-        data={data}
+        data={formattedData}
         options={options}
       />
     </div>
