@@ -33,9 +33,9 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
 
   const [mutate, { data: createData, isLoading }] = useCreateMetricMutation();
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!selected) return;
-    mutate({
+    await mutate({
       project: project,
       resource: resource,
       name: selected,
@@ -44,7 +44,6 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
   };
 
   useEffect(() => {
-    console.log(createData);
     if (createData && !metrics.find((metric) => metric.id == createData.id)) {
       dispatch(metricSlice.actions.pushMetric(createData));
     }

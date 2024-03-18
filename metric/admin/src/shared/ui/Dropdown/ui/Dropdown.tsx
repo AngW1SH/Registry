@@ -26,8 +26,6 @@ const Dropdown: FC<DropdownProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const nodeRef = useRef(null);
 
-  const [selected, setSelected] = useState(value);
-
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current) {
@@ -47,10 +45,10 @@ const Dropdown: FC<DropdownProps> = ({
     };
   }, [ref.current]);
 
-  useEffect(() => {
-    if (onChange && selected) onChange(selected);
+  const handleSelect = (option: string) => {
+    if (onChange) onChange(option);
     setOpened(false);
-  }, [selected]);
+  };
 
   return (
     <div className={"relative z-9 w-full rounded-lg " + className} ref={ref}>
@@ -85,7 +83,7 @@ const Dropdown: FC<DropdownProps> = ({
               <div
                 className="flex cursor-pointer items-center"
                 key={option}
-                onClick={() => setSelected(option)}
+                onClick={() => handleSelect(option)}
               >
                 <input
                   type="checkbox"
