@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useRef } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 
 interface ModalProps {
@@ -11,6 +11,8 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ show, children, timeout = 100, onClose }) => {
+  const nodeRef = useRef(null);
+
   const defaultStyle = {
     transition: `opacity ${timeout}ms`,
     opacity: 0,
@@ -30,9 +32,10 @@ const Modal: FC<ModalProps> = ({ show, children, timeout = 100, onClose }) => {
   };
 
   return (
-    <Transition in={show} timeout={timeout}>
+    <Transition nodeRef={nodeRef} in={show} timeout={timeout}>
       {(state: TransitionStatus) => (
         <div
+          ref={nodeRef}
           className="fixed left-0 top-0 z-[1000] flex h-screen w-screen items-center justify-center bg-[#00000022]"
           onClick={handleClickOutside}
           style={{

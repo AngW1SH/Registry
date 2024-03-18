@@ -23,6 +23,11 @@ export const metricSlice = createSlice({
     pushMetric: (state, action: PayloadAction<IMetric>) => {
       state.metrics.push(action.payload);
     },
+    popMetric: (state, action: PayloadAction<string>) => {
+      state.metrics = state.metrics.filter(
+        (metric) => metric.id !== action.payload
+      );
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
