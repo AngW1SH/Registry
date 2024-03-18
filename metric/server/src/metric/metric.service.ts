@@ -119,6 +119,9 @@ export class MetricService {
     metric: Metric,
     snapshots: string[],
   ): MetricWithSnapshots {
-    return { ...metric, data: snapshots };
+    return {
+      ...metric,
+      data: snapshots.map((snapshot) => JSON.parse(snapshot)),
+    };
   }
 }

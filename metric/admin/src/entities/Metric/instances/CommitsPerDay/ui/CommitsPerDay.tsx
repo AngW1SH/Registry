@@ -9,6 +9,7 @@ interface CommitsPerDayProps extends IMetric {
 }
 
 const CommitsPerDay: FC<CommitsPerDayProps> = ({ className, ...metric }) => {
+  console.log(metric.data);
   const data = useData(metric.data);
 
   const commitCount = calculate(data);

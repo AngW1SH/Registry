@@ -34,7 +34,7 @@ func main() {
 
 	queue := queue.NewQueue(100, repo)
 	queue.Start()
-	// queue.AddTask(&models.TaskCreate{ Metric: "2", Data: []string{ "2" }, Groups: []string{"project:project-name", "resource:resource-name", "section:section-name"}, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second })
+	// queue.AddTask(&models.TaskCreate{ Metric: "CommitsPerDay", Data: []string{ "2" }, Groups: []string{"project:Реестр проектов клинической практики СПбГУ", "resource:AngW1SH/Registry"}, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second })
 
 	lis, err := net.Listen("tcp", ":9000")
 
