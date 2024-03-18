@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectCreateDTO, ProjectDetailedDTO } from './project.entity';
 
@@ -46,5 +46,12 @@ export class ProjectController {
         })),
       })),
     };
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const result = await this.projectService.deleteOne(id);
+
+    return result;
   }
 }

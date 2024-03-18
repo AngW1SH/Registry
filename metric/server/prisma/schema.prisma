@@ -35,7 +35,7 @@ model Resource {
   id         String           @id @default(uuid())
   name       String
   platform   Platform         @relation(fields: [platformId], references: [id])
-  project    Project          @relation(fields: [projectId], references: [id])
+  project    Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
   platformId String
   projectId  String
   params     String           @default("")
@@ -45,7 +45,7 @@ model Resource {
 model ResourceMetric {
   id         String   @id @default(uuid())
   metric     Metric   @relation(fields: [metricId], references: [id])
-  resource   Resource @relation(fields: [resourceId], references: [id])
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
   metricId   String
   resourceId String
   params     String   @default("")

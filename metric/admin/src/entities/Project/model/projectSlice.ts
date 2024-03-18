@@ -17,7 +17,7 @@ export const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
-    setProject: (state, action: PayloadAction<IProject>) => {
+    setProject: (state, action: PayloadAction<IProject | null>) => {
       state.project = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {

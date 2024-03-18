@@ -23,6 +23,11 @@ export class SnapshotService {
     const result = await firstValueFrom(
       this.snapshotServiceGRPC.list({ Group: group }),
     );
+
+    if (!result || !result.Snapshots) {
+      return [];
+    }
+
     return result.Snapshots.map((snapshot) => fromGRPC(snapshot));
   }
 }

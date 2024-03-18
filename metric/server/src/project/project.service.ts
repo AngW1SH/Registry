@@ -64,4 +64,14 @@ export class ProjectService {
       resources: [],
     };
   }
+
+  async deleteOne(id: string) {
+    const result = await this.prisma.project.delete({
+      where: {
+        id,
+      },
+    });
+
+    return result;
+  }
 }

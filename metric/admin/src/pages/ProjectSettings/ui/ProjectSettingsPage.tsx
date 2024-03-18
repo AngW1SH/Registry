@@ -5,6 +5,7 @@ import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
 import { ConfigureResource } from "@/features/ConfigureResource";
+import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
@@ -42,7 +43,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
     <div className="flex gap-9">
       <div className="w-full">
         <ProjectTitle hint={"Система управления проектами"}>
-          Реестр проектов клинической практики СПбГУ
+          {project.name}
         </ProjectTitle>
         <div className="pt-8"></div>
         <AddProvider className="w-full" />
@@ -74,6 +75,9 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
             </li>
           ))}
         </ul>
+        <div className="pt-5" />
+        <DeleteProject projectId={project.id} />
+        <div className="pt-10" />
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ReturnToProject link={"/project/" + id} />
