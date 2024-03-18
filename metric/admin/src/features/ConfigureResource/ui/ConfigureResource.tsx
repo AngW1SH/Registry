@@ -19,6 +19,8 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
 
   const [update, { isLoading }] = useSaveResourceMutation();
 
+  const [hasChanged, setHasChanged] = useState(false);
+
   const platform = useAppSelector((state) =>
     selectPlatformById(state.platform, resource.platform)
   );
@@ -28,8 +30,6 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
   if (!(platform.name in PlatformName)) return <div></div>;
 
   const config = configs[platform.name as PlatformName];
-
-  const [hasChanged, setHasChanged] = useState(false);
 
   const handleChange = (value: IResourceFieldValue, prop: string) => {
     setHasChanged(true);
