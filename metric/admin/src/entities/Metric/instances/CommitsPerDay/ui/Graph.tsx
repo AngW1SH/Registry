@@ -8,51 +8,15 @@ import {
   Tooltip,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { CommitsPerDay } from "../types/validate";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-interface GraphProps {}
-
-const values = [4, 2, 4, 2, 6];
+interface GraphProps {
+  data: CommitsPerDay;
+}
 
 const labels = ["Feb", "Mar", "Apr", "May", "Jun"];
-const data: any = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Commits",
-      data: values,
-      backgroundColor: "#551FFF",
-      borderColor: "#551FFF",
-      borderWidth: 1,
-      borderRadius: 20,
-      borderSkipped: false,
-      datalabels: {
-        display: false,
-      },
-    },
-    {
-      label: "Layout",
-      data: [6, 6, 6, 6, 6],
-      backgroundColor: "#E9EDF7",
-      borderColor: "#E9EDF7",
-      borderWidth: 1,
-      borderRadius: 20,
-      borderSkipped: false,
-      datalabels: {
-        formatter: function (_: any, context: any) {
-          return values[context.dataIndex];
-        },
-        color: "#B0BBD5",
-        align: "top",
-        anchor: "end",
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-  ],
-};
 
 export const options = {
   responsive: true,
@@ -102,8 +66,48 @@ export const options = {
   },
 };
 
-const Graph: FC<GraphProps> = () => {
+const Graph: FC<GraphProps> = ({ data: values }) => {
   const ref = useRef();
+
+  console.log(values);
+
+  const data: any = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Commits",
+        data: values,
+        backgroundColor: "#551FFF",
+        borderColor: "#551FFF",
+        borderWidth: 1,
+        borderRadius: 20,
+        borderSkipped: false,
+        datalabels: {
+          display: false,
+        },
+      },
+      {
+        label: "Layout",
+        data: [6, 6, 6, 6, 6],
+        backgroundColor: "#E9EDF7",
+        borderColor: "#E9EDF7",
+        borderWidth: 1,
+        borderRadius: 20,
+        borderSkipped: false,
+        datalabels: {
+          formatter: function (_: any, context: any) {
+            return values[context.dataIndex];
+          },
+          color: "#B0BBD5",
+          align: "top",
+          anchor: "end",
+          font: {
+            weight: "bold",
+          },
+        },
+      },
+    ],
+  };
 
   return (
     <div className="relative h-40">
