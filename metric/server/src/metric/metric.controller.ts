@@ -7,7 +7,11 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MetricCreate, MetricDTO } from './metric.entity';
+import {
+  MetricCreate,
+  MetricDTO,
+  MetricWithSnapshotsDTO,
+} from './metric.entity';
 import { MetricService } from './metric.service';
 
 @Controller('metric')
@@ -25,10 +29,13 @@ export class MetricController {
   }
 
   @Post()
-  async create(@Body() metric: MetricCreate) {
+  async create(@Body() metric: MetricCreate): Promise<MetricWithSnapshotsDTO> {
     const result = await this.metricService.create(metric);
 
-    return result;
+    return {
+      ...result,
+      params: JSON.parse(result.params),
+    };
   }
 
   @Get()

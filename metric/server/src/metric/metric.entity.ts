@@ -30,3 +30,7 @@ export type MetricCreate = Omit<Metric, 'id'>;
 export interface MetricWithSnapshots extends Metric {
   data: string[];
 }
+
+export interface MetricWithSnapshotsDTO extends MetricDTO {
+  data: string[];
+}

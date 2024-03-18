@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IMetric } from "..";
 
 export interface MetricParams {
   project: string;
@@ -13,7 +14,7 @@ export const metricApi = createApi({
     getMetricNames: build.query<string[], void>({
       query: () => "metric",
     }),
-    createMetric: build.mutation<void, MetricParams>({
+    createMetric: build.mutation<IMetric, MetricParams>({
       query: (metricParams) => ({
         url: "metric",
         method: "POST",

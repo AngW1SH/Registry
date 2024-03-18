@@ -57,7 +57,7 @@ export class MetricService {
     return result;
   }
 
-  async create(metric: MetricCreate) {
+  async create(metric: MetricCreate): Promise<MetricWithSnapshots> {
     const config = metricParams[metric.name];
 
     if (!config) throw new Error('Metric not found');

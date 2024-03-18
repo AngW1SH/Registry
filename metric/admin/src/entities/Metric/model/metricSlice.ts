@@ -20,6 +20,9 @@ export const metricSlice = createSlice({
     setMetrics: (state, action: PayloadAction<IMetric[]>) => {
       state.metrics = action.payload;
     },
+    pushMetric: (state, action: PayloadAction<IMetric>) => {
+      state.metrics.push(action.payload);
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },

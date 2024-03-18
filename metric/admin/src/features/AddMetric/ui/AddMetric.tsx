@@ -1,12 +1,13 @@
 import { Dropdown } from "@/shared/ui/Dropdown";
 import { Tooltip } from "@/shared/ui/Tooltip";
-import { FC, useState } from "react";
-import { useAppSelector } from "@/app/store";
+import { FC, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
   useCreateMetricMutation,
   useGetMetricNamesQuery,
 } from "@/entities/Metric/model/metricApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
+import { metricSlice } from "@/entities/Metric";
 
 interface AddMetricProps {
   project: string;
@@ -16,17 +17,21 @@ interface AddMetricProps {
 const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
   const [selected, setSelected] = useState("");
 
-  const metrics = useAppSelector((state) =>
-    state.metric.metrics.filter((metric) => metric.resource == resource)
+  const metrics = useAppSelector((state) => state.metric.metrics);
+  const dispatch = useAppDispatch();
+
+  const resourceMetrics = metrics.filter(
+    (metric) => metric.resource == resource
   );
 
   const { data } = useGetMetricNamesQuery();
 
   const filteredData =
-    data?.filter((name) => !metrics.find((metric) => metric.name == name)) ||
-    [];
+    data?.filter(
+      (name) => !resourceMetrics.find((metric) => metric.name == name)
+    ) || [];
 
-  const [mutate, { isLoading }] = useCreateMetricMutation();
+  const [mutate, { data: createData, isLoading }] = useCreateMetricMutation();
 
   const handleConfirm = () => {
     if (!selected) return;
@@ -37,6 +42,13 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
     });
     setSelected("");
   };
+
+  useEffect(() => {
+    console.log(createData);
+    if (createData && !metrics.find((metric) => metric.id == createData.id)) {
+      dispatch(metricSlice.actions.pushMetric(createData));
+    }
+  }, [createData]);
 
   if (!data) return <div></div>;
   return (
