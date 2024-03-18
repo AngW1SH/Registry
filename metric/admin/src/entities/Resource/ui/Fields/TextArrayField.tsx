@@ -4,6 +4,16 @@ import { TextInput } from "@/shared/ui/TextInput";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { XCircleIcon } from "@/shared/ui/Icons";
 
+const areArraysEqual = (a: string[], b: string[]) => {
+  if (a.length !== b.length) return false;
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+
+  return true;
+};
+
 interface TextArrayFieldProps extends ITextArrayField {
   onChange: (value: string[]) => void;
   value: string[] | null;
@@ -25,7 +35,7 @@ const TextArrayField: FC<TextArrayFieldProps> = ({ value, onChange }) => {
   };
 
   useEffect(() => {
-    onChange(keys);
+    if (!value || !areArraysEqual(keys, value)) onChange(keys);
   }, [keys]);
 
   return (

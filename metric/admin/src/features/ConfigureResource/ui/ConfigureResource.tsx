@@ -1,11 +1,12 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { selectPlatformById } from "@/entities/Platform";
 import { IResource, ResourceField, resourceSlice } from "@/entities/Resource";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { configs } from "../config";
 import { PlatformName } from "@/entities/Platform/types";
 import { IResourceFieldValue } from "@/entities/Resource/types/fields";
-import { fetchSaveResource } from "../api/fetchSave";
+import { useSaveResourceMutation } from "@/entities/Resource/model/resourceApi";
+import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
 interface ConfigureResourceProps {
   resource: IResource;
@@ -15,6 +16,8 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
   const dispatch = useAppDispatch();
 
   const resources = useAppSelector((state) => state.resource.resources);
+
+  const [update, { isLoading }] = useSaveResourceMutation();
 
   const platform = useAppSelector((state) =>
     selectPlatformById(state.platform, resource.platform)
@@ -26,7 +29,10 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
 
   const config = configs[platform.name as PlatformName];
 
+  const [hasChanged, setHasChanged] = useState(false);
+
   const handleChange = (value: IResourceFieldValue, prop: string) => {
+    setHasChanged(true);
     dispatch(
       resourceSlice.actions.setResources(
         resources.map((resourceMap) => {
@@ -43,18 +49,33 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
     );
   };
 
-  const handleSave = () => {
-    fetchSaveResource(resource);
+  const handleSave = async () => {
+    if (hasChanged) {
+      await update(resource);
+      setHasChanged(false);
+    }
   };
 
   return (
     <>
-      <button
-        onClick={handleSave}
-        className="py-6 px-14 w-full text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg"
-      >
-        Save Resource Settings
-      </button>
+      {isLoading && (
+        <div className="py-3 px-10 flex justify-center w-full font-medium rounded-lg text-[#551FFF] bg-[#F3F0FF]">
+          <LoadingCircle size={32} />
+        </div>
+      )}
+      {!isLoading && (
+        <button
+          onClick={handleSave}
+          className={
+            "py-6 px-14 w-full font-medium rounded-lg " +
+            (hasChanged
+              ? "text-[#551FFF] bg-[#F3F0FF]"
+              : "text-black bg-[#E5E5E5]")
+          }
+        >
+          Save Resource Settings
+        </button>
+      )}
       <div className="pt-8" />
       <ul className="flex flex-col gap-8">
         {config.data.map((field) => {
