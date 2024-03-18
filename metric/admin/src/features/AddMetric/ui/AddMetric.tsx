@@ -6,6 +6,7 @@ import {
   useCreateMetricMutation,
   useGetMetricNamesQuery,
 } from "@/entities/Metric/model/metricApi";
+import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
 interface AddMetricProps {
   project: string;
@@ -25,7 +26,7 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
     data?.filter((name) => !metrics.find((metric) => metric.name == name)) ||
     [];
 
-  const [mutate] = useCreateMetricMutation();
+  const [mutate, { isLoading }] = useCreateMetricMutation();
 
   const handleConfirm = () => {
     if (!selected) return;
@@ -34,6 +35,7 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
       resource: resource,
       name: selected,
     });
+    setSelected("");
   };
 
   if (!data) return <div></div>;
@@ -51,12 +53,24 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
           namePrefix="new-metric"
           options={filteredData}
         />
-        <button
-          onClick={handleConfirm}
-          className="min-w-max py-3 px-14 text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg"
-        >
-          Add Metric
-        </button>
+        {!isLoading && (
+          <button
+            onClick={handleConfirm}
+            className={
+              "w-80 h-12 py-3 px-14 text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg " +
+              (selected
+                ? "text-[#551FFF] bg-[#F3F0FF]"
+                : "text-black bg-[#E5E5E5]")
+            }
+          >
+            Add Metric
+          </button>
+        )}
+        {isLoading && (
+          <div className="w-80 h-12 py-1 flex justify-center items-center text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg">
+            <LoadingCircle size={26} />
+          </div>
+        )}
       </div>
     </div>
   );
