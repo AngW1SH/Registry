@@ -7,10 +7,10 @@ interface ProjectTitleProps {
 
 const ProjectTitle: FC<ProjectTitleProps> = ({ children, hint }) => {
   return (
-    <>
+    <div>
       <h1 className="font-semibold text-3xl text-[#404040]">{children}</h1>
       {!!hint && <p className="text-[#AEAEAE] mt-1">{hint}</p>}
-    </>
+    </div>
   );
 };
 

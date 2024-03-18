@@ -4,6 +4,7 @@ import { MetricSettings } from "@/entities/Metric";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
+import ConfigureProjectTitle from "@/features/ConfigureProjectTitle/ui/ConfigureProjectTitle";
 import { ConfigureResource } from "@/features/ConfigureResource";
 import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { ReturnToProject } from "@/features/ReturnToProject";
@@ -42,9 +43,12 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
   return (
     <div className="flex gap-9">
       <div className="w-full">
-        <ProjectTitle hint={"Система управления проектами"}>
-          {project.name}
-        </ProjectTitle>
+        <div className="flex gap-5">
+          <ProjectTitle hint={"Система управления проектами"}>
+            {project.name}
+          </ProjectTitle>
+          <ConfigureProjectTitle project={project} />
+        </div>
         <div className="pt-8"></div>
         <AddProvider className="w-full" />
         <div className="pt-8"></div>

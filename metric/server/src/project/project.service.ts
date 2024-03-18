@@ -65,6 +65,17 @@ export class ProjectService {
     };
   }
 
+  async updateOne(project: Project): Promise<Project> {
+    const result = await this.prisma.project.update({
+      where: {
+        id: project.id,
+      },
+      data: project,
+    });
+
+    return result;
+  }
+
   async deleteOne(id: string) {
     const result = await this.prisma.project.delete({
       where: {

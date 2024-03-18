@@ -1,6 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ProjectService } from './project.service';
-import { ProjectCreateDTO, ProjectDetailedDTO } from './project.entity';
+import {
+  ProjectCreateDTO,
+  ProjectDTO,
+  ProjectDetailedDTO,
+} from './project.entity';
 
 @Controller('project')
 export class ProjectController {
@@ -46,6 +58,13 @@ export class ProjectController {
         })),
       })),
     };
+  }
+
+  @Put(':id')
+  async update(@Body('project') project: ProjectDTO): Promise<ProjectDTO> {
+    const result = await this.projectService.updateOne(project);
+
+    return result;
   }
 
   @Delete(':id')
