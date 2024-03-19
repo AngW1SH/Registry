@@ -12,21 +12,18 @@ export interface TaskDTO extends TaskCreateDTO {
 export interface TaskCreate {
   metric: string;
   weight: number;
-  data: string[];
+  data: string;
   update_rate: Duration;
-  updated_at: Timestamp;
+  groups: string[];
 }
 
 export interface TaskCreateDTO {
   metric: string;
   weight: number;
-  data: string[];
+  data: string;
   update_rate: {
     seconds: string | number;
     nanos: string | number;
   };
-  updated_at: {
-    seconds: string | number;
-    nanos: string | number;
-  };
+  groups: string[];
 }

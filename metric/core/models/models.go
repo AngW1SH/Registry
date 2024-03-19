@@ -10,7 +10,7 @@ import (
 type Task struct {
 	Id uuid.UUID
 	Metric    string
-	Data      []string
+	Data      string
 	UpdatedAt time.Time
 	Groups []string
 	AttemptedAt time.Time
@@ -25,7 +25,7 @@ type TaskCreate struct {
 	UpdateRate time.Duration
 	Groups []string
 	Weight int
-	Data []string
+	Data string
 }
 
 type MetricType struct {

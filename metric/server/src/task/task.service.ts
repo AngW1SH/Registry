@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Task, TaskCreate } from './task.entity';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { ClientGrpc } from '@nestjs/microservices';
 
 interface TaskServiceGRPC {
-  start: (data: { task: TaskCreate }) => Observable<Task>;
+  start: (data: { task: TaskCreate }) => Observable<{ Task: Task }>;
   list: (data: {}) => Observable<Task[]>;
 }
 
@@ -19,8 +19,10 @@ export class TaskService {
       this.client.getService<TaskServiceGRPC>('TaskService');
   }
 
-  start(task: TaskCreate) {
-    return this.taskServiceGRPC.start({ task });
+  async start(task: TaskCreate) {
+    const result = await firstValueFrom(this.taskServiceGRPC.start({ task }));
+
+    return result.Task;
   }
 
   list() {

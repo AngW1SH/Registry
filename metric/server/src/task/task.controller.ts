@@ -14,10 +14,6 @@ export class TaskController {
         nanos: 0,
         seconds: +task.update_rate.seconds,
       },
-      updated_at: {
-        nanos: 0,
-        seconds: +task.update_rate.seconds,
-      },
     });
   }
 

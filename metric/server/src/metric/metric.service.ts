@@ -7,10 +7,14 @@ import {
   MetricWithSnapshots,
 } from './metric.entity';
 import { metricParams } from './config/metricParams';
+import { TaskService } from 'src/task/task.service';
 
 @Injectable()
 export class MetricService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private taskService: TaskService,
+  ) {}
 
   async findMany(filters: { resource: string }): Promise<Metric[]> {
     const result = await this.prisma.resourceMetric.findMany({
@@ -57,10 +61,49 @@ export class MetricService {
     return result;
   }
 
+  async start(metric: MetricCreate) {
+    const params = metric.params ? JSON.parse(metric.params) : {};
+    delete params['updateRate'];
+
+    const names = await this.prisma.resource.findFirst({
+      where: {
+        id: metric.resource,
+      },
+      select: {
+        name: true,
+        project: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    const [projectName, resourceName] = [names.project.name, names.name];
+
+    return this.taskService.start({
+      metric: metric.name,
+      weight: 1,
+      data: metric.params,
+      update_rate: {
+        seconds: 1000,
+        nanos: 0,
+      },
+      groups: ['project:' + projectName, 'resource:' + resourceName],
+    });
+  }
+
   async create(metric: MetricCreate): Promise<MetricWithSnapshots> {
     const config = metricParams[metric.name];
 
     if (!config) throw new Error('Metric not found');
+
+    try {
+      const result = await this.start(metric);
+      console.log(result);
+    } catch {
+      throw new Error('Failed to start the metric');
+    }
 
     const abstractMetric = await this.prisma.metric.findFirst({
       where: {
