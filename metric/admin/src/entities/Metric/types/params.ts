@@ -25,15 +25,35 @@ export interface IDateParam extends GenericParam {
   value: Date;
 }
 
+export enum UnitOfTime {
+  seconds = "seconds",
+  minutes = "minutes",
+  hours = "hours",
+  days = "days",
+  weeks = "weeks",
+  months = "months",
+  years = "years",
+}
+
+export interface IDurationParam extends GenericParam {
+  type: MetricParamType.duration;
+  value: {
+    number: number;
+    unitOfTime: UnitOfTime;
+  };
+}
+
 export type IMetricParam =
   | ITextParam
   | ITextArrayParam
   | INumberParam
-  | IDateParam;
+  | IDateParam
+  | IDurationParam;
 
 export enum MetricParamType {
   text = "text",
   textArray = "textArray",
   number = "number",
   date = "date",
+  duration = "duration",
 }

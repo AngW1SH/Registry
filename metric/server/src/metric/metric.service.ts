@@ -150,9 +150,7 @@ export class MetricService {
 
     const result = await this.prisma.resourceMetric.create({
       data: {
-        params: JSON.stringify(
-          config.map((param) => ({ ...param, value: '' })),
-        ),
+        params: JSON.stringify(config),
         resource: {
           connect: {
             id: metric.resource,

@@ -25,19 +25,37 @@ export interface DateParam extends GenericParam {
   value: Date;
 }
 
-export type MetricParamValue =
+export enum UnitOfTime {
+  seconds = 'seconds',
+  minutes = 'minutes',
+  hours = 'hours',
+  days = 'days',
+  weeks = 'weeks',
+  months = 'months',
+  years = 'years',
+}
+
+export interface DurationParam extends GenericParam {
+  type: MetricParamType.duration;
+  value: {
+    number: number;
+    unitOfTime: UnitOfTime;
+  };
+}
+
+export type MetricParam =
   | TextParam
   | TextArrayParam
   | NumberParam
-  | DateParam;
-
-export type MetricParam = Omit<MetricParamValue, 'value'>;
+  | DateParam
+  | DurationParam;
 
 export enum MetricParamType {
   text = 'text',
   textArray = 'textArray',
   number = 'number',
   date = 'date',
+  duration = 'duration',
 }
 
 export type MetricParamsConfig = {
