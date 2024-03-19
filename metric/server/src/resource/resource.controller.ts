@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import {
   ResourceCreateDTO,
@@ -62,5 +70,12 @@ export class ResourceController {
     });
 
     return { ...result, params: JSON.parse(result.params) };
+  }
+
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string) {
+    const result = await this.resourceService.deleteOne(id);
+
+    return result;
   }
 }

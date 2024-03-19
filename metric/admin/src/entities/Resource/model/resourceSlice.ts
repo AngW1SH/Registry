@@ -23,6 +23,11 @@ export const resourceSlice = createSlice({
     addResource: (state, action: PayloadAction<IResource>) => {
       state.resources.push(action.payload);
     },
+    popResource: (state, action: PayloadAction<string>) => {
+      state.resources = state.resources.filter(
+        (resource) => resource.id != action.payload
+      );
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },

@@ -20,7 +20,14 @@ export const resourceApi = createApi({
         },
       }),
     }),
+    deleteResource: build.mutation<void, string>({
+      query: (id) => ({
+        url: `resource/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useSaveResourceMutation } = resourceApi;
+export const { useSaveResourceMutation, useDeleteResourceMutation } =
+  resourceApi;

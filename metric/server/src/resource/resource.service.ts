@@ -154,4 +154,12 @@ export class ResourceService {
       ),
     };
   }
+
+  deleteOne(id: string) {
+    return this.prisma.resource.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

@@ -7,6 +7,7 @@ import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
 import ConfigureProjectTitle from "@/features/ConfigureProjectTitle/ui/ConfigureProjectTitle";
 import { ConfigureResource } from "@/features/ConfigureResource";
 import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
+import { DeleteResource } from "@/features/DeleteResource";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
@@ -56,6 +57,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
           {resources.map((resource) => (
             <li key={resource.id}>
               <PlatformMetrics key={resource.id} resource={resource}>
+                <DeleteResource id={resource.id} />
+                <div className="pt-8" />
                 <ConfigureResource resource={resource} />
                 <div className="pt-8"></div>
                 <AddMetric resource={resource.id} project={project.id} />
