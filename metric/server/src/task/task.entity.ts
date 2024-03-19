@@ -17,6 +17,11 @@ export interface TaskCreate {
   groups: string[];
 }
 
+export interface TaskStop {
+  metric: string;
+  groups: string[];
+}
+
 export interface TaskCreateDTO {
   metric: string;
   weight: number;

@@ -48,8 +48,8 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	return &task
 }
 
-func (q *Queue) DeleteTask(id uuid.UUID) (*models.Task, error) {
-	return q.queue.MarkDelete(id)
+func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
+	return q.queue.MarkDelete(metric, groups)
 }
 
 func (q *Queue) ListTasks() ([]*models.Task, error) {

@@ -93,6 +93,41 @@ export class MetricService {
     });
   }
 
+  async stop(id: string) {
+    const metric = await this.prisma.resourceMetric.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resource: {
+          select: {
+            name: true,
+            project: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const [projectName, resourceName] = [
+      metric.resource.project.name,
+      metric.resource.name,
+    ];
+
+    return this.taskService.stop({
+      metric: metric.metric.name,
+      groups: ['project:' + projectName, 'resource:' + resourceName],
+    });
+  }
+
   async create(metric: MetricCreate): Promise<MetricWithSnapshots> {
     const config = metricParams[metric.name];
 
@@ -151,6 +186,12 @@ export class MetricService {
   }
 
   async deleteOne(id) {
+    try {
+      const result = await this.stop(id);
+    } catch {
+      throw new Error('Failed to stop the metric');
+    }
+
     await this.prisma.resourceMetric.delete({
       where: {
         id,

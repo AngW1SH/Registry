@@ -33,7 +33,8 @@ message TaskStartResponse {
 }
 
 message TaskStopRequest {
-    string id = 1;
+    string metric = 1;
+    repeated string groups = 6;
 }
 
 message TaskStopResponse {

@@ -2,10 +2,7 @@ package helpers
 
 import (
 	"core/models"
-	"errors"
 	"sync"
-
-	"github.com/google/uuid"
 )
 
 type PriorityQueue struct {
@@ -59,19 +56,19 @@ func (pq *PriorityQueue) Pop() interface{} {
     return item
 }
 
-func (pq *PriorityQueue) MarkDelete(id uuid.UUID) (*models.Task, error) {
+func (pq *PriorityQueue) MarkDelete(metric string, groups []string) (*models.Task, error) {
     pq.mu.Lock()
     defer pq.mu.Unlock()
 
     for i := 0; i < len(pq.entries); i++ {
-		if pq.entries[i].Id == id {
+		if pq.entries[i].Metric == metric && ContainsAllElements(pq.entries[i].Groups, groups) {
 			pq.entries[i].IsDeleted = true
 
 			return pq.entries[i], nil
 		}
 	}
     
-	return nil, errors.New("Task not found")
+	return nil, nil
 }
 
 func (pq *PriorityQueue) Peek() *models.Task {

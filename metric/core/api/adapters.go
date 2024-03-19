@@ -14,6 +14,7 @@ func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
 		UpdateRate: dto.UpdateRate.AsDuration(),
 		Weight:     int(dto.Weight),
 		Data:       dto.Data,
+		Groups:     dto.Groups,
 	}
 }
 
@@ -24,6 +25,7 @@ func ToGRPCTaskInfo(dto *models.Task) *TaskInfo {
 		UpdateRate: durationpb.New(dto.UpdateRate),
 		Weight:     int32(dto.Weight),
 		Data:       dto.Data,
+		Groups:     dto.Groups,
 	}
 }
 

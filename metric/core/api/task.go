@@ -4,8 +4,6 @@ import (
 	"context"
 	"core/queue"
 	"fmt"
-
-	"github.com/google/uuid"
 )
 
 type TaskServer struct {
@@ -22,18 +20,17 @@ func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*Tas
 }
 
 func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopResponse, error) {
-	fmt.Println("Stop ", message.Id)
+	fmt.Println("Stop ", message.Metric)
 
-	parsedId, err := uuid.Parse(message.Id)
+	task, err := s.Queue.DeleteTask(message.Metric, message.Groups)
 
 	if err != nil {
+		fmt.Println(err)
 		return &TaskStopResponse{Task: &TaskInfo{}}, err
 	}
 
-	task, err := s.Queue.DeleteTask(parsedId)
-
-	if err != nil {
-		return &TaskStopResponse{Task: &TaskInfo{}}, err
+	if task == nil {
+		return &TaskStopResponse{Task: &TaskInfo{}}, nil
 	}
 
 	return &TaskStopResponse{Task: ToGRPCTaskInfo(task)}, nil
