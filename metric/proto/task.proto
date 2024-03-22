@@ -52,5 +52,6 @@ message TaskListResponse {
 service TaskService {
     rpc Start(TaskStartRequest) returns (TaskStartResponse);
     rpc Stop(TaskStopRequest) returns (TaskStopResponse);
+    rpc Update(TaskStartRequest) returns (TaskStartResponse);
     rpc List(TaskListRequest) returns(TaskListResponse);
 }

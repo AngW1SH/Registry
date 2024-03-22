@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TaskService_Start_FullMethodName = "/api.TaskService/Start"
-	TaskService_Stop_FullMethodName  = "/api.TaskService/Stop"
-	TaskService_List_FullMethodName  = "/api.TaskService/List"
+	TaskService_Start_FullMethodName  = "/api.TaskService/Start"
+	TaskService_Stop_FullMethodName   = "/api.TaskService/Stop"
+	TaskService_Update_FullMethodName = "/api.TaskService/Update"
+	TaskService_List_FullMethodName   = "/api.TaskService/List"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -30,6 +31,7 @@ const (
 type TaskServiceClient interface {
 	Start(ctx context.Context, in *TaskStartRequest, opts ...grpc.CallOption) (*TaskStartResponse, error)
 	Stop(ctx context.Context, in *TaskStopRequest, opts ...grpc.CallOption) (*TaskStopResponse, error)
+	Update(ctx context.Context, in *TaskStartRequest, opts ...grpc.CallOption) (*TaskStartResponse, error)
 	List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error)
 }
 
@@ -59,6 +61,15 @@ func (c *taskServiceClient) Stop(ctx context.Context, in *TaskStopRequest, opts 
 	return out, nil
 }
 
+func (c *taskServiceClient) Update(ctx context.Context, in *TaskStartRequest, opts ...grpc.CallOption) (*TaskStartResponse, error) {
+	out := new(TaskStartResponse)
+	err := c.cc.Invoke(ctx, TaskService_Update_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taskServiceClient) List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error) {
 	out := new(TaskListResponse)
 	err := c.cc.Invoke(ctx, TaskService_List_FullMethodName, in, out, opts...)
@@ -74,6 +85,7 @@ func (c *taskServiceClient) List(ctx context.Context, in *TaskListRequest, opts 
 type TaskServiceServer interface {
 	Start(context.Context, *TaskStartRequest) (*TaskStartResponse, error)
 	Stop(context.Context, *TaskStopRequest) (*TaskStopResponse, error)
+	Update(context.Context, *TaskStartRequest) (*TaskStartResponse, error)
 	List(context.Context, *TaskListRequest) (*TaskListResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
@@ -87,6 +99,9 @@ func (UnimplementedTaskServiceServer) Start(context.Context, *TaskStartRequest) 
 }
 func (UnimplementedTaskServiceServer) Stop(context.Context, *TaskStopRequest) (*TaskStopResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Stop not implemented")
+}
+func (UnimplementedTaskServiceServer) Update(context.Context, *TaskStartRequest) (*TaskStartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedTaskServiceServer) List(context.Context, *TaskListRequest) (*TaskListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
@@ -140,6 +155,24 @@ func _TaskService_Stop_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskStartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).Update(ctx, req.(*TaskStartRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaskService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TaskListRequest)
 	if err := dec(in); err != nil {
@@ -172,6 +205,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Stop",
 			Handler:    _TaskService_Stop_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _TaskService_Update_Handler,
 		},
 		{
 			MethodName: "List",

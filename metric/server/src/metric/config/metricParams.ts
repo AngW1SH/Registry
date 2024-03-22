@@ -11,6 +11,14 @@ export const metricParams: MetricParamsConfig = {
       value: '10',
     },
     {
+      type: MetricParamType.text,
+      name: 'weight',
+      label: 'Computational Weight',
+      tooltip: 'Computational Weight',
+      placeholder: 'Enter computational weight',
+      value: '5',
+    },
+    {
       type: MetricParamType.duration,
       name: 'updateRate',
       label: 'Update Rate',

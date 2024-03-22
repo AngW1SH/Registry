@@ -50,6 +50,12 @@ export class MetricService {
   }
 
   async updateParams(metric: Metric) {
+    try {
+      const result = await this.update(metric);
+    } catch {
+      throw new Error('Failed to update the metric');
+    }
+
     const result = await this.prisma.resourceMetric.update({
       where: {
         id: metric.id,
@@ -82,10 +88,45 @@ export class MetricService {
     });
 
     const [projectName, resourceName] = [names.project.name, names.name];
-
     return this.taskService.start({
       metric: metric.name,
       weight: 1,
+      data: metric.params,
+      update_rate: {
+        seconds: durationToSeconds(
+          updateRate?.value || { number: 1, unitOfTime: 'minutes' },
+        ),
+        nanos: 0,
+      },
+      groups: ['project:' + projectName, 'resource:' + resourceName],
+    });
+  }
+
+  async update(metric: MetricCreate) {
+    let params = metric.params ? JSON.parse(metric.params) : {};
+    const weight = params.find((param) => param.name == 'weight');
+    const updateRate = params.find((param) => param.name == 'updateRate');
+    params = params.filter((param) => param.name != 'updateRate');
+
+    const names = await this.prisma.resource.findFirst({
+      where: {
+        id: metric.resource,
+      },
+      select: {
+        name: true,
+        project: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    const [projectName, resourceName] = [names.project.name, names.name];
+
+    return this.taskService.update({
+      metric: metric.name,
+      weight: +weight,
       data: metric.params,
       update_rate: {
         seconds: durationToSeconds(
@@ -138,8 +179,10 @@ export class MetricService {
     if (!config) throw new Error('Metric not found');
 
     try {
-      const result = await this.start(metric);
-      console.log(result);
+      const result = await this.start({
+        ...metric,
+        params: JSON.stringify(config),
+      });
     } catch {
       throw new Error('Failed to start the metric');
     }

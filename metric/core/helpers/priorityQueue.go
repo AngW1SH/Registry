@@ -71,6 +71,23 @@ func (pq *PriorityQueue) MarkDelete(metric string, groups []string) (*models.Tas
 	return nil, nil
 }
 
+func (pq *PriorityQueue) Update(task *models.TaskCreate) *models.Task {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    for i := 0; i < len(pq.entries); i++ {
+        if pq.entries[i].Metric == task.Metric && ContainsAllElements(pq.entries[i].Groups, task.Groups) {
+            pq.entries[i].UpdateRate = task.UpdateRate
+            pq.entries[i].Weight = task.Weight
+            pq.entries[i].Data = task.Data
+
+            return pq.entries[i]
+        }
+    }
+
+    return nil
+}
+
 func (pq *PriorityQueue) Peek() *models.Task {
     pq.mu.Lock()
     defer pq.mu.Unlock()

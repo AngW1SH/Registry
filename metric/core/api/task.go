@@ -38,6 +38,14 @@ func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskS
 	return &TaskStopResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
 
+func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
+	fmt.Println("Update ", message.Task.Metric)
+
+	task := s.Queue.UpdateTask(FromGRPCTaskStartInfo(message.Task))
+
+	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil
+}
+
 func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
 	fmt.Println("List")
 

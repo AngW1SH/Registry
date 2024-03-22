@@ -56,6 +56,10 @@ func (q *Queue) ListTasks() ([]*models.Task, error) {
 	return q.queue.GetEntries(), nil
 }
 
+func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
+	return q.queue.Update(task)
+}
+
 func (q *Queue) onFinish(task models.Task, result string) {
 	q.load -= task.Weight
 
