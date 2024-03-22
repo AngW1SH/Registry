@@ -16,7 +16,6 @@ const areArraysEqual = (a: string[], b: string[]) => {
 
 interface TextArrayFieldProps extends ITextArrayField {
   onChange: (value: string[]) => void;
-  value: string[] | null;
 }
 
 const TextArrayField: FC<TextArrayFieldProps> = ({ value, onChange }) => {

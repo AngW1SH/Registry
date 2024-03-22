@@ -1,10 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { selectPlatformById } from "@/entities/Platform";
-import { IResource, ResourceField, resourceSlice } from "@/entities/Resource";
+import {
+  IResource,
+  IResourceField,
+  ResourceField,
+  resourceSlice,
+} from "@/entities/Resource";
 import { FC, useState } from "react";
-import { configs } from "../config";
 import { PlatformName } from "@/entities/Platform/types";
-import { IResourceFieldValue } from "@/entities/Resource/types/fields";
 import { useSaveResourceMutation } from "@/entities/Resource/model/resourceApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
@@ -29,9 +32,7 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
 
   if (!(platform.name in PlatformName)) return <div></div>;
 
-  const config = configs[platform.name as PlatformName];
-
-  const handleChange = (value: IResourceFieldValue, prop: string) => {
+  const handleChange = (value: IResourceField) => {
     setHasChanged(true);
     dispatch(
       resourceSlice.actions.setResources(
@@ -39,7 +40,12 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
           if (resourceMap.id === resource.id) {
             return {
               ...resourceMap,
-              params: { ...resourceMap.params, [prop]: value.value },
+              params: resourceMap.params.map((param) => {
+                if (param.prop === value.prop) {
+                  return value;
+                }
+                return param;
+              }),
             };
           }
 
@@ -78,18 +84,10 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
       )}
       <div className="pt-8" />
       <ul className="flex flex-col gap-8">
-        {config.data.map((field) => {
-          const value: IResourceFieldValue = {
-            type: field.type,
-            value: resource.params[field.prop],
-          };
+        {resource.params.map((param) => {
           return (
-            <li key={field.prop}>
-              <ResourceField
-                field={field}
-                value={value}
-                onChange={handleChange}
-              />
+            <li key={param.prop}>
+              <ResourceField field={param} onChange={handleChange} />
             </li>
           );
         })}

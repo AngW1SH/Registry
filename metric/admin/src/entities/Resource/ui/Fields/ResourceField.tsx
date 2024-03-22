@@ -1,28 +1,21 @@
 import { FC } from "react";
-import {
-  IResourceField,
-  IResourceFieldValue,
-  ResourceFieldType,
-} from "../../types/fields";
+import { IResourceField, ResourceFieldType } from "../../types/fields";
 import TextField from "./TextField";
 import TextArrayField from "./TextArrayField";
 
 interface ResourceFieldProps {
   field: IResourceField;
-  onChange: (value: IResourceFieldValue, prop: string) => void;
-  value: IResourceFieldValue;
+  onChange: (value: IResourceField) => void;
 }
 
-const ResourceField: FC<ResourceFieldProps> = ({ field, value, onChange }) => {
+const ResourceField: FC<ResourceFieldProps> = ({ field, onChange }) => {
   switch (field.type) {
     case ResourceFieldType.text: {
       return (
         <TextField
           {...field}
-          value={value.type == field.type ? value.value : ""}
-          onChange={(value) =>
-            onChange({ type: field.type, value }, field.prop)
-          }
+          value={field.value || ""}
+          onChange={(value) => onChange({ ...field, value: value })}
         />
       );
     }
@@ -30,10 +23,8 @@ const ResourceField: FC<ResourceFieldProps> = ({ field, value, onChange }) => {
       return (
         <TextArrayField
           {...field}
-          value={value.type == field.type ? value.value : []}
-          onChange={(value) =>
-            onChange({ type: field.type, value }, field.prop)
-          }
+          value={field.value || []}
+          onChange={(value) => onChange({ ...field, value: value })}
         />
       );
     }

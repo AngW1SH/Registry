@@ -1,6 +1,6 @@
 export enum ResourceFieldType {
-  text = "text",
-  textArray = "textArray",
+  text = 'text',
+  textArray = 'textArray',
 }
 
 export interface GenericField {
@@ -21,3 +21,8 @@ export interface ITextArrayField extends GenericField {
 }
 
 export type IResourceField = ITextField | ITextArrayField;
+
+export interface ResourceConfig {
+  name: string;
+  data: IResourceField[];
+}

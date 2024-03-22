@@ -8,6 +8,7 @@ import {
   ResourceSnapshots,
 } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
+import { configs } from './config';
 
 @Injectable()
 export class ResourceService {
@@ -91,10 +92,22 @@ export class ResourceService {
   }
 
   async createOne(resource: ResourceCreate): Promise<ResourceDetailed | null> {
+    const platform = await this.prisma.platform.findFirst({
+      where: {
+        id: resource.platform,
+      },
+    });
+
+    if (!platform) throw new Error('Platform not found');
+
+    const config = configs[platform.name];
+
+    if (!config) throw new Error('Platform not found');
+
     const result = await this.prisma.resource.create({
       data: {
         name: resource.name,
-        params: '{}',
+        params: JSON.stringify(config.data),
         platform: {
           connect: {
             id: resource.platform,
