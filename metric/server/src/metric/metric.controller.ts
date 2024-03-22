@@ -23,6 +23,7 @@ export class MetricController {
     const result = await this.metricService.updateParams({
       ...metric,
       params: JSON.stringify(metric.params),
+      isTracked: null,
     });
 
     return result;

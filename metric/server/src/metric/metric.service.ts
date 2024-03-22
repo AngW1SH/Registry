@@ -41,6 +41,7 @@ export class MetricService {
       resource: metric.resourceId,
       params: metric.params || '[]',
       data: [],
+      isTracked: null,
     }));
   }
 
@@ -228,6 +229,7 @@ export class MetricService {
       resource: result.resourceId,
       params: result.params || '[]',
       data: [],
+      isTracked: null,
     };
   }
 

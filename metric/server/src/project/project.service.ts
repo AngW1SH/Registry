@@ -35,6 +35,30 @@ export class ProjectService {
 
     const resources = await this.resourceService.findMany({ project: id });
 
+    const trackedTasks = await this.taskService.list([
+      'project:' + result.name,
+    ]);
+
+    if (trackedTasks) {
+      trackedTasks.forEach((task) => {
+        resources.forEach((resource) => {
+          resource.metrics.forEach((metric) => {
+            if (metric.name === task.metric) {
+              metric.isTracked = true;
+            } else {
+              metric.isTracked = false;
+            }
+          });
+        });
+      });
+    } else {
+      resources.forEach((resource) => {
+        resource.metrics.forEach((metric) => {
+          metric.isTracked = false;
+        });
+      });
+    }
+
     const snapshots = structureSnapshots(
       await this.snapshotService.list('project:' + result.name),
     );

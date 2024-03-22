@@ -54,6 +54,7 @@ export class ResourceService {
         data: [],
         resource: resource.id,
         params: metric.params || '[]',
+        isTracked: null,
       })),
     }));
   }

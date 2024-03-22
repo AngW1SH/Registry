@@ -29,6 +29,7 @@ export interface Metric {
   name: string;
   params: string;
   resource: string;
+  isTracked: boolean | null;
 }
 
 export type MetricCreate = Omit<Metric, 'id'>;
