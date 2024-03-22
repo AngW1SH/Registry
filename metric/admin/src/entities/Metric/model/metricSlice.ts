@@ -28,6 +28,14 @@ export const metricSlice = createSlice({
         (metric) => metric.id !== action.payload
       );
     },
+    updateMetric: (state, action: PayloadAction<IMetric>) => {
+      state.metrics = state.metrics.map((metric) => {
+        if (metric.id === action.payload.id) {
+          return action.payload;
+        }
+        return metric;
+      });
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },

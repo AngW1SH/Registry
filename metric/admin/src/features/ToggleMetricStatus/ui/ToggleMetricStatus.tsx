@@ -1,4 +1,5 @@
-import { IMetric } from "@/entities/Metric";
+import { useAppDispatch } from "@/app/store";
+import { IMetric, metricSlice } from "@/entities/Metric";
 import {
   useStartMetricMutation,
   useStopMetricMutation,
@@ -17,12 +18,26 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
   const [start] = useStartMetricMutation();
   const [stop] = useStopMetricMutation();
 
+  const dispatch = useAppDispatch();
+
   const handleStart = async () => {
-    await start(metric);
+    const result = await start(metric);
+
+    if (!result.hasOwnProperty("error")) {
+      dispatch(
+        metricSlice.actions.updateMetric({ ...metric, isTracked: true })
+      );
+    }
   };
 
   const handleStop = async () => {
-    await stop(metric);
+    const result = await stop(metric);
+
+    if (!result.hasOwnProperty("error")) {
+      dispatch(
+        metricSlice.actions.updateMetric({ ...metric, isTracked: false })
+      );
+    }
   };
 
   return (
