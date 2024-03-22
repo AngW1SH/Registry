@@ -12,6 +12,7 @@ import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { StopTrackingMetric } from "@/features/StopTrackingMetric";
+import { ToggleMetricStatus } from "@/features/ToggleMetricStatus";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -71,7 +72,12 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                     .map((metric) => (
                       <li key={metric.id} className="min-w-[47%] max-w-[47%]">
                         <MetricSettings
-                          aside={<StopTrackingMetric metricId={metric.id} />}
+                          aside={
+                            <div className="flex flex-col gap-y-3">
+                              <ToggleMetricStatus metric={metric} />
+                              <StopTrackingMetric metricId={metric.id} />
+                            </div>
+                          }
                         >
                           <ConfigureMetricParams metric={metric} />
                         </MetricSettings>

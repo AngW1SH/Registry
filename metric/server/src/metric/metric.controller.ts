@@ -39,6 +39,24 @@ export class MetricController {
     };
   }
 
+  @Post(':id/start')
+  async start(@Body('metric') metric: MetricDTO) {
+    const result = await this.metricService.start({
+      ...metric,
+      params: JSON.stringify(metric.params),
+      isTracked: null,
+    });
+
+    return result;
+  }
+
+  @Post(':id/stop')
+  async stop(@Param('id') id: string) {
+    const result = await this.metricService.stop(id);
+
+    return result;
+  }
+
   @Get()
   async listAll(): Promise<string[]> {
     const result = await this.metricService.listAll();

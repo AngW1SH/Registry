@@ -37,7 +37,7 @@ const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
           className
         }
       >
-        Stop Tracking
+        Delete Metric
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 rounded-lg pb-11">

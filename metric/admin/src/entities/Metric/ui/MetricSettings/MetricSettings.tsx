@@ -28,9 +28,10 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       />
       <div className="pt-4"></div>
       {children}
-      <div className="pt-6"></div>
+      <div className="pt-10"></div>
+      {aside && <div>{aside}</div>}
+      <div className="pt-10"></div>
       <UpdateStatus />
-      {aside && <div className="absolute top-7 right-5">{aside}</div>}
     </div>
   );
 };
