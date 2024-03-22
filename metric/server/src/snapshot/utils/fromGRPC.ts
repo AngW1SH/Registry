@@ -5,5 +5,6 @@ export const fromGRPC = (snapshot: SnapshotGRPC): Snapshot => {
     metric: snapshot.Metric,
     data: snapshot.Data,
     groups: snapshot.Groups,
+    error: snapshot.Error,
   };
 };

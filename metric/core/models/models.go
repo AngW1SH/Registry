@@ -37,12 +37,14 @@ type Snapshot struct {
 	Metric string
 	Data string
 	Groups []string
+	Error string
 }
 
 type SnapshotDB struct {
 	gorm.Model
 	Metric string
 	Data string
+	Error string
 	Groups []SnapshotGroupDB
 }
 

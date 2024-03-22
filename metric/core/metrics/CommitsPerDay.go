@@ -10,7 +10,7 @@ type ReturnValue struct {
 	Value uint `json:"value"`
 }
 
-func CommitsPerDayMetric(data interface{}) string {
+func CommitsPerDayMetric(data interface{}) (string, error) {
 	time.Sleep(2 * time.Second)
 	fmt.Println("CommitsPerDay done", data)
 
@@ -20,8 +20,8 @@ func CommitsPerDayMetric(data interface{}) string {
 
 	if error != nil {
 		fmt.Println(error)
-		return ""
+		return "", nil
 	}
 
-	return string(result)
+	return string(result), nil
 }

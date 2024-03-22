@@ -60,10 +60,16 @@ func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
 	return q.queue.Update(task)
 }
 
-func (q *Queue) onFinish(task models.Task, result string) {
+func (q *Queue) onFinish(task models.Task, result string, err error) {
 	q.load -= task.Weight
 
-	q.Repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups})
+	var errText string
+
+	if (err != nil) {
+		errText = err.Error()
+	}
+
+	q.Repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups, Error: errText})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()
