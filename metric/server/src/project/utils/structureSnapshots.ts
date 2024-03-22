@@ -1,8 +1,9 @@
+import { MetricSnapshot } from 'src/metric/metric.entity';
 import { Snapshot } from 'src/snapshot/snapshot.entity';
 
 export interface StructuredSnapshotData {
   [resource: string]: {
-    [metric: string]: { error: string; data: string }[];
+    [metric: string]: MetricSnapshot[];
   };
 }
 
@@ -31,6 +32,7 @@ export const structureSnapshots = (snapshots: Snapshot[]) => {
     result[resource][snapshot.metric].push({
       error: snapshot.error,
       data: snapshot.data,
+      timestamp: snapshot.timestamp,
     });
   }
 

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
@@ -42,5 +43,6 @@ func ToGRPCSnapshotInfo(dto *models.SnapshotDB) *SnapshotInfo {
 		Data:       dto.Data,
 		Groups:     groups,
 		Error:      dto.Error,
+		Timestamp:  timestamppb.New(dto.CreatedAt),
 	}
 }

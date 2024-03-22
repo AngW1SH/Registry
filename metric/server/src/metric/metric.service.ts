@@ -4,6 +4,7 @@ import {
   AbstractMetric,
   Metric,
   MetricCreate,
+  MetricSnapshot,
   MetricWithSnapshots,
 } from './metric.entity';
 import { metricParams } from './config/metricParams';
@@ -246,13 +247,14 @@ export class MetricService {
 
   populateWithSnapshots(
     metric: Metric,
-    snapshots: { error: string; data: string }[],
+    snapshots: MetricSnapshot[],
   ): MetricWithSnapshots {
     return {
       ...metric,
       data: snapshots.map((snapshot) => ({
         error: snapshot.error,
         data: JSON.parse(snapshot.data),
+        timestamp: snapshot.timestamp,
       })),
     };
   }

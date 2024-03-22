@@ -8,6 +8,12 @@ export interface AbstractMetric {
   name: string;
 }
 
+export interface MetricSnapshot {
+  error: string;
+  data: string;
+  timestamp: number;
+}
+
 export interface MetricDTO {
   id: string;
   name: string;
@@ -15,7 +21,7 @@ export interface MetricDTO {
     [key: string]: any;
   };
   resource: string;
-  data: { error: string; data: string }[];
+  data: MetricSnapshot[];
 }
 
 export interface Metric {
@@ -28,9 +34,9 @@ export interface Metric {
 export type MetricCreate = Omit<Metric, 'id'>;
 
 export interface MetricWithSnapshots extends Metric {
-  data: { error: string; data: string }[];
+  data: MetricSnapshot[];
 }
 
 export interface MetricWithSnapshotsDTO extends MetricDTO {
-  data: { error: string; data: string }[];
+  data: MetricSnapshot[];
 }

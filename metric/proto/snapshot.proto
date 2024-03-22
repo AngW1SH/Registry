@@ -12,6 +12,7 @@ message SnapshotInfo {
     string Data = 2;
     repeated string Groups = 3;
     string Error = 4;
+    google.protobuf.Timestamp Timestamp = 5;
 }
 
 message SnapshotListRequest {

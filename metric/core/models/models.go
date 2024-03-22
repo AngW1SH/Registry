@@ -38,6 +38,7 @@ type Snapshot struct {
 	Data string
 	Groups []string
 	Error string
+	Timestamp time.Time
 }
 
 type SnapshotDB struct {

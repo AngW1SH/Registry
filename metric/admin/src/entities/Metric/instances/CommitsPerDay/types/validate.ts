@@ -6,6 +6,7 @@ export const CommitsPerDaySchema = z.array(
     data: z.object({
       value: z.number().gte(0),
     }),
+    timestamp: z.number(),
   })
 );
 

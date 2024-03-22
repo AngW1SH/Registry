@@ -1,6 +1,7 @@
 import {
   Metric,
   MetricDTO,
+  MetricSnapshot,
   MetricWithSnapshots,
 } from 'src/metric/metric.entity';
 
@@ -47,5 +48,5 @@ export interface ResourceCreate {
 }
 
 export interface ResourceSnapshots {
-  [metric: string]: { error: string; data: string }[];
+  [metric: string]: MetricSnapshot[];
 }
