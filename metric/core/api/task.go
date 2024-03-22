@@ -43,6 +43,10 @@ func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*Ta
 
 	task := s.Queue.UpdateTask(FromGRPCTaskStartInfo(message.Task))
 
+	if task == nil {
+		return &TaskStartResponse{Task: &TaskInfo{}}, nil
+	}
+
 	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
 
