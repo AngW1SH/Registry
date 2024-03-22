@@ -47,5 +47,5 @@ export interface ResourceCreate {
 }
 
 export interface ResourceSnapshots {
-  [metric: string]: string[];
+  [metric: string]: { error: string; data: string }[];
 }

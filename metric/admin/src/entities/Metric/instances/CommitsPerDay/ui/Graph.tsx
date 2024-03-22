@@ -69,12 +69,10 @@ export const options = {
 const Graph: FC<GraphProps> = ({ data }) => {
   const ref = useRef();
 
-  const values = labels.map((_, i) => data[i]?.value || 0);
+  const values = labels.map((_, i) => data[i]?.data.value || 0);
 
   const max = values.reduce((a, b) => Math.max(a, b), 0);
   const maxValues = values.map((_) => max);
-
-  console.log(maxValues);
 
   const formattedData: any = {
     labels: labels,

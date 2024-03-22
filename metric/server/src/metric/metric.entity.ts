@@ -15,7 +15,7 @@ export interface MetricDTO {
     [key: string]: any;
   };
   resource: string;
-  data: string[];
+  data: { error: string; data: string }[];
 }
 
 export interface Metric {
@@ -28,9 +28,9 @@ export interface Metric {
 export type MetricCreate = Omit<Metric, 'id'>;
 
 export interface MetricWithSnapshots extends Metric {
-  data: string[];
+  data: { error: string; data: string }[];
 }
 
 export interface MetricWithSnapshotsDTO extends MetricDTO {
-  data: string[];
+  data: { error: string; data: string }[];
 }

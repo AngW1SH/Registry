@@ -2,7 +2,7 @@ import { Snapshot } from 'src/snapshot/snapshot.entity';
 
 export interface StructuredSnapshotData {
   [resource: string]: {
-    [metric: string]: string[];
+    [metric: string]: { error: string; data: string }[];
   };
 }
 
@@ -28,7 +28,10 @@ export const structureSnapshots = (snapshots: Snapshot[]) => {
     if (!result[resource][snapshot.metric])
       result[resource][snapshot.metric] = [];
 
-    result[resource][snapshot.metric].push(snapshot.data);
+    result[resource][snapshot.metric].push({
+      error: snapshot.error,
+      data: snapshot.data,
+    });
   }
 
   return result;

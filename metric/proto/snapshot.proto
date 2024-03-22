@@ -11,6 +11,7 @@ message SnapshotInfo {
     string Metric = 1;
     string Data = 2;
     repeated string Groups = 3;
+    string Error = 4;
 }
 
 message SnapshotListRequest {

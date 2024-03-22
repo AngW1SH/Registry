@@ -246,11 +246,14 @@ export class MetricService {
 
   populateWithSnapshots(
     metric: Metric,
-    snapshots: string[],
+    snapshots: { error: string; data: string }[],
   ): MetricWithSnapshots {
     return {
       ...metric,
-      data: snapshots.map((snapshot) => JSON.parse(snapshot)),
+      data: snapshots.map((snapshot) => ({
+        error: snapshot.error,
+        data: JSON.parse(snapshot.data),
+      })),
     };
   }
 }

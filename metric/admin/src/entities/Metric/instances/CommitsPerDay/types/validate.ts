@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export const CommitsPerDaySchema = z.array(
   z.object({
-    value: z.number().gte(0),
+    error: z.string().optional(),
+    data: z.object({
+      value: z.number().gte(0),
+    }),
   })
 );
 

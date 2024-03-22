@@ -41,5 +41,6 @@ func ToGRPCSnapshotInfo(dto *models.SnapshotDB) *SnapshotInfo {
 		Metric:     dto.Metric,
 		Data:       dto.Data,
 		Groups:     groups,
+		Error:      dto.Error,
 	}
 }

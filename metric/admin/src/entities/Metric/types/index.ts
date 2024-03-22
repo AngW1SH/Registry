@@ -8,7 +8,7 @@ export interface IAbstractMetric {
 export interface IMetric extends IAbstractMetric {
   resource: string;
   params: IMetricParam[];
-  data: string[]; // Snapshots
+  data: { error: string; data: string }[]; // Snapshots
 }
 
 export enum MetricName {
