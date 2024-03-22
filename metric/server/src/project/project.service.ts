@@ -9,6 +9,7 @@ import {
 import { ResourceService } from 'src/resource/resource.service';
 import { SnapshotService } from 'src/snapshot/snapshot.service';
 import { structureSnapshots } from './utils/structureSnapshots';
+import { TaskService } from 'src/task/task.service';
 
 @Injectable()
 export class ProjectService {
@@ -16,6 +17,7 @@ export class ProjectService {
     private prisma: PrismaService,
     private resourceService: ResourceService,
     private snapshotService: SnapshotService,
+    private taskService: TaskService,
   ) {}
 
   async findAll(): Promise<Project[]> {

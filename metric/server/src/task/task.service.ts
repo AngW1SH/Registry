@@ -5,7 +5,7 @@ import { ClientGrpc } from '@nestjs/microservices';
 
 interface TaskServiceGRPC {
   start: (data: { task: TaskCreate }) => Observable<{ Task: Task }>;
-  list: (data: {}) => Observable<Task[]>;
+  list: (data: { groups: string[] }) => Observable<{ tasks: Task[] }>;
   update: (data: { task: TaskCreate }) => Observable<{ Task: Task | null }>;
   stop: (data: TaskStop) => Observable<{ Task: Task }>;
 }
@@ -33,8 +33,10 @@ export class TaskService {
     return result.Task;
   }
 
-  list() {
-    return this.taskServiceGRPC.list({});
+  async list(groups: string[]) {
+    const result = await firstValueFrom(this.taskServiceGRPC.list({ groups }));
+
+    return result.tasks;
   }
 
   async stop(task: TaskStop) {

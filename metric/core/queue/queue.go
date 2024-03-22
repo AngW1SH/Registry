@@ -52,8 +52,8 @@ func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error)
 	return q.queue.MarkDelete(metric, groups)
 }
 
-func (q *Queue) ListTasks() ([]*models.Task, error) {
-	return q.queue.GetEntries(), nil
+func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
+	return q.queue.GetEntries(groups), nil
 }
 
 func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {

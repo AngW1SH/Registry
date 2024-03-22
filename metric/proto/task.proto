@@ -42,7 +42,7 @@ message TaskStopResponse {
 }
 
 message TaskListRequest {
-
+    repeated string groups = 1;
 }
 
 message TaskListResponse {

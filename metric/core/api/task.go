@@ -51,9 +51,9 @@ func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*Ta
 }
 
 func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
-	fmt.Println("List")
+	fmt.Println("List", message.Groups)
 
-	tasks, err := s.Queue.ListTasks()
+	tasks, err := s.Queue.ListTasks(message.Groups)
 
 	if err != nil {
 		return &TaskListResponse{Tasks: []*TaskInfo{}}, err
@@ -64,6 +64,8 @@ func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskL
 	for i := 0; i < len(tasks); i++ {
 		result = append(result, ToGRPCTaskInfo(tasks[i]))
 	}
+
+	fmt.Println(len(result))
 
 	return &TaskListResponse{Tasks: result}, nil
 }

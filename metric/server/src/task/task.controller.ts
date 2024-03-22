@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { TaskCreateDTO } from './task.entity';
 
@@ -19,6 +19,6 @@ export class TaskController {
 
   @Get()
   list() {
-    return this.taskService.list();
+    return this.taskService.list([]);
   }
 }

@@ -31,8 +31,19 @@ func (pq *PriorityQueue) Swap(i, j int) {
     pq.entries[i], pq.entries[j] = pq.entries[j], pq.entries[i]
 }
 
-func (pq *PriorityQueue) GetEntries() []*models.Task {
-    return pq.entries
+func (pq *PriorityQueue) GetEntries(groups []string) []*models.Task {
+    pq.mu.Lock()
+    defer pq.mu.Unlock()
+
+    var result []*models.Task
+
+    for i := 0; i < len(pq.entries); i++ {
+        if ContainsAllElements(pq.entries[i].Groups, groups) {
+            result = append(result, pq.entries[i])
+        }
+    }
+    
+    return result
 }
 
 func (pq *PriorityQueue) Push(x interface{}) {
