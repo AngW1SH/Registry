@@ -14,6 +14,8 @@ type TaskServer struct {
 func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
 	fmt.Println("Start ", message.Task.Metric)
 
+	fmt.Println(message.Task.UpdateRate)
+
 	task := s.Queue.AddTask(FromGRPCTaskStartInfo(message.Task))
 
 	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil

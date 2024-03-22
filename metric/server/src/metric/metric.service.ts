@@ -8,6 +8,7 @@ import {
 } from './metric.entity';
 import { metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
+import { durationToSeconds } from 'utils/duration';
 
 @Injectable()
 export class MetricService {
@@ -62,8 +63,9 @@ export class MetricService {
   }
 
   async start(metric: MetricCreate) {
-    const params = metric.params ? JSON.parse(metric.params) : {};
-    delete params['updateRate'];
+    let params = metric.params ? JSON.parse(metric.params) : {};
+    const updateRate = params.find((param) => param.name == 'updateRate');
+    params = params.filter((param) => param.name != 'updateRate');
 
     const names = await this.prisma.resource.findFirst({
       where: {
@@ -86,7 +88,9 @@ export class MetricService {
       weight: 1,
       data: metric.params,
       update_rate: {
-        seconds: 1000,
+        seconds: durationToSeconds(
+          updateRate?.value || { number: 1, unitOfTime: 'minutes' },
+        ),
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
