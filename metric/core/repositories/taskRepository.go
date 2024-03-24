@@ -43,13 +43,13 @@ func (r * TaskRepository) Delete(id uuid.UUID) RepositoryResult {
 	return RepositoryResult{Result: id}
 }
 
-func (r *TaskRepository) GetAll() RepositoryResult {
+func (r *TaskRepository) GetAll() ([]*models.Task, error) {
 	var tasksDB []models.TaskDB
 
 	err := r.db.Find(&tasksDB).Error
 
 	if err != nil {
-		return RepositoryResult{Error: err}
+		return nil, err
 	}
 
 	var tasks []*models.Task
@@ -58,5 +58,5 @@ func (r *TaskRepository) GetAll() RepositoryResult {
 		tasks = append(tasks, FromDBTask(&tasksDB[i]))
 	}
 
-	return RepositoryResult{Result: &tasks}
+	return tasks, nil
 }

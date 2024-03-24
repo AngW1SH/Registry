@@ -27,6 +27,16 @@ func (q *Queue) Start() {
 
 	heap.Init(&q.queue)
 
+	tasks, err := q.taskRepo.GetAll()
+
+	if err != nil {
+		panic(err)
+	}
+
+	for _, task := range tasks {
+		heap.Push(&q.queue, task)
+	}
+
 	go q.AdvanceTasks()
 }
 
@@ -86,6 +96,9 @@ func (q *Queue) onFinish(task models.Task, result string, err error) {
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()
+
+	q.taskRepo.Delete(task.Id)
+	q.taskRepo.Create(&task)
 
 	heap.Push(&q.queue, &task)
 }
