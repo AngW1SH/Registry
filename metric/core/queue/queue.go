@@ -6,6 +6,7 @@ import (
 	"core/metrics"
 	"core/models"
 	"core/repositories"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,6 +17,7 @@ type Queue struct {
 	snapshotRepo *repositories.SnapshotRepository
 	taskRepo *repositories.TaskRepository
 	queue helpers.PriorityQueue
+	tasks helpers.TaskMap
 }
 
 func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo *repositories.TaskRepository) *Queue {
@@ -24,6 +26,7 @@ func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo
 
 func (q *Queue) Start() {
 	q.queue = helpers.PriorityQueue{}
+	q.tasks = *helpers.NewTaskMap()
 
 	heap.Init(&q.queue)
 
@@ -35,6 +38,7 @@ func (q *Queue) Start() {
 
 	for _, task := range tasks {
 		heap.Push(&q.queue, task)
+		q.tasks.AddTask(task.Id, task)
 	}
 
 	go q.AdvanceTasks()
@@ -51,9 +55,11 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 		Data: data.Data,
 	}
 
+
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
 
+	q.tasks.AddTask(task.Id, &task)
 	heap.Push(&q.queue, &task)
 
 	q.taskRepo.Create(&task)
@@ -62,27 +68,32 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 }
 
 func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
-	task, err := q.queue.MarkDelete(metric, groups)
 
-	if err != nil {
-		return nil, err
+	task := q.tasks.MarkDelete(metric, groups)
+
+	if task == nil {
+		return nil, errors.New("task not found")
 	}
 
 	if task != nil {
 		q.taskRepo.Delete(task.Id)
 	}
 
-	return task, err
+	return task, nil
 }
 
 func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
-	return q.queue.GetEntries(groups), nil
+	tasks := q.tasks.GetByGroups(groups)
+	
+	return tasks, nil
 }
 
 func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
-	result := q.queue.Update(task)
+	result := q.tasks.UpdateTask(task)
 
-	q.taskRepo.Update(result)
+	if result != nil {
+		q.taskRepo.Update(result)
+	}
 
 	return result
 }
@@ -98,12 +109,17 @@ func (q *Queue) onFinish(task models.Task, result string, err error) {
 
 	q.snapshotRepo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups, Error: errText})
 
-	task.UpdatedAt = time.Now()
-	task.AttemptedAt = time.Now()
+	if q.tasks.GetTask(task.Id) != nil {
 
-	q.taskRepo.Update(&task)
+		q.tasks.GetTask(task.Id).UpdatedAt = time.Now()
+		q.tasks.GetTask(task.Id).AttemptedAt = time.Now()
 
-	heap.Push(&q.queue, &task)
+		heap.Push(&q.queue, q.tasks.GetTask(task.Id))
+
+		q.taskRepo.Update(q.tasks.GetTask(task.Id))
+	} else {
+		q.taskRepo.Delete(task.Id)
+	}
 }
 
 func (q *Queue) AdvanceTasks() {
@@ -118,10 +134,14 @@ func (q *Queue) AdvanceTasks() {
 				break
 			}
 	
-			oldestUpdated := heap.Pop(&q.queue).(*models.Task)
+			originalOldestUpdated := heap.Pop(&q.queue).(*models.Task)
+			
+			oldestUpdated := helpers.CopyTask(originalOldestUpdated)
+
 			found := false
 
 			if oldestUpdated.IsDeleted {
+				q.tasks.DeleteTask(oldestUpdated.Id)
 				continue
 			}
 	
@@ -129,9 +149,13 @@ func (q *Queue) AdvanceTasks() {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
 					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish);
 					found = true
+				} else if q.tasks.GetTask(oldestUpdated.Id) != nil {
+					q.tasks.GetTask(oldestUpdated.Id).AttemptedAt = time.Now()
+
+					heap.Push(&q.queue, q.tasks.GetTask(oldestUpdated.Id))
 				} else {
-					oldestUpdated.AttemptedAt = time.Now()
-					heap.Push(&q.queue, oldestUpdated)
+					q.tasks.DeleteTask(oldestUpdated.Id)
+					continue
 				}
 			}
 	

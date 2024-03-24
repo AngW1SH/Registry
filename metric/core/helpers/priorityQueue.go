@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"core/models"
+	"fmt"
 	"sync"
 )
 
@@ -39,6 +40,7 @@ func (pq *PriorityQueue) GetEntries(groups []string) []*models.Task {
 
     for i := 0; i < len(pq.entries); i++ {
         if ContainsAllElements(pq.entries[i].Groups, groups) {
+            fmt.Println("pq id: ", pq.entries[i].Id)
             result = append(result, pq.entries[i])
         }
     }
@@ -65,38 +67,6 @@ func (pq *PriorityQueue) Pop() interface{} {
     pq.entries = old[0 : n-1]
 
     return item
-}
-
-func (pq *PriorityQueue) MarkDelete(metric string, groups []string) (*models.Task, error) {
-    pq.mu.Lock()
-    defer pq.mu.Unlock()
-
-    for i := 0; i < len(pq.entries); i++ {
-		if pq.entries[i].Metric == metric && ContainsAllElements(pq.entries[i].Groups, groups) {
-			pq.entries[i].IsDeleted = true
-
-			return pq.entries[i], nil
-		}
-	}
-    
-	return nil, nil
-}
-
-func (pq *PriorityQueue) Update(task *models.TaskCreate) *models.Task {
-    pq.mu.Lock()
-    defer pq.mu.Unlock()
-
-    for i := 0; i < len(pq.entries); i++ {
-        if pq.entries[i].Metric == task.Metric && ContainsAllElements(pq.entries[i].Groups, task.Groups) {
-            pq.entries[i].UpdateRate = task.UpdateRate
-            pq.entries[i].Weight = task.Weight
-            pq.entries[i].Data = task.Data
-
-            return pq.entries[i]
-        }
-    }
-
-    return nil
 }
 
 func (pq *PriorityQueue) Peek() *models.Task {
