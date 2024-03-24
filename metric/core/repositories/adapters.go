@@ -30,6 +30,10 @@ func FromDBTask(dto *models.TaskDB) *models.Task {
 
 func ToDBTask(dto *models.Task) *models.TaskDB {
 
+	if dto == nil {
+		return &models.TaskDB{}
+	}
+
 	return &models.TaskDB{
 		ID: dto.Id.String(),
 		Metric:     dto.Metric,

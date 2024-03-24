@@ -72,8 +72,11 @@ export class MetricService {
 
   async start(metric: MetricCreate) {
     let params = metric.params ? JSON.parse(metric.params) : {};
+    const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
-    params = params.filter((param) => param.name != 'updateRate');
+    params = params.filter(
+      (param) => param.name != 'updateRate' && param.name != 'weight',
+    );
 
     const names = await this.prisma.resource.findFirst({
       where: {
@@ -81,6 +84,7 @@ export class MetricService {
       },
       select: {
         name: true,
+        params: true,
         project: {
           select: {
             name: true,
@@ -90,10 +94,13 @@ export class MetricService {
     });
 
     const [projectName, resourceName] = [names.project.name, names.name];
+
+    const resourceParams = JSON.parse(names.params);
+
     return this.taskService.start({
       metric: metric.name,
-      weight: 1,
-      data: metric.params,
+      weight: +weight,
+      data: JSON.stringify([...params, ...resourceParams]),
       update_rate: {
         seconds: durationToSeconds(
           updateRate?.value || { number: 1, unitOfTime: 'minutes' },
@@ -108,7 +115,9 @@ export class MetricService {
     let params = metric.params ? JSON.parse(metric.params) : {};
     const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
-    params = params.filter((param) => param.name != 'updateRate');
+    params = params.filter(
+      (param) => param.name != 'updateRate' && param.name != 'weight',
+    );
 
     const names = await this.prisma.resource.findFirst({
       where: {
@@ -116,6 +125,7 @@ export class MetricService {
       },
       select: {
         name: true,
+        params: true,
         project: {
           select: {
             name: true,
@@ -126,10 +136,12 @@ export class MetricService {
 
     const [projectName, resourceName] = [names.project.name, names.name];
 
+    const resourceParams = JSON.parse(names.params);
+
     return this.taskService.update({
       metric: metric.name,
       weight: +weight,
-      data: metric.params,
+      data: JSON.stringify([...params, ...resourceParams]),
       update_rate: {
         seconds: durationToSeconds(
           updateRate?.value || { number: 1, unitOfTime: 'minutes' },
