@@ -30,9 +30,11 @@ func main() {
 	queue.DeleteTask(task.Id)
 	*/
 
-	repo := repositories.NewSnapshotRepository(db)
+	snapshotRepo := repositories.NewSnapshotRepository(db)
+	taskRepo := repositories.NewTaskRepository(db)
 
-	queue := queue.NewQueue(100, repo)
+
+	queue := queue.NewQueue(100, snapshotRepo, taskRepo)
 	queue.Start()
 	// queue.AddTask(&models.TaskCreate{ Metric: "CommitsPerDay", Data: []string{ "2" }, Groups: []string{"project:Реестр проектов клинической практики СПбГУ", "resource:AngW1SH/Registry"}, UpdatedAt: time.Date(2024, time.January, 28, 13, 0, 0, 0, time.UTC), UpdateRate: 20 * time.Second })
 
@@ -43,7 +45,7 @@ func main() {
 	}
 
 	taskServer := api.TaskServer{Queue: queue}
-	snapshotServer := api.SnapshotServer{Repo: repo}
+	snapshotServer := api.SnapshotServer{Repo: snapshotRepo}
 	grpcServer := grpc.NewServer()
 	api.RegisterTaskServiceServer(grpcServer, &taskServer)
 	api.RegisterSnapshotServiceServer(grpcServer, &snapshotServer)

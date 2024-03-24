@@ -13,12 +13,13 @@ import (
 type Queue struct {
 	Limit int
 	load int
-	Repo *repositories.SnapshotRepository
+	snapshotRepo *repositories.SnapshotRepository
+	taskRepo *repositories.TaskRepository
 	queue helpers.PriorityQueue
 }
 
-func NewQueue(limit int, repo *repositories.SnapshotRepository) *Queue {
-	return &Queue{Limit: limit, load: 0, Repo: repo}
+func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo *repositories.TaskRepository) *Queue {
+	return &Queue{Limit: limit, load: 0, snapshotRepo: snapshotRepo, taskRepo: taskRepo}
 }
 
 func (q *Queue) Start() {
@@ -45,11 +46,23 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 
 	heap.Push(&q.queue, &task)
 
+	q.taskRepo.Create(&task)
+
 	return &task
 }
 
 func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
-	return q.queue.MarkDelete(metric, groups)
+	task, err := q.queue.MarkDelete(metric, groups)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if task != nil {
+		q.taskRepo.Delete(task.Id)
+	}
+
+	return task, err
 }
 
 func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
@@ -69,7 +82,7 @@ func (q *Queue) onFinish(task models.Task, result string, err error) {
 		errText = err.Error()
 	}
 
-	q.Repo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups, Error: errText})
+	q.snapshotRepo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups, Error: errText})
 
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()
