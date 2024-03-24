@@ -26,7 +26,6 @@ type TaskDB struct {
 	Data      string
 	UpdatedAt time.Time
 	Groups pq.StringArray `gorm:"type:text[]"`
-	AttemptedAt time.Time
 	UpdateRate string
 	Weight 	  int
 }
