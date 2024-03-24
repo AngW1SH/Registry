@@ -43,6 +43,16 @@ func (r * TaskRepository) Delete(id uuid.UUID) RepositoryResult {
 	return RepositoryResult{Result: id}
 }
 
+func (r *TaskRepository) Update(task *models.Task) (*models.Task, error) {
+	err := r.db.Save(ToDBTask(task)).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return task, nil
+}
+
 func (r *TaskRepository) GetAll() ([]*models.Task, error) {
 	var tasksDB []models.TaskDB
 

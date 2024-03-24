@@ -80,7 +80,11 @@ func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
 }
 
 func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
-	return q.queue.Update(task)
+	result := q.queue.Update(task)
+
+	q.taskRepo.Update(result)
+
+	return result
 }
 
 func (q *Queue) onFinish(task models.Task, result string, err error) {
@@ -97,8 +101,7 @@ func (q *Queue) onFinish(task models.Task, result string, err error) {
 	task.UpdatedAt = time.Now()
 	task.AttemptedAt = time.Now()
 
-	q.taskRepo.Delete(task.Id)
-	q.taskRepo.Create(&task)
+	q.taskRepo.Update(&task)
 
 	heap.Push(&q.queue, &task)
 }
