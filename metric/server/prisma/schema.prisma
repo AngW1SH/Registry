@@ -50,3 +50,10 @@ model ResourceMetric {
   resourceId String
   params     String   @default("")
 }
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String
+  password String
+}
