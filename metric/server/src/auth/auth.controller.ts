@@ -26,4 +26,10 @@ export class AuthController {
     await this.authService.refresh(req, res);
     res.status(200).send();
   }
+
+  @Get('logout')
+  async logout(@Response() res) {
+    await this.authService.logout(res);
+    res.status(200).send();
+  }
 }

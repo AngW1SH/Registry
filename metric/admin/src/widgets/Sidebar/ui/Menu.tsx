@@ -7,6 +7,7 @@ import {
 } from "@/shared/ui/Icons";
 import { FC } from "react";
 import MenuItem from "./MenuItem";
+import { Logout } from "@/features/Logout";
 
 interface MenuProps {}
 
@@ -22,9 +23,13 @@ const Menu: FC<MenuProps> = () => {
       <MenuItem icon={<SettingsIcon />}>Settings</MenuItem>
       <MenuItem icon={<CallIcon />}>Help</MenuItem>
 
-      <MenuItem className="mt-auto" icon={<LogoutIcon />}>
-        Log Out
-      </MenuItem>
+      <li
+        className={
+          "group rounded-lg px-6 py-3 cursor-pointer transition-[background-color] hover:bg-secondary mt-auto"
+        }
+      >
+        <Logout icon={<LogoutIcon />}>Log Out</Logout>
+      </li>
     </ul>
   );
 };

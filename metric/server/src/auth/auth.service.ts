@@ -48,4 +48,9 @@ export class AuthService {
 
     this.cookieService.set(res, 'metric_refresh_token', refreshToken);
   }
+
+  async logout(res: Response) {
+    this.cookieService.set(res, 'metric_access_token', '');
+    this.cookieService.set(res, 'metric_refresh_token', '');
+  }
 }
