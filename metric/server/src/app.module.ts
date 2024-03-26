@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CookieModule } from './cookie/cookie.module';
 import { ConfigModule } from '@nestjs/config';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     CookieModule,
     ConfigModule.forRoot(),
+    TokenModule,
   ],
   controllers: [AppController],
   providers: [AppService],
