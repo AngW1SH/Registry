@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { TokenService } from 'src/token/token.service';
@@ -16,7 +16,12 @@ export class AuthService {
   async validateUser(name: string, pass: string): Promise<any> {
     const user = await this.userService.findOne(name);
 
-    if (user && user.password === pass) {
+    const salt = await bcrypt.genSalt();
+    const passHash = await bcrypt.hash(pass, salt);
+
+    const isMatch = await bcrypt.compare(passHash, user.password);
+
+    if (user && isMatch) {
       const { password, ...result } = user;
       return result;
     }
