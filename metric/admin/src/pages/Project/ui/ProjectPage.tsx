@@ -9,6 +9,7 @@ import { ResourceLinks } from "@/widgets/ResourceLinks";
 import { MetricList } from "@/widgets/MetricList";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useForceUser } from "@/entities/User";
 
 interface ProjectPageProps {}
 
@@ -30,6 +31,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
       navigate("/");
     }
   }, []);
+
+  useForceUser();
 
   if (!project) return <div></div>;
 

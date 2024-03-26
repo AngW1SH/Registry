@@ -1,5 +1,6 @@
 import { useAppDispatch } from "@/app/store";
 import { fetchAllProjects } from "@/entities/Project/model/projectListSlice";
+import { useForceUser } from "@/entities/User";
 import { AddProject } from "@/features/AddProject";
 import { ProjectList } from "@/widgets/ProjectList";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
@@ -13,6 +14,8 @@ const ProjectListPage: FC<ProjectListPageProps> = () => {
   useEffect(() => {
     dispatch(fetchAllProjects());
   }, []);
+
+  useForceUser();
 
   return (
     <div className="relative">

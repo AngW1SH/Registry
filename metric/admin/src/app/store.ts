@@ -5,6 +5,7 @@ import { projectSlice, projectListSlice } from "@/entities/Project";
 import { projectApi } from "@/entities/Project/model/projectApi";
 import { resourceSlice } from "@/entities/Resource";
 import { resourceApi } from "@/entities/Resource/model/resourceApi";
+import { userSlice } from "@/entities/User/model/userSlice";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   resourceApi: resourceApi.reducer,
   metric: metricSlice.reducer,
   metricApi: metricApi.reducer,
+  user: userSlice.reducer,
 });
 
 export const setupStore = () => {

@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { MetricSettings } from "@/entities/Metric";
+import { useForceUser } from "@/entities/User";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
@@ -39,6 +40,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
       navigate("/");
     }
   }, []);
+
+  useForceUser();
 
   if (!project) return <div></div>;
 
