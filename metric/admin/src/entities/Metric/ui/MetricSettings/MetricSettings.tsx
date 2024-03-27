@@ -2,6 +2,7 @@ import { Checkbox } from "@/shared/ui/Checkbox";
 import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
 import { useData } from "../../hooks/useData";
+import { useAppSelector } from "@/app/store";
 
 interface MetricSettingsProps {
   className?: string;
@@ -16,6 +17,8 @@ const MetricSettings: FC<MetricSettingsProps> = ({
   aside,
   data: metricData,
 }) => {
+  const calendar = useAppSelector((state) => state.metric.calendar);
+
   const data = useData(metricData);
 
   return (

@@ -3,12 +3,20 @@ import { IMetric } from "..";
 
 interface MetricState {
   metrics: IMetric[];
+  calendar: {
+    start: Date | null;
+    end: Date | null;
+  };
   isLoading: boolean;
   error: string;
 }
 
 const initialState: MetricState = {
   metrics: [],
+  calendar: {
+    start: null,
+    end: null,
+  },
   isLoading: false,
   error: "",
 };
@@ -41,6 +49,12 @@ export const metricSlice = createSlice({
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+    },
+    setCalendar(
+      state,
+      action: PayloadAction<{ start: Date | null; end: Date | null }>
+    ) {
+      state.calendar = action.payload;
     },
   },
 });
