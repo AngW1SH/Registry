@@ -9,14 +9,13 @@ import {
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { CommitsPerDay } from "../types/validate";
+import { generateGraphData } from "../utils/generateGraphData";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 interface GraphProps {
   data: CommitsPerDay;
 }
-
-const labels = ["Feb", "Mar", "Apr", "May", "Jun"];
 
 export const options = {
   responsive: true,
@@ -69,7 +68,7 @@ export const options = {
 const Graph: FC<GraphProps> = ({ data }) => {
   const ref = useRef();
 
-  const values = labels.map((_, i) => data[i]?.data.value || 0);
+  const { labels, values } = generateGraphData(data);
 
   const max = values.reduce((a, b) => Math.max(a, b), 0);
   const maxValues = values.map((_) => max);
