@@ -19,7 +19,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
-  const data = useData(metricData);
+  const data = useData(metricData, calendar);
 
   return (
     <div

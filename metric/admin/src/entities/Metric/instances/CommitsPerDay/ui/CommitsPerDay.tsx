@@ -3,13 +3,16 @@ import { FC } from "react";
 import Graph from "./Graph";
 import { calculate } from "../model/calculate";
 import { useData } from "../hooks/useData";
+import { useAppSelector } from "@/app/store";
 
 interface CommitsPerDayProps extends IMetric {
   className?: string;
 }
 
 const CommitsPerDay: FC<CommitsPerDayProps> = ({ className, ...metric }) => {
-  const data = useData(metric.data);
+  const calendar = useAppSelector((state) => state.metric.calendar);
+
+  const data = useData(metric.data, calendar);
 
   const commitCount = calculate(data);
 
