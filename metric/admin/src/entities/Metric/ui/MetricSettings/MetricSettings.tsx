@@ -1,10 +1,12 @@
 import { Checkbox } from "@/shared/ui/Checkbox";
 import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
+import { useData } from "../../hooks/useData";
 
 interface MetricSettingsProps {
   className?: string;
   children: ReactNode;
+  data: any;
   aside?: React.ReactNode;
 }
 
@@ -12,7 +14,10 @@ const MetricSettings: FC<MetricSettingsProps> = ({
   className = "",
   children,
   aside,
+  data: metricData,
 }) => {
+  const data = useData(metricData);
+
   return (
     <div
       className={
@@ -31,7 +36,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       <div className="pt-10"></div>
       {aside && <div>{aside}</div>}
       <div className="pt-10"></div>
-      <UpdateStatus />
+      <UpdateStatus data={data} />
     </div>
   );
 };

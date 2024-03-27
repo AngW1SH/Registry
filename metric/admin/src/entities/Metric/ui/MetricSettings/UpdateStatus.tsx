@@ -7,31 +7,15 @@ import {
   BarElement,
   Tooltip,
 } from "chart.js";
+import { IGenericSnapshotList } from "../../types";
+import { generateMonthLabels } from "../../utils/generateMonthLabels";
+import { generateStatusValues } from "../../utils/generateStatusValues";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
-interface UpdateStatusProps {}
-
-const labels = ["Feb", "Mar", "Apr", "May", "Jun"];
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Successful",
-      data: [1, 3, 4, 2, 2],
-      backgroundColor: "#5CC940",
-      borderColor: "#5CC940",
-      borderWidth: 1,
-    },
-    {
-      label: "Failed",
-      data: [1, 1, 0, 2, 0],
-      backgroundColor: "#C61010",
-      borderColor: "#C61010",
-      borderWidth: 1,
-    },
-  ],
-};
+interface UpdateStatusProps {
+  data: IGenericSnapshotList;
+}
 
 export const options = {
   responsive: true,
@@ -75,14 +59,42 @@ export const options = {
   },
 };
 
-const UpdateStatus: FC<UpdateStatusProps> = () => {
+const UpdateStatus: FC<UpdateStatusProps> = ({ data }) => {
+  const labels = generateMonthLabels(data);
+
+  console.log(data);
+
+  const vals = generateStatusValues(data, labels);
+
+  console.log(vals);
+
+  const values = {
+    labels,
+    datasets: [
+      {
+        label: "Successful",
+        data: vals.map((x) => x?.success),
+        backgroundColor: "#5CC940",
+        borderColor: "#5CC940",
+        borderWidth: 1,
+      },
+      {
+        label: "Failed",
+        data: vals.map((x) => x?.failed),
+        backgroundColor: "#C61010",
+        borderColor: "#C61010",
+        borderWidth: 1,
+      },
+    ],
+  };
+
   const ref = useRef();
 
   return (
     <div>
       <h3 className="text-[#A3AED0] text-lg">Update Status</h3>
       <div className="pt-8"></div>
-      <Bar ref={ref} data={data} options={options} />
+      <Bar ref={ref} data={values} options={options} />
     </div>
   );
 };
