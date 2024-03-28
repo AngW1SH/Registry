@@ -9,12 +9,12 @@ export interface IAbstractMetric {
 export interface IMetric extends IAbstractMetric {
   resource: string;
   params: IMetricParam[];
-  data: { error: string; data: string; timestamp: number }[]; // Snapshots
+  data: IGenericSnapshotList; // Snapshots
   isTracked: boolean | null;
 }
 
 export enum MetricName {
-  CommitsPerDay = "CommitsPerDay",
+  TotalCommits = "TotalCommits",
 }
 
 export const GenericSnapshotListSchema = z.array(

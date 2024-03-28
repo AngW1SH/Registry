@@ -1,5 +1,5 @@
 import { IGenericSnapshotList } from "@/entities/Metric/types";
-import { CommitsPerDaySchema } from "../types/validate";
+import { TotalCommitsSchema } from "../types/validate";
 
 export const useData = (
   data: IGenericSnapshotList,
@@ -7,7 +7,7 @@ export const useData = (
 ) => {
   const successData = data.filter((item) => !item.error);
 
-  const parseResult = CommitsPerDaySchema.safeParse(successData);
+  const parseResult = TotalCommitsSchema.safeParse(successData);
   if (!parseResult.success) return [];
 
   return parseResult.data.filter((item) => {

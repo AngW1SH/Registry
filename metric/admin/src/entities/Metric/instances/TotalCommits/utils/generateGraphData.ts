@@ -1,8 +1,8 @@
 import { monthNames } from "@/shared/utils/Month";
-import { CommitsPerDay } from "../types/validate";
+import { TotalCommits } from "../types/validate";
 
 export const generateGraphData = (
-  data: CommitsPerDay
+  data: TotalCommits
 ): { values: number[]; labels: string[] } => {
   const values: number[] = monthNames.map(() => 0);
 

@@ -5,11 +5,11 @@ import { calculate } from "../model/calculate";
 import { useData } from "../hooks/useData";
 import { useAppSelector } from "@/app/store";
 
-interface CommitsPerDayProps extends IMetric {
+interface TotalCommitsProps extends IMetric {
   className?: string;
 }
 
-const CommitsPerDay: FC<CommitsPerDayProps> = ({ className, ...metric }) => {
+const TotalCommits: FC<TotalCommitsProps> = ({ className, ...metric }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
   const data = useData(metric.data, calendar);
@@ -18,7 +18,7 @@ const CommitsPerDay: FC<CommitsPerDayProps> = ({ className, ...metric }) => {
 
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
-      <h3 className="text-[#A3AED0] text-sm font-medium">Commits Per Day</h3>
+      <h3 className="text-[#A3AED0] text-sm font-medium">Commits</h3>
       <div className="text-[#A3AED0] text-sm mt-2 font-medium">
         <span className="text-[#2B3674] text-4xl font-bold mr-2">
           {commitCount}
@@ -31,4 +31,4 @@ const CommitsPerDay: FC<CommitsPerDayProps> = ({ className, ...metric }) => {
   );
 };
 
-export default CommitsPerDay;
+export default TotalCommits;

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CommitsPerDaySchema = z.array(
+export const TotalCommitsSchema = z.array(
   z.object({
     error: z.string().optional(),
     data: z.object({
@@ -10,4 +10,4 @@ export const CommitsPerDaySchema = z.array(
   })
 );
 
-export type CommitsPerDay = z.infer<typeof CommitsPerDaySchema>;
+export type TotalCommits = z.infer<typeof TotalCommitsSchema>;

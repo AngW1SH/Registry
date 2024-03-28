@@ -23,7 +23,7 @@ func getEndpoint(parsedData interface{}) string {
 	return ""
 }
 
-func CommitsPerDayMetric(data interface{}) (string, error) {
+func TotalCommitsMetric(data interface{}) (string, error) {
 	var parsed []interface{}
 
 	err := json.Unmarshal([]byte(data.(string)), &parsed)

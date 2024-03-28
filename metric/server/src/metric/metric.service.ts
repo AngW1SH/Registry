@@ -261,15 +261,16 @@ export class MetricService {
 
   populateWithSnapshots(
     metric: Metric,
-    snapshots: MetricSnapshot[],
+    snapshots?: MetricSnapshot[],
   ): MetricWithSnapshots {
     return {
       ...metric,
-      data: snapshots.map((snapshot) => ({
-        error: snapshot.error,
-        data: snapshot.data ? JSON.parse(snapshot.data) : '',
-        timestamp: snapshot.timestamp,
-      })),
+      data:
+        snapshots?.map((snapshot) => ({
+          error: snapshot.error,
+          data: snapshot.data ? JSON.parse(snapshot.data) : '',
+          timestamp: snapshot.timestamp,
+        })) || [],
     };
   }
 }
