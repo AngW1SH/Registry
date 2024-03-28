@@ -64,5 +64,34 @@ export const resourceSlice = createSlice({
         return resource;
       });
     },
+    setActiveUsers: (
+      state,
+      action: PayloadAction<{ resourceId: string; users: string[] }>
+    ) => {
+      const { resourceId, users } = action.payload;
+
+      const oldUsers =
+        state.resources.find((resource) => resource.id === resourceId)?.users ||
+        {};
+
+      Object.keys(oldUsers).forEach((key) => {
+        oldUsers[key] = false;
+      });
+
+      users.forEach((user) => {
+        oldUsers[user] = true;
+      });
+
+      state.resources = state.resources.map((resource) => {
+        if (resource.id == resourceId) {
+          return {
+            ...resource,
+            users: oldUsers,
+          };
+        }
+
+        return resource;
+      });
+    },
   },
 });

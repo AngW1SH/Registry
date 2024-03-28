@@ -10,6 +10,7 @@ import { MetricList } from "@/widgets/MetricList";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForceUser } from "@/entities/User";
+import { SetSelectedUsers } from "@/features/SetSelectedUsers";
 
 interface ProjectPageProps {}
 
@@ -47,6 +48,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
           {resources.map((resource) => (
             <li key={resource.id}>
               <PlatformMetrics resource={resource} key={resource.id}>
+                <SetSelectedUsers resourceId={resource.id} />
+                <div className="pt-8" />
                 <PerformanceModule />
                 <div className="pt-8" />
                 <MetricList
