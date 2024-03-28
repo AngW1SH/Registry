@@ -17,7 +17,7 @@ export const generateGraphData = (
     if (values[month].date < x.timestamp) {
       values[month] = {
         date: x.timestamp,
-        value: x.data.value,
+        value: x.data.reduce((a, b) => a + b.value, 0),
       };
     }
   });
