@@ -43,7 +43,10 @@ export class ProjectService {
       trackedTasks.forEach((task) => {
         resources.forEach((resource) => {
           resource.metrics.forEach((metric) => {
-            if (metric.name === task.metric) {
+            if (
+              metric.name === task.metric &&
+              task.groups.includes('resource:' + resource.name)
+            ) {
               metric.isTracked = true;
             } else {
               metric.isTracked = false;
