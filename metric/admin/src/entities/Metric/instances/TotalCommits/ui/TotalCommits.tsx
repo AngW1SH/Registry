@@ -12,7 +12,7 @@ interface TotalCommitsProps extends IMetric {
 const TotalCommits: FC<TotalCommitsProps> = ({ className, ...metric }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
-  const data = useData(metric.data, calendar);
+  const data = useData(metric.data, calendar, metric.resource);
 
   const commitCount = calculate(data);
 

@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IResource } from "..";
+import { IResourceWithUsers } from "../types";
 
 interface ResourceState {
-  resources: IResource[];
+  resources: IResourceWithUsers[];
   isLoading: boolean;
   error: string;
 }
@@ -18,10 +19,19 @@ export const resourceSlice = createSlice({
   initialState,
   reducers: {
     setResources: (state, action: PayloadAction<IResource[]>) => {
-      state.resources = action.payload;
+      state.resources = action.payload.map((resource) => ({
+        ...resource,
+        users:
+          state.resources.find((res) => res.id === resource.id)?.users || {},
+      }));
     },
     addResource: (state, action: PayloadAction<IResource>) => {
-      state.resources.push(action.payload);
+      state.resources.push({
+        ...action.payload,
+        users:
+          state.resources.find((resource) => resource.id === action.payload.id)
+            ?.users || {},
+      });
     },
     popResource: (state, action: PayloadAction<string>) => {
       state.resources = state.resources.filter(
@@ -33,6 +43,26 @@ export const resourceSlice = createSlice({
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+    },
+    addUser: (
+      state,
+      action: PayloadAction<{ resourceId: string; username: string }>
+    ) => {
+      const { resourceId, username } = action.payload;
+
+      state.resources = state.resources.map((resource) => {
+        if (resource.id == resourceId) {
+          return {
+            ...resource,
+            users: {
+              ...resource.users,
+              [username]: true,
+            },
+          };
+        }
+
+        return resource;
+      });
     },
   },
 });

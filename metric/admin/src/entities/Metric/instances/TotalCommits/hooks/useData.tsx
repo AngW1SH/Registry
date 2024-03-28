@@ -1,18 +1,19 @@
 import { IGenericSnapshotList } from "@/entities/Metric/types";
 import { TotalCommitsSchema } from "../types/validate";
 import { useAppDispatch } from "@/app/store";
-import { metricSlice } from "@/entities/Metric";
 import { useEffect } from "react";
 import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
+import { resourceSlice } from "@/entities/Resource";
 
 export const useData = (
   data: IGenericSnapshotList,
-  calendar: { start: Date | null; end: Date | null }
+  calendar: { start: Date | null; end: Date | null },
+  resourceId: string
 ) => {
   const successData = data.filter((item) => !item.error);
 
   const dispatch = useAppDispatch();
-  const users = useSelectedUsers();
+  const users = useSelectedUsers(resourceId);
 
   const parseResult = TotalCommitsSchema.safeParse(successData);
   if (!parseResult.success) return [];
@@ -20,7 +21,9 @@ export const useData = (
   useEffect(() => {
     parseResult.data.forEach((item) => {
       item.data.forEach((user) => {
-        dispatch(metricSlice.actions.addUser(user.name));
+        dispatch(
+          resourceSlice.actions.addUser({ resourceId, username: user.name })
+        );
       });
     });
   }, []);
