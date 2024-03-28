@@ -16,6 +16,19 @@ const TotalCommits: FC<TotalCommitsProps> = ({ className, ...metric }) => {
 
   const commitCount = calculate(data);
 
+  if (!data.length)
+    return (
+      <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
+        <h3 className="text-[#A3AED0] text-sm font-medium">Commits</h3>
+        <div className="text-[#A3AED0] text-sm mt-2 font-medium">
+          <div className="pt-3" />
+          <span className="text-[#2B3674] pt-5 text-center text-2xl font-bold mr-2">
+            No data has been collected
+          </span>{" "}
+        </div>
+      </div>
+    );
+
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
       <h3 className="text-[#A3AED0] text-sm font-medium">Commits</h3>
