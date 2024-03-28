@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"regexp"
 	"strconv"
 )
 
-type ReturnValue struct {
+type Result struct {
+	Name string `json:"name"`
 	Value uint `json:"value"`
 }
 
@@ -21,6 +24,67 @@ func getEndpoint(parsedData interface{}) string {
 	}
 
 	return ""
+}
+
+func getContributors(endpoint string) []string {
+	resp, err := http.Get(endpoint + "contributors")
+
+	if err != nil {
+		return nil
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var parsedBody []interface{}
+
+	err = json.Unmarshal(body, &parsedBody)
+
+	if err != nil {
+		return nil
+	}
+
+	var result []string
+
+	for _, v := range parsedBody {
+		result = append(result, v.(map[string]interface{})["login"].(string))
+	}
+
+	return result
+}
+
+func getContributorCommits(endpoint string, contributor string) (uint, error) {
+	resp, err := http.Get(endpoint + "commits?per_page=1&author=" + contributor)
+
+	if err != nil {
+		return 0, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return 0, errors.New("failed to fetch data")
+	}
+
+	pattern := `page=(\d+)>; rel="last"`
+
+    // Compile the regular expression
+    re := regexp.MustCompile(pattern)
+
+    // Find the submatch in the string
+    match := re.FindStringSubmatch(resp.Header.Get("Link"))
+
+	if len(match) == 0 {
+		return 0, errors.New("failed to find the submatch in the Link header")
+	}
+
+	numValue, err := strconv.Atoi(match[1])
+
+	return uint(numValue), err
 }
 
 func TotalCommitsMetric(data interface{}) (string, error) {
@@ -38,39 +102,26 @@ func TotalCommitsMetric(data interface{}) (string, error) {
 		return "", errors.New("no API endpoint")
 	}
 
-	resp, err := http.Get(endpoint + "commits?per_page=1")
+	contributors := getContributors(endpoint)
 
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
+	resultData := []Result{}
 
-	if resp.StatusCode != 200 {
-		return "", errors.New("failed to fetch data")
-	}
+	for _, contributor := range contributors {
+		commits, err := getContributorCommits(endpoint, contributor)
 
-	pattern := `page=(\d+)>; rel="last"`
+		if err != nil {
+			return "", err
+		}
 
-    // Compile the regular expression
-    re := regexp.MustCompile(pattern)
-
-	fmt.Println(resp.Header.Get("Link"))
-    // Find the submatch in the string
-    match := re.FindStringSubmatch(resp.Header.Get("Link"))
-
-	if len(match) == 0 {
-		return "", errors.New("failed to find the submatch in the Link header")
+		resultData = append(resultData, Result{
+			Name: contributor,
+			Value: commits,
+		})
 	}
 
-	numValue, err := strconv.Atoi(match[1])
+	fmt.Println(resultData)
 
-	if err != nil {
-		return "", err
-	}
-
-	result, error := json.Marshal(ReturnValue{
-		Value: uint(numValue),
-	})
+	result, error := json.Marshal(resultData)
 
 	if error != nil {
 		return "", nil
