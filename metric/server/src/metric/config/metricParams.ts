@@ -1,7 +1,7 @@
 import { MetricParamType, MetricParamsConfig, UnitOfTime } from './types';
 
 export const metricParams: MetricParamsConfig = {
-  CommitsPerDay: [
+  TotalCommits: [
     {
       type: MetricParamType.text,
       name: 'gradeWeight',

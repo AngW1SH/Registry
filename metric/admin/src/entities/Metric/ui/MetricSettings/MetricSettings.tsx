@@ -8,6 +8,7 @@ interface MetricSettingsProps {
   className?: string;
   children: ReactNode;
   data: any;
+  name: string;
   aside?: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
   children,
   aside,
   data: metricData,
+  name,
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
@@ -27,7 +29,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
         "bg-background relative pt-7 rounded-lg pb-11 px-7 " + className
       }
     >
-      <h3 className="text-xl text-[#A3AED0] font-medium">Commits Per Day</h3>
+      <h3 className="text-xl text-[#A3AED0] font-medium">{name}</h3>
       <div className="pt-6" />
       <Checkbox
         className="text-[#A3AED0]"

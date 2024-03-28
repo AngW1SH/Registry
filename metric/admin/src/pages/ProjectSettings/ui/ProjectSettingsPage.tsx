@@ -75,6 +75,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                     .map((metric) => (
                       <li key={metric.id} className="min-w-[47%] max-w-[47%]">
                         <MetricSettings
+                          name={metric.name}
                           data={metric.data}
                           aside={
                             <div className="flex flex-col gap-y-3">
