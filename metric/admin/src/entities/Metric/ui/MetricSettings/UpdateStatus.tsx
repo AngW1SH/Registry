@@ -62,11 +62,7 @@ export const options = {
 const UpdateStatus: FC<UpdateStatusProps> = ({ data }) => {
   const labels = generateMonthLabels(data);
 
-  console.log(data);
-
   const vals = generateStatusValues(data, labels);
-
-  console.log(vals);
 
   const values = {
     labels,

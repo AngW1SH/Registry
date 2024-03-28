@@ -20,6 +20,4 @@ export const fetchStartTask = async (metric: string) => {
       },
     }),
   });
-
-  console.log(result);
 };
