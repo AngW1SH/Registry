@@ -1,10 +1,13 @@
+import { IGenericSnapshotList } from "@/entities/Metric/types";
 import { CommitsPerDaySchema } from "../types/validate";
 
 export const useData = (
-  data: unknown,
+  data: IGenericSnapshotList,
   calendar: { start: Date | null; end: Date | null }
 ) => {
-  const parseResult = CommitsPerDaySchema.safeParse(data);
+  const successData = data.filter((item) => !item.error);
+
+  const parseResult = CommitsPerDaySchema.safeParse(successData);
   if (!parseResult.success) return [];
 
   return parseResult.data.filter((item) => {

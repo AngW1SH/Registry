@@ -267,7 +267,7 @@ export class MetricService {
       ...metric,
       data: snapshots.map((snapshot) => ({
         error: snapshot.error,
-        data: JSON.parse(snapshot.data),
+        data: snapshot.data ? JSON.parse(snapshot.data) : '',
         timestamp: snapshot.timestamp,
       })),
     };
