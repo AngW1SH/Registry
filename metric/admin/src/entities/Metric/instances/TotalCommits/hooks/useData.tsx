@@ -10,7 +10,7 @@ export const useData = (
   calendar: { start: Date | null; end: Date | null },
   resourceId: string
 ) => {
-  const successData = data.filter((item) => !item.error);
+  const successData = data.filter((item) => !item.error && item.data);
 
   const dispatch = useAppDispatch();
   const users = useSelectedUsers(resourceId);
