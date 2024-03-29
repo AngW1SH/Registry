@@ -1,6 +1,8 @@
 package metrics
 
 import (
+	"core/models"
+	"core/repositories"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -87,10 +89,10 @@ func getContributorCommits(endpoint string, contributor string) (uint, error) {
 	return uint(numValue), err
 }
 
-func TotalCommitsMetric(data interface{}) (string, error) {
+func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository) (string, error) {
 	var parsed []interface{}
 
-	err := json.Unmarshal([]byte(data.(string)), &parsed)
+	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
 		return "", err

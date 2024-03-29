@@ -147,7 +147,7 @@ func (q *Queue) AdvanceTasks() {
 	
 			if metrics.List[oldestUpdated.Metric] != nil {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
-					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish);
+					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish, q.snapshotRepo);
 					found = true
 				} else if q.tasks.GetTask(oldestUpdated.Id) != nil {
 					q.tasks.GetTask(oldestUpdated.Id).AttemptedAt = time.Now()
