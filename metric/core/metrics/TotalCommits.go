@@ -5,7 +5,6 @@ import (
 	"core/repositories"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -89,19 +88,22 @@ func getContributorCommits(endpoint string, contributor string) (uint, error) {
 	return uint(numValue), err
 }
 
-func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository) (string, error) {
+func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var parsed []interface{}
 
 	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
-		return "", err
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+		return;
 	}
 
 	endpoint := getEndpoint(parsed)
 
 	if endpoint == "" {
-		return "", errors.New("no API endpoint")
+
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API endpoint"})
+		return;
 	}
 
 	contributors := getContributors(endpoint)
@@ -112,7 +114,8 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 		commits, err := getContributorCommits(endpoint, contributor)
 
 		if err != nil {
-			return "", err
+			repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+			return;
 		}
 
 		resultData = append(resultData, Result{
@@ -121,13 +124,12 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 		})
 	}
 
-	fmt.Println(resultData)
-
 	result, error := json.Marshal(resultData)
 
 	if error != nil {
-		return "", nil
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+		return;
 	}
 
-	return string(result), nil
+	repo.Create(&models.Snapshot{Metric: task.Metric, Data: string(result), Groups: task.Groups, Error: ""})
 }

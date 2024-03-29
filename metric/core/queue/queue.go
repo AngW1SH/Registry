@@ -98,16 +98,8 @@ func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
 	return result
 }
 
-func (q *Queue) onFinish(task models.Task, result string, err error) {
+func (q *Queue) onFinish(task models.Task) {
 	q.load -= task.Weight
-
-	var errText string
-
-	if (err != nil) {
-		errText = err.Error()
-	}
-
-	q.snapshotRepo.Create(&models.Snapshot{Metric: task.Metric, Data: result, Groups: task.Groups, Error: errText})
 
 	if q.tasks.GetTask(task.Id) != nil {
 

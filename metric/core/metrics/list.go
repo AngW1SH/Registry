@@ -5,6 +5,6 @@ import (
 	"core/repositories"
 )
 
-var List = map[string]func(task models.Task, repo *repositories.SnapshotRepository) (string, error){
+var List = map[string]func(task models.Task, repo *repositories.SnapshotRepository) {
 	"TotalCommits": TotalCommitsMetric,
 }
