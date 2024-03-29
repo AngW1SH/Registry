@@ -18,6 +18,7 @@ func NewSnapshotRepository(db *gorm.DB) *SnapshotRepository {
 func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult {
 
 	groups := snapshot.Groups
+	params := snapshot.Params
 
 	snapshotDB := models.SnapshotDB{Metric: snapshot.Metric, Data: snapshot.Data}
 
@@ -37,6 +38,21 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 		}
 
 		err = r.db.CreateInBatches(&groupsDB, len(groupsDB)).Error
+	}
+
+	if len(params) > 0 {
+
+		paramsDB := []models.SnapshotParamDB{}
+
+		for _, param := range params {
+			paramsDB = append(paramsDB, models.SnapshotParamDB{
+				SnapshotDBID: snapshotDB.ID,
+				Name: param.Name,
+				Value: param.Value,
+			})
+		}
+
+		err = r.db.CreateInBatches(&paramsDB, len(paramsDB)).Error
 	}
 
 	if err != nil {

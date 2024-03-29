@@ -45,11 +45,17 @@ type MetricType struct {
 	Payload func()
 }
 
+type SnapshotParam struct {
+	Name string
+	Value string
+}
+
 type Snapshot struct {
 	Metric string
 	Data string
 	Groups []string
 	Error string
+	Params []SnapshotParam
 	Timestamp time.Time
 }
 
@@ -59,6 +65,7 @@ type SnapshotDB struct {
 	Data string
 	Error string
 	Groups []SnapshotGroupDB
+	Params []SnapshotParamDB
 }
 
 // Sort of like a className in CSS,
@@ -68,4 +75,11 @@ type SnapshotGroupDB struct {
 	gorm.Model
 	Name string
 	SnapshotDBID uint 
+}
+
+type SnapshotParamDB struct {
+	gorm.Model
+	Name string
+	Value string
+	SnapshotDBID uint
 }
