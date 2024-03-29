@@ -1,3 +1,5 @@
+import { MetricNames } from '../metric.entity';
+
 export interface GenericParam {
   name: string;
   label: string;
@@ -60,4 +62,7 @@ export enum MetricParamType {
 
 export type MetricParamsConfig = {
   [key in string]: MetricParam[];
+};
+export type MetricDependencies = {
+  [key in MetricNames]: MetricNames[];
 };

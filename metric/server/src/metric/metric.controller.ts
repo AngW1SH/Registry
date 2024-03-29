@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import {
+  AbstractMetricDetailed,
   MetricCreate,
   MetricDTO,
   MetricWithSnapshotsDTO,
@@ -30,13 +31,15 @@ export class MetricController {
   }
 
   @Post()
-  async create(@Body() metric: MetricCreate): Promise<MetricWithSnapshotsDTO> {
+  async create(
+    @Body() metric: MetricCreate,
+  ): Promise<MetricWithSnapshotsDTO[]> {
     const result = await this.metricService.create(metric);
 
-    return {
-      ...result,
-      params: JSON.parse(result.params),
-    };
+    return result.map((metric) => ({
+      ...metric,
+      params: JSON.parse(metric.params),
+    }));
   }
 
   @Post(':id/start')
@@ -58,7 +61,7 @@ export class MetricController {
   }
 
   @Get()
-  async listAll(): Promise<string[]> {
+  async listAll(): Promise<AbstractMetricDetailed[]> {
     const result = await this.metricService.listAll();
 
     return result;

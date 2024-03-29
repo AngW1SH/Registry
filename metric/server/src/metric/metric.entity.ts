@@ -8,6 +8,10 @@ export interface AbstractMetric {
   name: string;
 }
 
+export interface AbstractMetricDetailed extends AbstractMetric {
+  dependencies: MetricNames[];
+}
+
 export interface MetricSnapshot {
   error: string;
   data: string;
@@ -40,4 +44,9 @@ export interface MetricWithSnapshots extends Metric {
 
 export interface MetricWithSnapshotsDTO extends MetricDTO {
   data: MetricSnapshot[];
+}
+
+export enum MetricNames {
+  TotalCommits = 'TotalCommits',
+  Commits = 'Commits',
 }

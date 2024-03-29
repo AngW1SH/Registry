@@ -6,6 +6,10 @@ export interface IAbstractMetric {
   name: MetricName;
 }
 
+export interface IAbstractMetricDetailed extends IAbstractMetric {
+  dependencies: MetricName[];
+}
+
 export interface IMetric extends IAbstractMetric {
   resource: string;
   params: IMetricParam[];
@@ -15,6 +19,7 @@ export interface IMetric extends IAbstractMetric {
 
 export enum MetricName {
   TotalCommits = "TotalCommits",
+  Commits = "Commits",
 }
 
 export const GenericSnapshotListSchema = z.array(

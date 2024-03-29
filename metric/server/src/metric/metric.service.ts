@@ -2,14 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
   AbstractMetric,
+  AbstractMetricDetailed,
   Metric,
   MetricCreate,
+  MetricNames,
   MetricSnapshot,
   MetricWithSnapshots,
 } from './metric.entity';
 import { metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
+import { metricDependencies } from './config/metricDependencies';
 
 @Injectable()
 export class MetricService {
@@ -45,10 +48,13 @@ export class MetricService {
     }));
   }
 
-  async listAll(): Promise<string[]> {
+  async listAll(): Promise<AbstractMetricDetailed[]> {
     const result = await this.prisma.metric.findMany();
 
-    return result.map((metric) => metric.name);
+    return result.map((metric) => ({
+      ...metric,
+      dependencies: metricDependencies[metric.name] || [],
+    }));
   }
 
   async updateParams(metric: Metric) {
@@ -187,8 +193,17 @@ export class MetricService {
     });
   }
 
-  async create(metric: MetricCreate): Promise<MetricWithSnapshots> {
+  async create(metric: MetricCreate): Promise<MetricWithSnapshots[]> {
     const config = metricParams[metric.name];
+    const dependencies = metricDependencies[metric.name];
+
+    const res: MetricWithSnapshots[] = [];
+
+    const depsCreateRequests = await Promise.all(
+      dependencies.map((name) => this.create({ ...metric, name })),
+    );
+
+    depsCreateRequests.forEach((metric) => res.push(...metric));
 
     if (!config) throw new Error('Metric not found');
 
@@ -235,14 +250,16 @@ export class MetricService {
       },
     });
 
-    return {
+    res.push({
       id: result.id,
       name: result.metric.name,
       resource: result.resourceId,
       params: result.params || '[]',
       data: [],
       isTracked: null,
-    };
+    });
+
+    return res;
   }
 
   async deleteOne(id) {

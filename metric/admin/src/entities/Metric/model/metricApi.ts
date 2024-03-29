@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IMetric } from "..";
+import { IAbstractMetricDetailed } from "../types";
 
 export interface MetricParams {
   project: string;
@@ -11,10 +12,10 @@ export const metricApi = createApi({
   reducerPath: "metricApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5173/api/" }),
   endpoints: (build) => ({
-    getMetricNames: build.query<string[], void>({
+    getMetricNames: build.query<IAbstractMetricDetailed[], void>({
       query: () => "metric",
     }),
-    createMetric: build.mutation<IMetric, MetricParams>({
+    createMetric: build.mutation<IMetric[], MetricParams>({
       query: (metricParams) => ({
         url: "metric",
         method: "POST",
