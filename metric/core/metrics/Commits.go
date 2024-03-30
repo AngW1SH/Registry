@@ -10,8 +10,11 @@ import (
 	"time"
 )
 
-func getCommitBatch(endpoint string, page int) []interface{} {
-	resp, err := http.Get(endpoint + "commits?per_page=100&page=" + strconv.Itoa(page))
+func getCommitBatch(endpoint string, page int, apiKeys []string) []interface{} {
+	client := http.Client{}
+	req, _ := http.NewRequest("GET", endpoint + "commits?per_page=100&page=" + strconv.Itoa(page), nil)
+	req.Header.Set("Authorization", "Bearer " + apiKeys[0])
+	resp, err := client.Do(req)
 
 	if err != nil {
 		return nil
@@ -55,6 +58,12 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		return;
 	}
 
+	apiKeys := getAPIKeys(parsed)
+
+	if len(apiKeys) == 0 {
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
+	}
+
 	// CommitsMetric queries all commits up until the current date,
 	// so checking the latest update date will tell us when to stop querying
 	// to prevent duplicating data
@@ -67,7 +76,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var commits []interface{}
 
 	page := 1
-	commitsBatch := getCommitBatch(endpoint, page)
+	commitsBatch := getCommitBatch(endpoint, page, apiKeys)
 
 	out:
 	for len(commitsBatch) != 0 {
@@ -89,7 +98,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		}
 
 		page += 1
-		commitsBatch = getCommitBatch(endpoint, page)
+		commitsBatch = getCommitBatch(endpoint, page, apiKeys)
 	}
 
 	var result []*models.Snapshot

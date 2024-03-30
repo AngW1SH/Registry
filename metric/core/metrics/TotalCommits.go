@@ -27,8 +27,26 @@ func getEndpoint(parsedData interface{}) string {
 	return ""
 }
 
-func getContributors(endpoint string) []string {
-	resp, err := http.Get(endpoint + "contributors")
+func getAPIKeys(parsedData interface{}) []string {
+	for _, v := range parsedData.([]interface{}) {
+		if v.(map[string]interface{})["label"] == "API Keys" {
+			var result []string
+
+			for _, apiKey := range v.(map[string]interface{})["value"].([]interface{}) {
+				result = append(result, apiKey.(string))
+			}
+			return result
+		}
+	}
+
+	return nil
+}
+
+func getContributors(endpoint string, apiKeys []string) []string {
+	client := http.Client{}
+	req, _ := http.NewRequest("GET", endpoint + "contributors", nil)
+	req.Header.Set("Authorization", "Bearer " + apiKeys[0])
+	resp, err := client.Do(req)
 
 	if err != nil {
 		return nil
@@ -59,8 +77,11 @@ func getContributors(endpoint string) []string {
 	return result
 }
 
-func getContributorCommits(endpoint string, contributor string) (uint, error) {
-	resp, err := http.Get(endpoint + "commits?per_page=1&author=" + contributor)
+func getContributorCommits(endpoint string, contributor string, apiKeys []string) (uint, error) {
+	client := http.Client{}
+	req, _ := http.NewRequest("GET", endpoint + "commits?per_page=1&author=" + contributor, nil)
+	req.Header.Set("Authorization", "Bearer " + apiKeys[0])
+	resp, err := client.Do(req)
 
 	if err != nil {
 		return 0, err
@@ -106,12 +127,18 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 		return;
 	}
 
-	contributors := getContributors(endpoint)
+	apiKeys := getAPIKeys(parsed)
+
+	if len(apiKeys) == 0 {
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
+	}
+
+	contributors := getContributors(endpoint, apiKeys)
 
 	resultData := []Result{}
 
 	for _, contributor := range contributors {
-		commits, err := getContributorCommits(endpoint, contributor)
+		commits, err := getContributorCommits(endpoint, contributor, apiKeys)
 
 		if err != nil {
 			repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
