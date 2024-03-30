@@ -28,7 +28,7 @@ func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskS
 
 	if err != nil {
 		fmt.Println(err)
-		return &TaskStopResponse{Task: &TaskInfo{}}, err
+		return &TaskStopResponse{Task: &TaskInfo{}}, nil
 	}
 
 	if task == nil {

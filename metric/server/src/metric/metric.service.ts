@@ -267,7 +267,7 @@ export class MetricService {
   async deleteOne(id) {
     try {
       const result = await this.stop(id);
-    } catch {
+    } catch (err) {
       throw new Error('Failed to stop the metric');
     }
 
