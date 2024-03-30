@@ -9,7 +9,7 @@ const Metric: FC<MetricProps> = (metric) => {
     case "TotalCommits":
       return <TotalCommits {...metric} />;
     default:
-      return <div></div>;
+      return <></>;
   }
 };
 

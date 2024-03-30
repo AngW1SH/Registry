@@ -8,13 +8,11 @@ interface MetricListProps {
 
 const MetricList: FC<MetricListProps> = ({ metrics }) => {
   return (
-    <ul className="grid grid-cols-3">
+    <div className="grid grid-cols-3">
       {metrics.map((metric) => (
-        <li key={metric.id}>
-          <Metric {...metric} />
-        </li>
+        <Metric {...metric} />
       ))}
-    </ul>
+    </div>
   );
 };
 
