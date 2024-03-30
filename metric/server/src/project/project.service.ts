@@ -48,16 +48,8 @@ export class ProjectService {
               task.groups.includes('resource:' + resource.name)
             ) {
               metric.isTracked = true;
-            } else {
-              metric.isTracked = false;
             }
           });
-        });
-      });
-    } else {
-      resources.forEach((resource) => {
-        resource.metrics.forEach((metric) => {
-          metric.isTracked = false;
         });
       });
     }
