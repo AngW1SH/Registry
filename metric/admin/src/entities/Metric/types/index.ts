@@ -20,6 +20,8 @@ export interface IMetric extends IAbstractMetric {
 export enum MetricName {
   TotalCommits = "TotalCommits",
   Commits = "Commits",
+  IssueCompleteness = "IssueCompleteness",
+  Issues = "Issues",
 }
 
 export const GenericSnapshotListSchema = z.array(

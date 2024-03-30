@@ -127,6 +127,23 @@ func (r *SnapshotRepository) GetByGroup(group string) ([]models.SnapshotDB, erro
 	return snapshots, err
 }
 
+func (r *SnapshotRepository) GetByGroupList(metric string, groups []string) ([]models.SnapshotDB, error) {
+	var result []models.SnapshotDB
+	err := r.db.Where("id IN (?)", r.db.Table("snapshot_dbs").
+    	Select("snapshot_dbs.id").
+    	Joins("JOIN snapshot_group_dbs ON snapshot_dbs.id = snapshot_group_dbs.snapshot_db_id").
+    	Where("snapshot_group_dbs.name IN (?)", groups).
+		Where("snapshot_dbs.metric = ?", metric).
+		Where("snapshot_dbs.error IS NULL OR snapshot_dbs.error = ''").
+    	Group("snapshot_dbs.id").
+    	Having("COUNT(DISTINCT snapshot_group_dbs.name) = ?", len(groups))).  
+    	Preload("Groups").
+		Order("updated_at DESC"). 
+    	Find(&result).Error; 
+
+	return result, err
+}
+
 func (r *SnapshotRepository) GetLastestUpdateDate(metric string, groups []string) (time.Time, error) {
 	fmt.Println(metric)
 	fmt.Println(groups)
