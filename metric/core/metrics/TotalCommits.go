@@ -115,7 +115,7 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 		return;
 	}
 

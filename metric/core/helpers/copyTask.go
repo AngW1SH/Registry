@@ -13,5 +13,6 @@ func CopyTask(task *models.Task) *models.Task {
 		UpdateRate:  task.UpdateRate,
 		Weight:      task.Weight,
 		IsDeleted:   task.IsDeleted,
+		IsPublic:    task.IsPublic,
 	}
 }

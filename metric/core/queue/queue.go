@@ -53,6 +53,7 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 		UpdatedAt: data.UpdatedAt,
 		UpdateRate: data.UpdateRate,
 		Data: data.Data,
+		IsPublic: data.IsPublic,
 	}
 
 
