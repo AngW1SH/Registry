@@ -258,7 +258,7 @@ export class MetricService {
       resource: result.resourceId,
       params: result.params || '[]',
       data: [],
-      isTracked: null,
+      isTracked: true,
     });
 
     return res;
