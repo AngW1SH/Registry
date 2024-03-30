@@ -30,7 +30,7 @@ func (m *TaskMap) GetTask(id uuid.UUID) *models.Task {
 
 	result := m.tasks[id]
 
-	if result == nil || result.IsDeleted {
+	if result == nil {
 		return nil
 	}
 

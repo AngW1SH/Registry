@@ -102,7 +102,7 @@ func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
 func (q *Queue) onFinish(task models.Task) {
 	q.load -= task.Weight
 
-	if q.tasks.GetTask(task.Id) != nil {
+	if q.tasks.GetTask(task.Id) != nil && !q.tasks.GetTask(task.Id).IsDeleted {
 
 		q.tasks.GetTask(task.Id).UpdatedAt = time.Now()
 		q.tasks.GetTask(task.Id).AttemptedAt = time.Now()
@@ -123,7 +123,8 @@ func (q *Queue) AdvanceTasks() {
 		}
 
 		for q.load < q.Limit {
-			if q.queue.Len() == 0 || (q.load + q.queue.Peek().Weight > q.Limit) {
+			peek := q.queue.Peek()
+			if peek == nil || q.queue.Len() == 0 || (q.load + peek.Weight > q.Limit) {
 				break
 			}
 	
