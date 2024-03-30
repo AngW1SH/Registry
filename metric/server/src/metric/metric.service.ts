@@ -9,7 +9,7 @@ import {
   MetricSnapshot,
   MetricWithSnapshots,
 } from './metric.entity';
-import { metricParams } from './config/metricParams';
+import { IsMetricPublic, metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
 import { metricDependencies } from './config/metricDependencies';
@@ -114,7 +114,7 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
-      is_public: true,
+      is_public: IsMetricPublic[metric.name] || false,
     });
   }
 
@@ -156,7 +156,7 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
-      is_public: true,
+      is_public: IsMetricPublic[metric.name] || false,
     });
   }
 

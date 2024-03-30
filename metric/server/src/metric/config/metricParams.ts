@@ -36,3 +36,8 @@ export const metricParams: MetricParamsConfig = {
     },
   ],
 };
+
+export const IsMetricPublic = {
+  TotalCommits: true,
+  Commits: false,
+};

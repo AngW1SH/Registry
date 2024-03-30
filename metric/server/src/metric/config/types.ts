@@ -66,3 +66,7 @@ export type MetricParamsConfig = {
 export type MetricDependencies = {
   [key in MetricNames]: MetricNames[];
 };
+
+export type IsMetricPublic = {
+  [key in MetricNames]: boolean;
+};
