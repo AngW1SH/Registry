@@ -35,9 +35,23 @@ export const metricParams: MetricParamsConfig = {
       },
     },
   ],
+  Issues: [
+    {
+      type: MetricParamType.duration,
+      name: 'updateRate',
+      label: 'Update Rate',
+      tooltip: 'Update Rate',
+      placeholder: 'Enter update rate',
+      value: {
+        number: 2,
+        unitOfTime: UnitOfTime.weeks,
+      },
+    },
+  ],
 };
 
 export const IsMetricPublic = {
   TotalCommits: true,
   Commits: false,
+  Issues: false,
 };

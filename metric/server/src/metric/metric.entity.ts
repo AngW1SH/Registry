@@ -49,4 +49,5 @@ export interface MetricWithSnapshotsDTO extends MetricDTO {
 export enum MetricNames {
   TotalCommits = 'TotalCommits',
   Commits = 'Commits',
+  Issues = 'Issues',
 }
