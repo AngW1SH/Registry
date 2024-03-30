@@ -45,6 +45,21 @@ func (q *Queue) Start() {
 }
 
 func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
+
+	var found *models.Task
+	activeTasks := q.tasks.GetByGroups(data.Groups)
+
+	for _, task := range activeTasks {
+		if task.Metric == data.Metric {
+			found = task
+			break
+		}
+	}
+
+	if found != nil {
+		return found
+	}
+
 	task := models.Task{
 		Id: uuid.New(),
 		Metric: data.Metric,
@@ -55,7 +70,6 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 		Data: data.Data,
 		IsPublic: data.IsPublic,
 	}
-
 
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
