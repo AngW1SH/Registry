@@ -13,6 +13,7 @@ message TaskStartInfo {
     int32 weight = 4;
     string data = 5;
     repeated string groups = 6;
+    bool isPublic = 7;
 }
 
 message TaskInfo {
@@ -22,6 +23,7 @@ message TaskInfo {
     int32 weight = 4;
     string data = 5;
     repeated string groups = 6;
+    bool isPublic = 7;
 }
 
 message TaskStartRequest {

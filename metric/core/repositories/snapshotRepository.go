@@ -21,7 +21,7 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 	groups := snapshot.Groups
 	params := snapshot.Params
 
-	snapshotDB := models.SnapshotDB{Metric: snapshot.Metric, Data: snapshot.Data}
+	snapshotDB := models.SnapshotDB{Metric: snapshot.Metric, Data: snapshot.Data, IsPublic: snapshot.IsPublic}
 
 	err := r.db.Create(&snapshotDB).Error
 
@@ -71,6 +71,7 @@ func (r *SnapshotRepository) CreateInBatches(snapshots []*models.Snapshot) Repos
 		snapshotDBList = append(snapshotDBList, &models.SnapshotDB{
 			Metric: snapshot.Metric,
 			Data: snapshot.Data,
+			IsPublic: snapshot.IsPublic,
 		})
 	}
 
@@ -120,7 +121,7 @@ func (r *SnapshotRepository) CreateInBatches(snapshots []*models.Snapshot) Repos
 func (r *SnapshotRepository) GetByGroup(group string) ([]models.SnapshotDB, error) {
 	var snapshots []models.SnapshotDB
 
-	err := r.db.Preload("Groups").Where("id IN (?)", r.db.Table("snapshot_group_dbs").Select("snapshot_db_id").Where("name = ?", group)).Find(&snapshots).Error
+	err := r.db.Preload("Groups").Where("id IN (?)", r.db.Table("snapshot_group_dbs").Select("snapshot_db_id").Where("name = ?", group)).Where("snapshot_dbs.is_public IS TRUE").Find(&snapshots).Error
 
 	return snapshots, err
 }

@@ -17,6 +17,7 @@ type Task struct {
 	AttemptedAt time.Time
 	UpdateRate time.Duration
 	IsDeleted bool
+	IsPublic  bool   	// Tells if the snapshot data is allowed to be sent through gRPC API
 	Weight 	  int
 }
 
@@ -27,6 +28,7 @@ type TaskDB struct {
 	UpdatedAt time.Time
 	Groups pq.StringArray `gorm:"type:text[]"`
 	UpdateRate string
+	IsPublic  bool
 	Weight 	  int
 }
 
@@ -38,6 +40,7 @@ type TaskCreate struct {
 	Groups []string
 	Weight int
 	Data string
+	IsPublic  bool
 }
 
 type MetricType struct {
@@ -55,6 +58,7 @@ type Snapshot struct {
 	Data string
 	Groups []string
 	Error string
+	IsPublic bool
 	Params []SnapshotParam
 	Timestamp time.Time
 }
@@ -64,6 +68,7 @@ type SnapshotDB struct {
 	Metric string
 	Data string
 	Error string
+	IsPublic bool
 	Groups []SnapshotGroupDB
 	Params []SnapshotParamDB
 }

@@ -15,6 +15,7 @@ export interface TaskCreate {
   data: string;
   update_rate: Duration;
   groups: string[];
+  is_public: boolean;
 }
 
 export interface TaskStop {
@@ -31,4 +32,5 @@ export interface TaskCreateDTO {
     nanos: string | number;
   };
   groups: string[];
+  is_public: boolean;
 }

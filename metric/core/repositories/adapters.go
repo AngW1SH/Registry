@@ -25,6 +25,7 @@ func FromDBTask(dto *models.TaskDB) *models.Task {
 		UpdateRate: dur,
 		Weight:     int(dto.Weight),
 		IsDeleted:  false,
+		IsPublic:   dto.IsPublic,
 	}
 }
 
@@ -42,5 +43,6 @@ func ToDBTask(dto *models.Task) *models.TaskDB {
 		Weight:     int(dto.Weight),
 		Data:       dto.Data,
 		Groups:     dto.Groups,
+		IsPublic:   dto.IsPublic,
 	}
 }

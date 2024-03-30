@@ -114,6 +114,7 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
+      is_public: true,
     });
   }
 
@@ -155,6 +156,7 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
+      is_public: true,
     });
   }
 

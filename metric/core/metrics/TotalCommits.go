@@ -102,7 +102,7 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 
 	if endpoint == "" {
 
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API endpoint"})
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API endpoint", IsPublic: task.IsPublic})
 		return;
 	}
 
@@ -114,7 +114,7 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 		commits, err := getContributorCommits(endpoint, contributor)
 
 		if err != nil {
-			repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+			repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 			return;
 		}
 
@@ -127,9 +127,9 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	result, error := json.Marshal(resultData)
 
 	if error != nil {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 		return;
 	}
 
-	repo.Create(&models.Snapshot{Metric: task.Metric, Data: string(result), Groups: task.Groups, Error: ""})
+	repo.Create(&models.Snapshot{Metric: task.Metric, Data: string(result), Groups: task.Groups, Error: "", IsPublic: task.IsPublic})
 }

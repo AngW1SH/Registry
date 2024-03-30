@@ -16,6 +16,7 @@ func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
 		Weight:     int(dto.Weight),
 		Data:       dto.Data,
 		Groups:     dto.Groups,
+		IsPublic:   dto.IsPublic,
 	}
 }
 
@@ -27,6 +28,7 @@ func ToGRPCTaskInfo(dto *models.Task) *TaskInfo {
 		Weight:     int32(dto.Weight),
 		Data:       dto.Data,
 		Groups:     dto.Groups,
+		IsPublic:   dto.IsPublic,
 	}
 }
 
