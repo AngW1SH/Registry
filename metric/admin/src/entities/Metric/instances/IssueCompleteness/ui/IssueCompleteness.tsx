@@ -35,23 +35,29 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
     );
 
   return (
-    <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
+    <div
+      className={
+        "flex flex-col pt-9 pb-12 px-5 bg-background rounded-lg " + className
+      }
+    >
       <h3 className="text-[#A3AED0] text-sm font-medium">Issue Completeness</h3>
-      <div className="mt-3 flex justify-between">
-        <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-          <span className="text-[#2B3674] text-4xl font-bold mr-2">
-            {completed}
-          </span>{" "}
-          Completed Issues
+      <div className="my-auto pb-5">
+        <div className="mt-3 flex justify-between">
+          <div className="text-[#A3AED0] text-sm mt-2 font-medium">
+            <span className="text-[#2B3674] text-4xl font-bold mr-2">
+              {completed}
+            </span>{" "}
+            Completed Issues
+          </div>
+          <div className="text-[#A3AED0] text-sm mt-2 font-medium">
+            <span className="text-[#2B3674] text-4xl font-bold mr-2">
+              {total}
+            </span>{" "}
+            Total Issues
+          </div>
         </div>
-        <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-          <span className="text-[#2B3674] text-4xl font-bold mr-2">
-            {total}
-          </span>{" "}
-          Total Issues
-        </div>
+        <Meter className="mt-6" progress={(completed / total) * 100} />
       </div>
-      <Meter className="mt-6" progress={(completed / total) * 100} />
     </div>
   );
 };
