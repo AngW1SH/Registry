@@ -108,6 +108,7 @@ func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
 
 	if result != nil {
 		q.taskRepo.Update(result)
+		q.queue.Rebuild()
 	}
 
 	return result

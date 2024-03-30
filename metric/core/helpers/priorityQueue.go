@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"container/heap"
 	"core/models"
 	"fmt"
 	"sync"
@@ -77,4 +78,8 @@ func (pq *PriorityQueue) Peek() *models.Task {
         return nil
     }
     return pq.entries[0]
+}
+
+func (pq *PriorityQueue) Rebuild() {
+    heap.Init(pq)
 }
