@@ -6,6 +6,7 @@ import { fromGRPC } from './utils/fromGRPC';
 
 interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
+  stream: (data: { id: string }) => Observable<{ snapshot: SnapshotGRPC }>;
 }
 
 @Injectable()
@@ -17,6 +18,8 @@ export class SnapshotService {
   onModuleInit() {
     this.snapshotServiceGRPC =
       this.client.getService<SnapshotServiceGRPC>('SnapshotService');
+
+    this.stream('123');
   }
 
   async list(group: string): Promise<Snapshot[]> {
@@ -29,5 +32,13 @@ export class SnapshotService {
     }
 
     return result.Snapshots.map((snapshot) => fromGRPC(snapshot));
+  }
+
+  async stream(id: string) {
+    const result = this.snapshotServiceGRPC.stream({ id });
+
+    result.subscribe((snapshot) => {
+      console.log(fromGRPC(snapshot.snapshot));
+    });
   }
 }
