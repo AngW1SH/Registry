@@ -13,6 +13,7 @@ import { IsMetricPublic, metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
 import { metricDependencies } from './config/metricDependencies';
+import { TaskCreate } from 'src/task/task.entity';
 
 @Injectable()
 export class MetricService {
@@ -76,7 +77,7 @@ export class MetricService {
     return result;
   }
 
-  async start(metric: MetricCreate) {
+  async convertToTask(metric: MetricCreate): Promise<TaskCreate> {
     let params = metric.params ? JSON.parse(metric.params) : {};
     const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
@@ -103,7 +104,7 @@ export class MetricService {
 
     const resourceParams = JSON.parse(names.params);
 
-    return this.taskService.start({
+    return {
       metric: metric.name,
       weight: +weight,
       data: JSON.stringify([...params, ...resourceParams]),
@@ -115,49 +116,19 @@ export class MetricService {
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
       is_public: IsMetricPublic[metric.name] || false,
-    });
+    };
+  }
+
+  async start(metric: MetricCreate) {
+    const task = await this.convertToTask(metric);
+
+    return this.taskService.start(task);
   }
 
   async update(metric: MetricCreate) {
-    let params = metric.params ? JSON.parse(metric.params) : {};
-    const weight = params.find((param) => param.name == 'weight');
-    const updateRate = params.find((param) => param.name == 'updateRate');
-    params = params.filter(
-      (param) => param.name != 'updateRate' && param.name != 'weight',
-    );
+    const task = await this.convertToTask(metric);
 
-    const names = await this.prisma.resource.findFirst({
-      where: {
-        id: metric.resource,
-      },
-      select: {
-        name: true,
-        params: true,
-        project: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-
-    const [projectName, resourceName] = [names.project.name, names.name];
-
-    const resourceParams = JSON.parse(names.params);
-
-    return this.taskService.update({
-      metric: metric.name,
-      weight: +weight,
-      data: JSON.stringify([...params, ...resourceParams]),
-      update_rate: {
-        seconds: durationToSeconds(
-          updateRate?.value || { number: 1, unitOfTime: 'minutes' },
-        ),
-        nanos: 0,
-      },
-      groups: ['project:' + projectName, 'resource:' + resourceName],
-      is_public: IsMetricPublic[metric.name] || false,
-    });
+    return this.taskService.update(task);
   }
 
   async stop(id: string) {
