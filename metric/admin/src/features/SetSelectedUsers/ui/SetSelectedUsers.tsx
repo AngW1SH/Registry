@@ -22,6 +22,8 @@ const SetSelectedUsers: FC<SetSelectedUsersProps> = ({ resourceId }) => {
     );
   };
 
+  if (!users || !users.length) return <></>;
+
   return (
     <MultiselectDropdown
       onChange={handleChange}
