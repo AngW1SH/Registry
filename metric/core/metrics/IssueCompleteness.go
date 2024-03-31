@@ -4,6 +4,7 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
+	"time"
 )
 
 
@@ -19,8 +20,13 @@ func IssueCompletenessMetric(task models.Task, repo *repositories.SnapshotReposi
 
 	issues, err := repo.GetByGroupList("Issues", task.Groups)
 
-	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "IssueCompleteness", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
+	if err != nil || len(issues) == 0 {
+		time.Sleep(10 * time.Second)
+		issues, err = repo.GetByGroupList("Issues", task.Groups)
+
+		if (err != nil) {
+			repo.Create(&models.Snapshot{Metric: "IssueCompleteness", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
+		}
 	}
 
 	if len(issues) == 0 {

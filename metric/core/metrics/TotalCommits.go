@@ -4,7 +4,7 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
-	"fmt"
+	"time"
 )
 
 type Result struct {
@@ -50,8 +50,13 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	
 	commits, err := repo.GetByGroupList("Commits", task.Groups)
 
-	if err != nil {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
+	if err != nil || len(commits) == 0 {
+		time.Sleep(10 * time.Second)
+		commits, err = repo.GetByGroupList("Commits", task.Groups)
+
+		if err != nil {
+			repo.Create(&models.Snapshot{Metric: "TotalCommits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
+		}
 	}
 
 	resultData := []Result{}
@@ -59,15 +64,13 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	contributors := make(map[string] int)
 
 	if len(commits) == 0 {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "[]", Groups: task.Groups, Error: "", IsPublic: task.IsPublic})
+		repo.Create(&models.Snapshot{Metric: "TotalCommits", Data: "[]", Groups: task.Groups, Error: "", IsPublic: task.IsPublic})
 	}
 
 	for _, v := range commits {
 
 		var parsed interface{}
 		err := json.Unmarshal([]byte(v.Data), &parsed)
-
-		fmt.Println(parsed)
 
 		if err != nil {
 			repo.Create(&models.Snapshot{Metric: "TotalCommits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
@@ -94,9 +97,9 @@ func TotalCommitsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	result, error := json.Marshal(resultData)
 
 	if error != nil {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
+		repo.Create(&models.Snapshot{Metric: "TotalCommits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 		return;
 	}
 
-	repo.Create(&models.Snapshot{Metric: task.Metric, Data: string(result), Groups: task.Groups, Error: "", IsPublic: task.IsPublic})
+	repo.Create(&models.Snapshot{Metric: "TotalCommits", Data: string(result), Groups: task.Groups, Error: "", IsPublic: task.IsPublic})
 }
