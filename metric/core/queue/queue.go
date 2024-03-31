@@ -87,15 +87,17 @@ func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
 	return tasks, nil
 }
 
-func (q *Queue) UpdateTask(task *models.TaskCreate) *models.Task {
+func (q *Queue) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 	result := q.tasks.UpdateTask(task)
 
-	if result != nil {
-		q.taskRepo.Update(result)
-		q.queue.Rebuild()
+	if result == nil {
+		return nil, errors.New("task not found")
 	}
+	
+	q.taskRepo.Update(result)
+	q.queue.Rebuild()
 
-	return result
+	return result, nil
 }
 
 func (q *Queue) onFinish(task models.Task) {

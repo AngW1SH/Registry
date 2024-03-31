@@ -41,10 +41,10 @@ func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskS
 func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
 	fmt.Println("Update ", message.Task.Metric)
 
-	task := s.Queue.UpdateTask(FromGRPCTaskStartInfo(message.Task))
+	task, err := s.Queue.UpdateTask(FromGRPCTaskStartInfo(message.Task))
 
-	if task == nil {
-		return &TaskStartResponse{Task: &TaskInfo{}}, nil
+	if err != nil {
+		return &TaskStartResponse{Task: &TaskInfo{}}, err
 	}
 
 	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil

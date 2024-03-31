@@ -78,20 +78,16 @@ func (m *TaskMap) DeleteTask(id uuid.UUID) {
 func (m *TaskMap) UpdateTask(task *models.TaskCreate) *models.Task {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	
-	var result *models.Task
 
-	for id, t := range m.tasks {
+	for _, t := range m.tasks {
 		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && !t.IsDeleted {
-			m.tasks[id].UpdateRate = task.UpdateRate
-			m.tasks[id].Weight = task.Weight
-			m.tasks[id].Data = task.Data
+			t.UpdateRate = task.UpdateRate
+			t.Weight = task.Weight
+			t.Data = task.Data
 
-			result = m.tasks[id]
-
-			break
+			return t
 		}
 	}
 
-	return result
+	return nil
 }
