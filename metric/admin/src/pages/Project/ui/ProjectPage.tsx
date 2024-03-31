@@ -11,6 +11,7 @@ import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForceUser } from "@/entities/User";
 import { SetSelectedUsers } from "@/features/SetSelectedUsers";
+import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
 
 interface ProjectPageProps {}
 
@@ -34,6 +35,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
   }, []);
 
   useForceUser();
+
+  useMetricDataUpdate();
 
   if (!project) return <div></div>;
 

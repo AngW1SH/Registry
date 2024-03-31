@@ -24,6 +24,15 @@ export enum MetricName {
   Issues = "Issues",
 }
 
+export interface IMetricData {
+  resource: string;
+  metric: MetricName;
+  project: string;
+  data: string;
+  timestamp: Date;
+  error: string | null;
+}
+
 export const GenericSnapshotListSchema = z.array(
   z.object({
     error: z.string().optional(),

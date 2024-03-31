@@ -4,7 +4,7 @@ import { Data } from './metric-gateway.entity';
 import { Snapshot } from 'src/snapshot/snapshot.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class MetricGateway {
   @WebSocketServer()
   server: Server;
@@ -36,9 +36,14 @@ export class MetricGateway {
       },
     });
 
-    const metric = await this.prisma.metric.findFirst({
+    const metric = await this.prisma.resourceMetric.findFirst({
       where: {
-        name: data.metric,
+        resource: {
+          id: resource.id,
+        },
+        metric: {
+          name: data.metric,
+        },
       },
     });
 
@@ -50,6 +55,8 @@ export class MetricGateway {
       data: data.data,
       timestamp: data.timestamp,
     };
+
+    console.log(result);
 
     this.server.emit('message', result);
   }
