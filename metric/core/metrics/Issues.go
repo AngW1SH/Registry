@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 	"strconv"
 	"time"
 )
@@ -87,9 +88,19 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		for _, issue := range issuesBatch {
 			issuesDate := fmt.Sprintf("%v", issue.(map[string]interface{})["created_at"])
 
+
 			date, err := time.Parse("2006-01-02T15:04:05Z", issuesDate)
 
 			if err != nil {
+				continue
+			}
+
+			// if issue["html_url"] has '/pull/', continue
+			pattern := `/pull/`
+			re := regexp.MustCompile(pattern)
+			match := re.FindStringSubmatch(issue.(map[string]interface{})["html_url"].(string))
+
+			if len(match) == 1 {
 				continue
 			}
 
