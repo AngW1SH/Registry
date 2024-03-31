@@ -7,7 +7,6 @@ import (
 	"core/repositories"
 	"core/structures"
 	"core/tasks"
-	"errors"
 	"time"
 )
 type Queue struct {
@@ -37,7 +36,7 @@ func (q *Queue) Start() {
 
 	for _, task := range tasks {
 		heap.Push(&q.queue, task)
-		q.tasks.AddTask(task.Id, task)
+		q.tasks.AddTask(task)
 	}
 
 	go q.AdvanceTasks()
@@ -58,7 +57,7 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
 
-	q.tasks.AddTask(task.Id, &task)
+	q.tasks.AddTask(&task)
 	heap.Push(&q.queue, &task)
 
 	q.taskRepo.Create(&task)
@@ -68,15 +67,13 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 
 func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
 
-	task := q.tasks.MarkDelete(metric, groups)
+	task, err := q.tasks.MarkDelete(metric, groups)
 
-	if task == nil {
-		return nil, errors.New("task not found")
+	if err != nil {
+		return nil, err
 	}
 
-	if task != nil {
-		q.taskRepo.Delete(task.Id)
-	}
+	q.taskRepo.Delete(task.Id)
 
 	return task, nil
 }
@@ -88,10 +85,10 @@ func (q *Queue) ListTasks(groups []string) []*models.Task {
 }
 
 func (q *Queue) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
-	result := q.tasks.UpdateTask(task)
+	result, err := q.tasks.UpdateTask(task)
 
-	if result == nil {
-		return nil, errors.New("task not found")
+	if err != nil {
+		return nil, err
 	}
 	
 	q.taskRepo.Update(result)

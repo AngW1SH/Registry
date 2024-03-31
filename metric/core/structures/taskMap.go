@@ -3,7 +3,7 @@ package structures
 import (
 	"core/helpers"
 	"core/models"
-	"fmt"
+	"errors"
 	"sync"
 
 	"github.com/google/uuid"
@@ -18,11 +18,21 @@ func NewTaskMap() *TaskMap {
 	return &TaskMap{tasks: make(map[uuid.UUID]*models.Task)}
 }
 
-func (m *TaskMap) AddTask(id uuid.UUID, task *models.Task) {
+func (m *TaskMap) AddTask(task *models.Task) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
+	if task == nil {
+		return errors.New("task cannot be nil")
+	}
+
+	if task.Id == uuid.Nil {
+		return errors.New("task id cannot be nil")
+	}
+
 	m.tasks[task.Id] = task
+
+	return nil
 }
 
 func (m *TaskMap) GetTask(id uuid.UUID) *models.Task {
@@ -52,20 +62,24 @@ func (m *TaskMap) GetByGroups(groups []string) []*models.Task {
 	return result
 }
 
-func (m *TaskMap) MarkDelete(metric string, groups []string) *models.Task {
+func (m *TaskMap) MarkDelete(metric string, groups []string) (*models.Task, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	var task *models.Task
-	for id, t := range m.tasks {
-		if t.Metric == metric && helpers.ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
-			fmt.Println("Found task to delete with id: ", id)
-			m.tasks[id].IsDeleted = true
-			task = m.tasks[id]
+	for _, task := range m.tasks {
+		if task.Metric == metric && helpers.ContainsAllElements(task.Groups, groups) {
+
+			if task.IsDeleted {
+				return nil, errors.New("task is already deleted")
+			}
+
+			task.IsDeleted = true
+
+			return task, nil
 		}
 	}
 
-	return task
+	return nil, errors.New("task not found")
 }
 
 func (m *TaskMap) DeleteTask(id uuid.UUID) {
@@ -75,19 +89,28 @@ func (m *TaskMap) DeleteTask(id uuid.UUID) {
 	delete(m.tasks, id)
 }
 
-func (m *TaskMap) UpdateTask(task *models.TaskCreate) *models.Task {
+func (m *TaskMap) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
 	for _, t := range m.tasks {
 		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && !t.IsDeleted {
-			t.UpdateRate = task.UpdateRate
-			t.Weight = task.Weight
-			t.Data = task.Data
+			
+			if task.UpdateRate != 0 {
+				t.UpdateRate = task.UpdateRate
+			}
 
-			return t
+			if task.Weight != 0 {
+				t.Weight = task.Weight
+			}
+			
+			if task.Data != "" {
+				t.Data = task.Data
+			}
+
+			return t, nil
 		}
 	}
 
-	return nil
+	return nil, errors.New("task not found")
 }
