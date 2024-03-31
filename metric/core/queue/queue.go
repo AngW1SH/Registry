@@ -46,18 +46,12 @@ func (q *Queue) Start() {
 
 func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 
-	var found *models.Task
 	activeTasks := q.tasks.GetByGroups(data.Groups)
 
 	for _, task := range activeTasks {
 		if task.Metric == data.Metric {
-			found = task
-			break
+			return task
 		}
-	}
-
-	if found != nil {
-		return found
 	}
 
 	task := models.Task{
