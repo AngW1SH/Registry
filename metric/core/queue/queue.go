@@ -3,10 +3,10 @@ package queue
 import (
 	"container/heap"
 	"core/helpers"
-	"core/metrics"
 	"core/models"
 	"core/repositories"
 	"core/structures"
+	"core/tasks"
 	"errors"
 	"time"
 )
@@ -136,9 +136,9 @@ func (q *Queue) AdvanceTasks() {
 				continue
 			}
 	
-			if metrics.List[oldestUpdated.Metric] != nil {
+			if tasks.List[oldestUpdated.Metric] != nil {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
-					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish, q.snapshotRepo);
+					tasks.Run(*oldestUpdated, tasks.List[oldestUpdated.Metric], q.onFinish, q.snapshotRepo);
 					q.load += oldestUpdated.Weight
 				} else if q.tasks.GetTask(oldestUpdated.Id) != nil {
 					q.tasks.GetTask(oldestUpdated.Id).AttemptedAt = time.Now()

@@ -1,4 +1,4 @@
-package metrics
+package tasks
 
 import (
 	"core/models"
