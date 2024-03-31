@@ -28,3 +28,15 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 
 	return &SnapshotListResult{Snapshots: result}, nil
 }
+
+func (s *SnapshotServer) Stream(request *SnapshotStreamRequest, stream SnapshotService_StreamServer) error {
+	fmt.Println("SnapshotStream", request.Id)
+
+	for snapshot := range s.Repo.Stream {
+		if err := stream.Send(&SnapshotStreamResult{Snapshot: ToGRPCSnapshotInfo(snapshot)}); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

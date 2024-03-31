@@ -23,6 +23,15 @@ message SnapshotListResult {
     repeated SnapshotInfo Snapshots = 1;
 }
 
+message SnapshotStreamRequest {
+    string id = 1;
+}
+
+message SnapshotStreamResult {
+    SnapshotInfo snapshot = 1;
+}
+
 service SnapshotService {
     rpc List(SnapshotListRequest) returns (SnapshotListResult);
+    rpc Stream(SnapshotStreamRequest) returns (stream SnapshotStreamResult);
 }

@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SnapshotService_List_FullMethodName = "/api.SnapshotService/List"
+	SnapshotService_List_FullMethodName   = "/api.SnapshotService/List"
+	SnapshotService_Stream_FullMethodName = "/api.SnapshotService/Stream"
 )
 
 // SnapshotServiceClient is the client API for SnapshotService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SnapshotServiceClient interface {
 	List(ctx context.Context, in *SnapshotListRequest, opts ...grpc.CallOption) (*SnapshotListResult, error)
+	Stream(ctx context.Context, in *SnapshotStreamRequest, opts ...grpc.CallOption) (SnapshotService_StreamClient, error)
 }
 
 type snapshotServiceClient struct {
@@ -46,11 +48,44 @@ func (c *snapshotServiceClient) List(ctx context.Context, in *SnapshotListReques
 	return out, nil
 }
 
+func (c *snapshotServiceClient) Stream(ctx context.Context, in *SnapshotStreamRequest, opts ...grpc.CallOption) (SnapshotService_StreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &SnapshotService_ServiceDesc.Streams[0], SnapshotService_Stream_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &snapshotServiceStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type SnapshotService_StreamClient interface {
+	Recv() (*SnapshotStreamResult, error)
+	grpc.ClientStream
+}
+
+type snapshotServiceStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *snapshotServiceStreamClient) Recv() (*SnapshotStreamResult, error) {
+	m := new(SnapshotStreamResult)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // SnapshotServiceServer is the server API for SnapshotService service.
 // All implementations must embed UnimplementedSnapshotServiceServer
 // for forward compatibility
 type SnapshotServiceServer interface {
 	List(context.Context, *SnapshotListRequest) (*SnapshotListResult, error)
+	Stream(*SnapshotStreamRequest, SnapshotService_StreamServer) error
 	mustEmbedUnimplementedSnapshotServiceServer()
 }
 
@@ -60,6 +95,9 @@ type UnimplementedSnapshotServiceServer struct {
 
 func (UnimplementedSnapshotServiceServer) List(context.Context, *SnapshotListRequest) (*SnapshotListResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (UnimplementedSnapshotServiceServer) Stream(*SnapshotStreamRequest, SnapshotService_StreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method Stream not implemented")
 }
 func (UnimplementedSnapshotServiceServer) mustEmbedUnimplementedSnapshotServiceServer() {}
 
@@ -92,6 +130,27 @@ func _SnapshotService_List_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SnapshotService_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SnapshotStreamRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SnapshotServiceServer).Stream(m, &snapshotServiceStreamServer{stream})
+}
+
+type SnapshotService_StreamServer interface {
+	Send(*SnapshotStreamResult) error
+	grpc.ServerStream
+}
+
+type snapshotServiceStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *snapshotServiceStreamServer) Send(m *SnapshotStreamResult) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // SnapshotService_ServiceDesc is the grpc.ServiceDesc for SnapshotService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +163,12 @@ var SnapshotService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SnapshotService_List_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Stream",
+			Handler:       _SnapshotService_Stream_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "snapshot.proto",
 }

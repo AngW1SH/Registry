@@ -10,10 +10,11 @@ import (
 
 type SnapshotRepository struct {
 	db *gorm.DB
+	Stream chan *models.SnapshotDB
 }
 
 func NewSnapshotRepository(db *gorm.DB) *SnapshotRepository {
-	return &SnapshotRepository{db: db}
+	return &SnapshotRepository{db: db, Stream: make(chan *models.SnapshotDB)}
 }
 
 func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult {
@@ -25,7 +26,9 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 
 	err := r.db.Create(&snapshotDB).Error
 
-	fmt.Println(groups)
+	if err != nil {
+		return RepositoryResult{Error: err}
+	}
 
 	if len(groups) > 0 {
 
@@ -39,6 +42,12 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 		}
 
 		err = r.db.CreateInBatches(&groupsDB, len(groupsDB)).Error
+
+		if err != nil {
+			return RepositoryResult{Error: err}
+		}
+
+		snapshotDB.Groups = groupsDB
 	}
 
 	if len(params) > 0 {
@@ -54,10 +63,16 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 		}
 
 		err = r.db.CreateInBatches(&paramsDB, len(paramsDB)).Error
+
+		if err != nil {
+			return RepositoryResult{Error: err}
+		}
+
+		snapshotDB.Params = paramsDB
 	}
 
-	if err != nil {
-		return RepositoryResult{Error: err}
+	if snapshotDB.IsPublic {
+		r.Stream <- &snapshotDB
 	}
 
 	return RepositoryResult{Result: snapshot}
@@ -110,10 +125,32 @@ func (r *SnapshotRepository) CreateInBatches(snapshots []*models.Snapshot) Repos
 		return RepositoryResult{Error: err}
 	}
 
+	for _, group := range groups {
+		for i, snapshot := range snapshotDBList {
+			if snapshot.ID == group.SnapshotDBID {
+				snapshotDBList[i].Groups = append(snapshotDBList[i].Groups, group)
+			}
+		}
+	}
+
 	err = r.db.CreateInBatches(&params, len(params)).Error
 
 	if err != nil {
 		return RepositoryResult{Error: err}
+	}
+
+	for _, param := range params {
+		for i, snapshot := range snapshotDBList {
+			if snapshot.ID == param.SnapshotDBID {
+				snapshotDBList[i].Params = append(snapshotDBList[i].Params, param)
+			}
+		}
+	}
+
+	for _, snapshot := range snapshotDBList {
+		if snapshot.IsPublic {
+			r.Stream <- snapshot
+		}
 	}
 
 	return RepositoryResult{Result: snapshots}
