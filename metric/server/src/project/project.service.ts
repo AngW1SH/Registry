@@ -10,6 +10,7 @@ import { ResourceService } from 'src/resource/resource.service';
 import { SnapshotService } from 'src/snapshot/snapshot.service';
 import { structureSnapshots } from './utils/structureSnapshots';
 import { TaskService } from 'src/task/task.service';
+import { markTrackedMetrics } from './utils/markTrackedMetrics';
 
 @Injectable()
 export class ProjectService {
@@ -39,20 +40,7 @@ export class ProjectService {
       'project:' + result.name,
     ]);
 
-    if (trackedTasks) {
-      trackedTasks.forEach((task) => {
-        resources.forEach((resource) => {
-          resource.metrics.forEach((metric) => {
-            if (
-              metric.name === task.metric &&
-              task.groups.includes('resource:' + resource.name)
-            ) {
-              metric.isTracked = true;
-            }
-          });
-        });
-      });
-    }
+    if (trackedTasks) markTrackedMetrics(trackedTasks, resources);
 
     const snapshots = structureSnapshots(
       await this.snapshotService.list('project:' + result.name),
