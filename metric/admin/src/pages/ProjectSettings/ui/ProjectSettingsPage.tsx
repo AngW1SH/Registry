@@ -46,8 +46,6 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
 
   useMetricDataUpdate();
 
-  console.log(metrics.map((metric) => metric.data.length));
-
   if (!project) return <div></div>;
 
   return (

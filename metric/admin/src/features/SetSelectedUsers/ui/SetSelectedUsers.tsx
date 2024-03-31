@@ -16,8 +16,6 @@ const SetSelectedUsers: FC<SetSelectedUsersProps> = ({ resourceId }) => {
     ) || {};
   const selected = Object.keys(users).filter((key) => users[key]);
 
-  console.log(users);
-
   const handleChange = (selected: string[]) => {
     dispatch(
       resourceSlice.actions.setActiveUsers({ resourceId, users: selected })

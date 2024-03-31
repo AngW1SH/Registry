@@ -37,8 +37,6 @@ const EditAccountData: FC<EditAccountDataProps> = ({
     if (hasUnsavedChanges && isSubmittable) edit({ email, phone });
   };
 
-  console.log(hasUnsavedChanges && isSubmittable);
-
   return (
     <NamedBlock title={"Учётная запись"} border={false}>
       <div className="relative flex flex-col gap-y-6">
