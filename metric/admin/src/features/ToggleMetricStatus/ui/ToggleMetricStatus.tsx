@@ -1,5 +1,5 @@
-import { useAppDispatch } from "@/app/store";
-import { IMetric, metricSlice } from "@/entities/Metric";
+import { useAppDispatch, useAppSelector } from "@/app/store";
+import { metricSlice } from "@/entities/Metric";
 import {
   useStartMetricMutation,
   useStopMetricMutation,
@@ -7,16 +7,22 @@ import {
 import { FC } from "react";
 
 interface ToggleMetricStatusProps {
-  metric: IMetric;
+  metricId: string;
   className?: string;
 }
 
 const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
-  metric,
+  metricId,
   className,
 }) => {
   const [start] = useStartMetricMutation();
   const [stop] = useStopMetricMutation();
+
+  const metric = useAppSelector((state) =>
+    state.metric.metrics.find((m) => m.id === metricId)
+  );
+
+  if (!metric) return <></>;
 
   const dispatch = useAppDispatch();
 

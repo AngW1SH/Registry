@@ -4,6 +4,7 @@ import { Snapshot, SnapshotGRPC } from './snapshot.entity';
 import { ClientGrpc } from '@nestjs/microservices';
 import { fromGRPC } from './utils/fromGRPC';
 import { MetricGateway } from 'src/metric-gateway/gateway';
+import { randomUUID } from 'crypto';
 
 interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
@@ -23,7 +24,7 @@ export class SnapshotService {
     this.snapshotServiceGRPC =
       this.client.getService<SnapshotServiceGRPC>('SnapshotService');
 
-    this.stream('123');
+    this.stream(randomUUID());
   }
 
   async list(group: string): Promise<Snapshot[]> {

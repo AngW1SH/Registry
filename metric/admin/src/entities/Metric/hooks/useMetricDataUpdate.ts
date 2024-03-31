@@ -27,12 +27,7 @@ export const useMetricDataUpdate = () => {
     function onMessage(value: IMetricData) {
       const metric = metrics.find((m) => m.id === value.metric);
 
-      console.log("triggered");
-
-      console.log(metrics);
-
       if (metric) {
-        console.log("updated");
         dispatch(
           metricSlice.actions.updateMetric({
             ...metric,

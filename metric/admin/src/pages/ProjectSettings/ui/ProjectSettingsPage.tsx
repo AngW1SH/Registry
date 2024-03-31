@@ -46,6 +46,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
 
   useMetricDataUpdate();
 
+  console.log(metrics.map((metric) => metric.data.length));
+
   if (!project) return <div></div>;
 
   return (
@@ -76,13 +78,16 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                   {metrics
                     .filter((metric) => metric.resource === resource.id)
                     .map((metric) => (
-                      <li key={metric.id} className="min-w-[47%] max-w-[47%]">
+                      <li
+                        key={metric.id + metric.data.length}
+                        className="min-w-[47%] max-w-[47%]"
+                      >
                         <MetricSettings
                           name={metric.name}
                           data={metric.data}
                           aside={
                             <div className="flex flex-col gap-y-3">
-                              <ToggleMetricStatus metric={metric} />
+                              <ToggleMetricStatus metricId={metric.id} />
                               <StopTrackingMetric metricId={metric.id} />
                             </div>
                           }
