@@ -34,10 +34,9 @@ export class ProjectService {
       },
     });
 
-    const resources = await this.resourceService.findMany({ project: id });
-
-    const trackedTasks = await this.taskService.list([
-      'project:' + result.name,
+    const [resources, trackedTasks] = await Promise.all([
+      this.resourceService.findMany({ project: id }),
+      this.taskService.list(['project:' + result]),
     ]);
 
     if (trackedTasks) markTrackedMetrics(trackedTasks, resources);
