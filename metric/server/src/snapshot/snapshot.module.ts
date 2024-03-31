@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SnapshotService } from './snapshot.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MetricGatewayModule } from 'src/metric-gateway/metric-gateway.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    MetricGatewayModule,
   ],
   providers: [SnapshotService],
   exports: [SnapshotService],

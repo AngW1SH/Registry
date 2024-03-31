@@ -3,6 +3,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { Snapshot, SnapshotGRPC } from './snapshot.entity';
 import { ClientGrpc } from '@nestjs/microservices';
 import { fromGRPC } from './utils/fromGRPC';
+import { MetricGateway } from 'src/metric-gateway/gateway';
 
 interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
@@ -13,7 +14,10 @@ interface SnapshotServiceGRPC {
 export class SnapshotService {
   private snapshotServiceGRPC: SnapshotServiceGRPC;
 
-  constructor(@Inject('SNAPSHOT_SERVICE') private client: ClientGrpc) {}
+  constructor(
+    @Inject('SNAPSHOT_SERVICE') private client: ClientGrpc,
+    private metricGateway: MetricGateway,
+  ) {}
 
   onModuleInit() {
     this.snapshotServiceGRPC =
@@ -38,7 +42,7 @@ export class SnapshotService {
     const result = this.snapshotServiceGRPC.stream({ id });
 
     result.subscribe((snapshot) => {
-      console.log(fromGRPC(snapshot.snapshot));
+      this.metricGateway.send(fromGRPC(snapshot.snapshot));
     });
   }
 }
