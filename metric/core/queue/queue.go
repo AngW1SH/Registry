@@ -128,12 +128,8 @@ func (q *Queue) AdvanceTasks() {
 			if peek == nil || q.queue.Len() == 0 || (q.load + peek.Weight > q.Limit) {
 				break
 			}
-	
-			originalOldestUpdated := heap.Pop(&q.queue).(*models.Task)
 			
-			oldestUpdated := helpers.CopyTask(originalOldestUpdated)
-
-			found := false
+			oldestUpdated := helpers.CopyTask(heap.Pop(&q.queue).(*models.Task))
 
 			if oldestUpdated.IsDeleted {
 				q.tasks.DeleteTask(oldestUpdated.Id)
@@ -143,7 +139,7 @@ func (q *Queue) AdvanceTasks() {
 			if metrics.List[oldestUpdated.Metric] != nil {
 				if time.Since(oldestUpdated.UpdatedAt) > oldestUpdated.UpdateRate {
 					metrics.Run(*oldestUpdated, metrics.List[oldestUpdated.Metric], q.onFinish, q.snapshotRepo);
-					found = true
+					q.load += oldestUpdated.Weight
 				} else if q.tasks.GetTask(oldestUpdated.Id) != nil {
 					q.tasks.GetTask(oldestUpdated.Id).AttemptedAt = time.Now()
 
@@ -152,10 +148,6 @@ func (q *Queue) AdvanceTasks() {
 					q.tasks.DeleteTask(oldestUpdated.Id)
 					continue
 				}
-			}
-	
-			if found {
-				q.load += oldestUpdated.Weight		
 			}
 		}
 
