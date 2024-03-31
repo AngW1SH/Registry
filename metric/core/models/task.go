@@ -40,3 +40,16 @@ type TaskCreate struct {
 	Data string
 	IsPublic  bool
 }
+
+func NewTask(data *TaskCreate) Task {
+	return Task{
+		Id: uuid.New(),
+		Metric: data.Metric,
+		Weight: data.Weight,
+		Groups: data.Groups,
+		UpdatedAt: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
+		UpdateRate: data.UpdateRate,
+		Data: data.Data,
+		IsPublic: data.IsPublic,
+	}
+}

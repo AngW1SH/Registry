@@ -8,8 +8,6 @@ import (
 	"core/repositories"
 	"errors"
 	"time"
-
-	"github.com/google/uuid"
 )
 type Queue struct {
 	Limit int
@@ -54,16 +52,7 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 		}
 	}
 
-	task := models.Task{
-		Id: uuid.New(),
-		Metric: data.Metric,
-		Weight: data.Weight,
-		Groups: data.Groups,
-		UpdatedAt: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
-		UpdateRate: data.UpdateRate,
-		Data: data.Data,
-		IsPublic: data.IsPublic,
-	}
+	task := models.NewTask(data)
 
 	task.AttemptedAt = task.UpdatedAt
 	task.IsDeleted = false
