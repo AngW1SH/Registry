@@ -1,6 +1,7 @@
-package helpers
+package structures
 
 import (
+	"core/helpers"
 	"core/models"
 	"fmt"
 	"sync"
@@ -43,7 +44,7 @@ func (m *TaskMap) GetByGroups(groups []string) []*models.Task {
 
 	var result []*models.Task
 	for _, t := range m.tasks {
-		if ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
+		if helpers.ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
 			result = append(result, t)
 		}
 	}
@@ -57,7 +58,7 @@ func (m *TaskMap) MarkDelete(metric string, groups []string) *models.Task {
 
 	var task *models.Task
 	for id, t := range m.tasks {
-		if t.Metric == metric && ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
+		if t.Metric == metric && helpers.ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
 			fmt.Println("Found task to delete with id: ", id)
 			m.tasks[id].IsDeleted = true
 			task = m.tasks[id]
@@ -81,7 +82,7 @@ func (m *TaskMap) UpdateTask(task *models.TaskCreate) *models.Task {
 	var result *models.Task
 
 	for id, t := range m.tasks {
-		if t.Metric == task.Metric && ContainsAllElements(task.Groups, t.Groups) && !t.IsDeleted {
+		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && !t.IsDeleted {
 			m.tasks[id].UpdateRate = task.UpdateRate
 			m.tasks[id].Weight = task.Weight
 			m.tasks[id].Data = task.Data

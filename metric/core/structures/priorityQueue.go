@@ -1,7 +1,8 @@
-package helpers
+package structures
 
 import (
 	"container/heap"
+	"core/helpers"
 	"core/models"
 	"fmt"
 	"sync"
@@ -40,7 +41,7 @@ func (pq *PriorityQueue) GetEntries(groups []string) []*models.Task {
     var result []*models.Task
 
     for i := 0; i < len(pq.entries); i++ {
-        if ContainsAllElements(pq.entries[i].Groups, groups) {
+        if helpers.ContainsAllElements(pq.entries[i].Groups, groups) {
             fmt.Println("pq id: ", pq.entries[i].Id)
             result = append(result, pq.entries[i])
         }

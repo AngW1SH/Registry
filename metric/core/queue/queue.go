@@ -6,6 +6,7 @@ import (
 	"core/metrics"
 	"core/models"
 	"core/repositories"
+	"core/structures"
 	"errors"
 	"time"
 )
@@ -14,8 +15,8 @@ type Queue struct {
 	load int
 	snapshotRepo *repositories.SnapshotRepository
 	taskRepo *repositories.TaskRepository
-	queue helpers.PriorityQueue
-	tasks helpers.TaskMap
+	queue structures.PriorityQueue
+	tasks structures.TaskMap
 }
 
 func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo *repositories.TaskRepository) *Queue {
@@ -23,8 +24,8 @@ func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo
 }
 
 func (q *Queue) Start() {
-	q.queue = helpers.PriorityQueue{}
-	q.tasks = *helpers.NewTaskMap()
+	q.queue = structures.PriorityQueue{}
+	q.tasks = *structures.NewTaskMap()
 
 	heap.Init(&q.queue)
 
