@@ -59,18 +59,6 @@ export class ResourceService {
     }));
   }
 
-  async findAll(): Promise<Resource[]> {
-    const result = await this.prisma.resource.findMany();
-
-    return result.map((resource) => ({
-      id: resource.id,
-      name: resource.name,
-      params: resource.params,
-      project: resource.projectId,
-      platform: resource.platformId,
-    }));
-  }
-
   async findOne(id: string): Promise<ResourceDetailed | null> {
     const result = await this.prisma.resource.findFirst({
       where: {

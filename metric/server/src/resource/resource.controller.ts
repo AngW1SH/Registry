@@ -18,16 +18,6 @@ import {
 export class ResourceController {
   constructor(private resourceService: ResourceService) {}
 
-  @Get()
-  async findAll(): Promise<ResourceDTO[]> {
-    const result = await this.resourceService.findAll();
-
-    return result.map((resource) => ({
-      ...resource,
-      params: JSON.parse(resource.params),
-    }));
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.findOne(id);
