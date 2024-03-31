@@ -81,10 +81,10 @@ func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error)
 	return task, nil
 }
 
-func (q *Queue) ListTasks(groups []string) ([]*models.Task, error) {
+func (q *Queue) ListTasks(groups []string) []*models.Task {
 	tasks := q.tasks.GetByGroups(groups)
 	
-	return tasks, nil
+	return tasks
 }
 
 func (q *Queue) UpdateTask(task *models.TaskCreate) (*models.Task, error) {

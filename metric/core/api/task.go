@@ -53,11 +53,7 @@ func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*Ta
 func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
 	fmt.Println("List", message.Groups)
 
-	tasks, err := s.Queue.ListTasks(message.Groups)
-
-	if err != nil {
-		return &TaskListResponse{Tasks: []*TaskInfo{}}, err
-	}
+	tasks := s.Queue.ListTasks(message.Groups)
 
 	result := []*TaskInfo{}
 
