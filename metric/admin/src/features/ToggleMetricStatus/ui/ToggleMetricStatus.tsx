@@ -22,9 +22,9 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
     state.metric.metrics.find((m) => m.id === metricId)
   );
 
-  if (!metric) return <></>;
-
   const dispatch = useAppDispatch();
+
+  if (!metric) return <></>;
 
   const handleStart = async () => {
     const result = await start(metric);
