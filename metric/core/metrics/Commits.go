@@ -105,9 +105,15 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	
 	for _, commit := range commits {
 
+		data, err := json.Marshal(commit)
+
+		if err != nil {
+			continue
+		}
+
 		result = append(result, &models.Snapshot{
 			Metric: "Commits",
-			Data: commit.(map[string]interface{})["commit"].(map[string]interface{})["message"].(string),
+			Data: string(data),
 			Groups: task.Groups,
 			Error: "",
 			IsPublic: task.IsPublic,
