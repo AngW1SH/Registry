@@ -23,6 +23,11 @@ export interface TaskStop {
   groups: string[];
 }
 
+export interface TaskForceExecute {
+  metric: string;
+  groups: string[];
+}
+
 export interface TaskCreateDTO {
   metric: string;
   weight: number;

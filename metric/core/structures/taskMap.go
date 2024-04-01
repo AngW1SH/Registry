@@ -5,6 +5,7 @@ import (
 	"core/models"
 	"errors"
 	"sync"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -109,6 +110,23 @@ func (m *TaskMap) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 			}
 
 			return t, nil
+		}
+	}
+
+	return nil, errors.New("task not found")
+}
+
+func (m *TaskMap) ForceUpdate(metric string, groups []string) (*models.Task, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	for _, task := range m.tasks {
+		if task.Metric == metric && helpers.ContainsAllElements(groups, task.Groups) && !task.IsDeleted {
+			
+			task.AttemptedAt = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+			task.UpdatedAt = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
+
+			return task, nil
 		}
 	}
 

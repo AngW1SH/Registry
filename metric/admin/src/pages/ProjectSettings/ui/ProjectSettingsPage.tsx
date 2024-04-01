@@ -10,6 +10,7 @@ import ConfigureProjectTitle from "@/features/ConfigureProjectTitle/ui/Configure
 import { ConfigureResource } from "@/features/ConfigureResource";
 import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { DeleteResource } from "@/features/DeleteResource";
+import { ExecuteMetric } from "@/features/ExecuteMetric";
 import { ReturnToProject } from "@/features/ReturnToProject";
 import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
@@ -87,6 +88,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                             <div className="flex flex-col gap-y-3">
                               <ToggleMetricStatus metricId={metric.id} />
                               <StopTrackingMetric metricId={metric.id} />
+                              <ExecuteMetric metricId={metric.id} />
                             </div>
                           }
                         >

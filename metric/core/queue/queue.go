@@ -65,6 +65,19 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	return &task
 }
 
+func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, error) {
+
+	task, err := q.tasks.ForceUpdate(metric, groups)
+	
+	if err != nil {
+		return nil, err
+	}
+
+	q.queue.Rebuild()
+
+	return task, nil
+}
+
 func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
 
 	task, err := q.tasks.MarkDelete(metric, groups)

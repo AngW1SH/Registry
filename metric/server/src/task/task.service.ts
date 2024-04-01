@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Task, TaskCreate, TaskStop } from './task.entity';
+import { Task, TaskCreate, TaskForceExecute, TaskStop } from './task.entity';
 import { Observable, firstValueFrom } from 'rxjs';
 import { ClientGrpc } from '@nestjs/microservices';
 
@@ -8,6 +8,7 @@ interface TaskServiceGRPC {
   list: (data: { groups: string[] }) => Observable<{ tasks: Task[] }>;
   update: (data: { task: TaskCreate }) => Observable<{ Task: Task | null }>;
   stop: (data: TaskStop) => Observable<{ Task: Task }>;
+  forceExecute: (data: TaskForceExecute) => Observable<{ task: Task | null }>;
 }
 
 @Injectable()
@@ -43,5 +44,13 @@ export class TaskService {
     const result = await firstValueFrom(this.taskServiceGRPC.stop(task));
 
     return result.Task;
+  }
+
+  async forceExecute(task: TaskForceExecute) {
+    const result = await firstValueFrom(
+      this.taskServiceGRPC.forceExecute(task),
+    );
+
+    return result.task;
   }
 }

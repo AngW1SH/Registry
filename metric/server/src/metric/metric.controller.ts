@@ -73,4 +73,15 @@ export class MetricController {
 
     return result;
   }
+
+  @Post(':id/execute')
+  async execute(@Body('metric') metric: MetricDTO) {
+    const result = await this.metricService.execute({
+      ...metric,
+      params: JSON.stringify(metric.params),
+      isTracked: null,
+    });
+
+    return result;
+  }
 }

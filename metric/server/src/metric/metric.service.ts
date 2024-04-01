@@ -263,4 +263,17 @@ export class MetricService {
         })) || [],
     };
   }
+
+  async execute(metric: MetricWithSnapshots) {
+    const task = await this.convertToTask(metric);
+
+    const result = await this.taskService.forceExecute({
+      metric: task.metric,
+      groups: task.groups,
+    });
+
+    if (!result) {
+      throw new Error('Failed to force execute the metric');
+    }
+  }
 }

@@ -35,6 +35,15 @@ export const metricApi = createApi({
         body: { metric: { ...metric, data: [] } },
       }),
     }),
+    executeMetric: build.mutation<void, IMetric>({
+      query: (metric) => ({
+        url: `metric/${metric.id}/execute`,
+        method: "POST",
+        body: {
+          metric: { ...metric, data: [] },
+        },
+      }),
+    }),
     startMetric: build.mutation<void, IMetric>({
       query: (metric) => ({
         url: `metric/${metric.id}/start`,
@@ -63,4 +72,5 @@ export const {
   useUpdateMetricMutation,
   useStartMetricMutation,
   useStopMetricMutation,
+  useExecuteMetricMutation,
 } = metricApi;

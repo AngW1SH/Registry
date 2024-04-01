@@ -51,9 +51,19 @@ message TaskListResponse {
     repeated TaskInfo tasks = 1;
 }
 
+message TaskForceExecuteRequest {
+    string metric = 1;
+    repeated string groups = 2;
+}
+
+message TaskForceExecuteResponse {
+    TaskInfo task = 1;
+}
+
 service TaskService {
     rpc Start(TaskStartRequest) returns (TaskStartResponse);
     rpc Stop(TaskStopRequest) returns (TaskStopResponse);
     rpc Update(TaskStartRequest) returns (TaskStartResponse);
     rpc List(TaskListRequest) returns(TaskListResponse);
+    rpc ForceExecute(TaskForceExecuteRequest) returns(TaskForceExecuteResponse);
 }

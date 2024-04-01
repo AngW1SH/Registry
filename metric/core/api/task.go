@@ -65,3 +65,15 @@ func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskL
 
 	return &TaskListResponse{Tasks: result}, nil
 }
+
+func (s *TaskServer) ForceExecute(ctx context.Context, message *TaskForceExecuteRequest) (*TaskForceExecuteResponse, error) {
+	fmt.Println("ForceExecute", message.Groups)
+
+	task, err := s.Queue.ForceExecute(message.Metric, message.Groups)
+
+	if err != nil {
+		return &TaskForceExecuteResponse{Task: &TaskInfo{}}, err
+	}
+
+	return &TaskForceExecuteResponse{Task: ToGRPCTaskInfo(task)}, nil
+}
