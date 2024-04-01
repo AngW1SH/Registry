@@ -32,7 +32,7 @@ export const metricApi = createApi({
       query: (metric) => ({
         url: `metric/${metric.id}`,
         method: "PUT",
-        body: { metric: metric },
+        body: { metric: { ...metric, data: [] } },
       }),
     }),
     startMetric: build.mutation<void, IMetric>({
@@ -40,7 +40,7 @@ export const metricApi = createApi({
         url: `metric/${metric.id}/start`,
         method: "POST",
         body: {
-          metric: metric,
+          metric: { ...metric, data: [] },
         },
       }),
     }),
@@ -49,7 +49,7 @@ export const metricApi = createApi({
         url: `metric/${metric.id}/stop`,
         method: "POST",
         body: {
-          metric: metric,
+          metric: { ...metric, data: [] },
         },
       }),
     }),
