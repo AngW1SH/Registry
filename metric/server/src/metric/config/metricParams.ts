@@ -73,7 +73,7 @@ export const metricParams: MetricParamsConfig = {
 
 export const IsMetricPublic = {
   TotalCommits: true,
-  Commits: false,
-  Issues: false,
+  Commits: true,
+  Issues: true,
   IssueCompleteness: true,
 };
