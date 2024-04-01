@@ -10,7 +10,7 @@ const MetricList: FC<MetricListProps> = ({ metrics }) => {
   return (
     <div className="grid grid-cols-3 gap-5">
       {metrics.map((metric) => (
-        <Metric key={metric.id} {...metric} />
+        <Metric key={metric.id + metric.data.length} {...metric} />
       ))}
     </div>
   );

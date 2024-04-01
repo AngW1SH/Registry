@@ -59,7 +59,7 @@ export class MetricGateway {
           project: resource.project.id,
           metric: metric.id,
           error: snapshot.error,
-          data: snapshot.data,
+          data: JSON.parse(snapshot.data),
           timestamp: snapshot.timestamp,
         });
     }
