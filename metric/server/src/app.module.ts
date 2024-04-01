@@ -14,6 +14,7 @@ import { CookieModule } from './cookie/cookie.module';
 import { ConfigModule } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
 import { MetricGatewayModule } from './metric-gateway/metric-gateway.module';
+import { ResubscribeModule } from './resubscribe/resubscribe.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MetricGatewayModule } from './metric-gateway/metric-gateway.module';
     ConfigModule.forRoot(),
     TokenModule,
     MetricGatewayModule,
+    ResubscribeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

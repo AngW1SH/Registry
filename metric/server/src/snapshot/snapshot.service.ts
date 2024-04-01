@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, Observer, Subscription, firstValueFrom } from 'rxjs';
 import { Snapshot, SnapshotGRPC } from './snapshot.entity';
 import { ClientGrpc } from '@nestjs/microservices';
 import { fromGRPC } from './utils/fromGRPC';
 import { MetricGateway } from 'src/metric-gateway/gateway';
 import { randomUUID } from 'crypto';
+import { ResubscribeService } from 'src/resubscribe/resubscribe.service';
 
 interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
@@ -14,17 +15,37 @@ interface SnapshotServiceGRPC {
 @Injectable()
 export class SnapshotService {
   private snapshotServiceGRPC: SnapshotServiceGRPC;
+  private subscription: Subscription;
+  private connectionWatchdog: NodeJS.Timeout;
 
   constructor(
     @Inject('SNAPSHOT_SERVICE') private client: ClientGrpc,
     private metricGateway: MetricGateway,
+    private resubscribeService: ResubscribeService,
   ) {}
 
   onModuleInit() {
     this.snapshotServiceGRPC =
       this.client.getService<SnapshotServiceGRPC>('SnapshotService');
 
-    this.stream(randomUUID());
+    const observer: Observer<{ Snapshots: SnapshotGRPC[] }> = {
+      next: (snapshots) => {
+        this.metricGateway.send(
+          snapshots.Snapshots.map((snapshot) => fromGRPC(snapshot)),
+        );
+      },
+      error: () => {
+        console.log('Subscription error');
+      },
+      complete: () => {
+        console.log('Subscription closed');
+      },
+    };
+
+    this.resubscribeService.start(
+      this.snapshotServiceGRPC.stream({ id: randomUUID() }),
+      observer,
+    );
   }
 
   async list(group: string): Promise<Snapshot[]> {
@@ -37,15 +58,5 @@ export class SnapshotService {
     }
 
     return result.Snapshots.map((snapshot) => fromGRPC(snapshot));
-  }
-
-  async stream(id: string) {
-    const result = this.snapshotServiceGRPC.stream({ id });
-
-    result.subscribe((snapshots) => {
-      this.metricGateway.send(
-        snapshots.Snapshots.map((snapshot) => fromGRPC(snapshot)),
-      );
-    });
   }
 }
