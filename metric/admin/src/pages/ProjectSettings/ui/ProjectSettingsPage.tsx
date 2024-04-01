@@ -72,7 +72,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                 <div className="pt-8"></div>
                 <SearchMetric />
                 <div className="pt-8"></div>
-                <ul className="flex flex-wrap justify-between">
+                <ul className="flex flex-wrap gap-10 justify-between">
                   {metrics
                     .filter((metric) => metric.resource === resource.id)
                     .map((metric) => (

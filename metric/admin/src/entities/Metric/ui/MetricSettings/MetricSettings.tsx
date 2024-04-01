@@ -41,7 +41,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       <div className="pt-10"></div>
       {aside && <div>{aside}</div>}
       <div className="pt-10"></div>
-      <UpdateStatus data={data} />
+      {!!data.length && <UpdateStatus data={data} />}
     </div>
   );
 };
