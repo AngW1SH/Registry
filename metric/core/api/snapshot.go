@@ -32,8 +32,13 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 func (s *SnapshotServer) Stream(request *SnapshotStreamRequest, stream SnapshotService_StreamServer) error {
 	fmt.Println("SnapshotStream", request.Id)
 
-	for snapshot := range s.Repo.Stream {
-		if err := stream.Send(&SnapshotStreamResult{Snapshot: ToGRPCSnapshotInfo(snapshot)}); err != nil {
+	for snapshotBatch := range s.Repo.Stream {
+		var snapshots []*SnapshotInfo
+
+		for i := 0; i < len(snapshotBatch); i++ {
+			snapshots = append(snapshots, ToGRPCSnapshotInfo(snapshotBatch[i]))
+		}
+		if err := stream.Send(&SnapshotStreamResult{Snapshots: snapshots}); err != nil {
 			return err
 		}
 	}

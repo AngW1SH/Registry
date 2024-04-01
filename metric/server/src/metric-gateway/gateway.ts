@@ -17,46 +17,52 @@ export class MetricGateway {
     });
   }
 
-  async send(data: Snapshot) {
-    const resourceName = data.groups
-      .find((g) => g.indexOf('resource:') === 0)
-      ?.slice(9);
-
-    const resource = await this.prisma.resource.findFirst({
-      where: {
-        name: resourceName,
-      },
+  async send(data: Snapshot[]) {
+    const resources = await this.prisma.resource.findMany({
       select: {
         id: true,
+        name: true,
         project: {
           select: {
             id: true,
           },
         },
+        metrics: {
+          select: {
+            id: true,
+            metric: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    const metric = await this.prisma.resourceMetric.findFirst({
-      where: {
-        resource: {
-          id: resource.id,
-        },
-        metric: {
-          name: data.metric,
-        },
-      },
-    });
+    const result: Data[] = [];
 
-    const result: Data = {
-      resource: resource.id,
-      project: resource.project.id,
-      metric: metric.id,
-      error: data.error,
-      data: data.data,
-      timestamp: data.timestamp,
-    };
+    for (const snapshot of data) {
+      const resourceName = snapshot.groups
+        .find((g) => g.indexOf('resource:') === 0)
+        ?.slice(9);
 
-    console.log(result);
+      const resource = resources.find((r) => r.name === resourceName);
+
+      const metric = resource.metrics.find(
+        (m) => m.metric.name === snapshot.metric,
+      );
+
+      if (resource && metric)
+        result.push({
+          resource: resource.id,
+          project: resource.project.id,
+          metric: metric.id,
+          error: snapshot.error,
+          data: snapshot.data,
+          timestamp: snapshot.timestamp,
+        });
+    }
 
     this.server.emit('message', result);
   }

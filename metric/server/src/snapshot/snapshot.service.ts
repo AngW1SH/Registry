@@ -8,7 +8,7 @@ import { randomUUID } from 'crypto';
 
 interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
-  stream: (data: { id: string }) => Observable<{ snapshot: SnapshotGRPC }>;
+  stream: (data: { id: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
 }
 
 @Injectable()
@@ -42,8 +42,10 @@ export class SnapshotService {
   async stream(id: string) {
     const result = this.snapshotServiceGRPC.stream({ id });
 
-    result.subscribe((snapshot) => {
-      this.metricGateway.send(fromGRPC(snapshot.snapshot));
+    result.subscribe((snapshots) => {
+      this.metricGateway.send(
+        snapshots.Snapshots.map((snapshot) => fromGRPC(snapshot)),
+      );
     });
   }
 }

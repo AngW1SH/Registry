@@ -10,11 +10,11 @@ import (
 
 type SnapshotRepository struct {
 	db *gorm.DB
-	Stream chan *models.SnapshotDB
+	Stream chan []*models.SnapshotDB
 }
 
 func NewSnapshotRepository(db *gorm.DB) *SnapshotRepository {
-	return &SnapshotRepository{db: db, Stream: make(chan *models.SnapshotDB)}
+	return &SnapshotRepository{db: db, Stream: make(chan []*models.SnapshotDB)}
 }
 
 func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult {
@@ -72,7 +72,7 @@ func (r *SnapshotRepository) Create(snapshot *models.Snapshot) RepositoryResult 
 	}
 
 	if snapshotDB.IsPublic {
-		r.Stream <- &snapshotDB
+		r.Stream <- []*models.SnapshotDB{&snapshotDB}
 	}
 
 	return RepositoryResult{Result: snapshot}
@@ -147,11 +147,15 @@ func (r *SnapshotRepository) CreateInBatches(snapshots []*models.Snapshot) Repos
 		}
 	}
 
+	var snapshotsToSend []*models.SnapshotDB
+
 	for _, snapshot := range snapshotDBList {
 		if snapshot.IsPublic {
-			r.Stream <- snapshot
+			snapshotsToSend = append(snapshotsToSend, snapshot)
 		}
 	}
+
+	r.Stream <- snapshotsToSend
 
 	return RepositoryResult{Result: snapshots}
 }

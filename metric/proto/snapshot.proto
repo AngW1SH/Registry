@@ -28,7 +28,7 @@ message SnapshotStreamRequest {
 }
 
 message SnapshotStreamResult {
-    SnapshotInfo snapshot = 1;
+    repeated SnapshotInfo Snapshots = 1;
 }
 
 service SnapshotService {
