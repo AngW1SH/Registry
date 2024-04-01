@@ -16,17 +16,19 @@ export const useData = (
   const users = useSelectedUsers(resourceId);
 
   const parseResult = TotalCommitsSchema.safeParse(successData);
-  if (!parseResult.success) return [];
 
   useEffect(() => {
-    parseResult.data.forEach((item) => {
-      item.data.forEach((user) => {
-        dispatch(
-          resourceSlice.actions.addUser({ resourceId, username: user.name })
-        );
+    if (parseResult.success)
+      parseResult.data.forEach((item) => {
+        item.data.forEach((user) => {
+          dispatch(
+            resourceSlice.actions.addUser({ resourceId, username: user.name })
+          );
+        });
       });
-    });
   }, []);
+
+  if (!parseResult.success) return [];
 
   return parseResult.data
     .filter((item) => {
