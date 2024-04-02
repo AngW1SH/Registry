@@ -6,6 +6,7 @@ import {
   abstractMetricMocks,
   metricCreateMocks,
   metricDTOMocks,
+  metricDetailedMocks,
   metricMocks,
   metricWithSnapshotsDTOMocks,
   metricWithSnapshotsMocks,
@@ -29,9 +30,7 @@ describe('MetricController', () => {
       const result = metricMocks[0];
 
       const request = metricMocks[0];
-      const requestDTO = { ...metricDTOMocks[0] };
-
-      delete requestDTO.data;
+      const requestDTO = metricDTOMocks[0];
 
       serviceMock.updateParams.mockResolvedValueOnce(result);
 
@@ -67,7 +66,7 @@ describe('MetricController', () => {
     it("should call the metricService's create method", async () => {
       const request = metricCreateMocks[0];
 
-      serviceMock.create.mockResolvedValueOnce(metricWithSnapshotsMocks);
+      serviceMock.create.mockResolvedValueOnce(metricDetailedMocks);
 
       await controller.create(request);
 
@@ -78,7 +77,7 @@ describe('MetricController', () => {
     it('should return a MetricWithSnapshotsDTO with all its newly created dependencies', async () => {
       const request = metricCreateMocks[0];
 
-      serviceMock.create.mockResolvedValueOnce(metricWithSnapshotsMocks);
+      serviceMock.create.mockResolvedValueOnce(metricDetailedMocks);
 
       const result = await controller.create(request);
 
@@ -94,8 +93,6 @@ describe('MetricController', () => {
     it("should call the metricService's start method", async () => {
       const requestDTO = { ...metricDTOMocks[0] };
       const request = metricMocks[0];
-
-      delete requestDTO.data;
 
       serviceMock.start.mockResolvedValueOnce(null);
 
@@ -184,10 +181,8 @@ describe('MetricController', () => {
     });
 
     it("should call the metricService's execute method", async () => {
-      const requestDTO = { ...metricDTOMocks[0] };
+      const requestDTO = metricDTOMocks[0];
       const request = metricMocks[0];
-
-      delete requestDTO.data;
 
       serviceMock.execute.mockResolvedValueOnce(null);
 

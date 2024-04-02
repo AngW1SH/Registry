@@ -11,6 +11,7 @@ import {
   AbstractMetricDetailed,
   MetricCreate,
   MetricDTO,
+  MetricDetailedDTO,
   MetricWithSnapshotsDTO,
 } from './metric.entity';
 import { MetricService } from './metric.service';
@@ -27,7 +28,6 @@ export class MetricController {
     const result = await this.metricService.updateParams({
       ...metric,
       params: JSON.stringify(metric.params),
-      isTracked: null,
     });
 
     if (!result) return null;
@@ -35,14 +35,11 @@ export class MetricController {
     return {
       ...result,
       params: JSON.parse(result.params),
-      data: null,
     };
   }
 
   @Post()
-  async create(
-    @Body() metric: MetricCreate,
-  ): Promise<MetricWithSnapshotsDTO[]> {
+  async create(@Body() metric: MetricCreate): Promise<MetricDetailedDTO[]> {
     const result = await this.metricService.create(metric);
 
     return result.map((metric) => ({
@@ -56,7 +53,6 @@ export class MetricController {
     const result = await this.metricService.start({
       ...metric,
       params: JSON.stringify(metric.params),
-      isTracked: null,
     });
 
     return result;
@@ -82,7 +78,7 @@ export class MetricController {
 
     if (!result) return null;
 
-    return { ...result, params: JSON.parse(result.params), data: null };
+    return { ...result, params: JSON.parse(result.params) };
   }
 
   @Post(':id/execute')
@@ -90,7 +86,6 @@ export class MetricController {
     const result = await this.metricService.execute({
       ...metric,
       params: JSON.stringify(metric.params),
-      isTracked: null,
     });
 
     return result;

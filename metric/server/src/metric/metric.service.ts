@@ -6,6 +6,7 @@ import {
   Metric,
   MetricCreate,
   MetricDTO,
+  MetricDetailed,
   MetricNames,
   MetricSnapshot,
   MetricWithSnapshots,
@@ -90,7 +91,6 @@ export class MetricService {
       id: result.id,
       resource: result.resourceId,
       params: result.params,
-      isTracked: null,
     };
   }
 
@@ -183,11 +183,11 @@ export class MetricService {
     });
   }
 
-  async create(metric: MetricCreate): Promise<MetricWithSnapshots[]> {
+  async create(metric: MetricCreate): Promise<MetricDetailed[]> {
     const config = metricParams[metric.name];
     const dependencies = metricDependencies[metric.name];
 
-    const res: MetricWithSnapshots[] = [];
+    const res: MetricDetailed[] = [];
 
     const depsCreateRequests = await Promise.all(
       dependencies.map((name) => this.create({ ...metric, name })),
@@ -283,7 +283,6 @@ export class MetricService {
       id: result.id,
       name: result.metric.name,
       resource: result.resource.name,
-      isTracked: null,
       params: result.params,
     };
   }
@@ -303,7 +302,7 @@ export class MetricService {
     };
   }
 
-  async execute(metric: MetricWithSnapshots) {
+  async execute(metric: Metric) {
     const task = await this.convertToTask(metric);
 
     const result = await this.taskService.forceExecute({
