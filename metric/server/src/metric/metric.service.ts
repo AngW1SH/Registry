@@ -5,6 +5,7 @@ import {
   AbstractMetricDetailed,
   Metric,
   MetricCreate,
+  MetricDTO,
   MetricNames,
   MetricSnapshot,
   MetricWithSnapshots,
@@ -58,7 +59,7 @@ export class MetricService {
     }));
   }
 
-  async updateParams(metric: Metric) {
+  async updateParams(metric: Metric): Promise<Metric> {
     try {
       const result = await this.update(metric);
     } catch {
@@ -72,9 +73,25 @@ export class MetricService {
       data: {
         params: metric.params,
       },
+      select: {
+        id: true,
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resourceId: true,
+        params: true,
+      },
     });
 
-    return result;
+    return {
+      name: result.metric.name,
+      id: result.id,
+      resource: result.resourceId,
+      params: result.params,
+      isTracked: null,
+    };
   }
 
   async convertToTask(metric: MetricCreate): Promise<TaskCreate> {
@@ -235,18 +252,40 @@ export class MetricService {
     return res;
   }
 
-  async deleteOne(id) {
+  async deleteOne(id): Promise<Metric | null> {
     try {
       const result = await this.stop(id);
     } catch (err) {
       throw new Error('Failed to stop the metric');
     }
 
-    await this.prisma.resourceMetric.delete({
+    const result = await this.prisma.resourceMetric.delete({
       where: {
         id,
       },
+      select: {
+        id: true,
+        params: true,
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resource: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
+
+    return {
+      id: result.id,
+      name: result.metric.name,
+      resource: result.resource.name,
+      isTracked: null,
+      params: result.params,
+    };
   }
 
   populateWithSnapshots(

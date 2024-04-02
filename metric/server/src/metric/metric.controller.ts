@@ -20,14 +20,23 @@ export class MetricController {
   constructor(private metricService: MetricService) {}
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body('metric') metric: MetricDTO) {
+  async update(
+    @Param('id') id: string,
+    @Body('metric') metric: MetricDTO,
+  ): Promise<MetricDTO> {
     const result = await this.metricService.updateParams({
       ...metric,
       params: JSON.stringify(metric.params),
       isTracked: null,
     });
 
-    return result;
+    if (!result) return null;
+
+    return {
+      ...result,
+      params: JSON.parse(result.params),
+      data: null,
+    };
   }
 
   @Post()
@@ -68,10 +77,12 @@ export class MetricController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<MetricDTO> {
     const result = await this.metricService.deleteOne(id);
 
-    return result;
+    if (!result) return null;
+
+    return { ...result, params: JSON.parse(result.params), data: null };
   }
 
   @Post(':id/execute')
