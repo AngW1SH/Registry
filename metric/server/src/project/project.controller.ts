@@ -24,8 +24,12 @@ export class ProjectController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<ProjectDetailedDTO> {
+  async findOne(@Param('id') id: string): Promise<ProjectDetailedDTO> | null {
     const result = await this.projectService.findOne(id);
+
+    if (!result) {
+      return null;
+    }
 
     return {
       ...result,
@@ -43,8 +47,12 @@ export class ProjectController {
   @Post()
   async create(
     @Body('project') project: ProjectCreateDTO,
-  ): Promise<ProjectDetailedDTO> {
+  ): Promise<ProjectDetailedDTO | null> {
     const result = await this.projectService.create(project);
+
+    if (!result) {
+      return null;
+    }
 
     return {
       ...result,
@@ -61,7 +69,9 @@ export class ProjectController {
   }
 
   @Put(':id')
-  async update(@Body('project') project: ProjectDTO): Promise<ProjectDTO> {
+  async update(
+    @Body('project') project: ProjectDTO,
+  ): Promise<ProjectDTO | null> {
     const result = await this.projectService.updateOne(project);
 
     return result;
