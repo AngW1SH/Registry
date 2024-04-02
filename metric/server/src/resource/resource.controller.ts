@@ -22,6 +22,8 @@ export class ResourceController {
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.findOne(id);
 
+    if (!result) return null;
+
     return {
       ...result,
       params: JSON.parse(result.params),
@@ -35,9 +37,11 @@ export class ResourceController {
 
   @Post()
   async createOne(
-    @Body('resource') resource: ResourceDTO,
-  ): Promise<ResourceDetailedDTO> {
+    @Body('resource') resource: ResourceCreateDTO,
+  ): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.createOne(resource);
+
+    if (!result) return null;
 
     return {
       ...result,
@@ -59,13 +63,17 @@ export class ResourceController {
       params: JSON.stringify(resource.params),
     });
 
+    if (!result) return null;
+
     return { ...result, params: JSON.parse(result.params) };
   }
 
   @Delete(':id')
-  async deleteOne(@Param('id') id: string) {
+  async deleteOne(@Param('id') id: string): Promise<ResourceDTO> {
     const result = await this.resourceService.deleteOne(id);
 
-    return result;
+    if (!result) return null;
+
+    return { ...result, params: JSON.parse(result.params) };
   }
 }

@@ -157,11 +157,19 @@ export class ResourceService {
     };
   }
 
-  deleteOne(id: string) {
-    return this.prisma.resource.delete({
+  async deleteOne(id: string): Promise<Resource> {
+    const result = await this.prisma.resource.delete({
       where: {
         id,
       },
     });
+
+    return {
+      id: result.id,
+      name: result.name,
+      params: result.params,
+      project: result.projectId,
+      platform: result.platformId,
+    };
   }
 }

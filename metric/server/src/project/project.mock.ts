@@ -1,4 +1,10 @@
 import {
+  resourceDetailedDTOMocks,
+  resourceDetailedMocks,
+  resourceDetailedWithSnapshotsDTOMocks,
+  resourceDetailedWithSnapshotsMocks,
+} from '../resource/resource.mock';
+import {
   Project,
   ProjectCreate,
   ProjectDTO,
@@ -22,18 +28,24 @@ export const projectDTOMocks: ProjectDTO[] = projectMocks;
 export const projectDetailedMocks: ProjectDetailed[] = projectMocks.map(
   (project) => ({
     ...project,
-    resources: [],
+    resources: resourceDetailedMocks,
   }),
 );
-export const projectDetailedDTOMocks = projectDetailedMocks;
+export const projectDetailedDTOMocks = projectDetailedMocks.map((project) => ({
+  ...project,
+  resources: resourceDetailedDTOMocks,
+}));
 
 export const projectDetailedWithSnapshotsMocks: ProjectDetailedWithSnapshots[] =
   projectDetailedMocks.map((project) => ({
     ...project,
-    resources: [],
+    resources: resourceDetailedWithSnapshotsMocks,
   }));
 export const projectDetailedWithSnapshotsDTOMocks =
-  projectDetailedWithSnapshotsMocks;
+  projectDetailedWithSnapshotsMocks.map((project) => ({
+    ...project,
+    resources: resourceDetailedWithSnapshotsDTOMocks,
+  }));
 
 export const projectCreateMocks: ProjectCreate[] = [
   {
