@@ -7,6 +7,9 @@ interface MetricState {
     start: Date | null;
     end: Date | null;
   };
+  filters: {
+    search: string;
+  };
   isLoading: boolean;
   error: string;
 }
@@ -16,6 +19,9 @@ const initialState: MetricState = {
   calendar: {
     start: null,
     end: null,
+  },
+  filters: {
+    search: "",
   },
   isLoading: false,
   error: "",
@@ -55,6 +61,9 @@ export const metricSlice = createSlice({
       action: PayloadAction<{ start: Date | null; end: Date | null }>
     ) {
       state.calendar = action.payload;
+    },
+    setFilters(state, action: PayloadAction<{ search: string }>) {
+      state.filters = action.payload;
     },
   },
 });

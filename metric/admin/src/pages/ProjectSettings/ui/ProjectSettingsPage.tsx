@@ -35,6 +35,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
     metrics: state.metric.metrics,
   }));
 
+  const metricFilters = useAppSelector((state) => state.metric.filters);
+
   useEffect(() => {
     if (id) {
       initializeProjectDetailed(dispatch, id);
@@ -75,7 +77,11 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                 <div className="pt-8"></div>
                 <ul className="flex flex-wrap gap-10 justify-between">
                   {metrics
-                    .filter((metric) => metric.resource === resource.id)
+                    .filter(
+                      (metric) =>
+                        metric.resource === resource.id &&
+                        metric.name.includes(metricFilters.search)
+                    )
                     .map((metric) => (
                       <li
                         key={metric.id + metric.data.length}

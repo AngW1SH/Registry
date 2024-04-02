@@ -1,17 +1,35 @@
+import { useAppDispatch } from "@/app/store";
+import { metricSlice } from "@/entities/Metric";
+import { useDebounce } from "@/shared/hooks/useDebounce";
 import { TextInput } from "@/shared/ui/TextInput";
 import { Tooltip } from "@/shared/ui/Tooltip";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface SearchMetricProps {}
 
 const SearchMetric: FC<SearchMetricProps> = () => {
+  const dispatch = useAppDispatch();
+
+  const [value, setValue] = useState<string>("");
+
+  const debouncedValue = useDebounce<string>(value, 250);
+
+  useEffect(() => {
+    dispatch(metricSlice.actions.setFilters({ search: debouncedValue }));
+  }, [debouncedValue]);
+
   return (
     <div className="bg-background pt-5 rounded-lg pb-11 px-7">
       <Tooltip className="text-[#A3AED0]" tooltip="Start typing a metric name">
         <h2 className="inline-block">Search Metric</h2>
       </Tooltip>
       <div className="pt-6" />
-      <TextInput className="w-full" placeholder="Type a Metric Name" />
+      <TextInput
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className="w-full"
+        placeholder="Type a Metric Name"
+      />
     </div>
   );
 };
