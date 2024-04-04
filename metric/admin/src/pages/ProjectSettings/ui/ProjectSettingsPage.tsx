@@ -16,6 +16,7 @@ import { SearchMetric } from "@/features/SearchMetric";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 import { ToggleMetricStatus } from "@/features/ToggleMetricStatus";
+import { ToggleResourceMetrics } from "@/features/ToggleResourceMetrics";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -68,6 +69,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
             <li key={resource.id}>
               <PlatformMetrics key={resource.id} resource={resource}>
                 <DeleteResource id={resource.id} />
+                <div className="pt-8" />
+                <ToggleResourceMetrics resourceId={resource.id} />
                 <div className="pt-8" />
                 <ConfigureResource resource={resource} />
                 <div className="pt-8"></div>

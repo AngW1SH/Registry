@@ -9,6 +9,7 @@ import {
 } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
 import { configs } from './config';
+import { Metric } from '../metric/metric.entity';
 
 @Injectable()
 export class ResourceService {
@@ -171,5 +172,75 @@ export class ResourceService {
       project: result.projectId,
       platform: result.platformId,
     };
+  }
+
+  async startTracking(id: string) {
+    const metricsPrisma = await this.prisma.resourceMetric.findMany({
+      where: {
+        resource: {
+          id,
+        },
+      },
+      select: {
+        id: true,
+        params: true,
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resourceId: true,
+      },
+    });
+
+    const metrics: Metric[] = metricsPrisma.map((metric) => ({
+      id: metric.id,
+      name: metric.metric.name,
+      data: [],
+      resource: metric.resourceId,
+      params: metric.params || '[]',
+      isTracked: null,
+    }));
+
+    const result = await Promise.all(
+      metrics.map((metric) => this.metricService.start(metric)),
+    );
+
+    return result;
+  }
+
+  async stopTracking(id: string) {
+    const metricsPrisma = await this.prisma.resourceMetric.findMany({
+      where: {
+        resource: {
+          id,
+        },
+      },
+      select: {
+        id: true,
+        params: true,
+        metric: {
+          select: {
+            name: true,
+          },
+        },
+        resourceId: true,
+      },
+    });
+
+    const metrics: Metric[] = metricsPrisma.map((metric) => ({
+      id: metric.id,
+      name: metric.metric.name,
+      data: [],
+      resource: metric.resourceId,
+      params: metric.params || '[]',
+      isTracked: null,
+    }));
+
+    const result = await Promise.all(
+      metrics.map((metric) => this.metricService.stop(metric.id)),
+    );
+
+    return result;
   }
 }

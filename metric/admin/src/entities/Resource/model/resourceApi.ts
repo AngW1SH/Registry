@@ -26,8 +26,24 @@ export const resourceApi = createApi({
         method: "DELETE",
       }),
     }),
+    startTracking: build.mutation<void, string>({
+      query: (id) => ({
+        url: `resource/${id}/start`,
+        method: "GET",
+      }),
+    }),
+    stopTracking: build.mutation<void, string>({
+      query: (id) => ({
+        url: `resource/${id}/stop`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useSaveResourceMutation, useDeleteResourceMutation } =
-  resourceApi;
+export const {
+  useSaveResourceMutation,
+  useDeleteResourceMutation,
+  useStartTrackingMutation,
+  useStopTrackingMutation,
+} = resourceApi;

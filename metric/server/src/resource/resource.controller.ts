@@ -13,6 +13,7 @@ import {
   ResourceDTO,
   ResourceDetailedDTO,
 } from './resource.entity';
+import { MetricDetailedDTO } from '../metric/metric.entity';
 
 @Controller('resource')
 export class ResourceController {
@@ -75,5 +76,19 @@ export class ResourceController {
     if (!result) return null;
 
     return { ...result, params: JSON.parse(result.params) };
+  }
+
+  @Get(':id/start')
+  async startTracking(@Param('id') id: string) {
+    const result = await this.resourceService.startTracking(id);
+
+    return result;
+  }
+
+  @Get(':id/stop')
+  async stopTracking(@Param('id') id: string) {
+    const result = await this.resourceService.stopTracking(id);
+
+    return result;
   }
 }
