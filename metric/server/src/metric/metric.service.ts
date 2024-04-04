@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
-  AbstractMetric,
   AbstractMetricDetailed,
   Metric,
   MetricCreate,
-  MetricDTO,
   MetricDetailed,
-  MetricNames,
   MetricSnapshot,
-  MetricWithSnapshots,
 } from './metric.entity';
 import { IsMetricPublic, metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
@@ -290,7 +286,7 @@ export class MetricService {
   populateWithSnapshots(
     metric: Metric,
     snapshots?: MetricSnapshot[],
-  ): MetricWithSnapshots {
+  ): MetricDetailed {
     return {
       ...metric,
       data:

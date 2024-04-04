@@ -12,7 +12,6 @@ import {
   MetricCreate,
   MetricDTO,
   MetricDetailedDTO,
-  MetricWithSnapshotsDTO,
 } from './metric.entity';
 import { MetricService } from './metric.service';
 

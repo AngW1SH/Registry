@@ -4,8 +4,8 @@ import {
   Resource,
   ResourceCreate,
   ResourceDetailed,
-  ResourceDetailedWithSnapshots,
   ResourceSnapshots,
+  ResourceWithMetrics,
 } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
 import { configs } from './config';
@@ -17,7 +17,7 @@ export class ResourceService {
     private metricService: MetricService,
   ) {}
 
-  async findMany(filters: { project: string }): Promise<ResourceDetailed[]> {
+  async findMany(filters: { project: string }): Promise<ResourceWithMetrics[]> {
     const result = await this.prisma.resource.findMany({
       where: {
         projectId: filters.project,
@@ -59,7 +59,7 @@ export class ResourceService {
     }));
   }
 
-  async findOne(id: string): Promise<ResourceDetailed | null> {
+  async findOne(id: string): Promise<ResourceWithMetrics | null> {
     const result = await this.prisma.resource.findFirst({
       where: {
         id,
@@ -143,9 +143,9 @@ export class ResourceService {
   }
 
   populateWithSnapshots(
-    resource: ResourceDetailed,
+    resource: ResourceWithMetrics,
     snapshots: ResourceSnapshots,
-  ): ResourceDetailedWithSnapshots {
+  ): ResourceDetailed {
     return {
       ...resource,
       metrics: resource.metrics.map((metric) =>

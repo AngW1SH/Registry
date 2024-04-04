@@ -3,13 +3,11 @@ import { MetricController } from './metric.controller';
 import { MetricService } from './metric.service';
 import {
   AbstractMetricDetailedMocks,
-  abstractMetricMocks,
   metricCreateMocks,
   metricDTOMocks,
+  metricDetailedDTOMocks,
   metricDetailedMocks,
   metricMocks,
-  metricWithSnapshotsDTOMocks,
-  metricWithSnapshotsMocks,
 } from './metric.mock';
 
 describe('MetricController', () => {
@@ -81,7 +79,7 @@ describe('MetricController', () => {
 
       const result = await controller.create(request);
 
-      expect(result).toEqual(metricWithSnapshotsDTOMocks);
+      expect(result).toEqual(metricDetailedDTOMocks);
     });
   });
 

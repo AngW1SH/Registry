@@ -39,13 +39,11 @@ export class ProjectService {
       this.taskService.list(['project:' + result.name]),
     ]);
 
-    if (trackedTasks) markTrackedMetrics(trackedTasks, resources);
-
     const snapshots = structureSnapshots(
       await this.snapshotService.list('project:' + result.name),
     );
 
-    const resourcesPopulated = resources.map((resource) =>
+    let resourcesPopulated = resources.map((resource) =>
       this.resourceService.populateWithSnapshots(
         resource,
         snapshots[resource.name],
@@ -55,7 +53,9 @@ export class ProjectService {
     return {
       id: result.id,
       name: result.name,
-      resources: resourcesPopulated,
+      resources: trackedTasks
+        ? markTrackedMetrics(trackedTasks, resourcesPopulated)
+        : resourcesPopulated,
     };
   }
 

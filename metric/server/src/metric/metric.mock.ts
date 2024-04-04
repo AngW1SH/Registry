@@ -7,8 +7,6 @@ import {
   MetricDTO,
   MetricDetailed,
   MetricDetailedDTO,
-  MetricWithSnapshots,
-  MetricWithSnapshotsDTO,
 } from './metric.entity';
 
 export const metricMocks: Metric[] = [
@@ -35,7 +33,6 @@ export const metricMocks: Metric[] = [
 export const metricDTOMocks: MetricDTO[] = metricMocks.map((metric) => ({
   ...metric,
   params: JSON.parse(metric.params),
-  data: null,
 }));
 
 export const metricCreateMocks: MetricCreate[] = metricMocks.map((metric) => ({
@@ -44,29 +41,22 @@ export const metricCreateMocks: MetricCreate[] = metricMocks.map((metric) => ({
   params: JSON.stringify(metric.params),
 }));
 
-export const metricWithSnapshotsMocks: MetricWithSnapshots[] = metricMocks.map(
-  (metric) => ({ ...metric, data: [] }),
+export const metricDetailedMocks: MetricDetailed[] = metricMocks.map(
+  (metric) => ({
+    ...metric,
+    data: [],
+    isTracked: true,
+  }),
 );
 
-export const metricWithSnapshotsDTOMocks: MetricWithSnapshotsDTO[] =
-  metricWithSnapshotsMocks.map((metric) => ({
+export const metricDetailedDTOMocks: MetricDetailedDTO[] = metricMocks.map(
+  (metric) => ({
     ...metric,
     params: JSON.parse(metric.params),
     data: [],
-  }));
-
-export const metricDetailedMocks: MetricDetailed[] =
-  metricWithSnapshotsMocks.map((metric) => ({
-    ...metric,
     isTracked: true,
-  }));
-
-export const metricDetailedDTOMocks: MetricDetailedDTO[] =
-  metricDetailedMocks.map((metric) => ({
-    ...metric,
-    params: JSON.parse(metric.params),
-    data: [],
-  }));
+  }),
+);
 
 export const abstractMetricMocks: AbstractMetric[] = [
   {

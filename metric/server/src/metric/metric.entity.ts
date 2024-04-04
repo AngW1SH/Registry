@@ -17,21 +17,14 @@ export interface MetricSnapshot {
   data: string;
   timestamp: number;
 }
-
-export interface MetricWithSnapshots extends Metric {
+export interface MetricDetailed extends Metric {
+  isTracked?: boolean;
   data: MetricSnapshot[];
 }
 
-export interface MetricWithSnapshotsDTO extends MetricDTO {
+export interface MetricDetailedDTO extends MetricDTO {
+  isTracked?: boolean;
   data: MetricSnapshot[];
-}
-
-export interface MetricDetailed extends MetricWithSnapshots {
-  isTracked: boolean;
-}
-
-export interface MetricDetailedDTO extends MetricWithSnapshotsDTO {
-  isTracked: boolean;
 }
 
 export interface MetricDTO {

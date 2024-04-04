@@ -1,7 +1,6 @@
 import {
   ResourceDetailed,
   ResourceDetailedDTO,
-  ResourceDetailedWithSnapshots,
 } from 'src/resource/resource.entity';
 
 export interface Project {
@@ -19,7 +18,7 @@ export interface ProjectDetailed extends Project {
 }
 
 export interface ProjectDetailedWithSnapshots extends Project {
-  resources: ResourceDetailedWithSnapshots[];
+  resources: ResourceDetailed[];
 }
 
 export interface ProjectDetailedDTO extends ProjectDTO {
