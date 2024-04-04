@@ -1,3 +1,4 @@
+import { createMock } from '@golevelup/ts-jest';
 import { PrismaService } from '../prisma/prisma.service';
 import { platformMocks } from './platform.mock';
 import { PlatformService } from './platform.service';
@@ -7,7 +8,12 @@ describe('PlatformService', () => {
   let prisma: PrismaService;
 
   beforeEach(async () => {
-    prisma = new PrismaService();
+    prisma = createMock<PrismaService>({
+      platform: {
+        findMany: jest.fn().mockResolvedValue(platformMocks),
+        findFirst: jest.fn().mockResolvedValue(platformMocks[0]),
+      },
+    });
     service = new PlatformService(prisma);
   });
 
