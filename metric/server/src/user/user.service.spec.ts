@@ -23,13 +23,13 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findOne method', () => {
+  describe('findByName method', () => {
     it('should be defined', () => {
-      expect(service.findOne).toBeDefined();
+      expect(service.findByName).toBeDefined();
     });
 
     it('should call prisma.user.findFirst', async () => {
-      await service.findOne('test');
+      await service.findByName('test');
 
       expect(prisma.user.findFirst).toHaveBeenCalled();
       expect(prisma.user.findFirst).toHaveBeenCalledWith(
@@ -44,7 +44,7 @@ describe('UserService', () => {
     it('should return null if no user is found', async () => {
       jest.spyOn(prisma.user, 'findFirst').mockResolvedValueOnce(null as any);
 
-      const result = await service.findOne('test');
+      const result = await service.findByName('test');
 
       expect(result).toBeNull();
     });
@@ -54,7 +54,7 @@ describe('UserService', () => {
 
       jest.spyOn(prisma.user, 'findFirst').mockResolvedValueOnce(userPrisma);
 
-      const result = await service.findOne(userPrisma.id);
+      const result = await service.findByName(userPrisma.id);
 
       expect(result).toEqual(userPrisma);
     });
