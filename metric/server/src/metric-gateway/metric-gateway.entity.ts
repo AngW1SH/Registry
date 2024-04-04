@@ -3,6 +3,6 @@ export interface Data {
   project: string;
   metric: string;
   error: string;
-  data: string;
+  data: any;
   timestamp: number;
 }
