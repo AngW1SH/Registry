@@ -68,15 +68,11 @@ export const resourceMocks = [
     metrics: [
       {
         id: 'metric-id-1',
-        metric: {
-          name: 'metric-1',
-        },
+        name: 'metric-1',
       },
       {
         id: 'metric-id-2',
-        metric: {
-          name: 'metric-2',
-        },
+        name: 'metric-2',
       },
     ],
   },
@@ -89,9 +85,7 @@ export const resourceMocks = [
     metrics: [
       {
         id: 'metric-id-3',
-        metric: {
-          name: 'metric-3',
-        },
+        name: 'metric-3',
       },
     ],
   },
