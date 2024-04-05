@@ -53,6 +53,12 @@ export class MetricService {
 
   async updateParams(metric: Metric): Promise<Metric> {
     try {
+      JSON.parse(metric.params);
+    } catch {
+      throw new Error('Invalid JSON in metric.params');
+    }
+
+    try {
       const result = await this.update(metric);
     } catch {
       throw new Error('Failed to update the metric');
