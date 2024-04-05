@@ -89,8 +89,18 @@ export class MetricService {
 
   async convertToTask(metric: MetricCreate): Promise<TaskCreate> {
     let params = metric.params ? JSON.parse(metric.params) : {};
+
     const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
+
+    if (!weight) {
+      throw new Error('Missing "weight" parameter');
+    }
+
+    if (!updateRate) {
+      throw new Error('Missing "updateRate" parameter');
+    }
+
     params = params.filter(
       (param) => param.name != 'updateRate' && param.name != 'weight',
     );
@@ -161,10 +171,20 @@ export class MetricService {
       },
     });
 
-    const [projectName, resourceName] = [
-      metric.resource.project.name,
-      metric.resource.name,
-    ];
+    if (!metric) {
+      throw new Error('Metric not found');
+    }
+
+    const projectName = metric?.resource?.project?.name;
+    const resourceName = metric?.resource?.name;
+
+    if (!projectName) {
+      throw new Error('Failed to find project name');
+    }
+
+    if (!resourceName) {
+      throw new Error('Failed to find resource name');
+    }
 
     return this.taskService.stop({
       metric: metric.name,

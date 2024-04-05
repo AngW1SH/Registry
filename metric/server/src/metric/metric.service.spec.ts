@@ -4,6 +4,46 @@ import { MetricService } from './metric.service';
 import { metricMocks, prismaMetricMocks } from './metric.mock';
 import { TaskService } from '../task/task.service';
 import { MetricNames } from './config/metricNames';
+import { MetricParam, MetricParamType, UnitOfTime } from './config/types';
+
+const validParams: MetricParam[] = [
+  {
+    name: 'weight',
+    type: MetricParamType.text,
+    placeholder: 'weight',
+    value: '1',
+    label: 'weight',
+    tooltip: 'weight',
+  },
+  {
+    name: 'updateRate',
+    type: MetricParamType.duration,
+    placeholder: 'updateRate',
+    value: {
+      number: 2,
+      unitOfTime: UnitOfTime.weeks,
+    },
+    label: 'updateRate',
+    tooltip: 'updateRate',
+  },
+  {
+    name: 'metricParam',
+    type: MetricParamType.text,
+    placeholder: 'metricParam',
+    value: 'metricParam',
+    label: 'metricParam',
+    tooltip: 'metricParam',
+  },
+];
+
+const prismaMetricWithResourceAndProject = {
+  ...prismaMetricMocks[0],
+  resource: {
+    id: '1',
+    name: 'resource',
+    project: { id: '1', name: 'project' },
+  },
+};
 
 describe('MetricService', () => {
   let service: MetricService;
@@ -14,7 +54,18 @@ describe('MetricService', () => {
     prisma = createMock<PrismaService>({
       metric: {
         findMany: jest.fn().mockResolvedValue(prismaMetricMocks),
+        findFirst: jest
+          .fn()
+          .mockResolvedValue(prismaMetricWithResourceAndProject),
         update: jest.fn().mockResolvedValue(prismaMetricMocks[0]),
+      },
+      resource: {
+        findFirst: jest.fn().mockResolvedValue({
+          id: '1',
+          name: 'resource',
+          params: '[{ "name": "resourceParam" }]',
+          project: { id: '1', name: 'project' },
+        }),
       },
     });
     taskService = createMock<TaskService>();
@@ -112,6 +163,188 @@ describe('MetricService', () => {
       ).rejects.toThrow();
 
       expect(updateSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('convertToTask method', () => {
+    it('should be defined', () => {
+      expect(service).toBeDefined();
+    });
+
+    it('should throw an error if provided JSON is invalid', async () => {
+      await expect(
+        service.convertToTask({ ...metricMocks[0], params: '[[[' }),
+      ).rejects.toThrow();
+    });
+
+    it('should look up resource and project names in db', async () => {
+      const resourceFindSpy = jest.spyOn(prisma.resource, 'findFirst');
+      const result = await service.convertToTask({
+        ...metricMocks[0],
+        params: JSON.stringify(validParams),
+      });
+
+      expect(resourceFindSpy).toHaveBeenCalled();
+    });
+
+    it('should return a task', async () => {
+      const result = await service.convertToTask({
+        ...metricMocks[0],
+        params: JSON.stringify(validParams),
+      });
+
+      expect(result.weight).toBeDefined();
+      expect(result.update_rate).toBeDefined();
+
+      expect(result.groups).toContain('project:project');
+      expect(result.groups).toContain('resource:resource');
+    });
+
+    it('should throw an error if weight is not defined', async () => {
+      await expect(
+        service.convertToTask({
+          ...metricMocks[0],
+          params: JSON.stringify({ ...validParams, weight: undefined }),
+        }),
+      ).rejects.toThrow();
+    });
+
+    it('should throw an error if updateRate is not defined', async () => {
+      await expect(
+        service.convertToTask({
+          ...metricMocks[0],
+          params: JSON.stringify({ ...validParams, updateRate: undefined }),
+        }),
+      ).rejects.toThrow();
+    });
+
+    it("should merge resource's params with metric's params", async () => {
+      const result = await service.convertToTask({
+        ...metricMocks[0],
+        params: JSON.stringify(validParams),
+      });
+
+      const data = JSON.parse(result.data);
+
+      expect(data.find((d) => d.name === 'resourceParam')).toBeDefined();
+      expect(data.find((d) => d.name === 'metricParam')).toBeDefined();
+    });
+  });
+
+  describe('start method', () => {
+    it('should be defined', () => {
+      expect(service.start).toBeDefined();
+    });
+
+    it('should call its own convertToTask method', async () => {
+      const convertToTaskMock = jest
+        .spyOn(service, 'convertToTask')
+        .mockResolvedValueOnce({} as any);
+
+      await service.start(metricMocks[0]);
+
+      expect(convertToTaskMock).toHaveBeenCalled();
+    });
+
+    it('should call taskService.start with converted task', async () => {
+      jest.spyOn(service, 'convertToTask').mockResolvedValueOnce('test' as any);
+
+      await service.start(metricMocks[0]);
+
+      expect(taskService.start).toHaveBeenCalledWith('test');
+    });
+  });
+
+  describe('update method', () => {
+    it('should be defined', () => {
+      expect(service.update).toBeDefined();
+    });
+
+    it('should call its own convertToTask method', async () => {
+      const convertToTaskMock = jest
+        .spyOn(service, 'convertToTask')
+        .mockResolvedValueOnce({} as any);
+
+      await service.update(metricMocks[0]);
+
+      expect(convertToTaskMock).toHaveBeenCalled();
+    });
+
+    it('should call taskService.update with converted task', async () => {
+      jest.spyOn(service, 'convertToTask').mockResolvedValueOnce('test' as any);
+
+      await service.update(metricMocks[0]);
+
+      expect(taskService.update).toHaveBeenCalledWith('test');
+    });
+  });
+
+  describe('stop method', () => {
+    it('should be defined', () => {
+      expect(service.stop).toBeDefined();
+    });
+
+    it('should find metric in db', async () => {
+      const findFirstSpy = jest.spyOn(prisma.metric, 'findFirst');
+
+      await service.stop(metricMocks[0].id);
+
+      expect(findFirstSpy).toHaveBeenCalled();
+    });
+
+    it("should call taskService.stop with metric's groups", async () => {
+      await service.stop(metricMocks[0].id);
+
+      expect(taskService.stop).toHaveBeenCalledWith({
+        metric: metricMocks[0].name,
+        groups: ['project:project', 'resource:resource'],
+      });
+    });
+
+    it('should throw an error if metric is not found', async () => {
+      jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce(null);
+
+      await expect(service.stop('test')).rejects.toThrow();
+    });
+
+    it('should throw an error if resource not found', async () => {
+      jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce({
+        ...prismaMetricWithResourceAndProject,
+        resource: null,
+      } as any);
+      jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce({
+        ...prismaMetricWithResourceAndProject,
+        resource: {
+          ...prismaMetricWithResourceAndProject.resource,
+          name: null,
+        },
+      } as any);
+
+      await expect(service.stop('test')).rejects.toThrow();
+      await expect(service.stop('test')).rejects.toThrow();
+    });
+
+    it('should throw an error if project not found', async () => {
+      jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce({
+        ...prismaMetricWithResourceAndProject,
+        resource: {
+          ...prismaMetricWithResourceAndProject.resource,
+          project: null,
+        },
+      } as any);
+      jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce({
+        ...prismaMetricWithResourceAndProject,
+        resource: {
+          ...prismaMetricWithResourceAndProject.resource,
+          project: {
+            ...prismaMetricWithResourceAndProject.resource.project,
+            name: null,
+          },
+        },
+      } as any);
+
+      await expect(service.stop('test')).rejects.toThrow();
+      await expect(service.stop('test')).rejects.toThrow();
     });
   });
 });
