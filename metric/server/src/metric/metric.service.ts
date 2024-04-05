@@ -263,16 +263,20 @@ export class MetricService {
         name: true,
         resource: {
           select: {
-            name: true,
+            id: true,
           },
         },
       },
     });
 
+    if (!result) {
+      throw new Error('Failed to delete the metric');
+    }
+
     return {
       id: result.id,
       name: result.name,
-      resource: result.resource.name,
+      resource: result.resource.id,
       params: result.params,
     };
   }
@@ -294,6 +298,10 @@ export class MetricService {
 
   async execute(metric: Metric) {
     const task = await this.convertToTask(metric);
+
+    if (!task || !task.metric || !task.groups) {
+      throw new Error('Failed to convert metric to task');
+    }
 
     const result = await this.taskService.forceExecute({
       metric: task.metric,
