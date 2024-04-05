@@ -1,4 +1,4 @@
-import { MetricNames } from '../metric.entity';
+import { MetricNames } from './metricNames';
 
 export interface GenericParam {
   name: string;

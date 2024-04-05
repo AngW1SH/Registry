@@ -11,6 +11,7 @@ import { ResubscribeModule } from 'src/resubscribe/resubscribe.module';
         name: 'SNAPSHOT_SERVICE',
         transport: Transport.GRPC,
         options: {
+          maxReceiveMessageLength: 15 * 1024 * 1024,
           package: 'api',
           protoPath: '../proto/snapshot.proto',
           url: 'localhost:9000',

@@ -12,6 +12,7 @@ import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
 import { metricDependencies } from './config/metricDependencies';
 import { TaskCreate } from 'src/task/task.entity';
+import { MetricNames } from './config/metricNames';
 
 @Injectable()
 export class MetricService {
@@ -21,17 +22,13 @@ export class MetricService {
   ) {}
 
   async findMany(filters: { resource: string }): Promise<Metric[]> {
-    const result = await this.prisma.resourceMetric.findMany({
+    const result = await this.prisma.metric.findMany({
       where: {
         resourceId: filters.resource,
       },
       select: {
         id: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resourceId: true,
         params: true,
       },
@@ -39,21 +36,19 @@ export class MetricService {
 
     return result.map((metric) => ({
       id: metric.id,
-      name: metric.metric.name,
+      name: metric.name,
       resource: metric.resourceId,
       params: metric.params || '[]',
-      data: [],
-      isTracked: null,
     }));
   }
 
   async listAll(): Promise<AbstractMetricDetailed[]> {
-    const result = await this.prisma.metric.findMany();
-
-    return result.map((metric) => ({
-      ...metric,
-      dependencies: metricDependencies[metric.name] || [],
+    const result = Object.keys(MetricNames).map((key) => ({
+      name: key,
+      dependencies: metricDependencies[key] || [],
     }));
+
+    return result;
   }
 
   async updateParams(metric: Metric): Promise<Metric> {
@@ -63,7 +58,7 @@ export class MetricService {
       throw new Error('Failed to update the metric');
     }
 
-    const result = await this.prisma.resourceMetric.update({
+    const result = await this.prisma.metric.update({
       where: {
         id: metric.id,
       },
@@ -72,18 +67,14 @@ export class MetricService {
       },
       select: {
         id: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resourceId: true,
         params: true,
       },
     });
 
     return {
-      name: result.metric.name,
+      name: result.name,
       id: result.id,
       resource: result.resourceId,
       params: result.params,
@@ -145,16 +136,12 @@ export class MetricService {
   }
 
   async stop(id: string) {
-    const metric = await this.prisma.resourceMetric.findFirst({
+    const metric = await this.prisma.metric.findFirst({
       where: {
         id,
       },
       select: {
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resource: {
           select: {
             name: true,
@@ -174,7 +161,7 @@ export class MetricService {
     ];
 
     return this.taskService.stop({
-      metric: metric.metric.name,
+      metric: metric.name,
       groups: ['project:' + projectName, 'resource:' + resourceName],
     });
   }
@@ -202,35 +189,19 @@ export class MetricService {
       throw new Error('Failed to start the metric');
     }
 
-    const abstractMetric = await this.prisma.metric.findFirst({
-      where: {
-        name: metric.name,
-      },
-    });
-
-    if (!abstractMetric) throw new Error('Metric not found');
-
-    const result = await this.prisma.resourceMetric.create({
+    const result = await this.prisma.metric.create({
       data: {
         params: JSON.stringify(config),
+        name: metric.name,
         resource: {
           connect: {
             id: metric.resource,
           },
         },
-        metric: {
-          connect: {
-            id: abstractMetric.id,
-          },
-        },
       },
       select: {
         id: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resourceId: true,
         params: true,
       },
@@ -238,7 +209,7 @@ export class MetricService {
 
     res.push({
       id: result.id,
-      name: result.metric.name,
+      name: result.name,
       resource: result.resourceId,
       params: result.params || '[]',
       data: [],
@@ -255,18 +226,14 @@ export class MetricService {
       throw new Error('Failed to stop the metric');
     }
 
-    const result = await this.prisma.resourceMetric.delete({
+    const result = await this.prisma.metric.delete({
       where: {
         id,
       },
       select: {
         id: true,
         params: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resource: {
           select: {
             name: true,
@@ -277,7 +244,7 @@ export class MetricService {
 
     return {
       id: result.id,
-      name: result.metric.name,
+      name: result.name,
       resource: result.resource.name,
       params: result.params,
     };

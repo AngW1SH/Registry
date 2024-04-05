@@ -1,10 +1,11 @@
+import { MetricNames } from './config/metricNames';
+
 export interface AbstractMetricDTO {
   id: string;
   name: string;
 }
 
 export interface AbstractMetric {
-  id: string;
   name: string;
 }
 
@@ -44,10 +45,3 @@ export interface Metric {
 }
 
 export type MetricCreate = Omit<Metric, 'id'>;
-
-export enum MetricNames {
-  TotalCommits = 'TotalCommits',
-  Commits = 'Commits',
-  Issues = 'Issues',
-  IssueCompleteness = 'IssueCompleteness',
-}

@@ -30,11 +30,7 @@ export class MetricGateway {
         metrics: {
           select: {
             id: true,
-            metric: {
-              select: {
-                name: true,
-              },
-            },
+            name: true,
           },
         },
       },
@@ -49,9 +45,7 @@ export class MetricGateway {
 
       const resource = resources.find((r) => r.name === resourceName);
 
-      const metric = resource.metrics.find(
-        (m) => m.metric.name === snapshot.metric,
-      );
+      const metric = resource.metrics.find((m) => m.name === snapshot.metric);
 
       if (resource && metric)
         result.push({

@@ -2,7 +2,6 @@ import { z } from "zod";
 import { IMetricParam } from "./params";
 
 export interface IAbstractMetric {
-  id: string;
   name: MetricName;
 }
 
@@ -11,6 +10,7 @@ export interface IAbstractMetricDetailed extends IAbstractMetric {
 }
 
 export interface IMetric extends IAbstractMetric {
+  id: string;
   resource: string;
   params: IMetricParam[];
   data: IGenericSnapshotList; // Snapshots

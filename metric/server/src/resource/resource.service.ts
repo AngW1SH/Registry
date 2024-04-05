@@ -32,11 +32,7 @@ export class ResourceService {
         metrics: {
           select: {
             id: true,
-            metric: {
-              select: {
-                name: true,
-              },
-            },
+            name: true,
             params: true,
           },
         },
@@ -51,7 +47,7 @@ export class ResourceService {
       platform: resource.platformId,
       metrics: resource.metrics.map((metric) => ({
         id: metric.id,
-        name: metric.metric.name,
+        name: metric.name,
         data: [],
         resource: resource.id,
         params: metric.params || '[]',
@@ -175,7 +171,7 @@ export class ResourceService {
   }
 
   async startTracking(id: string) {
-    const metricsPrisma = await this.prisma.resourceMetric.findMany({
+    const metricsPrisma = await this.prisma.metric.findMany({
       where: {
         resource: {
           id,
@@ -184,18 +180,14 @@ export class ResourceService {
       select: {
         id: true,
         params: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resourceId: true,
       },
     });
 
     const metrics: Metric[] = metricsPrisma.map((metric) => ({
       id: metric.id,
-      name: metric.metric.name,
+      name: metric.name,
       data: [],
       resource: metric.resourceId,
       params: metric.params || '[]',
@@ -210,7 +202,7 @@ export class ResourceService {
   }
 
   async stopTracking(id: string) {
-    const metricsPrisma = await this.prisma.resourceMetric.findMany({
+    const metricsPrisma = await this.prisma.metric.findMany({
       where: {
         resource: {
           id,
@@ -219,18 +211,14 @@ export class ResourceService {
       select: {
         id: true,
         params: true,
-        metric: {
-          select: {
-            name: true,
-          },
-        },
+        name: true,
         resourceId: true,
       },
     });
 
     const metrics: Metric[] = metricsPrisma.map((metric) => ({
       id: metric.id,
-      name: metric.metric.name,
+      name: metric.name,
       data: [],
       resource: metric.resourceId,
       params: metric.params || '[]',

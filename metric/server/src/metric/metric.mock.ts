@@ -60,15 +60,12 @@ export const metricDetailedDTOMocks: MetricDetailedDTO[] = metricMocks.map(
 
 export const abstractMetricMocks: AbstractMetric[] = [
   {
-    id: '1',
     name: 'TotalCommits',
   },
   {
-    id: '2',
     name: 'Commits',
   },
   {
-    id: '3',
     name: 'Issues',
   },
 ];
@@ -78,3 +75,13 @@ export const AbstractMetricDetailedMocks: AbstractMetricDetailed[] =
     ...metric,
     dependencies: [],
   }));
+
+export const prismaMetricMocks = metricMocks.map((metric) => ({
+  id: metric.id,
+  resourceId: metric.resource,
+  resource: {
+    id: metric.resource,
+  },
+  params: metric.params,
+  name: metric.name,
+}));

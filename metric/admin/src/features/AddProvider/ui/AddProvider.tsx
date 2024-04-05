@@ -35,6 +35,8 @@ const AddProvider: FC<AddProviderProps> = ({ className = "" }) => {
 
   const handleConfirm = async () => {
     if (name && provider && project) {
+      console.log(provider);
+      console.log(platforms);
       const platform = platforms.find((platform) => platform.name === provider);
 
       if (!platform) throw new Error("Couldn't find platform");

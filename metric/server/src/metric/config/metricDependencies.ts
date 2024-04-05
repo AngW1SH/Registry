@@ -1,4 +1,4 @@
-import { MetricNames } from '../metric.entity';
+import { MetricNames } from './metricNames';
 import { MetricDependencies } from './types';
 
 export const metricDependencies: MetricDependencies = {
