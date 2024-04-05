@@ -198,16 +198,17 @@ export class MetricService {
 
     const res: MetricDetailed[] = [];
 
+    if (!config) throw new Error('Metric params config not found');
+    if (!dependencies) throw new Error('Metric dependencies not found');
+
     const depsCreateRequests = await Promise.all(
       dependencies.map((name) => this.create({ ...metric, name })),
     );
 
     depsCreateRequests.forEach((metric) => res.push(...metric));
 
-    if (!config) throw new Error('Metric not found');
-
     try {
-      const result = await this.start({
+      await this.start({
         ...metric,
         params: JSON.stringify(config),
       });

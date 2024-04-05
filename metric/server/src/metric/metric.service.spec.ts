@@ -5,6 +5,8 @@ import { metricMocks, prismaMetricMocks } from './metric.mock';
 import { TaskService } from '../task/task.service';
 import { MetricNames } from './config/metricNames';
 import { MetricParam, MetricParamType, UnitOfTime } from './config/types';
+import * as metricParamsModule from './config/metricParams';
+import * as metricDependenciesModule from './config/metricDependencies';
 
 const validParams: MetricParam[] = [
   {
@@ -36,6 +38,28 @@ const validParams: MetricParam[] = [
   },
 ];
 
+jest.mock('./config/metricDependencies', () => ({
+  ...jest.requireActual('./config/metricDependencies'),
+  get metricDependencies() {
+    return {
+      Test: ['TestDependency1', 'TestDependency2'],
+      TestDependency1: [],
+      TestDependency2: ['TestDependency1'],
+    };
+  },
+}));
+
+jest.mock('./config/metricParams', () => ({
+  ...jest.requireActual('./config/metricParams'),
+  get metricParams() {
+    return {
+      Test: [],
+      TestDependency1: [],
+      TestDependency2: [],
+    };
+  },
+}));
+
 const prismaMetricWithResourceAndProject = {
   ...prismaMetricMocks[0],
   resource: {
@@ -51,6 +75,8 @@ describe('MetricService', () => {
   let taskService: DeepMocked<TaskService>;
 
   beforeEach(() => {
+    jest.clearAllMocks();
+
     prisma = createMock<PrismaService>({
       metric: {
         findMany: jest.fn().mockResolvedValue(prismaMetricMocks),
@@ -58,6 +84,7 @@ describe('MetricService', () => {
           .fn()
           .mockResolvedValue(prismaMetricWithResourceAndProject),
         update: jest.fn().mockResolvedValue(prismaMetricMocks[0]),
+        create: jest.fn().mockResolvedValue(prismaMetricMocks[0]),
       },
       resource: {
         findFirst: jest.fn().mockResolvedValue({
@@ -345,6 +372,64 @@ describe('MetricService', () => {
 
       await expect(service.stop('test')).rejects.toThrow();
       await expect(service.stop('test')).rejects.toThrow();
+    });
+  });
+
+  describe('create method', () => {
+    it('should be defined', () => {
+      expect(service.create).toBeDefined();
+    });
+
+    it('should throw an error if metric params config is not found', async () => {
+      jest.spyOn(service, 'start').mockResolvedValue({} as any);
+
+      jest
+        .spyOn(metricParamsModule, 'metricParams', 'get')
+        .mockResolvedValueOnce({} as never);
+
+      await expect(service.create(metricMocks[0])).rejects.toThrow();
+    });
+
+    it('should throw an error if metric params config is not defined', async () => {
+      jest.spyOn(service, 'start').mockResolvedValue({} as any);
+
+      jest
+        .spyOn(metricParamsModule, 'metricParams', 'get')
+        .mockResolvedValueOnce({} as never);
+
+      await expect(
+        service.create({ ...metricMocks[0], name: 'Test' }),
+      ).rejects.toThrow();
+    });
+
+    it('should throw an error if metric dependencies are not defined', async () => {
+      jest.spyOn(service, 'start').mockResolvedValue({} as any);
+
+      jest
+        .spyOn(metricDependenciesModule, 'metricDependencies', 'get')
+        .mockResolvedValueOnce({} as never);
+
+      await expect(
+        service.create({ ...metricMocks[0], name: 'Test' }),
+      ).rejects.toThrow();
+    });
+
+    it('should throw an error if metric has failed to start', async () => {
+      jest.spyOn(service, 'start').mockImplementationOnce(async () => {
+        throw new Error();
+      });
+
+      await expect(
+        service.create({ ...metricMocks[0], name: 'Test' }),
+      ).rejects.toThrow();
+    });
+
+    it('should call its own create method when everything is ok', async () => {
+      jest.spyOn(service, 'start').mockResolvedValue({} as any);
+
+      await service.create({ ...metricMocks[0], name: 'Test' });
+
+      expect(prisma.metric.create).toHaveBeenCalled();
     });
   });
 });
