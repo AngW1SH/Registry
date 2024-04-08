@@ -7,7 +7,7 @@ import { MetricGateway } from 'src/metric-gateway/gateway';
 import { randomUUID } from 'crypto';
 import { ResubscribeService } from 'src/resubscribe/resubscribe.service';
 
-interface SnapshotServiceGRPC {
+export interface SnapshotServiceGRPC {
   list: (data: { Group: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
   stream: (data: { id: string }) => Observable<{ Snapshots: SnapshotGRPC[] }>;
 }
@@ -15,8 +15,6 @@ interface SnapshotServiceGRPC {
 @Injectable()
 export class SnapshotService {
   private snapshotServiceGRPC: SnapshotServiceGRPC;
-  private subscription: Subscription;
-  private connectionWatchdog: NodeJS.Timeout;
 
   constructor(
     @Inject('SNAPSHOT_SERVICE') private client: ClientGrpc,
