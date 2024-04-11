@@ -5,9 +5,6 @@ export enum ResourceFieldType {
 
 export interface GenericField {
   prop: string;
-  label: string;
-  tooltip?: string;
-  placeholder: string;
 }
 
 export interface ITextField extends GenericField {
@@ -21,3 +18,9 @@ export interface ITextArrayField extends GenericField {
 }
 
 export type IResourceField = ITextField | ITextArrayField;
+
+export interface IResourceFieldData {
+  label?: string;
+  tooltip?: string;
+  placeholder?: string;
+}

@@ -2,9 +2,6 @@ import { MetricNames } from './metricNames';
 
 export interface GenericParam {
   name: string;
-  label: string;
-  tooltip?: string;
-  placeholder: string;
 }
 
 export interface TextParam extends GenericParam {

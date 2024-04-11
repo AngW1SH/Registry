@@ -5,9 +5,6 @@ export enum ResourceFieldType {
 
 export interface GenericField {
   prop: string;
-  label: string;
-  tooltip?: string;
-  placeholder: string;
 }
 
 export interface ITextField extends GenericField {

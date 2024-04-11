@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { ITextField } from "../../types/fields";
+import { IResourceFieldData, ITextField } from "../../types/fields";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { TextInput } from "@/shared/ui/TextInput";
 
-interface TextFieldProps extends ITextField {
+interface TextFieldProps extends ITextField, IResourceFieldData {
   value: string;
   onChange: (value: string) => void;
 }

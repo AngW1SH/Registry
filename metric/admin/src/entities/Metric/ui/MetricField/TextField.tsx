@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { ITextParam } from "../../types/params";
+import { ITextParam, MetricParamData } from "../../types/params";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { TextInput } from "@/shared/ui/TextInput";
 
-interface TextFieldProps extends ITextParam {
+interface TextFieldProps extends ITextParam, MetricParamData {
   value: string;
   onChange: (value: string) => void;
   className?: string;

@@ -13,29 +13,20 @@ const validParams: MetricParam[] = [
   {
     name: 'weight',
     type: MetricParamType.text,
-    placeholder: 'weight',
     value: '1',
-    label: 'weight',
-    tooltip: 'weight',
   },
   {
     name: 'updateRate',
     type: MetricParamType.duration,
-    placeholder: 'updateRate',
     value: {
       number: 2,
       unitOfTime: UnitOfTime.weeks,
     },
-    label: 'updateRate',
-    tooltip: 'updateRate',
   },
   {
     name: 'metricParam',
     type: MetricParamType.text,
-    placeholder: 'metricParam',
     value: 'metricParam',
-    label: 'metricParam',
-    tooltip: 'metricParam',
   },
 ];
 

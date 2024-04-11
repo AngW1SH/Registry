@@ -2,6 +2,7 @@ import { FC } from "react";
 import TextField from "./TextField";
 import { IMetricParam, MetricParamType } from "../../types/params";
 import DurationField from "./DurationField";
+import { paramData } from "../../config/paramData";
 
 interface MetricFieldProps {
   param: IMetricParam;
@@ -14,6 +15,8 @@ const MetricField: FC<MetricFieldProps> = ({
   onChange,
   className = "",
 }) => {
+  const data = paramData[param.name];
+
   switch (param.type) {
     case MetricParamType.text: {
       return (
@@ -29,6 +32,7 @@ const MetricField: FC<MetricFieldProps> = ({
       return (
         <DurationField
           {...param}
+          {...data}
           value={param.value}
           onChange={(value) => onChange({ ...param, value: value })}
           className={className}

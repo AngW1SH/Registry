@@ -1,8 +1,5 @@
 export interface GenericParam {
   name: string;
-  label: string;
-  tooltip?: string;
-  placeholder: string;
 }
 
 export interface ITextParam extends GenericParam {
@@ -56,4 +53,10 @@ export enum MetricParamType {
   number = "number",
   date = "date",
   duration = "duration",
+}
+
+export interface MetricParamData {
+  label?: string;
+  placeholder?: string;
+  tooltip?: string;
 }

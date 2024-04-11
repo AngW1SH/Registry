@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { IDurationParam } from "../../types/params";
+import { IDurationParam, MetricParamData } from "../../types/params";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { Duration, DurationValue } from "@/shared/ui/DurationInput";
 
-interface DurationFieldProps extends IDurationParam {
+interface DurationFieldProps extends IDurationParam, MetricParamData {
   onChange: (value: DurationValue) => void;
   className?: string;
 }

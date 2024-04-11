@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { ITextArrayField } from "../../types/fields";
+import { IResourceFieldData, ITextArrayField } from "../../types/fields";
 import { TextInput } from "@/shared/ui/TextInput";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { XCircleIcon } from "@/shared/ui/Icons";
@@ -14,11 +14,16 @@ const areArraysEqual = (a: string[], b: string[]) => {
   return true;
 };
 
-interface TextArrayFieldProps extends ITextArrayField {
+interface TextArrayFieldProps extends ITextArrayField, IResourceFieldData {
   onChange: (value: string[]) => void;
 }
 
-const TextArrayField: FC<TextArrayFieldProps> = ({ value, onChange }) => {
+const TextArrayField: FC<TextArrayFieldProps> = ({
+  value,
+  onChange,
+  label,
+  tooltip,
+}) => {
   const [keys, setKeys] = useState<string[]>(value || []);
 
   const addKey = () => {
@@ -39,9 +44,12 @@ const TextArrayField: FC<TextArrayFieldProps> = ({ value, onChange }) => {
 
   return (
     <div className="bg-background pt-5 rounded-lg pb-11 px-7">
-      <Tooltip className="text-[#A3AED0]" tooltip="Set API Keys">
-        <h2 className="inline-block">API keys</h2>
-      </Tooltip>
+      {!!tooltip && (
+        <Tooltip className="text-[#A3AED0]" tooltip="Set API Keys">
+          <h2 className="inline-block">{label}</h2>
+        </Tooltip>
+      )}
+      {!tooltip && <h2 className="inline-block">{label}</h2>}
       <div className="pt-5" />
       <ul className="flex flex-col gap-4">
         {keys.map((key, index) => (
