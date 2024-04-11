@@ -48,7 +48,7 @@ export const useMetricDataUpdate = () => {
           dispatch(
             metricSlice.actions.updateMetric({
               ...metric,
-              data: [...metric.data, ...metricDataList[metricId]],
+              data: [...metric.data, ...metricDataList[metricId]] as any,
             })
           );
         }

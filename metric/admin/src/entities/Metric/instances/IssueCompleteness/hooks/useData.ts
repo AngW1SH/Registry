@@ -4,7 +4,7 @@ export const useData = (
   data: Issues,
   calendar: { start: Date | null; end: Date | null }
 ) => {
-  const successData = data.filter((item) => !item.error && item.data);
+  const successData = data.filter((item) => !item.error && item.data) || [];
 
   return successData.filter((item) => {
     if (calendar.start && new Date(item.data.created_at) < calendar.start)

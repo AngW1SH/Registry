@@ -41,7 +41,7 @@ export interface IMetricData {
   metric: MetricName;
   project: string;
   data: string;
-  timestamp: Date;
+  timestamp: number;
   error: string | null;
 }
 

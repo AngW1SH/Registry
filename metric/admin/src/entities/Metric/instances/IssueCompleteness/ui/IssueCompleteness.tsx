@@ -22,7 +22,7 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
   const issues = dependencies.find(
     (dep) => dep.name === MetricName.Issues
   ) as IssuesMetric;
-  const data = useData(issues?.data, calendar);
+  const data = useData(issues?.data || [], calendar);
 
   const { completed, total } = calculate(data);
 
