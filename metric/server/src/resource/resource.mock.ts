@@ -4,20 +4,21 @@ import {
   ResourceDTO,
   ResourceDetailed,
   ResourceDetailedDTO,
+  ResourceWithMetrics,
 } from './resource.entity';
 
 export const resourceMocks: Resource[] = [
   {
     id: '1',
     name: 'test',
-    platform: 'GitHub',
+    platform: '1',
     project: '1',
     params: JSON.stringify({}),
   },
   {
     id: '2',
     name: 'test 2',
-    platform: 'GitHub',
+    platform: '1',
     project: '1',
     params: JSON.stringify({}),
   },
@@ -67,3 +68,24 @@ export const resourceCreateMocks: ResourceCreate[] = resourceMocks.map(
 );
 
 export const resourceCreateDTOMocks: ResourceCreate[] = resourceCreateMocks;
+
+export const resourceWithMetricsMocks: ResourceWithMetrics[] =
+  resourceMocks.map((resource) => ({
+    ...resource,
+    metrics: [],
+  }));
+
+export const resourcePrismaMocks = resourceMocks.map((resource) => ({
+  id: resource.id,
+  name: resource.name,
+  projectId: resource.project,
+  project: {
+    id: resource.project,
+  },
+  platformId: resource.platform,
+  platform: {
+    id: resource.platform,
+  },
+  params: resource.params,
+  metrics: [],
+}));

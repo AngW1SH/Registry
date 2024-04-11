@@ -107,6 +107,8 @@ export class ResourceService {
       },
     });
 
+    if (!result) throw new Error('Failed to create resource');
+
     return {
       id: result.id,
       name: result.name,
