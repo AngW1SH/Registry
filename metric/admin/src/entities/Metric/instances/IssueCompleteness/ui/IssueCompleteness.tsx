@@ -4,19 +4,25 @@ import { FC } from "react";
 import { useData } from "../hooks/useData";
 import { calculate } from "../model/calculate";
 import { Meter } from "@/shared/ui/Meter";
+import { IssueCompletenessMetric } from "../types";
+import { IssuesMetric } from "../../Issues/types";
+import { MetricName } from "@/entities/Metric/types";
 
-interface IssueCompletenessProps extends IMetric {
+interface IssueCompletenessProps extends IssueCompletenessMetric {
   dependencies: IMetric[];
   className?: string;
 }
 
 const IssueCompleteness: FC<IssueCompletenessProps> = ({
   className,
-  ...metric
+  dependencies,
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
-  const data = useData(metric.data, calendar);
+  const issues = dependencies.find(
+    (dep) => dep.name === MetricName.Issues
+  ) as IssuesMetric;
+  const data = useData(issues?.data, calendar);
 
   const { completed, total } = calculate(data);
 

@@ -4,8 +4,11 @@ import Graph from "./Graph";
 import { calculate } from "../model/calculate";
 import { useData } from "../hooks/useData";
 import { useAppSelector } from "@/app/store";
+import { TotalCommitsMetric } from "../types";
+import { CommitsMetric } from "../../Commits/types";
+import { MetricName } from "@/entities/Metric/types";
 
-interface TotalCommitsProps extends IMetric {
+interface TotalCommitsProps extends TotalCommitsMetric {
   dependencies: IMetric[];
   className?: string;
 }
@@ -15,10 +18,12 @@ const TotalCommits: FC<TotalCommitsProps> = ({
   dependencies,
   ...metric
 }) => {
-  console.log(dependencies);
   const calendar = useAppSelector((state) => state.metric.calendar);
 
-  const data = useData(metric.data, calendar, metric.resource);
+  const commits = dependencies.find(
+    (metric) => metric.name === MetricName.Commits
+  ) as CommitsMetric;
+  const data = useData(commits?.data || [], calendar, metric.resource);
 
   const commitCount = calculate(data);
 

@@ -1,5 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IMetric } from "..";
+import { IGenericMetric } from "../types";
+import { convertMetric } from "../utils/convertMetric";
 
 interface MetricState {
   metrics: IMetric[];
@@ -31,8 +33,8 @@ export const metricSlice = createSlice({
   name: "metric",
   initialState,
   reducers: {
-    setMetrics: (state, action: PayloadAction<IMetric[]>) => {
-      state.metrics = action.payload;
+    setMetrics: (state, action: PayloadAction<IGenericMetric[]>) => {
+      state.metrics = action.payload.map((metric) => convertMetric(metric));
     },
     pushMetric: (state, action: PayloadAction<IMetric>) => {
       state.metrics.push(action.payload);

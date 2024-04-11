@@ -1,18 +1,16 @@
-import { IGenericSnapshotList } from "@/entities/Metric/types";
-import { IssueCompletenessSchema } from "../types/validate";
+import { Issues } from "../../Issues";
 
 export const useData = (
-  data: IGenericSnapshotList,
+  data: Issues,
   calendar: { start: Date | null; end: Date | null }
 ) => {
   const successData = data.filter((item) => !item.error && item.data);
 
-  const parseResult = IssueCompletenessSchema.safeParse(successData);
-  if (!parseResult.success) return [];
-
-  return parseResult.data.filter((item) => {
-    if (calendar.start && item.timestamp < calendar.start) return false;
-    if (calendar.end && item.timestamp > calendar.end) return false;
+  return successData.filter((item) => {
+    if (calendar.start && new Date(item.data.created_at) < calendar.start)
+      return false;
+    if (calendar.end && new Date(item.data.created_at) > calendar.end)
+      return false;
 
     return true;
   });

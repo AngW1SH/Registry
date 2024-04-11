@@ -1,12 +1,11 @@
-import { IGenericSnapshotList } from "@/entities/Metric/types";
-import { TotalCommitsSchema } from "../types/validate";
 import { useAppDispatch } from "@/app/store";
 import { useEffect } from "react";
 import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
 import { resourceSlice } from "@/entities/Resource";
+import { Commits } from "../../Commits/types";
 
 export const useData = (
-  data: IGenericSnapshotList,
+  data: Commits,
   calendar: { start: Date | null; end: Date | null },
   resourceId: string
 ) => {
@@ -15,32 +14,30 @@ export const useData = (
   const dispatch = useAppDispatch();
   const users = useSelectedUsers(resourceId);
 
-  const parseResult = TotalCommitsSchema.safeParse(successData);
-
   useEffect(() => {
-    if (parseResult.success)
-      parseResult.data.forEach((item) => {
-        item.data.forEach((user) => {
-          dispatch(
-            resourceSlice.actions.addUser({ resourceId, username: user.name })
-          );
-        });
-      });
+    const users = new Set<string>();
+    successData.forEach((item) => {
+      if (!users.has(item.data.author.login)) users.add(item.data.author.login);
+    });
+
+    Array.from(users).forEach((item) => {
+      dispatch(resourceSlice.actions.addUser({ username: item, resourceId }));
+    });
   }, []);
 
-  if (!parseResult.success) return [];
-
-  return parseResult.data
+  return successData
     .filter((item) => {
-      if (calendar.start && item.timestamp < calendar.start) return false;
-      if (calendar.end && item.timestamp > calendar.end) return false;
+      if (
+        calendar.start &&
+        new Date(item.data.commit.author.date) < calendar.start
+      )
+        return false;
+      if (calendar.end && new Date(item.data.commit.author.date) > calendar.end)
+        return false;
 
       return true;
     })
-    .map((item) => {
-      return {
-        ...item,
-        data: item.data.filter((user) => users.includes(user.name)),
-      };
+    .filter((item) => {
+      return !users.length || users.includes(item.data.author.login);
     });
 };

@@ -9,9 +9,9 @@ export const generateStatusValues = (
 
   data.forEach((x) => {
     if (x.error) {
-      values[x.timestamp.getMonth()].failed += 1;
+      values[new Date(x.timestamp).getMonth()].failed += 1;
     } else {
-      values[x.timestamp.getMonth()].success += 1;
+      values[new Date(x.timestamp).getMonth()].success += 1;
     }
   });
 

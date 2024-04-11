@@ -8,13 +8,13 @@ import {
   Tooltip,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { TotalCommits } from "../types/validate";
 import { generateGraphData } from "../utils/generateGraphData";
+import { Commits } from "../../Commits";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 interface GraphProps {
-  data: TotalCommits;
+  data: Commits;
 }
 
 export const options = {

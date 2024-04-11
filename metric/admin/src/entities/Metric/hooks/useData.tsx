@@ -8,8 +8,9 @@ export const useData = (
   if (!parseResult.success) return [];
 
   return parseResult.data.filter((item) => {
-    if (calendar.start && item.timestamp < calendar.start) return false;
-    if (calendar.end && item.timestamp > calendar.end) return false;
+    if (calendar.start && new Date(item.timestamp) < calendar.start)
+      return false;
+    if (calendar.end && new Date(item.timestamp) > calendar.end) return false;
 
     return true;
   });

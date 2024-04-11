@@ -7,7 +7,7 @@ export const generateMonthLabels = (
   const values: number[] = monthNames.map(() => 0);
 
   data.forEach((x) => {
-    values[x.timestamp.getMonth()] += 1;
+    values[new Date(x.timestamp).getMonth()] += 1;
   });
 
   return monthNames.filter((_, i) => {

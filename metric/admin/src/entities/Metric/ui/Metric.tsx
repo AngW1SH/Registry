@@ -18,8 +18,10 @@ const Metric: FC<MetricProps> = ({ id }) => {
   const metricInfo = metricInfoList?.find((m) => m.name === metric?.name);
 
   const dependencies = useAppSelector((state) =>
-    state.metric.metrics.filter((m) =>
-      metricInfo?.dependencies.includes(m.name)
+    state.metric.metrics.filter(
+      (m) =>
+        metricInfo?.dependencies.includes(m.name) &&
+        m.resource === metric?.resource
     )
   );
 

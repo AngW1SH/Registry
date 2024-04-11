@@ -1,5 +1,9 @@
 import { z } from "zod";
 import { IMetricParam } from "./params";
+import { CommitsMetric } from "../instances/Commits/types";
+import { IssuesMetric } from "../instances/Issues/types";
+import { TotalCommitsMetric } from "../instances/TotalCommits/types";
+import { IssueCompletenessMetric } from "../instances/IssueCompleteness";
 
 export interface IAbstractMetric {
   name: MetricName;
@@ -10,13 +14,20 @@ export interface IAbstractMetricDetailed extends IAbstractMetric {
   snapshotBased: boolean;
 }
 
-export interface IMetric extends IAbstractMetric {
+export interface IGenericMetric {
   id: string;
+  name: string;
   resource: string;
   params: IMetricParam[];
   data: IGenericSnapshotList; // Snapshots
   isTracked: boolean | null;
 }
+
+export type IMetric =
+  | CommitsMetric
+  | IssuesMetric
+  | TotalCommitsMetric
+  | IssueCompletenessMetric;
 
 export enum MetricName {
   TotalCommits = "TotalCommits",
@@ -38,7 +49,7 @@ export const GenericSnapshotListSchema = z.array(
   z.object({
     error: z.string().optional(),
     data: z.any(),
-    timestamp: z.number().transform((x) => new Date(x)),
+    timestamp: z.number(),
   })
 );
 

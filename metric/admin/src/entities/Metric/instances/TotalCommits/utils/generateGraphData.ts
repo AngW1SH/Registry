@@ -1,33 +1,25 @@
 import { monthNames } from "@/shared/utils/Month";
-import { TotalCommits } from "../types/validate";
+import { Commits } from "../../Commits";
 
 export const generateGraphData = (
-  data: TotalCommits
+  data: Commits
 ): { values: number[]; labels: string[] } => {
-  const values: {
-    date: Date;
-    value: number;
-  }[] = monthNames.map(() => {
-    return { date: new Date("01.01.1970"), value: -1 };
+  const values: number[] = monthNames.map(() => {
+    return -1;
   });
 
   data.forEach((x) => {
-    const month = x.timestamp.getMonth();
+    const month = new Date(x.data.commit.author.date).getMonth();
 
-    if (values[month].date < x.timestamp) {
-      values[month] = {
-        date: x.timestamp,
-        value: x.data.reduce((a, b) => a + b.value, 0),
-      };
-    }
+    values[month] += 1;
   });
 
   const labels = monthNames.filter((_, i) => {
-    return values[i].value !== -1;
+    return values[i] !== -1;
   });
 
   return {
-    values: values.filter((val) => val.value != -1).map((val) => val.value),
+    values: values.filter((val) => val != -1).map((val) => val + 1), // compensate for -1
     labels,
   };
 };
