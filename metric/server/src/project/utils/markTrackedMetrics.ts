@@ -8,17 +8,18 @@ export const markTrackedMetrics = (
   return resources.map((resource) => {
     return {
       ...resource,
-      metrics: resource.metrics.map((metric) => {
-        return {
-          ...metric,
-          isTracked:
-            tasks.findIndex(
-              (task) =>
-                task.metric === metric.name &&
-                task.groups.includes('resource:' + resource.name),
-            ) !== -1,
-        };
-      }),
+      metrics:
+        resource?.metrics?.map((metric) => {
+          return {
+            ...metric,
+            isTracked:
+              tasks.findIndex(
+                (task) =>
+                  task.metric === metric.name &&
+                  task.groups.includes('resource:' + resource.name),
+              ) !== -1,
+          };
+        }) || [],
     };
   });
 };

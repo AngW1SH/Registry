@@ -22,7 +22,12 @@ export class ProjectService {
   ) {}
 
   async findAll(): Promise<Project[]> {
-    const result = await this.prisma.project.findMany();
+    const result = await this.prisma.project.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
 
     return result;
   }
@@ -34,19 +39,28 @@ export class ProjectService {
       },
     });
 
+    if (!result) {
+      return null;
+    }
+
     const [resources, trackedTasks] = await Promise.all([
       this.resourceService.findMany({ project: id }),
       this.taskService.list(['project:' + result.name]),
     ]);
 
+    if (!resources) throw new Error('Failed to fetch resources');
+    if (!trackedTasks) throw new Error('Failed to fetch tracked tasks');
+
     const snapshots = structureSnapshots(
       await this.snapshotService.list('project:' + result.name),
     );
 
+    if (!snapshots) throw new Error('Failed to fetch snapshots');
+
     let resourcesPopulated = resources.map((resource) =>
       this.resourceService.populateWithSnapshots(
         resource,
-        snapshots[resource.name],
+        snapshots[resource.name] || {},
       ),
     );
 
@@ -66,6 +80,8 @@ export class ProjectService {
       },
     });
 
+    if (!result) throw new Error('Failed to create project');
+
     return {
       id: result.id,
       name: result.name,
@@ -81,6 +97,8 @@ export class ProjectService {
       data: project,
     });
 
+    if (!result) throw new Error('Failed to update project');
+
     return result;
   }
 
@@ -90,6 +108,8 @@ export class ProjectService {
         id,
       },
     });
+
+    if (!result) throw new Error('Failed to delete project');
 
     return result;
   }
