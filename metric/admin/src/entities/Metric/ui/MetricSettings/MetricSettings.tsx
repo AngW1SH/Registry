@@ -3,6 +3,7 @@ import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
 import { useData } from "../../hooks/useData";
 import { useAppSelector } from "@/app/store";
+import { useGetMetricNamesQuery } from "../../model/metricApi";
 
 interface MetricSettingsProps {
   className?: string;
@@ -23,6 +24,10 @@ const MetricSettings: FC<MetricSettingsProps> = ({
 
   const data = useData(metricData, calendar);
 
+  const { data: metricInfoList } = useGetMetricNamesQuery();
+
+  const metricInfo = metricInfoList?.find((metric) => metric.name === name);
+
   return (
     <div
       className={
@@ -41,7 +46,20 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       <div className="pt-10"></div>
       {aside && <div>{aside}</div>}
       <div className="pt-10"></div>
-      {!!data.length && <UpdateStatus data={data} />}
+      {metricInfo && metricInfo.snapshotBased && !!data.length && (
+        <UpdateStatus data={data} />
+      )}
+      {metricInfo?.dependencies && !!metricInfo.dependencies.length && (
+        <div>
+          <h3 className="text-xl text-[#A3AED0] font-medium">Dependencies</h3>
+          <div className="pt-4"></div>
+          <ul className="grid grid-cols-2 list-disc pl-5 gap-4 text-[#A3AED0]">
+            {metricInfo.dependencies.map((dependency) => (
+              <li key={dependency}>{dependency}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

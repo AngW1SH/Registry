@@ -7,6 +7,7 @@ export interface IAbstractMetric {
 
 export interface IAbstractMetricDetailed extends IAbstractMetric {
   dependencies: MetricName[];
+  snapshotBased: boolean;
 }
 
 export interface IMetric extends IAbstractMetric {
