@@ -39,12 +39,14 @@ export const metricCreateMocks: MetricCreate[] = metricMocks.map((metric) => ({
   name: metric.name,
   resource: metric.resource,
   params: JSON.stringify(metric.params),
+  snapshotBased: true,
 }));
 
 export const metricDetailedMocks: MetricDetailed[] = metricMocks.map(
   (metric) => ({
     ...metric,
     data: [],
+    snapshotBased: true,
     isTracked: true,
   }),
 );
@@ -73,12 +75,14 @@ export const abstractMetricMocks: AbstractMetric[] = [
 export const AbstractMetricDetailedMocks: AbstractMetricDetailed[] =
   abstractMetricMocks.map((metric) => ({
     ...metric,
+    snapshotBased: true,
     dependencies: [],
   }));
 
 export const prismaMetricMocks = metricMocks.map((metric) => ({
   id: metric.id,
   resourceId: metric.resource,
+  snapshotBased: true,
   resource: {
     id: metric.resource,
   },

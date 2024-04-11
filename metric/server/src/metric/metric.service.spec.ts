@@ -5,8 +5,7 @@ import { metricMocks, prismaMetricMocks } from './metric.mock';
 import { TaskService } from '../task/task.service';
 import { MetricNames } from './config/metricNames';
 import { MetricParam, MetricParamType, UnitOfTime } from './config/types';
-import * as metricParamsModule from './config/metricParams';
-import * as metricDependenciesModule from './config/metricDependencies';
+import * as metricConfigModule from './config/metricConfig';
 import { snapshotMocks } from '../metric-gateway/gateway.mock';
 
 const validParams: MetricParam[] = [
@@ -35,24 +34,28 @@ const validTask = {
   groups: ['project:project-1', 'resource:resource-1'],
 };
 
-jest.mock('./config/metricDependencies', () => ({
-  ...jest.requireActual('./config/metricDependencies'),
-  get metricDependencies() {
+jest.mock('./config/metricConfig', () => ({
+  ...jest.requireActual('./config/metricConfig'),
+  get metricConfig() {
     return {
-      Test: ['TestDependency1', 'TestDependency2'],
-      TestDependency1: [],
-      TestDependency2: ['TestDependency1'],
-    };
-  },
-}));
-
-jest.mock('./config/metricParams', () => ({
-  ...jest.requireActual('./config/metricParams'),
-  get metricParams() {
-    return {
-      Test: [],
-      TestDependency1: [],
-      TestDependency2: [],
+      Test: {
+        dependencies: [],
+        snapshotBased: true,
+        isPublic: true,
+        params: validParams,
+      },
+      TestDependency1: {
+        dependencies: ['Test'],
+        snapshotBased: true,
+        isPublic: true,
+        params: validParams,
+      },
+      TestDependency2: {
+        dependencies: ['Test'],
+        snapshotBased: true,
+        isPublic: true,
+        params: validParams,
+      },
     };
   },
 }));
@@ -382,7 +385,7 @@ describe('MetricService', () => {
       jest.spyOn(service, 'start').mockResolvedValue({} as any);
 
       jest
-        .spyOn(metricParamsModule, 'metricParams', 'get')
+        .spyOn(metricConfigModule, 'metricConfig', 'get')
         .mockResolvedValueOnce({} as never);
 
       await expect(service.create(metricMocks[0])).rejects.toThrow();
@@ -392,19 +395,7 @@ describe('MetricService', () => {
       jest.spyOn(service, 'start').mockResolvedValue({} as any);
 
       jest
-        .spyOn(metricParamsModule, 'metricParams', 'get')
-        .mockResolvedValueOnce({} as never);
-
-      await expect(
-        service.create({ ...metricMocks[0], name: 'Test' }),
-      ).rejects.toThrow();
-    });
-
-    it('should throw an error if metric dependencies are not defined', async () => {
-      jest.spyOn(service, 'start').mockResolvedValue({} as any);
-
-      jest
-        .spyOn(metricDependenciesModule, 'metricDependencies', 'get')
+        .spyOn(metricConfigModule, 'metricConfig', 'get')
         .mockResolvedValueOnce({} as never);
 
       await expect(

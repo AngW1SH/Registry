@@ -7,12 +7,11 @@ import {
   MetricDetailed,
   MetricSnapshot,
 } from './metric.entity';
-import { IsMetricPublic, metricParams } from './config/metricParams';
 import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
-import { metricDependencies } from './config/metricDependencies';
 import { TaskCreate } from 'src/task/task.entity';
 import { MetricNames } from './config/metricNames';
+import { metricConfig } from './config/metricConfig';
 
 @Injectable()
 export class MetricService {
@@ -31,12 +30,14 @@ export class MetricService {
         name: true,
         resourceId: true,
         params: true,
+        snapshotBased: true,
       },
     });
 
     return result.map((metric) => ({
       id: metric.id,
       name: metric.name,
+      snapshotBased: metric.snapshotBased,
       resource: metric.resourceId,
       params: metric.params || '[]',
     }));
@@ -45,7 +46,8 @@ export class MetricService {
   async listAll(): Promise<AbstractMetricDetailed[]> {
     const result = Object.keys(MetricNames).map((key) => ({
       name: key,
-      dependencies: metricDependencies[key] || [],
+      dependencies: metricConfig[key]?.dependencies || [],
+      snapshotBased: metricConfig[key]?.snapshotBased || false,
     }));
 
     return result;
@@ -76,6 +78,7 @@ export class MetricService {
         name: true,
         resourceId: true,
         params: true,
+        snapshotBased: true,
       },
     });
 
@@ -89,6 +92,8 @@ export class MetricService {
 
   async convertToTask(metric: MetricCreate): Promise<TaskCreate> {
     let params = metric.params ? JSON.parse(metric.params) : {};
+
+    console.log(params);
 
     const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
@@ -135,7 +140,7 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
-      is_public: IsMetricPublic[metric.name] || false,
+      is_public: metricConfig[metric.name]?.isPublic || false,
     };
   }
 
@@ -193,16 +198,15 @@ export class MetricService {
   }
 
   async create(metric: MetricCreate): Promise<MetricDetailed[]> {
-    const config = metricParams[metric.name];
-    const dependencies = metricDependencies[metric.name];
+    const config = metricConfig[metric.name];
 
     const res: MetricDetailed[] = [];
 
-    if (!config) throw new Error('Metric params config not found');
-    if (!dependencies) throw new Error('Metric dependencies not found');
+    if (!config) throw new Error('Metric config not found');
+    if (!config.dependencies) throw new Error('Metric dependencies not found');
 
     const depsCreateRequests = await Promise.all(
-      dependencies.map((name) => this.create({ ...metric, name })),
+      config.dependencies.map((name) => this.create({ ...metric, name })),
     );
 
     depsCreateRequests.forEach((metric) => res.push(...metric));
@@ -210,7 +214,7 @@ export class MetricService {
     try {
       await this.start({
         ...metric,
-        params: JSON.stringify(config),
+        params: JSON.stringify(config.params),
       });
     } catch {
       throw new Error('Failed to start the metric');
@@ -218,7 +222,7 @@ export class MetricService {
 
     const result = await this.prisma.metric.create({
       data: {
-        params: JSON.stringify(config),
+        params: JSON.stringify(config.params),
         name: metric.name,
         resource: {
           connect: {
@@ -266,6 +270,7 @@ export class MetricService {
             id: true,
           },
         },
+        snapshotBased: true,
       },
     });
 

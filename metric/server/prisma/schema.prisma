@@ -37,11 +37,12 @@ model Resource {
 }
 
 model Metric {
-  id         String   @id @default(uuid())
-  name       String
-  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  resourceId String
-  params     String   @default("")
+  id            String   @id @default(uuid())
+  name          String
+  resource      Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId    String
+  snapshotBased Boolean  @default(false)
+  params        String   @default("")
 }
 
 model User {

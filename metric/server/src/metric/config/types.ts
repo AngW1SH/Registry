@@ -60,6 +60,27 @@ export enum MetricParamType {
 export type MetricParamsConfig = {
   [key in string]: MetricParam[];
 };
+
+export interface GenericMetricConfig {
+  params: MetricParam[];
+  dependencies: MetricNames[];
+}
+
+export interface SnapshotBasedMetricConfig extends GenericMetricConfig {
+  snapshotBased: true;
+  isPublic: boolean;
+}
+
+export interface NonSnapshotBasedMetricConfig extends GenericMetricConfig {
+  snapshotBased: false;
+}
+
+export type MetricConfig = {
+  [key in MetricNames]:
+    | SnapshotBasedMetricConfig
+    | NonSnapshotBasedMetricConfig;
+};
+
 export type MetricDependencies = {
   [key in MetricNames]: MetricNames[];
 };

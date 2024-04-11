@@ -34,6 +34,7 @@ export class ResourceService {
             id: true,
             name: true,
             params: true,
+            snapshotBased: true,
           },
         },
       },
@@ -51,6 +52,7 @@ export class ResourceService {
         data: [],
         resource: resource.id,
         params: metric.params || '[]',
+        snapshotBased: metric.snapshotBased,
         isTracked: null,
       })),
     }));
@@ -188,6 +190,7 @@ export class ResourceService {
         params: true,
         name: true,
         resourceId: true,
+        snapshotBased: true,
       },
     });
 
@@ -195,6 +198,7 @@ export class ResourceService {
       id: metric.id,
       name: metric.name,
       resource: metric.resourceId,
+      snapshotBased: metric.snapshotBased,
       params: metric.params || '[]',
     }));
   }

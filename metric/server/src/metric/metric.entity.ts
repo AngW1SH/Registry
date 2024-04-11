@@ -11,6 +11,7 @@ export interface AbstractMetric {
 
 export interface AbstractMetricDetailed extends AbstractMetric {
   dependencies: MetricNames[];
+  snapshotBased: boolean;
 }
 
 export interface MetricSnapshot {
