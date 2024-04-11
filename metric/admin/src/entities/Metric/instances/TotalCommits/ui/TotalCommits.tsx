@@ -6,10 +6,16 @@ import { useData } from "../hooks/useData";
 import { useAppSelector } from "@/app/store";
 
 interface TotalCommitsProps extends IMetric {
+  dependencies: IMetric[];
   className?: string;
 }
 
-const TotalCommits: FC<TotalCommitsProps> = ({ className, ...metric }) => {
+const TotalCommits: FC<TotalCommitsProps> = ({
+  className,
+  dependencies,
+  ...metric
+}) => {
+  console.log(dependencies);
   const calendar = useAppSelector((state) => state.metric.calendar);
 
   const data = useData(metric.data, calendar, metric.resource);

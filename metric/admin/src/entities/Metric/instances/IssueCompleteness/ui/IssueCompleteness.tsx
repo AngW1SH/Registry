@@ -6,6 +6,7 @@ import { calculate } from "../model/calculate";
 import { Meter } from "@/shared/ui/Meter";
 
 interface IssueCompletenessProps extends IMetric {
+  dependencies: IMetric[];
   className?: string;
 }
 
