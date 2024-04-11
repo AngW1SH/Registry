@@ -9,6 +9,7 @@ import {
 } from './resource.mock';
 import { platformMocks } from '../platform/platform.mock';
 import * as configModule from './config';
+import { metricMocks, prismaMetricMocks } from '../metric/metric.mock';
 
 jest.mock('./config', () => {
   return {
@@ -35,6 +36,11 @@ describe('ResourceService', () => {
         findFirst: jest.fn().mockResolvedValue(null),
         findMany: jest.fn().mockResolvedValue([]),
         create: jest.fn().mockResolvedValue(resourceMocks[0]),
+        update: jest.fn().mockResolvedValue(resourceMocks[0]),
+        delete: jest.fn().mockResolvedValue(resourceMocks[0]),
+      },
+      metric: {
+        findMany: jest.fn().mockResolvedValue([]),
       },
       platform: {
         findFirst: jest.fn().mockImplementation((args) => {
@@ -191,6 +197,164 @@ describe('ResourceService', () => {
       jest.spyOn(prisma.resource, 'create').mockResolvedValueOnce(null as any);
 
       await expect(service.createOne(resourceMocks[0])).rejects.toThrow();
+    });
+  });
+
+  describe('updateOne method', () => {
+    it('should be defined', () => {
+      expect(service.updateOne).toBeDefined();
+    });
+
+    it('should call prisma.resource.update', async () => {
+      await service.updateOne(resourceMocks[0]);
+
+      expect(prisma.resource.update).toHaveBeenCalled();
+    });
+
+    it('should throw an error if resource was not updated', async () => {
+      jest.spyOn(prisma.resource, 'update').mockResolvedValueOnce(null as any);
+
+      await expect(service.updateOne(resourceMocks[0])).rejects.toThrow();
+    });
+
+    it('should return the updated resource', async () => {
+      jest
+        .spyOn(prisma.resource, 'update')
+        .mockResolvedValueOnce(resourcePrismaMocks[0]);
+
+      const result = await service.updateOne(resourceMocks[0]);
+
+      expect(result).toEqual(resourceMocks[0]);
+    });
+  });
+
+  describe('deleteOne method', () => {
+    it('should be defined', () => {
+      expect(service.deleteOne).toBeDefined();
+    });
+
+    it('should call prisma.resource.delete', async () => {
+      await service.deleteOne('1');
+
+      expect(prisma.resource.delete).toHaveBeenCalled();
+    });
+
+    it('should throw an error if resource was not deleted', async () => {
+      jest.spyOn(prisma.resource, 'delete').mockResolvedValueOnce(null as any);
+
+      await expect(service.deleteOne('1')).rejects.toThrow();
+    });
+
+    it('should return the deleted resource', async () => {
+      jest
+        .spyOn(prisma.resource, 'delete')
+        .mockResolvedValueOnce(resourcePrismaMocks[0]);
+
+      const result = await service.deleteOne('1');
+
+      expect(result).toEqual(resourceMocks[0]);
+    });
+  });
+
+  describe('getMetrics method', () => {
+    it('should be defined', () => {
+      expect(service.getMetrics).toBeDefined();
+    });
+
+    it('should call prisma.metric.findMany', async () => {
+      await service.getMetrics('1');
+
+      expect(prisma.metric.findMany).toHaveBeenCalled();
+    });
+
+    it('should return resource metrics', async () => {
+      jest
+        .spyOn(prisma.metric, 'findMany')
+        .mockResolvedValueOnce(prismaMetricMocks);
+
+      const result = await service.getMetrics('1');
+
+      expect(result).toEqual(metricMocks);
+    });
+  });
+
+  describe('startTracking method', () => {
+    it('should be defined', () => {
+      expect(service.startTracking).toBeDefined();
+    });
+
+    it('should call its own getMetrics method', () => {
+      jest.spyOn(service, 'getMetrics').mockResolvedValue([]);
+
+      service.startTracking('1');
+
+      expect(service.getMetrics).toHaveBeenCalled();
+    });
+
+    it("should throw an error if couldn't get metrics", () => {
+      jest.spyOn(service, 'getMetrics').mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      expect(service.startTracking('1')).rejects.toThrow();
+    });
+
+    it("should call metricService's start method", async () => {
+      jest.spyOn(service, 'getMetrics').mockResolvedValue(metricMocks);
+
+      await service.startTracking('1');
+
+      expect(metricService.start).toHaveBeenCalledTimes(metricMocks.length);
+    });
+  });
+
+  describe('stopTracking method', () => {
+    it('should be defined', () => {
+      expect(service.stopTracking).toBeDefined();
+    });
+
+    it('should call its own getMetrics method', () => {
+      jest.spyOn(service, 'getMetrics').mockResolvedValue([]);
+
+      service.stopTracking('1');
+
+      expect(service.getMetrics).toHaveBeenCalled();
+    });
+
+    it("should throw an error if couldn't get metrics", () => {
+      jest.spyOn(service, 'getMetrics').mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      expect(service.stopTracking('1')).rejects.toThrow();
+    });
+
+    it("should call metricService's stop method", async () => {
+      jest.spyOn(service, 'getMetrics').mockResolvedValue(metricMocks);
+
+      await service.stopTracking('1');
+
+      expect(metricService.stop).toHaveBeenCalledTimes(metricMocks.length);
+    });
+  });
+
+  describe('populateWithSnapshots method', () => {
+    it('should be defined', () => {
+      expect(service.populateWithSnapshots).toBeDefined();
+    });
+
+    it("should call metricService's populateWithSnapshots method", async () => {
+      const resource = { ...resourceWithMetricsMocks[0], metrics: metricMocks };
+
+      const snapshots = metricMocks.reduce(
+        (acc, cur) => ({ ...acc, [cur.name]: cur }),
+        {},
+      );
+      await service.populateWithSnapshots(resource, snapshots);
+
+      expect(metricService.populateWithSnapshots).toHaveBeenCalledTimes(
+        metricMocks.length,
+      );
     });
   });
 });

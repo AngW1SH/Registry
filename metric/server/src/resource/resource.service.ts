@@ -132,6 +132,8 @@ export class ResourceService {
       },
     });
 
+    if (!result) throw new Error('Failed to update resource');
+
     return {
       id: result.id,
       name: result.name,
@@ -163,6 +165,8 @@ export class ResourceService {
       },
     });
 
+    if (!result) throw new Error('Failed to delete resource');
+
     return {
       id: result.id,
       name: result.name,
@@ -172,7 +176,7 @@ export class ResourceService {
     };
   }
 
-  async startTracking(id: string) {
+  async getMetrics(id: string): Promise<Metric[]> {
     const metricsPrisma = await this.prisma.metric.findMany({
       where: {
         resource: {
@@ -187,14 +191,17 @@ export class ResourceService {
       },
     });
 
-    const metrics: Metric[] = metricsPrisma.map((metric) => ({
+    return metricsPrisma.map((metric) => ({
       id: metric.id,
       name: metric.name,
-      data: [],
       resource: metric.resourceId,
       params: metric.params || '[]',
-      isTracked: null,
     }));
+  }
+
+  async startTracking(id: string) {
+    const metrics = await this.getMetrics(id);
+    if (!metrics) throw new Error("Couldn't get metrics");
 
     const result = await Promise.all(
       metrics.map((metric) => this.metricService.start(metric)),
@@ -204,28 +211,8 @@ export class ResourceService {
   }
 
   async stopTracking(id: string) {
-    const metricsPrisma = await this.prisma.metric.findMany({
-      where: {
-        resource: {
-          id,
-        },
-      },
-      select: {
-        id: true,
-        params: true,
-        name: true,
-        resourceId: true,
-      },
-    });
-
-    const metrics: Metric[] = metricsPrisma.map((metric) => ({
-      id: metric.id,
-      name: metric.name,
-      data: [],
-      resource: metric.resourceId,
-      params: metric.params || '[]',
-      isTracked: null,
-    }));
+    const metrics = await this.getMetrics(id);
+    if (!metrics) throw new Error("Couldn't get metrics");
 
     const result = await Promise.all(
       metrics.map((metric) => this.metricService.stop(metric.id)),
