@@ -7,8 +7,8 @@ import { IMetricParam } from "../types/params";
 interface MetricState {
   metrics: IMetric[];
   calendar: {
-    start: Date | null;
-    end: Date | null;
+    start: string | null;
+    end: string | null;
   };
   filters: {
     search: string;
@@ -72,7 +72,7 @@ export const metricSlice = createSlice({
     },
     setCalendar(
       state,
-      action: PayloadAction<{ start: Date | null; end: Date | null }>
+      action: PayloadAction<{ start: string | null; end: string | null }>
     ) {
       state.calendar = action.payload;
     },

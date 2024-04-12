@@ -35,7 +35,7 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
         <div className="text-[#A3AED0] text-sm mt-2 font-medium">
           <div className="pt-3" />
           <span className="text-[#2B3674] pt-5 text-center text-2xl font-bold mr-2">
-            No data has been collected
+            No data has been collected for the selected period
           </span>{" "}
         </div>
       </div>

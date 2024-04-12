@@ -20,10 +20,13 @@ const SelectPeriod: FC<SelectPeriodProps> = () => {
   const { state, setState }: any = useDateRange(ref);
 
   useEffect(() => {
+    const end = state[0].endDate ? new Date(state[0].endDate) : null;
+    end?.setHours(23, 59, 59, 999);
+
     dispatch(
       metricSlice.actions.setCalendar({
-        start: state[0].startDate || null,
-        end: state[0].endDate || null,
+        start: state[0].startDate?.toJSON() || null,
+        end: end?.toJSON() || null,
       })
     );
   }, [state]);
