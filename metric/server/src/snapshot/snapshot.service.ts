@@ -28,9 +28,10 @@ export class SnapshotService {
 
     const observer: Observer<{ Snapshots: SnapshotGRPC[] }> = {
       next: (snapshots) => {
-        this.metricGateway.send(
-          snapshots.Snapshots.map((snapshot) => fromGRPC(snapshot)),
-        );
+        if (snapshots.Snapshots)
+          this.metricGateway.send(
+            snapshots.Snapshots.map((snapshot) => fromGRPC(snapshot)),
+          );
       },
       error: () => {
         console.log('Subscription error');
