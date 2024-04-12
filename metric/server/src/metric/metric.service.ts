@@ -93,8 +93,6 @@ export class MetricService {
   async convertToTask(metric: MetricCreate): Promise<TaskCreate> {
     let params = metric.params ? JSON.parse(metric.params) : {};
 
-    console.log(params);
-
     const weight = params.find((param) => param.name == 'weight');
     const updateRate = params.find((param) => param.name == 'updateRate');
 
@@ -212,10 +210,14 @@ export class MetricService {
     depsCreateRequests.forEach((metric) => res.push(...metric));
 
     try {
-      await this.start({
+      const result = await this.start({
         ...metric,
         params: JSON.stringify(config.params),
       });
+
+      console.log(result);
+
+      if (!result || !result.id) return [];
     } catch {
       throw new Error('Failed to start the metric');
     }

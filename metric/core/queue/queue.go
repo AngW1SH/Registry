@@ -48,7 +48,7 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 
 	for _, task := range activeTasks {
 		if task.Metric == data.Metric {
-			return task
+			return nil
 		}
 	}
 

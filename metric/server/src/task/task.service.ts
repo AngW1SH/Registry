@@ -4,7 +4,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { ClientGrpc } from '@nestjs/microservices';
 
 interface TaskServiceGRPC {
-  start: (data: { task: TaskCreate }) => Observable<{ Task: Task }>;
+  start: (data: { task: TaskCreate }) => Observable<{ task: Task }>;
   list: (data: { groups: string[] }) => Observable<{ tasks: Task[] }>;
   update: (data: { task: TaskCreate }) => Observable<{ Task: Task | null }>;
   stop: (data: TaskStop) => Observable<{ Task: Task }>;
@@ -25,7 +25,7 @@ export class TaskService {
   async start(task: TaskCreate) {
     const result = await firstValueFrom(this.taskServiceGRPC.start({ task }));
 
-    return result.Task;
+    return result.task;
   }
 
   async update(task: TaskCreate) {
@@ -37,7 +37,7 @@ export class TaskService {
   async list(groups: string[]) {
     const result = await firstValueFrom(this.taskServiceGRPC.list({ groups }));
 
-    return result.tasks;
+    return result.tasks || [];
   }
 
   async stop(task: TaskStop) {

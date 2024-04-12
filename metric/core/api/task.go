@@ -18,6 +18,10 @@ func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*Tas
 
 	task := s.Queue.AddTask(FromGRPCTaskStartInfo(message.Task))
 
+	if task == nil {
+		return &TaskStartResponse{Task: &TaskInfo{}}, nil
+	}
+
 	return &TaskStartResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
 
