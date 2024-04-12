@@ -4,10 +4,13 @@ import (
 	context "context"
 	"core/repositories"
 	"fmt"
+	sync "sync"
 )
 
 type SnapshotServer struct {
 	Repo *repositories.SnapshotRepository
+	connections map[string]chan []*SnapshotInfo
+	mu     sync.Mutex
 	UnimplementedSnapshotServiceServer
 }
 
@@ -30,18 +33,51 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 }
 
 func (s *SnapshotServer) Stream(request *SnapshotStreamRequest, stream SnapshotService_StreamServer) error {
-	fmt.Println("SnapshotStream", request.Id)
 
+	if s.connections == nil {
+		s.connections = make(map[string]chan []*SnapshotInfo)
+	}
+	
+	fmt.Println("SnapshotStream", request.Id)
+	s.mu.Lock()
+	s.connections[request.Id] = make(chan []*SnapshotInfo)
+	s.mu.Unlock()
+
+	for {
+		select {
+			case <-stream.Context().Done():
+				fmt.Printf("Client %s disconnected\n", request.Id)
+				s.mu.Lock()
+				delete(s.connections, request.Id)
+				s.mu.Unlock()
+				return nil
+			case snapshots := <-s.connections[request.Id]:
+				if err := stream.Send(&SnapshotStreamResult{Snapshots: snapshots}); err != nil {
+					fmt.Printf("Failed to send snapshot to client %s: %v\n", request.Id, err)
+					s.mu.Lock()
+					delete(s.connections, request.Id)
+					s.mu.Unlock()
+					return err
+				}
+		}
+	}
+}
+
+func (s *SnapshotServer) Broadcast() {
+	s.mu.Lock()
+	s.connections = make(map[string]chan []*SnapshotInfo)
+	s.mu.Unlock()
+	
 	for snapshotBatch := range s.Repo.Stream {
+		fmt.Println(s.connections)
 		var snapshots []*SnapshotInfo
 
 		for i := 0; i < len(snapshotBatch); i++ {
 			snapshots = append(snapshots, ToGRPCSnapshotInfo(snapshotBatch[i]))
 		}
-		if err := stream.Send(&SnapshotStreamResult{Snapshots: snapshots}); err != nil {
-			return err
+
+		for _, ch := range s.connections {
+			ch <- snapshots
 		}
 	}
-
-	return nil
 }

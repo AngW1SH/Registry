@@ -40,6 +40,8 @@ func main() {
 	api.RegisterTaskServiceServer(grpcServer, &taskServer)
 	api.RegisterSnapshotServiceServer(grpcServer, &snapshotServer)
 
+	go snapshotServer.Broadcast()
+
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to server gRPC server over port 9000: %v", err)
 	}
