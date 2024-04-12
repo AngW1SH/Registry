@@ -12,41 +12,38 @@ interface ConfigureMetricParamsProps {
 const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
   const dispatch = useAppDispatch();
 
-  const metrics = useAppSelector((state) => state.metric.metrics);
+  const metricParams =
+    useAppSelector((state) =>
+      state.metric.metrics.find((mapped) => mapped.id === metric.id)
+    )?.params || [];
+
+  const [localParams, setLocalParams] = useState(metricParams);
+
   const [update, { isLoading }] = useUpdateMetricMutation();
 
   const [hasChanged, setHasChanged] = useState(false);
 
   const handleChange = (param: IMetricParam) => {
     setHasChanged(true);
-    dispatch(
-      metricSlice.actions.setMetrics(
-        metrics.map((metricMap) => {
-          if (metricMap.id === metric.id) {
-            return {
-              ...metricMap,
-              params: metricMap.params.map((paramMap) => {
-                if (paramMap.name === param.name) {
-                  return param;
-                }
-                return paramMap;
-              }),
-            };
-          }
-          return metricMap;
-        })
-      )
+    setLocalParams((prev) =>
+      prev.map((p) => (p.name === param.name ? param : p))
     );
   };
 
   const handleSubmit = async () => {
-    if (hasChanged) await update(metric);
+    if (hasChanged) await update({ ...metric, params: localParams });
+    dispatch(
+      metricSlice.actions.updateParams({
+        metricId: metric.id,
+        params: localParams,
+      })
+    );
     setHasChanged(false);
   };
 
   return (
     <div>
-      {metric.params.map((param) => (
+      {localParams.map((param) => (
         <MetricField
           className="py-5"
           key={param.name}

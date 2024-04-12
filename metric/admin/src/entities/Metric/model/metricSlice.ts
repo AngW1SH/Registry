@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IMetric } from "..";
 import { IGenericMetric } from "../types";
 import { convertMetric } from "../utils/convertMetric";
+import { IMetricParam } from "../types/params";
 
 interface MetricState {
   metrics: IMetric[];
@@ -48,6 +49,17 @@ export const metricSlice = createSlice({
       state.metrics = state.metrics.map((metric) => {
         if (metric.id === action.payload.id) {
           return action.payload;
+        }
+        return metric;
+      });
+    },
+    updateParams: (
+      state,
+      action: PayloadAction<{ metricId: string; params: IMetricParam[] }>
+    ) => {
+      state.metrics = state.metrics.map((metric) => {
+        if (metric.id === action.payload.metricId) {
+          return { ...metric, params: action.payload.params };
         }
         return metric;
       });

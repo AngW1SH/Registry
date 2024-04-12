@@ -18,8 +18,6 @@ interface ConfigureResourceProps {
 const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
   const dispatch = useAppDispatch();
 
-  const resources = useAppSelector((state) => state.resource.resources);
-
   const [update, { isLoading }] = useSaveResourceMutation();
 
   const [hasChanged, setHasChanged] = useState(false);
@@ -28,37 +26,30 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
     selectPlatformById(state.platform, resource.platform)
   );
 
+  const [localParams, setLocalParams] = useState(resource.params);
+
   if (!platform) return <div></div>;
 
   if (!(platform.name in PlatformName)) return <div></div>;
 
   const handleChange = (value: IResourceField) => {
     setHasChanged(true);
-    dispatch(
-      resourceSlice.actions.setResources(
-        resources.map((resourceMap) => {
-          if (resourceMap.id === resource.id) {
-            return {
-              ...resourceMap,
-              params: resourceMap.params.map((param) => {
-                if (param.prop === value.prop) {
-                  return value;
-                }
-                return param;
-              }),
-            };
-          }
-
-          return resourceMap;
-        })
-      )
+    setLocalParams((prev) =>
+      prev.map((p) => (p.prop === value.prop ? value : p))
     );
   };
 
   const handleSave = async () => {
     if (hasChanged) {
-      await update(resource);
+      await update({ ...resource, params: localParams });
       setHasChanged(false);
+
+      dispatch(
+        resourceSlice.actions.updateParams({
+          resourceId: resource.id,
+          params: localParams,
+        })
+      );
     }
   };
 
@@ -84,7 +75,7 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
       )}
       <div className="pt-8" />
       <ul className="flex flex-col gap-8">
-        {resource.params.map((param) => {
+        {localParams.map((param) => {
           return (
             <li key={param.prop}>
               <ResourceField field={param} onChange={handleChange} />

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IResource } from "..";
+import { IResource, IResourceField } from "..";
 import { IResourceWithUsers } from "../types";
 
 interface ResourceState {
@@ -24,6 +24,20 @@ export const resourceSlice = createSlice({
         users:
           state.resources.find((res) => res.id === resource.id)?.users || {},
       }));
+    },
+    updateParams: (
+      state,
+      action: PayloadAction<{ resourceId: string; params: IResourceField[] }>
+    ) => {
+      state.resources = state.resources.map((resource) => {
+        if (resource.id == action.payload.resourceId) {
+          return {
+            ...resource,
+            params: action.payload.params,
+          };
+        }
+        return resource;
+      });
     },
     addResource: (state, action: PayloadAction<IResource>) => {
       state.resources.push({
