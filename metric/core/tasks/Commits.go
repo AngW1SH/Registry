@@ -67,7 +67,19 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	// CommitsMetric queries all commits up until the current date,
 	// so checking the latest update date will tell us when to stop querying
 	// to prevent duplicating data
-	latestUpdateDate, err := repo.GetLastestUpdateDate("Commits", task.Groups)
+	var latestUpdatedData interface{}
+	latestUpdated, err := repo.GetLastestUpdated("Commits", task.Groups)
+
+	if err != nil {
+		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error()})
+	}
+
+	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
+
+	var latestUpdateDate time.Time
+	if latestUpdatedData != nil {
+		latestUpdateDate, err = time.Parse("2006-01-02T15:04:05Z",latestUpdatedData.(map[string]interface{})["commit"].(map[string]interface{})["author"].(map[string]interface{})["date"].(string))
+	}
 
 	if err != nil {
 		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error()})
@@ -90,7 +102,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 				continue
 			}
 
-			if date.Before(latestUpdateDate) {
+			if date.Before(latestUpdateDate) || date.Equal(latestUpdateDate) {
 				break out
 			}
 

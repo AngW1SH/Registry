@@ -3,7 +3,6 @@ package repositories
 import (
 	"core/models"
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -185,7 +184,7 @@ func (r *SnapshotRepository) GetByGroupList(metric string, groups []string) ([]m
 	return result, err
 }
 
-func (r *SnapshotRepository) GetLastestUpdateDate(metric string, groups []string) (time.Time, error) {
+func (r *SnapshotRepository) GetLastestUpdated(metric string, groups []string) (models.SnapshotDB, error) {
 	fmt.Println(metric)
 	fmt.Println(groups)
 	var result models.SnapshotDB
@@ -202,5 +201,5 @@ func (r *SnapshotRepository) GetLastestUpdateDate(metric string, groups []string
 		Limit(1).	// Should only return one row
     	Find(&result).Error; 
 
-	return result.UpdatedAt, err
+	return result, err
 }
