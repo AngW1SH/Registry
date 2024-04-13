@@ -22,6 +22,7 @@ const MetricField: FC<MetricFieldProps> = ({
       return (
         <TextField
           {...param}
+          {...data}
           value={param.value}
           onChange={(value) => onChange({ ...param, value: value })}
           className={className}
