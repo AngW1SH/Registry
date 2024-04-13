@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { MetricSettings } from "@/entities/Metric";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
+import { useGetMetricNamesQuery } from "@/entities/Metric/model/metricApi";
 import { useForceUser } from "@/entities/User";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
@@ -35,6 +36,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
     resources: state.resource.resources,
     metrics: state.metric.metrics,
   }));
+
+  const { data: metricData } = useGetMetricNamesQuery();
 
   const metricFilters = useAppSelector((state) => state.metric.filters);
 
@@ -95,9 +98,13 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                           data={metric.data}
                           aside={
                             <div className="flex flex-col gap-y-3">
-                              <ToggleMetricStatus metricId={metric.id} />
+                              {metricData?.find(
+                                (m) => m.name === metric.name && m.snapshotBased
+                              ) && <ToggleMetricStatus metricId={metric.id} />}
                               <StopTrackingMetric metricId={metric.id} />
-                              <ExecuteMetric metricId={metric.id} />
+                              {metricData?.find(
+                                (m) => m.name === metric.name && m.snapshotBased
+                              ) && <ExecuteMetric metricId={metric.id} />}
                             </div>
                           }
                         >
