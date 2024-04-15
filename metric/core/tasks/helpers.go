@@ -2,7 +2,7 @@ package tasks
 
 func getEndpoint(parsedData interface{}) string {
 	for _, v := range parsedData.([]interface{}) {
-		if v.(map[string]interface{})["label"] == "API Endpoint" {
+		if v.(map[string]interface{})["prop"] == "apiEndpoint" {
 			return v.(map[string]interface{})["value"].(string)
 		}
 	}
@@ -12,7 +12,7 @@ func getEndpoint(parsedData interface{}) string {
 
 func getAPIKeys(parsedData interface{}) []string {
 	for _, v := range parsedData.([]interface{}) {
-		if v.(map[string]interface{})["label"] == "API Keys" {
+		if v.(map[string]interface{})["prop"] == "apiKeys" {
 			var result []string
 
 			for _, apiKey := range v.(map[string]interface{})["value"].([]interface{}) {

@@ -3,4 +3,5 @@ export enum MetricNames {
   Commits = 'Commits',
   Issues = 'Issues',
   IssueCompleteness = 'IssueCompleteness',
+  PullRequests = 'PullRequests',
 }

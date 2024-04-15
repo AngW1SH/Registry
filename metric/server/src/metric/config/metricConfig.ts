@@ -95,4 +95,24 @@ export const metricConfig: MetricConfig = {
       },
     ],
   },
+  PullRequests: {
+    dependencies: [],
+    snapshotBased: true,
+    isPublic: true,
+    params: [
+      {
+        type: MetricParamType.duration,
+        name: 'updateRate',
+        value: {
+          number: 2,
+          unitOfTime: UnitOfTime.weeks,
+        },
+      },
+      {
+        type: MetricParamType.text,
+        name: 'weight',
+        value: '1',
+      },
+    ],
+  },
 };

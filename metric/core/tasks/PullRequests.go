@@ -5,58 +5,24 @@ import (
 	"core/repositories"
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"regexp"
-	"strconv"
 	"time"
 )
 
-func getIssueBatch(endpoint string, page int, apiKeys []string) []interface{} {
-	client := http.Client{}
-	req, _ := http.NewRequest("GET", endpoint + "issues?state=all&per_page=100&page=" + strconv.Itoa(page), nil)
-	req.Header.Set("Authorization", "Bearer " + apiKeys[0])
-	resp, err := client.Do(req)
-
-	if err != nil {
-		return nil
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil
-	}
-
-	body, err := io.ReadAll(resp.Body)
-
-	if err != nil {
-		return nil
-	}
-
-	var parsedBody []interface{}
-	err = json.Unmarshal(body, &parsedBody)
-
-	if err != nil {
-		return nil
-	}
-
-	return parsedBody
-}
-
-func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
+func PullRequestsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var parsed []interface{}
 
 	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
 		return;
 	}
 
 	endpoint := getEndpoint(parsed)
 
 	if endpoint == "" {
-		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: "no API endpoint"})
+		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: "no API endpoint"})
 		return;
 	}
 
@@ -67,10 +33,10 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	}
 
 	var latestUpdatedData interface{}
-	latestUpdated, err := repo.GetLastestUpdated("Issues", task.Groups)
+	latestUpdated, err := repo.GetLastestUpdated("PullRequests", task.Groups)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
 	}
 
 	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
@@ -81,7 +47,7 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	}
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
 	}
 
 	var issues []interface{}
@@ -101,12 +67,12 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 				continue
 			}
 
-			// if issue["html_url"] has '/pull/', continue
+			// if issue["html_url"] doesn't have '/pull/', continue
 			pattern := `/pull/`
 			re := regexp.MustCompile(pattern)
 			match := re.FindStringSubmatch(issue.(map[string]interface{})["html_url"].(string))
 
-			if len(match) == 1 {
+			if len(match) == 0 {
 				continue
 			}
 
@@ -132,7 +98,7 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		}
 
 		result = append(result, &models.Snapshot{
-			Metric: "Issues",
+			Metric: "PullRequests",
 			Data: string(data),
 			Groups: task.Groups,
 			Error: "",

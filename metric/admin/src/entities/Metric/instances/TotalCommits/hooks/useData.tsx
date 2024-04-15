@@ -17,7 +17,8 @@ export const useData = (
   useEffect(() => {
     const users = new Set<string>();
     successData.forEach((item) => {
-      if (!users.has(item.data.author.login)) users.add(item.data.author.login);
+      if (item.data.author?.login && !users.has(item.data.author.login))
+        users.add(item.data.author.login);
     });
 
     Array.from(users).forEach((item) => {
@@ -38,6 +39,9 @@ export const useData = (
       return true;
     })
     .filter((item) => {
-      return !users.length || users.includes(item.data.author.login);
+      return (
+        !users.length ||
+        (item.data.author?.login && users.includes(item.data.author.login))
+      );
     });
 };
