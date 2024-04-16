@@ -1,5 +1,7 @@
 package tasks
 
+import "core/models"
+
 func getEndpoint(parsedData interface{}) string {
 	for _, v := range parsedData.([]interface{}) {
 		if v.(map[string]interface{})["prop"] == "apiEndpoint" {
@@ -23,4 +25,29 @@ func getAPIKeys(parsedData interface{}) []string {
 	}
 
 	return nil
+}
+
+func mapSnapshotsByNodeIds(issues []models.SnapshotDB) map[string]models.SnapshotDB {
+
+	result := map[string]models.SnapshotDB{}
+
+	for _, issue := range issues {
+
+		var nodeId string
+
+		for _, param := range issue.Params {
+
+			if param.Name == "id" {
+				nodeId = param.Value
+			}
+		}
+
+		if nodeId == "" {
+			continue
+		}
+
+		result[nodeId] = issue
+	}
+
+	return result
 }

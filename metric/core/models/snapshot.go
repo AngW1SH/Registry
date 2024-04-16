@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"time"
 
 	"gorm.io/gorm"
@@ -23,6 +24,7 @@ type Snapshot struct {
 
 type SnapshotDB struct {
 	gorm.Model
+	OutdatedAt sql.NullTime
 	Metric   string
 	Data     string
 	Error    string

@@ -3,6 +3,7 @@ package repositories
 import (
 	"core/models"
 	"fmt"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -162,7 +163,7 @@ func (r *SnapshotRepository) CreateInBatches(snapshots []*models.Snapshot) Repos
 func (r *SnapshotRepository) GetByGroup(group string) ([]models.SnapshotDB, error) {
 	var snapshots []models.SnapshotDB
 
-	err := r.db.Preload("Groups").Where("id IN (?)", r.db.Table("snapshot_group_dbs").Select("snapshot_db_id").Where("name = ?", group)).Where("snapshot_dbs.is_public IS TRUE").Find(&snapshots).Error
+	err := r.db.Preload("Groups").Where("id IN (?)", r.db.Table("snapshot_group_dbs").Select("snapshot_db_id").Where("name = ?", group)).Where("snapshot_dbs.is_public IS TRUE").Where("snapshot_dbs.outdated_at IS NULL").Find(&snapshots).Error
 
 	return snapshots, err
 }
@@ -172,16 +173,25 @@ func (r *SnapshotRepository) GetByGroupList(metric string, groups []string) ([]m
 	err := r.db.Where("id IN (?)", r.db.Table("snapshot_dbs").
     	Select("snapshot_dbs.id").
     	Joins("JOIN snapshot_group_dbs ON snapshot_dbs.id = snapshot_group_dbs.snapshot_db_id").
+    	Joins("JOIN snapshot_param_dbs ON snapshot_dbs.id = snapshot_param_dbs.snapshot_db_id").
     	Where("snapshot_group_dbs.name IN (?)", groups).
 		Where("snapshot_dbs.metric = ?", metric).
 		Where("snapshot_dbs.error IS NULL OR snapshot_dbs.error = ''").
+		Where("snapshot_dbs.outdated_at IS NULL").
     	Group("snapshot_dbs.id").
     	Having("COUNT(DISTINCT snapshot_group_dbs.name) = ?", len(groups))).  
     	Preload("Groups").
+		Preload("Params").
 		Order("updated_at DESC"). 
     	Find(&result).Error; 
 
 	return result, err
+}
+
+func (r *SnapshotRepository) OutdateByIdList(ids []uint) error {
+	err := r.db.Model(&models.SnapshotDB{}).Where("id IN (?)", ids).Update("outdated_at", time.Now()).Error
+
+	return err
 }
 
 func (r *SnapshotRepository) GetLastestUpdated(metric string, groups []string) (models.SnapshotDB, error) {

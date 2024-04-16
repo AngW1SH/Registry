@@ -4,12 +4,10 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"regexp"
 	"strconv"
-	"time"
 )
 
 func getIssueBatch(endpoint string, page int, apiKeys []string) []interface{} {
@@ -43,7 +41,6 @@ func getIssueBatch(endpoint string, page int, apiKeys []string) []interface{} {
 	return parsedBody
 }
 
-
 func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var parsed []interface{}
 
@@ -53,6 +50,14 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: err.Error()})
 		return;
 	}
+
+	issuesDB, err := repo.GetByGroupList("Issues", task.Groups)
+
+	if err != nil {
+		return;
+	}
+
+	issuesDBMap := mapSnapshotsByNodeIds(issuesDB)
 
 	endpoint := getEndpoint(parsed)
 
@@ -76,31 +81,19 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
 
-	var latestUpdateDate time.Time
-	if latestUpdatedData != nil {
-		latestUpdateDate, err = time.Parse("2006-01-02T15:04:05Z",latestUpdatedData.(map[string]interface{})["created_at"].(string))
-	}
-
 	if err != nil {
 		repo.Create(&models.Snapshot{Metric: "Issues", Data: "", Groups: task.Groups, Error: err.Error()})
 	}
 
 	var issues []interface{}
+	var outdated []uint
 
 	page := 1
 	issuesBatch := getIssueBatch(endpoint, page, apiKeys)
 
-	out:
 	for len(issuesBatch) != 0 {
 
 		for _, issue := range issuesBatch {
-			issuesDate := fmt.Sprintf("%v", issue.(map[string]interface{})["created_at"])
-
-			date, err := time.Parse("2006-01-02T15:04:05Z", issuesDate)
-
-			if err != nil {
-				continue
-			}
 
 			// if issue["html_url"] has '/pull/', continue
 			pattern := `/pull/`
@@ -111,15 +104,32 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 				continue
 			}
 
-			if date.Before(latestUpdateDate) || date.Equal(latestUpdateDate) {
-				break out
+			issueInDB, foundInDB := issuesDBMap[issue.(map[string]interface{})["node_id"].(string)]
+			issueDate := issue.(map[string]interface{})["updated_at"].(string)
+
+			if foundInDB {
+				var data interface{}
+
+				err := json.Unmarshal([]byte(issueInDB.Data), &data)
+
+				if err != nil {
+					continue
+				}
+
+				issueDBDate := data.(map[string]interface{})["updated_at"].(string)
+
+				if issueDate != issueDBDate {
+					outdated = append(outdated, issueInDB.ID)
+				} else {
+					continue;
+				}
 			}
 
 			issues = append(issues, issue)
 		}
 
 		page += 1
-		issuesBatch = getCommitBatch(endpoint, page, apiKeys)
+		issuesBatch = getIssueBatch(endpoint, page, apiKeys)
 	}
 
 	var result []*models.Snapshot
@@ -149,6 +159,10 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 			Error: "",
 			IsPublic: task.IsPublic,
 		})
+	}
+
+	if len(outdated) != 0 {
+		repo.OutdateByIdList(outdated)
 	}
 
 	if len(result) != 0 {
