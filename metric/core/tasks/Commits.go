@@ -127,6 +127,12 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 			Metric: "Commits",
 			Data: string(data),
 			Groups: task.Groups,
+			Params: []models.SnapshotParam{
+				{
+					Name: "id",
+					Value: commit.(map[string]interface{})["node_id"].(string),
+				},
+			},
 			Error: "",
 			IsPublic: task.IsPublic,
 		})

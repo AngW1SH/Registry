@@ -43,6 +43,7 @@ func getIssueBatch(endpoint string, page int, apiKeys []string) []interface{} {
 	return parsedBody
 }
 
+
 func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var parsed []interface{}
 
@@ -77,7 +78,7 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 	var latestUpdateDate time.Time
 	if latestUpdatedData != nil {
-		latestUpdateDate, err = time.Parse("2006-01-02T15:04:05Z",latestUpdatedData.(map[string]interface{})["commit"].(map[string]interface{})["author"].(map[string]interface{})["date"].(string))
+		latestUpdateDate, err = time.Parse("2006-01-02T15:04:05Z",latestUpdatedData.(map[string]interface{})["created_at"].(string))
 	}
 
 	if err != nil {
@@ -125,6 +126,10 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	
 	for _, issue := range issues {
 
+		if issue == nil {
+			continue
+		}
+
 		data, err := json.Marshal(issue)
 
 		if err != nil {
@@ -135,6 +140,12 @@ func IssuesMetric(task models.Task, repo *repositories.SnapshotRepository) {
 			Metric: "Issues",
 			Data: string(data),
 			Groups: task.Groups,
+			Params: []models.SnapshotParam{
+				{
+					Name: "id",
+					Value: issue.(map[string]interface{})["node_id"].(string),
+				},
+			},
 			Error: "",
 			IsPublic: task.IsPublic,
 		})

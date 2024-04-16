@@ -19,7 +19,7 @@ func InitializeDB() *gorm.DB {
 	if err != nil {
 		log.Fatal("Failed to start the database")
 	}
-	db.AutoMigrate(&models.SnapshotDB{}, &models.SnapshotGroupDB{}, &models.TaskDB{})
+	db.AutoMigrate(&models.SnapshotDB{}, &models.SnapshotGroupDB{}, &models.SnapshotParamDB{}, &models.TaskDB{})
 
 	return db
 }
