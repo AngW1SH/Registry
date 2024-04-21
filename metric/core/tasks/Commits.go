@@ -8,7 +8,6 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 func getCommitBatch(endpoint string, page int, apiKeys []string) []interface{} {
@@ -161,27 +160,6 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
 	}
 
-	// CommitsMetric queries all commits up until the current date,
-	// so checking the latest update date will tell us when to stop querying
-	// to prevent duplicating data
-	var latestUpdatedData interface{}
-	latestUpdated, err := repo.GetLastestUpdated("Commits", task.Groups)
-
-	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
-	}
-
-	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
-
-	var latestUpdateDate time.Time
-	if latestUpdatedData != nil {
-		latestUpdateDate, err = time.Parse("2006-01-02T15:04:05Z",latestUpdatedData.(map[string]interface{})["commit"].(map[string]interface{})["author"].(map[string]interface{})["date"].(string))
-	}
-
-	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
-	}
-
 	var commits []interface{}
 	var files [][]byte
 
@@ -193,15 +171,10 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 		for _, commit := range commitsBatch {
 
-			commitDate := commit.(map[string]interface{})["commit"].(map[string]interface{})["author"].(map[string]interface{})["date"].(string)
-			date, err := time.Parse("2006-01-02T15:04:05Z", commitDate)
+			fromDB, err := repo.GetOneByParam("Commits", models.SnapshotParam{Name: "id", Value: commit.(map[string]interface{})["node_id"].(string)}, task.Groups)
 
-			if err != nil {
-				continue;
-			}
-
-			if date.Before(latestUpdateDate) || date.Equal(latestUpdateDate) {
-				break out
+			if err != nil || fromDB.ID != 0 || fromDB.Metric != "" {
+				break out;
 			}
 
 			commitDetailed, err := getCommitDetailed(endpoint + "commits/" + commit.(map[string]interface{})["sha"].(string), apiKeys)

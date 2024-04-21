@@ -38,15 +38,6 @@ func PullRequestsMetric(task models.Task, repo *repositories.SnapshotRepository)
 		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
 	}
 
-	var latestUpdatedData interface{}
-	latestUpdated, err := repo.GetLastestUpdated("PullRequests", task.Groups)
-
-	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
-	}
-
-	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
-
 	if err != nil {
 		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
 	}

@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"core/models"
-	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -194,19 +193,21 @@ func (r *SnapshotRepository) OutdateByIdList(ids []uint) error {
 	return err
 }
 
-func (r *SnapshotRepository) GetLastestUpdated(metric string, groups []string) (models.SnapshotDB, error) {
-	fmt.Println(metric)
-	fmt.Println(groups)
+func (r *SnapshotRepository) GetOneByParam(metric string, param models.SnapshotParam, groups []string) (models.SnapshotDB, error) {
 	var result models.SnapshotDB
 	err := r.db.Where("id IN (?)", r.db.Table("snapshot_dbs").
     	Select("snapshot_dbs.id").
     	Joins("JOIN snapshot_group_dbs ON snapshot_dbs.id = snapshot_group_dbs.snapshot_db_id").
+    	Joins("JOIN snapshot_param_dbs ON snapshot_dbs.id = snapshot_param_dbs.snapshot_db_id").
     	Where("snapshot_group_dbs.name IN (?)", groups).
 		Where("snapshot_dbs.metric = ?", metric).
+		Where("snapshot_param_dbs.name = ?", param.Name).
+		Where("snapshot_param_dbs.value = ?", param.Value).
 		Where("snapshot_dbs.error IS NULL OR snapshot_dbs.error = ''").
     	Group("snapshot_dbs.id").
     	Having("COUNT(DISTINCT snapshot_group_dbs.name) = ?", len(groups))).   // Should have all of the groups provided
     	Preload("Groups").
+    	Preload("Params").
 		Order("updated_at DESC").  // Should only return the latest row
 		Limit(1).	// Should only return one row
     	Find(&result).Error; 
