@@ -214,6 +214,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 		page += 1
 		commitsBatch = getCommitBatch(endpoint, page, apiKeys)
-		
 	}
+
+	saveCommitsDetailed(commits, files, task, repo)
 }
