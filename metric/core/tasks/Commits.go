@@ -4,6 +4,7 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"strconv"
@@ -41,6 +42,102 @@ func getCommitBatch(endpoint string, page int, apiKeys []string) []interface{} {
 	return parsedBody
 }
 
+func getCommitDetailed(endpoint string, apiKeys []string) (interface{}, error) {
+	client := http.Client{}
+	req, _ := http.NewRequest("GET", endpoint, nil)
+	req.Header.Set("Authorization", "Bearer " + apiKeys[0])
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, errors.New("request failed")
+	}
+
+	body, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var parsedBody interface{}
+	err = json.Unmarshal(body, &parsedBody)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parsedBody, nil
+}
+
+func saveCommitsDetailed(commits []interface{}, files [][]byte, task models.Task, repo *repositories.SnapshotRepository) {
+	var result []*models.Snapshot
+	var filesResult []*models.Snapshot
+	
+	for _, commit := range commits {
+
+		data, err := json.Marshal(commit)
+
+		if err != nil {
+			continue
+		}
+
+		result = append(result, &models.Snapshot{
+			Metric: "Commits",
+			Data: string(data),
+			Groups: task.Groups,
+			Params: []models.SnapshotParam{
+				{
+					Name: "id",
+					Value: commit.(map[string]interface{})["node_id"].(string),
+				},
+			},
+			Error: "",
+			IsPublic: task.IsPublic,
+		})
+	}
+
+	for _, data := range files {
+
+		var file map[string]interface{}
+		var err error
+		json.Unmarshal(data, &file)
+
+		if err != nil {
+			continue
+		}
+
+		filesResult = append(filesResult, &models.Snapshot{
+			Metric: "CommitFiles",
+			Data: string(data),
+			Groups: task.Groups,
+			Params: []models.SnapshotParam{
+				{
+					Name: "id",
+					Value: file["sha"].(string),
+				},
+				{
+					Name: "commit_sha",
+					Value: file["commit_sha"].(string),
+				},
+			},
+			Error: "",
+			IsPublic: false,
+		})
+	}
+
+	if len(result) != 0 {
+		repo.CreateInBatches(result)
+	}
+
+	if len(filesResult) != 0 {
+		repo.CreateInBatches(filesResult)
+	}
+}
+
 func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var parsed []interface{}
 
@@ -71,7 +168,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	latestUpdated, err := repo.GetLastestUpdated("Commits", task.Groups)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 	}
 
 	json.Unmarshal([]byte(latestUpdated.Data), &latestUpdatedData)
@@ -82,10 +179,11 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	}
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error(), IsPublic: task.IsPublic})
 	}
 
 	var commits []interface{}
+	var files [][]byte
 
 	page := 1
 	commitsBatch := getCommitBatch(endpoint, page, apiKeys)
@@ -99,46 +197,50 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 			date, err := time.Parse("2006-01-02T15:04:05Z", commitDate)
 
 			if err != nil {
-				continue
+				continue;
 			}
 
 			if date.Before(latestUpdateDate) || date.Equal(latestUpdateDate) {
 				break out
 			}
 
-			commits = append(commits, commit)
+			commitDetailed, err := getCommitDetailed(endpoint + "commits/" + commit.(map[string]interface{})["sha"].(string), apiKeys)
+
+			if err != nil {
+				break out;
+			}
+
+			commitFiles := commitDetailed.(map[string]interface{})["files"].([]interface{})
+
+			for i, file := range commitFiles {
+				file.(map[string]interface{})["commit_sha"] = commit.(map[string]interface{})["sha"]
+
+				fileJson, err := json.Marshal(file)
+
+				if err != nil {
+					continue
+				}
+
+				files = append(files, fileJson)
+
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "blob_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "commit_sha")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "raw_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "contents_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "patch")
+				
+			}
+
+			commits = append(commits, commitDetailed)
 		}
+
+	    saveCommitsDetailed(commits, files, task, repo)
+
+		commits = nil
+		files = nil
 
 		page += 1
 		commitsBatch = getCommitBatch(endpoint, page, apiKeys)
-	}
-
-	var result []*models.Snapshot
-	
-	for _, commit := range commits {
-
-		data, err := json.Marshal(commit)
-
-		if err != nil {
-			continue
-		}
-
-		result = append(result, &models.Snapshot{
-			Metric: "Commits",
-			Data: string(data),
-			Groups: task.Groups,
-			Params: []models.SnapshotParam{
-				{
-					Name: "id",
-					Value: commit.(map[string]interface{})["node_id"].(string),
-				},
-			},
-			Error: "",
-			IsPublic: task.IsPublic,
-		})
-	}
-
-	if len(result) != 0 {
-		repo.CreateInBatches(result)
+		
 	}
 }

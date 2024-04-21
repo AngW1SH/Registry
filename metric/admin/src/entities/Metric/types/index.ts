@@ -37,7 +37,6 @@ export enum MetricName {
   IssueCompleteness = "IssueCompleteness",
   Issues = "Issues",
   PullRequests = "PullRequests",
-  CommitsDetailed = "CommitsDetailed",
 }
 
 export interface IMetricData {

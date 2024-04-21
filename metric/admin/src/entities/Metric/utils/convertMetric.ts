@@ -11,12 +11,6 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
         name: MetricName.Commits,
         data: convertCommits(metric.data),
       };
-    case "CommitsDetailed":
-      return {
-        ...metric,
-        name: MetricName.CommitsDetailed,
-        data: convertCommits(metric.data),
-      };
     case "Issues":
       return {
         ...metric,
