@@ -51,6 +51,26 @@ export const metricConfig: MetricConfig = {
       },
     ],
   },
+  CommitsDetailed: {
+    dependencies: [],
+    snapshotBased: true,
+    isPublic: false,
+    params: [
+      {
+        type: MetricParamType.duration,
+        name: 'updateRate',
+        value: {
+          number: 2,
+          unitOfTime: UnitOfTime.weeks,
+        },
+      },
+      {
+        type: MetricParamType.text,
+        name: 'weight',
+        value: '1',
+      },
+    ],
+  },
   Issues: {
     dependencies: [],
     snapshotBased: true,
