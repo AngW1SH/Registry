@@ -87,6 +87,7 @@ func CommitsDetailedMetric(task models.Task, repo *repositories.SnapshotReposito
 	}
 
 	var commits []interface{}
+	var files [][]byte
 
 	page := 1
 	commitsBatch := getCommitBatch(endpoint, page, apiKeys)
@@ -113,6 +114,29 @@ func CommitsDetailedMetric(task models.Task, repo *repositories.SnapshotReposito
 				break out;
 			}
 
+			commitFiles := commitDetailed.(map[string]interface{})["files"].([]interface{})
+
+			for i, file := range commitFiles {
+				file.(map[string]interface{})["commit_sha"] = commit.(map[string]interface{})["sha"]
+
+				fileJson, err := json.Marshal(file)
+
+				if err != nil {
+					continue
+				}
+
+				files = append(files, fileJson)
+
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "blob_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "commit_sha")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "raw_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "contents_url")
+				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "patch")
+				
+			}
+
+			
+
 			commits = append(commits, commitDetailed)
 		}
 
@@ -121,6 +145,7 @@ func CommitsDetailedMetric(task models.Task, repo *repositories.SnapshotReposito
 	}
 
 	var result []*models.Snapshot
+	var filesResult []*models.Snapshot
 	
 	for _, commit := range commits {
 
@@ -145,7 +170,39 @@ func CommitsDetailedMetric(task models.Task, repo *repositories.SnapshotReposito
 		})
 	}
 
+	for _, data := range files {
+
+		var file map[string]interface{}
+		json.Unmarshal(data, &file)
+
+		if err != nil {
+			continue
+		}
+
+		filesResult = append(filesResult, &models.Snapshot{
+			Metric: "CommitFiles",
+			Data: string(data),
+			Groups: task.Groups,
+			Params: []models.SnapshotParam{
+				{
+					Name: "id",
+					Value: file["sha"].(string),
+				},
+				{
+					Name: "commit_sha",
+					Value: file["commit_sha"].(string),
+				},
+			},
+			Error: "",
+			IsPublic: false,
+		})
+	}
+
 	if len(result) != 0 {
 		repo.CreateInBatches(result)
+	}
+
+	if len(filesResult) != 0 {
+		repo.CreateInBatches(filesResult)
 	}
 }
