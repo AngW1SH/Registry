@@ -20,7 +20,8 @@ const AddProject: FC<AddProjectProps> = ({ className }) => {
     if (name) {
       const result = await fetchAddProject(name);
 
-      if (result) navigate(`/project/${result.id}`);
+      if (result)
+        navigate(import.meta.env.VITE_BASE_PATH + `project/${result.id}`);
       setOpen(false);
     }
   };

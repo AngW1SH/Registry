@@ -24,7 +24,7 @@ const Login: FC<LoginProps> = ({ className = "" }) => {
   };
 
   useEffect(() => {
-    if (isSuccess) navigate(import.meta.env.VITE_BASE_URL!);
+    if (isSuccess) navigate(import.meta.env.VITE_BASE_PATH);
   }, [isSuccess]);
 
   return (

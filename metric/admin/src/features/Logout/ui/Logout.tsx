@@ -23,7 +23,7 @@ const Logout: FC<LogoutProps> = ({ icon, children }) => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(userSlice.actions.clearUser());
-      navigate(import.meta.env.VITE_BASE_URL! + "login");
+      navigate(import.meta.env.VITE_BASE_PATH + "login");
     }
   }, [isSuccess]);
 
