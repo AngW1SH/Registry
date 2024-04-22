@@ -8,6 +8,7 @@ import {
 import { FC } from "react";
 import MenuItem from "./MenuItem";
 import { Logout } from "@/features/Logout";
+import { Link } from "react-router-dom";
 
 interface MenuProps {}
 
@@ -15,7 +16,9 @@ const Menu: FC<MenuProps> = () => {
   return (
     <ul className="flex h-full flex-col text-[#AEAEAE] text-lg">
       <MenuItem icon={<ProfileIcon />}>Profile</MenuItem>
-      <MenuItem icon={<DocumentIcon />}>Projects</MenuItem>
+      <Link to={import.meta.env.VITE_BASE_PATH}>
+        <MenuItem icon={<DocumentIcon />}>Projects</MenuItem>
+      </Link>
       <MenuItem icon={<DocumentIcon />}>Collections</MenuItem>
 
       <div className="h-px my-4 w-full bg-[#ececee]"></div>
