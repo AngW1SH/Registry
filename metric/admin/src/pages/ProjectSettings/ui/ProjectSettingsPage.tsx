@@ -46,7 +46,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
 
   useEffect(() => {
     if (id) {
-      initializeProjectDetailed(dispatch, id);
+      if (!project || project.id != id) initializeProjectDetailed(dispatch, id);
     } else {
       navigate(import.meta.env.VITE_BASE_PATH);
     }
