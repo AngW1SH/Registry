@@ -11,4 +11,9 @@ export const fieldData: { [key in string]: IResourceFieldData } = {
     tooltip: "API Keys",
     placeholder: "Enter your API Key",
   },
+  url: {
+    label: "URL",
+    tooltip: "URL",
+    placeholder: "https://github.com",
+  },
 };

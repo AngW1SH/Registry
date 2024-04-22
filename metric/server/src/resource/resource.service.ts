@@ -10,6 +10,7 @@ import {
 import { MetricService } from 'src/metric/metric.service';
 import { configs } from './config';
 import { Metric } from '../metric/metric.entity';
+import { ResourceConfig } from './config/types';
 
 @Injectable()
 export class ResourceService {
@@ -28,6 +29,12 @@ export class ResourceService {
         name: true,
         projectId: true,
         platformId: true,
+        platform: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         params: true,
         metrics: {
           select: {
@@ -38,6 +45,21 @@ export class ResourceService {
           },
         },
       },
+    });
+
+    result.forEach((resource) => {
+      const config: ResourceConfig = configs[resource.platform.name];
+      const params = JSON.parse(resource.params);
+
+      if (!config) return;
+
+      config.data.forEach((param) => {
+        if (!params.find((p) => p.prop === param.prop)) {
+          params.push(param);
+        }
+      });
+
+      resource.params = JSON.stringify(params);
     });
 
     return result.map((resource) => ({

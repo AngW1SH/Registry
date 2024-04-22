@@ -9,6 +9,11 @@ export const githubConfig: ResourceConfig = {
       value: '',
     },
     {
+      prop: 'url',
+      type: ResourceFieldType.text,
+      value: '',
+    },
+    {
       prop: 'apiKeys',
       type: ResourceFieldType.textArray,
       value: [],
