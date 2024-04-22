@@ -6,4 +6,5 @@ export interface IPlatform {
 export enum PlatformName {
   GitHub = "GitHub",
   GitLab = "GitLab",
+  Trello = "Trello",
 }
