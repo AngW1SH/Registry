@@ -81,3 +81,15 @@ func (s *TaskServer) ForceExecute(ctx context.Context, message *TaskForceExecute
 
 	return &TaskForceExecuteResponse{Task: ToGRPCTaskInfo(task)}, nil
 }
+
+func (s *TaskServer) UpdateGroupName(ctx context.Context, message *UpdateGroupNameRequest) (*UpdateGroupNameResult, error) {
+	fmt.Println("UpdateGroupName", message.Old, message.New)
+
+	err := s.Queue.UpdateGroupName(message.Old, message.New)
+
+	if err != nil {
+		return &UpdateGroupNameResult{Old: "", New: ""}, err
+	}
+
+	return &UpdateGroupNameResult{Old: message.Old, New: message.New}, nil
+}

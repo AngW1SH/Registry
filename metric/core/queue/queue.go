@@ -65,6 +65,18 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	return &task
 }
 
+func (q *Queue) UpdateGroupName(old string, new string) error {
+	updatedTasks := q.tasks.UpdateGroupName(old, new)
+
+	for _, task := range updatedTasks {
+		q.taskRepo.Update(task)
+	}
+
+	err := q.snapshotRepo.UpdateGroupName(old, new)
+
+	return err
+}
+
 func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, error) {
 
 	task, err := q.tasks.ForceUpdate(metric, groups)

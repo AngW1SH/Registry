@@ -94,6 +94,23 @@ export class ProjectService {
   }
 
   async updateOne(project: Project): Promise<Project> {
+    const oldData = await this.prisma.project.findFirst({
+      where: {
+        id: project.id,
+      },
+    });
+
+    if (!oldData) throw new Error('Project not found');
+
+    if (oldData.name !== project.name) {
+      const result = await this.taskService.updateGroupName({
+        old: 'project:' + oldData.name,
+        new: 'project:' + project.name,
+      });
+
+      if (!result || !result.new) throw new Error('Failed to update tasks');
+    }
+
     const result = await this.prisma.project.update({
       where: {
         id: project.id,

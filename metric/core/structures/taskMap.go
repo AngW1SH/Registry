@@ -132,3 +132,21 @@ func (m *TaskMap) ForceUpdate(metric string, groups []string) (*models.Task, err
 
 	return nil, errors.New("task not found")
 }
+
+func (m *TaskMap) UpdateGroupName(old string, new string) []*models.Task {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	var result []*models.Task
+
+	for _, task := range m.tasks {
+		for i := 0; i < len(task.Groups); i++ {
+			if task.Groups[i] == old {
+				task.Groups[i] = new
+				result = append(result, task)
+			}
+		}
+	}
+
+	return result
+}

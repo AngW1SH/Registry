@@ -60,10 +60,22 @@ message TaskForceExecuteResponse {
     TaskInfo task = 1;
 }
 
+
+message UpdateGroupNameRequest {
+    string old = 1;
+    string new = 2;
+}
+
+message UpdateGroupNameResult {
+    string old = 1;
+    string new = 2;
+}
+
 service TaskService {
     rpc Start(TaskStartRequest) returns (TaskStartResponse);
     rpc Stop(TaskStopRequest) returns (TaskStopResponse);
     rpc Update(TaskStartRequest) returns (TaskStartResponse);
     rpc List(TaskListRequest) returns(TaskListResponse);
     rpc ForceExecute(TaskForceExecuteRequest) returns(TaskForceExecuteResponse);
+    rpc UpdateGroupName(UpdateGroupNameRequest) returns (UpdateGroupNameResult);
 }

@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TaskService_Start_FullMethodName        = "/api.TaskService/Start"
-	TaskService_Stop_FullMethodName         = "/api.TaskService/Stop"
-	TaskService_Update_FullMethodName       = "/api.TaskService/Update"
-	TaskService_List_FullMethodName         = "/api.TaskService/List"
-	TaskService_ForceExecute_FullMethodName = "/api.TaskService/ForceExecute"
+	TaskService_Start_FullMethodName           = "/api.TaskService/Start"
+	TaskService_Stop_FullMethodName            = "/api.TaskService/Stop"
+	TaskService_Update_FullMethodName          = "/api.TaskService/Update"
+	TaskService_List_FullMethodName            = "/api.TaskService/List"
+	TaskService_ForceExecute_FullMethodName    = "/api.TaskService/ForceExecute"
+	TaskService_UpdateGroupName_FullMethodName = "/api.TaskService/UpdateGroupName"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -35,6 +36,7 @@ type TaskServiceClient interface {
 	Update(ctx context.Context, in *TaskStartRequest, opts ...grpc.CallOption) (*TaskStartResponse, error)
 	List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error)
 	ForceExecute(ctx context.Context, in *TaskForceExecuteRequest, opts ...grpc.CallOption) (*TaskForceExecuteResponse, error)
+	UpdateGroupName(ctx context.Context, in *UpdateGroupNameRequest, opts ...grpc.CallOption) (*UpdateGroupNameResult, error)
 }
 
 type taskServiceClient struct {
@@ -90,6 +92,15 @@ func (c *taskServiceClient) ForceExecute(ctx context.Context, in *TaskForceExecu
 	return out, nil
 }
 
+func (c *taskServiceClient) UpdateGroupName(ctx context.Context, in *UpdateGroupNameRequest, opts ...grpc.CallOption) (*UpdateGroupNameResult, error) {
+	out := new(UpdateGroupNameResult)
+	err := c.cc.Invoke(ctx, TaskService_UpdateGroupName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type TaskServiceServer interface {
 	Update(context.Context, *TaskStartRequest) (*TaskStartResponse, error)
 	List(context.Context, *TaskListRequest) (*TaskListResponse, error)
 	ForceExecute(context.Context, *TaskForceExecuteRequest) (*TaskForceExecuteResponse, error)
+	UpdateGroupName(context.Context, *UpdateGroupNameRequest) (*UpdateGroupNameResult, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedTaskServiceServer) List(context.Context, *TaskListRequest) (*
 }
 func (UnimplementedTaskServiceServer) ForceExecute(context.Context, *TaskForceExecuteRequest) (*TaskForceExecuteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForceExecute not implemented")
+}
+func (UnimplementedTaskServiceServer) UpdateGroupName(context.Context, *UpdateGroupNameRequest) (*UpdateGroupNameResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroupName not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 
@@ -224,6 +239,24 @@ func _TaskService_ForceExecute_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_UpdateGroupName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGroupNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UpdateGroupName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_UpdateGroupName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UpdateGroupName(ctx, req.(*UpdateGroupNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ForceExecute",
 			Handler:    _TaskService_ForceExecute_Handler,
+		},
+		{
+			MethodName: "UpdateGroupName",
+			Handler:    _TaskService_UpdateGroupName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -214,3 +214,10 @@ func (r *SnapshotRepository) GetOneByParam(metric string, param models.SnapshotP
 
 	return result, err
 }
+
+func (r *SnapshotRepository) UpdateGroupName(old string, new string) error {
+
+	err := r.db.Model(&models.SnapshotGroupDB{}).Where("name = ?", old).Update("name", new).Error
+
+	return err
+}

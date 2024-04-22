@@ -28,6 +28,11 @@ export interface TaskForceExecute {
   groups: string[];
 }
 
+export interface UpdateGroupNameData {
+  old: string;
+  new: string;
+}
+
 export interface TaskCreateDTO {
   metric: string;
   weight: number;
