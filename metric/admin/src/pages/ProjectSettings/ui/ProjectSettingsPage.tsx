@@ -7,7 +7,6 @@ import { useForceUser } from "@/entities/User";
 import { AddMetric } from "@/features/AddMetric";
 import { AddProvider } from "@/features/AddProvider";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
-import ConfigureProjectTitle from "@/features/ConfigureProjectTitle/ui/ConfigureProjectTitle";
 import { ConfigureResource } from "@/features/ConfigureResource";
 import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { DeleteResource } from "@/features/DeleteResource";
@@ -24,6 +23,7 @@ import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import EditProject from "@/features/EditProject/ui/EditProject";
 
 interface ProjectSettingsPageProps {}
 
@@ -67,10 +67,10 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         {!isLoading && project && (
           <>
             <div className="flex gap-5">
-              <ProjectTitle hint={"Система управления проектами"}>
+              <ProjectTitle hint={project.description}>
                 {project.name}
               </ProjectTitle>
-              <ConfigureProjectTitle project={project} />
+              <EditProject project={project} />
             </div>
             <div className="pt-8"></div>
             <AddProvider className="w-full" />

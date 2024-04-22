@@ -17,11 +17,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project, className = "" }) => {
         }
       >
         <h2 className="font-medium text-2xl">{project.name}</h2>
-        <p className="mt-3 text-base">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-          accusantium facilis maxime odio minima quisquam quo animi dolorem hic
-          dolore.
-        </p>
+        <p className="mt-3 text-base">{project.description}</p>
       </div>
     </Link>
   );

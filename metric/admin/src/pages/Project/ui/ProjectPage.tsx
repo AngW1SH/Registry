@@ -51,7 +51,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         )}
         {!isLoading && project && (
           <>
-            <ProjectTitle hint={"Система управления проектами"}>
+            <ProjectTitle hint={project.description}>
               {project.name}
             </ProjectTitle>
             <div className="pt-8"></div>

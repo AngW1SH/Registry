@@ -20,9 +20,10 @@ model Platform {
 }
 
 model Project {
-  id        String     @id @default(uuid())
-  name      String
-  resources Resource[]
+  id          String     @id @default(uuid())
+  name        String
+  description String     @default("")
+  resources   Resource[]
 }
 
 model Resource {

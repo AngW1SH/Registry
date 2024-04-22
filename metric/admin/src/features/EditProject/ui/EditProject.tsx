@@ -6,11 +6,11 @@ import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useState } from "react";
 
-interface ConfigureProjectTitleProps {
+interface EditProjectProps {
   project: IProject;
 }
 
-const ConfigureProjectTitle: FC<ConfigureProjectTitleProps> = ({ project }) => {
+const EditProject: FC<EditProjectProps> = ({ project }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [update] = useUpdateProjectMutation();
@@ -18,15 +18,19 @@ const ConfigureProjectTitle: FC<ConfigureProjectTitleProps> = ({ project }) => {
   const dispatch = useAppDispatch();
 
   const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
 
   const handleConfirm = async () => {
     const result = await update({
       ...project,
       name,
+      description,
     });
 
     if (!result.hasOwnProperty("error")) {
-      dispatch(projectSlice.actions.setProject({ ...project, name }));
+      dispatch(
+        projectSlice.actions.setProject({ ...project, name, description })
+      );
     }
 
     setIsOpen(false);
@@ -50,6 +54,12 @@ const ConfigureProjectTitle: FC<ConfigureProjectTitleProps> = ({ project }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <div className="pt-6" />
+          <TextInput
+            label="New Project Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
           <div className="flex justify-center gap-10 pt-10">
             <button
               onClick={() => setIsOpen(false)}
@@ -61,7 +71,7 @@ const ConfigureProjectTitle: FC<ConfigureProjectTitleProps> = ({ project }) => {
               onClick={handleConfirm}
               className={
                 "py-3 px-14 font-medium rounded-lg " +
-                (name !== project.name
+                (name !== project.name || description !== project.description
                   ? "bg-[#551FFF] text-[#F3F0FF]"
                   : "text-black bg-[#E5E5E5]")
               }
@@ -75,4 +85,4 @@ const ConfigureProjectTitle: FC<ConfigureProjectTitleProps> = ({ project }) => {
   );
 };
 
-export default ConfigureProjectTitle;
+export default EditProject;

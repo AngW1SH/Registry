@@ -26,6 +26,7 @@ export class ProjectService {
       select: {
         id: true,
         name: true,
+        description: true,
       },
     });
 
@@ -67,6 +68,7 @@ export class ProjectService {
     return {
       id: result.id,
       name: result.name,
+      description: result.description,
       resources: trackedTasks
         ? markTrackedMetrics(trackedTasks, resourcesPopulated)
         : resourcesPopulated,
@@ -77,6 +79,7 @@ export class ProjectService {
     const result = await this.prisma.project.create({
       data: {
         name: project.name,
+        description: project.description,
       },
     });
 
@@ -85,6 +88,7 @@ export class ProjectService {
     return {
       id: result.id,
       name: result.name,
+      description: result.description,
       resources: [],
     };
   }

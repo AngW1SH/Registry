@@ -6,11 +6,13 @@ import {
 export interface Project {
   id: string;
   name: string;
+  description: string;
 }
 
 export interface ProjectDTO {
   id: string;
   name: string;
+  description: string;
 }
 
 export interface ProjectDetailed extends Project {
@@ -31,4 +33,5 @@ export interface ProjectCreateDTO {
 
 export interface ProjectCreate {
   name: string;
+  description?: string;
 }
