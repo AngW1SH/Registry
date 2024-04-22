@@ -59,7 +59,7 @@ export class MetricController {
 
   @Post(':id/stop')
   async stop(@Param('id') id: string) {
-    const result = await this.metricService.stop(id);
+    const result = await this.metricService.stop(id, false);
 
     return result;
   }

@@ -241,7 +241,7 @@ export class ResourceService {
     if (!metrics) throw new Error("Couldn't get metrics");
 
     const result = await Promise.all(
-      metrics.map((metric) => this.metricService.stop(metric.id)),
+      metrics.map((metric) => this.metricService.stop(metric.id, false)),
     );
 
     return result;

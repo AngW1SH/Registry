@@ -90,7 +90,15 @@ func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, erro
 	return task, nil
 }
 
-func (q *Queue) DeleteTask(metric string, groups []string) (*models.Task, error) {
+func (q *Queue) DeleteTask(metric string, groups []string, deleteSnapshots bool) (*models.Task, error) {
+
+	if deleteSnapshots {
+		err := q.snapshotRepo.DeleteByMetric(metric, groups)
+
+		if err != nil {
+			return nil, err
+		}
+	}
 
 	task, err := q.tasks.MarkDelete(metric, groups)
 

@@ -28,7 +28,7 @@ func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*Tas
 func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopResponse, error) {
 	fmt.Println("Stop ", message.Metric)
 
-	task, err := s.Queue.DeleteTask(message.Metric, message.Groups)
+	task, err := s.Queue.DeleteTask(message.Metric, message.Groups, message.DeleteSnapshots)
 
 	if err != nil {
 		fmt.Println(err)

@@ -154,7 +154,7 @@ export class MetricService {
     return this.taskService.update(task);
   }
 
-  async stop(id: string) {
+  async stop(id: string, deleteSnapshots: boolean) {
     const metric = await this.prisma.metric.findFirst({
       where: {
         id,
@@ -192,6 +192,7 @@ export class MetricService {
     return this.taskService.stop({
       metric: metric.name,
       groups: ['project:' + projectName, 'resource:' + resourceName],
+      delete_snapshots: deleteSnapshots,
     });
   }
 
@@ -254,7 +255,7 @@ export class MetricService {
 
   async deleteOne(id): Promise<Metric | null> {
     try {
-      const result = await this.stop(id);
+      const result = await this.stop(id, true);
     } catch (err) {
       throw new Error('Failed to stop the metric');
     }

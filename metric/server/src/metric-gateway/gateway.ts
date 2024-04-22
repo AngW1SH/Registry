@@ -58,6 +58,7 @@ export class MetricGateway {
         });
     }
 
+    console.log('emit ws');
     this.server.emit('message', result);
   }
 }

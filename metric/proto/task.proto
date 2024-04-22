@@ -37,10 +37,12 @@ message TaskStartResponse {
 message TaskStopRequest {
     string metric = 1;
     repeated string groups = 6;
+    bool delete_snapshots = 7;
 }
 
 message TaskStopResponse {
     TaskInfo task = 1;
+    bool delete_snapshots = 7;
 }
 
 message TaskListRequest {

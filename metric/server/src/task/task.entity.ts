@@ -21,6 +21,7 @@ export interface TaskCreate {
 export interface TaskStop {
   metric: string;
   groups: string[];
+  delete_snapshots: boolean;
 }
 
 export interface TaskForceExecute {
