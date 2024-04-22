@@ -3,7 +3,7 @@ import { IProjectDetailed } from "@/composites/ProjectDetailed";
 export const fetchAddProject = async (
   name: string
 ): Promise<IProjectDetailed | null> => {
-  const result = await fetch("/api/project", {
+  const result = await fetch(import.meta.env.VITE_SERVER_URL + "project", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

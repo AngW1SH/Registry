@@ -1,4 +1,4 @@
-import { Platform } from '@prisma/client';
+import { Platform } from './platform.entity';
 import { PlatformDTO } from './platform.entity';
 
 export const platformMocks: Platform[] = [

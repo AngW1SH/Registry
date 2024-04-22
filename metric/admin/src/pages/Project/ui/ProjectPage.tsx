@@ -30,7 +30,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
     if (id) {
       initializeProjectDetailed(dispatch, id);
     } else {
-      navigate("/");
+      navigate(import.meta.env.VITE_BASE_URL!);
     }
   }, []);
 
@@ -66,7 +66,9 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         </ul>
       </div>
       <div className="min-w-[25%] flex flex-col">
-        <ConfigureProject link={"/project/" + id + "/settings"} />
+        <ConfigureProject
+          link={import.meta.env.VITE_BASE_URL + "project/" + id + "/settings"}
+        />
         <div className="mt-16" />
         <SelectPeriod />
         <div className="pt-20" />

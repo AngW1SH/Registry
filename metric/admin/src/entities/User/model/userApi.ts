@@ -5,9 +5,11 @@ export interface LoginParams {
   password: string;
 }
 
+console.log(import.meta.env);
+
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5173/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: (build) => ({
     login: build.mutation<void, LoginParams>({
       query: (params) => ({

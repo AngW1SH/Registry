@@ -122,7 +122,9 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
         <div className="pt-10" />
       </div>
       <div className="min-w-[25%] flex flex-col">
-        <ReturnToProject link={"/project/" + id} />
+        <ReturnToProject
+          link={import.meta.env.VITE_BASE_URL + "project/" + id}
+        />
         <div className="mt-16" />
         <SelectPeriod />
         <div className="pt-20" />

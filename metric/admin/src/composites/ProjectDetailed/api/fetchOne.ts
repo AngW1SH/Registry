@@ -3,7 +3,9 @@ import { IProjectDetailed } from "..";
 export const fetchOne = async (
   id: string
 ): Promise<IProjectDetailed | null> => {
-  const response = await fetch(`http://localhost:5173/api/project/${id}`);
+  const response = await fetch(
+    import.meta.env.VITE_SERVER_URL + `project/${id}`
+  );
 
   if (!response.ok) throw new Error("Failed to fetch project data");
 

@@ -7,6 +7,7 @@ import (
 	"core/repositories"
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -28,10 +29,10 @@ func main() {
 	queue := queue.NewQueue(100, snapshotRepo, taskRepo)
 	queue.Start()
 
-	lis, err := net.Listen("tcp", ":9000")
+	lis, err := net.Listen("tcp", ":" + os.Getenv("PORT"))
 
 	if err != nil {
-		log.Fatalf("Failed to listen on port 9000: %v", err)
+		log.Fatalf("Failed to listen on port %v: %v", os.Getenv("PORT"), err)
 	}
 
 	taskServer := api.TaskServer{Queue: queue}
@@ -43,6 +44,6 @@ func main() {
 	go snapshotServer.Broadcast()
 
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to server gRPC server over port 9000: %v", err)
+		log.Fatalf("Failed to server gRPC server over port %v: %v", os.Getenv("PORT"), err)
 	}
 }

@@ -4,7 +4,7 @@ export const fetchSaveResource = async (
   resource: IResource
 ): Promise<IResource | null> => {
   const response = await fetch(
-    `http://localhost:5173/api/resource/${resource.id}`,
+    import.meta.env.VITE_SERVER_URL + `resource/${resource.id}`,
     {
       method: "PUT",
       headers: {

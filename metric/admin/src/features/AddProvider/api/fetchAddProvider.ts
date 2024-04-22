@@ -5,7 +5,7 @@ export const fetchAddResource = async (
   platform: string,
   project: string
 ): Promise<IResource | null> => {
-  const result = await fetch("/api/resource", {
+  const result = await fetch(import.meta.env.VITE_SERVER_URL + "resource", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export interface MetricParams {
 
 export const metricApi = createApi({
   reducerPath: "metricApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5173/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: (build) => ({
     getMetricNames: build.query<IAbstractMetricDetailed[], void>({
       query: () => "metric",

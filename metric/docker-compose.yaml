@@ -1,0 +1,48 @@
+version: "3"
+volumes:
+  redis_data: {}
+services:
+  server:
+    build:
+      context: ./server
+    ports:
+      - "4173:4173"
+    depends_on:
+      - core
+      - postgres
+    env_file:
+      - ./.env
+      - ./server/.env
+  admin:
+    build:
+      context: ./admin
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    env_file:
+      - ./.env
+      - ./admin/.env
+  core:
+    build:
+      context: ./core
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+      - ./core/.env
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./postgres/03_metrics_structure.sql:/docker-entrypoint-initdb.d/03_metrics_structure.sql
+      - ./postgres/04_tasks_structure.sql:/docker-entrypoint-initdb.d/04_tasks_structure.sql
+      - ./postgres/data:/var/lib/postgresql/data
+    command: -p 5433

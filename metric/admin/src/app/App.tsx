@@ -11,7 +11,7 @@ import { useAppDispatch } from "./store";
 import { ProjectListPage } from "@/pages/ProjectList";
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/metric",
     element: (
       <Layout aside={<Sidebar />}>
         <ProjectListPage />
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/project/:id/settings",
+    path: "/metric/project/:id/settings",
     element: (
       <Layout aside={<Sidebar />}>
         <ProjectSettingsPage />
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/project/:id",
+    path: "/metric/project/:id",
     element: (
       <Layout aside={<Sidebar />}>
         <ProjectPage />
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/login",
+    path: "/metric/login",
     element: <LoginPage />,
   },
 ]);
