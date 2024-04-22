@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForceUser } from "@/entities/User";
 import { SetSelectedUsers } from "@/features/SetSelectedUsers";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
+import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
 interface ProjectPageProps {}
 
@@ -26,6 +27,8 @@ const ProjectPage: FC<ProjectPageProps> = () => {
     metrics: state.metric.metrics,
   }));
 
+  const isLoading = useAppSelector((state) => state.project.isLoading);
+
   useEffect(() => {
     if (id) {
       initializeProjectDetailed(dispatch, id);
@@ -38,32 +41,39 @@ const ProjectPage: FC<ProjectPageProps> = () => {
 
   useMetricDataUpdate();
 
-  if (!project) return <div></div>;
-
   return (
     <div className="flex gap-9">
       <div className="w-full">
-        <ProjectTitle hint={"Система управления проектами"}>
-          {project.name}
-        </ProjectTitle>
-        <div className="pt-8"></div>
-        <ul className="flex flex-col gap-6">
-          {resources.map((resource) => (
-            <li key={resource.id}>
-              <PlatformMetrics resource={resource} key={resource.id}>
-                <SetSelectedUsers resourceId={resource.id} />
-                <div className="pt-8" />
-                <PerformanceModule />
-                <div className="pt-8" />
-                <MetricList
-                  metrics={metrics.filter(
-                    (metric) => metric.resource == resource.id
-                  )}
-                />
-              </PlatformMetrics>
-            </li>
-          ))}
-        </ul>
+        {isLoading && (
+          <div className="h-[calc(100vh-100px)] w-full flex justify-center items-center">
+            <LoadingCircle size={80} />
+          </div>
+        )}
+        {!isLoading && project && (
+          <>
+            <ProjectTitle hint={"Система управления проектами"}>
+              {project.name}
+            </ProjectTitle>
+            <div className="pt-8"></div>
+            <ul className="flex flex-col gap-6">
+              {resources.map((resource) => (
+                <li key={resource.id}>
+                  <PlatformMetrics resource={resource} key={resource.id}>
+                    <SetSelectedUsers resourceId={resource.id} />
+                    <div className="pt-8" />
+                    <PerformanceModule />
+                    <div className="pt-8" />
+                    <MetricList
+                      metrics={metrics.filter(
+                        (metric) => metric.resource == resource.id
+                      )}
+                    />
+                  </PlatformMetrics>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ConfigureProject

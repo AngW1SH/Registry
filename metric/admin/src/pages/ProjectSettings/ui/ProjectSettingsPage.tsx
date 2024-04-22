@@ -18,6 +18,7 @@ import { SelectPeriod } from "@/features/SelectPeriod";
 import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 import { ToggleMetricStatus } from "@/features/ToggleMetricStatus";
 import { ToggleResourceMetrics } from "@/features/ToggleResourceMetrics";
+import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { ResourceLinks } from "@/widgets/ResourceLinks";
@@ -37,6 +38,8 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
     metrics: state.metric.metrics,
   }));
 
+  const isLoading = useAppSelector((state) => state.project.isLoading);
+
   const { data: metricData } = useGetMetricNamesQuery();
 
   const metricFilters = useAppSelector((state) => state.metric.filters);
@@ -53,73 +56,84 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
 
   useMetricDataUpdate();
 
-  if (!project) return <div></div>;
-
   return (
     <div className="flex gap-9">
       <div className="w-full">
-        <div className="flex gap-5">
-          <ProjectTitle hint={"Система управления проектами"}>
-            {project.name}
-          </ProjectTitle>
-          <ConfigureProjectTitle project={project} />
-        </div>
-        <div className="pt-8"></div>
-        <AddProvider className="w-full" />
-        <div className="pt-8"></div>
-        <ul className="flex flex-col gap-6">
-          {resources.map((resource) => (
-            <li key={resource.id}>
-              <PlatformMetrics key={resource.id} resource={resource}>
-                <DeleteResource id={resource.id} />
-                <div className="pt-8" />
-                <ToggleResourceMetrics resourceId={resource.id} />
-                <div className="pt-8" />
-                <ConfigureResource resource={resource} />
-                <div className="pt-8"></div>
-                <AddMetric resource={resource.id} project={project.id} />
-                <div className="pt-8"></div>
-                <SearchMetric />
-                <div className="pt-8"></div>
-                <ul className="flex flex-wrap gap-10 justify-between">
-                  {metrics
-                    .filter(
-                      (metric) =>
-                        metric.resource === resource.id &&
-                        metric.name.includes(metricFilters.search)
-                    )
-                    .map((metric) => (
-                      <li
-                        key={metric.id + metric.data.length}
-                        className="min-w-[47%] max-w-[47%]"
-                      >
-                        <MetricSettings
-                          name={metric.name}
-                          data={metric.data}
-                          aside={
-                            <div className="flex flex-col gap-y-3">
-                              {metricData?.find(
-                                (m) => m.name === metric.name && m.snapshotBased
-                              ) && <ToggleMetricStatus metricId={metric.id} />}
-                              <StopTrackingMetric metricId={metric.id} />
-                              {metricData?.find(
-                                (m) => m.name === metric.name && m.snapshotBased
-                              ) && <ExecuteMetric metricId={metric.id} />}
-                            </div>
-                          }
-                        >
-                          <ConfigureMetricParams metric={metric} />
-                        </MetricSettings>
-                      </li>
-                    ))}
-                </ul>
-              </PlatformMetrics>
-            </li>
-          ))}
-        </ul>
-        <div className="pt-5" />
-        <DeleteProject projectId={project.id} />
-        <div className="pt-10" />
+        {isLoading && (
+          <div className="h-[calc(100vh-100px)] w-full flex justify-center items-center">
+            <LoadingCircle size={80} />
+          </div>
+        )}
+        {!isLoading && project && (
+          <>
+            <div className="flex gap-5">
+              <ProjectTitle hint={"Система управления проектами"}>
+                {project.name}
+              </ProjectTitle>
+              <ConfigureProjectTitle project={project} />
+            </div>
+            <div className="pt-8"></div>
+            <AddProvider className="w-full" />
+            <div className="pt-8"></div>
+            <ul className="flex flex-col gap-6">
+              {resources.map((resource) => (
+                <li key={resource.id}>
+                  <PlatformMetrics key={resource.id} resource={resource}>
+                    <DeleteResource id={resource.id} />
+                    <div className="pt-8" />
+                    <ToggleResourceMetrics resourceId={resource.id} />
+                    <div className="pt-8" />
+                    <ConfigureResource resource={resource} />
+                    <div className="pt-8"></div>
+                    <AddMetric resource={resource.id} project={project.id} />
+                    <div className="pt-8"></div>
+                    <SearchMetric />
+                    <div className="pt-8"></div>
+                    <ul className="flex flex-wrap gap-10 justify-between">
+                      {metrics
+                        .filter(
+                          (metric) =>
+                            metric.resource === resource.id &&
+                            metric.name.includes(metricFilters.search)
+                        )
+                        .map((metric) => (
+                          <li
+                            key={metric.id + metric.data.length}
+                            className="min-w-[47%] max-w-[47%]"
+                          >
+                            <MetricSettings
+                              name={metric.name}
+                              data={metric.data}
+                              aside={
+                                <div className="flex flex-col gap-y-3">
+                                  {metricData?.find(
+                                    (m) =>
+                                      m.name === metric.name && m.snapshotBased
+                                  ) && (
+                                    <ToggleMetricStatus metricId={metric.id} />
+                                  )}
+                                  <StopTrackingMetric metricId={metric.id} />
+                                  {metricData?.find(
+                                    (m) =>
+                                      m.name === metric.name && m.snapshotBased
+                                  ) && <ExecuteMetric metricId={metric.id} />}
+                                </div>
+                              }
+                            >
+                              <ConfigureMetricParams metric={metric} />
+                            </MetricSettings>
+                          </li>
+                        ))}
+                    </ul>
+                  </PlatformMetrics>
+                </li>
+              ))}
+            </ul>
+            <div className="pt-5" />
+            <DeleteProject projectId={project.id} />
+            <div className="pt-10" />
+          </>
+        )}
       </div>
       <div className="min-w-[25%] flex flex-col">
         <ReturnToProject
