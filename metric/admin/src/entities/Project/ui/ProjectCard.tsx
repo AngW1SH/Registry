@@ -12,7 +12,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project, className = "" }) => {
     <Link to={import.meta.env.VITE_BASE_URL + "project/" + project.id}>
       <div
         className={
-          "pt-8 flex flex-col pb-10 pl-7 pr-10 bg-background rounded-lg " +
+          "pt-8 w-full h-full flex flex-col pb-10 pl-7 pr-10 bg-background rounded-lg " +
           className
         }
       >
