@@ -15,7 +15,7 @@ export const useForceUser = () => {
     const result = await dispatch(fetchUserThunk());
 
     if (!result.payload) {
-      navigate("/login");
+      navigate(import.meta.env.VITE_BASE_URL! + "login");
     }
   };
 

@@ -45,7 +45,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
     if (id) {
       initializeProjectDetailed(dispatch, id);
     } else {
-      navigate("/");
+      navigate(import.meta.env.VITE_BASE_URL!);
     }
   }, []);
 
