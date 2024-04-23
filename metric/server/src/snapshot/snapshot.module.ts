@@ -14,7 +14,7 @@ import { ResubscribeModule } from 'src/resubscribe/resubscribe.module';
           maxReceiveMessageLength: 15 * 1024 * 1024,
           package: 'api',
           protoPath: '../proto/snapshot.proto',
-          url: 'localhost:9000',
+          url: '0.0.0.0:9000',
           loader: {
             keepCase: true,
           },

@@ -4,12 +4,13 @@ volumes:
 services:
   server:
     build:
-      context: ./server
+      context: ./
+      dockerfile: ./server.Dockerfile
     ports:
       - "4173:4173"
     depends_on:
       - core
-      - postgres
+      - metric-postgres
     env_file:
       - ./.env
       - ./server/.env
@@ -29,11 +30,11 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      - postgres
+      - metric-postgres
     env_file:
       - ./.env
       - ./core/.env
-  postgres:
+  metric-postgres:
     image: postgres:latest
     ports:
       - "5433:5433"
@@ -44,5 +45,7 @@ services:
     volumes:
       - ./postgres/03_metrics_structure.sql:/docker-entrypoint-initdb.d/03_metrics_structure.sql
       - ./postgres/04_tasks_structure.sql:/docker-entrypoint-initdb.d/04_tasks_structure.sql
+      - ./postgres/05_metrics_content.sql:/docker-entrypoint-initdb.d/05_metrics_content.sql
+      - ./postgres/06_tasks_content.sql:/docker-entrypoint-initdb.d/06_tasks_content.sql
       - ./postgres/data:/var/lib/postgresql/data
     command: -p 5433

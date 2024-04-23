@@ -22,4 +22,4 @@ RUN npm run build
 EXPOSE 5173
 
 # Use pm2 to start the Node.js application
-CMD ["pm2-runtime", "start", "--name", "metric-admin", "npm", "--", "preview"]
+CMD ["pm2-runtime", "start", "--name", "metric-admin", "npm", "--", "start"]

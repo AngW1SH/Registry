@@ -11,7 +11,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         options: {
           package: 'api',
           protoPath: '../proto/task.proto',
-          url: 'localhost:9000',
+          url: '0.0.0.0:9000',
           loader: {
             keepCase: true,
           },
