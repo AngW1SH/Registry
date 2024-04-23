@@ -53,6 +53,7 @@ describe("memberService", () => {
         id: 1,
         name: "User",
         email: "test@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       await memberService.edit(member, user);
@@ -86,6 +87,7 @@ describe("memberService", () => {
         id: 1,
         name: "User",
         email: "test@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       await memberService.edit(member, user);
@@ -119,6 +121,7 @@ describe("memberService", () => {
         id: 1,
         name: "User",
         email: "test@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       expect(memberService.edit(member, user)).rejects.toThrow(

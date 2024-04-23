@@ -77,6 +77,7 @@ describe("projectLinksServices", () => {
         id: 2,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       expect(
@@ -89,6 +90,7 @@ describe("projectLinksServices", () => {
         id: 1,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
@@ -109,6 +111,7 @@ describe("projectLinksServices", () => {
         id: 1,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
@@ -127,6 +130,7 @@ describe("projectLinksServices", () => {
         id: 1,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce({
@@ -189,6 +193,7 @@ describe("projectLinksServices", () => {
         id: 2,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       expect(projectLinksService.deleteLink("1", 1, user)).rejects.toThrow(
@@ -201,6 +206,7 @@ describe("projectLinksServices", () => {
         id: 1,
         name: "User",
         email: "user@test.com",
+        phone: "+7 999 999 99 99",
       };
 
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce({

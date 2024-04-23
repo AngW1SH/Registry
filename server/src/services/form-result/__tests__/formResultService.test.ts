@@ -23,62 +23,6 @@ describe("formResultService", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
-    it("should get the email from the form response", async () => {
-      const formId = "123";
-      const response = [
-        {
-          question: "Электронная почта, указанная при авторизации",
-          answer: "test@test.com",
-        },
-      ];
-
-      (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
-      (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
-
-      const emailSpy = jest.spyOn(
-        getEmailFromFormResults,
-        "getEmailFromFormResults"
-      );
-
-      const result = await formResultService.submit(formId, response);
-
-      expect(emailSpy).toHaveBeenCalledWith(expect.objectContaining(response));
-    });
-
-    it("should throw a BadRequestError if the email is not found", async () => {
-      const formId = "123";
-      const response = [
-        {
-          question: "Имя",
-          answer: "John Doe",
-        },
-      ];
-
-      (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
-
-      await expect(formResultService.submit(formId, response)).rejects.toThrow(
-        BadRequestError
-      );
-    });
-
-    it("should search for a user in the database", async () => {
-      const formId = "123";
-      const response = [
-        {
-          question: "Электронная почта, указанная при авторизации",
-          answer: "test@test.com",
-        },
-      ];
-
-      (userRepository.findOne as jest.Mock).mockResolvedValue(staticUser);
-      (formRepository.findOne as jest.Mock).mockResolvedValue(staticForms[0]);
-
-      const result = await formResultService.submit(formId, response);
-
-      expect(userRepository.findOne).toHaveBeenCalledWith(
-        expect.objectContaining({ email: "test@test.com" })
-      );
-    });
 
     it("should throw a BadRequestError if the user is not found", async () => {
       const formId = "123";

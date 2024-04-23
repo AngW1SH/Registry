@@ -1,3 +1,5 @@
+import { User, UserCreate } from "../types/types";
+
 export const staticUserResponseStrapi = {
   data: [
     {
@@ -5,15 +7,22 @@ export const staticUserResponseStrapi = {
       attributes: {
         name: "Сатурнова Татьяна Тимофеевна ",
         email: "st072603@student.spbu.ru",
+        services: [
+          {
+            provider: "spbu",
+            value: "st072603@student.spbu.ru",
+          },
+        ],
       },
     },
   ],
 };
 
-export const staticUser = {
+export const staticUser: User = {
   id: 2,
   name: "Сатурнова Татьяна Тимофеевна ",
   email: "st072603@student.spbu.ru",
+  phone: "+7 999 999 99 99",
 };
 
 export const staticUserCreateResponseStrapi = {
@@ -22,11 +31,19 @@ export const staticUserCreateResponseStrapi = {
     attributes: {
       name: "Сатурнова Татьяна Тимофеевна ",
       email: "st072603@student.spbu.ru",
+      phone: "+7 999 999 99 99",
+      services: [
+        {
+          provider: "spbu",
+          value: "st072603@student.spbu.ru",
+        },
+      ],
     },
   },
 };
 
-export const staticUserCreate = {
+export const staticUserCreate: UserCreate = {
   name: "Сатурнова Татьяна Тимофеевна ",
   email: "st072603@student.spbu.ru",
+  phone: "+7 999 999 99 99",
 };

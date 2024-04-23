@@ -68,6 +68,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Зотов Максим Владимирович",
                       email: "st211305@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -89,6 +91,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Иванов Артём Романович",
                       email: "st682823@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -110,6 +114,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Иванов Николай Львович",
                       email: "st691669@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -131,6 +137,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Казаков Илья Львович",
                       email: "st522315@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -152,6 +160,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Калугин Михаил Тимофеевич",
                       email: "st419144@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -171,6 +181,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
               attributes: {
                 name: "Зотов Максим Владимирович",
                 email: "st211305@student.spbu.ru",
+                phone: "+7 (999) 999-99-99",
+                services: [],
               },
             },
           ],
@@ -197,6 +209,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Князева Анастасия Лукинична",
                       email: "st969771@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -218,6 +232,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Колесников Георгий Адамович",
                       email: "st853755@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -239,6 +255,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Кузнецова Анастасия Артёмовна",
                       email: "st981538@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -260,6 +278,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Ларионов Никита Андреевич",
                       email: "st717329@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -281,6 +301,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Матвеев Максим Игоревич",
                       email: "st627957@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -300,6 +322,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
               attributes: {
                 name: "Князева Анастасия Лукинична",
                 email: "st969771@student.spbu.ru",
+                phone: "+7 (999) 999-99-99",
+                services: [],
               },
             },
           ],
@@ -326,6 +350,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Павлова Алиса Егоровна",
                       email: "st268225@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -347,6 +373,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Полушин Геннадий Ярославович",
                       email: "st958797@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -368,6 +396,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Сатурнова Татьяна Тимофеевна ",
                       email: "st072603@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -389,6 +419,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Чернов Артём Альбертович",
                       email: "st075995@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -410,6 +442,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Морозов Александр Максимович",
                       email: "st855527@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -429,6 +463,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
               attributes: {
                 name: "Павлова Алиса Егоровна",
                 email: "st268225@student.spbu.ru",
+                phone: "+7 (999) 999-99-99",
+                services: [],
               },
             },
           ],
@@ -455,6 +491,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Авдеева София Данииловна",
                       email: "st489186@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -476,6 +514,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Горшков Иван Григорьевич",
                       email: "st461158@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -497,6 +537,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Гришина София Кирилловна",
                       email: "st965928@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -518,6 +560,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Евдокимова Владислава Андреевна",
                       email: "st631633@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -539,6 +583,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
                     attributes: {
                       name: "Ермилов Иван Макарович",
                       email: "st393827@student.spbu.ru",
+                      phone: "+7 (999) 999-99-99",
+                      services: [],
                     },
                   },
                 },
@@ -558,6 +604,8 @@ export const staticTeamListStrapiPopulatedWithAdministrators: TeamListStrapi = {
               attributes: {
                 name: "Авдеева София Данииловна",
                 email: "st489186@student.spbu.ru",
+                phone: "+7 (999) 999-99-99",
+                services: [],
               },
             },
           ],

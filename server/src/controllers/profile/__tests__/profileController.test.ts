@@ -82,6 +82,12 @@ describe("profileController", () => {
     });
     it("should pass errors to middleware", async () => {
       req.user = staticUser;
+      req.body = {
+        name: "test",
+        surname: "test",
+        patronymic: "test",
+      };
+
       (profileService.editPersonalData as jest.Mock).mockImplementationOnce(
         () => {
           throw new ServerError("");

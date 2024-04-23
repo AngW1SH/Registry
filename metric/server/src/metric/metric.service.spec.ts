@@ -315,13 +315,13 @@ describe('MetricService', () => {
     it('should find metric in db', async () => {
       const findFirstSpy = jest.spyOn(prisma.metric, 'findFirst');
 
-      await service.stop(metricMocks[0].id);
+      await service.stop(metricMocks[0].id, false);
 
       expect(findFirstSpy).toHaveBeenCalled();
     });
 
     it("should call taskService.stop with metric's groups", async () => {
-      await service.stop(metricMocks[0].id);
+      await service.stop(metricMocks[0].id, false);
 
       expect(taskService.stop).toHaveBeenCalledWith({
         metric: metricMocks[0].name,
@@ -332,7 +332,7 @@ describe('MetricService', () => {
     it('should throw an error if metric is not found', async () => {
       jest.spyOn(prisma.metric, 'findFirst').mockResolvedValueOnce(null);
 
-      await expect(service.stop('test')).rejects.toThrow();
+      await expect(service.stop('test', false)).rejects.toThrow();
     });
 
     it('should throw an error if resource not found', async () => {
@@ -348,8 +348,8 @@ describe('MetricService', () => {
         },
       } as any);
 
-      await expect(service.stop('test')).rejects.toThrow();
-      await expect(service.stop('test')).rejects.toThrow();
+      await expect(service.stop('test', false)).rejects.toThrow();
+      await expect(service.stop('test', false)).rejects.toThrow();
     });
 
     it('should throw an error if project not found', async () => {
@@ -371,8 +371,8 @@ describe('MetricService', () => {
         },
       } as any);
 
-      await expect(service.stop('test')).rejects.toThrow();
-      await expect(service.stop('test')).rejects.toThrow();
+      await expect(service.stop('test', false)).rejects.toThrow();
+      await expect(service.stop('test', false)).rejects.toThrow();
     });
   });
 
