@@ -88,6 +88,11 @@
     },
     "slug": {
       "type": "uid"
+    },
+    "documents": {
+      "type": "component",
+      "repeatable": true,
+      "component": "project-document.project-document"
     }
   }
 }

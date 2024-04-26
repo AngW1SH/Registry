@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_project_document_project_documents",
+  "info": {
+    "displayName": "Project-document",
+    "icon": "archive",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project-document-type.project-document-type"
+    },
+    "file": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "datetime"
+    }
+  }
+}

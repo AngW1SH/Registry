@@ -751,6 +751,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     resultFiles: Attribute.Component<'named-file.named-file', true>;
     projectLink: Attribute.Component<'project-link.project-link', true>;
     slug: Attribute.UID;
+    documents: Attribute.Component<'project-document.project-document', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -762,6 +763,37 @@ export interface ApiProjectProject extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProjectDocumentTypeProjectDocumentType
+  extends Schema.CollectionType {
+  collectionName: 'project_document_types';
+  info: {
+    singularName: 'project-document-type';
+    pluralName: 'project-document-types';
+    displayName: 'Project Document Type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::project-document-type.project-document-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::project-document-type.project-document-type',
       'oneToOne',
       'admin::user'
     > &
@@ -987,6 +1019,7 @@ declare module '@strapi/types' {
       'api::form.form': ApiFormForm;
       'api::platform.platform': ApiPlatformPlatform;
       'api::project.project': ApiProjectProject;
+      'api::project-document-type.project-document-type': ApiProjectDocumentTypeProjectDocumentType;
       'api::request.request': ApiRequestRequest;
       'api::student.student': ApiStudentStudent;
       'api::tag.tag': ApiTagTag;

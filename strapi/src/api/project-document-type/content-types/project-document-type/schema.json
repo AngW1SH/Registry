@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "project_document_types",
+  "info": {
+    "singularName": "project-document-type",
+    "pluralName": "project-document-types",
+    "displayName": "Project Document Type"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

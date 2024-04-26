@@ -61,6 +61,25 @@ export interface NamedFileNamedFile extends Schema.Component {
   };
 }
 
+export interface ProjectDocumentProjectDocument extends Schema.Component {
+  collectionName: 'components_project_document_project_documents';
+  info: {
+    displayName: 'Project-document';
+    icon: 'archive';
+    description: '';
+  };
+  attributes: {
+    type: Attribute.Relation<
+      'project-document.project-document',
+      'oneToOne',
+      'api::project-document-type.project-document-type'
+    >;
+    file: Attribute.Media;
+    name: Attribute.String;
+    date: Attribute.DateTime;
+  };
+}
+
 export interface ProjectLinkProjectLink extends Schema.Component {
   collectionName: 'components_project_link_project_links';
   info: {
@@ -129,6 +148,7 @@ declare module '@strapi/types' {
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
       'image-category.image-category': ImageCategoryImageCategory;
       'named-file.named-file': NamedFileNamedFile;
+      'project-document.project-document': ProjectDocumentProjectDocument;
       'project-link.project-link': ProjectLinkProjectLink;
       'user-form.user-form': UserFormUserForm;
       'user-identifier.user-identifier': UserIdentifierUserIdentifier;
