@@ -37,7 +37,7 @@ export default {
           ).name;
     const userName =
       userAdded ||
-      (userData && userData.disconnect.length
+      (userData && userData.disconnect && userData.disconnect.length
         ? " "
         : existingData.user && existingData.user.name
         ? existingData.user.name
@@ -52,16 +52,16 @@ export default {
   },
 
   async beforeCreate(event) {
-    const userName = event.params.data.user
+    const userName = event.params.data?.user?.connect?.[0]?.id
       ? (
           await strapi.entityService.findOne(
             "api::student.student",
-            event.params.data.user,
+            event.params.data?.user?.connect?.[0]?.id,
             {
               fields: ["name"],
             }
           )
-        ).name
+        )?.name
       : "";
 
     event.params.data.name = formatName(userName);
