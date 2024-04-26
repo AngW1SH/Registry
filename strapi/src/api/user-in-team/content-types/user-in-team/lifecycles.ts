@@ -16,8 +16,7 @@ export default {
       "api::user-in-team.user-in-team",
       id,
       {
-        populate: ["user"],
-        fields: ["role"],
+        populate: ["user", "role"],
       }
     );
 
@@ -44,11 +43,6 @@ export default {
         : " ");
 
     event.params.data.name = formatName(userName);
-
-    if (event.params.data.role) {
-      event.params.data.name += " - " + event.params.data.role;
-    } else if (existingData.role)
-      event.params.data.name += " - " + existingData.role;
   },
 
   async beforeCreate(event) {
@@ -65,8 +59,5 @@ export default {
       : "";
 
     event.params.data.name = formatName(userName);
-
-    if (event.params.data.role)
-      event.params.data.name += " - " + event.params.data.role;
   },
 };

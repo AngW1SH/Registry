@@ -975,12 +975,16 @@ export interface ApiUserInTeamUserInTeam extends Schema.CollectionType {
       'manyToOne',
       'api::student.student'
     >;
-    role: Attribute.String;
     name: Attribute.String;
     team: Attribute.Relation<
       'api::user-in-team.user-in-team',
       'manyToOne',
       'api::team.team'
+    >;
+    role: Attribute.Relation<
+      'api::user-in-team.user-in-team',
+      'oneToOne',
+      'api::user-role.user-role'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -993,6 +997,36 @@ export interface ApiUserInTeamUserInTeam extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::user-in-team.user-in-team',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserRoleUserRole extends Schema.CollectionType {
+  collectionName: 'user_roles';
+  info: {
+    singularName: 'user-role';
+    pluralName: 'user-roles';
+    displayName: 'User Role';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-role.user-role',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-role.user-role',
       'oneToOne',
       'admin::user'
     > &
@@ -1025,6 +1059,7 @@ declare module '@strapi/types' {
       'api::tag.tag': ApiTagTag;
       'api::team.team': ApiTeamTeam;
       'api::user-in-team.user-in-team': ApiUserInTeamUserInTeam;
+      'api::user-role.user-role': ApiUserRoleUserRole;
     }
   }
 }

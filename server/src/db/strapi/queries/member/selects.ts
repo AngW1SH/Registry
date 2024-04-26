@@ -6,10 +6,13 @@ export const selectMember = (
   populate: SelectPopulate<PopulateOptions> = {}
 ) => {
   return {
-    fields: ["id", "name", "role"],
+    fields: ["id", "name"],
     populate: {
       team: {
         id: true,
+      },
+      role: {
+        fields: ["id", "name"],
       },
       ...populate,
     },

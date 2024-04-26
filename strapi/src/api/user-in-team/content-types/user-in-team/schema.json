@@ -18,9 +18,6 @@
       "target": "api::student.student",
       "inversedBy": "teams"
     },
-    "role": {
-      "type": "string"
-    },
     "name": {
       "type": "string"
     },
@@ -29,6 +26,11 @@
       "relation": "manyToOne",
       "target": "api::team.team",
       "inversedBy": "members"
+    },
+    "role": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::user-role.user-role"
     }
   }
 }
