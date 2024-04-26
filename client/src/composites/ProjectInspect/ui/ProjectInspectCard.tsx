@@ -10,7 +10,7 @@ import { Transition, TransitionStatus } from "react-transition-group";
 interface ProjectInspectCardProps {
   user: IUser;
   projectInspect: ProjectInspect;
-  edit: ReactNode;
+  edit?: ReactNode;
 }
 
 const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
@@ -84,9 +84,14 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
             <span className="text-sm text-primary">Подробнее о проекте</span>
             <Image src="/arrow-right-red.svg" alt="" height={12} width={7} />
           </div>
-          <Button onClick={toggleOpened} className="cursor-pointer px-10 py-2">
-            <span className="text-sm">Редактировать</span>
-          </Button>
+          {edit && (
+            <Button
+              onClick={toggleOpened}
+              className="cursor-pointer px-10 py-2"
+            >
+              <span className="text-sm">Редактировать</span>
+            </Button>
+          )}
         </div>
       </div>
       <Transition in={opened} timeout={150}>
