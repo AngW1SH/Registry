@@ -1,3 +1,3 @@
-import { selectUser } from "./selects";
+import { selectUser, selectUserRole } from "./selects";
 
-export { selectUser };
+export { selectUser, selectUserRole };

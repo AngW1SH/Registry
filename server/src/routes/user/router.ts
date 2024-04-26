@@ -2,8 +2,11 @@ import express, { NextFunction, Request, Response } from "express";
 import passport from "@/middleware/passport";
 import userController from "@/controllers/user";
 import { strapi } from "@/db/strapi/client";
+import userRoleRouter from "./role/router";
 
 const userRouter = express();
+
+userRouter.use("/role", userRoleRouter);
 
 userRouter.get(
   "/projectstatus/:projectId",

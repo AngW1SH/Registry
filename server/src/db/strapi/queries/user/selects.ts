@@ -11,3 +11,7 @@ export const selectUser = () => ({
     },
   },
 });
+
+export const selectUserRole = () => ({
+  fields: ["id", "name"],
+});
