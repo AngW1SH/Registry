@@ -21,6 +21,7 @@ import type {
 } from "./types/types";
 import { ProjectStage } from "./types/types";
 import { getProjectsByProjectIds } from "./model/getProjectsByProjectIds";
+import { useProjectFileTypeQuery } from "./model/useProjectFileTypeQuery";
 
 export {
   ProjectCard,
@@ -35,6 +36,7 @@ export {
   getProjectFromDTO,
   getProjectSingleFromDTO,
   getProjectsByProjectIds,
+  useProjectFileTypeQuery,
 };
 export type {
   ProjectDTO,

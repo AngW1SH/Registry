@@ -6,10 +6,12 @@ import { ServerError } from "@/helpers/errors";
 import { UploadedFile } from "express-fileupload";
 import uploadRepository from "../upload";
 import projectRepository from "../project";
+import { ProjectDocumentStrapi } from "@/db/strapi/types/components/project-document";
+import { selectProjectDocument } from "@/db/strapi/queries/components/project-document";
 
 const projectResultsRepositoryFactory = () => {
   return Object.freeze({
-    addFiles,
+    addFile,
     changeFile,
     deleteFile,
     findFiles,
@@ -34,12 +36,16 @@ const projectResultsRepositoryFactory = () => {
     return getProjectFromStrapiDTO(response).project?.resultFiles;
   }
 
-  async function addFiles(projectSlug: string, files: UploadedFile[]) {
+  async function addFile(
+    projectSlug: string,
+    files: UploadedFile,
+    fileTypeId: number
+  ) {
     const projectId = await projectRepository.getInternalId(projectSlug);
 
     const params = {
       populate: {
-        resultFiles: selectNamedFile(),
+        documents: selectProjectDocument(),
       },
     };
 
@@ -50,10 +56,11 @@ const projectResultsRepositoryFactory = () => {
 
     if (!response) throw new ServerError("Couldn't fetch project files");
 
-    if (!response.data.attributes.resultFiles)
-      throw new ServerError("Couldn't find project's resultFiles");
+    if (!response.data.attributes.documents)
+      throw new ServerError("Couldn't find project's documents");
 
-    const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
+    const documents: ProjectDocumentStrapi[] =
+      response.data.attributes.documents;
 
     const fileUploadResponse = await uploadRepository.upload(files);
 
@@ -62,18 +69,20 @@ const projectResultsRepositoryFactory = () => {
         resultFiles: selectNamedFile(),
       },
       data: {
-        resultFiles: [
-          ...(resultFiles
-            ? resultFiles.map((file) => ({
+        documents: [
+          ...(documents
+            ? documents.map((file) => ({
                 name: file.name,
                 date: file.date,
                 file: file.file.data?.id,
+                type: file.type.data?.id,
               }))
             : []),
           ...fileUploadResponse.map((file: any) => ({
             name: file.name,
             date: new Date(),
             file: file.id,
+            type: fileTypeId,
           })),
         ],
       },
@@ -94,7 +103,7 @@ const projectResultsRepositoryFactory = () => {
 
     const params = {
       populate: {
-        resultFiles: selectNamedFile(),
+        documents: selectProjectDocument(),
       },
     };
 
@@ -103,14 +112,15 @@ const projectResultsRepositoryFactory = () => {
       params,
     });
 
-    if (!response.data.attributes.resultFiles)
-      throw new ServerError("Couldn't find project's resultFiles");
+    if (!response.data.attributes.documents)
+      throw new ServerError("Couldn't find project's documents");
 
-    const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
+    const documents: ProjectDocumentStrapi[] =
+      response.data.attributes.documents;
 
     const body = {
       data: {
-        resultFiles: resultFiles
+        documents: documents
           ?.filter((file) => file.id != fileId)
           .map((file) => ({ ...file, file: file.file?.data?.id })),
       },
@@ -133,7 +143,7 @@ const projectResultsRepositoryFactory = () => {
 
     const params = {
       populate: {
-        resultFiles: selectNamedFile(),
+        documents: selectProjectDocument(),
       },
     };
 
@@ -142,16 +152,17 @@ const projectResultsRepositoryFactory = () => {
       params,
     });
 
-    if (!response.data.attributes.resultFiles)
-      throw new ServerError("Couldn't find project's resultFiles");
+    if (!response.data.attributes.documents)
+      throw new ServerError("Couldn't find project's documents");
 
-    const resultFiles: NamedFileStrapi[] = response.data.attributes.resultFiles;
+    const documents: ProjectDocumentStrapi[] =
+      response.data.attributes.documents;
 
     const fileUploadResponse = await uploadRepository.upload(file);
 
     const body = {
       data: {
-        resultFiles: resultFiles.map((file) => ({
+        resultFiles: documents.map((file) => ({
           ...file,
           file:
             file.id == fileId ? fileUploadResponse[0].id : file.file?.data?.id,

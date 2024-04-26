@@ -3,13 +3,16 @@ import { Button, ButtonAlt, Dropdown } from "@/shared/ui";
 import { FC, useRef, useState } from "react";
 import { useAddProjectFileMutation } from "../model/useAddProjectFilesMutation";
 import Image from "next/image";
+import { useProjectFileTypeQuery } from "@/entities/Project";
 
 interface AddProjectFilesProps {
   projectId: string;
 }
 
 const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
-  const { mutate: addFiles, isLoading } = useAddProjectFileMutation();
+  const { mutate: addFile, isLoading } = useAddProjectFileMutation();
+
+  const { data: allFileTypes } = useProjectFileTypeQuery();
 
   const [file, setFile] = useState<File | null>(null);
   const [fileType, setFileType] = useState<string | null>(null);
@@ -22,17 +25,14 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
     }
   };
 
-  const handleSubmitFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files)
-      addFiles({ projectId, files: Array.from(e.target.files) });
-  };
-
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
+
+    if (file && fileType) addFile({ projectId, file, category: fileType });
   };
 
   return (
-    <form className="flex flex-wrap items-end justify-between gap-y-4">
+    <form className="flex flex-wrap items-end justify-between gap-y-4 md:flex-nowrap">
       <input
         ref={inputRef}
         onChange={(e) => setFile(e.target.files?.[0] || null)}
@@ -76,10 +76,10 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
       <Dropdown
         namePrefix="new-file-type"
         placeholder="Тип файла"
-        options={["Отчёт", "Схема"]}
+        options={allFileTypes || []}
         value={fileType}
         onChange={setFileType}
-        className="text-sm sm:max-w-[48%] lg:max-w-[200px]"
+        className="mr-10 text-sm sm:max-w-[48%]"
       />
       <Button
         type="button"

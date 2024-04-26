@@ -3,22 +3,34 @@ import { ServerError, UnauthorizedError } from "@/helpers/errors";
 import projectRepository from "@/repositories/project";
 import projectResultsRepository from "@/repositories/project-results";
 import { UploadedFile } from "express-fileupload";
+import projectFileTypeService from "../project-file-type";
 
 const projectResultsServiceFactory = () => {
   return Object.freeze({
-    uploadFiles,
+    uploadFile,
     deleteFile,
     changeFile,
   });
 
-  async function uploadFiles(
+  async function uploadFile(
     projectId: string,
-    files: UploadedFile[],
+    file: UploadedFile,
+    category: string,
     user: User
   ) {
     const projectFindResult = await projectRepository.findOne(projectId, {
       includeAdmin: true,
     });
+
+    const allFileTypes = await projectFileTypeService.findAll();
+
+    const fileTypeId = allFileTypes.find(
+      (fileType) => fileType.name == category
+    )?.id;
+
+    if (!fileTypeId) {
+      throw new ServerError("Category not allowed");
+    }
 
     if (!projectFindResult || !projectFindResult.project)
       throw new ServerError("Couldn't find the project");
@@ -33,7 +45,7 @@ const projectResultsServiceFactory = () => {
     if (!isAllowed)
       throw new UnauthorizedError("User not authorized to perform this action");
 
-    return projectResultsRepository.addFiles(projectId, files);
+    return projectResultsRepository.addFile(projectId, file, fileTypeId);
   }
 
   async function deleteFile(projectId: string, fileId: number, user: User) {

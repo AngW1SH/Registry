@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 
 const projectResultsControllerFactory = () => {
   return Object.freeze({
-    uploadFiles,
+    uploadFile,
     deleteFile,
     changeFile,
   });
@@ -33,7 +33,7 @@ const projectResultsControllerFactory = () => {
     }
   }
 
-  async function uploadFiles(req: Request, res: Response, next: NextFunction) {
+  async function uploadFile(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.user)
         throw new UnauthorizedError(
@@ -45,9 +45,13 @@ const projectResultsControllerFactory = () => {
       if (!req.files || Array.from(Object.keys(req.files)).length === 0)
         throw new BadRequestError("Missing files to upload");
 
-      const result = await projectResultsService.uploadFiles(
+      if (!req.body.category)
+        throw new BadRequestError("Missing required body parameter: category");
+
+      const result = await projectResultsService.uploadFile(
         req.params.id,
-        Array.isArray(req.files.files) ? req.files.files : [req.files.files],
+        Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
+        req.body.category,
         req.user
       );
 

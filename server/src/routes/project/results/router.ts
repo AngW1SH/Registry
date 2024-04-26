@@ -19,7 +19,7 @@ projectResultsRouter.delete(
 projectResultsRouter.post(
   "/",
   passport.authenticate("jwt-authenticate"),
-  projectResultsController.uploadFiles
+  projectResultsController.uploadFile
 );
 
 export default projectResultsRouter;
