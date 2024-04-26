@@ -3,6 +3,7 @@ import { NamedFileStrapi } from "../components/named-file";
 import { TagListStrapi } from "../tag";
 import { TeamListStrapi } from "../team";
 import { ProjectLinkStrapi } from "../components/project-link";
+import { ProjectDocumentStrapi } from "../components/project-document";
 
 interface ProjectStrapiInner {
   id: number;
@@ -22,6 +23,7 @@ interface ProjectStrapiInner {
     curator: string;
     client: string;
     requests?: ProjectRequestCountStrapi;
+    documents?: ProjectDocumentStrapi[];
     tags?: TagListStrapi | IdListStrapi;
     teams?: TeamListStrapi | IdListStrapi;
     teamLimit: number | null;
