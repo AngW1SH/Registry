@@ -32,7 +32,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
   };
 
   return (
-    <form className="flex items-end">
+    <form className="flex flex-wrap items-end justify-between gap-y-4">
       <input
         ref={inputRef}
         onChange={(e) => setFile(e.target.files?.[0] || null)}
@@ -41,14 +41,17 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
         hidden
       />
       {!!file && (
-        <p className="mr-10 flex w-[200px] items-center border-b border-black pb-2 text-sm">
+        <p className="flex w-full items-center border-b border-black pb-2 text-sm sm:max-w-[48%] lg:mr-10 lg:max-w-[200px]">
           <Image
             src="/file-icon.svg"
             height={20}
             width={20}
             alt="Загруженные файлы"
           />
-          <span className="max-w-[calc(100%-55px)] overflow-hidden pl-2 pr-4">
+          <span
+            className="max-w-[calc(100%-55px)] overflow-hidden text-ellipsis whitespace-nowrap pl-2 pr-4"
+            title={file.name}
+          >
             {file.name}
           </span>
           <Image
@@ -64,7 +67,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
       {!file && (
         <ButtonAlt
           type="button"
-          className="mr-10 mt-2 whitespace-nowrap rounded-full border border-black px-8 py-2 text-sm font-normal"
+          className="mt-2 w-full whitespace-nowrap rounded-full border border-black px-8 py-2 text-sm font-normal sm:max-w-[48%] lg:mr-10 lg:max-w-[200px]"
           onClick={handleSelectFiles}
         >
           Выберите файл
@@ -76,11 +79,11 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
         options={["Отчёт", "Схема"]}
         value={fileType}
         onChange={setFileType}
-        className="max-w-[200px] text-sm"
+        className="text-sm sm:max-w-[48%] lg:max-w-[200px]"
       />
       <Button
         type="button"
-        className="ml-auto rounded-full px-10 py-2"
+        className="rounded-full px-10 py-2 lg:ml-auto"
         onClick={handleSubmit}
       >
         Добавить

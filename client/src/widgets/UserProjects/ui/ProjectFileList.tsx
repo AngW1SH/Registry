@@ -17,11 +17,11 @@ interface ProjectFileListProps {
 const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
   const files: any = {};
 
-  project.resultFiles.forEach((file) => {
+  project.documents.forEach((file) => {
     if (files[file.date]) {
-      files[file.date].push(file);
+      files[file.date].push({ ...file, category: file.category });
     } else {
-      files[file.date] = [file];
+      files[file.date] = [{ ...file, category: file.category }];
     }
   });
 
@@ -43,23 +43,32 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
             key={date}
             className="flex border-t border-[#b7b7b7] last:border-b"
           >
-            <div className="w-1/5 pt-4">{date}</div>
+            <div className="w-1/5 pt-4">
+              {new Date(date).toLocaleDateString("ru-RU", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}
+            </div>
             <div className="w-4/5">
-              {files[date].map((file: NamedFile) => (
+              {files[date].map((file: NamedFile & { category: string }) => (
                 <div
                   key={file.id + "-" + file.url}
-                  className="relative border-b border-[#b7b7b7] py-4 last:border-none"
+                  className="relative flex flex-col border-b border-[#b7b7b7] py-4 last:border-none lg:flex-row"
                 >
-                  <p>{file.name}</p>
+                  <p
+                    className="overflow-hidden overflow-ellipsis lg:max-w-[35%]"
+                    title={file.name}
+                  >
+                    {file.name}
+                  </p>
+                  <p className="lg:ml-10 lg:max-w-[35%] lg:border-l lg:border-black lg:pl-10">
+                    {file.category}
+                  </p>
                   <DeleteProjectFile
                     projectId={project.id}
                     fileId={file.id}
                     className="absolute right-10 top-1/2 -translate-y-1/2"
-                  />
-                  <ChangeProjectFile
-                    projectId={project.id}
-                    fileId={file.id}
-                    className="absolute right-0 top-1/2 -translate-y-1/2"
                   />
                 </div>
               ))}

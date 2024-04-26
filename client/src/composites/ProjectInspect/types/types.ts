@@ -6,6 +6,15 @@ import { NamedFile } from "@/shared/types";
 
 export interface UserProject extends IProject {
   resultFiles: NamedFile[];
+  documents: {
+    id: number;
+    name: string;
+    date: string;
+    url: string;
+    type: string;
+    size: string;
+    category: string;
+  }[];
   links: {
     id: number;
     platform: string;
