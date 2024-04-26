@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FC, useEffect, useRef, useState } from "react";
 import { CSSTransition, TransitionStatus } from "react-transition-group";
 import { defaultStyle, transitionStyles } from "./static/transitionStyles";
+import { useDropdown } from "./hooks/useDropdown";
 
 interface DropdownProps {
   namePrefix: string;
@@ -10,6 +11,7 @@ interface DropdownProps {
   placeholder?: string;
   value: string | null;
   className?: string;
+  fetchSuggestions?: (query: string) => Promise<string[]>;
   onChange: (active: string) => any;
 }
 
@@ -17,15 +19,17 @@ const Dropdown: FC<DropdownProps> = ({
   namePrefix,
   options,
   placeholder,
+  value,
   className = "",
   onChange,
-  value = "",
+  fetchSuggestions,
 }) => {
   const [opened, setOpened] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const [selected, setSelected] = useState(value);
+  const { selected, suggestions, input, setInput, confirmSelected } =
+    useDropdown(value, options, fetchSuggestions);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -47,6 +51,7 @@ const Dropdown: FC<DropdownProps> = ({
   }, [ref.current]);
 
   useEffect(() => {
+    console.log(selected);
     if (onChange && selected) onChange(selected);
     setOpened(false);
   }, [selected]);
@@ -66,9 +71,9 @@ const Dropdown: FC<DropdownProps> = ({
             e.stopPropagation();
             setOpened(true);
           }}
-          value={value || ""}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           type="text"
-          readOnly={true}
           placeholder={placeholder || ""}
           className="w-full outline-none"
         />
@@ -82,11 +87,11 @@ const Dropdown: FC<DropdownProps> = ({
               ...transitionStyles[state],
             }}
           >
-            {options.map((option, index) => (
+            {suggestions.map((option, index) => (
               <div
                 className="flex cursor-pointer items-center"
                 key={option}
-                onClick={() => setSelected(option)}
+                onClick={() => confirmSelected(option)}
               >
                 <input
                   type="checkbox"
