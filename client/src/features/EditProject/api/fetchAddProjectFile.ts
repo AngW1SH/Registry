@@ -1,15 +1,14 @@
 import { authorizedFetch } from "@/shared/utils";
 
-export const fetchAddProjectFiles = async (
+export const fetchAddProjectFile = async (
   projectId: string,
-  files: File[],
+  file: File,
+  category: string,
 ) => {
   const formData = new FormData();
 
-  files.forEach((file) => {
-    formData.append("files", file);
-  });
-
+  formData.append("category", category);
+  formData.append("files", file);
   formData.append("project", "" + projectId);
 
   const result: any = await authorizedFetch(
