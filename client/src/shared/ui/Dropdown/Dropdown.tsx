@@ -52,7 +52,7 @@ const Dropdown: FC<DropdownProps> = ({
   }, [selected]);
 
   return (
-    <div className={"relative w-full border-b pb-3 " + className} ref={ref}>
+    <div className={"relative w-full border-b pb-2 " + className} ref={ref}>
       <div
         onClick={() => setOpened(!opened)}
         className={`relative cursor-pointer pr-12 after:absolute after:right-5 ${

@@ -31,7 +31,11 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
     <div>
       <h2 className="text-sm text-[#898989]">Отчёты</h2>
       <div className="pt-3" />
-      <AddProjectFiles projectId={project.id} />
+      <div className="rounded-lg border border-[#898989] p-5">
+        <h2 className="text-sm text-[#898989]">Новый отчёт</h2>
+        <div className="pt-3" />
+        <AddProjectFiles projectId={project.id} />
+      </div>
       <div className="pt-4" />
       <div>
         {dates.map((date) => (
