@@ -7,6 +7,7 @@ export const useDropdown = (
   initialOptions?: string[],
   fetchSuggestions?: (query: string) => Promise<string[]>,
 ) => {
+  const [opened, setOpened] = useState(false);
   const [input, setInput] = useState("");
 
   const [selected, setSelected] = useState(initialSelected);
@@ -17,10 +18,10 @@ export const useDropdown = (
   const debouncedInput = useDebounce(input, 300);
 
   const confirmSelected = (option: string) => {
-    console.log(options);
     if (options.includes(option)) {
       setSelected(option);
       setInput(option);
+      setOpened(false);
     }
   };
 
@@ -38,29 +39,47 @@ export const useDropdown = (
     setSuggestions(newSuggestions);
   };
 
+  const updateSuggestions = async (options: string[]) => {
+    const newSuggestions = options.filter((option) =>
+      option.includes(debouncedInput),
+    );
+
+    setSuggestions(newSuggestions);
+  };
+
   useEffect(() => {
-    const updateSuggestions = async () => {
-      const newSuggestions = options.filter((option) =>
-        option.includes(debouncedInput),
-      );
-
-      setSuggestions(newSuggestions);
-    };
-
     if (fetchSuggestions) {
       asyncUpdateSuggestions();
     } else {
-      updateSuggestions();
+      updateSuggestions(options);
     }
-  }, [debouncedInput, options]);
+  }, [debouncedInput]);
 
   useEffect(() => {
     setOptions(initialOptions || []);
+
+    if (initialOptions) {
+      if (fetchSuggestions) {
+        asyncUpdateSuggestions();
+      } else {
+        updateSuggestions(initialOptions || []);
+      }
+    } else {
+      setSuggestions([]);
+    }
   }, [initialOptions]);
 
   useEffect(() => {
     asyncUpdateSuggestions();
   }, []);
 
-  return { selected, suggestions, confirmSelected, input, setInput };
+  return {
+    opened,
+    setOpened,
+    selected,
+    suggestions,
+    confirmSelected,
+    input,
+    setInput,
+  };
 };

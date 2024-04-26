@@ -4,6 +4,7 @@ import { User } from "@/entities/user";
 import { ServerError, UnauthorizedError } from "@/helpers/errors";
 import memberRepository from "@/repositories/member";
 import teamRepository from "@/repositories/team";
+import userRoleService from "../user-role";
 
 const memberServiceFactory = () => {
   return {
@@ -13,6 +14,11 @@ const memberServiceFactory = () => {
   async function edit(member: Member, user: User) {
     const teamResult = await teamRepository.findOne({ member: member.id });
     if (!teamResult) throw new ServerError("Couldn't find the member's team");
+
+    const foundRoles = await userRoleService.findInFilters(member.role);
+
+    if (!foundRoles || !foundRoles.length)
+      throw new ServerError("Couldn't find the member's role");
 
     const team = teamResult.teams[0];
 

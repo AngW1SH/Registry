@@ -1,4 +1,8 @@
 import { strapi } from "@/db/strapi/client";
+import {
+  UserRoleStrapi,
+  UserRoleStrapiList,
+} from "@/db/strapi/types/user-role";
 import { Member } from "@/entities/member";
 import { ServerError } from "@/helpers/errors";
 
@@ -8,9 +12,22 @@ const memberRepositoryFactory = () => {
   };
 
   async function edit(member: Member) {
+    const role: UserRoleStrapiList = await strapi.get("user-roles/", {
+      token: process.env.USER_TOKEN!,
+      params: {
+        filters: {
+          name: member.role,
+        },
+        fields: ["id", "name"],
+      },
+    });
+
+    if (!role || !role.data.length || !role.data[0]?.id)
+      throw new ServerError("No such role found");
+
     const body = {
       data: {
-        role: member.role,
+        role: role.data[0].id,
       },
     };
 

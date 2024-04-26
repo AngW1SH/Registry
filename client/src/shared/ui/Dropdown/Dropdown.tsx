@@ -24,12 +24,17 @@ const Dropdown: FC<DropdownProps> = ({
   onChange,
   fetchSuggestions,
 }) => {
-  const [opened, setOpened] = useState(false);
-
   const ref = useRef<HTMLDivElement>(null);
 
-  const { selected, suggestions, input, setInput, confirmSelected } =
-    useDropdown(value, options, fetchSuggestions);
+  const {
+    opened,
+    setOpened,
+    selected,
+    suggestions,
+    input,
+    setInput,
+    confirmSelected,
+  } = useDropdown(value, options, fetchSuggestions);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -51,7 +56,6 @@ const Dropdown: FC<DropdownProps> = ({
   }, [ref.current]);
 
   useEffect(() => {
-    console.log(selected);
     if (onChange && selected) onChange(selected);
     setOpened(false);
   }, [selected]);
@@ -75,10 +79,10 @@ const Dropdown: FC<DropdownProps> = ({
           onChange={(e) => setInput(e.target.value)}
           type="text"
           placeholder={placeholder || ""}
-          className="w-full outline-none"
+          className="w-full bg-[inherit] outline-none"
         />
       </div>
-      <CSSTransition in={opened && options.length != 0} timeout={100}>
+      <CSSTransition in={opened && suggestions.length != 0} timeout={100}>
         {(state: TransitionStatus) => (
           <div
             className={`absolute left-0 top-full z-10 mt-2 flex w-min min-w-full flex-col gap-6 rounded-md bg-white px-6 py-5 shadow-center-md`}

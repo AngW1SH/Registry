@@ -2,6 +2,7 @@ import { IMember } from "@/entities/Member";
 import { authorizedFetch } from "@/shared/utils";
 
 export const fetchEditMember = async (member: IMember) => {
+  console.log(member);
   const response = await authorizedFetch(
     process.env.NEXT_PUBLIC_SERVER_URL + "/api/member",
     {

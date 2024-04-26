@@ -1,8 +1,9 @@
 "use client";
 import { IMember } from "@/entities/Member";
-import { Button, FormInput, LoadingCircle } from "@/shared/ui";
+import { Button, Dropdown, FormInput, LoadingCircle } from "@/shared/ui";
 import { FC, useEffect, useState } from "react";
 import { useMemberMutation } from "@/features/EditMember";
+import { fetchUserRole } from "../api/fetchUserRole";
 
 interface EditMemberProps {
   member: IMember;
@@ -42,12 +43,14 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
 
   return (
     <form>
-      <FormInput
-        className="w-full md:w-1/2 lg:w-1/3"
-        id={"member-role-" + member.id}
-        label="Роль"
+      <p className="pb-1 text-xs text-[#898989]">Роль</p>
+      <Dropdown
+        namePrefix="role"
         value={role}
         onChange={setRole}
+        options={[]}
+        fetchSuggestions={fetchUserRole}
+        className="w-full md:w-1/2 lg:w-1/3"
       />
       <div className="pt-8" />
       <Button
