@@ -12,7 +12,8 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
 
   const { mutate: addLink } = useAddProjectLinkMutation();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (resource && link) addLink({ projectId, resource, link });
     setResource(null);
     setLink("");
@@ -22,7 +23,7 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
     <form className="flex flex-wrap items-end">
       <Dropdown
         className="max-w-full sm:max-w-[46%] lg:max-w-[35%]"
-        options={["Github", "Jira"]}
+        options={["Github"]}
         value={resource}
         placeholder="Название ресурса"
         onChange={setResource}
