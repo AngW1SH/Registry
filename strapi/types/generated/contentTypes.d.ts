@@ -583,7 +583,7 @@ export interface PluginTrackItSyncDate extends Schema.CollectionType {
       'oneToOne',
       'api::project.project'
     >;
-    date: Attribute.Date;
+    date: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

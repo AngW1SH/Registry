@@ -65,10 +65,26 @@ const ProjectList = () => {
               </Typography>
             </TableColumn>
             <TableColumn
-              title={project?.syncDate?.toLocaleDateString() || "N/A"}
+              title={
+                project?.syncDate?.toLocaleDateString("ru-RU", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }) || "N/A"
+              }
             >
               <Typography textColor="neutral800">
-                {project?.syncDate?.toLocaleDateString() || "N/A"}
+                {project?.syncDate?.toLocaleDateString("ru-RU", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }) || "N/A"}
               </Typography>
             </TableColumn>
             <TableColumn>

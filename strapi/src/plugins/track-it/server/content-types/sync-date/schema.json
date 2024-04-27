@@ -17,7 +17,7 @@
       "target": "api::project.project"
     },
     "date": {
-      "type": "date"
+      "type": "datetime"
     }
   }
 }
