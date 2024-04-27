@@ -4,7 +4,7 @@
  *
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Layout,
@@ -17,8 +17,15 @@ import {
 import ProjectList from "../../components/ProjectList";
 import FilterText from "../../components/FilterText";
 import Marginer from "../../components/Marginer";
+import { useProjectStore } from "../../entities/Project";
 
 const HomePage = () => {
+  const { fetchProjects } = useProjectStore();
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   return (
     <Layout>
       <BaseHeaderLayout

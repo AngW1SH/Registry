@@ -20,13 +20,11 @@ export interface ProjectDetailedDTO extends ProjectDTO {
   syncDate: string;
 }
 
-export const projectAdapter = <T extends ProjectDTO>(
-  projectListStrapi: T[]
-): ProjectDTO[] => {
-  return projectListStrapi.map((formStrapi) => ({
-    id: formStrapi.id,
-    name: formStrapi.name,
-    startDate: formStrapi.startDate,
-    endDate: formStrapi.endDate,
+export const projectAdapter = (projectListStrapi: any): ProjectDTO[] => {
+  return projectListStrapi.map((projectStrapi) => ({
+    id: projectStrapi.id,
+    name: projectStrapi.name,
+    startDate: projectStrapi.dateStart,
+    endDate: projectStrapi.dateStart,
   }));
 };
