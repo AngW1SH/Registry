@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
 import { MetricGatewayModule } from './metric-gateway/metric-gateway.module';
 import { ResubscribeModule } from './resubscribe/resubscribe.module';
+import { ImportModule } from './import/import.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ResubscribeModule } from './resubscribe/resubscribe.module';
     TokenModule,
     MetricGatewayModule,
     ResubscribeModule,
+    ImportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
