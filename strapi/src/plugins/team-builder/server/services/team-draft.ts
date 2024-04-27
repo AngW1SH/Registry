@@ -30,7 +30,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         data: {
           user: user.id,
           team: teamId,
-          role: "",
+          roles: [],
           name: user.name,
           publishedAt: Date.now(),
         },
