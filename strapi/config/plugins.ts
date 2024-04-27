@@ -43,6 +43,10 @@ const conf = () => ({
     enabled: true,
     resolve: "./src/plugins/form-import",
   },
+  "track-it": {
+    enabled: true,
+    resolve: "./src/plugins/track-it",
+  },
 });
 
 export default conf;
