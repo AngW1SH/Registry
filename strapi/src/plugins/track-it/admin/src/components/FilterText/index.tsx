@@ -24,7 +24,7 @@ const FilterText = () => {
           type="text"
           placeholder="Enter project name, description, etc."
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e: any) => setValue(e.target.value)}
         />
       </Flex>
     </Field>

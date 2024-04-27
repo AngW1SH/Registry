@@ -17,7 +17,7 @@ const ProjectList = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
-  const { projects, isLoading, filter } = useProjectStore();
+  const { projects, isLoading, filter, updateProject } = useProjectStore();
 
   const filtered = projects.filter(
     (project) => project.name.indexOf(filter) !== -1
@@ -72,7 +72,12 @@ const ProjectList = () => {
               </Typography>
             </TableColumn>
             <TableColumn>
-              <UpdateButton variant="secondary">Update</UpdateButton>
+              <UpdateButton
+                variant="secondary"
+                onClick={() => updateProject(project.id)}
+              >
+                Update
+              </UpdateButton>
             </TableColumn>
           </Tr>
         ))}

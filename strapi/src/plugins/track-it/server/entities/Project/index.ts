@@ -26,5 +26,6 @@ export const projectAdapter = (projectListStrapi: any): ProjectDTO[] => {
     name: projectStrapi.name,
     startDate: projectStrapi.dateStart,
     endDate: projectStrapi.dateStart,
+    syncDate: projectStrapi.syncDate,
   }));
 };

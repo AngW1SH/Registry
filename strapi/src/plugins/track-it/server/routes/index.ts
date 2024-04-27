@@ -7,4 +7,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "PUT",
+    path: "/project/:id",
+    handler: "projectController.update",
+    config: {
+      policies: [],
+    },
+  },
 ];
