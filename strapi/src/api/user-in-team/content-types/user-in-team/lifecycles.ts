@@ -16,7 +16,7 @@ export default {
       "api::user-in-team.user-in-team",
       id,
       {
-        populate: ["user", "role"],
+        populate: ["user", "roles"],
       }
     );
 

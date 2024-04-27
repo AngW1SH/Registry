@@ -36,7 +36,9 @@ export const getMemberFromStrapiDTO = (
     administrator,
     member: {
       id: member.data.id,
-      role: member.data.attributes.role?.data?.attributes?.name || "",
+      roles: member.data.attributes.roles?.data
+        .map((role) => role?.attributes.name)
+        .filter((role) => role),
       name: member.data.attributes.name,
       isAdministrator:
         options &&
@@ -105,7 +107,9 @@ export const getMemberListFromStrapiDTO = (
     members: members.data.map((member) => {
       return {
         id: member.id,
-        role: member.attributes.role?.data?.attributes?.name || "",
+        roles: member.attributes.roles?.data
+          .map((role) => role?.attributes.name)
+          .filter((role) => role),
         name: member.attributes.name,
         isAdministrator:
           (options?.includeAdmin &&

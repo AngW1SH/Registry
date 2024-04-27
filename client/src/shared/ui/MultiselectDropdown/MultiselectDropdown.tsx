@@ -80,7 +80,7 @@ const MultiselectDropdown: FC<MultiselectDropdownProps> = ({
           value={input}
           type="text"
           placeholder={placeholder || "Курс"}
-          className="w-full outline-none"
+          className="w-full bg-[inherit] outline-none"
         />
       </div>
       <CSSTransition in={opened && suggestions.length != 0} timeout={100}>

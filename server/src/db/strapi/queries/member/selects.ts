@@ -11,7 +11,7 @@ export const selectMember = (
       team: {
         id: true,
       },
-      role: {
+      roles: {
         fields: ["id", "name"],
       },
       ...populate,

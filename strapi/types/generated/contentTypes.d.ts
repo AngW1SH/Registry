@@ -1016,9 +1016,9 @@ export interface ApiUserInTeamUserInTeam extends Schema.CollectionType {
       'manyToOne',
       'api::team.team'
     >;
-    role: Attribute.Relation<
+    roles: Attribute.Relation<
       'api::user-in-team.user-in-team',
-      'oneToOne',
+      'oneToMany',
       'api::user-role.user-role'
     >;
     createdAt: Attribute.DateTime;

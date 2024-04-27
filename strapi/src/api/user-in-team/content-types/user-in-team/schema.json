@@ -27,9 +27,9 @@
       "target": "api::team.team",
       "inversedBy": "members"
     },
-    "role": {
+    "roles": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::user-role.user-role"
     }
   }

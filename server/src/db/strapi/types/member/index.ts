@@ -1,12 +1,12 @@
 import { IdStrapi } from "@/db/types/types";
 import { UserStrapi } from "../user";
-import { UserRoleStrapi } from "../user-role";
+import { UserRoleStrapi, UserRoleStrapiList } from "../user-role";
 
 interface MemberStrapiInner {
   id: number;
   attributes: {
     name: string;
-    role: UserRoleStrapi;
+    roles: UserRoleStrapiList;
     user?: UserStrapi | IdStrapi;
     team?: IdStrapi;
   };

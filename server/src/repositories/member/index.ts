@@ -12,22 +12,24 @@ const memberRepositoryFactory = () => {
   };
 
   async function edit(member: Member) {
-    const role: UserRoleStrapiList = await strapi.get("user-roles/", {
+    const roles: UserRoleStrapiList = await strapi.get("user-roles/", {
       token: process.env.USER_TOKEN!,
       params: {
         filters: {
-          name: member.role,
+          name: {
+            $in: member.roles,
+          },
         },
         fields: ["id", "name"],
       },
     });
 
-    if (!role || !role.data.length || !role.data[0]?.id)
-      throw new ServerError("No such role found");
+    if (!roles || !roles.data.length || !roles.data[0]?.id)
+      throw new ServerError("No role is found");
 
     const body = {
       data: {
-        role: role.data[0].id,
+        roles: roles.data.map((role) => role.id),
       },
     };
 

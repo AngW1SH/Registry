@@ -1,7 +1,7 @@
 export interface IMember {
   id: number;
   name: string;
-  role: string;
+  roles: string[];
   team: number;
   user: number;
   isAdministrator: boolean | null;
