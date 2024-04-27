@@ -27,7 +27,7 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
 
     return {
       id: member.id,
-      role: member.role,
+      roles: member.roles,
       name: teamUser.name,
       label: member.isAdministrator ? "Представитель команды" : null,
       selected: user.id == teamUser.id,

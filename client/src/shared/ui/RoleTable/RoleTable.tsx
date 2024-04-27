@@ -5,7 +5,7 @@ import { FC } from "react";
 interface RoleTableProps {
   displayData: {
     id: number;
-    role: string;
+    roles: string[];
     name: string;
     label: string | null;
     selected: boolean;
@@ -29,8 +29,8 @@ const RoleTable: FC<RoleTableProps> = ({ displayData }) => {
               (data.label ? "pt-8" : "")
             }
           >
-            <p className="sm:w-min sm:min-w-[40%]">{data.role}</p>
-            <p className="whitespace-nowrap pl-2 pt-1 font-bold uppercase sm:pt-0 sm:font-medium md:text-lg">
+            <p className="sm:w-min sm:min-w-[25%]">{data.roles.join(", ")}</p>
+            <p className="whitespace-nowrap pl-2 pt-1 font-bold sm:pt-0 sm:font-medium ">
               {data.name}
             </p>
             {data.label !== null && (

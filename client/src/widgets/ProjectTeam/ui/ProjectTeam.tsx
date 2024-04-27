@@ -26,8 +26,8 @@ const ProjectTeam: FC<ProjectTeamProps> = ({ team, users, members }) => {
           key={user.name}
           className="flex border-b border-[#b7b7b7] bg-white py-4 first:border-t"
         >
-          <p className="w-1/2">{member.role}</p>
           <p className="w-1/2 text-lg font-medium">{user.name}</p>
+          <p className="w-1/2">{member.roles.join(", ")}</p>
         </li>
       ))}
     </ul>

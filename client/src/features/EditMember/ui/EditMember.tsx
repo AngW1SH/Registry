@@ -85,12 +85,14 @@ const EditMember: FC<EditMemberProps> = ({ member, onSuccess }) => {
           >
             {roles.map((role) => (
               <li
-                className="relative rounded-full bg-white py-2 pl-6 pr-10"
+                className="relative rounded-full border border-[#ddd] bg-white py-2 pl-6 pr-10"
                 key={role}
-                data-role={role}
               >
                 {role}
-                <div className="absolute right-4 top-1/2 h-3 w-3 -translate-y-1/2 cursor-pointer">
+                <div
+                  className="absolute right-4 top-1/2 h-3 w-3 -translate-y-1/2 cursor-pointer"
+                  data-role={role}
+                >
                   <Image src="/x-gray.svg" alt="" fill={true} />
                 </div>
               </li>

@@ -39,7 +39,7 @@ const TeamInspectCard: FC<TeamInspectCardProps> = ({
     return {
       id: member.id,
       name: formatNameShort(teamUser.name),
-      role: member.role,
+      roles: member.roles,
       label: member.isAdministrator ? "Представитель команды" : null,
       selected: user.id == teamUser.id,
     };

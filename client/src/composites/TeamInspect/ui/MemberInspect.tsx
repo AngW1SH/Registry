@@ -10,7 +10,7 @@ interface MemberInspectProps {
   data: {
     id: number;
     name: string;
-    role: string;
+    roles: string[];
     label: string | null;
     selected: boolean;
   };
@@ -33,9 +33,14 @@ const MemberInspect: FC<MemberInspectProps> = ({ edit, data }) => {
           (data.label ? "pt-8" : "")
         }
       >
-        <p className="sm:w-min sm:min-w-[40%]">{data.role}</p>
-        <p className="whitespace-nowrap pl-2 pt-1 font-bold uppercase sm:pt-0 sm:font-medium md:text-lg">
+        <p className="whitespace-nowrap pr-2 pt-1 font-bold uppercase sm:min-w-[30%] sm:pt-0 sm:font-medium md:text-lg">
           {data.name}
+        </p>
+        <p
+          className="overflow-hidden overflow-ellipsis"
+          title={data.roles.join(", ")}
+        >
+          {data.roles.join(", ")}
         </p>
         {data.label !== null && (
           <p className="absolute left-0 top-2 w-full text-center text-[0.9375rem] text-primary sm:static sm:ml-10 sm:w-auto sm:text-left">
