@@ -15,6 +15,8 @@ import {
 } from "@strapi/design-system";
 
 import ProjectList from "../../components/ProjectList";
+import FilterText from "../../components/FilterText";
+import Marginer from "../../components/Marginer";
 
 const HomePage = () => {
   return (
@@ -25,6 +27,8 @@ const HomePage = () => {
         as="h2"
       />
       <ContentLayout>
+        <FilterText />
+        <Marginer vertical={30} />
         <ProjectList />
       </ContentLayout>
     </Layout>

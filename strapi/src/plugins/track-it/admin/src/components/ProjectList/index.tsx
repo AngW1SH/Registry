@@ -78,7 +78,7 @@ const ProjectList = () => {
               </Typography>
             </Td>
             <Td>
-              <UpdateButton variant="default">Update</UpdateButton>,
+              <UpdateButton variant="default">Update</UpdateButton>
             </Td>
           </Tr>
         ))}
