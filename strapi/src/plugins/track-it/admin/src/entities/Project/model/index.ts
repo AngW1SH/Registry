@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IProject } from "../types";
+import { IProject, projectAdapter } from "../types";
 import { getFetchClient } from "@strapi/helper-plugin";
 
 interface ProjectState {
@@ -20,10 +20,11 @@ export const useProjectStore = create<ProjectState>()((set, get) => ({
 
     const response = await get("/track-it/project");
 
-    console.log(response);
-
     if (response.status != 200) set({ projects: [], isLoading: false });
 
-    set({ projects: response.data, isLoading: false });
+    set({
+      projects: response.data.map((project) => projectAdapter(project)),
+      isLoading: false,
+    });
   },
 }));

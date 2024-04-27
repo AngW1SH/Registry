@@ -6,39 +6,25 @@ import {
   Th,
   Tbody,
   Td,
-  Button,
-  BaseCheckbox,
+  Flex,
+  Loader,
   Typography,
 } from "@strapi/design-system";
-import { UpdateButton } from "./styles";
+import { TableColumn, UpdateButton } from "./styles";
+import { useProjectStore } from "../../entities/Project";
 
 const ProjectList = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
-  const results = [
-    {
-      id: "testid",
-      name: "testname",
-      startDate: new Date(),
-      syncDate: new Date(),
-      endDate: new Date(),
-    },
-    {
-      id: "anothertestid",
-      name: "testname2",
-      startDate: new Date(),
-      syncDate: new Date(),
-      endDate: new Date(),
-    },
-    {
-      id: "testi22d",
-      name: "testname3",
-      startDate: new Date(),
-      syncDate: new Date(),
-      endDate: new Date(),
-    },
-  ];
+  const { projects, isLoading } = useProjectStore();
+
+  if (isLoading || !projects)
+    return (
+      <Flex justifyContent="center" alignItems="center" height="90vh">
+        <Loader>Loading content...</Loader>
+      </Flex>
+    );
 
   return (
     <Table colCount={COL_COUNT} rowCount={ROW_COUNT}>
@@ -59,27 +45,31 @@ const ProjectList = () => {
         </Tr>
       </Thead>
       <Tbody>
-        {results.map((result, index) => (
-          <Tr key={result.id}>
-            <Td>
-              <Typography textColor="neutral800">{result.id}</Typography>
-            </Td>
-            <Td>
-              <Typography textColor="neutral800">{result.name}</Typography>
-            </Td>
-            <Td>
+        {projects.map((project, index) => (
+          <Tr key={project.id}>
+            <TableColumn title={project.id}>
+              <Typography textColor="neutral800">{project.id}</Typography>
+            </TableColumn>
+            <TableColumn title={project.name}>
+              <Typography textColor="neutral800">{project.name}</Typography>
+            </TableColumn>
+            <TableColumn
+              title={project?.startDate?.toLocaleDateString() || "N/A"}
+            >
               <Typography textColor="neutral800">
-                {result.startDate.toLocaleDateString()}
+                {project?.startDate?.toLocaleDateString() || "N/A"}
               </Typography>
-            </Td>
-            <Td>
+            </TableColumn>
+            <TableColumn
+              title={project?.syncDate?.toLocaleDateString() || "N/A"}
+            >
               <Typography textColor="neutral800">
-                {result.syncDate.toLocaleDateString()}
+                {project?.syncDate?.toLocaleDateString() || "N/A"}
               </Typography>
-            </Td>
-            <Td>
-              <UpdateButton variant="default">Update</UpdateButton>
-            </Td>
+            </TableColumn>
+            <TableColumn>
+              <UpdateButton variant="secondary">Update</UpdateButton>
+            </TableColumn>
           </Tr>
         ))}
       </Tbody>
