@@ -4,15 +4,30 @@
  *
  */
 
-import React from 'react';
-import pluginId from '../../pluginId';
+import React from "react";
+
+import {
+  Layout,
+  BaseHeaderLayout,
+  ContentLayout,
+  Flex,
+  Box,
+} from "@strapi/design-system";
+
+import ProjectList from "../../components/ProjectList";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>{pluginId}&apos;s HomePage</h1>
-      <p>Happy coding</p>
-    </div>
+    <Layout>
+      <BaseHeaderLayout
+        title="TrackIT - Import"
+        subtitle={"Track existing projects and get insights"}
+        as="h2"
+      />
+      <ContentLayout>
+        <ProjectList />
+      </ContentLayout>
+    </Layout>
   );
 };
 
