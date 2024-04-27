@@ -1,6 +1,6 @@
-import { User } from './user.entity';
+import { Admin } from './admin.entity';
 
-export const userMocks: User[] = [
+export const adminMocks: Admin[] = [
   {
     id: '123',
     name: 'test',

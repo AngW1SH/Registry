@@ -9,7 +9,7 @@ import { ResourceModule } from './resource/resource.module';
 import { MetricModule } from './metric/metric.module';
 import { SnapshotModule } from './snapshot/snapshot.module';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { AdminModule } from './admin/admin.module';
 import { CookieModule } from './cookie/cookie.module';
 import { ConfigModule } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
@@ -26,7 +26,7 @@ import { ResubscribeModule } from './resubscribe/resubscribe.module';
     MetricModule,
     SnapshotModule,
     AuthModule,
-    UserModule,
+    AdminModule,
     CookieModule,
     ConfigModule.forRoot(),
     TokenModule,

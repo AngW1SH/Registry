@@ -1,13 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { AdminService } from '@/src/admin/admin.service';
 
 @Injectable()
 export class TokenService {
   constructor(
     private jwtService: JwtService,
-    private userService: UserService,
+    private adminService: AdminService,
   ) {}
 
   async generate(payload: any) {
@@ -31,10 +30,10 @@ export class TokenService {
       throw new UnauthorizedException('No refresh token provided');
     const { exp, iat, ...user } = await this.jwtService.verify(refreshToken);
 
-    const doesUserExist = await this.userService.findById(user.id);
+    const doesAdminExist = await this.adminService.findById(user.id);
 
-    if (!doesUserExist)
-      throw new UnauthorizedException('User not found in the database');
+    if (!doesAdminExist)
+      throw new UnauthorizedException('Admin not found in the database');
 
     const newAccessToken = await this.jwtService.signAsync(user, {
       expiresIn: '1h',

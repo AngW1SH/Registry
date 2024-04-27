@@ -3,18 +3,18 @@ import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { TokenService } from 'src/token/token.service';
-import { UserService } from 'src/user/user.service';
+import { AdminService } from '@/src/admin/admin.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private adminService: AdminService,
     private tokenService: TokenService,
     private cookieService: CookieService,
   ) {}
 
   async validateUser(name: string, pass: string): Promise<any> {
-    const user = await this.userService.findByName(name);
+    const user = await this.adminService.findByName(name);
 
     if (!user) return null;
 

@@ -1,20 +1,20 @@
 import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { TokenService } from './token.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
+import { AdminService } from '../admin/admin.service';
 
 describe('TokenService', () => {
   let service: TokenService;
   let jwtService: DeepMocked<JwtService>;
-  let userService: DeepMocked<UserService>;
+  let adminService: DeepMocked<AdminService>;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     jwtService = createMock<JwtService>();
-    userService = createMock<UserService>();
+    adminService = createMock<AdminService>();
 
-    service = new TokenService(jwtService, userService);
+    service = new TokenService(jwtService, adminService);
   });
 
   describe('generate method', () => {
@@ -76,7 +76,7 @@ describe('TokenService', () => {
     it('should call userService.findById', async () => {
       await service.refresh('123');
 
-      expect(userService.findById).toHaveBeenCalled();
+      expect(adminService.findById).toHaveBeenCalled();
     });
 
     it('should call jwtService.sign', async () => {
@@ -104,7 +104,7 @@ describe('TokenService', () => {
 
       await service.refresh('123');
 
-      expect(userService.findById).toHaveBeenCalledWith(123);
+      expect(adminService.findById).toHaveBeenCalledWith(123);
     });
 
     it('should return accessToken', async () => {
@@ -127,7 +127,7 @@ describe('TokenService', () => {
     });
 
     it('should throw an error if user is not found', async () => {
-      userService.findById.mockResolvedValueOnce(undefined);
+      adminService.findById.mockResolvedValueOnce(undefined);
 
       await expect(service.refresh('123')).rejects.toThrow();
     });

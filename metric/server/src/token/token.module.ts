@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TokenService } from './token.service';
-import { UserModule } from 'src/user/user.module';
+import { AdminModule } from '@/src/admin/admin.module';
 import { PassportModule } from '@nestjs/passport';
 import { CookieModule } from 'src/cookie/cookie.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -8,7 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    UserModule,
+    AdminModule,
     PassportModule,
     CookieModule,
     ConfigModule,

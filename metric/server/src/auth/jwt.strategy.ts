@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { CookieService } from 'src/cookie/cookie.service';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/user/user.entity';
+import { Admin } from '@/src/admin/admin.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<User> {
+  async validate(payload: any): Promise<Admin> {
     return payload;
   }
 
