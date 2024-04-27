@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sync-dates",
+  "info": {
+    "singularName": "sync-date",
+    "pluralName": "sync-dates",
+    "displayName": "Sync Date"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "comment": ""
+  },
+  "attributes": {
+    "project": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}

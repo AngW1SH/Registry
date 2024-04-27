@@ -566,6 +566,41 @@ export interface PluginTeamBuilderTeamDraft extends Schema.CollectionType {
   };
 }
 
+export interface PluginTrackItSyncDate extends Schema.CollectionType {
+  collectionName: 'sync-dates';
+  info: {
+    singularName: 'sync-date';
+    pluralName: 'sync-dates';
+    displayName: 'Sync Date';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  attributes: {
+    project: Attribute.Relation<
+      'plugin::track-it.sync-date',
+      'oneToOne',
+      'api::project.project'
+    >;
+    date: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::track-it.sync-date',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::track-it.sync-date',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -1048,6 +1083,7 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::team-builder.draft': PluginTeamBuilderDraft;
       'plugin::team-builder.team-draft': PluginTeamBuilderTeamDraft;
+      'plugin::track-it.sync-date': PluginTrackItSyncDate;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::category.category': ApiCategoryCategory;
       'api::form.form': ApiFormForm;
