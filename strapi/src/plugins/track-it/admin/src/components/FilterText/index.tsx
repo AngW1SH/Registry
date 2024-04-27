@@ -1,9 +1,19 @@
-import React, { FC, MouseEvent, ReactNode, useState } from "react";
+import React, { FC, MouseEvent, ReactNode, useEffect, useState } from "react";
 
 import { Field, Flex, FieldLabel, FieldInput } from "@strapi/design-system";
+import { useDebounce } from "./useDebounce";
+import { useProjectStore } from "../../entities/Project";
 
 const FilterText = () => {
+  const { setFilter } = useProjectStore();
+
   const [value, setValue] = useState<string>("");
+
+  const debouncedValue = useDebounce<string>(value, 300);
+
+  useEffect(() => {
+    setFilter(debouncedValue);
+  }, [debouncedValue]);
 
   return (
     <Field name="email">

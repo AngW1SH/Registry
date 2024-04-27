@@ -17,7 +17,11 @@ const ProjectList = () => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
-  const { projects, isLoading } = useProjectStore();
+  const { projects, isLoading, filter } = useProjectStore();
+
+  const filtered = projects.filter(
+    (project) => project.name.indexOf(filter) !== -1
+  );
 
   if (isLoading || !projects)
     return (
@@ -45,7 +49,7 @@ const ProjectList = () => {
         </Tr>
       </Thead>
       <Tbody>
-        {projects.map((project, index) => (
+        {filtered.map((project, index) => (
           <Tr key={project.id}>
             <TableColumn title={project.id}>
               <Typography textColor="neutral800">{project.id}</Typography>
