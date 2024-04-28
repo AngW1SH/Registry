@@ -16,6 +16,10 @@ export interface ProjectDTO {
   description: string;
 }
 
+export interface ProjectInList extends Project {
+  platforms: PlatformName[];
+}
+
 export interface ProjectMember {
   name: string;
   roles: string[];

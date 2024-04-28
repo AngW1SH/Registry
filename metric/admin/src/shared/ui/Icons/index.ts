@@ -12,6 +12,8 @@ import TooltipIcon from "./Tooltip/TooltipIcon";
 import XCircleIcon from "./XCircle/XCircleIcon";
 import CheckIcon from "./Check/CheckIcon";
 import PlusCircleIcon from "./PlusCircle/PlusCircleIcon";
+import TrashCircleIcon from "./TrashCircle/TrashCircleIcon";
+import PencilCircleIcon from "./PencilCircle/PencilCircleIcon";
 
 export {
   ProfileIcon,
@@ -28,4 +30,6 @@ export {
   XCircleIcon,
   CheckIcon,
   PlusCircleIcon,
+  TrashCircleIcon,
+  PencilCircleIcon,
 };

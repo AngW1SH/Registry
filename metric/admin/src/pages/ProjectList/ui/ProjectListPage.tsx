@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/app/store";
-import { fetchAllProjects } from "@/entities/Project/model/projectListSlice";
+import { fetchAllProjects } from "@/composites/ProjectInList/models/projectListSlice";
 import { useForceUser } from "@/entities/User";
 import { AddProject } from "@/features/AddProject";
 import { ProjectList } from "@/widgets/ProjectList";

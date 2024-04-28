@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/app/store";
-import { projectListSlice } from "@/entities/Project";
+import { projectListSlice } from "@/composites/ProjectInList";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useEffect, useState } from "react";
@@ -18,11 +18,11 @@ const FilterProjects: FC<FilterProjectsProps> = () => {
   }, [debouncedInput]);
 
   return (
-    <div>
+    <div className="w-[400px]">
       <TextInput
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="w-[400px] text-sm py-2 bg-white"
+        className="text-sm py-2 bg-white"
         placeholder="Enter text..."
       />
     </div>

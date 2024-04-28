@@ -2,16 +2,20 @@ import { useAppDispatch } from "@/app/store";
 import { projectListSlice } from "@/composites/ProjectInList";
 import { projectSlice } from "@/entities/Project";
 import { useDeleteProjectMutation } from "@/entities/Project/model/projectApi";
+import { TrashCircleIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface DeleteProjectProps {
+interface DeleteProjectAltProps {
   projectId: string;
   className?: string;
 }
 
-const DeleteProject: FC<DeleteProjectProps> = ({ projectId, className }) => {
+const DeleteProjectAlt: FC<DeleteProjectAltProps> = ({
+  projectId,
+  className,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -23,7 +27,7 @@ const DeleteProject: FC<DeleteProjectProps> = ({ projectId, className }) => {
     const result = await deleteProject(projectId);
 
     if (!result.hasOwnProperty("error")) {
-      navigate("/");
+      navigate(import.meta.env.VITE_BASE_PATH);
       dispatch(projectSlice.actions.setProject(null));
       dispatch(projectListSlice.actions.deleteProject(projectId));
     }
@@ -34,12 +38,9 @@ const DeleteProject: FC<DeleteProjectProps> = ({ projectId, className }) => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={
-          "bg-[#FFE7DF] text-lg text-[#BC2F26] py-5 w-full px-7 font-medium rounded-xl " +
-          className
-        }
+        className={"font-medium rounded-xl " + className}
       >
-        Delete Project
+        <TrashCircleIcon />
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 rounded-lg pb-11">
@@ -65,4 +66,4 @@ const DeleteProject: FC<DeleteProjectProps> = ({ projectId, className }) => {
   );
 };
 
-export default DeleteProject;
+export default DeleteProjectAlt;

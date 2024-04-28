@@ -1,8 +1,9 @@
+import { projectListSlice } from "@/composites/ProjectInList/models/projectListSlice";
 import { memberSlice } from "@/entities/Member";
 import { metricSlice } from "@/entities/Metric";
 import { metricApi } from "@/entities/Metric/model/metricApi";
 import { platformSlice } from "@/entities/Platform";
-import { projectSlice, projectListSlice } from "@/entities/Project";
+import { projectSlice } from "@/entities/Project";
 import { projectApi } from "@/entities/Project/model/projectApi";
 import { resourceSlice } from "@/entities/Resource";
 import { resourceApi } from "@/entities/Resource/model/resourceApi";

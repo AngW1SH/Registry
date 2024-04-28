@@ -1,6 +1,6 @@
-import { IProject } from "..";
+import { ProjectInList } from "../types";
 
-export const fetchAll = async (): Promise<IProject[]> => {
+export const fetchAll = async (): Promise<ProjectInList[]> => {
   const response = await fetch(import.meta.env.VITE_SERVER_URL + "project");
 
   if (!response.ok) throw new Error("Failed to fetch projects");

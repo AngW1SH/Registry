@@ -5,6 +5,7 @@ import {
   ProjectCreate,
   ProjectDetailed,
   ProjectDetailedWithSnapshots,
+  ProjectInList,
   ProjectMember,
 } from './project.entity';
 import { ResourceService } from 'src/resource/resource.service';
@@ -23,16 +24,41 @@ export class ProjectService {
     private taskService: TaskService,
   ) {}
 
-  async findAll(): Promise<Project[]> {
+  async findAll(): Promise<ProjectInList[]> {
     const result = await this.prisma.project.findMany({
       select: {
         id: true,
         name: true,
         description: true,
+        resources: {
+          select: {
+            platform: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return result;
+    const resultWithPlatforms: ProjectInList[] = result.map((project) => {
+      const platformNames = project.resources.reduce((acc, cur) => {
+        if (!acc.includes(cur.platform.name)) {
+          acc.push(cur.platform.name);
+        }
+        return acc;
+      }, []);
+
+      return {
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        platforms: platformNames,
+      };
+    });
+
+    return resultWithPlatforms;
   }
 
   async findOne(id: string): Promise<ProjectDetailedWithSnapshots | null> {

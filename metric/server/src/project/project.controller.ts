@@ -12,6 +12,7 @@ import {
   ProjectCreateDTO,
   ProjectDTO,
   ProjectDetailedDTO,
+  ProjectInList,
 } from './project.entity';
 
 @Controller('project')
@@ -19,7 +20,7 @@ export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<ProjectInList[]> {
     return this.projectService.findAll();
   }
 

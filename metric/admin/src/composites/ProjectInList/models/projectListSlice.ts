@@ -1,10 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IProject } from "..";
 import { fetchAll } from "../api/fetchAll";
-import { ProjectFilters } from "../types";
+import { ProjectInList, ProjectFilters } from "../types";
 
 interface ProjectListState {
-  projects: IProject[];
+  projects: ProjectInList[];
   filters: ProjectFilters;
   isLoading: boolean;
   error: string;
@@ -30,6 +29,11 @@ export const projectListSlice = createSlice({
   reducers: {
     setFilters(state, action: PayloadAction<ProjectFilters>) {
       state.filters = action.payload;
+    },
+    deleteProject(state, action: PayloadAction<string>) {
+      state.projects = state.projects.filter(
+        (project) => project.id !== action.payload
+      );
     },
   },
   extraReducers: (builder) => {
