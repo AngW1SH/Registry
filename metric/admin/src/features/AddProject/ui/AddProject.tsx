@@ -1,4 +1,4 @@
-import { XCircleIcon } from "@/shared/ui/Icons";
+import { PlusCircleIcon, XCircleIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useState } from "react";
@@ -31,11 +31,12 @@ const AddProject: FC<AddProjectProps> = ({ className }) => {
       <button
         onClick={() => setOpen(true)}
         className={
-          "bg-background flex text-xl justify-center rounded-lg py-4 text-[#A3AED0] font-medium " +
+          "bg-[#effbd7] border border-[#e3efcb] text-black px-8 flex text-xl gap-3 justify-center rounded-lg py-4 " +
           className
         }
       >
-        Add a New Project
+        <PlusCircleIcon height={27} width={27} />
+        <span className="font-bold">New Project</span>
       </button>
       <Modal show={open} onClose={() => setOpen(false)}>
         <div className="bg-white relative pt-7 w-1/2 rounded-lg pb-11 px-7">

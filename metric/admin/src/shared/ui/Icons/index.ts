@@ -11,6 +11,7 @@ import GitLabIcon from "./GitLab/GitLabIcon";
 import TooltipIcon from "./Tooltip/TooltipIcon";
 import XCircleIcon from "./XCircle/XCircleIcon";
 import CheckIcon from "./Check/CheckIcon";
+import PlusCircleIcon from "./PlusCircle/PlusCircleIcon";
 
 export {
   ProfileIcon,
@@ -26,4 +27,5 @@ export {
   TooltipIcon,
   XCircleIcon,
   CheckIcon,
+  PlusCircleIcon,
 };
