@@ -9,6 +9,7 @@ interface MultiselectDropdownProps {
   namePrefix?: string;
   options: string[];
   value: string[];
+  labels?: string[];
   placeholder?: string;
   className?: string;
   onChange: (active: string[]) => any;
