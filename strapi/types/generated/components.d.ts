@@ -30,6 +30,19 @@ export interface DeveloperRequirementDeveloperRequirement
   };
 }
 
+export interface GithubDataGithubData extends Schema.Component {
+  collectionName: 'components_github_data_github_data';
+  info: {
+    displayName: 'Github Data';
+    icon: 'monitor';
+  };
+  attributes: {
+    apiKey: Attribute.String;
+    organization: Attribute.String;
+    repository: Attribute.String;
+  };
+}
+
 export interface ImageCategoryImageCategory extends Schema.Component {
   collectionName: 'components_image_category_image_categories';
   info: {
@@ -146,6 +159,7 @@ declare module '@strapi/types' {
     export interface Components {
       'detailed-category.detailed-category': DetailedCategoryDetailedCategory;
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
+      'github-data.github-data': GithubDataGithubData;
       'image-category.image-category': ImageCategoryImageCategory;
       'named-file.named-file': NamedFileNamedFile;
       'project-document.project-document': ProjectDocumentProjectDocument;

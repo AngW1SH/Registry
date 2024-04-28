@@ -93,6 +93,12 @@
       "type": "component",
       "repeatable": true,
       "component": "project-document.project-document"
+    },
+    "providers": {
+      "type": "dynamiczone",
+      "components": [
+        "github-data.github-data"
+      ]
     }
   }
 }

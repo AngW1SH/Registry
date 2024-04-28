@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_github_data_github_data",
+  "info": {
+    "displayName": "Github Data",
+    "icon": "monitor"
+  },
+  "options": {},
+  "attributes": {
+    "apiKey": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "repository": {
+      "type": "string"
+    }
+  }
+}
