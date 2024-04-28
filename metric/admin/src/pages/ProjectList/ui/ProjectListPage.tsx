@@ -23,7 +23,7 @@ const ProjectListPage: FC<ProjectListPageProps> = () => {
         <h1 className="text-6xl font-medium">Projects</h1>
         <AddProject className="top-0 right-0" />
       </div>
-      <div className="pt-8"></div>
+      <div className="pt-10"></div>
       <ProjectList />
     </div>
   );

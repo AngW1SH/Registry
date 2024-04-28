@@ -3,3 +3,7 @@ export interface IProject {
   name: string;
   description: string;
 }
+
+export interface ProjectFilters {
+  text: string;
+}
