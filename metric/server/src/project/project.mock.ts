@@ -42,6 +42,7 @@ export const projectDetailedWithSnapshotsMocks: ProjectDetailedWithSnapshots[] =
   projectDetailedMocks.map((project) => ({
     ...project,
     resources: resourceDetailedWithSnapshotsMocks,
+    users: [],
   }));
 export const projectDetailedWithSnapshotsDTOMocks =
   projectDetailedWithSnapshotsMocks.map((project) => ({

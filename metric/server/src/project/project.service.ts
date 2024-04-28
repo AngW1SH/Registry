@@ -5,12 +5,14 @@ import {
   ProjectCreate,
   ProjectDetailed,
   ProjectDetailedWithSnapshots,
+  ProjectMember,
 } from './project.entity';
 import { ResourceService } from 'src/resource/resource.service';
 import { SnapshotService } from 'src/snapshot/snapshot.service';
 import { structureSnapshots } from './utils/structureSnapshots';
 import { TaskService } from 'src/task/task.service';
 import { markTrackedMetrics } from './utils/markTrackedMetrics';
+import { PlatformName } from '../platform/platform.entity';
 
 @Injectable()
 export class ProjectService {
@@ -38,11 +40,47 @@ export class ProjectService {
       where: {
         id,
       },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        members: {
+          select: {
+            id: true,
+            roles: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                identifiers: {
+                  select: {
+                    platform: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                    value: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!result) {
       return null;
     }
+
+    const members: ProjectMember[] = result.members.map((member) => ({
+      name: member.user.name,
+      roles: member.roles,
+      identifiers: member.user.identifiers.map((identifier) => ({
+        platform: identifier.platform.name as PlatformName,
+        value: identifier.value,
+      })),
+    }));
 
     const [resources, trackedTasks] = await Promise.all([
       this.resourceService.findMany({ project: id }),
@@ -69,6 +107,7 @@ export class ProjectService {
       id: result.id,
       name: result.name,
       description: result.description,
+      users: members,
       resources: trackedTasks
         ? markTrackedMetrics(trackedTasks, resourcesPopulated)
         : resourcesPopulated,

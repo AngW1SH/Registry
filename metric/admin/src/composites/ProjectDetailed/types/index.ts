@@ -1,3 +1,4 @@
+import { IMember } from "@/entities/Member/types";
 import { IMetric } from "@/entities/Metric";
 import { IProject } from "@/entities/Project";
 import { IResource } from "@/entities/Resource";
@@ -8,4 +9,5 @@ export interface IResourceDetailed extends IResource {
 
 export interface IProjectDetailed extends IProject {
   resources: IResourceDetailed[];
+  users: IMember[];
 }

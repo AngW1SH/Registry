@@ -6,8 +6,10 @@ import { resourceSlice } from "@/entities/Resource";
 import { extractResources } from "../utils/extractResources";
 import { metricSlice } from "@/entities/Metric";
 import { extractMetrics } from "../utils/extractMetrics";
+import { memberSlice } from "@/entities/Member";
+import { extractMembers } from "../utils/extractMembers";
 
-const slices = [projectSlice, resourceSlice, metricSlice];
+const slices = [projectSlice, resourceSlice, metricSlice, memberSlice];
 
 const setLoadingStates = (dispatch: AppDispatch, isLoading: boolean) => {
   slices.forEach((slice) => dispatch(slice.actions.setLoading(isLoading)));
@@ -34,6 +36,7 @@ export const initializeProjectDetailed = async (
   dispatch(projectSlice.actions.setProject(extractProject(result)));
   dispatch(resourceSlice.actions.setResources(extractResources(result)));
   dispatch(metricSlice.actions.setMetrics(extractMetrics(result)));
+  dispatch(memberSlice.actions.setMembers(extractMembers(result)));
 
   setLoadingStates(dispatch, false);
 };

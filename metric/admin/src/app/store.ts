@@ -1,3 +1,4 @@
+import { memberSlice } from "@/entities/Member";
 import { metricSlice } from "@/entities/Metric";
 import { metricApi } from "@/entities/Metric/model/metricApi";
 import { platformSlice } from "@/entities/Platform";
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   resource: resourceSlice.reducer,
   resourceApi: resourceApi.reducer,
   metric: metricSlice.reducer,
+  member: memberSlice.reducer,
   metricApi: metricApi.reducer,
   user: userSlice.reducer,
   userApi: userApi.reducer,
