@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/store";
 import { IProject, projectSlice } from "@/entities/Project";
 import { useUpdateProjectMutation } from "@/entities/Project/model/projectApi";
-import { SettingsIcon } from "@/shared/ui/Icons";
+import { GearIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useState } from "react";
@@ -40,9 +40,12 @@ const EditProject: FC<EditProjectProps> = ({ project }) => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="h-10 w-10 rounded-lg p-2 bg-white text-[#444]"
+        className={
+          "flex gap-3 items-center bg-[#e9edf8] font-semibold border border-[#e2e7f5] rounded-lg whitespace-nowrap py-2 px-6 text-sm"
+        }
       >
-        <SettingsIcon />
+        <GearIcon width="23.876" height="23.878" />
+        <span>Configure Project</span>
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 px-[10%] rounded-lg pb-11">

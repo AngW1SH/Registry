@@ -1,6 +1,6 @@
 export interface IPlatform {
   id: string;
-  name: string;
+  name: PlatformName;
 }
 
 export enum PlatformName {

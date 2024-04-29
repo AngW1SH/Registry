@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/app/store";
 import { useExecuteMetricMutation } from "@/entities/Metric/model/metricApi";
+import { RefreshIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
 
 interface ExecuteMetricProps {
@@ -22,11 +23,11 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
     <button
       onClick={handleClick}
       className={
-        "bg-secondary text-primary py-1 px-7 font-medium text-sm rounded-xl " +
+        "bg-[#e9edf8] border-[#e2e7f5] h-[3.25rem] text-[#252525] w-[3.25rem] border  flex justify-center items-center rounded-xl " +
         className
       }
     >
-      Update Metric
+      <RefreshIcon height="22" width="22" />
     </button>
   );
 };

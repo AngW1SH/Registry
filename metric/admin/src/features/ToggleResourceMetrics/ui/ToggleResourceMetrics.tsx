@@ -4,6 +4,7 @@ import {
   useStartTrackingMutation,
   useStopTrackingMutation,
 } from "@/entities/Resource/model/resourceApi";
+import { GraphIcon, StopIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
 
 interface ToggleResourceMetricsProps {
@@ -69,22 +70,24 @@ const ToggleResourceMetrics: FC<ToggleResourceMetricsProps> = ({
   };
 
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-4 items-center">
       <button
         onClick={handleStop}
         className={
-          "bg-[#fef3c7] text-[#a16207] py-3 px-7 w-full font-medium text-sm rounded-xl"
+          "flex gap-3 items-center bg-[#fef3c7] font-semibold border border-[#d3c89a] rounded-lg whitespace-nowrap py-2 px-4 w-full text-sm"
         }
       >
-        Stop Tracking All Metrics
+        <StopIcon height="21.312" width="21.312" />
+        <span>Stop Tracking All Metrics</span>
       </button>
       <button
         onClick={handleStart}
         className={
-          "bg-[#ecfccb] text-[#4d7c0f] py-1 px-7 w-full font-medium text-sm rounded-xl"
+          "flex gap-3 items-center bg-[#ecfccb] font-semibold border border-[#d6e2be] rounded-lg whitespace-nowrap py-2 px-4 w-full text-sm"
         }
       >
-        Resume Tracking All Metrics
+        <GraphIcon height="24.75" width="20.5" />
+        <span>Resume Tracking All Metrics</span>
       </button>
     </div>
   );

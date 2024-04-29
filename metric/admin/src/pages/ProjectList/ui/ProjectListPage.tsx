@@ -17,7 +17,7 @@ const ProjectListPage: FC<ProjectListPageProps> = () => {
   useForceUser();
 
   return (
-    <div className="relative">
+    <div className="relative pr-20">
       <div className="pt-20" />
       <div className="flex items-center gap-14">
         <h1 className="text-6xl font-medium">Projects</h1>

@@ -20,14 +20,14 @@ const TextField: FC<TextFieldProps> = ({
   };
 
   return (
-    <div className="bg-background pt-5 rounded-lg pb-11 px-7">
+    <div>
       {!!tooltip && (
         <Tooltip className="text-[#A3AED0]" tooltip={tooltip}>
           <h2 className="inline-block">{label}</h2>
         </Tooltip>
       )}
       {!tooltip && <h2 className="inline-block">{label}</h2>}
-      <div className="pt-6" />
+      <div className="pt-2" />
       <TextInput
         value={value}
         className="w-full"

@@ -29,12 +29,11 @@ const MetricSettings: FC<MetricSettingsProps> = ({
   const metricInfo = metricInfoList?.find((metric) => metric.name === name);
 
   return (
-    <div
-      className={
-        "bg-background relative pt-7 rounded-lg pb-11 px-7 " + className
-      }
-    >
-      <h3 className="text-xl text-[#A3AED0] font-medium">{name}</h3>
+    <div className={"relative rounded-lg py-12 px-10 " + className}>
+      <div className="flex justify-between gap-5 items-start">
+        <h3 className="max-w-[50%] text-2xl font-semibold">{name}</h3>
+        {aside && <div>{aside}</div>}
+      </div>
       <div className="pt-6" />
       <Checkbox
         className="text-[#A3AED0]"
@@ -44,7 +43,6 @@ const MetricSettings: FC<MetricSettingsProps> = ({
       <div className="pt-4"></div>
       {children}
       <div className="pt-10"></div>
-      {aside && <div>{aside}</div>}
       <div className="pt-10"></div>
       {metricInfo && metricInfo.snapshotBased && !!data.length && (
         <UpdateStatus data={data} />

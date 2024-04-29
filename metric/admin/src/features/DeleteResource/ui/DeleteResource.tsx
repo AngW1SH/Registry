@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/app/store";
 import { resourceSlice } from "@/entities/Resource";
 import { useDeleteResourceMutation } from "@/entities/Resource/model/resourceApi";
+import { TrashIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { FC, useState } from "react";
 
@@ -30,11 +31,12 @@ const DeleteResource: FC<DeleteResourceProps> = ({ id, className }) => {
       <button
         onClick={() => setIsOpen(true)}
         className={
-          "bg-[#FFE7DF] text-[#BC2F26] py-3 w-full px-7 font-medium rounded-xl " +
+          "flex items-center whitespace-nowrap gap-3 bg-[#FFE7DF] border border-[#e3cecb] text-sm py-2 px-4 font-semibold rounded-lg " +
           className
         }
       >
-        Delete Resource
+        <TrashIcon width="16.82" height="18" />
+        <span>Delete Resource</span>
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 rounded-lg pb-11">

@@ -55,34 +55,37 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
 
   return (
     <>
-      {isLoading && (
-        <div className="py-3 px-10 flex justify-center w-full font-medium rounded-lg text-[#551FFF] bg-[#F3F0FF]">
-          <LoadingCircle size={32} />
-        </div>
-      )}
-      {!isLoading && (
-        <button
-          onClick={handleSave}
-          className={
-            "py-6 px-14 w-full font-medium rounded-lg " +
-            (hasChanged
-              ? "text-[#551FFF] bg-[#F3F0FF]"
-              : "text-black bg-[#E5E5E5]")
-          }
-        >
-          Save Resource Settings
-        </button>
-      )}
-      <div className="pt-8" />
-      <ul className="flex flex-col gap-8">
-        {localParams.map((param) => {
-          return (
-            <li key={param.prop}>
-              <ResourceField field={param} onChange={handleChange} />
-            </li>
-          );
-        })}
-      </ul>
+      <div className=" bg-background rounded-lg py-14 px-7">
+        <h2 className="font-semibold text-4xl">Resource Parameters</h2>
+        <ul className="flex flex-col py-8 gap-6">
+          {localParams.map((param) => {
+            return (
+              <li key={param.prop}>
+                <ResourceField field={param} onChange={handleChange} />
+              </li>
+            );
+          })}
+        </ul>
+        <div className="pt-3" />
+        {isLoading && (
+          <div className="px-10 flex w-[350px] justify-center font-medium rounded-lg text-[#551FFF] bg-[#F3F0FF]">
+            <LoadingCircle size={32} />
+          </div>
+        )}
+        {!isLoading && (
+          <button
+            onClick={handleSave}
+            className={
+              "py-3 px-14 font-medium rounded-lg w-[350px] " +
+              (hasChanged
+                ? "text-[#FFF] bg-[#5321ff]"
+                : "text-black bg-[#E5E5E5]")
+            }
+          >
+            Save Resource Settings
+          </button>
+        )}
+      </div>
     </>
   );
 };

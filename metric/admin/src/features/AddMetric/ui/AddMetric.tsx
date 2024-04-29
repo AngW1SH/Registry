@@ -10,6 +10,7 @@ import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { metricSlice } from "@/entities/Metric";
 import { IAbstractMetricDetailed } from "@/entities/Metric/types";
 import { Modal } from "@/shared/ui/Modal";
+import { PlusIcon } from "@/shared/ui/Icons";
 
 interface AddMetricProps {
   project: string;
@@ -72,11 +73,11 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
   if (!data) return <div></div>;
   return (
     <>
-      <div className="bg-background pt-5 rounded-lg pb-11 px-7">
+      <div>
         <Tooltip className="text-[#A3AED0]" tooltip="Select a metric to add">
           <h2 className="inline-block">Add Metric</h2>
         </Tooltip>
-        <div className="pt-5" />
+        <div className="pt-2" />
         <div className="flex justify-between items-center gap-11">
           <Dropdown
             placeholder="Select a metric"
@@ -91,13 +92,14 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
             <button
               onClick={handleSubmitClick}
               className={
-                "w-80 h-12 py-3 px-14 text-[#551FFF] font-medium bg-[#F3F0FF] rounded-lg " +
+                "w-80 flex justify-center items-center gap-4 h-12 py-3 px-14 font-medium rounded-lg " +
                 (selected
-                  ? "text-[#551FFF] bg-[#F3F0FF]"
-                  : "text-black bg-[#E5E5E5]")
+                  ? "text-[#F3F0FF] bg-[#551FFF]"
+                  : "text-[#551FFF] bg-[#F3F0FF]")
               }
             >
-              Add Metric
+              <PlusIcon width="15.124" height="15.124" />
+              <span>Add Metric</span>
             </button>
           )}
           {isLoading && (

@@ -4,6 +4,7 @@ import {
   useStartMetricMutation,
   useStopMetricMutation,
 } from "@/entities/Metric/model/metricApi";
+import { PauseIcon, ResumeIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
 
 interface ToggleMetricStatusProps {
@@ -52,22 +53,22 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
         <button
           onClick={handleStop}
           className={
-            "bg-[#fef3c7] text-[#a16207] py-1 px-7 font-medium text-sm rounded-xl " +
+            "bg-[#fef3c7] border-[#d3c89a] h-[3.25rem] text-[#252525] w-[3.25rem] border  flex justify-center items-center rounded-xl " +
             className
           }
         >
-          Stop Tracking
+          <PauseIcon height="27" width="27" />
         </button>
       )}
       {!metric.isTracked && (
         <button
           onClick={handleStart}
           className={
-            "bg-[#ecfccb] text-[#4d7c0f] py-1 px-7 font-medium text-sm rounded-xl " +
+            "bg-[#ecfccb] border-[#d6e2be] h-[3.25rem] text-[#252525] w-[3.25rem] border  flex justify-center items-center rounded-xl " +
             className
           }
         >
-          Resume Tracking
+          <ResumeIcon height="22" width="22" />
         </button>
       )}
     </>

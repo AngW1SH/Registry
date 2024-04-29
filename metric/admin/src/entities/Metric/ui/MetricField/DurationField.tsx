@@ -16,7 +16,7 @@ const DurationField: FC<DurationFieldProps> = ({
   className = "",
 }) => {
   return (
-    <div className={"bg-background rounded-lg " + className}>
+    <div className={className}>
       {!!tooltip && (
         <Tooltip className="text-[#A3AED0]" tooltip={tooltip}>
           <h2 className="inline-block">{label}</h2>

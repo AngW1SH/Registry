@@ -6,6 +6,7 @@ import {
 import { Modal } from "@/shared/ui/Modal";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { metricSlice } from "@/entities/Metric";
+import { TrashIcon } from "@/shared/ui/Icons";
 
 interface StopTrackingMetricProps {
   className?: string;
@@ -62,11 +63,11 @@ const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
       <button
         onClick={() => setIsOpen(true)}
         className={
-          "bg-[#FFE7DF] text-[#BC2F26] py-1 px-7 font-medium text-sm rounded-xl " +
+          "bg-[#FFE7DF] h-[3.25rem] text-[#252525] w-[3.25rem] border border-[#e3cecb] flex justify-center items-center rounded-xl " +
           className
         }
       >
-        Delete Metric
+        <TrashIcon height="22" width="22" />
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 rounded-lg pb-11">

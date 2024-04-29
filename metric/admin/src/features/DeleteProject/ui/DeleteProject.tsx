@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/app/store";
 import { projectListSlice } from "@/composites/ProjectInList";
 import { projectSlice } from "@/entities/Project";
 import { useDeleteProjectMutation } from "@/entities/Project/model/projectApi";
+import { TrashIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,11 +36,12 @@ const DeleteProject: FC<DeleteProjectProps> = ({ projectId, className }) => {
       <button
         onClick={() => setIsOpen(true)}
         className={
-          "bg-[#FFE7DF] text-lg text-[#BC2F26] py-5 w-full px-7 font-medium rounded-xl " +
+          "flex items-center whitespace-nowrap gap-3 bg-[#FFE7DF] border border-[#e3cecb] text-sm py-2 px-6 font-semibold rounded-lg " +
           className
         }
       >
-        Delete Project
+        <TrashIcon width="16.82" height="18" />
+        <span>Delete Project</span>
       </button>
       <Modal show={isOpen} onClose={() => setIsOpen(false)}>
         <div className="bg-white text-center relative pt-7 w-1/2 rounded-lg pb-11">

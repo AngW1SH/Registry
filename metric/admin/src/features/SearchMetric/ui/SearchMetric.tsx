@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/app/store";
 import { metricSlice } from "@/entities/Metric";
 import { useDebounce } from "@/shared/hooks/useDebounce";
+import { SearchIcon } from "@/shared/ui/Icons";
 import { TextInput } from "@/shared/ui/TextInput";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { FC, useEffect, useState } from "react";
@@ -19,17 +20,22 @@ const SearchMetric: FC<SearchMetricProps> = () => {
   }, [debouncedValue]);
 
   return (
-    <div className="bg-background pt-5 rounded-lg pb-11 px-7">
+    <div>
       <Tooltip className="text-[#A3AED0]" tooltip="Start typing a metric name">
         <h2 className="inline-block">Search Metric</h2>
       </Tooltip>
-      <div className="pt-6" />
-      <TextInput
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className="w-full"
-        placeholder="Type a Metric Name"
-      />
+      <div className="pt-2" />
+      <div className="relative">
+        <div className="absolute top-1/2 -translate-y-1/2 left-4 text-[#A3AED0]">
+          <SearchIcon width="14.5" height="17.312" />
+        </div>
+        <TextInput
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="w-full pl-10"
+          placeholder="Type a Metric Name"
+        />
+      </div>
     </div>
   );
 };

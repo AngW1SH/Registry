@@ -32,7 +32,7 @@ const ToggleOpen: FC<ToggleOpenProps> = ({
             state == "entered" ? "overflow-visible" : "overflow-hidden"
           }`}
         >
-          <div onClick={toggleOpened} className="relative cursor-pointer">
+          <div onClick={toggleOpened} className="relative">
             {triggerElement}
           </div>
           <div

@@ -43,14 +43,14 @@ const TextArrayField: FC<TextArrayFieldProps> = ({
   }, [keys]);
 
   return (
-    <div className="bg-background pt-5 rounded-lg pb-11 px-7">
+    <div>
       {!!tooltip && (
         <Tooltip className="text-[#A3AED0]" tooltip="Set API Keys">
           <h2 className="inline-block">{label}</h2>
         </Tooltip>
       )}
       {!tooltip && <h2 className="inline-block">{label}</h2>}
-      <div className="pt-5" />
+      <div className="pt-2" />
       <ul className="flex flex-col gap-4">
         {keys.map((key, index) => (
           <li key={index} className="relative">

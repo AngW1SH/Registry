@@ -28,7 +28,7 @@ const ProjectList: FC<ProjectListProps> = () => {
     <>
       <FilterProjects />
       <div className="pt-7" />
-      <ul className="flex flex-col gap-6 pr-20">
+      <ul className="flex flex-col gap-6">
         {filtered.map((project) => (
           <li key={project.id}>
             <ProjectCard
