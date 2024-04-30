@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { TextInput } from "../../TextInput";
 import { Dropdown } from "../../Dropdown";
-import { DurationValue } from "../types";
+import { DurationValue, UnitOfTime } from "../types";
 import { unitsOfTimeArray } from "../utils/unitsOfTimeArray";
 
 interface DurationProps {
@@ -13,12 +13,14 @@ const Duration: FC<DurationProps> = ({ value, onChange }) => {
   const [numberValue, setNumberValue] = useState(value.number);
   const [unitOfTime, setUnitOfTime] = useState(value.unitOfTime);
 
-  useEffect(() => {
-    onChange({
-      number: numberValue,
-      unitOfTime: unitOfTime,
-    });
-  }, [numberValue, unitOfTime]);
+  const handleChange = (value: DurationValue) => {
+    setNumberValue(value.number);
+    setUnitOfTime(value.unitOfTime);
+
+    if (onChange) {
+      onChange(value);
+    }
+  };
 
   return (
     <div className="flex gap-5">
@@ -26,13 +28,13 @@ const Duration: FC<DurationProps> = ({ value, onChange }) => {
         value={numberValue}
         className="w-1/2"
         placeholder={"Number"}
-        onChange={(e) => {
-          setNumberValue(Number(e.target.value));
-        }}
+        onChange={(e) => handleChange({ number: +e.target.value, unitOfTime })}
       />
       <Dropdown
         value={unitOfTime}
-        onChange={setUnitOfTime as any}
+        onChange={(value) =>
+          handleChange({ number: numberValue, unitOfTime: value as UnitOfTime })
+        }
         placeholder="Unit of Time"
         namePrefix="unitOfTime"
         options={unitsOfTimeArray}
