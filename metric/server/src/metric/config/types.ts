@@ -24,6 +24,11 @@ export interface DateParam extends GenericParam {
   value: Date;
 }
 
+export interface BooleanParam extends GenericParam {
+  type: MetricParamType.boolean;
+  value: boolean;
+}
+
 export enum UnitOfTime {
   seconds = 'seconds',
   minutes = 'minutes',
@@ -47,7 +52,8 @@ export type MetricParam =
   | TextArrayParam
   | NumberParam
   | DateParam
-  | DurationParam;
+  | DurationParam
+  | BooleanParam;
 
 export enum MetricParamType {
   text = 'text',
@@ -55,6 +61,7 @@ export enum MetricParamType {
   number = 'number',
   date = 'date',
   duration = 'duration',
+  boolean = 'boolean',
 }
 
 export type MetricParamsConfig = {
@@ -75,11 +82,9 @@ export interface NonSnapshotBasedMetricConfig extends GenericMetricConfig {
   snapshotBased: false;
 }
 
-export type MetricConfig = {
-  [key in MetricNames]:
-    | SnapshotBasedMetricConfig
-    | NonSnapshotBasedMetricConfig;
-};
+export type MetricConfig =
+  | SnapshotBasedMetricConfig
+  | NonSnapshotBasedMetricConfig;
 
 export type MetricDependencies = {
   [key in MetricNames]: MetricNames[];

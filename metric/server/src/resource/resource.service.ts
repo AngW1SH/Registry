@@ -11,6 +11,8 @@ import { MetricService } from 'src/metric/metric.service';
 import { configs } from './config';
 import { Metric } from '../metric/metric.entity';
 import { ResourceConfig } from './config/types';
+import { MetricConfig } from '../metric/config/types';
+import { metricConfig } from '../metric/config/metricConfig';
 
 @Injectable()
 export class ResourceService {
@@ -48,6 +50,22 @@ export class ResourceService {
     });
 
     result.forEach((resource) => {
+      resource.metrics.forEach((metric) => {
+        const config: MetricConfig = metricConfig[metric.name];
+        const params = JSON.parse(metric.params);
+
+        if (!config) return;
+
+        config.params.forEach((param) => {
+          if (!params.find((p) => p.name === param.name)) {
+            console.log(param);
+            params.push(param);
+          }
+        });
+
+        metric.params = JSON.stringify(params);
+      });
+
       const config: ResourceConfig = configs[resource.platform.name];
       const params = JSON.parse(resource.params);
 

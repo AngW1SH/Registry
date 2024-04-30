@@ -1,4 +1,3 @@
-import { Checkbox } from "@/shared/ui/Checkbox";
 import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
 import { useData } from "../../hooks/useData";
@@ -35,11 +34,6 @@ const MetricSettings: FC<MetricSettingsProps> = ({
         {aside && <div>{aside}</div>}
       </div>
       <div className="pt-6" />
-      <Checkbox
-        className="text-[#A3AED0]"
-        id="commits-per-day"
-        label="Use this metric for grading"
-      />
       <div className="pt-4"></div>
       {children}
       <div className="pt-10"></div>

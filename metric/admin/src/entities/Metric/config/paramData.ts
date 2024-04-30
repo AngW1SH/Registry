@@ -16,4 +16,9 @@ export const paramData: { [key in string]: MetricParamData } = {
     placeholder: "Weight",
     tooltip: "Weight",
   },
+  isGraded: {
+    label: "Use this metric for grading",
+    placeholder: "Use this metric for grading",
+    tooltip: "Use this metric for grading",
+  },
 };

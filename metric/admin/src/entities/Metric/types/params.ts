@@ -22,6 +22,11 @@ export interface IDateParam extends GenericParam {
   value: Date;
 }
 
+export interface IBooleanParam extends GenericParam {
+  type: MetricParamType.boolean;
+  value: boolean;
+}
+
 export enum UnitOfTime {
   seconds = "seconds",
   minutes = "minutes",
@@ -45,7 +50,8 @@ export type IMetricParam =
   | ITextArrayParam
   | INumberParam
   | IDateParam
-  | IDurationParam;
+  | IDurationParam
+  | IBooleanParam;
 
 export enum MetricParamType {
   text = "text",
@@ -53,6 +59,7 @@ export enum MetricParamType {
   number = "number",
   date = "date",
   duration = "duration",
+  boolean = "boolean",
 }
 
 export interface MetricParamData {
