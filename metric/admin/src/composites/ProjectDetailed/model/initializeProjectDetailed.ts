@@ -8,6 +8,7 @@ import { metricSlice } from "@/entities/Metric";
 import { extractMetrics } from "../utils/extractMetrics";
 import { memberSlice } from "@/entities/Member";
 import { extractMembers } from "../utils/extractMembers";
+import { addUsersToResources } from "../utils/addUsersToResources";
 
 const slices = [projectSlice, resourceSlice, metricSlice, memberSlice];
 
@@ -33,10 +34,14 @@ export const initializeProjectDetailed = async (
     return;
   }
 
+  const metrics = extractMetrics(result);
+
   dispatch(projectSlice.actions.setProject(extractProject(result)));
   dispatch(resourceSlice.actions.setResources(extractResources(result)));
-  dispatch(metricSlice.actions.setMetrics(extractMetrics(result)));
+  dispatch(metricSlice.actions.setMetrics(metrics));
   dispatch(memberSlice.actions.setMembers(extractMembers(result)));
+
+  addUsersToResources(dispatch, metrics);
 
   setLoadingStates(dispatch, false);
 };

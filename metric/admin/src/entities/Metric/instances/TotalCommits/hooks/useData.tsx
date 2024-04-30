@@ -1,7 +1,4 @@
-import { useAppDispatch } from "@/app/store";
-import { useEffect } from "react";
 import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
-import { resourceSlice } from "@/entities/Resource";
 import { Commits } from "../../Commits/types";
 
 export const useData = (
@@ -11,20 +8,7 @@ export const useData = (
 ) => {
   const successData = data.filter((item) => !item.error && item.data);
 
-  const dispatch = useAppDispatch();
   const users = useSelectedUsers(resourceId);
-
-  useEffect(() => {
-    const users = new Set<string>();
-    successData.forEach((item) => {
-      if (item.data.author?.login && !users.has(item.data.author.login))
-        users.add(item.data.author.login);
-    });
-
-    Array.from(users).forEach((item) => {
-      dispatch(resourceSlice.actions.addUser({ username: item, resourceId }));
-    });
-  }, []);
 
   const startDate = calendar.start ? new Date(calendar.start) : null;
   const endDate = calendar.end ? new Date(calendar.end) : null;
