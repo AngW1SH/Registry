@@ -3,9 +3,11 @@ import { IMetric } from "..";
 import { IGenericMetric } from "../types";
 import { convertMetric } from "../utils/convertMetric";
 import { IMetricParam } from "../types/params";
+import { IMetricGrade } from "../types/grades";
 
 interface MetricState {
   metrics: IMetric[];
+  grades: IMetricGrade[];
   calendar: {
     start: string | null;
     end: string | null;
@@ -19,6 +21,7 @@ interface MetricState {
 
 const initialState: MetricState = {
   metrics: [],
+  grades: [],
   calendar: {
     start: null,
     end: null,
@@ -63,6 +66,20 @@ export const metricSlice = createSlice({
         }
         return metric;
       });
+    },
+    updateGrade: (state, action: PayloadAction<IMetricGrade>) => {
+      let found = false;
+      state.grades = state.grades.map((data) => {
+        if (data.metricId === action.payload.metricId) {
+          found = true;
+          return { ...data, grade: action.payload.grade };
+        }
+        return data;
+      });
+
+      if (!found) {
+        state.grades.push(action.payload);
+      }
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;

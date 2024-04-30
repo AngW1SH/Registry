@@ -7,6 +7,8 @@ import { useAppSelector } from "@/app/store";
 import { TotalCommitsMetric } from "../types";
 import { CommitsMetric } from "../../Commits/types";
 import { MetricName } from "@/entities/Metric/types";
+import { getGrade } from "../model/grade";
+import { useGrade } from "@/entities/Metric/hooks/useGrade";
 
 interface TotalCommitsProps extends TotalCommitsMetric {
   dependencies: IMetric[];
@@ -19,13 +21,14 @@ const TotalCommits: FC<TotalCommitsProps> = ({
   ...metric
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
-
   const commits = dependencies.find(
     (metric) => metric.name === MetricName.Commits
   ) as CommitsMetric;
   const data = useData(commits?.data || [], calendar, metric.resource);
 
   const commitCount = calculate(data);
+
+  useGrade(metric, getGrade(metric, commitCount, data, calendar));
 
   if (!data.length)
     return (
