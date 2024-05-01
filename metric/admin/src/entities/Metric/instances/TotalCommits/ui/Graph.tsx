@@ -1,17 +1,30 @@
 import { FC, useRef } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
   Tooltip,
+  PointElement,
+  LineElement,
+  Filler,
+  Title,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { generateGraphData } from "../utils/generateGraphData";
 import { Commits } from "../../Commits";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+ChartJS.register(
+  CategoryScale,
+  Filler,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Tooltip,
+  Title
+);
 
 interface GraphProps {
   data: Commits;
@@ -23,29 +36,13 @@ export const options = {
     mode: "index" as const,
     intersect: false,
   },
-  barThickness: 14,
+  lineTension: 0.4,
   maintainAspectRatio: false,
   scales: {
     x: {
-      stacked: true,
-      ticks: {
-        stepSize: 1,
-        color: "#A3AED0",
-      },
-      font: {
-        size: 14,
-      },
       grid: {
-        drawBorder: false,
         display: false,
       },
-      border: {
-        display: false,
-      },
-    },
-    // to remove the y-axis labels
-    y: {
-      display: false,
     },
   },
   legend: {
@@ -63,15 +60,23 @@ export const options = {
       top: 40,
     },
   },
+  elements: {
+    point: {
+      radius: 0,
+    },
+  },
 };
 
 const Graph: FC<GraphProps> = ({ data }) => {
-  const ref = useRef();
+  const ref: any = useRef();
 
   const { labels, values } = generateGraphData(data);
 
-  const max = values.reduce((a, b) => Math.max(a, b), 0);
-  const maxValues = values.map((_) => max);
+  const context = ref?.current?.canvas?.getContext("2d");
+
+  const gradient = context?.createLinearGradient(0, 0, 0, 160);
+  gradient?.addColorStop(0, "rgba(85, 31, 255, 0.7)");
+  gradient?.addColorStop(1, "rgba(85, 31, 255, 0)");
 
   const formattedData: any = {
     labels: labels,
@@ -79,33 +84,14 @@ const Graph: FC<GraphProps> = ({ data }) => {
       {
         label: "Commits",
         data: values,
-        backgroundColor: "#551FFF",
-        borderColor: "#551FFF",
+        fill: "start",
+        backgroundColor: gradient,
+        hidden: false,
+        borderColor: "rgb(85, 31, 255)",
         borderWidth: 1,
-        borderRadius: 20,
         borderSkipped: false,
         datalabels: {
           display: false,
-        },
-      },
-      {
-        label: "Layout",
-        data: maxValues,
-        backgroundColor: "#E9EDF7",
-        borderColor: "#E9EDF7",
-        borderWidth: 1,
-        borderRadius: 20,
-        borderSkipped: false,
-        datalabels: {
-          formatter: function (_: any, context: any) {
-            return values[context.dataIndex] || 0;
-          },
-          color: "#B0BBD5",
-          align: "top",
-          anchor: "end",
-          font: {
-            weight: "bold",
-          },
         },
       },
     ],
@@ -113,7 +99,7 @@ const Graph: FC<GraphProps> = ({ data }) => {
 
   return (
     <div className="relative h-40">
-      <Bar
+      <Line
         ref={ref}
         plugins={[ChartDataLabels]}
         data={formattedData}
