@@ -7,6 +7,7 @@ export const useGrade = (metric: IMetric, grade: number) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log(grade);
     dispatch(
       metricSlice.actions.updateGrade({
         metricId: metric.id,

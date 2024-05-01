@@ -28,7 +28,7 @@ const TotalCommits: FC<TotalCommitsProps> = ({
 
   const commitCount = calculate(data);
 
-  useGrade(metric, getGrade(metric, commitCount, data, calendar));
+  useGrade(metric, getGrade(commitCount, data, calendar));
 
   if (!data.length)
     return (
