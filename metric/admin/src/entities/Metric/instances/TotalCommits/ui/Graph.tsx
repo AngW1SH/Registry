@@ -12,7 +12,7 @@ import {
   Title,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { generateGraphData } from "../utils/generateGraphData";
+import { groupData } from "../utils/generateGraphData";
 import { Commits } from "../../Commits";
 
 ChartJS.register(
@@ -40,13 +40,8 @@ export const options = {
   maintainAspectRatio: false,
   scales: {
     x: {
-      grid: {
-        display: false,
-      },
+      display: false,
     },
-  },
-  legend: {
-    display: false,
   },
   plugins: {
     tooltip: {
@@ -70,7 +65,7 @@ export const options = {
 const Graph: FC<GraphProps> = ({ data }) => {
   const ref: any = useRef();
 
-  const { labels, values } = generateGraphData(data);
+  const test = groupData(data, 7);
 
   const context = ref?.current?.canvas?.getContext("2d");
 
@@ -79,11 +74,11 @@ const Graph: FC<GraphProps> = ({ data }) => {
   gradient?.addColorStop(1, "rgba(85, 31, 255, 0)");
 
   const formattedData: any = {
-    labels: labels,
+    labels: test.map((item) => item.label),
     datasets: [
       {
         label: "Commits",
-        data: values,
+        data: test.map((item) => item.data),
         fill: "start",
         backgroundColor: gradient,
         hidden: false,
