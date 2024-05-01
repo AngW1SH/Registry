@@ -2,11 +2,10 @@ import { useAppSelector } from "@/app/store";
 import { IMetric } from "@/entities/Metric";
 import { FC } from "react";
 import { useData } from "../hooks/useData";
-import { calculate } from "../model/calculate";
-import { Meter } from "@/shared/ui/Meter";
 import { IssueCompletenessMetric } from "../types";
 import { IssuesMetric } from "../../Issues/types";
 import { MetricName } from "@/entities/Metric/types";
+import Graph from "./Graph";
 
 interface IssueCompletenessProps extends IssueCompletenessMetric {
   dependencies: IMetric[];
@@ -23,8 +22,6 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
     (dep) => dep.name === MetricName.Issues
   ) as IssuesMetric;
   const data = useData(issues?.data || [], calendar);
-
-  const { completed, total } = calculate(data);
 
   if (!data.length)
     return (
@@ -49,21 +46,7 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
     >
       <h3 className="text-[#A3AED0] text-sm font-medium">Issue Completeness</h3>
       <div className="my-auto pb-5">
-        <div className="mt-3 flex justify-between">
-          <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-            <span className="text-[#2B3674] text-4xl font-bold mr-2">
-              {completed}
-            </span>{" "}
-            Completed Issues
-          </div>
-          <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-            <span className="text-[#2B3674] text-4xl font-bold mr-2">
-              {total}
-            </span>{" "}
-            Total Issues
-          </div>
-        </div>
-        <Meter className="mt-6" progress={(completed / total) * 100} />
+        <Graph data={data} />
       </div>
     </div>
   );
