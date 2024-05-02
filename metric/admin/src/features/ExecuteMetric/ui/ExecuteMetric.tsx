@@ -1,7 +1,7 @@
 import { useAppSelector } from "@/app/store";
 import { useExecuteMetricMutation } from "@/entities/Metric/model/metricApi";
 import { RefreshIcon } from "@/shared/ui/Icons";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface ExecuteMetricProps {
   metricId: string;
@@ -9,6 +9,8 @@ interface ExecuteMetricProps {
 }
 
 const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
+  const [isLoading, setLoading] = useState(false);
+
   const [execute] = useExecuteMetricMutation();
 
   const metric = useAppSelector((state) =>
@@ -16,7 +18,11 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
   );
 
   const handleClick = async () => {
-    if (metric) console.log(await execute(metric));
+    if (isLoading) return;
+
+    setLoading(true);
+    if (metric) await execute(metric);
+    setLoading(false);
   };
 
   return (
@@ -27,7 +33,11 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
         className
       }
     >
-      <RefreshIcon height="22" width="22" />
+      <RefreshIcon
+        className={`${isLoading ? "animate-spin" : ""}`}
+        height="22"
+        width="22"
+      />
     </button>
   );
 };
