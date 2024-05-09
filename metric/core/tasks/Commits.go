@@ -137,20 +137,21 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
-		return;
+		return
 	}
 
 	endpoint := getEndpoint(parsed)
 
 	if endpoint == "" {
 		repo.Create(taskToSnapshot(task, "", "no API endpoint", nil))
-		return;
+		return
 	}
 
 	apiKeys := getAPIKeys(parsed)
 
 	if len(apiKeys) == 0 {
 		repo.Create(taskToSnapshot(task, "", "no API keys", nil))
+		return
 	}
 
 	var commits []interface{}
