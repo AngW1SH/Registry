@@ -312,7 +312,7 @@ export class MetricService {
     }
 
     const result = await this.taskService.forceExecute({
-      metric: task.metric,
+      task,
       groups: task.groups,
     });
 

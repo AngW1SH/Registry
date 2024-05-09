@@ -514,8 +514,8 @@ type TaskForceExecuteRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Metric string   `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
-	Groups []string `protobuf:"bytes,2,rep,name=groups,proto3" json:"groups,omitempty"`
+	Task   *TaskStartInfo `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
+	Groups []string       `protobuf:"bytes,2,rep,name=groups,proto3" json:"groups,omitempty"`
 }
 
 func (x *TaskForceExecuteRequest) Reset() {
@@ -550,11 +550,11 @@ func (*TaskForceExecuteRequest) Descriptor() ([]byte, []int) {
 	return file_task_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *TaskForceExecuteRequest) GetMetric() string {
+func (x *TaskForceExecuteRequest) GetTask() *TaskStartInfo {
 	if x != nil {
-		return x.Metric
+		return x.Task
 	}
-	return ""
+	return nil
 }
 
 func (x *TaskForceExecuteRequest) GetGroups() []string {
@@ -779,10 +779,11 @@ var file_task_proto_rawDesc = []byte{
 	0x37, 0x0a, 0x10, 0x54, 0x61, 0x73, 0x6b, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x12, 0x23, 0x0a, 0x05, 0x74, 0x61, 0x73, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03,
 	0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x49, 0x6e, 0x66,
-	0x6f, 0x52, 0x05, 0x74, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x49, 0x0a, 0x17, 0x54, 0x61, 0x73, 0x6b,
+	0x6f, 0x52, 0x05, 0x74, 0x61, 0x73, 0x6b, 0x73, 0x22, 0x59, 0x0a, 0x17, 0x54, 0x61, 0x73, 0x6b,
 	0x46, 0x6f, 0x72, 0x63, 0x65, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x12, 0x16, 0x0a, 0x06, 0x67,
+	0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x12, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x53, 0x74, 0x61, 0x72,
+	0x74, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x04, 0x74, 0x61, 0x73, 0x6b, 0x12, 0x16, 0x0a, 0x06, 0x67,
 	0x72, 0x6f, 0x75, 0x70, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x67, 0x72, 0x6f,
 	0x75, 0x70, 0x73, 0x22, 0x3d, 0x0a, 0x18, 0x54, 0x61, 0x73, 0x6b, 0x46, 0x6f, 0x72, 0x63, 0x65,
 	0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
@@ -859,24 +860,25 @@ var file_task_proto_depIdxs = []int32{
 	1,  // 3: api.TaskStartResponse.task:type_name -> api.TaskInfo
 	1,  // 4: api.TaskStopResponse.task:type_name -> api.TaskInfo
 	1,  // 5: api.TaskListResponse.tasks:type_name -> api.TaskInfo
-	1,  // 6: api.TaskForceExecuteResponse.task:type_name -> api.TaskInfo
-	2,  // 7: api.TaskService.Start:input_type -> api.TaskStartRequest
-	4,  // 8: api.TaskService.Stop:input_type -> api.TaskStopRequest
-	2,  // 9: api.TaskService.Update:input_type -> api.TaskStartRequest
-	6,  // 10: api.TaskService.List:input_type -> api.TaskListRequest
-	8,  // 11: api.TaskService.ForceExecute:input_type -> api.TaskForceExecuteRequest
-	10, // 12: api.TaskService.UpdateGroupName:input_type -> api.UpdateGroupNameRequest
-	3,  // 13: api.TaskService.Start:output_type -> api.TaskStartResponse
-	5,  // 14: api.TaskService.Stop:output_type -> api.TaskStopResponse
-	3,  // 15: api.TaskService.Update:output_type -> api.TaskStartResponse
-	7,  // 16: api.TaskService.List:output_type -> api.TaskListResponse
-	9,  // 17: api.TaskService.ForceExecute:output_type -> api.TaskForceExecuteResponse
-	11, // 18: api.TaskService.UpdateGroupName:output_type -> api.UpdateGroupNameResult
-	13, // [13:19] is the sub-list for method output_type
-	7,  // [7:13] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	0,  // 6: api.TaskForceExecuteRequest.task:type_name -> api.TaskStartInfo
+	1,  // 7: api.TaskForceExecuteResponse.task:type_name -> api.TaskInfo
+	2,  // 8: api.TaskService.Start:input_type -> api.TaskStartRequest
+	4,  // 9: api.TaskService.Stop:input_type -> api.TaskStopRequest
+	2,  // 10: api.TaskService.Update:input_type -> api.TaskStartRequest
+	6,  // 11: api.TaskService.List:input_type -> api.TaskListRequest
+	8,  // 12: api.TaskService.ForceExecute:input_type -> api.TaskForceExecuteRequest
+	10, // 13: api.TaskService.UpdateGroupName:input_type -> api.UpdateGroupNameRequest
+	3,  // 14: api.TaskService.Start:output_type -> api.TaskStartResponse
+	5,  // 15: api.TaskService.Stop:output_type -> api.TaskStopResponse
+	3,  // 16: api.TaskService.Update:output_type -> api.TaskStartResponse
+	7,  // 17: api.TaskService.List:output_type -> api.TaskListResponse
+	9,  // 18: api.TaskService.ForceExecute:output_type -> api.TaskForceExecuteResponse
+	11, // 19: api.TaskService.UpdateGroupName:output_type -> api.UpdateGroupNameResult
+	14, // [14:20] is the sub-list for method output_type
+	8,  // [8:14] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_task_proto_init() }

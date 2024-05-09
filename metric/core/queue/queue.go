@@ -80,12 +80,12 @@ func (q *Queue) UpdateGroupName(old string, new string) error {
 	return err
 }
 
-func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, error) {
+func (q *Queue) ForceExecute(task *models.TaskCreate, groups []string) (*models.Task, error) {
 
-	_, err := q.tasks.ForceUpdate(metric, groups)
+	_, err := q.tasks.ForceUpdate(task.Metric, groups)
 	
 	if err != nil {
-		return nil, err
+		q.AddTask(task)
 	}
 
 	q.queue.Rebuild()

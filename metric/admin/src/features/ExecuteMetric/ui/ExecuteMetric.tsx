@@ -1,4 +1,5 @@
-import { useAppSelector } from "@/app/store";
+import { useAppDispatch, useAppSelector } from "@/app/store";
+import { metricSlice } from "@/entities/Metric";
 import { useExecuteMetricMutation } from "@/entities/Metric/model/metricApi";
 import { RefreshIcon } from "@/shared/ui/Icons";
 import { FC, useState } from "react";
@@ -11,6 +12,7 @@ interface ExecuteMetricProps {
 const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
   const [isLoading, setLoading] = useState(false);
 
+  const dispatch = useAppDispatch();
   const [execute] = useExecuteMetricMutation();
 
   const metric = useAppSelector((state) =>
@@ -21,7 +23,16 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
     if (isLoading) return;
 
     setLoading(true);
-    if (metric) await execute(metric);
+    if (metric) {
+      const result = await execute(metric);
+
+      if (!result.hasOwnProperty("error")) {
+        dispatch(
+          metricSlice.actions.updateMetric({ ...metric, isTracked: true })
+        );
+      }
+    }
+
     setLoading(false);
   };
 

@@ -25,7 +25,7 @@ export interface TaskStop {
 }
 
 export interface TaskForceExecute {
-  metric: string;
+  task: TaskCreate;
   groups: string[];
 }
 

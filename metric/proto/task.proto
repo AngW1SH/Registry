@@ -54,7 +54,7 @@ message TaskListResponse {
 }
 
 message TaskForceExecuteRequest {
-    string metric = 1;
+    TaskStartInfo task = 1;
     repeated string groups = 2;
 }
 
