@@ -115,4 +115,20 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
+  RapidPullRequests: {
+    dependencies: [MetricNames.PullRequests],
+    snapshotBased: false,
+    params: [
+      {
+        type: MetricParamType.boolean,
+        name: 'isGraded',
+        value: true,
+      },
+      {
+        type: MetricParamType.text,
+        name: 'gradeWeight',
+        value: '1',
+      },
+    ],
+  },
 };

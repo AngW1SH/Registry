@@ -38,6 +38,11 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
         ...metric,
         name: MetricName.PullRequestHangTime,
       };
+    case "RapidPullRequests":
+      return {
+        ...metric,
+        name: MetricName.RapidPullRequests,
+      };
     default:
       throw new Error("Unimplemented");
   }
