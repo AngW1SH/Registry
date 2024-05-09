@@ -20,6 +20,7 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 	snapshots, err := s.Repo.GetByGroup(message.Group)
 
 	if err != nil {
+		fmt.Println("SnapshotList Response | Error | ", err)
 		return &SnapshotListResult{Snapshots: []*SnapshotInfo{}}, err
 	}
 
@@ -28,6 +29,8 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 	for i := 0; i < len(snapshots); i++ {
 		result = append(result, ToGRPCSnapshotInfo(&snapshots[i]))
 	}
+
+	fmt.Println("SnapshotList Response | Success | ", result)
 
 	return &SnapshotListResult{Snapshots: result}, nil
 }
