@@ -13,7 +13,7 @@ export class MetricGateway {
 
   onModuleInit() {
     this.server.on('connection', (socket) => {
-      console.log(socket.id);
+      console.log('Connected: ' + socket.id);
     });
   }
 

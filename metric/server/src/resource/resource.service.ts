@@ -58,7 +58,6 @@ export class ResourceService {
 
         config.params.forEach((param) => {
           if (!params.find((p) => p.name === param.name)) {
-            console.log(param);
             params.push(param);
           }
         });

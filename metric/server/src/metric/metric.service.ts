@@ -216,8 +216,6 @@ export class MetricService {
         params: JSON.stringify(config.params),
       });
 
-      console.log(result);
-
       if (!result || !result.id) return [];
     } catch {
       throw new Error('Failed to start the metric');

@@ -52,10 +52,9 @@ services:
     command: -p 5433
   metric-redis:
     image: "redis:latest"
-    container_name: redis
     ports:
       - "6380:6380"
-    command: "--requirepass ${REDIS_PASSWORD}"
+    command: "--requirepass ${REDIS_PASSWORD} --port ${REDIS_PORT}"
     volumes:
       - redis:/data
     env_file:

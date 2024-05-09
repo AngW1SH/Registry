@@ -1,12 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AdminService } from '@/src/admin/admin.service';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class TokenService {
   constructor(
     private jwtService: JwtService,
     private adminService: AdminService,
+    private redisService: RedisService,
   ) {}
 
   async generate(payload: any) {
@@ -16,8 +18,10 @@ export class TokenService {
       expiresIn: '1h',
     });
     const refreshToken = await this.jwtService.signAsync(payload, {
-      expiresIn: '10d',
+      expiresIn: '180d',
     });
+
+    await this.redisService.set('token-' + payload.id, refreshToken);
 
     return {
       accessToken,
@@ -29,6 +33,12 @@ export class TokenService {
     if (!refreshToken)
       throw new UnauthorizedException('No refresh token provided');
     const { exp, iat, ...user } = await this.jwtService.verify(refreshToken);
+
+    const tokenFromDB = await this.redisService.get('token-' + user.id);
+
+    if (!tokenFromDB || tokenFromDB !== refreshToken) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
 
     const doesAdminExist = await this.adminService.findById(user.id);
 

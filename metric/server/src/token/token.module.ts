@@ -5,11 +5,13 @@ import { PassportModule } from '@nestjs/passport';
 import { CookieModule } from 'src/cookie/cookie.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
     AdminModule,
     PassportModule,
+    RedisModule,
     CookieModule,
     ConfigModule,
     JwtModule.registerAsync({

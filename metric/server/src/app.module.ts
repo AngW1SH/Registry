@@ -16,6 +16,7 @@ import { TokenModule } from './token/token.module';
 import { MetricGatewayModule } from './metric-gateway/metric-gateway.module';
 import { ResubscribeModule } from './resubscribe/resubscribe.module';
 import { ImportModule } from './import/import.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ImportModule } from './import/import.module';
     MetricGatewayModule,
     ResubscribeModule,
     ImportModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService],
