@@ -1,17 +1,30 @@
-import { Commits } from "../../Commits";
+import { PullRequests } from "../../PullRequests";
+
+export function msToTime(duration: number) {
+  const seconds = Math.floor((duration / 1000) % 60);
+  const minutes = Math.floor((duration / (1000 * 60)) % 60);
+  const hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(duration / (1000 * 60 * 60 * 24));
+
+  const formatHours = hours < 10 ? "0" + hours : hours;
+  const formatMinutes = minutes < 10 ? "0" + minutes : minutes;
+  const formatSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+  return days + "d " + formatHours + ":" + formatMinutes + ":" + formatSeconds;
+}
 
 export const groupData = (
-  data: Commits,
+  data: PullRequests,
   daysInGroup: number,
   firstDayProp?: Date
 ) => {
-  const groupedData: { [key: string]: number } = {};
+  const groupedData: { [key: string]: { sum: number; count: number } } = {};
 
   let firstDay = firstDayProp ? firstDayProp : new Date();
 
   if (!firstDayProp)
     data.forEach((item) => {
-      const date = new Date(item.data.commit.author?.date || "");
+      const date = new Date(item.data.created_at);
 
       if (date < firstDay) {
         firstDay = date;
@@ -19,13 +32,16 @@ export const groupData = (
     });
 
   data.forEach((item) => {
-    const date = new Date(item.data.commit.author?.date || "");
+    const date = new Date(item.data.created_at);
 
     const weekNumber = getWeekNumber(date, firstDay, daysInGroup);
     if (!groupedData[weekNumber]) {
-      groupedData[weekNumber] = 1;
+      groupedData[weekNumber] = { sum: 0, count: 0 };
     }
-    groupedData[weekNumber]++;
+    groupedData[weekNumber].count += 1;
+    groupedData[weekNumber].sum +=
+      +(item.data.closed_at ? new Date(item.data.closed_at) : new Date()) -
+      +new Date(item.data.created_at);
   });
 
   const groupedDataArray = Object.keys(groupedData).map((key) => {
@@ -42,6 +58,7 @@ export const groupData = (
   return groupedDataArray.map((item) => ({
     ...item,
     label: getLabel(firstDay, +item.weekNum, daysInGroup),
+    data: item.data.sum / item.data.count,
   }));
 };
 

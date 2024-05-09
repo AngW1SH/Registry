@@ -3,6 +3,7 @@ import { TotalCommits } from "../instances/TotalCommits";
 import IssueCompleteness from "../instances/IssueCompleteness/ui/IssueCompleteness";
 import { useAppSelector } from "@/app/store";
 import { useGetMetricNamesQuery } from "../model/metricApi";
+import PullRequestHangTime from "../instances/PullRequestHangTime/ui/PullRequestHangTime";
 
 interface MetricProps {
   id: string;
@@ -32,6 +33,8 @@ const Metric: FC<MetricProps> = ({ id }) => {
       return <TotalCommits {...metric} dependencies={dependencies} />;
     case "IssueCompleteness":
       return <IssueCompleteness {...metric} dependencies={dependencies} />;
+    case "PullRequestHangTime":
+      return <PullRequestHangTime {...metric} dependencies={dependencies} />;
     default:
       return <></>;
   }

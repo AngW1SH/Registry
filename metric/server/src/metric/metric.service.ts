@@ -211,12 +211,14 @@ export class MetricService {
     depsCreateRequests.forEach((metric) => res.push(...metric));
 
     try {
-      const result = await this.start({
-        ...metric,
-        params: JSON.stringify(config.params),
-      });
+      if (config.snapshotBased) {
+        const result = await this.start({
+          ...metric,
+          params: JSON.stringify(config.params),
+        });
 
-      if (!result || !result.id) return [];
+        if (!result || !result.id) return [];
+      }
     } catch {
       throw new Error('Failed to start the metric');
     }

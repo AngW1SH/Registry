@@ -4,4 +4,5 @@ export enum MetricNames {
   Issues = 'Issues',
   IssueCompleteness = 'IssueCompleteness',
   PullRequests = 'PullRequests',
+  PullRequestHangTime = 'PullRequestHangTime',
 }
