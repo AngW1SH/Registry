@@ -11,6 +11,7 @@ services:
     depends_on:
       - core
       - metric-postgres
+      - metric-redis
     env_file:
       - ./.env
       - ./server/.env
@@ -49,3 +50,13 @@ services:
       - ./postgres/06_tasks_content.sql:/docker-entrypoint-initdb.d/06_tasks_content.sql
       - ./postgres/data:/var/lib/postgresql/data
     command: -p 5433
+  metric-redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6380:6380"
+    command: "--requirepass ${REDIS_PASSWORD}"
+    volumes:
+      - redis:/data
+    env_file:
+      - .env

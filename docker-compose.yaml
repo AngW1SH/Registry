@@ -58,7 +58,7 @@ services:
       - "6380:6380"
     command: "--requirepass ${REDIS_PASSWORD}"
     volumes:
-      - redis_data:/data
+      - redis:/data
     env_file:
       - .env
   postgres:
