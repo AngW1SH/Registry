@@ -7,6 +7,8 @@ import (
 	"core/repositories"
 	"core/structures"
 	"core/tasks"
+	"errors"
+	"fmt"
 	"time"
 )
 type Queue struct {
@@ -16,10 +18,11 @@ type Queue struct {
 	taskRepo *repositories.TaskRepository
 	queue structures.PriorityQueue
 	tasks structures.TaskMap
+	taskFinished chan *models.Task
 }
 
 func NewQueue(limit int, snapshotRepo *repositories.SnapshotRepository, taskRepo *repositories.TaskRepository) *Queue {
-	return &Queue{Limit: limit, load: 0, snapshotRepo: snapshotRepo, taskRepo: taskRepo}
+	return &Queue{Limit: limit, load: 0, snapshotRepo: snapshotRepo, taskRepo: taskRepo, taskFinished: make(chan *models.Task)}
 }
 
 func (q *Queue) Start() {
@@ -79,7 +82,7 @@ func (q *Queue) UpdateGroupName(old string, new string) error {
 
 func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, error) {
 
-	task, err := q.tasks.ForceUpdate(metric, groups)
+	_, err := q.tasks.ForceUpdate(metric, groups)
 	
 	if err != nil {
 		return nil, err
@@ -87,7 +90,25 @@ func (q *Queue) ForceExecute(metric string, groups []string) (*models.Task, erro
 
 	q.queue.Rebuild()
 
-	return task, nil
+	resultChan := make(chan *models.Task, 1)
+
+	for task := range q.taskFinished {
+
+		if !helpers.ContainsAllElements(task.Groups, groups) {
+			continue
+		}
+
+		resultChan <- task
+		break
+	}
+
+	select {
+    case task := <-resultChan:
+		fmt.Println("result chan")
+        return task, nil
+    case <-time.After(10 * time.Second):
+		return nil, errors.New("timeout")
+    }
 }
 
 func (q *Queue) DeleteTask(metric string, groups []string, deleteSnapshots bool) (*models.Task, error) {
@@ -144,6 +165,8 @@ func (q *Queue) onFinish(task models.Task) {
 	} else {
 		q.taskRepo.Delete(task.Id)
 	}
+
+	q.taskFinished <- &task
 }
 
 func (q *Queue) AdvanceTasks() {
