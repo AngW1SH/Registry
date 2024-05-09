@@ -12,7 +12,7 @@ type TaskServer struct {
 }
 
 func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
-	fmt.Println("Start ", message.Task.Metric)
+	fmt.Println("Start Request | ", message.Task.Metric, " | ", message.Task.Groups)
 
 	fmt.Println(message.Task.UpdateRate)
 
@@ -26,7 +26,7 @@ func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*Tas
 }
 
 func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskStopResponse, error) {
-	fmt.Println("Stop ", message.Metric)
+	fmt.Println("Stop Request ", message.Metric, " | ", message.Groups)
 
 	task, err := s.Queue.DeleteTask(message.Metric, message.Groups, message.DeleteSnapshots)
 
@@ -43,7 +43,7 @@ func (s *TaskServer) Stop(ctx context.Context, message *TaskStopRequest) (*TaskS
 }
 
 func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
-	fmt.Println("Update ", message.Task.Metric)
+	fmt.Println("Update Request | ", message.Task.Metric, " | ", message.Task.Groups)
 
 	task, err := s.Queue.UpdateTask(FromGRPCTaskStartInfo(message.Task))
 
@@ -55,7 +55,7 @@ func (s *TaskServer) Update(ctx context.Context, message *TaskStartRequest) (*Ta
 }
 
 func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskListResponse, error) {
-	fmt.Println("List", message.Groups)
+	fmt.Println("List Request | ", message.Groups)
 
 	tasks := s.Queue.ListTasks(message.Groups)
 
@@ -65,13 +65,11 @@ func (s *TaskServer) List(ctx context.Context, message *TaskListRequest) (*TaskL
 		result = append(result, ToGRPCTaskInfo(tasks[i]))
 	}
 
-	fmt.Println(len(result))
-
 	return &TaskListResponse{Tasks: result}, nil
 }
 
 func (s *TaskServer) ForceExecute(ctx context.Context, message *TaskForceExecuteRequest) (*TaskForceExecuteResponse, error) {
-	fmt.Println("ForceExecute", message.Groups)
+	fmt.Println("ForceExecute Request | ", message.Task , " | ", message.Groups)
 
 	task, err := s.Queue.ForceExecute(FromGRPCTaskStartInfo(message.Task), message.Groups)
 
@@ -83,7 +81,7 @@ func (s *TaskServer) ForceExecute(ctx context.Context, message *TaskForceExecute
 }
 
 func (s *TaskServer) UpdateGroupName(ctx context.Context, message *UpdateGroupNameRequest) (*UpdateGroupNameResult, error) {
-	fmt.Println("UpdateGroupName", message.Old, message.New)
+	fmt.Println("UpdateGroupName | ", message.Old, " | ", message.New)
 
 	err := s.Queue.UpdateGroupName(message.Old, message.New)
 

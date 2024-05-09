@@ -15,7 +15,7 @@ type SnapshotServer struct {
 }
 
 func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest) (*SnapshotListResult, error) {
-	fmt.Println("SnapshotList", message.Group)
+	fmt.Println("SnapshotList Request | ", message.Group)
 
 	snapshots, err := s.Repo.GetByGroup(message.Group)
 
@@ -33,12 +33,11 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 }
 
 func (s *SnapshotServer) Stream(request *SnapshotStreamRequest, stream SnapshotService_StreamServer) error {
+	fmt.Println("SnapshotStream Request | ", request.Id)
 
 	if s.connections == nil {
 		s.connections = make(map[string]chan []*SnapshotInfo)
 	}
-	
-	fmt.Println("SnapshotStream", request.Id)
 	s.mu.Lock()
 	s.connections[request.Id] = make(chan []*SnapshotInfo)
 	s.mu.Unlock()
@@ -69,7 +68,6 @@ func (s *SnapshotServer) Broadcast() {
 	s.mu.Unlock()
 	
 	for snapshotBatch := range s.Repo.Stream {
-		fmt.Println(s.connections)
 		var snapshots []*SnapshotInfo
 
 		for i := 0; i < len(snapshotBatch); i++ {

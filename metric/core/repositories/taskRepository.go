@@ -3,7 +3,6 @@ package repositories
 import (
 	"core/models"
 	"errors"
-	"fmt"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -35,7 +34,6 @@ func (r *TaskRepository) Create(task *models.Task) RepositoryResult {
 }
 
 func (r * TaskRepository) Delete(id uuid.UUID) RepositoryResult {
-	fmt.Println("Delete", id.String())
 	err := r.db.Delete(&models.TaskDB{ID: id.String()}).Error
 
 	if err != nil {

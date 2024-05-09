@@ -8,7 +8,6 @@ import (
 	"core/structures"
 	"core/tasks"
 	"errors"
-	"fmt"
 	"time"
 )
 type Queue struct {
@@ -104,7 +103,6 @@ func (q *Queue) ForceExecute(task *models.TaskCreate, groups []string) (*models.
 
 	select {
     case task := <-resultChan:
-		fmt.Println("result chan")
         return task, nil
     case <-time.After(10 * time.Second):
 		return nil, errors.New("timeout")
