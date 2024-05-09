@@ -2,6 +2,18 @@ package tasks
 
 import "core/models"
 
+func taskToSnapshot(task models.Task, data string, err string, params []models.SnapshotParam) *models.Snapshot {
+
+	return &models.Snapshot{
+		Metric:    task.Metric,
+		Data:      data,
+		Groups:    task.Groups,
+		Error:     err,
+		IsPublic:  task.IsPublic,
+		Params:    params,
+	}
+}
+
 func getEndpoint(parsedData interface{}) string {
 	for _, v := range parsedData.([]interface{}) {
 		if v.(map[string]interface{})["prop"] == "apiEndpoint" {

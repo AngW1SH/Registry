@@ -13,14 +13,14 @@ func PullRequestsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return;
 	}
 
 	issuesDB, err := repo.GetByGroupList("PullRequests", task.Groups)
 
 	if err != nil {
-		return;
+		return
 	}
 
 	issuesDBMap := mapSnapshotsByNodeIds(issuesDB)
@@ -28,18 +28,20 @@ func PullRequestsMetric(task models.Task, repo *repositories.SnapshotRepository)
 	endpoint := getEndpoint(parsed)
 
 	if endpoint == "" {
-		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: "no API endpoint"})
-		return;
+		repo.Create(taskToSnapshot(task, "", "no API endpoint", nil))
+		return
 	}
 
 	apiKeys := getAPIKeys(parsed)
 
 	if len(apiKeys) == 0 {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
+		repo.Create(taskToSnapshot(task, "", "no API keys", nil))
+		return
 	}
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "PullRequests", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
+		return
 	}
 
 	var issues []interface{}
@@ -103,19 +105,12 @@ func PullRequestsMetric(task models.Task, repo *repositories.SnapshotRepository)
 			continue
 		}
 
-		result = append(result, &models.Snapshot{
-			Metric: "PullRequests",
-			Data: string(data),
-			Groups: task.Groups,
-			Params: []models.SnapshotParam{
-				{
-					Name: "id",
-					Value: issue.(map[string]interface{})["node_id"].(string),
-				},
+		result = append(result, taskToSnapshot(task, string(data), "", []models.SnapshotParam{
+			{
+				Name: "id",
+				Value: issue.(map[string]interface{})["node_id"].(string),
 			},
-			Error: "",
-			IsPublic: task.IsPublic,
-		})
+		}))
 	}
 
 	if len(outdated) != 0 {

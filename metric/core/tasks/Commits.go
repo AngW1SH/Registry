@@ -84,19 +84,12 @@ func saveCommitsDetailed(commits []interface{}, files [][]byte, task models.Task
 			continue
 		}
 
-		result = append(result, &models.Snapshot{
-			Metric: "Commits",
-			Data: string(data),
-			Groups: task.Groups,
-			Params: []models.SnapshotParam{
-				{
-					Name: "id",
-					Value: commit.(map[string]interface{})["node_id"].(string),
-				},
+		result = append(result, taskToSnapshot(task, string(data), "", []models.SnapshotParam{
+			{
+				Name: "id",
+				Value: commit.(map[string]interface{})["node_id"].(string),
 			},
-			Error: "",
-			IsPublic: task.IsPublic,
-		})
+		}))
 	}
 
 	for _, data := range files {
@@ -143,21 +136,21 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	err := json.Unmarshal([]byte(task.Data), &parsed)
 
 	if err != nil {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: err.Error()})
+		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return;
 	}
 
 	endpoint := getEndpoint(parsed)
 
 	if endpoint == "" {
-		repo.Create(&models.Snapshot{Metric: "Commits", Data: "", Groups: task.Groups, Error: "no API endpoint"})
+		repo.Create(taskToSnapshot(task, "", "no API endpoint", nil))
 		return;
 	}
 
 	apiKeys := getAPIKeys(parsed)
 
 	if len(apiKeys) == 0 {
-		repo.Create(&models.Snapshot{Metric: task.Metric, Data: "", Groups: task.Groups, Error: "no API keys", IsPublic: task.IsPublic})
+		repo.Create(taskToSnapshot(task, "", "no API keys", nil))
 	}
 
 	var commits []interface{}
