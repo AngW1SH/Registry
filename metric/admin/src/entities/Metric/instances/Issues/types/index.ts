@@ -116,7 +116,7 @@ export const IssuesSchema = z.array(
       updated_at: z.string(),
       closed_at: z.string().nullable(),
       author_association: z.string(),
-      body: z.string().optional(),
+      body: z.string().nullable().optional(),
       reactions: z.object({
         url: z.string(),
         total_count: z.number().gte(0),

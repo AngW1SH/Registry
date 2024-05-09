@@ -13,16 +13,20 @@ export const CommitsSchema = z.array(
       sha: z.string(),
       node_id: z.string(),
       commit: z.object({
-        author: z.object({
-          name: z.string(),
-          email: z.string(),
-          date: z.string(),
-        }),
-        committer: z.object({
-          name: z.string(),
-          email: z.string(),
-          date: z.string(),
-        }),
+        author: z
+          .object({
+            name: z.string(),
+            email: z.string(),
+            date: z.string(),
+          })
+          .nullable(),
+        committer: z
+          .object({
+            name: z.string(),
+            email: z.string(),
+            date: z.string(),
+          })
+          .nullable(),
         message: z.string(),
         tree: z.object({
           sha: z.string(),
