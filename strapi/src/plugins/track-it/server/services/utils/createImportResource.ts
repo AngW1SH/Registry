@@ -32,7 +32,7 @@ const createGithubImportResource = (
 ): ImportResource => {
   const params: IResourceField[] = [
     {
-      prop: "apiKey",
+      prop: "apiKeys",
       type: ResourceFieldType.textArray,
       value: [provider.apiKey],
     },
