@@ -12,32 +12,47 @@ export interface AbstractMetric {
   name: string;
 }
 
+export class AbstractMetricDTO {
+  @ApiProperty({
+    description: 'Metric Name',
+    example: 'TotalCommits',
+  })
+  name: string;
+}
+
 export interface AbstractMetricDetailed extends AbstractMetric {
   dependencies: MetricNames[];
   snapshotBased: boolean;
 }
 
-export interface MetricDTO {
-  id: string;
-  name: string;
-  params: MetricParam[];
-  resource: string;
+export class AbstractMetricDetailedDTO extends AbstractMetricDTO {
+  @ApiProperty({
+    description:
+      'Metrics that have to be created whenever this metric is created',
+    example: [MetricNames.Commits, MetricNames.Issues],
+  })
+  dependencies: MetricNames[];
+
+  @ApiProperty({
+    description:
+      'Tells if the metric is snapshot-based, i.e. should the data be fetched from the core-server or is calculated on the frontend in runtime',
+  })
+  snapshotBased: boolean;
 }
 
-export interface Metric {
-  id: string;
+export interface MetricCreate {
   name: string;
   params: string;
   resource: string;
 }
 
-export class MetricDTO {
-  @ApiProperty({
-    description: 'Metric ID (UUID)',
-    example: '123e4567-e89b-12d3-a456-426655440000',
-  })
-  id: string;
+export interface MetricCreateDTO {
+  name: string;
+  params: MetricParam[];
+  resource: string;
+}
 
+export class MetricCreateDTO {
   @ApiProperty({
     description: 'Metric Name',
     example: 'TotalCommits',
@@ -69,6 +84,22 @@ export class MetricDTO {
     example: '123e4567-e89b-12d3-a456-426655440000',
   })
   resource: string;
+}
+
+export interface MetricDTO extends MetricCreateDTO {
+  id: string;
+}
+
+export interface Metric extends MetricCreate {
+  id: string;
+}
+
+export class MetricDTO extends MetricCreateDTO {
+  @ApiProperty({
+    description: 'Metric ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426655440000',
+  })
+  id: string;
 }
 
 export interface MetricSnapshot {
@@ -121,4 +152,12 @@ export class MetricDetailedDTO extends MetricDTO {
   data: MetricSnapshot[];
 }
 
-export type MetricCreate = Omit<Metric, 'id'>;
+export class MetricUpdateRequestBody {
+  @ApiProperty({ type: MetricDTO })
+  metric: MetricDTO;
+}
+
+export class MetricCreateRequestBody {
+  @ApiProperty({ type: MetricCreateDTO })
+  metric: MetricCreateDTO;
+}
