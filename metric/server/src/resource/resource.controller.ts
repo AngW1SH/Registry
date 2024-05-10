@@ -14,12 +14,23 @@ import {
   ResourceDetailedDTO,
 } from './resource.entity';
 import { MetricDetailedDTO } from '../metric/metric.entity';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+} from '@nestjs/swagger';
 
 @Controller('resource')
 export class ResourceController {
   constructor(private resourceService: ResourceService) {}
 
   @Get(':id')
+  @ApiOperation({
+    summary:
+      'Get detailed resource data by id. Does NOT gather metric data from the core server',
+  })
+  @ApiOkResponse({ type: ResourceDetailedDTO })
   async findOne(@Param('id') id: string): Promise<ResourceDetailedDTO | null> {
     const result = await this.resourceService.findOne(id);
 
@@ -37,6 +48,13 @@ export class ResourceController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Create a new resource',
+    description:
+      'Params are filled with default values defined in the config for the provided platform. Metrics array should normally be empty',
+  })
+  @ApiBody({ type: ResourceCreateDTO })
+  @ApiOkResponse({ type: ResourceDetailedDTO })
   async createOne(
     @Body('resource') resource: ResourceCreateDTO,
   ): Promise<ResourceDetailedDTO | null> {
@@ -56,6 +74,13 @@ export class ResourceController {
   }
 
   @Put(':id')
+  @ApiOperation({
+    summary: 'Update existing resource',
+    description:
+      "Only updates the immediate props (name, params) and shouldn't be used to update nested entities",
+  })
+  @ApiBody({ type: ResourceDTO })
+  @ApiOkResponse({ type: ResourceDTO })
   async updateOne(
     @Body('resource') resource: ResourceDTO,
   ): Promise<ResourceDTO> {
@@ -70,6 +95,11 @@ export class ResourceController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete resource by id',
+  })
+  @ApiParam({ name: 'id', type: String })
+  @ApiOkResponse({ type: ResourceDTO })
   async deleteOne(@Param('id') id: string): Promise<ResourceDTO> {
     const result = await this.resourceService.deleteOne(id);
 
@@ -79,6 +109,13 @@ export class ResourceController {
   }
 
   @Get(':id/start')
+  @ApiOperation({
+    summary: 'Start tracking all resource metrics by resource id',
+    description:
+      'Starts all of the stopped metrics of the resource. Does not create metrics that have not been explicitly added',
+  })
+  @ApiParam({ name: 'id', type: String })
+  @ApiOkResponse()
   async startTracking(@Param('id') id: string) {
     const result = await this.resourceService.startTracking(id);
 
@@ -86,6 +123,11 @@ export class ResourceController {
   }
 
   @Get(':id/stop')
+  @ApiOperation({
+    summary: 'Stop tracking all resource metrics by resource id',
+    description:
+      'Stops all of the running metrics of the resource. Does not delete any of the metrics',
+  })
   async stopTracking(@Param('id') id: string) {
     const result = await this.resourceService.stopTracking(id);
 

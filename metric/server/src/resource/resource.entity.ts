@@ -89,6 +89,36 @@ export interface ResourceCreateDTO {
   project: string;
 }
 
+export class ResourceCreateDTO {
+  @ApiProperty({
+    description: 'Can be any string. Used only for displaying in the UI',
+    example: 'citec-spbu/Registry',
+  })
+  name: string;
+
+  @ApiProperty({
+    description: 'Platform ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426655440000',
+  })
+  platform: string;
+
+  @ApiProperty({
+    description: 'Project ID (UUID)',
+    example: '123e4567-e89b-12d3-a456-426655440000',
+  })
+  project: string;
+}
+
+export class ResourceCreateRequestBody {
+  @ApiProperty({ type: ResourceCreateDTO })
+  resource: ResourceCreateDTO;
+}
+
+export class ResourceUpdateRequestBody {
+  @ApiProperty({ type: ResourceDTO })
+  resource: ResourceDTO;
+}
+
 export interface ResourceCreate {
   name: string;
   platform: string;
