@@ -1,5 +1,6 @@
-import type { Duration, UnitOfTime } from './types';
+import type { Duration } from './types';
+import { UnitOfTime } from './types';
 import { durationToSeconds } from './durationToSeconds';
 
-export type { Duration, UnitOfTime };
-export { durationToSeconds };
+export type { Duration };
+export { durationToSeconds, UnitOfTime };
