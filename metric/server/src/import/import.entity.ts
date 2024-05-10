@@ -1,16 +1,36 @@
 import { Platform } from '@prisma/client';
 import { PlatformName } from '../platform/platform.entity';
-
-export interface ImportProject {
-  name: string;
-  description: string;
-  resources: ImportResource[];
-  members: ImportMember[];
-}
+import { ApiProperty } from '@nestjs/swagger';
+import { ResourceFieldType } from '../resource/config/types';
 
 export interface ImportResource {
   name: string;
   platform: PlatformName;
+  params: string;
+}
+
+export class ImportResource {
+  @ApiProperty({ name: 'name', example: 'citec-spby/Registry' })
+  name: string;
+
+  @ApiProperty({ name: 'platform', example: PlatformName.GitHub })
+  platform: PlatformName;
+
+  @ApiProperty({
+    description: 'Resource parameters in JSON format',
+    example: JSON.stringify([
+      {
+        prop: 'apiKeys',
+        type: ResourceFieldType.textArray,
+        value: ['key1', 'key2'],
+      },
+      {
+        prop: 'apiEndpoint',
+        type: ResourceFieldType.text,
+        value: 'https://api.example.com',
+      },
+    ]),
+  })
   params: string;
 }
 
@@ -23,10 +43,105 @@ export interface ImportMember {
   }[];
 }
 
+export class ImportMember {
+  @ApiProperty({ name: 'name', example: 'Петров Петр Петрович' })
+  name: string;
+
+  @ApiProperty({
+    name: 'roles',
+    example: ['Разработчик', 'Аналитик'],
+    isArray: true,
+  })
+  roles: string[];
+
+  @ApiProperty({
+    name: 'identifiers',
+    example: [
+      {
+        platform: PlatformName.GitHub,
+        value: 'github-username',
+      },
+      {
+        platform: PlatformName.GitLab,
+        value: 'gitlab-username',
+      },
+    ],
+    isArray: true,
+  })
+  identifiers: {
+    platform: PlatformName;
+    value: string;
+  }[];
+}
+
 export interface ImportUser {
   name: string;
   identifiers: {
     platform: PlatformName;
     value: string;
   }[];
+}
+
+export class ImportUser {
+  @ApiProperty({ name: 'name', example: 'Петров Петр Петрович' })
+  name: string;
+
+  @ApiProperty({
+    name: 'identifiers',
+    example: [
+      {
+        platform: PlatformName.GitHub,
+        value: 'github-username',
+      },
+      {
+        platform: PlatformName.GitLab,
+        value: 'gitlab-username',
+      },
+    ],
+    isArray: true,
+  })
+  identifiers: {
+    platform: PlatformName;
+    value: string;
+  }[];
+}
+
+export interface ImportProject {
+  name: string;
+  description: string;
+  resources: ImportResource[];
+  members: ImportMember[];
+}
+
+export class ImportProject {
+  @ApiProperty({
+    name: 'name',
+    example: 'Реестр проектов клинической практики',
+  })
+  name: string;
+
+  @ApiProperty({
+    name: 'description',
+    example: 'Веб-сервис для управления и мониторинга проектов',
+  })
+  description: string;
+
+  @ApiProperty({
+    name: 'resources',
+    type: ImportResource,
+    isArray: true,
+  })
+  resources: ImportResource[];
+
+  @ApiProperty({
+    name: 'members',
+    type: ImportMember,
+    isArray: true,
+  })
+  members: ImportMember[];
+}
+
+export class ImportProjectRequestBody {
+  @ApiProperty({ type: ImportProject })
+  data: ImportProject;
 }
