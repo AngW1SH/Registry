@@ -16,6 +16,9 @@ import errorHandler from "@/middleware/errors/ErrorHandler";
 import memberRouter from "@/routes/member/router";
 import categoryRouter from "@/routes/category/router";
 import profileRouter from "@/routes/profile/router";
+import swaggerUi from "swagger-ui-express";
+import { absolutePath } from "swagger-ui-dist";
+import { swaggerSpec } from "./swagger";
 
 const generateApp = (port?: number) => {
   const app = express();
@@ -41,6 +44,11 @@ const generateApp = (port?: number) => {
   app.set("trust proxy", 1);
 
   app.use(passport.initialize());
+
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+  console.log(absolutePath());
+  app.use(express.static(absolutePath()));
 
   app.use("/project", projectRouter);
   app.use("/user", userRouter);
