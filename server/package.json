@@ -47,6 +47,7 @@
     "passport-oauth2": "^1.7.0",
     "qs": "^6.11.2",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.17.9",
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.1"
   },

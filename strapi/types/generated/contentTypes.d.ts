@@ -1046,6 +1046,7 @@ export interface ApiUserRoleUserRole extends Schema.CollectionType {
     singularName: 'user-role';
     pluralName: 'user-roles';
     displayName: 'User Role';
+    description: '';
   };
   options: {
     draftAndPublish: true;
