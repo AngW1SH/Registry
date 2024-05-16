@@ -32,7 +32,10 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
 
     if (!result.hasOwnProperty("error")) {
       dispatch(
-        metricSlice.actions.updateMetric({ ...metric, isTracked: true })
+        metricSlice.actions.updateStatus({
+          metricId: metric.id,
+          isTracked: true,
+        })
       );
     }
   };
@@ -42,7 +45,10 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
 
     if (!result.hasOwnProperty("error")) {
       dispatch(
-        metricSlice.actions.updateMetric({ ...metric, isTracked: false })
+        metricSlice.actions.updateStatus({
+          metricId: metric.id,
+          isTracked: false,
+        })
       );
     }
   };

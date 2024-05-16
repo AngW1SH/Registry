@@ -28,7 +28,10 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
 
       if (!result.hasOwnProperty("error")) {
         dispatch(
-          metricSlice.actions.updateMetric({ ...metric, isTracked: true })
+          metricSlice.actions.updateStatus({
+            metricId: metric.id,
+            isTracked: true,
+          })
         );
       }
     }

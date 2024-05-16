@@ -81,6 +81,17 @@ export const metricSlice = createSlice({
         state.grades.push(action.payload);
       }
     },
+    updateStatus: (
+      state,
+      action: PayloadAction<{ metricId: string; isTracked: boolean }>
+    ) => {
+      state.metrics = state.metrics.map((metric) => {
+        if (metric.id === action.payload.metricId) {
+          return { ...metric, isTracked: action.payload.isTracked };
+        }
+        return metric;
+      });
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
