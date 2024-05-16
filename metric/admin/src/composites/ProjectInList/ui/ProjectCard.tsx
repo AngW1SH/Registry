@@ -22,6 +22,9 @@ const ProjectCard: FC<ProjectCardProps> = ({
       }
     >
       <ul className="flex gap-5 min-w-max">
+        <li className="w-16 h-16 p-2 border border-[#dedede] rounded-xl bg-background flex items-center justify-center">
+          <h3 className="text-xl font-bold">{project.grade}</h3>
+        </li>
         {project.platforms.map((platform) => (
           <li
             key={platform}

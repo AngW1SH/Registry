@@ -22,7 +22,7 @@ const FilterProjects: FC<FilterProjectsProps> = () => {
       <TextInput
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="text-sm py-2 bg-white"
+        className="text-sm py-3 bg-white w-full"
         placeholder="Enter text..."
       />
     </div>

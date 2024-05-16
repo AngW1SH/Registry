@@ -1,14 +1,22 @@
 import { useAppSelector } from "@/app/store";
 import ProjectCard from "@/composites/ProjectInList/ui/ProjectCard";
+import {
+  ChooseProjectListSort,
+  ProjectSortType,
+} from "@/features/ChooseProjectListSort";
 import { DeleteProjectAlt } from "@/features/DeleteProject";
 import { FilterProjects } from "@/features/FilterProjects";
 import { PencilCircleIcon } from "@/shared/ui/Icons";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface ProjectListProps {}
 
 const ProjectList: FC<ProjectListProps> = () => {
+  const [sortType, setSortType] = useState<ProjectSortType>(
+    ProjectSortType.name
+  );
+
   const { projects, filters } = useAppSelector((state) => state.projectList);
 
   const filtered = projects.filter((project) => {
@@ -22,14 +30,28 @@ const ProjectList: FC<ProjectListProps> = () => {
     return false;
   });
 
+  const sorted = filtered.sort((a, b) => {
+    switch (sortType) {
+      case ProjectSortType.name:
+        return a.name.localeCompare(b.name);
+      case ProjectSortType.grade:
+        if (a.grade === "N/A") return 1;
+        if (b.grade === "N/A") return -1;
+        return +b.grade - +a.grade;
+    }
+  });
+
   if (!projects) return <ul></ul>;
 
   return (
     <>
-      <FilterProjects />
+      <div className="flex gap-x-5">
+        <FilterProjects />
+        <ChooseProjectListSort selected={sortType} setSelected={setSortType} />
+      </div>
       <div className="pt-7" />
       <ul className="flex flex-col gap-6">
-        {filtered.map((project) => (
+        {sorted.map((project) => (
           <li key={project.id}>
             <ProjectCard
               project={project}
