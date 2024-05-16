@@ -39,6 +39,7 @@ export class ProjectDTO implements ProjectDTO {
 
 export interface ProjectInList extends Project {
   platforms: PlatformName[];
+  grade: string;
 }
 
 export class ProjectInList extends ProjectDTO {
@@ -47,6 +48,12 @@ export class ProjectInList extends ProjectDTO {
     example: [PlatformName.GitHub, PlatformName.GitLab],
   })
   platforms: PlatformName[];
+
+  @ApiProperty({
+    description: 'Average of its Resource grades',
+    example: '4.65',
+  })
+  grade: string;
 }
 
 export interface ProjectMember {

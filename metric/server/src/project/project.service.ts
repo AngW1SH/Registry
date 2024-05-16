@@ -25,13 +25,14 @@ export class ProjectService {
   ) {}
 
   async findAll(): Promise<ProjectInList[]> {
-    const result = await this.prisma.project.findMany({
+    const prismaResult = await this.prisma.project.findMany({
       select: {
         id: true,
         name: true,
         description: true,
         resources: {
           select: {
+            grade: true,
             platform: {
               select: {
                 name: true,
@@ -42,7 +43,7 @@ export class ProjectService {
       },
     });
 
-    const resultWithPlatforms: ProjectInList[] = result.map((project) => {
+    const result: ProjectInList[] = prismaResult.map((project) => {
       const platformNames = project.resources.reduce((acc, cur) => {
         if (!acc.includes(cur.platform.name)) {
           acc.push(cur.platform.name);
@@ -50,15 +51,30 @@ export class ProjectService {
         return acc;
       }, []);
 
+      const gradeData = project.resources.reduce(
+        (acc, cur) => {
+          if (cur.grade != 'N/A') {
+            return { sum: acc.sum + +cur.grade, count: acc.count + 1 };
+          }
+
+          return acc;
+        },
+        { sum: 0, count: 0 },
+      );
+
       return {
         id: project.id,
         name: project.name,
         description: project.description,
         platforms: platformNames,
+        grade:
+          gradeData.count > 0
+            ? (gradeData.sum / gradeData.count).toFixed(2)
+            : 'N/A',
       };
     });
 
-    return resultWithPlatforms;
+    return result;
   }
 
   async findOne(id: string): Promise<ProjectDetailedWithSnapshots | null> {
