@@ -117,6 +117,7 @@ export class MetricService {
         params: true,
         project: {
           select: {
+            id: true,
             name: true,
           },
         },
@@ -130,7 +131,15 @@ export class MetricService {
     return {
       metric: metric.name,
       weight: +weight,
-      data: JSON.stringify([...params, ...resourceParams]),
+      data: JSON.stringify([
+        ...params,
+        ...resourceParams,
+        {
+          type: 'text',
+          name: 'projectId',
+          value: names.project.id,
+        },
+      ]),
       update_rate: {
         seconds: durationToSeconds(
           updateRate?.value || { number: 1, unitOfTime: 'minutes' },

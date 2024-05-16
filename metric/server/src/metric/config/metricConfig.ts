@@ -149,11 +149,6 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
         name: 'weight',
         value: '1',
       },
-      {
-        type: MetricParamType.text,
-        name: 'projectUrl',
-        value: '',
-      },
     ],
   },
 };

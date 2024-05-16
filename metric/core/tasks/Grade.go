@@ -19,8 +19,8 @@ import (
 
 func getProjectURL(parsedData interface{}) string {
 	for _, v := range parsedData.([]interface{}) {
-		if v.(map[string]interface{})["name"] == "projectUrl" {
-			return v.(map[string]interface{})["value"].(string)
+		if v.(map[string]interface{})["name"] == "projectId" {
+			return os.Getenv("ADMIN_URL") + "project/" + v.(map[string]interface{})["value"].(string)
 		}
 	}
 
