@@ -37,6 +37,7 @@ model Resource {
   projectId  String
   params     String   @default("")
   metrics    Metric[]
+  grade      String   @default("N/A")
 }
 
 model Metric {

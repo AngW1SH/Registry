@@ -3,6 +3,7 @@ import { Server } from 'socket.io';
 import { Data } from './metric-gateway.entity';
 import { Snapshot } from 'src/snapshot/snapshot.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { metricHooks } from './utils/metricHooks';
 
 @WebSocketGateway({ cors: true })
 export class MetricGateway {
@@ -38,27 +39,35 @@ export class MetricGateway {
 
     const result: Data[] = [];
 
-    for (const snapshot of data) {
-      const resourceName = snapshot.groups
-        .find((g) => g.indexOf('resource:') === 0)
-        ?.slice(9);
+    try {
+      for (const snapshot of data) {
+        const resourceName = snapshot.groups
+          .find((g) => g.indexOf('resource:') === 0)
+          ?.slice(9);
 
-      const resource = resources.find((r) => r.name === resourceName);
+        const resource = resources.find((r) => r.name === resourceName);
 
-      const metric = resource.metrics.find((m) => m.name === snapshot.metric);
+        const metric = resource.metrics.find((m) => m.name === snapshot.metric);
 
-      if (resource && metric)
-        result.push({
-          resource: resource.id,
-          project: resource.project.id,
-          metric: metric.id,
-          error: snapshot.error,
-          data: JSON.parse(snapshot.data),
-          timestamp: snapshot.timestamp,
-        });
+        if (metricHooks[snapshot.metric]) {
+          metricHooks[snapshot.metric](snapshot, resource.id, this.prisma);
+        }
+
+        if (resource && metric)
+          result.push({
+            resource: resource.id,
+            project: resource.project.id,
+            metric: metric.id,
+            error: snapshot.error,
+            data: JSON.parse(snapshot.data),
+            timestamp: snapshot.timestamp,
+          });
+      }
+
+      console.log('emit ws');
+      this.server.emit('message', result);
+    } catch (err) {
+      console.log(err);
     }
-
-    console.log('emit ws');
-    this.server.emit('message', result);
   }
 }
