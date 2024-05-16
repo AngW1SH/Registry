@@ -131,4 +131,29 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
+  Grade: {
+    dependencies: [],
+    snapshotBased: true,
+    isPublic: true,
+    params: [
+      {
+        type: MetricParamType.duration,
+        name: 'updateRate',
+        value: {
+          number: 2,
+          unitOfTime: UnitOfTime.weeks,
+        },
+      },
+      {
+        type: MetricParamType.text,
+        name: 'weight',
+        value: '1',
+      },
+      {
+        type: MetricParamType.text,
+        name: 'projectUrl',
+        value: '',
+      },
+    ],
+  },
 };

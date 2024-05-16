@@ -5,6 +5,7 @@ import { useAppSelector } from "@/app/store";
 import { useGetMetricNamesQuery } from "../model/metricApi";
 import PullRequestHangTime from "../instances/PullRequestHangTime/ui/PullRequestHangTime";
 import RapidPullRequests from "../instances/RapidPullRequests/ui/RapidPullRequests";
+import Grade from "../instances/Grade/ui/Grade";
 
 interface MetricProps {
   id: string;
@@ -38,6 +39,8 @@ const Metric: FC<MetricProps> = ({ id }) => {
       return <PullRequestHangTime {...metric} dependencies={dependencies} />;
     case "RapidPullRequests":
       return <RapidPullRequests {...metric} dependencies={dependencies} />;
+    case "Grade":
+      return <Grade {...metric} dependencies={dependencies} />;
     default:
       return <></>;
   }

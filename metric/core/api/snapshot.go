@@ -30,7 +30,7 @@ func (s *SnapshotServer) List(ctx context.Context, message *SnapshotListRequest)
 		result = append(result, ToGRPCSnapshotInfo(&snapshots[i]))
 	}
 
-	fmt.Println("SnapshotList Response | Success | ", result)
+	fmt.Println("SnapshotList Response | Success | ", len(result))
 
 	return &SnapshotListResult{Snapshots: result}, nil
 }

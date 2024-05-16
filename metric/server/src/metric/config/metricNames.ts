@@ -6,4 +6,5 @@ export enum MetricNames {
   PullRequests = 'PullRequests',
   PullRequestHangTime = 'PullRequestHangTime',
   RapidPullRequests = 'RapidPullRequests',
+  Grade = 'Grade',
 }

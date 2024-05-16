@@ -21,4 +21,9 @@ export const paramData: { [key in string]: MetricParamData } = {
     placeholder: "Use this metric for grading",
     tooltip: "Use this metric for grading",
   },
+  projectUrl: {
+    label: "Project Url",
+    placeholder: "Project Url",
+    tooltip: "Project Url",
+  },
 };

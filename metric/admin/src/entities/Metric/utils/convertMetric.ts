@@ -2,6 +2,7 @@ import { IGenericMetric, IMetric, MetricName } from "../types";
 import { convertCommits } from "../instances/Commits";
 import { convertIssues } from "../instances/Issues";
 import { convertPullRequests } from "../instances/PullRequests";
+import { convertGrade } from "../instances/Grade";
 
 export const convertMetric = (metric: IGenericMetric): IMetric => {
   switch (metric.name) {
@@ -42,6 +43,12 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
       return {
         ...metric,
         name: MetricName.RapidPullRequests,
+      };
+    case "Grade":
+      return {
+        ...metric,
+        name: MetricName.Grade,
+        data: convertGrade(metric.data),
       };
     default:
       throw new Error("Unimplemented");

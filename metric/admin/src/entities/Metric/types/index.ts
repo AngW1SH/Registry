@@ -7,6 +7,7 @@ import { IssueCompletenessMetric } from "../instances/IssueCompleteness";
 import { PullRequestsMetric } from "../instances/PullRequests";
 import { PullRequestHangTimeMetric } from "../instances/PullRequestHangTime";
 import { RapidPullRequestsMetric } from "../instances/RapidPullRequests";
+import { GradeMetric } from "../instances/Grade";
 
 export interface IAbstractMetric {
   name: MetricName;
@@ -33,7 +34,8 @@ export type IMetric =
   | IssueCompletenessMetric
   | PullRequestsMetric
   | PullRequestHangTimeMetric
-  | RapidPullRequestsMetric;
+  | RapidPullRequestsMetric
+  | GradeMetric;
 
 export enum MetricName {
   TotalCommits = "TotalCommits",
@@ -43,6 +45,7 @@ export enum MetricName {
   PullRequests = "PullRequests",
   PullRequestHangTime = "PullRequestHangTime",
   RapidPullRequests = "RapidPullRequests",
+  Grade = "Grade",
 }
 
 export interface IMetricData {

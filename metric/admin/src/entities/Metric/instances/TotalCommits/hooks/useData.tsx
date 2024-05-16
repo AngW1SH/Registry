@@ -15,9 +15,12 @@ export const useData = (
 
   return successData
     .filter((item) => {
-      if (startDate && new Date(item.data.commit.author.date) < startDate)
+      if (
+        startDate &&
+        new Date(item.data.commit.author?.date || "") < startDate
+      )
         return false;
-      if (endDate && new Date(item.data.commit.author.date) > endDate)
+      if (endDate && new Date(item.data.commit.author?.date || "") > endDate)
         return false;
 
       return true;

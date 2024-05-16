@@ -11,4 +11,5 @@ var List = map[string]func(task models.Task, repo *repositories.SnapshotReposito
 	"Issues": IssuesMetric,
 	"IssueCompleteness": IssueCompletenessMetric,
 	"PullRequests": PullRequestsMetric,
+	"Grade": GradeMetric,
 }
