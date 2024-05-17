@@ -30,6 +30,8 @@ export class ProjectService {
         id: true,
         name: true,
         description: true,
+        dateStart: true,
+        dateEnd: true,
         resources: {
           select: {
             grade: true,
@@ -67,6 +69,8 @@ export class ProjectService {
         name: project.name,
         description: project.description,
         platforms: platformNames,
+        dateStart: project.dateStart,
+        dateEnd: project.dateEnd,
         grade:
           gradeData.count > 0
             ? (gradeData.sum / gradeData.count).toFixed(2)
@@ -86,6 +90,8 @@ export class ProjectService {
         id: true,
         name: true,
         description: true,
+        dateStart: true,
+        dateEnd: true,
         members: {
           select: {
             id: true,
@@ -149,6 +155,8 @@ export class ProjectService {
       id: result.id,
       name: result.name,
       description: result.description,
+      dateStart: result.dateStart,
+      dateEnd: result.dateEnd,
       users: members,
       resources: trackedTasks
         ? markTrackedMetrics(trackedTasks, resourcesPopulated)
@@ -192,11 +200,26 @@ export class ProjectService {
       if (!result || !result.new) throw new Error('Failed to update tasks');
     }
 
+    const dateStart = new Date(project.dateStart);
+    const dateEnd = new Date(project.dateEnd);
+
+    console.log(dateStart);
+
     const result = await this.prisma.project.update({
       where: {
         id: project.id,
       },
-      data: project,
+      data: {
+        ...project,
+        dateStart:
+          dateStart instanceof Date && !isNaN(dateStart.getTime())
+            ? dateStart.toISOString()
+            : undefined,
+        dateEnd:
+          dateEnd instanceof Date && !isNaN(dateEnd.getTime())
+            ? dateEnd.toISOString()
+            : undefined,
+      },
     });
 
     if (!result) throw new Error('Failed to update project');

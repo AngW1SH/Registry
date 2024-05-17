@@ -6,5 +6,7 @@ export const extractProject = (data: IProjectDetailed): IProject => {
     id: data.id,
     name: data.name,
     description: data.description,
+    dateStart: data.dateStart,
+    dateEnd: data.dateEnd,
   };
 };

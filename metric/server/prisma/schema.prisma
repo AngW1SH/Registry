@@ -26,6 +26,8 @@ model Project {
   description String     @default("")
   resources   Resource[]
   members     Member[]
+  dateStart   DateTime?
+  dateEnd     DateTime?
 }
 
 model Resource {

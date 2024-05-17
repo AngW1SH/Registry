@@ -9,12 +9,16 @@ export interface Project {
   id: string;
   name: string;
   description: string;
+  dateStart?: Date;
+  dateEnd?: Date;
 }
 
 export interface ProjectDTO {
   id: string;
   name: string;
   description: string;
+  dateStart?: Date;
+  dateEnd?: Date;
 }
 
 export class ProjectDTO implements ProjectDTO {
@@ -42,7 +46,7 @@ export interface ProjectInList extends Project {
   grade: string;
 }
 
-export class ProjectInList extends ProjectDTO {
+export class ProjectInList implements Project {
   @ApiProperty({
     description: 'Project Platforms',
     example: [PlatformName.GitHub, PlatformName.GitLab],

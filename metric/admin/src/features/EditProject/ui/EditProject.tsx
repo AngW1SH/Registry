@@ -11,26 +11,26 @@ interface EditProjectProps {
 }
 
 const EditProject: FC<EditProjectProps> = ({ project }) => {
+  const [hasChanged, setHasChanged] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [update] = useUpdateProjectMutation();
 
   const dispatch = useAppDispatch();
 
-  const [name, setName] = useState(project.name);
-  const [description, setDescription] = useState(project.description);
+  const [projectLocal, setProjectLocal] = useState(project);
+
+  const updateField = (key: keyof IProject, value: string) => {
+    setProjectLocal({ ...projectLocal, [key]: value });
+    setHasChanged(true);
+  };
 
   const handleConfirm = async () => {
-    const result = await update({
-      ...project,
-      name,
-      description,
-    });
+    const result = await update(projectLocal);
 
     if (!result.hasOwnProperty("error")) {
-      dispatch(
-        projectSlice.actions.setProject({ ...project, name, description })
-      );
+      dispatch(projectSlice.actions.setProject(projectLocal));
     }
 
     setIsOpen(false);
@@ -53,16 +53,39 @@ const EditProject: FC<EditProjectProps> = ({ project }) => {
             Rename Project
           </h2>
           <TextInput
-            label="New Project Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            label="Name"
+            value={projectLocal.name}
+            onChange={(e) => updateField("name", e.target.value)}
           />
           <div className="pt-6" />
           <TextInput
-            label="New Project Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            label="Description"
+            value={projectLocal.description}
+            onChange={(e) => updateField("description", e.target.value)}
           />
+          <div className="pt-6" />
+          <div className="flex [&>*]:flex-1 gap-10 justify-between">
+            <TextInput
+              label="Start Date"
+              type="date"
+              value={
+                projectLocal.dateStart
+                  ? new Date(projectLocal.dateStart).toISOString().split("T")[0]
+                  : ""
+              }
+              onChange={(e) => updateField("dateStart", e.target.value)}
+            />
+            <TextInput
+              label="End Date"
+              type="date"
+              value={
+                projectLocal.dateEnd
+                  ? new Date(projectLocal.dateEnd).toISOString().split("T")[0]
+                  : ""
+              }
+              onChange={(e) => updateField("dateEnd", e.target.value)}
+            />
+          </div>
           <div className="flex justify-center gap-10 pt-10">
             <button
               onClick={() => setIsOpen(false)}
@@ -74,7 +97,7 @@ const EditProject: FC<EditProjectProps> = ({ project }) => {
               onClick={handleConfirm}
               className={
                 "py-3 px-14 font-medium rounded-lg " +
-                (name !== project.name || description !== project.description
+                (hasChanged
                   ? "bg-[#551FFF] text-[#F3F0FF]"
                   : "text-black bg-[#E5E5E5]")
               }
