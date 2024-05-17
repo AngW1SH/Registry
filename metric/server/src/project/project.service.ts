@@ -200,10 +200,31 @@ export class ProjectService {
       if (!result || !result.new) throw new Error('Failed to update tasks');
     }
 
+    if (
+      new Date(oldData.dateStart)?.getTime() !==
+        new Date(project.dateStart)?.getTime() ||
+      new Date(oldData.dateEnd)?.getTime() !==
+        new Date(project.dateEnd)?.getTime()
+    ) {
+      this.taskService.updateByGroupName({
+        group: 'project:' + project.name,
+        created_at: project.dateStart
+          ? {
+              seconds: new Date(project.dateStart).getTime() / 1000,
+              nanos: 0,
+            }
+          : null,
+        deleted_at: project.dateEnd
+          ? {
+              seconds: new Date(project.dateEnd).getTime() / 1000,
+              nanos: 0,
+            }
+          : null,
+      });
+    }
+
     const dateStart = new Date(project.dateStart);
     const dateEnd = new Date(project.dateEnd);
-
-    console.log(dateStart);
 
     const result = await this.prisma.project.update({
       where: {

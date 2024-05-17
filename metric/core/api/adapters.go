@@ -17,6 +17,8 @@ func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
 		Data:       dto.Data,
 		Groups:     dto.Groups,
 		IsPublic:   dto.IsPublic,
+		CreatedAt:  dto.CreatedAt.AsTime(),
+		DeletedAt:  dto.DeletedAt.AsTime(),
 	}
 }
 
@@ -29,6 +31,8 @@ func ToGRPCTaskInfo(dto *models.Task) *TaskInfo {
 		Data:       dto.Data,
 		Groups:     dto.Groups,
 		IsPublic:   dto.IsPublic,
+		CreatedAt:  timestamppb.New(dto.CreatedAt),
+		DeletedAt:  timestamppb.New(dto.DeletedAt),
 	}
 }
 

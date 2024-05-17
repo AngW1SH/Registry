@@ -16,6 +16,8 @@ export interface TaskCreate {
   update_rate: Duration;
   groups: string[];
   is_public: boolean;
+  created_at: Timestamp | null;
+  deleted_at: Timestamp | null;
 }
 
 export interface TaskStop {
@@ -44,4 +46,10 @@ export interface TaskCreateDTO {
   };
   groups: string[];
   is_public: boolean;
+}
+
+export interface UpdateByGroupName {
+  group: string;
+  created_at: Timestamp | null;
+  deleted_at: Timestamp | null;
 }

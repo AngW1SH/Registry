@@ -179,14 +179,13 @@ func TestTaskMap_MarkDelete(t *testing.T) {
 			Id: uuid.New(),
 			Metric: "metric",
 			Groups: []string{"group1", "group2"},
-			IsDeleted: false,
 		}
 	
 		taskMap.AddTask(&task)
 	
 		deleted, err := taskMap.MarkDelete(task.Metric, task.Groups)
 	
-		if err != nil || deleted == nil || !deleted.IsDeleted {
+		if err != nil || deleted == nil || !deleted.DeletedAt.IsZero() {
 			t.Fail()
 		}
 	})
@@ -208,14 +207,13 @@ func TestTaskMap_MarkDelete(t *testing.T) {
 			Id: uuid.New(),
 			Metric: "metric",
 			Groups: []string{"group1", "group2"},
-			IsDeleted: false,
 		}
 	
 		taskMap.AddTask(&task)
 	
 		deleted, err := taskMap.MarkDelete(task.Metric, task.Groups)
 	
-		if err != nil || deleted == nil || !deleted.IsDeleted {
+		if err != nil || deleted == nil || !deleted.DeletedAt.IsZero() {
 			t.Fail()
 		}
 
@@ -234,7 +232,6 @@ func TestTaskMap_DeleteTask(t *testing.T) {
 		Id: uuid.New(),
 		Metric: "metric",
 		Groups: []string{"group1", "group2"},
-		IsDeleted: false,
 	}
 	
 	taskMap.AddTask(&task)
@@ -258,7 +255,6 @@ func TestTaskMap_UpdateTask(t *testing.T) {
 			Id: uuid.New(),
 			Metric: "metric",
 			Groups: []string{"group1", "group2"},
-			IsDeleted: false,
 			Weight: 1,
 			Data: "test",
 			UpdateRate: time.Second,

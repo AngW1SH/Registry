@@ -3,6 +3,7 @@ package repositories
 import (
 	"core/models"
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -18,12 +19,12 @@ func NewTaskRepository(db *gorm.DB) *TaskRepository {
 
 func (r *TaskRepository) Create(task *models.Task) RepositoryResult {
 	
-	if task.IsDeleted {
+	if !task.DeletedAt.IsZero() && task.DeletedAt.Before(time.Now()) {
 		return RepositoryResult{Error: errors.New("task already deleted")}
 	}
 
 	taskDB := ToDBTask(task)
-	
+
 	err := r.db.Create(&taskDB).Error
 
 	if err != nil {
@@ -34,6 +35,7 @@ func (r *TaskRepository) Create(task *models.Task) RepositoryResult {
 }
 
 func (r * TaskRepository) Delete(id uuid.UUID) RepositoryResult {
+
 	err := r.db.Delete(&models.TaskDB{ID: id.String()}).Error
 
 	if err != nil {

@@ -15,9 +15,10 @@ type Task struct {
 	Groups      []string
 	AttemptedAt time.Time
 	UpdateRate  time.Duration
-	IsDeleted   bool
 	IsPublic    bool // Tells if the snapshot data is allowed to be sent through gRPC API
 	Weight      int
+	CreatedAt   time.Time
+	DeletedAt   time.Time
 }
 
 type TaskDB struct {
@@ -29,6 +30,8 @@ type TaskDB struct {
 	UpdateRate string
 	IsPublic   bool
 	Weight     int
+	StartTime   time.Time
+	StopTime   time.Time
 }
 
 type TaskCreate struct {
@@ -39,6 +42,8 @@ type TaskCreate struct {
 	Weight int
 	Data string
 	IsPublic  bool
+	CreatedAt   time.Time
+	DeletedAt   time.Time
 }
 
 func NewTask(data *TaskCreate) Task {
@@ -51,5 +56,7 @@ func NewTask(data *TaskCreate) Task {
 		UpdateRate: data.UpdateRate,
 		Data: data.Data,
 		IsPublic: data.IsPublic,
+		CreatedAt: data.CreatedAt,
+		DeletedAt: data.DeletedAt,
 	}
 }

@@ -24,8 +24,9 @@ func FromDBTask(dto *models.TaskDB) *models.Task {
 		AttemptedAt: dto.UpdatedAt,
 		UpdateRate: dur,
 		Weight:     int(dto.Weight),
-		IsDeleted:  false,
 		IsPublic:   dto.IsPublic,
+		CreatedAt:  dto.StartTime,
+		DeletedAt:  dto.StopTime,
 	}
 }
 
@@ -44,5 +45,7 @@ func ToDBTask(dto *models.Task) *models.TaskDB {
 		Data:       dto.Data,
 		Groups:     dto.Groups,
 		IsPublic:   dto.IsPublic,
+		StartTime:  dto.CreatedAt,
+		StopTime:   dto.DeletedAt,
 	}
 }

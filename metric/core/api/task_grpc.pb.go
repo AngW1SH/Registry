@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TaskService_Start_FullMethodName           = "/api.TaskService/Start"
-	TaskService_Stop_FullMethodName            = "/api.TaskService/Stop"
-	TaskService_Update_FullMethodName          = "/api.TaskService/Update"
-	TaskService_List_FullMethodName            = "/api.TaskService/List"
-	TaskService_ForceExecute_FullMethodName    = "/api.TaskService/ForceExecute"
-	TaskService_UpdateGroupName_FullMethodName = "/api.TaskService/UpdateGroupName"
+	TaskService_Start_FullMethodName             = "/api.TaskService/Start"
+	TaskService_Stop_FullMethodName              = "/api.TaskService/Stop"
+	TaskService_Update_FullMethodName            = "/api.TaskService/Update"
+	TaskService_List_FullMethodName              = "/api.TaskService/List"
+	TaskService_ForceExecute_FullMethodName      = "/api.TaskService/ForceExecute"
+	TaskService_UpdateGroupName_FullMethodName   = "/api.TaskService/UpdateGroupName"
+	TaskService_UpdateByGroupName_FullMethodName = "/api.TaskService/UpdateByGroupName"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -37,6 +38,7 @@ type TaskServiceClient interface {
 	List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error)
 	ForceExecute(ctx context.Context, in *TaskForceExecuteRequest, opts ...grpc.CallOption) (*TaskForceExecuteResponse, error)
 	UpdateGroupName(ctx context.Context, in *UpdateGroupNameRequest, opts ...grpc.CallOption) (*UpdateGroupNameResult, error)
+	UpdateByGroupName(ctx context.Context, in *UpdateByGroupNameRequest, opts ...grpc.CallOption) (*UpdateByGroupNameResponse, error)
 }
 
 type taskServiceClient struct {
@@ -101,6 +103,15 @@ func (c *taskServiceClient) UpdateGroupName(ctx context.Context, in *UpdateGroup
 	return out, nil
 }
 
+func (c *taskServiceClient) UpdateByGroupName(ctx context.Context, in *UpdateByGroupNameRequest, opts ...grpc.CallOption) (*UpdateByGroupNameResponse, error) {
+	out := new(UpdateByGroupNameResponse)
+	err := c.cc.Invoke(ctx, TaskService_UpdateByGroupName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility
@@ -111,6 +122,7 @@ type TaskServiceServer interface {
 	List(context.Context, *TaskListRequest) (*TaskListResponse, error)
 	ForceExecute(context.Context, *TaskForceExecuteRequest) (*TaskForceExecuteResponse, error)
 	UpdateGroupName(context.Context, *UpdateGroupNameRequest) (*UpdateGroupNameResult, error)
+	UpdateByGroupName(context.Context, *UpdateByGroupNameRequest) (*UpdateByGroupNameResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -135,6 +147,9 @@ func (UnimplementedTaskServiceServer) ForceExecute(context.Context, *TaskForceEx
 }
 func (UnimplementedTaskServiceServer) UpdateGroupName(context.Context, *UpdateGroupNameRequest) (*UpdateGroupNameResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroupName not implemented")
+}
+func (UnimplementedTaskServiceServer) UpdateByGroupName(context.Context, *UpdateByGroupNameRequest) (*UpdateByGroupNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateByGroupName not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 
@@ -257,6 +272,24 @@ func _TaskService_UpdateGroupName_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_UpdateByGroupName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateByGroupNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UpdateByGroupName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_UpdateByGroupName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UpdateByGroupName(ctx, req.(*UpdateByGroupNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -287,6 +320,10 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateGroupName",
 			Handler:    _TaskService_UpdateGroupName_Handler,
+		},
+		{
+			MethodName: "UpdateByGroupName",
+			Handler:    _TaskService_UpdateByGroupName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

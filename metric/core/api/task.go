@@ -14,8 +14,6 @@ type TaskServer struct {
 func (s *TaskServer) Start(ctx context.Context, message *TaskStartRequest) (*TaskStartResponse, error) {
 	fmt.Println("Task Start Request | ", message.Task.Metric, " | ", message.Task.Groups)
 
-	fmt.Println(message.Task.UpdateRate)
-
 	task := s.Queue.AddTask(FromGRPCTaskStartInfo(message.Task))
 
 	if task == nil {
@@ -100,4 +98,19 @@ func (s *TaskServer) UpdateGroupName(ctx context.Context, message *UpdateGroupNa
 
 	fmt.Println("Task UpdateGroupName Response | Success | ", message.Old, " | ", message.New)
 	return &UpdateGroupNameResult{Old: message.Old, New: message.New}, nil
+}
+
+func (s *TaskServer) UpdateByGroupName(ctx context.Context, message *UpdateByGroupNameRequest) (*UpdateByGroupNameResponse, error) {
+	fmt.Println("Task UpdateByGroupName | ", message.Group, " | ", message.CreatedAt, " | ", message.DeletedAt)
+
+	tasks := s.Queue.UpdateByGroupName(message.Group, message.CreatedAt.AsTime(), message.DeletedAt.AsTime())
+
+	result := []*TaskInfo{}
+
+	for i := 0; i < len(tasks); i++ {
+		result = append(result, ToGRPCTaskInfo(tasks[i]))
+	}
+
+	fmt.Println("Task UpdateByGroupName Response | Success | ", result)
+	return &UpdateByGroupNameResponse{Tasks: result}, nil
 }

@@ -55,7 +55,7 @@ func (m *TaskMap) GetByGroups(groups []string) []*models.Task {
 
 	var result []*models.Task
 	for _, t := range m.tasks {
-		if helpers.ContainsAllElements(t.Groups, groups) && !t.IsDeleted {
+		if helpers.ContainsAllElements(t.Groups, groups) && (t.DeletedAt.IsZero() || t.DeletedAt.After(time.Now())) {
 			result = append(result, t)
 		}
 	}
@@ -70,11 +70,11 @@ func (m *TaskMap) MarkDelete(metric string, groups []string) (*models.Task, erro
 	for _, task := range m.tasks {
 		if task.Metric == metric && helpers.ContainsAllElements(task.Groups, groups) {
 
-			if task.IsDeleted {
+			if !task.DeletedAt.IsZero() && task.DeletedAt.Before(time.Now()) {
 				return nil, errors.New("task is already deleted")
 			}
 
-			task.IsDeleted = true
+			task.DeletedAt = time.Now()
 
 			return task, nil
 		}
@@ -95,7 +95,7 @@ func (m *TaskMap) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 	defer m.mu.Unlock()
 
 	for _, t := range m.tasks {
-		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && !t.IsDeleted {
+		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && (t.DeletedAt.IsZero() || t.DeletedAt.After(time.Now())) {
 			
 			if task.UpdateRate != 0 {
 				t.UpdateRate = task.UpdateRate
@@ -121,7 +121,7 @@ func (m *TaskMap) ForceUpdate(metric string, groups []string) (*models.Task, err
 	defer m.mu.Unlock()
 
 	for _, task := range m.tasks {
-		if task.Metric == metric && helpers.ContainsAllElements(groups, task.Groups) && !task.IsDeleted {
+		if task.Metric == metric && helpers.ContainsAllElements(groups, task.Groups) && (task.DeletedAt.IsZero() || task.DeletedAt.After(time.Now())) {
 			
 			task.AttemptedAt = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
 			task.UpdatedAt = time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC)
@@ -145,6 +145,23 @@ func (m *TaskMap) UpdateGroupName(old string, new string) []*models.Task {
 				task.Groups[i] = new
 				result = append(result, task)
 			}
+		}
+	}
+
+	return result
+}
+
+func (m *TaskMap) UpdateByGroupName(group string, createdAt time.Time, deletedAt time.Time) []*models.Task {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+
+	var result []*models.Task
+
+	for _, task := range m.tasks {
+		if helpers.Contains(task.Groups, group) {
+			task.CreatedAt = createdAt
+			task.DeletedAt = deletedAt
+			result = append(result, task)
 		}
 	}
 

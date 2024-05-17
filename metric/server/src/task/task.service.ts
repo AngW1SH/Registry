@@ -4,6 +4,7 @@ import {
   TaskCreate,
   TaskForceExecute,
   TaskStop,
+  UpdateByGroupName,
   UpdateGroupNameData,
 } from './task.entity';
 import { Observable, firstValueFrom } from 'rxjs';
@@ -18,6 +19,9 @@ interface TaskServiceGRPC {
   updateGroupName: (
     data: UpdateGroupNameData,
   ) => Observable<UpdateGroupNameData>;
+  updateByGroupName: (
+    data: UpdateByGroupName,
+  ) => Observable<{ tasks: Task[] | null }>;
 }
 
 @Injectable()
@@ -69,5 +73,13 @@ export class TaskService {
     );
 
     return result;
+  }
+
+  async updateByGroupName(data: UpdateByGroupName) {
+    const result = await firstValueFrom(
+      this.taskServiceGRPC.updateByGroupName(data),
+    );
+
+    return result.tasks || [];
   }
 }

@@ -119,6 +119,8 @@ export class MetricService {
           select: {
             id: true,
             name: true,
+            dateStart: true,
+            dateEnd: true,
           },
         },
       },
@@ -131,6 +133,18 @@ export class MetricService {
     return {
       metric: metric.name,
       weight: +weight,
+      created_at: names.project.dateStart
+        ? {
+            seconds: new Date(names.project.dateStart).getTime() / 1000,
+            nanos: 0,
+          }
+        : null,
+      deleted_at: names.project.dateEnd
+        ? {
+            seconds: new Date(names.project.dateEnd).getTime() / 1000,
+            nanos: 0,
+          }
+        : null,
       data: JSON.stringify([
         ...params,
         ...resourceParams,
@@ -152,7 +166,15 @@ export class MetricService {
   }
 
   async start(metric: MetricCreate) {
+    const config = metricConfig[metric.name];
+
+    if (config && !config.snapshotBased) {
+      return;
+    }
+
     const task = await this.convertToTask(metric);
+
+    console.log(task);
 
     return this.taskService.start(task);
   }

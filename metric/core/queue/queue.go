@@ -57,7 +57,6 @@ func (q *Queue) AddTask(data *models.TaskCreate) *models.Task {
 	task := models.NewTask(data)
 
 	task.AttemptedAt = task.UpdatedAt
-	task.IsDeleted = false
 
 	q.tasks.AddTask(&task)
 	heap.Push(&q.queue, &task)
@@ -77,6 +76,17 @@ func (q *Queue) UpdateGroupName(old string, new string) error {
 	err := q.snapshotRepo.UpdateGroupName(old, new)
 
 	return err
+}
+
+func (q *Queue) UpdateByGroupName(group string, createdAt time.Time, deletedAt time.Time) []*models.Task {
+
+	updatedTasks := q.tasks.UpdateByGroupName(group, createdAt, deletedAt)
+
+	for _, task := range updatedTasks {
+		q.taskRepo.Update(task)
+	}
+
+	return updatedTasks
 }
 
 func (q *Queue) ForceExecute(task *models.TaskCreate, groups []string) (*models.Task, error) {
@@ -152,7 +162,7 @@ func (q *Queue) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 func (q *Queue) onFinish(task models.Task) {
 	q.load -= task.Weight
 
-	if q.tasks.GetTask(task.Id) != nil && !q.tasks.GetTask(task.Id).IsDeleted {
+	if q.tasks.GetTask(task.Id) != nil && (q.tasks.GetTask(task.Id).DeletedAt.IsZero() || q.tasks.GetTask(task.Id).DeletedAt.After(time.Now())) {
 
 		q.tasks.GetTask(task.Id).UpdatedAt = time.Now()
 		q.tasks.GetTask(task.Id).AttemptedAt = time.Now()
@@ -182,8 +192,14 @@ func (q *Queue) AdvanceTasks() {
 			
 			oldestUpdated := helpers.CopyTask(heap.Pop(&q.queue).(*models.Task))
 
-			if oldestUpdated.IsDeleted {
+			if !oldestUpdated.CreatedAt.IsZero() && oldestUpdated.CreatedAt.After(time.Now()) {
+				continue
+			}
+
+			if !oldestUpdated.DeletedAt.IsZero() && oldestUpdated.DeletedAt.Before(time.Now()) {
 				q.tasks.DeleteTask(oldestUpdated.Id)
+				q.taskRepo.Delete(oldestUpdated.Id)
+
 				continue
 			}
 	
