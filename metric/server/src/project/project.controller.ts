@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import {
@@ -25,8 +26,10 @@ import {
   ApiProperty,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('project')
+@UseGuards(JwtAuthGuard)
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 

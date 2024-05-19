@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   AbstractMetricDTO,
@@ -25,8 +26,10 @@ import {
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('metric')
+@UseGuards(JwtAuthGuard)
 export class MetricController {
   constructor(private metricService: MetricService) {}
 
@@ -75,6 +78,7 @@ export class MetricController {
     }));
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post(':id/start')
   @ApiOperation({
     summary: 'Start a metric by id',

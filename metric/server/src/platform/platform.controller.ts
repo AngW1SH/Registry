@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { PlatformService } from './platform.service';
 import { PlatformDTO } from './platform.entity';
 import {
@@ -7,8 +7,10 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('platform')
+@UseGuards(JwtAuthGuard)
 export class PlatformController {
   constructor(private platformService: PlatformService) {}
 

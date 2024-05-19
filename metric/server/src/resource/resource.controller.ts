@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ResourceService } from './resource.service';
 import {
@@ -20,8 +21,10 @@ import {
   ApiOperation,
   ApiParam,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('resource')
+@UseGuards(JwtAuthGuard)
 export class ResourceController {
   constructor(private resourceService: ResourceService) {}
 
