@@ -7,6 +7,7 @@ import { PullRequestsMetric } from "../../PullRequests";
 import { useData } from "../hooks/useData";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { getGrade } from "../models/getGrade";
+import { Tooltip } from "@/shared/ui/Tooltip";
 
 interface RapidPullRequestsProps extends RapidPullRequestsMetric {
   dependencies: IMetric[];
@@ -33,9 +34,17 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
         "flex flex-col pt-9 pb-12 px-5 bg-background rounded-lg " + className
       }
     >
-      <h3 className="text-[#A3AED0] text-sm font-medium">
-        Rapid Pull Requests
-      </h3>
+      <Tooltip
+        tooltip={
+          <div>
+            <p>How many requests are closed too quickly? (Within 5 minutes)</p>
+          </div>
+        }
+      >
+        <h3 className="text-[#A3AED0] text-sm font-medium">
+          Rapid Pull Requests
+        </h3>
+      </Tooltip>
       <div className="my-auto pb-5">
         <Graph data={data} />
       </div>

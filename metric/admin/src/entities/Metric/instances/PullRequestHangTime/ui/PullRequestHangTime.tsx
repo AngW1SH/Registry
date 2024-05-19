@@ -7,6 +7,7 @@ import { PullRequestsMetric } from "../../PullRequests";
 import Graph from "./Graph";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { getGrade } from "../model/getGrade";
+import { Tooltip } from "@/shared/ui/Tooltip";
 
 interface PullRequestHangTimeProps extends PullRequestHangTimeMetric {
   dependencies: IMetric[];
@@ -33,9 +34,17 @@ const PullRequestHangTime: FC<PullRequestHangTimeProps> = ({
         "flex flex-col pt-9 pb-12 px-5 bg-background rounded-lg " + className
       }
     >
-      <h3 className="text-[#A3AED0] text-sm font-medium">
-        Pull Request Hang Time
-      </h3>
+      <Tooltip
+        tooltip={
+          <div>
+            <p>How much time does it take for a pull request to be closed?</p>
+          </div>
+        }
+      >
+        <h3 className="text-[#A3AED0] text-sm font-medium">
+          Pull Request Hang Time
+        </h3>
+      </Tooltip>
       <div className="my-auto pb-5">
         <Graph data={data} />
       </div>

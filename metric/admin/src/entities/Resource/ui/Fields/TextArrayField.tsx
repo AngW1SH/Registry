@@ -45,7 +45,7 @@ const TextArrayField: FC<TextArrayFieldProps> = ({
   return (
     <div>
       {!!tooltip && (
-        <Tooltip className="text-[#A3AED0]" tooltip="Set API Keys">
+        <Tooltip className="text-[#A3AED0]" tooltip={tooltip}>
           <h2 className="inline-block">{label}</h2>
         </Tooltip>
       )}
