@@ -3,11 +3,11 @@ import { TextWithIcon } from "@/shared/ui/TextWithIcon";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-interface ConfigureProjectProps {
+interface GoToSettingsProps {
   link: string;
 }
 
-const ConfigureProject: FC<ConfigureProjectProps> = ({ link }) => {
+const GoToSettings: FC<GoToSettingsProps> = ({ link }) => {
   return (
     <Link
       to={link}
@@ -18,4 +18,4 @@ const ConfigureProject: FC<ConfigureProjectProps> = ({ link }) => {
   );
 };
 
-export default ConfigureProject;
+export default GoToSettings;

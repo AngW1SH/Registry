@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
-import { ConfigureProject } from "@/features/ConfigureProject";
 import { SelectPeriod } from "@/features/SelectPeriod";
 import { PerformanceModule } from "@/widgets/PerformanceModule";
 import { PlatformMetrics } from "@/widgets/PlatformMetrics";
@@ -13,6 +12,7 @@ import { useForceUser } from "@/entities/User";
 import { SetSelectedUsers } from "@/features/SetSelectedUsers";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
+import { GoToProjectSettings } from "@/features/Project";
 
 interface ProjectPageProps {}
 
@@ -76,7 +76,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
         )}
       </div>
       <div className="min-w-[25%] flex flex-col">
-        <ConfigureProject
+        <GoToProjectSettings
           link={import.meta.env.VITE_BASE_URL + "project/" + id + "/settings"}
         />
         <div className="mt-16" />

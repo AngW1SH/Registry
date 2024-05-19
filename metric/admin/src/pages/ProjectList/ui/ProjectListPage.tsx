@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/store";
 import { fetchAllProjects } from "@/composites/ProjectInList/models/projectListSlice";
 import { useForceUser } from "@/entities/User";
-import { AddProject } from "@/features/AddProject";
+import { CreateProject } from "@/features/Project";
 import { ProjectList } from "@/widgets/ProjectList";
 import { FC, useEffect } from "react";
 
@@ -21,7 +21,7 @@ const ProjectListPage: FC<ProjectListPageProps> = () => {
       <div className="pt-20" />
       <div className="flex items-center gap-14">
         <h1 className="text-6xl font-medium">Projects</h1>
-        <AddProject className="top-0 right-0" />
+        <CreateProject className="top-0 right-0" />
       </div>
       <div className="pt-10"></div>
       <ProjectList />

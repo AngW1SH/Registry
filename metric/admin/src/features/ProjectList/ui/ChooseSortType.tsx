@@ -6,15 +6,12 @@ export enum ProjectSortType {
   grade = "Sort by: Grade",
 }
 
-interface ChooseProjectListSortProps {
+interface ChooseSortTypeProps {
   selected: ProjectSortType;
   setSelected: (type: ProjectSortType) => void;
 }
 
-const ChooseProjectListSort: FC<ChooseProjectListSortProps> = ({
-  selected,
-  setSelected,
-}) => {
+const ChooseSortType: FC<ChooseSortTypeProps> = ({ selected, setSelected }) => {
   return (
     <div className="w-[400px]">
       <Dropdown
@@ -29,4 +26,4 @@ const ChooseProjectListSort: FC<ChooseProjectListSortProps> = ({
   );
 };
 
-export default ChooseProjectListSort;
+export default ChooseSortType;

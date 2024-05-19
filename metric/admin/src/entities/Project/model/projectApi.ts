@@ -5,6 +5,13 @@ export const projectApi = createApi({
   reducerPath: "projectApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: (build) => ({
+    createProject: build.mutation<IProject, string>({
+      query: (name) => ({
+        url: "project",
+        method: "POST",
+        body: { project: { name } },
+      }),
+    }),
     updateProject: build.mutation<void, IProject>({
       query: (project) => ({
         url: `project/${project.id}`,
@@ -21,5 +28,8 @@ export const projectApi = createApi({
   }),
 });
 
-export const { useUpdateProjectMutation, useDeleteProjectMutation } =
-  projectApi;
+export const {
+  useUpdateProjectMutation,
+  useDeleteProjectMutation,
+  useCreateProjectMutation,
+} = projectApi;

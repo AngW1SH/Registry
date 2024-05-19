@@ -1,30 +1,38 @@
+import { useCreateProjectMutation } from "@/entities/Project/model/projectApi";
 import { PlusCircleIcon, XCircleIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchAddProject } from "../api/fetchAddProject";
 
-interface AddProjectProps {
+interface CreateProps {
   className?: string;
 }
 
-const AddProject: FC<AddProjectProps> = ({ className }) => {
+const Create: FC<CreateProps> = ({ className }) => {
   const navigate = useNavigate();
+
+  const [create, { data: createData }] = useCreateProjectMutation();
 
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
 
+  // Make a request
   const handleConfirm = async () => {
     if (name) {
-      const result = await fetchAddProject(name);
-
-      if (result)
-        navigate(import.meta.env.VITE_BASE_PATH + `project/${result.id}`);
-      setOpen(false);
+      await create(name);
     }
   };
+
+  // Updating the store is not needed here
+  // The new project data will be gathered on visiting the newly created project's page
+  useEffect(() => {
+    if (createData && createData.id) {
+      navigate(import.meta.env.VITE_BASE_PATH + `project/${createData.id}`);
+      setOpen(false);
+    }
+  }, [createData]);
 
   return (
     <>
@@ -69,4 +77,4 @@ const AddProject: FC<AddProjectProps> = ({ className }) => {
   );
 };
 
-export default AddProject;
+export default Create;

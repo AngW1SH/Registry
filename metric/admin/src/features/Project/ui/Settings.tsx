@@ -6,11 +6,11 @@ import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useState } from "react";
 
-interface EditProjectProps {
+interface SettingsProps {
   project: IProject;
 }
 
-const EditProject: FC<EditProjectProps> = ({ project }) => {
+const Settings: FC<SettingsProps> = ({ project }) => {
   const [hasChanged, setHasChanged] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -19,13 +19,17 @@ const EditProject: FC<EditProjectProps> = ({ project }) => {
 
   const dispatch = useAppDispatch();
 
+  // update locally until saved for performance reasons (store updates are visibly slow)
   const [projectLocal, setProjectLocal] = useState(project);
 
+  // Triggers when the user changes a field, only updates the local state
   const updateField = (key: keyof IProject, value: string) => {
     setProjectLocal({ ...projectLocal, [key]: value });
     setHasChanged(true);
   };
 
+  // Triggers when the user presses the 'confirm' button
+  // Makes a request to the server and updates the store
   const handleConfirm = async () => {
     const result = await update(projectLocal);
 
@@ -111,4 +115,4 @@ const EditProject: FC<EditProjectProps> = ({ project }) => {
   );
 };
 
-export default EditProject;
+export default Settings;

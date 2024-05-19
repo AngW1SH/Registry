@@ -4,9 +4,9 @@ import { useDebounce } from "@/shared/hooks/useDebounce";
 import { TextInput } from "@/shared/ui/TextInput";
 import { FC, useEffect, useState } from "react";
 
-interface FilterProjectsProps {}
+interface FilterProps {}
 
-const FilterProjects: FC<FilterProjectsProps> = () => {
+const Filter: FC<FilterProps> = () => {
   const dispatch = useAppDispatch();
 
   const [input, setInput] = useState("");
@@ -29,4 +29,4 @@ const FilterProjects: FC<FilterProjectsProps> = () => {
   );
 };
 
-export default FilterProjects;
+export default Filter;

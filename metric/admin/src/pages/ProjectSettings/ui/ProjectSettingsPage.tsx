@@ -2,15 +2,17 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
 import { useForceUser } from "@/entities/User";
-import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { FC, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import EditProject from "@/features/EditProject/ui/EditProject";
-import { ArrowDown } from "@/shared/ui/Icons";
+import { useNavigate, useParams } from "react-router-dom";
 import { CreateResource } from "@/features/Resource";
 import { ResourceConfigure } from "@/widgets/ResourceConfigure";
+import {
+  DeleteProject,
+  GoToProjectView,
+  ProjectSettings,
+} from "@/features/Project";
 
 interface ProjectSettingsPageProps {}
 
@@ -48,15 +50,9 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
       )}
       {!isLoading && project && (
         <>
-          <Link
-            to={import.meta.env.VITE_BASE_PATH + "project/" + project.id}
-            className="flex items-center gap-3"
-          >
-            <div className="h-9 w-9 p-3 pt-[15px] rotate-90 rounded-full bg-background">
-              <ArrowDown />
-            </div>
-            <p className="text-[#828487] text-sm">Back to Project</p>
-          </Link>
+          <GoToProjectView
+            link={import.meta.env.VITE_BASE_PATH + `/project/${project.id}`}
+          />
           <div className="pt-6" />
           <div className="flex items-start gap-5">
             <div className="max-w-[60%]">
@@ -64,7 +60,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
                 {project.name}
               </ProjectTitle>
             </div>
-            <EditProject project={project} />
+            <ProjectSettings project={project} />
             <DeleteProject className="ml-auto" projectId={project.id} />
           </div>
           <div className="pt-14"></div>

@@ -1,11 +1,11 @@
 import { useAppSelector } from "@/app/store";
 import ProjectCard from "@/composites/ProjectInList/ui/ProjectCard";
+import { DeleteProject } from "@/features/Project";
 import {
-  ChooseProjectListSort,
+  ChooseProjectListSortType,
+  FilterProjectList,
   ProjectSortType,
-} from "@/features/ChooseProjectListSort";
-import { DeleteProjectAlt } from "@/features/DeleteProject";
-import { FilterProjects } from "@/features/FilterProjects";
+} from "@/features/ProjectList";
 import { PencilCircleIcon } from "@/shared/ui/Icons";
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
@@ -46,8 +46,11 @@ const ProjectList: FC<ProjectListProps> = () => {
   return (
     <>
       <div className="flex gap-x-5">
-        <FilterProjects />
-        <ChooseProjectListSort selected={sortType} setSelected={setSortType} />
+        <FilterProjectList />
+        <ChooseProjectListSortType
+          selected={sortType}
+          setSelected={setSortType}
+        />
       </div>
       <div className="pt-7" />
       <ul className="flex flex-col gap-6">
@@ -68,7 +71,8 @@ const ProjectList: FC<ProjectListProps> = () => {
                   >
                     <PencilCircleIcon />
                   </Link>
-                  <DeleteProjectAlt
+                  <DeleteProject
+                    style="icon"
                     className="h-10 w-10"
                     projectId={project.id}
                   />
