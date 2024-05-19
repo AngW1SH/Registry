@@ -51,7 +51,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
       {!isLoading && project && (
         <>
           <GoToProjectView
-            link={import.meta.env.VITE_BASE_PATH + `/project/${project.id}`}
+            link={import.meta.env.VITE_BASE_PATH + `project/${project.id}`}
           />
           <div className="pt-6" />
           <div className="flex items-start gap-5">

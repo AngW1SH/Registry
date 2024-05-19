@@ -1,13 +1,10 @@
 import { z } from "zod";
 import { IMetricParam } from "./params";
-import { CommitsMetric } from "../instances/Commits/types";
-import { IssuesMetric } from "../instances/Issues/types";
-import { TotalCommitsMetric } from "../instances/TotalCommits/types";
-import { IssueCompletenessMetric } from "../instances/IssueCompleteness";
-import { PullRequestsMetric } from "../instances/PullRequests";
-import { PullRequestHangTimeMetric } from "../instances/PullRequestHangTime";
-import { RapidPullRequestsMetric } from "../instances/RapidPullRequests";
-import { GradeMetric } from "../instances/Grade";
+import type { IMetric } from "../config/instances/types";
+import { MetricName } from "../config/instances/types";
+
+export { MetricName };
+export type { IMetric };
 
 export interface IAbstractMetric {
   name: MetricName;
@@ -25,27 +22,6 @@ export interface IGenericMetric {
   params: IMetricParam[];
   data: IGenericSnapshotList; // Snapshots
   isTracked: boolean | null;
-}
-
-export type IMetric =
-  | CommitsMetric
-  | IssuesMetric
-  | TotalCommitsMetric
-  | IssueCompletenessMetric
-  | PullRequestsMetric
-  | PullRequestHangTimeMetric
-  | RapidPullRequestsMetric
-  | GradeMetric;
-
-export enum MetricName {
-  TotalCommits = "TotalCommits",
-  Commits = "Commits",
-  IssueCompleteness = "IssueCompleteness",
-  Issues = "Issues",
-  PullRequests = "PullRequests",
-  PullRequestHangTime = "PullRequestHangTime",
-  RapidPullRequests = "RapidPullRequests",
-  Grade = "Grade",
 }
 
 export interface IMetricData {

@@ -12,7 +12,7 @@ import { configs } from './config';
 import { Metric, MetricDetailed } from '../metric/metric.entity';
 import { ResourceConfig } from './config/types';
 import { MetricConfig } from '../metric/config/types';
-import { metricConfig } from '../metric/config/metricConfig';
+import { metricConfig } from '../metric/config/instances/metricConfig';
 
 @Injectable()
 export class ResourceService {

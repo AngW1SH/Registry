@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { MetricNames } from './config/metricNames';
+import { MetricName } from './config/instances/metricNames';
 import { MetricParam, MetricParamType } from './config/types';
 import { UnitOfTime } from '@/utils/duration';
 
@@ -21,7 +21,7 @@ export class AbstractMetricDTO {
 }
 
 export interface AbstractMetricDetailed extends AbstractMetric {
-  dependencies: MetricNames[];
+  dependencies: MetricName[];
   snapshotBased: boolean;
 }
 
@@ -29,9 +29,9 @@ export class AbstractMetricDetailedDTO extends AbstractMetricDTO {
   @ApiProperty({
     description:
       'Metrics that have to be created whenever this metric is created',
-    example: [MetricNames.Commits, MetricNames.Issues],
+    example: [MetricName.Commits, MetricName.Issues],
   })
-  dependencies: MetricNames[];
+  dependencies: MetricName[];
 
   @ApiProperty({
     description:

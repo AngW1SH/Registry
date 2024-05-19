@@ -3,9 +3,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { MetricService } from './metric.service';
 import { metricMocks, prismaMetricMocks } from './metric.mock';
 import { TaskService } from '../task/task.service';
-import { MetricNames } from './config/metricNames';
+import { MetricName } from './config/instances/metricNames';
 import { MetricParam, MetricParamType, UnitOfTime } from './config/types';
-import * as metricConfigModule from './config/metricConfig';
+import * as metricConfigModule from './config/instances/metricConfig';
 import { snapshotMocks } from '../metric-gateway/gateway.mock';
 
 const validParams: MetricParam[] = [
@@ -132,7 +132,7 @@ describe('MetricService', () => {
     it('should return all defined metric names', async () => {
       const result = await service.listAll();
 
-      const names = Object.keys(MetricNames);
+      const names = Object.keys(MetricName);
 
       names.forEach((name) => {
         const found = result.find((r) => r.name === name);

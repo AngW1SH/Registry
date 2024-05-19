@@ -1,14 +1,14 @@
-import { MetricNames } from './metricNames';
+import { MetricName } from './metricNames';
 import {
   MetricConfig,
   MetricParamType,
   MetricParamsConfig,
   UnitOfTime,
-} from './types';
+} from '../types';
 
-export const metricConfig: { [key in MetricNames]: MetricConfig } = {
-  TotalCommits: {
-    dependencies: [MetricNames.Commits],
+export const metricConfig: { [key in MetricName]: MetricConfig } = {
+  [MetricName.TotalCommits]: {
+    dependencies: [MetricName.Commits],
     snapshotBased: false,
     params: [
       {
@@ -23,7 +23,7 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  Commits: {
+  [MetricName.Commits]: {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
@@ -43,7 +43,7 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  Issues: {
+  [MetricName.Issues]: {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
@@ -63,8 +63,8 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  IssueCompleteness: {
-    dependencies: [MetricNames.Issues],
+  [MetricName.IssueCompleteness]: {
+    dependencies: [MetricName.Issues],
     snapshotBased: false,
     params: [
       {
@@ -79,7 +79,7 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  PullRequests: {
+  [MetricName.PullRequests]: {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
@@ -99,8 +99,8 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  PullRequestHangTime: {
-    dependencies: [MetricNames.PullRequests],
+  [MetricName.PullRequestHangTime]: {
+    dependencies: [MetricName.PullRequests],
     snapshotBased: false,
     params: [
       {
@@ -115,8 +115,8 @@ export const metricConfig: { [key in MetricNames]: MetricConfig } = {
       },
     ],
   },
-  RapidPullRequests: {
-    dependencies: [MetricNames.PullRequests],
+  [MetricName.RapidPullRequests]: {
+    dependencies: [MetricName.PullRequests],
     snapshotBased: false,
     params: [
       {

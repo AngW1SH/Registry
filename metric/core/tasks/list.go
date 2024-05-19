@@ -6,10 +6,10 @@ import (
 )
 
 var List = map[string]func(task models.Task, repo *repositories.SnapshotRepository) {
-	"TotalCommits": TotalCommitsMetric,
+	"Total Commits": TotalCommitsMetric,
 	"Commits": CommitsMetric,
 	"Issues": IssuesMetric,
-	"IssueCompleteness": IssueCompletenessMetric,
-	"PullRequests": PullRequestsMetric,
+	"Issue Completeness": IssueCompletenessMetric,
+	"Pull Requests": PullRequestsMetric,
 	"Grade": GradeMetric,
 }

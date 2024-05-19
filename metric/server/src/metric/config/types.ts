@@ -1,4 +1,4 @@
-import { MetricNames } from './metricNames';
+import { MetricName } from './instances/metricNames';
 
 export interface GenericParam {
   name: string;
@@ -70,7 +70,7 @@ export type MetricParamsConfig = {
 
 export interface GenericMetricConfig {
   params: MetricParam[];
-  dependencies: MetricNames[];
+  dependencies: MetricName[];
 }
 
 export interface SnapshotBasedMetricConfig extends GenericMetricConfig {
@@ -87,9 +87,9 @@ export type MetricConfig =
   | NonSnapshotBasedMetricConfig;
 
 export type MetricDependencies = {
-  [key in MetricNames]: MetricNames[];
+  [key in MetricName]: MetricName[];
 };
 
 export type IsMetricPublic = {
-  [key in MetricNames]: boolean;
+  [key in MetricName]: boolean;
 };

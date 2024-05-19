@@ -1,50 +1,50 @@
-import { IGenericMetric, IMetric, MetricName } from "../types";
-import { convertCommits } from "../instances/Commits";
-import { convertIssues } from "../instances/Issues";
-import { convertPullRequests } from "../instances/PullRequests";
-import { convertGrade } from "../instances/Grade";
+import { IGenericMetric, IMetric, MetricName } from "../../types";
+import { convertCommits } from "../../instances/Commits";
+import { convertIssues } from "../../instances/Issues";
+import { convertPullRequests } from "../../instances/PullRequests";
+import { convertGrade } from "../../instances/Grade";
 
 export const convertMetric = (metric: IGenericMetric): IMetric => {
   switch (metric.name) {
-    case "Commits":
+    case MetricName.Commits:
       return {
         ...metric,
         name: MetricName.Commits,
         data: convertCommits(metric.data),
       };
-    case "Issues":
+    case MetricName.Issues:
       return {
         ...metric,
         name: MetricName.Issues,
         data: convertIssues(metric.data),
       };
-    case "TotalCommits":
+    case MetricName.TotalCommits:
       return {
         ...metric,
         name: MetricName.TotalCommits,
       };
-    case "IssueCompleteness":
+    case MetricName.IssueCompleteness:
       return {
         ...metric,
         name: MetricName.IssueCompleteness,
       };
-    case "PullRequests":
+    case MetricName.PullRequests:
       return {
         ...metric,
         name: MetricName.PullRequests,
         data: convertPullRequests(metric.data),
       };
-    case "PullRequestHangTime":
+    case MetricName.PullRequestHangTime:
       return {
         ...metric,
         name: MetricName.PullRequestHangTime,
       };
-    case "RapidPullRequests":
+    case MetricName.RapidPullRequests:
       return {
         ...metric,
         name: MetricName.RapidPullRequests,
       };
-    case "Grade":
+    case MetricName.Grade:
       return {
         ...metric,
         name: MetricName.Grade,

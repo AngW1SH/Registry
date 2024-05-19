@@ -10,8 +10,9 @@ import {
 import { TaskService } from 'src/task/task.service';
 import { durationToSeconds } from 'utils/duration';
 import { TaskCreate } from 'src/task/task.entity';
-import { MetricNames } from './config/metricNames';
-import { metricConfig } from './config/metricConfig';
+import { MetricName } from './config/instances/metricNames';
+import { metricConfig } from './config/instances/metricConfig';
+import { SnapshotBasedMetricConfig } from './config/types';
 
 @Injectable()
 export class MetricService {
@@ -44,7 +45,7 @@ export class MetricService {
   }
 
   async listAll(): Promise<AbstractMetricDetailed[]> {
-    const result = Object.keys(MetricNames).map((key) => ({
+    const result = Object.values(MetricName).map((key) => ({
       name: key,
       dependencies: metricConfig[key]?.dependencies || [],
       snapshotBased: metricConfig[key]?.snapshotBased || false,
@@ -161,7 +162,10 @@ export class MetricService {
         nanos: 0,
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
-      is_public: metricConfig[metric.name]?.isPublic || false,
+      is_public:
+        metricConfig[metric.name].snapshotBased === true
+          ? (metricConfig[metric.name] as SnapshotBasedMetricConfig).isPublic
+          : false,
     };
   }
 

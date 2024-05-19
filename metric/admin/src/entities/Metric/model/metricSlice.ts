@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IMetric } from "..";
 import { IGenericMetric } from "../types";
-import { convertMetric } from "../utils/convertMetric";
 import { IMetricParam } from "../types/params";
 import { IMetricGrade } from "../types/grades";
+import { convertMetric } from "../config/instances/convertMetric";
 
 interface MetricState {
   metrics: IMetric[];
