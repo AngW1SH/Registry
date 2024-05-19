@@ -9,5 +9,6 @@ import { TaskModule } from 'src/task/task.module';
   imports: [ResourceModule, SnapshotModule, TaskModule],
   controllers: [ProjectController],
   providers: [ProjectService],
+  exports: [ProjectService],
 })
 export class ProjectModule {}

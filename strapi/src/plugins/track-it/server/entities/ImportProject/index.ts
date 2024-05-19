@@ -4,8 +4,11 @@ export enum PlatformName {
 }
 
 export interface ImportProject {
+  id: string;
   name: string;
   description: string;
+  dateStart: string;
+  dateEnd: string;
   resources: ImportResource[];
   members: ImportMember[];
 }

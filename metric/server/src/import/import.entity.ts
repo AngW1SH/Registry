@@ -107,6 +107,7 @@ export class ImportUser {
 }
 
 export interface ImportProject {
+  id: string | number;
   name: string;
   description: string;
   dateStart: string | null;
@@ -116,6 +117,9 @@ export interface ImportProject {
 }
 
 export class ImportProject {
+  @ApiProperty({ name: 'id', example: '1' })
+  id: string | number;
+
   @ApiProperty({
     name: 'name',
     example: 'Реестр проектов клинической практики',

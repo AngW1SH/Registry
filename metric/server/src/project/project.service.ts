@@ -182,19 +182,19 @@ export class ProjectService {
     };
   }
 
-  async updateOne(project: Project): Promise<Project> {
+  async updateMetrics(newData: Project) {
     const oldData = await this.prisma.project.findFirst({
       where: {
-        id: project.id,
+        id: newData.id,
       },
     });
 
-    if (!oldData) throw new Error('Project not found');
+    if (!oldData) return null;
 
-    if (oldData.name !== project.name) {
+    if (oldData.name !== newData.name) {
       const result = await this.taskService.updateGroupName({
         old: 'project:' + oldData.name,
-        new: 'project:' + project.name,
+        new: 'project:' + newData.name,
       });
 
       if (!result || !result.new) throw new Error('Failed to update tasks');
@@ -202,26 +202,30 @@ export class ProjectService {
 
     if (
       new Date(oldData.dateStart)?.getTime() !==
-        new Date(project.dateStart)?.getTime() ||
+        new Date(newData.dateStart)?.getTime() ||
       new Date(oldData.dateEnd)?.getTime() !==
-        new Date(project.dateEnd)?.getTime()
+        new Date(newData.dateEnd)?.getTime()
     ) {
       this.taskService.updateByGroupName({
-        group: 'project:' + project.name,
-        created_at: project.dateStart
+        group: 'project:' + newData.name,
+        created_at: newData.dateStart
           ? {
-              seconds: new Date(project.dateStart).getTime() / 1000,
+              seconds: new Date(newData.dateStart).getTime() / 1000,
               nanos: 0,
             }
           : null,
-        deleted_at: project.dateEnd
+        deleted_at: newData.dateEnd
           ? {
-              seconds: new Date(project.dateEnd).getTime() / 1000,
+              seconds: new Date(newData.dateEnd).getTime() / 1000,
               nanos: 0,
             }
           : null,
       });
     }
+  }
+
+  async updateOne(project: Project): Promise<Project> {
+    await this.updateMetrics(project);
 
     const dateStart = new Date(project.dateStart);
     const dateEnd = new Date(project.dateEnd);

@@ -83,6 +83,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     );
 
     const importProject = {
+      id: "" + project.id,
       name: project.name,
       description:
         project.description.substring(0, 40) +

@@ -10,25 +10,37 @@ import { ResourceConfig } from '../resource/config/types';
 import { configs } from '../resource/config';
 import { Project } from '../project/project.entity';
 import { User } from '@prisma/client';
-import { PlatformName } from '../platform/platform.entity';
+import { ProjectService } from '../project/project.service';
 
 @Injectable()
 export class ImportService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private projectService: ProjectService,
+  ) {}
 
   async createOrUpdateProject(project: ImportProject) {
     const findProject = await this.prisma.project.findFirst({
       where: {
-        name: project.name,
+        id: '' + project.id,
       },
     });
 
     if (findProject) {
+      await this.projectService.updateMetrics({
+        id: findProject.id,
+        name: project.name,
+        description: project.description,
+        dateStart: project.dateStart ? new Date(project.dateStart) : null,
+        dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
+      });
+
       const updateProject = await this.prisma.project.update({
         where: {
           id: findProject.id,
         },
         data: {
+          name: project.name,
           description: project.description,
           dateStart: project.dateStart ? new Date(project.dateStart) : null,
           dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
@@ -40,6 +52,7 @@ export class ImportService {
 
     const createProject = await this.prisma.project.create({
       data: {
+        id: '' + project.id,
         name: project.name,
         description: project.description,
       },
