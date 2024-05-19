@@ -2,15 +2,15 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { initializeProjectDetailed } from "@/composites/ProjectDetailed";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
 import { useForceUser } from "@/entities/User";
-import { AddProvider } from "@/features/AddProvider";
 import DeleteProject from "@/features/DeleteProject/ui/DeleteProject";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { ProjectTitle } from "@/widgets/ProjectTitle";
 import { FC, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditProject from "@/features/EditProject/ui/EditProject";
-import ResourceConfigure from "@/widgets/ResourceConfigure/ui/ResourceConfigure";
 import { ArrowDown } from "@/shared/ui/Icons";
+import { CreateResource } from "@/features/Resource";
+import { ResourceConfigure } from "@/widgets/ResourceConfigure";
 
 interface ProjectSettingsPageProps {}
 
@@ -70,7 +70,7 @@ const ProjectSettingsPage: FC<ProjectSettingsPageProps> = () => {
           <div className="pt-14"></div>
           <div className="flex items-center gap-14">
             <h1 className="text-6xl font-medium">Resources</h1>
-            <AddProvider />
+            <CreateResource />
           </div>
           <div className="pt-8"></div>
           <ul className="flex flex-col gap-6">

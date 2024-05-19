@@ -11,27 +11,26 @@ import { PlatformName } from "@/entities/Platform/types";
 import { useSaveResourceMutation } from "@/entities/Resource/model/resourceApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
-interface ConfigureResourceProps {
+interface SettingsProps {
   resource: IResource;
 }
 
-const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
+const Settings: FC<SettingsProps> = ({ resource }) => {
   const dispatch = useAppDispatch();
-
   const [update, { isLoading }] = useSaveResourceMutation();
-
-  const [hasChanged, setHasChanged] = useState(false);
+  const [hasChanged, setHasChanged] = useState(false); // Only allow making a request when there are changes
 
   const platform = useAppSelector((state) =>
     selectPlatformById(state.platform, resource.platform)
   );
 
+  // Edit locally to not cause freezes due to redux updates
   const [localParams, setLocalParams] = useState(resource.params);
 
   if (!platform) return <div></div>;
-
   if (!(platform.name in PlatformName)) return <div></div>;
 
+  // Save changes locally
   const handleChange = (value: IResourceField) => {
     setHasChanged(true);
     setLocalParams((prev) =>
@@ -39,11 +38,12 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
     );
   };
 
+  // Make a request and save changes to redux
   const handleSave = async () => {
-    if (hasChanged) {
-      await update({ ...resource, params: localParams });
-      setHasChanged(false);
+    if (!hasChanged) return;
 
+    const result = await update({ ...resource, params: localParams });
+    if (!result.hasOwnProperty("error")) {
       dispatch(
         resourceSlice.actions.updateParams({
           resourceId: resource.id,
@@ -51,6 +51,7 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
         })
       );
     }
+    setHasChanged(false);
   };
 
   return (
@@ -90,4 +91,4 @@ const ConfigureResource: FC<ConfigureResourceProps> = ({ resource }) => {
   );
 };
 
-export default ConfigureResource;
+export default Settings;

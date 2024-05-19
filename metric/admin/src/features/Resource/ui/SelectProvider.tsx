@@ -1,6 +1,6 @@
 import { FC, ReactElement } from "react";
 
-interface ProviderSelectProps {
+interface SelectProviderProps {
   options: {
     name: string;
     icon: ReactElement;
@@ -9,7 +9,7 @@ interface ProviderSelectProps {
   onSelect: (name: string) => void;
 }
 
-const ProviderSelect: FC<ProviderSelectProps> = ({
+const SelectProvider: FC<SelectProviderProps> = ({
   options,
   selected,
   onSelect,
@@ -38,4 +38,4 @@ const ProviderSelect: FC<ProviderSelectProps> = ({
   );
 };
 
-export default ProviderSelect;
+export default SelectProvider;

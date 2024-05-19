@@ -7,31 +7,28 @@ import {
 import { GraphIcon, StopIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
 
-interface ToggleResourceMetricsProps {
+interface ToggleMetricsProps {
   resourceId: string;
 }
 
-const ToggleResourceMetrics: FC<ToggleResourceMetricsProps> = ({
-  resourceId,
-}) => {
+const ToggleMetrics: FC<ToggleMetricsProps> = ({ resourceId }) => {
   const [start] = useStartTrackingMutation();
   const [stop] = useStopTrackingMutation();
 
   const dispatch = useAppDispatch();
 
   const metrics = useAppSelector((state) => state.metric.metrics);
-
   const resource = useAppSelector((state) =>
     state.resource.resources.find((m) => m.id === resourceId)
   );
 
+  // don't render if resource isn't in the store (yet)
   if (!resource) return <></>;
 
   const handleStart = async () => {
     const result = await start(resourceId);
 
-    console.log(result);
-
+    // If request is successful, set all resource metrics to 'tracked' state
     if (!result.hasOwnProperty("error")) {
       dispatch(
         metricSlice.actions.setMetrics(
@@ -52,6 +49,7 @@ const ToggleResourceMetrics: FC<ToggleResourceMetricsProps> = ({
   const handleStop = async () => {
     const result = await stop(resourceId);
 
+    // If request is successful, set all resource metrics to 'not tracked' state
     if (!result.hasOwnProperty("error")) {
       dispatch(
         metricSlice.actions.setMetrics(
@@ -93,4 +91,4 @@ const ToggleResourceMetrics: FC<ToggleResourceMetricsProps> = ({
   );
 };
 
-export default ToggleResourceMetrics;
+export default ToggleMetrics;

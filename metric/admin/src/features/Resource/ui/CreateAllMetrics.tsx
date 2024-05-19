@@ -6,11 +6,13 @@ import { PlusIcon } from "@/shared/ui/Icons";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { FC, useEffect } from "react";
 
-interface AddAllMetricsProps {
+interface CreateAllMetricsProps {
   resource: string;
 }
 
-const AddAllMetrics: FC<AddAllMetricsProps> = ({ resource: resourceId }) => {
+const CreateAllMetrics: FC<CreateAllMetricsProps> = ({
+  resource: resourceId,
+}) => {
   const metricInfo = useGetMetricInfoQuery();
   const metrics = useAppSelector((state) => state.metric.metrics);
   const [create, { data: createData, isLoading }] =
@@ -18,18 +20,15 @@ const AddAllMetrics: FC<AddAllMetricsProps> = ({ resource: resourceId }) => {
 
   const dispatch = useAppDispatch();
 
+  // Make a request
   const handleClick = async () => {
     if (leftToAdd) {
-      const result = await create(resourceId);
-
-      if (!result.hasOwnProperty("error")) {
-        console.log(result);
-      }
+      await create(resourceId);
     }
   };
 
+  // Update store on successful creation
   useEffect(() => {
-    console.log(createData);
     createData?.forEach((metric) => {
       if (metric && !metrics.find((m) => m.id == metric.id)) {
         dispatch(metricSlice.actions.pushMetric(metric));
@@ -39,11 +38,13 @@ const AddAllMetrics: FC<AddAllMetricsProps> = ({ resource: resourceId }) => {
 
   if (!metricInfo.data || !metrics) return <></>;
 
+  // Check how many metrics are already created for this resource
   const leftToAdd = metricInfo.data.filter(
     (metric) =>
       !metrics.find((m) => m.name == metric.name && m.resource == resourceId)
   );
 
+  // If all metrics are already created, don't show the button
   if (leftToAdd.length == 0) return <></>;
 
   if (isLoading)
@@ -66,4 +67,4 @@ const AddAllMetrics: FC<AddAllMetricsProps> = ({ resource: resourceId }) => {
   );
 };
 
-export default AddAllMetrics;
+export default CreateAllMetrics;

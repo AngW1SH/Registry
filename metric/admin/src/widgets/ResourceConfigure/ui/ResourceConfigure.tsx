@@ -4,16 +4,18 @@ import { useGetMetricInfoQuery } from "@/entities/Metric/model/metricApi";
 import { PlatformIcon } from "@/entities/Platform";
 import { IProject } from "@/entities/Project";
 import { IResource, ResourceCard } from "@/entities/Resource";
-import { AddAllMetrics } from "@/features/AddAllMetrics";
 import { AddMetric } from "@/features/AddMetric";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
-import { ConfigureResource } from "@/features/ConfigureResource";
-import { DeleteResource } from "@/features/DeleteResource";
 import { ExecuteMetric } from "@/features/ExecuteMetric";
+import {
+  CreateAllMetrics,
+  DeleteResource,
+  ResourceSettings,
+  ToggleResourceMetrics,
+} from "@/features/Resource";
 import { SearchMetric } from "@/features/SearchMetric";
 import { StopTrackingMetric } from "@/features/StopTrackingMetric";
 import { ToggleMetricStatus } from "@/features/ToggleMetricStatus";
-import { ToggleResourceMetrics } from "@/features/ToggleResourceMetrics";
 import { FC } from "react";
 
 interface ResourceConfigureProps {
@@ -51,12 +53,12 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
       }
     >
       <div className="pt-8" />
-      <ConfigureResource resource={resource} />
+      <ResourceSettings resource={resource} />
       <div className="pt-8"></div>
       <div className=" bg-background rounded-lg py-14 px-7">
         <h2 className="font-semibold text-4xl">Resource Metrics</h2>
         <div className="pt-8" />
-        <AddAllMetrics resource={resource.id} />
+        <CreateAllMetrics resource={resource.id} />
         <div className="pt-8" />
         <AddMetric resource={resource.id} project={project.id} />
         <div className="pt-8"></div>

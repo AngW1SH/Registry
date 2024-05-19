@@ -6,16 +6,12 @@ import {
 } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { TextInput } from "@/shared/ui/TextInput";
-import { FC, useState } from "react";
-import ProviderSelect from "./ProviderSelect";
+import { FC, useEffect, useState } from "react";
 import { PlatformName } from "@/entities/Platform/types";
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import { fetchAddResource } from "../api/fetchAddProvider";
 import { resourceSlice } from "@/entities/Resource";
-
-interface AddProviderProps {
-  className?: string;
-}
+import { useCreateResourceMutation } from "@/entities/Resource/model/resourceApi";
+import SelectProvider from "./SelectProvider";
 
 const options = [
   {
@@ -28,11 +24,17 @@ const options = [
   },
 ];
 
-const AddProvider: FC<AddProviderProps> = ({ className = "" }) => {
+interface CreateProps {
+  className?: string;
+}
+
+const Create: FC<CreateProps> = ({ className = "" }) => {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [provider, setProvider] = useState<string | null>(null);
+
+  const [create, { data: createData }] = useCreateResourceMutation();
 
   const platforms = useAppSelector((state) => state.platform.platforms);
   const project = useAppSelector((state) => state.project.project);
@@ -40,24 +42,34 @@ const AddProvider: FC<AddProviderProps> = ({ className = "" }) => {
 
   const handleConfirm = async () => {
     if (name && provider && project) {
-      console.log(provider);
-      console.log(platforms);
+      // Check if platform exists
       const platform = platforms.find((platform) => platform.name === provider);
-
       if (!platform) throw new Error("Couldn't find platform");
 
-      const result = await fetchAddResource(name, platform.id, project.id);
+      // Make a request
+      const result = await create({
+        name,
+        platform: platform.id,
+        project: project.id,
+      });
 
-      if (!result) throw new Error("Couldn't create a resource");
+      if (!result || result.hasOwnProperty("error"))
+        throw new Error("Couldn't create a resource");
 
+      // Set state to empty in case the user would want to create another resource
       setName("");
       setProvider(null);
-
-      dispatch(resourceSlice.actions.addResource(result));
 
       setOpen(false);
     }
   };
+
+  // Update redux state on successful creation
+  useEffect(() => {
+    if (createData && createData?.id) {
+      dispatch(resourceSlice.actions.addResource(createData));
+    }
+  }, [createData, createData?.id]);
 
   return (
     <>
@@ -90,7 +102,7 @@ const AddProvider: FC<AddProviderProps> = ({ className = "" }) => {
             placeholder="Enter the provider name"
           />
           <div className="pt-10"></div>
-          <ProviderSelect
+          <SelectProvider
             options={options}
             selected={provider}
             onSelect={setProvider}
@@ -108,4 +120,4 @@ const AddProvider: FC<AddProviderProps> = ({ className = "" }) => {
   );
 };
 
-export default AddProvider;
+export default Create;

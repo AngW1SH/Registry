@@ -12,6 +12,16 @@ export const resourceApi = createApi({
   reducerPath: "resourceApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: (build) => ({
+    createResource: build.mutation<
+      IResource,
+      { name: string; platform: string; project: string }
+    >({
+      query: (resource) => ({
+        url: "resource",
+        method: "POST",
+        body: { resource: resource },
+      }),
+    }),
     saveResource: build.mutation<void, IResource>({
       query: (resource) => ({
         url: `resource/${resource.id}`,
@@ -54,4 +64,5 @@ export const {
   useStartTrackingMutation,
   useStopTrackingMutation,
   useCreateAllMetricsMutation,
+  useCreateResourceMutation,
 } = resourceApi;

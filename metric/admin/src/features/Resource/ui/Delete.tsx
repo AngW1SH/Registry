@@ -5,21 +5,21 @@ import { TrashIcon } from "@/shared/ui/Icons";
 import { Modal } from "@/shared/ui/Modal";
 import { FC, useState } from "react";
 
-interface DeleteResourceProps {
+interface DeleteProps {
   id: string;
   className?: string;
 }
 
-const DeleteResource: FC<DeleteResourceProps> = ({ id, className }) => {
+const Delete: FC<DeleteProps> = ({ id, className }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useAppDispatch();
-
   const [deleteResource] = useDeleteResourceMutation();
 
   const handleConfirm = async () => {
     const result = await deleteResource(id);
 
+    // Update store on successful deletion
     if (!result.hasOwnProperty("error")) {
       dispatch(resourceSlice.actions.popResource(id));
     }
@@ -62,4 +62,4 @@ const DeleteResource: FC<DeleteResourceProps> = ({ id, className }) => {
   );
 };
 
-export default DeleteResource;
+export default Delete;
