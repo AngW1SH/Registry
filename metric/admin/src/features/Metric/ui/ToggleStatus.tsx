@@ -7,15 +7,12 @@ import {
 import { PauseIcon, ResumeIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
 
-interface ToggleMetricStatusProps {
+interface ToggleStatusProps {
   metricId: string;
   className?: string;
 }
 
-const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
-  metricId,
-  className,
-}) => {
+const ToggleStatus: FC<ToggleStatusProps> = ({ metricId, className }) => {
   const [start] = useStartMetricMutation();
   const [stop] = useStopMetricMutation();
 
@@ -81,4 +78,4 @@ const ToggleMetricStatus: FC<ToggleMetricStatusProps> = ({
   );
 };
 
-export default ToggleMetricStatus;
+export default ToggleStatus;

@@ -6,9 +6,9 @@ import { TextInput } from "@/shared/ui/TextInput";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { FC, useEffect, useState } from "react";
 
-interface SearchMetricProps {}
+interface SearchProps {}
 
-const SearchMetric: FC<SearchMetricProps> = () => {
+const Search: FC<SearchProps> = () => {
   const dispatch = useAppDispatch();
 
   const [value, setValue] = useState<string>("");
@@ -40,4 +40,4 @@ const SearchMetric: FC<SearchMetricProps> = () => {
   );
 };
 
-export default SearchMetric;
+export default Search;

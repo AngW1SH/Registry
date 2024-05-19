@@ -4,18 +4,20 @@ import { useGetMetricInfoQuery } from "@/entities/Metric/model/metricApi";
 import { PlatformIcon } from "@/entities/Platform";
 import { IProject } from "@/entities/Project";
 import { IResource, ResourceCard } from "@/entities/Resource";
-import { AddMetric } from "@/features/AddMetric";
-import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
-import { ExecuteMetric } from "@/features/ExecuteMetric";
+import {
+  CreateMetric,
+  DeleteMetric,
+  ForceExecuteMetric,
+  SearchMetrics,
+  ToggleMetricsStatus,
+  MetricParams,
+} from "@/features/Metric";
 import {
   CreateAllMetrics,
   DeleteResource,
   ResourceSettings,
   ToggleResourceMetrics,
 } from "@/features/Resource";
-import { SearchMetric } from "@/features/SearchMetric";
-import { StopTrackingMetric } from "@/features/StopTrackingMetric";
-import { ToggleMetricStatus } from "@/features/ToggleMetricStatus";
 import { FC } from "react";
 
 interface ResourceConfigureProps {
@@ -60,9 +62,9 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
         <div className="pt-8" />
         <CreateAllMetrics resource={resource.id} />
         <div className="pt-8" />
-        <AddMetric resource={resource.id} project={project.id} />
+        <CreateMetric resource={resource.id} project={project.id} />
         <div className="pt-8"></div>
-        <SearchMetric />
+        <SearchMetrics />
         <div className="pt-8"></div>
         <ul className="flex flex-wrap gap-10 justify-between">
           {metrics
@@ -83,15 +85,15 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
                     <div className="flex justify-end items-center gap-3">
                       {metricData?.find(
                         (m) => m.name === metric.name && m.snapshotBased
-                      ) && <ExecuteMetric metricId={metric.id} />}
+                      ) && <ForceExecuteMetric metricId={metric.id} />}
                       {metricData?.find(
                         (m) => m.name === metric.name && m.snapshotBased
-                      ) && <ToggleMetricStatus metricId={metric.id} />}
-                      <StopTrackingMetric metricId={metric.id} />
+                      ) && <ToggleMetricsStatus metricId={metric.id} />}
+                      <DeleteMetric metricId={metric.id} />
                     </div>
                   }
                 >
-                  <ConfigureMetricParams metric={metric} />
+                  <MetricParams metric={metric} />
                 </MetricSettings>
               </li>
             ))}

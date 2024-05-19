@@ -12,37 +12,36 @@ import { IAbstractMetricDetailed } from "@/entities/Metric/types";
 import { Modal } from "@/shared/ui/Modal";
 import { PlusIcon } from "@/shared/ui/Icons";
 
-interface AddMetricProps {
+interface CreateProps {
   project: string;
   resource: string;
 }
 
-const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
+const Create: FC<CreateProps> = ({ project, resource }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [selected, setSelected] = useState<IAbstractMetricDetailed | null>(
     null
   );
 
-  const metrics = useAppSelector((state) => state.metric.metrics);
-  const dispatch = useAppDispatch();
-
-  const resourceMetrics = metrics.filter(
-    (metric) => metric.resource == resource
-  );
-
   const { data } = useGetMetricInfoQuery();
 
+  // only use metrics for this resource
+  const metrics = useAppSelector((state) =>
+    state.metric.metrics.filter((m) => m.resource == resource)
+  );
+  const dispatch = useAppDispatch();
+
+  // Only show metrics that are not already created
   const filteredData =
-    data?.filter(
-      (metric) => !resourceMetrics.find((m) => m.name == metric.name)
-    ) || [];
+    data?.filter((metric) => !metrics.find((m) => m.name == metric.name)) || [];
 
   const [mutate, { data: createData, isLoading }] = useCreateMetricMutation();
 
   const handleSubmitClick = async () => {
     if (!selected) return;
 
+    // If there are dependencies, open modal
     if (selected.dependencies.length > 0) {
       setIsOpen(true);
     } else {
@@ -62,8 +61,12 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
     setIsOpen(false);
   };
 
+  // Update the store
+  // createData contains an array of metrics (the target metric and all its newly created dependencies)
   useEffect(() => {
     createData?.forEach((metric) => {
+      // with how the API works, no metrics from 'createData' could have already been in 'metrics'
+      // but having that id check allows me to sleep well at night
       if (metric && !metrics.find((m) => m.id == metric.id)) {
         dispatch(metricSlice.actions.pushMetric(metric));
       }
@@ -141,4 +144,4 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
   );
 };
 
-export default AddMetric;
+export default Create;

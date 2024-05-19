@@ -5,11 +5,11 @@ import { FC, useState } from "react";
 import { useUpdateMetricMutation } from "@/entities/Metric/model/metricApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 
-interface ConfigureMetricParamsProps {
+interface ParamsProps {
   metric: IMetric;
 }
 
-const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
+const Params: FC<ParamsProps> = ({ metric }) => {
   const dispatch = useAppDispatch();
 
   const metricParams =
@@ -17,12 +17,14 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
       state.metric.metrics.find((mapped) => mapped.id === metric.id)
     )?.params || [];
 
+  // update locally until saved for performance reasons (store updates are visibly slow)
   const [localParams, setLocalParams] = useState(metricParams);
 
   const [update, { isLoading }] = useUpdateMetricMutation();
 
   const [hasChanged, setHasChanged] = useState(false);
 
+  // Triggers when the user changes a field, only updates the local state
   const handleChange = (param: IMetricParam) => {
     setHasChanged(true);
     setLocalParams((prev) =>
@@ -30,6 +32,8 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
     );
   };
 
+  // Triggers when the user presses the 'confirm' button
+  // Makes a request to the server and updates the store
   const handleSubmit = async () => {
     if (hasChanged) await update({ ...metric, params: localParams });
     dispatch(
@@ -74,4 +78,4 @@ const ConfigureMetricParams: FC<ConfigureMetricParamsProps> = ({ metric }) => {
   );
 };
 
-export default ConfigureMetricParams;
+export default Params;

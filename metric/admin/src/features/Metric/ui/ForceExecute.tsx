@@ -4,12 +4,12 @@ import { useExecuteMetricMutation } from "@/entities/Metric/model/metricApi";
 import { RefreshIcon } from "@/shared/ui/Icons";
 import { FC, useState } from "react";
 
-interface ExecuteMetricProps {
+interface ForceExecuteProps {
   metricId: string;
   className?: string;
 }
 
-const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
+const ForceExecute: FC<ForceExecuteProps> = ({ metricId, className }) => {
   const [isLoading, setLoading] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -19,6 +19,7 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
     state.metric.metrics.find((m) => m.id === metricId)
   );
 
+  // Make a request
   const handleClick = async () => {
     if (isLoading) return;
 
@@ -39,6 +40,9 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
     setLoading(false);
   };
 
+  // Updating the store is not needed here
+  // The updates will arrive through the websocket
+
   return (
     <button
       onClick={handleClick}
@@ -56,4 +60,4 @@ const ExecuteMetric: FC<ExecuteMetricProps> = ({ metricId, className }) => {
   );
 };
 
-export default ExecuteMetric;
+export default ForceExecute;

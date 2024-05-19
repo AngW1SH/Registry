@@ -8,49 +8,39 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { metricSlice } from "@/entities/Metric";
 import { TrashIcon } from "@/shared/ui/Icons";
 
-interface StopTrackingMetricProps {
+interface DeleteProps {
   className?: string;
   metricId: string;
 }
 
-const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
-  metricId,
-  className,
-}) => {
+const Delete: FC<DeleteProps> = ({ metricId, className }) => {
   const dispatch = useAppDispatch();
 
   const metric = useAppSelector((state) =>
     state.metric.metrics.find((m) => m.id === metricId)
   );
+  // Only use the metrics for this resource
   const metrics = useAppSelector((state) =>
     state.metric.metrics.filter((m) => m.resource == metric?.resource)
   );
 
-  const [stopTracking] = useDeleteMetricMutation();
+  const [deleteMetric] = useDeleteMetricMutation();
   const { data: metricInfo } = useGetMetricInfoQuery();
 
+  // Find all the abstract metric info for the metrics that depend on this one
   const dependantsInfo = metric
     ? metricInfo?.filter((m) => m.dependencies.includes(metric.name))
     : [];
 
+  // find the metric data for the dependants
   const dependants = metrics.filter((m) => {
-    const mInfo = dependantsInfo?.find((d) => d.name == m.name);
-
-    if (!mInfo) return false;
-
-    if (!mInfo.snapshotBased) {
-      return true;
-    }
-
-    if (mInfo.snapshotBased && m.isTracked) {
-      return true;
-    }
+    return dependantsInfo?.find((d) => d.name == m.name);
   });
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleConfirm = async () => {
-    const result = await stopTracking(metricId);
+    const result = await deleteMetric(metricId);
 
     if (!result.hasOwnProperty("error")) {
       dispatch(metricSlice.actions.popMetric(metricId));
@@ -114,4 +104,4 @@ const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
   );
 };
 
-export default StopTrackingMetric;
+export default Delete;
