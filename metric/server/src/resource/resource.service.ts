@@ -9,7 +9,7 @@ import {
 } from './resource.entity';
 import { MetricService } from 'src/metric/metric.service';
 import { configs } from './config';
-import { Metric } from '../metric/metric.entity';
+import { Metric, MetricDetailed } from '../metric/metric.entity';
 import { ResourceConfig } from './config/types';
 import { MetricConfig } from '../metric/config/types';
 import { metricConfig } from '../metric/config/metricConfig';
@@ -245,7 +245,9 @@ export class ResourceService {
   async createAllMetrics(resourceId: string) {
     const metrics = await this.metricService.listAll();
 
-    const result = await Promise.all(
+    const result: MetricDetailed[] = [];
+
+    await Promise.all(
       metrics.map(async (metric) => {
         const metricInDB = await this.prisma.metric.findFirst({
           where: {
@@ -254,13 +256,17 @@ export class ResourceService {
           },
         });
 
-        if (metricInDB) return null;
+        if (metricInDB) return;
 
-        this.metricService.create({
+        console.log(metric.name);
+
+        const metricCreateResult = await this.metricService.create({
           params: '',
           name: metric.name,
           resource: resourceId,
         });
+
+        if (metricCreateResult) result.push(...metricCreateResult);
       }),
     );
 

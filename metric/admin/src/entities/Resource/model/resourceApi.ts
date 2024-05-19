@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IResource } from "..";
+import { IMetric } from "@/entities/Metric";
 
 export interface MetricParams {
   project: string;
@@ -38,6 +39,12 @@ export const resourceApi = createApi({
         method: "GET",
       }),
     }),
+    createAllMetrics: build.mutation<IMetric[], string>({
+      query: (id) => ({
+        url: `resource/${id}/metrics`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useDeleteResourceMutation,
   useStartTrackingMutation,
   useStopTrackingMutation,
+  useCreateAllMetricsMutation,
 } = resourceApi;

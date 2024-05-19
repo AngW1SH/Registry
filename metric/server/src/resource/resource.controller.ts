@@ -136,4 +136,19 @@ export class ResourceController {
 
     return result;
   }
+
+  @Post(':id/metrics')
+  @ApiOperation({
+    summary: 'Create all metrics for the resource',
+  })
+  async createAllMetrics(
+    @Param('id') id: string,
+  ): Promise<MetricDetailedDTO[]> {
+    const result = await this.resourceService.createAllMetrics(id);
+
+    return result.map((metric) => ({
+      ...metric,
+      params: JSON.parse(metric.params),
+    }));
+  }
 }

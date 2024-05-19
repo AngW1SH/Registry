@@ -4,6 +4,7 @@ import { useGetMetricNamesQuery } from "@/entities/Metric/model/metricApi";
 import { PlatformIcon } from "@/entities/Platform";
 import { IProject } from "@/entities/Project";
 import { IResource, ResourceCard } from "@/entities/Resource";
+import { AddAllMetrics } from "@/features/AddAllMetrics";
 import { AddMetric } from "@/features/AddMetric";
 import { ConfigureMetricParams } from "@/features/ConfigureMetricParams";
 import { ConfigureResource } from "@/features/ConfigureResource";
@@ -54,6 +55,8 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
       <div className="pt-8"></div>
       <div className=" bg-background rounded-lg py-14 px-7">
         <h2 className="font-semibold text-4xl">Resource Metrics</h2>
+        <div className="pt-8" />
+        <AddAllMetrics resource={resource.id} />
         <div className="pt-8" />
         <AddMetric resource={resource.id} project={project.id} />
         <div className="pt-8"></div>
