@@ -12,7 +12,7 @@ export const metricApi = createApi({
   reducerPath: "metricApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_SERVER_URL }),
   endpoints: (build) => ({
-    getMetricNames: build.query<IAbstractMetricDetailed[], void>({
+    getMetricInfo: build.query<IAbstractMetricDetailed[], void>({
       query: () => "metric",
     }),
     createMetric: build.mutation<IMetric[], MetricParams>({
@@ -66,7 +66,7 @@ export const metricApi = createApi({
 });
 
 export const {
-  useGetMetricNamesQuery,
+  useGetMetricInfoQuery,
   useCreateMetricMutation,
   useDeleteMetricMutation,
   useUpdateMetricMutation,

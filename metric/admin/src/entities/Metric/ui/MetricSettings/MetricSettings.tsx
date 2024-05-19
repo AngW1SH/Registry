@@ -2,7 +2,7 @@ import { FC, ReactNode } from "react";
 import UpdateStatus from "./UpdateStatus";
 import { useData } from "../../hooks/useData";
 import { useAppSelector } from "@/app/store";
-import { useGetMetricNamesQuery } from "../../model/metricApi";
+import { useGetMetricInfoQuery } from "../../model/metricApi";
 
 interface MetricSettingsProps {
   className?: string;
@@ -23,7 +23,7 @@ const MetricSettings: FC<MetricSettingsProps> = ({
 
   const data = useData(metricData, calendar);
 
-  const { data: metricInfoList } = useGetMetricNamesQuery();
+  const { data: metricInfoList } = useGetMetricInfoQuery();
 
   const metricInfo = metricInfoList?.find((metric) => metric.name === name);
 

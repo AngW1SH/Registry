@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/app/store";
 import { IMetric, MetricSettings } from "@/entities/Metric";
-import { useGetMetricNamesQuery } from "@/entities/Metric/model/metricApi";
+import { useGetMetricInfoQuery } from "@/entities/Metric/model/metricApi";
 import { PlatformIcon } from "@/entities/Platform";
 import { IProject } from "@/entities/Project";
 import { IResource, ResourceCard } from "@/entities/Resource";
@@ -27,7 +27,7 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
   project,
   metrics,
 }) => {
-  const { data: metricData } = useGetMetricNamesQuery();
+  const { data: metricData } = useGetMetricInfoQuery();
 
   const metricFilters = useAppSelector((state) => state.metric.filters);
   const platform = useAppSelector((state) =>

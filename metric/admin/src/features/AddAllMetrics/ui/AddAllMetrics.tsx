@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { metricSlice } from "@/entities/Metric";
-import { useGetMetricNamesQuery } from "@/entities/Metric/model/metricApi";
+import { useGetMetricInfoQuery } from "@/entities/Metric/model/metricApi";
 import { useCreateAllMetricsMutation } from "@/entities/Resource/model/resourceApi";
 import { PlusIcon } from "@/shared/ui/Icons";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
@@ -11,7 +11,7 @@ interface AddAllMetricsProps {
 }
 
 const AddAllMetrics: FC<AddAllMetricsProps> = ({ resource: resourceId }) => {
-  const metricInfo = useGetMetricNamesQuery();
+  const metricInfo = useGetMetricInfoQuery();
   const metrics = useAppSelector((state) => state.metric.metrics);
   const [create, { data: createData, isLoading }] =
     useCreateAllMetricsMutation();

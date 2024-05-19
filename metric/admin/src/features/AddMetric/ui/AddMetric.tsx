@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
   useCreateMetricMutation,
-  useGetMetricNamesQuery,
+  useGetMetricInfoQuery,
 } from "@/entities/Metric/model/metricApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { metricSlice } from "@/entities/Metric";
@@ -31,7 +31,7 @@ const AddMetric: FC<AddMetricProps> = ({ project, resource }) => {
     (metric) => metric.resource == resource
   );
 
-  const { data } = useGetMetricNamesQuery();
+  const { data } = useGetMetricInfoQuery();
 
   const filteredData =
     data?.filter(

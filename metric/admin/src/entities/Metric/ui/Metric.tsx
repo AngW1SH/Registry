@@ -2,7 +2,7 @@ import { FC } from "react";
 import { TotalCommits } from "../instances/TotalCommits";
 import IssueCompleteness from "../instances/IssueCompleteness/ui/IssueCompleteness";
 import { useAppSelector } from "@/app/store";
-import { useGetMetricNamesQuery } from "../model/metricApi";
+import { useGetMetricInfoQuery } from "../model/metricApi";
 import PullRequestHangTime from "../instances/PullRequestHangTime/ui/PullRequestHangTime";
 import RapidPullRequests from "../instances/RapidPullRequests/ui/RapidPullRequests";
 import Grade from "../instances/Grade/ui/Grade";
@@ -16,7 +16,7 @@ const Metric: FC<MetricProps> = ({ id }) => {
     state.metric.metrics.find((m) => m.id === id)
   );
 
-  const { data: metricInfoList } = useGetMetricNamesQuery();
+  const { data: metricInfoList } = useGetMetricInfoQuery();
 
   const metricInfo = metricInfoList?.find((m) => m.name === metric?.name);
 

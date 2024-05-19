@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import {
   useDeleteMetricMutation,
-  useGetMetricNamesQuery,
+  useGetMetricInfoQuery,
 } from "@/entities/Metric/model/metricApi";
 import { Modal } from "@/shared/ui/Modal";
 import { useAppDispatch, useAppSelector } from "@/app/store";
@@ -27,7 +27,7 @@ const StopTrackingMetric: FC<StopTrackingMetricProps> = ({
   );
 
   const [stopTracking] = useDeleteMetricMutation();
-  const { data: metricInfo } = useGetMetricNamesQuery();
+  const { data: metricInfo } = useGetMetricInfoQuery();
 
   const dependantsInfo = metric
     ? metricInfo?.filter((m) => m.dependencies.includes(metric.name))
