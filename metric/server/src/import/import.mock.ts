@@ -4,6 +4,8 @@ import { ImportProject } from './import.entity';
 export const importProjectMock: ImportProject = {
   name: 'project1',
   description: 'desc1',
+  dateStart: '2021-01-01',
+  dateEnd: '2021-01-02',
   resources: [
     {
       name: 'resource1',

@@ -109,6 +109,8 @@ export class ImportUser {
 export interface ImportProject {
   name: string;
   description: string;
+  dateStart: string | null;
+  dateEnd: string | null;
   resources: ImportResource[];
   members: ImportMember[];
 }
@@ -125,6 +127,12 @@ export class ImportProject {
     example: 'Веб-сервис для управления и мониторинга проектов',
   })
   description: string;
+
+  @ApiProperty({ name: 'dateStart', example: '2020-01-01' })
+  dateStart: string | null;
+
+  @ApiProperty({ name: 'dateEnd', example: '2020-12-31' })
+  dateEnd: string | null;
 
   @ApiProperty({
     name: 'resources',

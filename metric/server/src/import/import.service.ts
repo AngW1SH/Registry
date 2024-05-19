@@ -30,6 +30,8 @@ export class ImportService {
         },
         data: {
           description: project.description,
+          dateStart: project.dateStart ? new Date(project.dateStart) : null,
+          dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
         },
       });
 

@@ -87,6 +87,8 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       description:
         project.description.substring(0, 40) +
         (project.description.length > 40 ? "..." : ""),
+      dateStart: project.dateStart,
+      dateEnd: project.dateEnd,
       resources: importResources,
       members: importMembers,
     };
