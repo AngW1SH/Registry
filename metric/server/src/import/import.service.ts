@@ -11,12 +11,14 @@ import { configs } from '../resource/config';
 import { Project } from '../project/project.entity';
 import { User } from '@prisma/client';
 import { ProjectService } from '../project/project.service';
+import { ResourceService } from '../resource/resource.service';
 
 @Injectable()
 export class ImportService {
   constructor(
     private prisma: PrismaService,
     private projectService: ProjectService,
+    private resourceService: ResourceService,
   ) {}
 
   async createOrUpdateProject(project: ImportProject) {
@@ -55,6 +57,8 @@ export class ImportService {
         id: '' + project.id,
         name: project.name,
         description: project.description,
+        dateStart: project.dateStart ? new Date(project.dateStart) : null,
+        dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
       },
     });
 
@@ -112,6 +116,9 @@ export class ImportService {
         platformId: platform.id,
       },
     });
+
+    await this.resourceService.createAllMetrics(createResource.id);
+    await this.resourceService.startTracking(createResource.id);
 
     return createResource;
   }

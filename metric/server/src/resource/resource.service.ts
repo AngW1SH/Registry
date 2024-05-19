@@ -242,6 +242,31 @@ export class ResourceService {
     }));
   }
 
+  async createAllMetrics(resourceId: string) {
+    const metrics = await this.metricService.listAll();
+
+    const result = await Promise.all(
+      metrics.map(async (metric) => {
+        const metricInDB = await this.prisma.metric.findFirst({
+          where: {
+            name: metric.name,
+            resourceId: resourceId,
+          },
+        });
+
+        if (metricInDB) return null;
+
+        this.metricService.create({
+          params: '',
+          name: metric.name,
+          resource: resourceId,
+        });
+      }),
+    );
+
+    return result;
+  }
+
   async startTracking(id: string) {
     const metrics = await this.getMetrics(id);
     if (!metrics) throw new Error("Couldn't get metrics");
