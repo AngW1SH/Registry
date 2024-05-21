@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import { CategoryCardWithImage } from "../types/types";
+import type { CategoryCardWithImage } from "../types/types";
 import Image from "next/image";
 import { ButtonTransparent } from "@/shared/ui";
 import { useRouter } from "next/navigation";

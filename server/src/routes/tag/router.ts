@@ -21,11 +21,13 @@ const tagRouter = express();
  *     description: Uses strapi's findMany of the Tag's content type
  *     responses:
  *       '200':
- *         description: A single user.
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/Tag'
+ *         content:
+ *           application/json:
+ *             description: An array of tags.
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Tag'
  */
 tagRouter.get("/filters/:query?", tagController.findInFilters);
 
@@ -52,11 +54,13 @@ tagRouter.get("/filters/:query?", tagController.findInFilters);
  *     description: Uses strapi's findMany of the Tag's content type
  *     responses:
  *       '200':
- *         description: A single user.
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/Tag'
+ *         content:
+ *           application/json:
+ *             description: An array of tags.
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/definitions/Tag'
  */
 tagRouter.post("/filters", tagController.findInFilters);
 

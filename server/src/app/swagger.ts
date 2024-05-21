@@ -3,9 +3,10 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 const options = {
   swaggerDefinition: {
+    openapi: "3.0.0",
     info: {
       title: "My Express API",
-      version: "3.0.0",
+      version: "1.0.0",
       description: "API documentation for my Express API",
     },
   },
