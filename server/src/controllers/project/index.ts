@@ -55,7 +55,7 @@ const projectControllerFactory = () => {
     try {
       const result = await projectService.findMany(
         getProjectFiltersFromDTO(req.body.filters),
-        +req.body.page
+        +req.body.page || 1
       );
 
       res.status(200).json(result);
