@@ -1,8 +1,7 @@
 import { FC } from "react";
 import { GradeMetric } from "../types";
 import { IMetric } from "@/entities/Metric/types";
-import { useAppSelector } from "@/app/store";
-import { useData } from "../hooks/useData";
+import { useFilter } from "../hooks/useFilter";
 import Graph from "./Graph";
 import { Tooltip } from "@/shared/ui/Tooltip";
 
@@ -12,9 +11,7 @@ interface GradeProps extends GradeMetric {
 }
 
 const Grade: FC<GradeProps> = ({ className, dependencies, ...metric }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
-
-  const data = useData(metric.data, calendar);
+  const data = useFilter(metric.data);
 
   if (!data.length) return <></>;
 

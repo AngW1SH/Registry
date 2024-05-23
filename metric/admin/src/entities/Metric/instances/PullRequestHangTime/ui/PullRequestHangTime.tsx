@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { PullRequestHangTimeMetric } from "../types";
-import { IMetric, MetricName } from "@/entities/Metric/types";
-import { useData } from "../hooks/useData";
-import { useAppSelector } from "@/app/store";
-import { PullRequestsMetric } from "../../PullRequests";
+import { IMetric } from "@/entities/Metric/types";
+import { useFilter } from "../hooks/useFilter";
 import Graph from "./Graph";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { getGrade } from "../model/getGrade";
@@ -19,12 +17,7 @@ const PullRequestHangTime: FC<PullRequestHangTimeProps> = ({
   dependencies,
   ...metric
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
-
-  const pullRequests = dependencies.find(
-    (metric) => metric.name === MetricName.PullRequests
-  ) as PullRequestsMetric;
-  const data = useData(pullRequests?.data || [], calendar, metric.resource);
+  const data = useFilter(dependencies, metric.resource);
 
   useGrade(metric, getGrade(data));
 

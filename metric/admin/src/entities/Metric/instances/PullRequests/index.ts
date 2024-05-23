@@ -1,5 +1,6 @@
 import type { PullRequests, PullRequestsMetric } from "./types";
-import { convertData } from "./utils/convertData";
+import { convertData as convertPullRequests } from "./utils/convertData";
+import { useFilter as useFilterPullRequests } from "./hooks/useFilter";
 
 export type { PullRequestsMetric, PullRequests };
-export { convertData as convertPullRequests };
+export { convertPullRequests, useFilterPullRequests };

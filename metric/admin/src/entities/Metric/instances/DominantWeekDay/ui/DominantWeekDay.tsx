@@ -1,13 +1,9 @@
 import { FC } from "react";
 import { DominantWeekDayMetric } from "../types";
-import { IMetric, MetricName } from "@/entities/Metric/types";
-import { useAppSelector } from "@/app/store";
-import { useData } from "../hooks/useData";
+import { IMetric } from "@/entities/Metric/types";
 import Graph from "./Graph";
 import { Tooltip } from "@/shared/ui/Tooltip";
-import { IssuesMetric } from "../../Issues/types";
-import { CommitsMetric } from "../../Commits/types";
-import { PullRequestsMetric } from "../../PullRequests";
+import { useFilter } from "../hooks/useFilter";
 
 interface DominantWeekDayProps extends DominantWeekDayMetric {
   dependencies: IMetric[];
@@ -19,29 +15,7 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
   dependencies,
   ...metric
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
-
-  const issues = dependencies.find(
-    (dep) => dep.name === MetricName.Issues
-  ) as IssuesMetric;
-
-  const commits = dependencies.find(
-    (dep) => dep.name === MetricName.Commits
-  ) as CommitsMetric;
-
-  const pullRequests = dependencies.find(
-    (dep) => dep.name === MetricName.PullRequests
-  ) as PullRequestsMetric;
-
-  const data = useData(
-    {
-      issues: issues?.data || [],
-      commits: commits?.data || [],
-      pullRequests: pullRequests?.data || [],
-    },
-    calendar,
-    metric.resource
-  );
+  const data = useFilter(dependencies, metric.resource);
 
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>

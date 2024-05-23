@@ -1,9 +1,9 @@
+import { useAppSelector } from "@/app/store";
 import { Grade } from "../types";
 
-export const useData = (
-  data: Grade,
-  calendar: { start: string | null; end: string | null }
-) => {
+export const useFilter = (data: Grade) => {
+  const calendar = useAppSelector((state) => state.metric.calendar);
+
   const successData = data.filter((item) => !item.error && item.data);
 
   const startDate = calendar.start ? new Date(calendar.start) : null;

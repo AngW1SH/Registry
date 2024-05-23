@@ -1,13 +1,11 @@
-import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
-import { Commits } from "../../Commits/types";
+import { useSelectedUsers } from "@/entities/Metric";
+import { Commits } from "../types";
+import { useAppSelector } from "@/app/store";
 
-export const useData = (
-  data: Commits,
-  calendar: { start: string | null; end: string | null },
-  resourceId: string
-) => {
+export const useFilter = (data: Commits, resourceId: string) => {
   const successData = data.filter((item) => !item.error && item.data);
 
+  const calendar = useAppSelector((state) => state.metric.calendar);
   const users = useSelectedUsers(resourceId);
 
   const startDate = calendar.start ? new Date(calendar.start) : null;

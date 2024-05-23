@@ -1,10 +1,7 @@
-import { useAppSelector } from "@/app/store";
 import { IMetric } from "@/entities/Metric";
 import { FC } from "react";
-import { useData } from "../hooks/useData";
+import { useFilter } from "../hooks/useFilter";
 import { IssueCompletenessMetric } from "../types";
-import { IssuesMetric } from "../../Issues/types";
-import { MetricName } from "@/entities/Metric/types";
 import Graph from "./Graph";
 import { Tooltip } from "@/shared/ui/Tooltip";
 
@@ -18,12 +15,7 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
   dependencies,
   ...metric
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
-
-  const issues = dependencies.find(
-    (dep) => dep.name === MetricName.Issues
-  ) as IssuesMetric;
-  const data = useData(issues?.data || [], calendar, metric.resource);
+  const data = useFilter(dependencies, metric.resource);
 
   if (!data.length) return <></>;
 

@@ -2,11 +2,9 @@ import { IMetric } from "@/entities/Metric";
 import { FC } from "react";
 import Graph from "./Graph";
 import { calculate } from "../model/calculate";
-import { useData } from "../hooks/useData";
+import { useFilter } from "../hooks/useFilter";
 import { useAppSelector } from "@/app/store";
 import { TotalCommitsMetric } from "../types";
-import { CommitsMetric } from "../../Commits/types";
-import { MetricName } from "@/entities/Metric/types";
 import { getGrade } from "../model/grade";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
@@ -23,10 +21,8 @@ const TotalCommits: FC<TotalCommitsProps> = ({
   ...metric
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
-  const commits = dependencies.find(
-    (metric) => metric.name === MetricName.Commits
-  ) as CommitsMetric;
-  const data = useData(commits?.data || [], calendar, metric.resource);
+
+  const data = useFilter(dependencies, metric.resource);
 
   const users = useSelectedUsers(metric.resource);
 

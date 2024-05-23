@@ -1,10 +1,8 @@
 import { FC } from "react";
 import { RapidPullRequestsMetric } from "../types";
-import { IMetric, MetricName } from "@/entities/Metric/types";
+import { IMetric } from "@/entities/Metric/types";
 import Graph from "./Graph";
-import { useAppSelector } from "@/app/store";
-import { PullRequestsMetric } from "../../PullRequests";
-import { useData } from "../hooks/useData";
+import { useFilter } from "../hooks/useFilter";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { getGrade } from "../models/getGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
@@ -19,12 +17,7 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
   dependencies,
   ...metric
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
-
-  const pullRequests = dependencies.find(
-    (metric) => metric.name === MetricName.PullRequests
-  ) as PullRequestsMetric;
-  const data = useData(pullRequests?.data || [], calendar, metric.resource);
+  const data = useFilter(dependencies, metric.resource);
 
   useGrade(metric, getGrade(data));
 
