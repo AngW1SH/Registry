@@ -23,7 +23,7 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
     <form className="flex flex-wrap items-end">
       <Dropdown
         className="max-w-full sm:max-w-[46%] lg:max-w-[35%]"
-        options={["Github"]}
+        options={["Github"]} // TODO: fetch options from the server
         value={resource}
         placeholder="Название ресурса"
         onChange={setResource}
