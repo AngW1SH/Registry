@@ -32,6 +32,8 @@ export const groupData = (
     });
 
   data.forEach((item) => {
+    if (!item.data.closed_at) return;
+
     const date = new Date(item.data.created_at);
 
     const weekNumber = getWeekNumber(date, firstDay, daysInGroup);

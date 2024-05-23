@@ -28,6 +28,8 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
 
   useGrade(metric, getGrade(data));
 
+  if (!data.length) return <></>;
+
   return (
     <div
       className={

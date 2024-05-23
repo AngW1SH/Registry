@@ -10,6 +10,7 @@ import { MetricName } from "@/entities/Metric/types";
 import { getGrade } from "../model/grade";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
+import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
 
 interface TotalCommitsProps extends TotalCommitsMetric {
   dependencies: IMetric[];
@@ -27,9 +28,13 @@ const TotalCommits: FC<TotalCommitsProps> = ({
   ) as CommitsMetric;
   const data = useData(commits?.data || [], calendar, metric.resource);
 
+  const users = useSelectedUsers(metric.resource);
+
   const commitCount = calculate(data);
 
-  useGrade(metric, getGrade(commitCount, data, calendar));
+  useGrade(metric, getGrade(commitCount, data, calendar, users.length));
+
+  if (!data.length) return <></>;
 
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
@@ -50,15 +55,7 @@ const TotalCommits: FC<TotalCommitsProps> = ({
         Total Commits
       </div>
       <div className="pt-3" />
-      {data.length && <Graph data={data} />}
-      {!data.length && (
-        <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-          <div className="pt-3" />
-          <span className="text-[#2B3674] pt-5 text-center text-2xl font-bold mr-2">
-            No data has been collected for the selected period
-          </span>{" "}
-        </div>
-      )}
+      <Graph data={data} />
     </div>
   );
 };

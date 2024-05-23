@@ -16,13 +16,16 @@ interface IssueCompletenessProps extends IssueCompletenessMetric {
 const IssueCompleteness: FC<IssueCompletenessProps> = ({
   className,
   dependencies,
+  ...metric
 }) => {
   const calendar = useAppSelector((state) => state.metric.calendar);
 
   const issues = dependencies.find(
     (dep) => dep.name === MetricName.Issues
   ) as IssuesMetric;
-  const data = useData(issues?.data || [], calendar);
+  const data = useData(issues?.data || [], calendar, metric.resource);
+
+  if (!data.length) return <></>;
 
   return (
     <div
@@ -45,19 +48,9 @@ const IssueCompleteness: FC<IssueCompletenessProps> = ({
           Issue Completeness
         </h3>
       </Tooltip>
-      {data.length && (
-        <div className="my-auto pb-5">
-          <Graph data={data} />
-        </div>
-      )}
-      {!data.length && (
-        <div className="text-[#A3AED0] text-sm mt-2 font-medium">
-          <div className="pt-3" />
-          <span className="text-[#2B3674] pt-5 text-center text-2xl font-bold mr-2">
-            No data has been collected for the selected period
-          </span>{" "}
-        </div>
-      )}
+      <div className="my-auto pb-5">
+        <Graph data={data} />
+      </div>
     </div>
   );
 };

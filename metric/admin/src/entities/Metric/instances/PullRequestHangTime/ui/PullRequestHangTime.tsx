@@ -28,6 +28,8 @@ const PullRequestHangTime: FC<PullRequestHangTimeProps> = ({
 
   useGrade(metric, getGrade(data));
 
+  if (!data.length) return <></>;
+
   return (
     <div
       className={
