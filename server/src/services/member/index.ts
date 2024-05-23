@@ -15,7 +15,9 @@ const memberServiceFactory = () => {
     const teamResult = await teamRepository.findOne({ member: member.id });
     if (!teamResult) throw new ServerError("Couldn't find the member's team");
 
-    const foundRoles = await userRoleService.findInFilters(member.role);
+    const foundRoles = await Promise.all(
+      member.roles.map((role) => userRoleService.findInFilters(role))
+    );
 
     if (!foundRoles || !foundRoles.length)
       throw new ServerError("Couldn't find the member's role");
