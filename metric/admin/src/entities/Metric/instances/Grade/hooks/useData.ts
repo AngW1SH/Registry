@@ -9,10 +9,15 @@ export const useData = (
   const startDate = calendar.start ? new Date(calendar.start) : null;
   const endDate = calendar.end ? new Date(calendar.end) : null;
 
-  return successData.filter((item) => {
-    if (startDate && new Date(item.timestamp) < startDate) return false;
-    if (endDate && new Date(item.timestamp) > endDate) return false;
+  return successData
+    .filter((item) => {
+      if (startDate && new Date(item.timestamp) < startDate) return false;
+      if (endDate && new Date(item.timestamp) > endDate) return false;
 
-    return true;
-  });
+      return true;
+    })
+    .sort(
+      (a, b) =>
+        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    );
 };
