@@ -45,6 +45,8 @@ const Params: FC<ParamsProps> = ({ metric }) => {
     setHasChanged(false);
   };
 
+  if (!metric.params.length) return <></>;
+
   return (
     <div>
       {localParams.map((param) => (

@@ -50,6 +50,11 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
         name: MetricName.Grade,
         data: convertGrade(metric.data),
       };
+    case MetricName.DominantWeekDay:
+      return {
+        ...metric,
+        name: MetricName.DominantWeekDay,
+      };
     default:
       throw new Error("Unimplemented");
   }

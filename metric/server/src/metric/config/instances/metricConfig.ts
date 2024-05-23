@@ -151,4 +151,13 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
       },
     ],
   },
+  [MetricName.DominantWeekDay]: {
+    dependencies: [
+      MetricName.Commits,
+      MetricName.Issues,
+      MetricName.PullRequests,
+    ],
+    snapshotBased: false,
+    params: [],
+  },
 };

@@ -1,4 +1,5 @@
 import { CommitsMetric } from "../../instances/Commits/types";
+import { DominantWeekDayMetric } from "../../instances/DominantWeekDay";
 import { GradeMetric } from "../../instances/Grade";
 import { IssueCompletenessMetric } from "../../instances/IssueCompleteness";
 import { IssuesMetric } from "../../instances/Issues/types";
@@ -15,7 +16,8 @@ export type IMetric =
   | PullRequestsMetric
   | PullRequestHangTimeMetric
   | RapidPullRequestsMetric
-  | GradeMetric;
+  | GradeMetric
+  | DominantWeekDayMetric;
 
 export enum MetricName {
   TotalCommits = "Total Commits",
@@ -26,4 +28,5 @@ export enum MetricName {
   PullRequestHangTime = "Pull Request Hang Time",
   RapidPullRequests = "Rapid Pull Requests",
   Grade = "Grade",
+  DominantWeekDay = "Dominant Week Day",
 }
