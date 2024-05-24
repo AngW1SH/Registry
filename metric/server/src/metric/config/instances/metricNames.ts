@@ -8,4 +8,5 @@ export enum MetricName {
   RapidPullRequests = 'Rapid Pull Requests',
   Grade = 'Grade',
   DominantWeekDay = 'Dominant Week Day',
+  CodeChurn = 'Code Churn',
 }

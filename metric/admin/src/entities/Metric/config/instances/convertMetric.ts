@@ -55,6 +55,11 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
         ...metric,
         name: MetricName.DominantWeekDay,
       };
+    case MetricName.CodeChurn:
+      return {
+        ...metric,
+        name: MetricName.CodeChurn,
+      };
     default:
       throw new Error("Unimplemented");
   }

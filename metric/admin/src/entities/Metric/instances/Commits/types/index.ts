@@ -39,6 +39,24 @@ export const CommitsSchema = z.array(
           reason: z.string(),
         }),
       }),
+      files: z.array(
+        z.object({
+          filename: z.string(),
+          additions: z.number(),
+          deletions: z.number(),
+          changes: z.number(),
+          sha: z.string(),
+          status: z.enum([
+            "added",
+            "removed",
+            "modified",
+            "renamed",
+            "copied",
+            "changed",
+            "unchanged",
+          ]),
+        })
+      ),
       url: z.string(),
       html_url: z.string(),
       comments_url: z.string(),
