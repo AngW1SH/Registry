@@ -1,6 +1,8 @@
 import { PullRequests } from "../../PullRequests";
 
 export const getGrade = (data: PullRequests) => {
+  if (data.length === 0) return null;
+
   let sum = 0;
   let count = 0;
 

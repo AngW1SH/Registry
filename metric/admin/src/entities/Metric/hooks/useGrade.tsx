@@ -3,11 +3,10 @@ import { IMetric } from "../types";
 import { useAppDispatch } from "@/app/store";
 import { metricSlice } from "../model/metricSlice";
 
-export const useGrade = (metric: IMetric, grade: number) => {
+export const useGrade = (metric: IMetric, grade: number | null) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(grade);
     dispatch(
       metricSlice.actions.updateGrade({
         metricId: metric.id,

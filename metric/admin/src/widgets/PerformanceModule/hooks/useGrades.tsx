@@ -4,11 +4,25 @@ export const useGrades = () => {
   const grades = useAppSelector((state) => state.metric.grades);
   const metrics = useAppSelector((state) => state.metric.metrics);
 
-  return grades.filter((grade) => {
-    const metric = metrics.find((metric) => metric.id === grade.metricId);
+  return grades
+    .map((grade) => {
+      const metric = metrics.find((metric) => metric.id === grade.metricId);
 
-    if (!metric) return false;
+      if (!metric || typeof grade.grade !== "number" || isNaN(grade.grade))
+        return false;
 
-    return metric.params.find((param) => param.name === "isGraded")?.value;
-  });
+      const weight = metric.params.find((param) => param.name === "gradeWeight")
+        ?.value as string | undefined;
+
+      return {
+        grade: grade.grade,
+        weight: Number(weight) || 1,
+        metricName: metric.name,
+      };
+    })
+    .filter((grade) => grade) as {
+    grade: number;
+    weight: number;
+    metricName: string;
+  }[];
 };

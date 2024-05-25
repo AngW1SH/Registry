@@ -9,9 +9,11 @@ interface PerformanceGradeProps {
 const PerformanceGrade: FC<PerformanceGradeProps> = ({ className }) => {
   const grades = useGrades();
 
-  console.log(grades);
+  const totalWeight = grades.reduce((a, b) => a + b.weight, 0);
 
-  const average = grades.reduce((a, b) => a + b.grade, 0) / grades.length;
+  const totalSum = grades.reduce((a, b) => a + b.grade * b.weight, 0);
+
+  const average = totalSum / totalWeight;
 
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
