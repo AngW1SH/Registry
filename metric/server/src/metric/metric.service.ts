@@ -62,7 +62,11 @@ export class MetricService {
     }
 
     try {
-      const result = await this.update(metric);
+      const config = metricConfig[metric.name];
+
+      if (config && config.snapshotBased) {
+        const result = await this.update(metric);
+      }
     } catch {
       throw new Error('Failed to update the metric');
     }

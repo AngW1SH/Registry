@@ -1,20 +1,14 @@
 import { FC } from "react";
-import { Commits } from "../../Commits";
-import { PullRequests } from "../../PullRequests";
-import { Issues } from "../../Issues";
-import { generateGraphData } from "../utils/generateGraphData";
 
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { DominantWeekDayValue } from "../types";
+import { backgroundColors, borderColors } from "../config";
 
 ChartJS.register(ArcElement, Tooltip);
 
 interface GraphProps {
-  data: {
-    commits: Commits;
-    pullRequests: PullRequests;
-    issues: Issues;
-  };
+  data: DominantWeekDayValue[];
 }
 
 export const options = {
@@ -31,22 +25,18 @@ export const options = {
 };
 
 const Graph: FC<GraphProps> = ({ data }) => {
-  const structuredData = generateGraphData(data);
-
   const displayData = {
-    labels: structuredData.map((item) => item.label),
+    labels: data.map((item) => item.label),
     datasets: [
       {
         label: "Commits/Issues/Pull Requests",
-        data: structuredData.map((item) => item.data),
-        backgroundColor: structuredData.map((item) => item.backgroundColor),
-        borderColor: structuredData.map((item) => item.borderColor),
+        data: data.map((item) => item.data),
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
         borderWidth: 1,
       },
     ],
   };
-
-  console.log(displayData);
 
   return (
     <div className="p-4">

@@ -2,8 +2,12 @@ import { IMetric, MetricName } from "@/entities/Metric";
 import { IssuesMetric, useFilterIssues } from "../../Issues";
 import { CommitsMetric, useFilterCommits } from "../../Commits";
 import { PullRequestsMetric, useFilterPullRequests } from "../../PullRequests";
+import { DominantWeekDayData } from "../types";
 
-export const useFilter = (dependencies: IMetric[], resourceId: string) => {
+export const useFilter = (
+  dependencies: IMetric[],
+  resourceId: string
+): DominantWeekDayData => {
   const issues = dependencies.find((dep) => dep.name === MetricName.Issues) as
     | IssuesMetric
     | undefined;

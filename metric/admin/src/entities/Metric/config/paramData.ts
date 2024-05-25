@@ -26,6 +26,6 @@ export const paramData: { [key in string]: MetricParamData } = {
     label: "Unwanted Week Day",
     placeholder: "Example: Monday",
     tooltip:
-      "Team's actions on this day will be considered unwanted or less preferable?",
+      "Team's actions on this day will be considered unwanted or less preferable",
   },
 };

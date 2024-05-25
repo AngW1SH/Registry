@@ -4,6 +4,9 @@ import { IMetric } from "@/entities/Metric/types";
 import Graph from "./Graph";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { useFilter } from "../hooks/useFilter";
+import { calculate } from "../model/calculate";
+import { getGrade } from "../model/getGrade";
+import { useGrade } from "@/entities/Metric/hooks/useGrade";
 
 interface DominantWeekDayProps extends DominantWeekDayMetric {
   dependencies: IMetric[];
@@ -16,6 +19,17 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
   ...metric
 }) => {
   const data = useFilter(dependencies, metric.resource);
+
+  const unwantedDay = metric.params.find(
+    (param) => param.name === "unwantedWeekDay"
+  )?.value as string | undefined;
+  const values = calculate(data);
+
+  const grade = getGrade(values, unwantedDay || "Not Specified");
+
+  const max = Math.max(...values.map((item) => item.data));
+
+  useGrade(metric, grade);
 
   return (
     <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
@@ -32,7 +46,16 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
         </h3>
       </Tooltip>
       <div className="pt-3" />
-      <Graph data={data} />
+      <Graph data={values} />
+      <div className="pt-3" />
+      <div>
+        <h4 className="font-medium text-[#2B3674]">
+          The most productive day of the week is:
+        </h4>
+        <p className="text-[#2B3674]">
+          {values.find((value) => value.data == max)?.label}
+        </p>
+      </div>
     </div>
   );
 };
