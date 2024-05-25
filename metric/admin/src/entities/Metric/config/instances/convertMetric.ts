@@ -60,6 +60,11 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
         ...metric,
         name: MetricName.CodeChurn,
       };
+    case MetricName.CodeOwnership:
+      return {
+        ...metric,
+        name: MetricName.CodeOwnership,
+      };
     default:
       throw new Error("Unimplemented");
   }

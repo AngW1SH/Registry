@@ -176,4 +176,20 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
       },
     ],
   },
+  [MetricName.CodeOwnership]: {
+    dependencies: [MetricName.Commits],
+    snapshotBased: false,
+    params: [
+      {
+        type: MetricParamType.boolean,
+        name: 'isGraded',
+        value: true,
+      },
+      {
+        type: MetricParamType.text,
+        name: 'gradeWeight',
+        value: '1',
+      },
+    ],
+  },
 };

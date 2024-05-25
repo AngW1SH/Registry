@@ -1,13 +1,14 @@
 import { CodeChurnMetric } from "../../instances/CodeChurn";
-import { CommitsMetric } from "../../instances/Commits/types";
+import { CodeOwnershipMetric } from "../../instances/CodeOwnership";
+import { CommitsMetric } from "../../instances/Commits";
 import { DominantWeekDayMetric } from "../../instances/DominantWeekDay";
 import { GradeMetric } from "../../instances/Grade";
 import { IssueCompletenessMetric } from "../../instances/IssueCompleteness";
-import { IssuesMetric } from "../../instances/Issues/types";
+import { IssuesMetric } from "../../instances/Issues";
 import { PullRequestHangTimeMetric } from "../../instances/PullRequestHangTime";
 import { PullRequestsMetric } from "../../instances/PullRequests";
 import { RapidPullRequestsMetric } from "../../instances/RapidPullRequests";
-import { TotalCommitsMetric } from "../../instances/TotalCommits/types";
+import { TotalCommitsMetric } from "../../instances/TotalCommits";
 
 export type IMetric =
   | CommitsMetric
@@ -19,7 +20,8 @@ export type IMetric =
   | RapidPullRequestsMetric
   | GradeMetric
   | DominantWeekDayMetric
-  | CodeChurnMetric;
+  | CodeChurnMetric
+  | CodeOwnershipMetric;
 
 export enum MetricName {
   TotalCommits = "Total Commits",
@@ -32,4 +34,5 @@ export enum MetricName {
   Grade = "Grade",
   DominantWeekDay = "Dominant Week Day",
   CodeChurn = "Code Churn",
+  CodeOwnership = "Code Ownership",
 }

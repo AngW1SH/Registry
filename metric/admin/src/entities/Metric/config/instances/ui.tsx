@@ -7,6 +7,7 @@ import RapidPullRequests from "../../instances/RapidPullRequests/ui/RapidPullReq
 import Grade from "../../instances/Grade/ui/Grade";
 import { DominantWeekDay } from "../../instances/DominantWeekDay";
 import { CodeChurn } from "../../instances/CodeChurn";
+import { CodeOwnership } from "../../instances/CodeOwnership";
 
 interface MetricUIProps {
   metric: IMetric;
@@ -29,6 +30,8 @@ const MetricUI: FC<MetricUIProps> = ({ metric, dependencies }) => {
       return <DominantWeekDay {...metric} dependencies={dependencies} />;
     case MetricName.CodeChurn:
       return <CodeChurn {...metric} dependencies={dependencies} />;
+    case MetricName.CodeOwnership:
+      return <CodeOwnership {...metric} dependencies={dependencies} />;
     default:
       return <></>;
   }

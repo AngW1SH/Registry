@@ -9,4 +9,5 @@ export enum MetricName {
   Grade = 'Grade',
   DominantWeekDay = 'Dominant Week Day',
   CodeChurn = 'Code Churn',
+  CodeOwnership = 'Code Ownership',
 }
