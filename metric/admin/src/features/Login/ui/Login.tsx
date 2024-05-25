@@ -12,6 +12,8 @@ const Login: FC<LoginProps> = ({ className = "" }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
+  const [remember, setRemember] = useState(false);
+
   const navigate = useNavigate();
 
   const [useLoginMutation, { isSuccess }] = userApi.useLoginMutation();
@@ -19,7 +21,7 @@ const Login: FC<LoginProps> = ({ className = "" }) => {
   const handleConfirm = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (name && password) {
-      await useLoginMutation({ username: name, password }).unwrap();
+      await useLoginMutation({ username: name, password, remember }).unwrap();
     }
   };
 
@@ -48,7 +50,13 @@ const Login: FC<LoginProps> = ({ className = "" }) => {
         label="Password"
       />
       <div className="pt-11" />
-      <Checkbox id="remember" className="text-[#A3AED0]" label="Remember me" />
+      <Checkbox
+        id="remember"
+        checked={remember}
+        onChange={(e) => setRemember(e.target.checked)}
+        className="text-[#A3AED0]"
+        label="Remember me"
+      />
       <div className="pt-10" />
       <button
         onClick={handleConfirm}

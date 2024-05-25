@@ -11,21 +11,23 @@ export class TokenService {
     private redisService: RedisService,
   ) {}
 
-  async generate(payload: any) {
+  async generate(payload: any, remember: boolean) {
     if (!payload) throw new UnauthorizedException('No userId specified');
 
     const accessToken = await this.jwtService.signAsync(payload, {
       expiresIn: '1h',
     });
+
     const refreshToken = await this.jwtService.signAsync(payload, {
       expiresIn: '180d',
     });
 
-    await this.redisService.set('token-' + payload.id, refreshToken);
+    if (remember)
+      await this.redisService.set('admin-token-' + payload.id, refreshToken);
 
     return {
       accessToken,
-      refreshToken,
+      refreshToken: remember ? refreshToken : undefined,
     };
   }
 
@@ -34,7 +36,7 @@ export class TokenService {
       throw new UnauthorizedException('No refresh token provided');
     const { exp, iat, ...user } = await this.jwtService.verify(refreshToken);
 
-    const tokenFromDB = await this.redisService.get('token-' + user.id);
+    const tokenFromDB = await this.redisService.get('admin-token-' + user.id);
 
     if (!tokenFromDB || tokenFromDB !== refreshToken) {
       throw new UnauthorizedException('Invalid refresh token');

@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -35,8 +36,12 @@ export class AuthController {
       },
     },
   })
-  async login(@User() user, @Response() res) {
-    await this.authService.login(res, user);
+  async login(
+    @Body('remember') remember: boolean,
+    @User() user,
+    @Response() res,
+  ) {
+    await this.authService.login(res, user, remember);
     res.status(200).send();
   }
 

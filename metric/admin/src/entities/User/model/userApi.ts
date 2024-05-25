@@ -3,9 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export interface LoginParams {
   username: string;
   password: string;
+  remember: boolean;
 }
-
-console.log(import.meta.env);
 
 export const userApi = createApi({
   reducerPath: "userApi",

@@ -44,14 +44,17 @@ export class AuthService {
     return false;
   }
 
-  async login(res: Response, user: any) {
+  async login(res: Response, user: any, remember: boolean) {
     const { password: _, ...payload } = user;
-    const { accessToken, refreshToken } =
-      await this.tokenService.generate(payload);
+    const { accessToken, refreshToken } = await this.tokenService.generate(
+      payload,
+      remember,
+    );
 
     this.cookieService.set(res, 'metric_access_token', accessToken);
 
-    this.cookieService.set(res, 'metric_refresh_token', refreshToken);
+    if (remember && refreshToken)
+      this.cookieService.set(res, 'metric_refresh_token', refreshToken);
   }
 
   async logout(res: Response) {
