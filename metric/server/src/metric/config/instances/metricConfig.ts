@@ -158,7 +158,33 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
       MetricName.PullRequests,
     ],
     snapshotBased: false,
-    params: [],
+    params: [
+      {
+        type: MetricParamType.boolean,
+        name: 'isGraded',
+        value: true,
+      },
+      {
+        type: MetricParamType.text,
+        name: 'gradeWeight',
+        value: '1',
+      },
+      {
+        type: MetricParamType.selectText,
+        options: [
+          'Not Specified',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        name: 'unwantedWeekDay',
+        value: 'Not Specified',
+      },
+    ],
   },
   [MetricName.CodeChurn]: {
     dependencies: [MetricName.Commits],

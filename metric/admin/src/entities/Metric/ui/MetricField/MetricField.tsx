@@ -4,6 +4,7 @@ import { IMetricParam, MetricParamType } from "../../types/params";
 import DurationField from "./DurationField";
 import { paramData } from "../../config/paramData";
 import BooleanField from "./BooleanField";
+import SelectTextField from "./SelectTextField";
 
 interface MetricFieldProps {
   param: IMetricParam;
@@ -44,6 +45,17 @@ const MetricField: FC<MetricFieldProps> = ({
     case MetricParamType.boolean: {
       return (
         <BooleanField
+          {...param}
+          {...data}
+          value={param.value}
+          onChange={(value) => onChange({ ...param, value: value })}
+          className={className}
+        />
+      );
+    }
+    case MetricParamType.selectText: {
+      return (
+        <SelectTextField
           {...param}
           {...data}
           value={param.value}

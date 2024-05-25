@@ -27,6 +27,12 @@ export interface IBooleanParam extends GenericParam {
   value: boolean;
 }
 
+export interface ISelectTextParam extends GenericParam {
+  type: MetricParamType.selectText;
+  options: string[];
+  value: string;
+}
+
 export enum UnitOfTime {
   seconds = "seconds",
   minutes = "minutes",
@@ -51,7 +57,8 @@ export type IMetricParam =
   | INumberParam
   | IDateParam
   | IDurationParam
-  | IBooleanParam;
+  | IBooleanParam
+  | ISelectTextParam;
 
 export enum MetricParamType {
   text = "text",
@@ -60,6 +67,7 @@ export enum MetricParamType {
   date = "date",
   duration = "duration",
   boolean = "boolean",
+  selectText = "selectText",
 }
 
 export interface MetricParamData {

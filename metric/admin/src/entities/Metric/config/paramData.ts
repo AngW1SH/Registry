@@ -22,4 +22,10 @@ export const paramData: { [key in string]: MetricParamData } = {
     placeholder: "Example: true",
     tooltip: "Should this metric be used for grading?",
   },
+  unwantedWeekDay: {
+    label: "Unwanted Week Day",
+    placeholder: "Example: Monday",
+    tooltip:
+      "Team's actions on this day will be considered unwanted or less preferable?",
+  },
 };

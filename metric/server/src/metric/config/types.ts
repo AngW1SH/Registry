@@ -29,6 +29,14 @@ export interface BooleanParam extends GenericParam {
   value: boolean;
 }
 
+// Note that since options are sent and received from the client,
+// malicious actions involving manually editing options will be harmful.
+export interface SelectTextParam extends GenericParam {
+  type: MetricParamType.selectText;
+  options: string[];
+  value: string;
+}
+
 export enum UnitOfTime {
   seconds = 'seconds',
   minutes = 'minutes',
@@ -53,7 +61,8 @@ export type MetricParam =
   | NumberParam
   | DateParam
   | DurationParam
-  | BooleanParam;
+  | BooleanParam
+  | SelectTextParam;
 
 export enum MetricParamType {
   text = 'text',
@@ -62,6 +71,7 @@ export enum MetricParamType {
   date = 'date',
   duration = 'duration',
   boolean = 'boolean',
+  selectText = 'selectText',
 }
 
 export type MetricParamsConfig = {
