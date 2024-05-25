@@ -1,4 +1,5 @@
 import { PullRequests } from "../../PullRequests";
+import { RapidPullRequestItem } from "../types";
 
 export function msToTime(duration: number) {
   const seconds = Math.floor((duration / 1000) % 60);
@@ -13,11 +14,11 @@ export function msToTime(duration: number) {
   return days + "d " + formatHours + ":" + formatMinutes + ":" + formatSeconds;
 }
 
-export const groupData = (
+export const calculate = (
   data: PullRequests,
   daysInGroup: number,
   firstDayProp?: Date
-) => {
+): RapidPullRequestItem[] => {
   const groupedData: { [key: string]: number } = {};
 
   let firstDay = firstDayProp ? firstDayProp : new Date();

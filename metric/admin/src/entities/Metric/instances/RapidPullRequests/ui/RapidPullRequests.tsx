@@ -4,8 +4,9 @@ import { IMetric } from "@/entities/Metric/types";
 import Graph from "./Graph";
 import { useFilter } from "../hooks/useFilter";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
-import { getGrade } from "../models/getGrade";
+import { getGrade } from "../model/getGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
+import { calculate } from "../model/calculate";
 
 interface RapidPullRequestsProps extends RapidPullRequestsMetric {
   dependencies: IMetric[];
@@ -19,9 +20,11 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
 }) => {
   const data = useFilter(dependencies, metric.resource);
 
+  const values = calculate(data, 7);
+
   useGrade(metric, getGrade(data));
 
-  if (!data.length) return <></>;
+  if (!values.filter((value) => value.data).length) return <></>;
 
   return (
     <div
@@ -41,7 +44,7 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
         </h3>
       </Tooltip>
       <div className="my-auto pb-5">
-        <Graph data={data} />
+        <Graph data={values} />
       </div>
     </div>
   );

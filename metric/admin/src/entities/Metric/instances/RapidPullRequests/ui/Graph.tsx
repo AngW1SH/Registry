@@ -8,13 +8,12 @@ import {
   Tooltip,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { groupData } from "../utils/generateGraphData";
-import { PullRequests } from "../../PullRequests";
+import { RapidPullRequestItem } from "../types";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 interface GraphProps {
-  data: PullRequests;
+  data: RapidPullRequestItem[];
 }
 
 export const options = {
@@ -55,22 +54,20 @@ export const options = {
 const Graph: FC<GraphProps> = ({ data }) => {
   const ref = useRef();
 
-  const formatData = groupData(data, 7);
-
   const max = Math.max(
-    ...formatData.map((item) => {
+    ...data.map((item) => {
       return item.data;
     })
   );
 
-  const layoutValues = formatData.map((_) => max);
+  const layoutValues = data.map((_) => max);
 
   const formattedData: any = {
-    labels: formatData.map((item) => item.label),
+    labels: data.map((item) => item.label),
     datasets: [
       {
         label: "Rapid Pull Requests",
-        data: formatData.map((item) => item.data || null),
+        data: data.map((item) => item.data || null),
         backgroundColor: "#551FFF",
         borderColor: "#551FFF",
         borderWidth: 1,
@@ -88,7 +85,7 @@ const Graph: FC<GraphProps> = ({ data }) => {
         borderRadius: 20,
         datalabels: {
           formatter: function (_: any, context: any) {
-            return formatData[context.dataIndex].data || 0;
+            return data[context.dataIndex].data || 0;
           },
           color: "#B0BBD5",
           align: "top",
