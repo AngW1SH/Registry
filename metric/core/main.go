@@ -22,15 +22,15 @@ func init() {
 
 func main() {
 
+	// Use the same two repositories for all the dependants
 	snapshotRepo := repositories.NewSnapshotRepository(db)
 	taskRepo := repositories.NewTaskRepository(db)
 
-
+	// 100 is the maximum cumulative weight of simultaneously running tasks
 	queue := queue.NewQueue(100, snapshotRepo, taskRepo)
 	queue.Start()
 
 	lis, err := net.Listen("tcp", ":" + os.Getenv("PORT"))
-
 	if err != nil {
 		log.Fatalf("Failed to listen on port %v: %v", os.Getenv("PORT"), err)
 	}

@@ -70,44 +70,6 @@ func TestPriorityQueue_Swap(t *testing.T) {
 	}
 }
 
-func TestPriorityQueue_GetEntries(t *testing.T) {
-
-	pq := PriorityQueue{}
-
-	pq.Push(&models.Task{
-		AttemptedAt: time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC),
-		Groups: []string{"a"},
-	})
-
-	pq.Push(&models.Task{
-		AttemptedAt: time.Date(1970, time.January, 2, 0, 0, 0, 0, time.UTC),
-		Groups: []string{"b"},
-	})
-
-	pq.Push(&models.Task{
-		AttemptedAt: time.Date(1970, time.January, 3, 0, 0, 0, 0, time.UTC),
-		Groups: []string{"a"},
-	})
-
-	result := pq.GetEntries([]string{"a"})
-
-	if len(result) != 2 {
-		t.Fail()
-	}
-
-	found := false
-
-	for i := 0; i < len(result); i++ {
-		if result[i].AttemptedAt == time.Date(1970, time.January, 1, 0, 0, 0, 0, time.UTC) {
-			found = true
-		}
-	}
-
-	if !found {
-		t.Fail()
-	}
-}
-
 func TestPriorityQueue_Push(t *testing.T) {
 
 	pq := PriorityQueue{}

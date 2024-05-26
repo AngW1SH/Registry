@@ -2,7 +2,6 @@ package structures
 
 import (
 	"container/heap"
-	"core/helpers"
 	"core/models"
 	"sync"
 )
@@ -33,21 +32,6 @@ func (pq *PriorityQueue) Swap(i, j int) {
     pq.entries[i], pq.entries[j] = pq.entries[j], pq.entries[i]
 }
 
-func (pq *PriorityQueue) GetEntries(groups []string) []*models.Task {
-    pq.mu.Lock()
-    defer pq.mu.Unlock()
-
-    var result []*models.Task
-
-    for i := 0; i < len(pq.entries); i++ {
-        if helpers.ContainsAllElements(pq.entries[i].Groups, groups) {
-            result = append(result, pq.entries[i])
-        }
-    }
-    
-    return result
-}
-
 func (pq *PriorityQueue) Push(x interface{}) {
     pq.mu.Lock()
     defer pq.mu.Unlock()
@@ -56,7 +40,6 @@ func (pq *PriorityQueue) Push(x interface{}) {
     pq.entries = append(pq.entries, item)
 }
 
-// Pop removes the smallest element (by updatedAt) from the priority queue.
 func (pq *PriorityQueue) Pop() interface{} {
     pq.mu.Lock()
     defer pq.mu.Unlock()

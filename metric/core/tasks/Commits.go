@@ -77,13 +77,13 @@ func saveCommitsDetailed(commits []interface{}, files [][]byte, task models.Task
 	var filesResult []*models.Snapshot
 	
 	for _, commit := range commits {
-
+		// Convert commit object to JSON
 		data, err := json.Marshal(commit)
-
 		if err != nil {
 			continue
 		}
-
+        
+		// Save commit id as a parameter in case we ever need to find it in the DB
 		result = append(result, taskToSnapshot(task, string(data), "", []models.SnapshotParam{
 			{
 				Name: "id",
@@ -102,6 +102,8 @@ func saveCommitsDetailed(commits []interface{}, files [][]byte, task models.Task
 			continue
 		}
 
+		// Save commit sha as a parameter in case we ever need to find all commit files in the DB
+		// Save the file id as a parameter in case we ever need to find it in the DB
 		filesResult = append(filesResult, &models.Snapshot{
 			Metric: "CommitFiles",
 			Data: string(data),
@@ -131,24 +133,23 @@ func saveCommitsDetailed(commits []interface{}, files [][]byte, task models.Task
 }
 
 func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
+	// Try to decode the JSON serialized task parameters
 	var parsed []interface{}
-
 	err := json.Unmarshal([]byte(task.Data), &parsed)
-
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return
 	}
 
+	// Find the endpoint parameter
 	endpoint := getEndpoint(parsed)
-
 	if endpoint == "" {
 		repo.Create(taskToSnapshot(task, "", "no API endpoint", nil))
 		return
 	}
 
+	// Find the API keys parameter
 	apiKeys := getAPIKeys(parsed)
-
 	if len(apiKeys) == 0 {
 		repo.Create(taskToSnapshot(task, "", "no API keys", nil))
 		return
@@ -157,6 +158,7 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 	var commits []interface{}
 	var files [][]byte
 
+	// GitHub API returns a maximum of 100 commits per request
 	page := 1
 	commitsBatch := getCommitBatch(endpoint, page, apiKeys)
 
@@ -165,31 +167,35 @@ func CommitsMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 		for _, commit := range commitsBatch {
 
+			// Check if we already have this commit
 			fromDB, err := repo.GetOneByParam("Commits", models.SnapshotParam{Name: "id", Value: commit.(map[string]interface{})["node_id"].(string)}, task.Groups)
 
+			// If we already have this commit, stop the entire process
+			// because the rest should be already in the database
 			if err != nil || fromDB.ID != 0 || fromDB.Metric != "" {
 				break out;
 			}
 
+			// Get the commit detailed from GitHub API
 			commitDetailed, err := getCommitDetailed(endpoint + "commits/" + commit.(map[string]interface{})["sha"].(string), apiKeys)
-
 			if err != nil {
 				break out;
 			}
 
+			// Save files separately as a CommitFiles task snapshot
+			// So that we don't send too much unnecessary data to the client
 			commitFiles := commitDetailed.(map[string]interface{})["files"].([]interface{})
-
 			for i, file := range commitFiles {
 				file.(map[string]interface{})["commit_sha"] = commit.(map[string]interface{})["sha"]
 
+				// Save the file data before deleting it in the commitDetailed
 				fileJson, err := json.Marshal(file)
-
 				if err != nil {
 					continue
 				}
-
 				files = append(files, fileJson)
 
+				// Remove unnecessary fields (relative to the commit snapshot)
 				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "blob_url")
 				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "commit_sha")
 				delete(commitDetailed.(map[string]interface{})["files"].([]interface{})[i].(map[string]interface{}), "raw_url")

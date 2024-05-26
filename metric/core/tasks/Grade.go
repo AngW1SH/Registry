@@ -5,7 +5,6 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -28,53 +27,53 @@ func getProjectURL(parsedData interface{}) string {
 }
 
 func GradeMetric(task models.Task, repo *repositories.SnapshotRepository) {
-
+	// Try to decode the JSON serialized task parameters
 	var parsed []interface{}
-
 	err := json.Unmarshal([]byte(task.Data), &parsed)
-
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return
 	}
 
+	// Get the admin dashboard URL from the env variables
 	adminUrl, err := url.Parse(os.Getenv("ADMIN_URL"))
-
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return
 	}
 
+	// Get the hostname of the admin dashboard
 	hostname := strings.TrimPrefix(adminUrl.Hostname(), "www.")
 
-	// TODO
+	// Send a request to the admin dashboard to get the authorization cookies
 	resp, err := http.PostForm(os.Getenv("ADMIN_URL") + "api/auth/login", url.Values{
         "username": {os.Getenv("ADMIN_USERNAME")},
         "password": {os.Getenv("ADMIN_PASSWORD")},
     })
-
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return
 	}
-
 	cookies := resp.Cookies()
 
-	fmt.Println(cookies)
-	fmt.Println("cookies should be above")
-
+	// Get the project URL parameter from the parsed data
 	url := getProjectURL(parsed)
-
-	fmt.Println(url)
+	if url == "" {
+		repo.Create(taskToSnapshot(task, "", "no project URL", nil))
+		return
+	}
 
     ctx, cancel := chromedp.NewContext(context.Background(), chromedp.WithLogf(log.Printf))
 	defer cancel()
 
-	ctx, cancel = context.WithTimeout(ctx, 60*time.Second)
+	// Cancel after a minute, since that would probably mean
+	// there's a problem with the admin dashboard
+	ctx, cancel = context.WithTimeout(ctx, time.Minute)
     defer cancel()
 
 	var res string
     err = chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
+		// Set the authorization cookies
 		for _, cookie := range cookies {
 			err := network.SetCookie(cookie.Name, cookie.Value).WithHTTPOnly(true).WithDomain(hostname).Do(ctx)
 
@@ -84,6 +83,7 @@ func GradeMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		}
 
 		return nil
+		// wait for the #performance-grade element to appear and get it's text content
 	}), chromedp.Sleep(time.Second*3), chromedp.Navigate(url), chromedp.WaitReady("performance-grade", chromedp.ByID), chromedp.TextContent("#performance-grade", &res))
 
 	if err != nil {

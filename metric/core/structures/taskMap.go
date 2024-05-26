@@ -26,7 +26,6 @@ func (m *TaskMap) AddTask(task *models.Task) error {
 	if task == nil {
 		return errors.New("task cannot be nil")
 	}
-
 	if task.Id == uuid.Nil {
 		return errors.New("task id cannot be nil")
 	}
@@ -63,6 +62,9 @@ func (m *TaskMap) GetByGroups(groups []string) []*models.Task {
 	return result
 }
 
+// MarkDelete marks task as deleted instead of deleting it immediately
+// to avoid issues with concurrent access
+// The "DeleteTask" function should only be called when you're sure the task is no longer used by anything
 func (m *TaskMap) MarkDelete(metric string, groups []string) (*models.Task, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -83,6 +85,7 @@ func (m *TaskMap) MarkDelete(metric string, groups []string) (*models.Task, erro
 	return nil, errors.New("task not found")
 }
 
+// Finally delete the task, may cause issues with concurrent access
 func (m *TaskMap) DeleteTask(id uuid.UUID) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -95,8 +98,11 @@ func (m *TaskMap) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 	defer m.mu.Unlock()
 
 	for _, t := range m.tasks {
+		// If the task exists and is not yet deleted, update it
 		if t.Metric == task.Metric && helpers.ContainsAllElements(task.Groups, t.Groups) && (t.DeletedAt.IsZero() || t.DeletedAt.After(time.Now())) {
 			
+			// Check if each parameter is set before updating
+
 			if task.UpdateRate != 0 {
 				t.UpdateRate = task.UpdateRate
 			}
@@ -116,6 +122,8 @@ func (m *TaskMap) UpdateTask(task *models.TaskCreate) (*models.Task, error) {
 	return nil, errors.New("task not found")
 }
 
+// Set the task's attemptedAt to a long ago time
+// so that the queue immediately executes it
 func (m *TaskMap) ForceUpdate(metric string, groups []string) (*models.Task, error) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -133,6 +141,8 @@ func (m *TaskMap) ForceUpdate(metric string, groups []string) (*models.Task, err
 	return nil, errors.New("task not found")
 }
 
+// Note that the group name is also separately saved for snapshots in the DB
+// Whenever a task's group name is updated, you should probably update the snapshot group names too
 func (m *TaskMap) UpdateGroupName(old string, new string) []*models.Task {
 	m.mu.Lock()
 	defer m.mu.Unlock()

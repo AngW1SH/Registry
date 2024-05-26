@@ -7,18 +7,30 @@ import (
 	"github.com/lib/pq"
 )
 
+type TaskCreate struct {
+	Metric string // Metric name. Used for finding the corresponding function in "tasks"
+	Data string // JSON encoded params defined outside of this server (passed through gRPC)
+	UpdatedAt time.Time // Last update time
+	Groups []string  // List of groups/tags defined outside of this server (passed through gRPC)
+	UpdateRate time.Duration // How often the task should be executed
+	IsPublic  bool // Tells if the snapshot data is allowed to be sent through gRPC API
+	Weight int  // Computational weight. The maximum cumulative weight is defined in main.go
+	CreatedAt   time.Time // Becomes StartTime in db. Used to halt task execution until the "CreatedAt" moment
+	DeletedAt   time.Time // Becomes StopTime in db. Used to automatically delete task at the "DeletedAt" moment
+}
+
 type Task struct {
 	Id          uuid.UUID
-	Metric      string
-	Data        string
-	UpdatedAt   time.Time
-	Groups      []string
-	AttemptedAt time.Time
-	UpdateRate  time.Duration
+	Metric      string  // Metric name. Used for finding the corresponding function in "tasks"
+	Data        string  // JSON encoded params defined outside of this server (passed through gRPC)
+	UpdatedAt   time.Time // Last update time
+	Groups      []string  // List of groups/tags defined outside of this server (passed through gRPC)
+	AttemptedAt time.Time // Last attempted time. Used for building the task queue
+	UpdateRate  time.Duration // How often the task should be executed
 	IsPublic    bool // Tells if the snapshot data is allowed to be sent through gRPC API
-	Weight      int
-	CreatedAt   time.Time
-	DeletedAt   time.Time
+	Weight      int  // Computational weight. The maximum cumulative weight is defined in main.go
+	CreatedAt   time.Time // Becomes StartTime in db. Used to halt task execution until the "CreatedAt" moment
+	DeletedAt   time.Time // Becomes StopTime in db. Used to automatically delete task at the "DeletedAt" moment
 }
 
 type TaskDB struct {
@@ -32,18 +44,6 @@ type TaskDB struct {
 	Weight     int
 	StartTime   time.Time
 	StopTime   time.Time
-}
-
-type TaskCreate struct {
-	Metric string
-	UpdatedAt time.Time
-	UpdateRate time.Duration
-	Groups []string
-	Weight int
-	Data string
-	IsPublic  bool
-	CreatedAt   time.Time
-	DeletedAt   time.Time
 }
 
 func NewTask(data *TaskCreate) Task {
