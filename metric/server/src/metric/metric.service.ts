@@ -49,6 +49,7 @@ export class MetricService {
       name: key,
       dependencies: metricConfig[key]?.dependencies || [],
       snapshotBased: metricConfig[key]?.snapshotBased || false,
+      platform: metricConfig[key]?.platform,
     }));
 
     return result;
@@ -182,8 +183,6 @@ export class MetricService {
 
     const task = await this.convertToTask(metric);
 
-    console.log(task);
-
     return this.taskService.start(task);
   }
 
@@ -238,10 +237,27 @@ export class MetricService {
   async create(metric: MetricCreate): Promise<MetricDetailed[]> {
     const config = metricConfig[metric.name];
 
-    const res: MetricDetailed[] = [];
-
     if (!config) throw new Error('Metric config not found');
     if (!config.dependencies) throw new Error('Metric dependencies not found');
+
+    const resource = await this.prisma.resource.findFirst({
+      where: {
+        id: metric.resource,
+      },
+      select: {
+        platform: true,
+      },
+    });
+
+    if (!resource) {
+      throw new Error('Resource not found');
+    }
+
+    if (resource.platform !== config.platform) {
+      throw new Error('Platform mismatch');
+    }
+
+    const res: MetricDetailed[] = [];
 
     const depsCreateRequests = await Promise.all(
       config.dependencies.map((name) => this.create({ ...metric, name })),

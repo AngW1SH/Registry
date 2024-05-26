@@ -18,6 +18,10 @@ const CreateAllMetrics: FC<CreateAllMetricsProps> = ({
   const [create, { data: createData, isLoading }] =
     useCreateAllMetricsMutation();
 
+  const resource = useAppSelector((state) =>
+    state.resource.resources.find((resource) => resource.id == resourceId)
+  );
+
   const dispatch = useAppDispatch();
 
   // Make a request
@@ -41,7 +45,8 @@ const CreateAllMetrics: FC<CreateAllMetricsProps> = ({
   // Check how many metrics are already created for this resource
   const leftToAdd = metricInfo.data.filter(
     (metric) =>
-      !metrics.find((m) => m.name == metric.name && m.resource == resourceId)
+      !metrics.find((m) => m.name == metric.name && m.resource == resourceId) &&
+      metric.platform == resource?.platform
   );
 
   // If all metrics are already created, don't show the button

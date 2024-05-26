@@ -1,4 +1,6 @@
 import { PlatformState } from "./platformSlice";
 
-export const selectPlatformById = (state: PlatformState, platformId: string) =>
-  state.platforms.find((platform) => platform.id === platformId);
+export const selectPlatformByName = (
+  state: PlatformState,
+  platformName: string
+) => state.platforms.find((platform) => platform.name === platformName);

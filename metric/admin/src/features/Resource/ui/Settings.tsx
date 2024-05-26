@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import { selectPlatformById } from "@/entities/Platform";
+import { selectPlatformByName } from "@/entities/Platform";
 import {
   IResource,
   IResourceField,
@@ -21,7 +21,7 @@ const Settings: FC<SettingsProps> = ({ resource }) => {
   const [hasChanged, setHasChanged] = useState(false); // Only allow making a request when there are changes
 
   const platform = useAppSelector((state) =>
-    selectPlatformById(state.platform, resource.platform)
+    selectPlatformByName(state.platform, resource.platform)
   );
 
   // Edit locally to not cause freezes due to redux updates

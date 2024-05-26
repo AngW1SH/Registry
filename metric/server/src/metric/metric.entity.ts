@@ -2,14 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { MetricName } from './config/instances/metricNames';
 import { MetricParam, MetricParamType } from './config/types';
 import { UnitOfTime } from '@/utils/duration';
+import { PlatformName } from '../platform/platform.entity';
 
 export interface AbstractMetricDTO {
   id: string;
   name: string;
+  platform: PlatformName;
 }
 
 export interface AbstractMetric {
   name: string;
+  platform: PlatformName;
 }
 
 export class AbstractMetricDTO {
@@ -18,6 +21,11 @@ export class AbstractMetricDTO {
     example: 'TotalCommits',
   })
   name: string;
+  @ApiProperty({
+    description: 'Metric platform',
+    example: 'GitHub',
+  })
+  platform: PlatformName;
 }
 
 export interface AbstractMetricDetailed extends AbstractMetric {

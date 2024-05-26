@@ -1,3 +1,6 @@
+import { MetricName } from '@/src/metric/config/instances/metricNames';
+import { PlatformName } from '@/src/platform/platform.entity';
+
 export enum ResourceFieldType {
   text = 'text',
   textArray = 'textArray',
@@ -20,6 +23,6 @@ export interface ITextArrayField extends GenericField {
 export type IResourceField = ITextField | ITextArrayField;
 
 export interface ResourceConfig {
-  name: string;
+  name: PlatformName;
   data: IResourceField[];
 }

@@ -1,3 +1,4 @@
+import { PlatformName } from '@/src/platform/platform.entity';
 import { MetricName } from './instances/metricNames';
 
 export interface GenericParam {
@@ -81,6 +82,7 @@ export type MetricParamsConfig = {
 export interface GenericMetricConfig {
   params: MetricParam[];
   dependencies: MetricName[];
+  platform: PlatformName;
 }
 
 export interface SnapshotBasedMetricConfig extends GenericMetricConfig {

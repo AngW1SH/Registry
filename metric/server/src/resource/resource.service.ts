@@ -13,6 +13,7 @@ import { Metric, MetricDetailed } from '../metric/metric.entity';
 import { ResourceConfig } from './config/types';
 import { MetricConfig } from '../metric/config/types';
 import { metricConfig } from '../metric/config/instances/metricConfig';
+import { PlatformName } from '../platform/platform.entity';
 
 @Injectable()
 export class ResourceService {
@@ -30,13 +31,7 @@ export class ResourceService {
         id: true,
         name: true,
         projectId: true,
-        platformId: true,
-        platform: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
+        platform: true,
         params: true,
         metrics: {
           select: {
@@ -65,7 +60,7 @@ export class ResourceService {
         metric.params = JSON.stringify(params);
       });
 
-      const config: ResourceConfig = configs[resource.platform.name];
+      const config: ResourceConfig = configs[resource.platform];
       const params = JSON.parse(resource.params);
 
       if (!config) return;
@@ -84,7 +79,7 @@ export class ResourceService {
       name: resource.name,
       project: resource.projectId,
       params: resource.params,
-      platform: resource.platformId,
+      platform: resource.platform,
       metrics: resource.metrics.map((metric) => ({
         id: metric.id,
         name: metric.name,
@@ -113,21 +108,19 @@ export class ResourceService {
       name: result.name,
       params: result.params,
       project: result.projectId,
-      platform: result.platformId,
+      platform: result.platform,
       metrics,
     };
   }
 
   async createOne(resource: ResourceCreate): Promise<ResourceDetailed | null> {
-    const platform = await this.prisma.platform.findFirst({
-      where: {
-        id: resource.platform,
-      },
-    });
+    const platform = Object.entries(PlatformName).find(
+      (entry) => entry[1] === resource.platform,
+    )[1];
 
     if (!platform) throw new Error('Platform not found');
 
-    const config = configs[platform.name];
+    const config = configs[platform];
 
     if (!config) throw new Error('Platform not found');
 
@@ -135,11 +128,7 @@ export class ResourceService {
       data: {
         name: resource.name,
         params: JSON.stringify(config.data),
-        platform: {
-          connect: {
-            id: resource.platform,
-          },
-        },
+        platform: platform,
         project: {
           connect: {
             id: resource.project,
@@ -155,12 +144,18 @@ export class ResourceService {
       name: result.name,
       params: result.params,
       project: result.projectId,
-      platform: result.platformId,
+      platform: result.platform,
       metrics: [],
     };
   }
 
   async updateOne(resource: Resource): Promise<Resource> {
+    const platform = Object.entries(PlatformName).find(
+      (entry) => entry[1] === resource.platform,
+    )[1];
+
+    if (!platform) throw new Error('Platform not found');
+
     const result = await this.prisma.resource.update({
       where: {
         id: resource.id,
@@ -169,7 +164,7 @@ export class ResourceService {
         name: resource.name,
         params: resource.params,
         projectId: resource.project,
-        platformId: resource.platform,
+        platform: platform,
       },
     });
 
@@ -180,7 +175,7 @@ export class ResourceService {
       name: result.name,
       params: result.params,
       project: result.projectId,
-      platform: result.platformId,
+      platform: result.platform,
     };
   }
 
@@ -213,7 +208,7 @@ export class ResourceService {
       name: result.name,
       params: result.params,
       project: result.projectId,
-      platform: result.platformId,
+      platform: result.platform,
     };
   }
 

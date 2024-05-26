@@ -36,7 +36,7 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
   const metricFilters = useAppSelector((state) => state.metric.filters);
   const platform = useAppSelector((state) =>
     state.platform.platforms.find(
-      (platform) => platform.id === resource.platform
+      (platform) => platform.name === resource.platform
     )
   );
 

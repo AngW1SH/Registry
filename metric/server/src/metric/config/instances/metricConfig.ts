@@ -1,15 +1,12 @@
 import { MetricName } from './metricNames';
-import {
-  MetricConfig,
-  MetricParamType,
-  MetricParamsConfig,
-  UnitOfTime,
-} from '../types';
+import { MetricConfig, MetricParamType, UnitOfTime } from '../types';
+import { PlatformName } from '@/src/platform/platform.entity';
 
 export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.TotalCommits]: {
     dependencies: [MetricName.Commits],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -27,6 +24,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.duration,
@@ -47,6 +45,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.duration,
@@ -66,6 +65,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.IssueCompleteness]: {
     dependencies: [MetricName.Issues],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -83,6 +83,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.duration,
@@ -102,6 +103,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.PullRequestHangTime]: {
     dependencies: [MetricName.PullRequests],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -118,6 +120,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.RapidPullRequests]: {
     dependencies: [MetricName.PullRequests],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -135,6 +138,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
     dependencies: [],
     snapshotBased: true,
     isPublic: true,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.duration,
@@ -158,6 +162,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
       MetricName.PullRequests,
     ],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -189,6 +194,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.CodeChurn]: {
     dependencies: [MetricName.Commits],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,
@@ -205,6 +211,7 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
   [MetricName.CodeOwnership]: {
     dependencies: [MetricName.Commits],
     snapshotBased: false,
+    platform: PlatformName.GitHub,
     params: [
       {
         type: MetricParamType.boolean,

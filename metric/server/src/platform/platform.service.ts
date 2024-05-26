@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { Platform } from './platform.entity';
-import { PrismaService } from '../prisma/prisma.service';
+import { Platform, PlatformName } from './platform.entity';
 
 @Injectable()
 export class PlatformService {
-  constructor(private prisma: PrismaService) {}
   async findAll(): Promise<Platform[]> {
-    const result = await this.prisma.platform.findMany();
+    const result = Object.entries(PlatformName).map(([key, value]) => ({
+      name: value,
+    }));
+
     return result;
   }
 
-  async findOne(id: string): Promise<Platform | null> {
-    const result = await this.prisma.platform.findFirst({
-      where: {
-        id,
-      },
-    });
-    return result;
+  async findOne(name: string): Promise<Platform | null> {
+    const result = Object.entries(PlatformName).find(
+      ([key, value]) => value === name,
+    );
+
+    if (!result) return null;
+
+    return { name: result[1] };
   }
 }

@@ -1,7 +1,9 @@
+import { MetricName } from '@/src/metric/config/instances/metricNames';
 import { ResourceConfig, ResourceFieldType } from '../types';
+import { PlatformName } from '@/src/platform/platform.entity';
 
 export const githubConfig: ResourceConfig = {
-  name: 'GitHub',
+  name: PlatformName.GitHub,
   data: [
     {
       prop: 'apiEndpoint',

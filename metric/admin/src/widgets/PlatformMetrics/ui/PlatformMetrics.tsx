@@ -14,7 +14,7 @@ const PlatformMetrics: FC<PlatformMetricsProps> = ({ resource, children }) => {
 
   const platform = useAppSelector((state) =>
     state.platform.platforms.find(
-      (platform) => platform.id === resource.platform
+      (platform) => platform.name === resource.platform
     )
   );
 

@@ -1,3 +1,4 @@
+import { PlatformName } from '../platform/platform.entity';
 import { resourceMocks } from '../resource/resource.mock';
 import {
   AbstractMetric,
@@ -63,12 +64,15 @@ export const metricDetailedDTOMocks: MetricDetailedDTO[] = metricMocks.map(
 export const abstractMetricMocks: AbstractMetric[] = [
   {
     name: 'TotalCommits',
+    platform: PlatformName.GitHub,
   },
   {
     name: 'Commits',
+    platform: PlatformName.GitHub,
   },
   {
     name: 'Issues',
+    platform: PlatformName.GitHub,
   },
 ];
 

@@ -12,6 +12,7 @@ import { Project } from '../project/project.entity';
 import { User } from '@prisma/client';
 import { ProjectService } from '../project/project.service';
 import { ResourceService } from '../resource/resource.service';
+import { PlatformName } from '../platform/platform.entity';
 
 @Injectable()
 export class ImportService {
@@ -73,11 +74,9 @@ export class ImportService {
       },
     });
 
-    const platform = await this.prisma.platform.findFirst({
-      where: {
-        name: resource.platform,
-      },
-    });
+    const platform = Object.entries(PlatformName).find(
+      (entry) => entry[1] === resource.platform,
+    )[1];
 
     if (!platform) {
       throw new Error('Platform not found');
@@ -101,7 +100,7 @@ export class ImportService {
         data: {
           name: resource.name,
           params: resource.params,
-          platformId: platform.id,
+          platform: platform,
         },
       });
 
@@ -113,7 +112,7 @@ export class ImportService {
         name: resource.name,
         params: resource.params,
         projectId: project.id,
-        platformId: platform.id,
+        platform: platform,
       },
     });
 
@@ -133,18 +132,14 @@ export class ImportService {
     const identifiers = (
       await Promise.all(
         user.identifiers.map(async (identifier) => {
-          const platform = await this.prisma.platform.findFirst({
-            where: {
-              name: identifier.platform,
-            },
-          });
+          const platform = Object.entries(PlatformName).find(
+            (entry) => entry[1] === identifier.platform,
+          )[1];
 
-          if (!platform) {
-            return null;
-          }
+          if (!platform) throw new Error('Platform not found');
 
           return {
-            platformId: platform.id,
+            platform: platform,
             value: identifier.value,
           };
         }),

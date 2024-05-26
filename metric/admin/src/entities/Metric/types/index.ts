@@ -2,12 +2,14 @@ import { z } from "zod";
 import { IMetricParam } from "./params";
 import type { IMetric } from "../config/instances/types";
 import { MetricName } from "../config/instances/types";
+import { PlatformName } from "@/entities/Platform/types";
 
 export { MetricName };
 export type { IMetric };
 
 export interface IAbstractMetric {
   name: MetricName;
+  platform: PlatformName;
 }
 
 export interface IAbstractMetricDetailed extends IAbstractMetric {

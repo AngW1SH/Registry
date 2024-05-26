@@ -35,11 +35,7 @@ export class ProjectService {
         resources: {
           select: {
             grade: true,
-            platform: {
-              select: {
-                name: true,
-              },
-            },
+            platform: true,
           },
         },
       },
@@ -47,8 +43,8 @@ export class ProjectService {
 
     const result: ProjectInList[] = prismaResult.map((project) => {
       const platformNames = project.resources.reduce((acc, cur) => {
-        if (!acc.includes(cur.platform.name)) {
-          acc.push(cur.platform.name);
+        if (!acc.includes(cur.platform)) {
+          acc.push(cur.platform);
         }
         return acc;
       }, []);
@@ -102,11 +98,7 @@ export class ProjectService {
                 name: true,
                 identifiers: {
                   select: {
-                    platform: {
-                      select: {
-                        name: true,
-                      },
-                    },
+                    platform: true,
                     value: true,
                   },
                 },
@@ -125,7 +117,7 @@ export class ProjectService {
       name: member.user.name,
       roles: member.roles,
       identifiers: member.user.identifiers.map((identifier) => ({
-        platform: identifier.platform.name as PlatformName,
+        platform: identifier.platform as PlatformName,
         value: identifier.value,
       })),
     }));

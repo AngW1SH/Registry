@@ -1,4 +1,3 @@
-import { Platform } from '@prisma/client';
 import { PlatformName } from '../platform/platform.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { ResourceFieldType } from '../resource/config/types';

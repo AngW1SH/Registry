@@ -17,24 +17,32 @@ interface CreateProps {
   resource: string;
 }
 
-const Create: FC<CreateProps> = ({ project, resource }) => {
+const Create: FC<CreateProps> = ({ project, resource: resourceId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [selected, setSelected] = useState<IAbstractMetricDetailed | null>(
     null
   );
 
+  const resource = useAppSelector((state) =>
+    state.resource.resources.find((r) => r.id == resourceId)
+  );
+
   const { data } = useGetMetricInfoQuery();
 
   // only use metrics for this resource
   const metrics = useAppSelector((state) =>
-    state.metric.metrics.filter((m) => m.resource == resource)
+    state.metric.metrics.filter((m) => m.resource == resourceId)
   );
   const dispatch = useAppDispatch();
 
   // Only show metrics that are not already created
   const filteredData =
-    data?.filter((metric) => !metrics.find((m) => m.name == metric.name)) || [];
+    data?.filter(
+      (metric) =>
+        !metrics.find((m) => m.name == metric.name) &&
+        metric.platform == resource?.platform
+    ) || [];
 
   const [mutate, { data: createData, isLoading }] = useCreateMetricMutation();
 
@@ -54,7 +62,7 @@ const Create: FC<CreateProps> = ({ project, resource }) => {
 
     await mutate({
       project: project,
-      resource: resource,
+      resource: resourceId,
       name: selected.name,
     });
     setSelected(null);
