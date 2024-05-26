@@ -23,6 +23,7 @@ export class ResourceService {
   ) {}
 
   async findMany(filters: { project: string }): Promise<ResourceWithMetrics[]> {
+    // Select resources with metrics
     const result = await this.prisma.resource.findMany({
       where: {
         projectId: filters.project,
@@ -46,11 +47,12 @@ export class ResourceService {
 
     result.forEach((resource) => {
       resource.metrics.forEach((metric) => {
+        // Check if we have a config for this metric
         const config: MetricConfig = metricConfig[metric.name];
         const params = JSON.parse(metric.params);
-
         if (!config) return;
 
+        // If some params are missing, add them
         config.params.forEach((param) => {
           if (!params.find((p) => p.name === param.name)) {
             params.push(param);
@@ -60,12 +62,13 @@ export class ResourceService {
         metric.params = JSON.stringify(params);
       });
 
+      // Check if we have a config for this resource
       const config: ResourceConfig = configs[resource.platform];
       const params = JSON.parse(resource.params);
-
       if (!config) return;
 
       config.data.forEach((param) => {
+        // If some params are missing, add them
         if (!params.find((p) => p.prop === param.prop)) {
           params.push(param);
         }
@@ -114,14 +117,16 @@ export class ResourceService {
   }
 
   async createOne(resource: ResourceCreate): Promise<ResourceDetailed | null> {
+    // Find out if we support this platform
+    console.log(Object.entries(PlatformName));
+    console.log(resource.platform);
     const platform = Object.entries(PlatformName).find(
       (entry) => entry[1] === resource.platform,
-    )[1];
-
+    )?.[1];
     if (!platform) throw new Error('Platform not found');
 
+    // Check if we have a config for this resource
     const config = configs[platform];
-
     if (!config) throw new Error('Platform not found');
 
     const result = await this.prisma.resource.create({
@@ -150,10 +155,10 @@ export class ResourceService {
   }
 
   async updateOne(resource: Resource): Promise<Resource> {
+    // Find out if we support this platform
     const platform = Object.entries(PlatformName).find(
       (entry) => entry[1] === resource.platform,
     )[1];
-
     if (!platform) throw new Error('Platform not found');
 
     const result = await this.prisma.resource.update({
@@ -167,7 +172,6 @@ export class ResourceService {
         platform: platform,
       },
     });
-
     if (!result) throw new Error('Failed to update resource');
 
     return {
@@ -195,12 +199,18 @@ export class ResourceService {
   }
 
   async deleteOne(id: string): Promise<Resource> {
+    // Stop tracking metrics first (and delete the existing snapshots)
+    try {
+      await this.stopTracking(id, true);
+    } catch (error) {
+      throw new Error('Failed to stop tracking metrics');
+    }
+
     const result = await this.prisma.resource.delete({
       where: {
         id,
       },
     });
-
     if (!result) throw new Error('Failed to delete resource');
 
     return {
@@ -239,21 +249,18 @@ export class ResourceService {
 
   async createAllMetrics(resourceId: string) {
     const metrics = await this.metricService.listAll();
-
     const result: MetricDetailed[] = [];
 
     await Promise.all(
       metrics.map(async (metric) => {
+        // Check if the metric already exists
         const metricInDB = await this.prisma.metric.findFirst({
           where: {
             name: metric.name,
             resourceId: resourceId,
           },
         });
-
         if (metricInDB) return;
-
-        console.log(metric.name);
 
         const metricCreateResult = await this.metricService.create({
           params: '',
@@ -279,12 +286,14 @@ export class ResourceService {
     return result;
   }
 
-  async stopTracking(id: string) {
+  async stopTracking(id: string, deleteSnapshots?: boolean) {
     const metrics = await this.getMetrics(id);
     if (!metrics) throw new Error("Couldn't get metrics");
 
     const result = await Promise.all(
-      metrics.map((metric) => this.metricService.stop(metric.id, false)),
+      metrics.map((metric) =>
+        this.metricService.stop(metric.id, deleteSnapshots || false),
+      ),
     );
 
     return result;

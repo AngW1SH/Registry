@@ -7,18 +7,11 @@ export interface StructuredSnapshotData {
   };
 }
 
-const extractName = (groupType: string, groups: string[]): string | null => {
-  const found = groups.find((g) => g.indexOf(groupType + ':') === 0);
-
-  if (!found) return null;
-
-  return found.slice(groupType.length + 1);
-};
-
 export const structureSnapshots = (snapshots: Snapshot[]) => {
   const result: StructuredSnapshotData = {};
 
   for (const snapshot of snapshots) {
+    // Get the resource name
     const resource = snapshot.groups
       .find((g) => g.indexOf('resource:') === 0)
       ?.slice(9);

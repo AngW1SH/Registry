@@ -15,6 +15,7 @@ export const metricHooks: {
     resourceId: string,
     prisma: PrismaService,
   ) => {
+    // Update the resource's grade whenever we receive a snapshot for the corresponding metric
     const result = await prisma.resource.update({
       where: {
         id: resourceId,

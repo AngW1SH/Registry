@@ -25,6 +25,7 @@ export class ProjectService {
   ) {}
 
   async findAll(): Promise<ProjectInList[]> {
+    // Select the project data and its resources' platform and last saved grade
     const prismaResult = await this.prisma.project.findMany({
       select: {
         id: true,
@@ -42,6 +43,7 @@ export class ProjectService {
     });
 
     const result: ProjectInList[] = prismaResult.map((project) => {
+      // Find all unique platform names of the project's resources
       const platformNames = project.resources.reduce((acc, cur) => {
         if (!acc.includes(cur.platform)) {
           acc.push(cur.platform);
@@ -49,6 +51,7 @@ export class ProjectService {
         return acc;
       }, []);
 
+      // Find the average grade of the project's resources
       const gradeData = project.resources.reduce(
         (acc, cur) => {
           if (cur.grade != 'N/A') {
@@ -78,6 +81,8 @@ export class ProjectService {
   }
 
   async findOne(id: string): Promise<ProjectDetailedWithSnapshots | null> {
+    // Select the project data and its members
+    // Resources and metrics are queried separately
     const result = await this.prisma.project.findFirst({
       where: {
         id,
@@ -113,6 +118,7 @@ export class ProjectService {
       return null;
     }
 
+    // Combine the member and user data
     const members: ProjectMember[] = result.members.map((member) => ({
       name: member.user.name,
       roles: member.roles,
@@ -122,20 +128,22 @@ export class ProjectService {
       })),
     }));
 
+    // Fetch project resources and tracked tasks
     const [resources, trackedTasks] = await Promise.all([
       this.resourceService.findMany({ project: id }),
       this.taskService.list(['project:' + result.name]),
     ]);
-
     if (!resources) throw new Error('Failed to fetch resources');
     if (!trackedTasks) throw new Error('Failed to fetch tracked tasks');
 
+    // Fetch project snapshots and structure them like:
+    // { resourceName: { metricName: [snapshot1, snapshot2] } }
     const snapshots = structureSnapshots(
       await this.snapshotService.list('project:' + result.name),
     );
-
     if (!snapshots) throw new Error('Failed to fetch snapshots');
 
+    // Distribute the snapshot data to the resources
     let resourcesPopulated = resources.map((resource) =>
       this.resourceService.populateWithSnapshots(
         resource,
@@ -151,7 +159,7 @@ export class ProjectService {
       dateEnd: result.dateEnd,
       users: members,
       resources: trackedTasks
-        ? markTrackedMetrics(trackedTasks, resourcesPopulated)
+        ? markTrackedMetrics(trackedTasks, resourcesPopulated) // Mark if the task is tracked or not
         : resourcesPopulated,
     };
   }
@@ -163,7 +171,6 @@ export class ProjectService {
         description: project.description,
       },
     });
-
     if (!result) throw new Error('Failed to create project');
 
     return {
@@ -175,14 +182,17 @@ export class ProjectService {
   }
 
   async updateMetrics(newData: Project) {
+    // Fetch the project data before the update
     const oldData = await this.prisma.project.findFirst({
       where: {
         id: newData.id,
       },
     });
-
+    // There's nothing to update
     if (!oldData) return null;
 
+    // If the name changes, the "project:..." group name changes,
+    // so we have to update the group name in the core-server
     if (oldData.name !== newData.name) {
       const result = await this.taskService.updateGroupName({
         old: 'project:' + oldData.name,
@@ -192,6 +202,8 @@ export class ProjectService {
       if (!result || !result.new) throw new Error('Failed to update tasks');
     }
 
+    // If the dates change, we have to update them in the core-server
+    // so that the tasks are started and deleted correctly
     if (
       new Date(oldData.dateStart)?.getTime() !==
         new Date(newData.dateStart)?.getTime() ||
@@ -217,6 +229,7 @@ export class ProjectService {
   }
 
   async updateOne(project: Project): Promise<Project> {
+    // Before updating, try to update the data in the core-server
     await this.updateMetrics(project);
 
     const dateStart = new Date(project.dateStart);

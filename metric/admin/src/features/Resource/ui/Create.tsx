@@ -49,7 +49,7 @@ const Create: FC<CreateProps> = ({ className = "" }) => {
       // Make a request
       const result = await create({
         name,
-        platform: platform.id,
+        platform: platform.name,
         project: project.id,
       });
 

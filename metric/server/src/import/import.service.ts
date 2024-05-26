@@ -23,6 +23,7 @@ export class ImportService {
   ) {}
 
   async createOrUpdateProject(project: ImportProject) {
+    // See if project already exists
     const findProject = await this.prisma.project.findFirst({
       where: {
         id: '' + project.id,
@@ -30,7 +31,8 @@ export class ImportService {
     });
 
     if (findProject) {
-      await this.projectService.updateMetrics({
+      // Note that this will also update the data in the core-server if neccessary
+      const updateProject = await this.projectService.updateOne({
         id: findProject.id,
         name: project.name,
         description: project.description,
@@ -38,21 +40,10 @@ export class ImportService {
         dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
       });
 
-      const updateProject = await this.prisma.project.update({
-        where: {
-          id: findProject.id,
-        },
-        data: {
-          name: project.name,
-          description: project.description,
-          dateStart: project.dateStart ? new Date(project.dateStart) : null,
-          dateEnd: project.dateEnd ? new Date(project.dateEnd) : null,
-        },
-      });
-
       return updateProject;
     }
 
+    // If not found, create the project
     const createProject = await this.prisma.project.create({
       data: {
         id: '' + project.id,
@@ -67,6 +58,7 @@ export class ImportService {
   }
 
   async createOrUpdateResource(resource: ImportResource, project: Project) {
+    // See if resource already exists
     const findResource = await this.prisma.resource.findFirst({
       where: {
         name: resource.name,
@@ -74,24 +66,28 @@ export class ImportService {
       },
     });
 
+    // Find out if we support this platform
     const platform = Object.entries(PlatformName).find(
       (entry) => entry[1] === resource.platform,
     )[1];
-
     if (!platform) {
       throw new Error('Platform not found');
     }
 
+    // Fill the resource params with default values
     const config: ResourceConfig = configs[resource.platform];
     const params = JSON.parse(resource.params);
     if (!config) return;
+
     config.data.forEach((param) => {
       if (!params.find((p) => p.prop === param.prop)) {
+        // Add provided param values whenever possible
         params.push(param);
       }
     });
     resource.params = JSON.stringify(params);
 
+    // Create or update the resource
     if (findResource) {
       const updateResource = await this.prisma.resource.update({
         where: {
@@ -116,7 +112,10 @@ export class ImportService {
       },
     });
 
+    // Also automatically create all the metrics for the resource
     await this.resourceService.createAllMetrics(createResource.id);
+
+    // and start tracking them
     await this.resourceService.startTracking(createResource.id);
 
     return createResource;
@@ -132,10 +131,10 @@ export class ImportService {
     const identifiers = (
       await Promise.all(
         user.identifiers.map(async (identifier) => {
+          // Find out if we support this platform
           const platform = Object.entries(PlatformName).find(
             (entry) => entry[1] === identifier.platform,
           )[1];
-
           if (!platform) throw new Error('Platform not found');
 
           return {
@@ -147,12 +146,14 @@ export class ImportService {
     ).filter((identifier) => identifier !== null);
 
     if (findUser) {
+      // Delete all the previous identifiers
       const deleteIdentifiers = await this.prisma.identifier.deleteMany({
         where: {
           userId: findUser.id,
         },
       });
 
+      // Save the new identifiers
       const updateUser = await this.prisma.user.update({
         where: {
           id: findUser.id,
@@ -184,6 +185,7 @@ export class ImportService {
     project: Project,
     user: User,
   ) {
+    // See if member already exists
     const findMember = await this.prisma.member.findFirst({
       where: {
         user: {
@@ -193,6 +195,7 @@ export class ImportService {
       },
     });
 
+    // Create or update the member
     if (findMember) {
       const updateMember = await this.prisma.member.update({
         where: {
