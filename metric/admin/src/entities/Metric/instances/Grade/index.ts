@@ -1,6 +1,6 @@
 import type { Grade, GradeMetric } from "./types";
-import { convertData as convertGrade } from "./utils/convertData";
+import { GradeSchema } from "./types";
 import { useFilter as useFilterGrade } from "./hooks/useFilter";
 
 export type { Grade, GradeMetric };
-export { convertGrade, useFilterGrade };
+export { GradeSchema, useFilterGrade };

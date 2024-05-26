@@ -9,10 +9,7 @@ export interface GradeMetric extends IGenericMetric {
 export const GradeSchema = z.array(
   z.object({
     error: z.string().optional(),
-    data: z
-      .number()
-      .or(z.string())
-      .transform((x) => +x),
+    data: z.coerce.number(),
     timestamp: z.number(),
   })
 );

@@ -1,6 +1,6 @@
 import type { Issues, IssuesMetric } from "./types";
-import { convertData as convertIssues } from "./utils/convertData";
+import { IssuesSchema } from "./types";
 import { useFilter as useFilterIssues } from "./hooks/useFilter";
 
 export type { Issues, IssuesMetric };
-export { convertIssues, useFilterIssues };
+export { IssuesSchema, useFilterIssues };

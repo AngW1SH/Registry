@@ -1,8 +1,9 @@
 import { IGenericMetric, IMetric, MetricName } from "../../types";
-import { convertCommits } from "../../instances/Commits";
-import { convertIssues } from "../../instances/Issues";
-import { convertPullRequests } from "../../instances/PullRequests";
-import { convertGrade } from "../../instances/Grade";
+import { convertData } from "../convertData";
+import { CommitsSchema } from "../../instances/Commits";
+import { IssuesSchema } from "../../instances/Issues";
+import { PullRequestsSchema } from "../../instances/PullRequests";
+import { GradeSchema } from "../../instances/Grade";
 
 export const convertMetric = (metric: IGenericMetric): IMetric => {
   switch (metric.name) {
@@ -10,13 +11,13 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
       return {
         ...metric,
         name: MetricName.Commits,
-        data: convertCommits(metric.data),
+        data: convertData(CommitsSchema, metric.data),
       };
     case MetricName.Issues:
       return {
         ...metric,
         name: MetricName.Issues,
-        data: convertIssues(metric.data),
+        data: convertData(IssuesSchema, metric.data),
       };
     case MetricName.TotalCommits:
       return {
@@ -32,7 +33,7 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
       return {
         ...metric,
         name: MetricName.PullRequests,
-        data: convertPullRequests(metric.data),
+        data: convertData(PullRequestsSchema, metric.data),
       };
     case MetricName.PullRequestHangTime:
       return {
@@ -48,7 +49,7 @@ export const convertMetric = (metric: IGenericMetric): IMetric => {
       return {
         ...metric,
         name: MetricName.Grade,
-        data: convertGrade(metric.data),
+        data: convertData(GradeSchema, metric.data),
       };
     case MetricName.DominantWeekDay:
       return {
