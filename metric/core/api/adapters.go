@@ -9,6 +9,17 @@ import (
 )
 
 func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
+
+	createdAt := time.Time{}
+	if dto.CreatedAt != nil {
+		createdAt = dto.CreatedAt.AsTime()
+	}
+
+	deletedAt := time.Time{}
+	if dto.DeletedAt != nil {
+		deletedAt = dto.DeletedAt.AsTime()
+	}
+
 	return &models.TaskCreate{
 		Metric:     dto.Metric,
 		UpdatedAt:  time.Now(),
@@ -17,8 +28,8 @@ func FromGRPCTaskStartInfo(dto *TaskStartInfo) *models.TaskCreate {
 		Data:       dto.Data,
 		Groups:     dto.Groups,
 		IsPublic:   dto.IsPublic,
-		CreatedAt:  dto.CreatedAt.AsTime(),
-		DeletedAt:  dto.DeletedAt.AsTime(),
+		CreatedAt:  createdAt,
+		DeletedAt:  deletedAt,
 	}
 }
 
