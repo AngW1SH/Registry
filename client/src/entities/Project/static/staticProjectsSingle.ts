@@ -58,6 +58,17 @@ export const staticProjectSingleNotStarted: IProjectSingle = {
       size: "20Кб",
     },
   ],
+  documents: [
+    {
+      id: 53,
+      name: "Anketa.docx",
+      date: "2023-11-06",
+      category: "Отчёт",
+      url: "/uploads/Anketa_a4ad15cee9.docx",
+      type: "FILE",
+      size: "20Кб",
+    },
+  ],
   requestCount: 0,
 };
 
@@ -111,6 +122,17 @@ export const staticProjectSingleOngoing: IProjectSingle = {
       size: "20Кб",
     },
   ],
+  documents: [
+    {
+      id: 53,
+      name: "Anketa.docx",
+      date: "2023-11-06",
+      category: "Отчёт",
+      url: "/uploads/Anketa_a4ad15cee9.docx",
+      type: "FILE",
+      size: "20Кб",
+    },
+  ],
   requestCount: 0,
 };
 
@@ -135,6 +157,17 @@ export const staticProjectSingleCompleted: IProjectSingle = {
     "Опыт работы с лабораторным оборудованием и инструментами, связанными с биологией растений",
     "Глубокое понимание биологии растений и их реакции на изменения климата",
     "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
+  ],
+  documents: [
+    {
+      id: 53,
+      name: "Anketa.docx",
+      date: "2023-11-06",
+      category: "Отчёт",
+      url: "/uploads/Anketa_a4ad15cee9.docx",
+      type: "FILE",
+      size: "20Кб",
+    },
   ],
   descriptionFiles: [
     {

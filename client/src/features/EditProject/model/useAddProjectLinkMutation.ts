@@ -1,6 +1,5 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchAddProjectFiles } from "../api/fetchAddProjectFile";
 import { fetchAddProjectLink } from "../api/fetchAddProjectLink";
 
 export const useAddProjectLinkMutation = () => {

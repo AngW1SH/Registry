@@ -27,7 +27,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
   members: [
     {
       id: 2,
-      role: "Системный администратор",
+      roles: ["Системный администратор"],
       name: "Горшков И.Г. - Системный администратор",
       isAdministrator: false,
       user: 5,
@@ -35,7 +35,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
     },
     {
       id: 3,
-      role: "Инженер технической поддержки",
+      roles: ["Инженер технической поддержки"],
       name: "Гришина С.К. - Инженер технической поддержки",
       isAdministrator: false,
       user: 6,
@@ -43,7 +43,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
     },
     {
       id: 1,
-      role: "Teamlead",
+      roles: ["Teamlead"],
       name: "Авдеева С.Д. - Teamlead",
       isAdministrator: true,
       user: 3,
@@ -51,7 +51,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
     },
     {
       id: 5,
-      role: "Frontend-разработчик",
+      roles: ["Frontend-разработчик"],
       name: "Ермилов И.М. - Frontend-разработчик",
       isAdministrator: false,
       user: 8,
@@ -59,7 +59,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
     },
     {
       id: 4,
-      role: "Тестировщик (QA Engineer)",
+      roles: ["Тестировщик (QA Engineer)"],
       name: "Евдокимова В.А. - Тестировщик (QA Engineer)",
       isAdministrator: false,
       user: 7,
@@ -67,7 +67,7 @@ export const staticProfileTeamAssigned: ProfileDTO = {
     },
     {
       id: 21,
-      role: "Разработчик",
+      roles: ["Разработчик"],
       name: "Лалуев Д.В. - Разработчик",
       isAdministrator: true,
       user: 24,
@@ -162,7 +162,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
   members: [
     {
       id: 2,
-      role: "Системный администратор",
+      roles: ["Системный администратор"],
       name: "Горшков И.Г. - Системный администратор",
       isAdministrator: false,
       user: 5,
@@ -170,7 +170,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
     },
     {
       id: 3,
-      role: "Инженер технической поддержки",
+      roles: ["Инженер технической поддержки"],
       name: "Гришина С.К. - Инженер технической поддержки",
       isAdministrator: false,
       user: 6,
@@ -178,7 +178,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
     },
     {
       id: 1,
-      role: "Teamlead",
+      roles: ["Teamlead"],
       name: "Авдеева С.Д. - Teamlead",
       isAdministrator: true,
       user: 3,
@@ -186,7 +186,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
     },
     {
       id: 5,
-      role: "Frontend-разработчик",
+      roles: ["Frontend-разработчик"],
       name: "Ермилов И.М. - Frontend-разработчик",
       isAdministrator: false,
       user: 8,
@@ -194,7 +194,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
     },
     {
       id: 4,
-      role: "Тестировщик (QA Engineer)",
+      roles: ["Тестировщик (QA Engineer)"],
       name: "Евдокимова В.А. - Тестировщик (QA Engineer)",
       isAdministrator: false,
       user: 7,
@@ -202,7 +202,7 @@ export const staticProfileTeamHiring: ProfileDTO = {
     },
     {
       id: 21,
-      role: "Разработчик",
+      roles: ["Разработчик"],
       name: "Лалуев Д.В. - Разработчик",
       isAdministrator: true,
       user: 24,
