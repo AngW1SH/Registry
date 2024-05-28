@@ -81,6 +81,11 @@ export interface ImportUser {
   }[];
 }
 
+export interface User {
+  id: string;
+  name: string;
+}
+
 export class ImportUser {
   @ApiProperty({ name: 'name', example: 'Петров Петр Петрович' })
   name: string;

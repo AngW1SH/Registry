@@ -5,11 +5,11 @@ import {
   ImportProject,
   ImportResource,
   ImportUser,
+  User,
 } from './import.entity';
 import { ResourceConfig } from '../resource/config/types';
 import { configs } from '../resource/config';
 import { Project } from '../project/project.entity';
-import { User } from '@prisma/client';
 import { ProjectService } from '../project/project.service';
 import { ResourceService } from '../resource/resource.service';
 import { PlatformName } from '../platform/platform.entity';
