@@ -29,7 +29,7 @@ const RoleTable: FC<RoleTableProps> = ({ displayData }) => {
               (data.label ? "pt-8" : "")
             }
           >
-            <p className="sm:w-min sm:min-w-[25%]">{data.roles.join(", ")}</p>
+            <p className="sm:w-min sm:min-w-[25%]">{data.roles?.join(", ")}</p>
             <p className="whitespace-nowrap pl-2 pt-1 font-bold sm:pt-0 sm:font-medium ">
               {data.name}
             </p>

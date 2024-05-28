@@ -28,7 +28,8 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (file && fileType) addFile({ projectId, file, category: fileType });
+    if (file && fileType && !isLoading)
+      addFile({ projectId, file, category: fileType });
   };
 
   return (
@@ -83,10 +84,13 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
       />
       <Button
         type="button"
-        className="rounded-full px-10 py-2 lg:ml-auto"
+        className={`rounded-full px-10 py-2 lg:ml-auto ${
+          isLoading && "bg-[#b7b7b7] text-black"
+        }`}
         onClick={handleSubmit}
       >
-        Добавить
+        {!isLoading && "Добавить"}
+        {isLoading && "Добавление..."}
       </Button>
     </form>
   );
