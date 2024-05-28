@@ -1,13 +1,22 @@
 import { Meter } from "@/shared/ui/Meter";
 import { FC } from "react";
 import { useGrades } from "../hooks/useGrades";
+import { useAppSelector } from "@/app/store";
 
 interface PerformanceGradeProps {
+  resource: string;
   className?: string;
 }
 
-const PerformanceGrade: FC<PerformanceGradeProps> = ({ className }) => {
-  const grades = useGrades();
+const PerformanceGrade: FC<PerformanceGradeProps> = ({
+  resource: resourceId,
+  className,
+}) => {
+  const grades = useGrades(resourceId);
+
+  const resource = useAppSelector((state) =>
+    state.resource.resources.find((resource) => resource.id == resourceId)
+  );
 
   const totalWeight = grades.reduce((a, b) => a + b.weight, 0);
 
@@ -21,7 +30,11 @@ const PerformanceGrade: FC<PerformanceGradeProps> = ({ className }) => {
       <p className="mt-4 text-[#2B3674] text-[50px]">
         <strong
           className="font-semibold"
-          id={isNaN(average) || average == 0 ? "" : "performance-grade"}
+          id={
+            isNaN(average) || average == 0 || !resource?.name
+              ? ""
+              : "performance-grade-" + resource.name
+          }
         >
           {isNaN(average) ? "N/A" : average.toFixed(2)}
         </strong>

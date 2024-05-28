@@ -68,8 +68,8 @@ export class ImportService {
 
     // Find out if we support this platform
     const platform = Object.entries(PlatformName).find(
-      (entry) => entry[1] === resource.platform,
-    )[1];
+      (entry) => entry[1].toLowerCase() === resource.platform.toLowerCase(),
+    )?.[1];
     if (!platform) {
       throw new Error('Platform not found');
     }
@@ -131,10 +131,12 @@ export class ImportService {
     const identifiers = (
       await Promise.all(
         user.identifiers.map(async (identifier) => {
+          console.log(identifier);
           // Find out if we support this platform
           const platform = Object.entries(PlatformName).find(
-            (entry) => entry[1] === identifier.platform,
-          )[1];
+            (entry) =>
+              entry[1].toLowerCase() === identifier.platform.toLowerCase(),
+          )?.[1];
           if (!platform) throw new Error('Platform not found');
 
           return {

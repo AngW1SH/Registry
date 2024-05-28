@@ -3,10 +3,12 @@ import PerformanceGrade from "./PerformanceGrade";
 import MetricList from "./MetricList";
 import { useGrades } from "../hooks/useGrades";
 
-interface PerformanceModuleProps {}
+interface PerformanceModuleProps {
+  resource: string;
+}
 
-const PerformanceModule: FC<PerformanceModuleProps> = () => {
-  const grades = useGrades();
+const PerformanceModule: FC<PerformanceModuleProps> = ({ resource }) => {
+  const grades = useGrades(resource);
 
   let sorted = [...grades];
 
@@ -24,7 +26,7 @@ const PerformanceModule: FC<PerformanceModuleProps> = () => {
 
   return (
     <div className="flex gap-8">
-      <PerformanceGrade className="flex-1" />
+      <PerformanceGrade resource={resource} className="flex-1" />
       <MetricList data={best} type="best" className="flex-[2]" />
       <MetricList data={worst} type="worst" className="flex-[2]" />
     </div>

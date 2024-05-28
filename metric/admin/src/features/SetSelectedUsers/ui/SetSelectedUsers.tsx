@@ -10,12 +10,12 @@ interface SetSelectedUsersProps {
 const SetSelectedUsers: FC<SetSelectedUsersProps> = ({ resourceId }) => {
   const dispatch = useAppDispatch();
 
-  const platformId = useAppSelector((state) =>
+  const platformName = useAppSelector((state) =>
     state.resource.resources.find((r) => r.id == resourceId)
   )?.platform;
 
   const platform = useAppSelector((state) =>
-    state.platform.platforms.find((p) => p.id == platformId)
+    state.platform.platforms.find((p) => p.name == platformName)
   );
 
   const users =

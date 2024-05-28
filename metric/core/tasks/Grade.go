@@ -5,6 +5,7 @@ import (
 	"core/models"
 	"core/repositories"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -15,6 +16,16 @@ import (
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
 )
+
+func getResourceName(groups []string) string {
+	for _, v := range groups {
+		if strings.HasPrefix(v, "resource:") {
+			return strings.TrimPrefix(v, "resource:")
+		}
+	}
+
+	return ""
+}
 
 func getProjectURL(parsedData interface{}) string {
 	for _, v := range parsedData.([]interface{}) {
@@ -41,6 +52,15 @@ func GradeMetric(task models.Task, repo *repositories.SnapshotRepository) {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))
 		return
 	}
+
+	// Get resource name
+	resourceName := getResourceName(task.Groups)
+
+	if resourceName == "" {
+		repo.Create(taskToSnapshot(task, "", "no resource name", nil))
+		return
+	}
+	fmt.Println("Resource id: ", "performance-grade-" + resourceName)
 
 	// Get the hostname of the admin dashboard
 	hostname := strings.TrimPrefix(adminUrl.Hostname(), "www.")
@@ -84,7 +104,7 @@ func GradeMetric(task models.Task, repo *repositories.SnapshotRepository) {
 
 		return nil
 		// wait for the #performance-grade element to appear and get it's text content
-	}), chromedp.Sleep(time.Second*3), chromedp.Navigate(url), chromedp.WaitReady("performance-grade", chromedp.ByID), chromedp.TextContent("#performance-grade", &res))
+	}), chromedp.Sleep(time.Second*3), chromedp.Navigate(url), chromedp.WaitVisible("performance-grade-" + resourceName, chromedp.ByID), chromedp.TextContent("#performance-grade-" + resourceName, &res))
 
 	if err != nil {
 		repo.Create(taskToSnapshot(task, "", err.Error(), nil))

@@ -251,26 +251,24 @@ export class ResourceService {
     const metrics = await this.metricService.listAll();
     const result: MetricDetailed[] = [];
 
-    await Promise.all(
-      metrics.map(async (metric) => {
-        // Check if the metric already exists
-        const metricInDB = await this.prisma.metric.findFirst({
-          where: {
-            name: metric.name,
-            resourceId: resourceId,
-          },
-        });
-        if (metricInDB) return;
-
-        const metricCreateResult = await this.metricService.create({
-          params: '',
+    metrics.forEach(async (metric) => {
+      // Check if the metric already exists
+      const metricInDB = await this.prisma.metric.findFirst({
+        where: {
           name: metric.name,
-          resource: resourceId,
-        });
+          resourceId: resourceId,
+        },
+      });
+      if (metricInDB) return;
 
-        if (metricCreateResult) result.push(...metricCreateResult);
-      }),
-    );
+      const metricCreateResult = await this.metricService.create({
+        params: '',
+        name: metric.name,
+        resource: resourceId,
+      });
+
+      if (metricCreateResult) result.push(...metricCreateResult);
+    });
 
     return result;
   }

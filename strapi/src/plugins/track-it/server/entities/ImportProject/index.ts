@@ -1,6 +1,6 @@
 export enum PlatformName {
-  GitHub = "GitHub",
-  GitLab = "GitLab",
+  github = "GitHub",
+  gitlab = "GitLab",
 }
 
 export interface ImportProject {

@@ -1,7 +1,9 @@
 import { useAppSelector } from "@/app/store";
 
-export const useGrades = () => {
-  const grades = useAppSelector((state) => state.metric.grades);
+export const useGrades = (resource: string) => {
+  const grades = useAppSelector((state) =>
+    state.metric.grades.filter((grade) => grade.resourceId === resource)
+  );
   const metrics = useAppSelector((state) => state.metric.metrics);
 
   return grades

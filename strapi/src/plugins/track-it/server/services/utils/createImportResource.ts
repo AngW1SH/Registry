@@ -49,7 +49,7 @@ const createGithubImportResource = (
   ];
 
   return {
-    name: provider.organization + "/" + provider.repository,
+    name: provider.repository,
     platform: componentToProvider[provider.__component],
     params: JSON.stringify(params),
   };

@@ -61,7 +61,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
                   <PlatformMetrics resource={resource} key={resource.id}>
                     <SetSelectedUsers resourceId={resource.id} />
                     <div className="pt-8" />
-                    <PerformanceModule />
+                    <PerformanceModule resource={resource.id} />
                     <div className="pt-8" />
                     <MetricList
                       metrics={metrics.filter(
