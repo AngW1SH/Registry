@@ -26,8 +26,8 @@ const ResourceLinks: FC<ResourceLinksProps> = () => {
     .map((resource) => ({
       name: resource.name,
       platform:
-        platforms.find((platform) => platform.id == resource.platform)?.name ||
-        "",
+        platforms.find((platform) => platform.name == resource.platform)
+          ?.name || "",
       url: resource.params.find(
         (param) => param.prop === "url" && param.type == "text"
       )?.value,
