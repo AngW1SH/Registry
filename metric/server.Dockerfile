@@ -7,7 +7,7 @@ RUN npm install -g pm2
 WORKDIR /app/proto
 
 # Copy the contents of the proto directory from your host machine to the /app/proto directory in the container
-COPY ./proto .
+COPY ./proto ./
 
 # Change the working directory to the parent directory
 WORKDIR /app/server
@@ -19,7 +19,7 @@ COPY ./server/package*.json ./
 RUN npm install
 
 # Copy the rest of the application
-COPY ./server .
+COPY ./server ./
 
 # Build the application
 RUN npm run build

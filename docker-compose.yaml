@@ -58,7 +58,7 @@ services:
       - "6380:6380"
     command: "--requirepass ${REDIS_PASSWORD}"
     volumes:
-      - redis:/data
+      - ./redis:/data
     env_file:
       - .env
   postgres:
@@ -70,6 +70,4 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./postgres/01_structure.sql:/docker-entrypoint-initdb.d/01_structure.sql
-      - ./postgres/02_contents.sql:/docker-entrypoint-initdb.d/02_contents.sql
       - ./postgres/data:/var/lib/postgresql/data
