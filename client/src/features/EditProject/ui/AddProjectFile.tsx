@@ -1,6 +1,6 @@
 "use client";
 import { Button, ButtonAlt, Dropdown } from "@/shared/ui";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useAddProjectFileMutation } from "../model/useAddProjectFilesMutation";
 import Image from "next/image";
 import { useProjectFileTypeQuery } from "@/entities/Project";
@@ -10,7 +10,7 @@ interface AddProjectFilesProps {
 }
 
 const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
-  const { mutate: addFile, isLoading } = useAddProjectFileMutation();
+  const { mutate: addFile, isLoading, data } = useAddProjectFileMutation();
 
   const { data: allFileTypes } = useProjectFileTypeQuery();
 
@@ -31,6 +31,13 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
     if (file && fileType && !isLoading)
       addFile({ projectId, file, category: fileType });
   };
+
+  useEffect(() => {
+    if (data) {
+      setFileType(null);
+      setFile(null);
+    }
+  }, [data]);
 
   return (
     <form className="flex flex-wrap items-end justify-between gap-y-4 md:flex-nowrap">

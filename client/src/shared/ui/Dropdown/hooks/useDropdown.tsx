@@ -70,6 +70,10 @@ export const useDropdown = (
   }, [initialOptions]);
 
   useEffect(() => {
+    setInput(initialSelected || "");
+  }, [initialSelected]);
+
+  useEffect(() => {
     asyncUpdateSuggestions();
   }, []);
 
