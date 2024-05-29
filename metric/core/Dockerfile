@@ -1,5 +1,10 @@
 FROM golang:1.21.3
 # Set the Current Working Directory inside the container
+
+RUN apt update && apt -y upgrade 
+
+RUN apt -y install chromium
+
 WORKDIR /app
 
 # Copy go mod and sum files
