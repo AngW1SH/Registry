@@ -19,10 +19,12 @@ import type {
   IProjectSingleDTO,
   IProjectReference,
   IProjectDocument,
+  IProjectLink,
 } from "./types/types";
 import { ProjectStage } from "./types/types";
 import { getProjectsByProjectIds } from "./model/getProjectsByProjectIds";
 import { useProjectFileTypeQuery } from "./model/useProjectFileTypeQuery";
+import ProjectLinkIcon from "./ui/ProjectLinkIcon";
 
 export {
   ProjectCard,
@@ -38,6 +40,7 @@ export {
   getProjectSingleFromDTO,
   getProjectsByProjectIds,
   useProjectFileTypeQuery,
+  ProjectLinkIcon,
 };
 export type {
   ProjectDTO,
@@ -46,4 +49,5 @@ export type {
   IProjectSingleDTO,
   IProjectReference,
   IProjectDocument,
+  IProjectLink,
 };

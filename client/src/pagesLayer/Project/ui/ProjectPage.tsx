@@ -16,6 +16,7 @@ import Head from "next/head";
 import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import { ProjectDocuments } from "@/widgets/ProjectDocuments";
+import { ProjectLinks } from "@/widgets/ProjectLinks";
 
 type Props = {
   params: { slug: string };
@@ -88,6 +89,12 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
           <>
             <div className="pt-10" />
             <ProjectDocuments documents={projectData.project.documents} />
+          </>
+        )}
+        {!!projectData.project.links.length && (
+          <>
+            <div className="pt-10" />
+            <ProjectLinks links={projectData.project.links} />
           </>
         )}
         <MarginnedAnchor id="team" />

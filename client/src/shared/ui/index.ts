@@ -22,6 +22,8 @@ import File from "./File/File";
 import FileUpload from "./FileUpload/FileUpload";
 import RoleTable from "./RoleTable/RoleTable";
 import MarginnedAnchor from "./MarginnedAnchor/MarginnedAnchor";
+import GenericIcon from "./Icons/GenericIcon";
+import GithubIcon from "./Icons/GitHubIcon";
 
 export {
   Container,
@@ -48,4 +50,6 @@ export {
   FileUpload,
   RoleTable,
   MarginnedAnchor,
+  GenericIcon,
+  GithubIcon,
 };

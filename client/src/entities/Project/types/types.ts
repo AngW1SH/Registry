@@ -49,6 +49,12 @@ export interface IProjectDocument {
   category: string;
 }
 
+export interface IProjectLink {
+  id: number;
+  platform: string;
+  link: string;
+}
+
 export interface IProjectSingle extends IProject {
   requestCount: number;
   developerRequirements: string[];
@@ -56,11 +62,7 @@ export interface IProjectSingle extends IProject {
   resultFiles: NamedFile[];
   documents: IProjectDocument[];
   related: IProject[];
-  links: {
-    id: number;
-    platform: string;
-    link: string;
-  }[];
+  links: IProjectLink[];
 }
 
 export interface IProjectSingleDTO extends ProjectDTO {
