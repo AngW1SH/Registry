@@ -1,5 +1,5 @@
+import GithubIcon from "@/shared/ui/Icons/GithubIcon";
 import { FC, SVGProps } from "react";
-import { GithubIcon } from "@/shared/ui/";
 
 interface ProjectLinkIconProps extends SVGProps<SVGSVGElement> {
   name: string;
