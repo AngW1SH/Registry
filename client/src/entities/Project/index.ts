@@ -18,6 +18,7 @@ import type {
   IProjectSingle,
   IProjectSingleDTO,
   IProjectReference,
+  IProjectDocument,
 } from "./types/types";
 import { ProjectStage } from "./types/types";
 import { getProjectsByProjectIds } from "./model/getProjectsByProjectIds";
@@ -44,4 +45,5 @@ export type {
   IProjectSingle,
   IProjectSingleDTO,
   IProjectReference,
+  IProjectDocument,
 };

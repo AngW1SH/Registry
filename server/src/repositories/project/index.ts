@@ -28,6 +28,7 @@ import requestRepository from "../request";
 import { BadRequestError, ServerError } from "@/helpers/errors";
 import meilisearch from "@/db/meilisearch/client";
 import { applyPostFilters } from "./utils/generateProjectPostFIlters";
+import { selectProjectDocument } from "@/db/strapi/queries/components/project-document";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -155,6 +156,7 @@ const projectRepositoryFactory = () => {
         descriptionFiles: selectDescriptionFiles(),
         resultFiles: selectResultFiles(),
         projectLink: selectProjectLinks(),
+        documents: selectProjectDocument(),
         related: selectProjectInList({
           tags: selectTag(),
         }),

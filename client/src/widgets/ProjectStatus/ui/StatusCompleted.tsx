@@ -1,4 +1,5 @@
 import { Button } from "@/shared/ui";
+import Link from "next/link";
 import { FC } from "react";
 
 interface StatusHiringCompletedProps {}
@@ -15,7 +16,9 @@ const StatusHiringCompleted: FC<StatusHiringCompletedProps> = () => {
       <div className="pt-7" />
       <p>Ознакомиться с ходом работы и рельзутатами выполненного проекта:</p>
       <div className="pt-10 lg:hidden" />
-      <Button className="mt-auto block self-center px-9">К результатам</Button>
+      <Link href={`#result`} className="mt-auto flex justify-center">
+        <Button className="self-center px-9">К результатам</Button>
+      </Link>
     </div>
   );
 };

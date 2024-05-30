@@ -1,5 +1,5 @@
 import { TagList, getTagsByTagIds, staticTags } from "@/entities/Tag";
-import { Container, Headline } from "@/shared/ui";
+import { Container, Headline, MarginnedAnchor } from "@/shared/ui";
 import { LinkedProjects } from "@/widgets/LinkedProjects";
 import { Header } from "@/widgets/Header";
 import { ProjectDescription } from "@/widgets/ProjectDescription";
@@ -15,6 +15,7 @@ import ProjectTeamList from "@/widgets/ProjectTeam/ui/ProjectTeamList";
 import Head from "next/head";
 import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
+import { ProjectDocuments } from "@/widgets/ProjectDocuments";
 
 type Props = {
   params: { slug: string };
@@ -82,6 +83,14 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         />
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
+        <MarginnedAnchor id="result" />
+        {!!projectData.project.documents.length && (
+          <>
+            <div className="pt-10" />
+            <ProjectDocuments documents={projectData.project.documents} />
+          </>
+        )}
+        <MarginnedAnchor id="team" />
         {projectData.teams &&
           projectData.teams.length > 0 &&
           projectData.members &&

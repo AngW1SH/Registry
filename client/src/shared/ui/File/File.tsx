@@ -7,11 +7,18 @@ interface FileProps {
   link: string;
   type?: string;
   size?: string;
+  className?: string;
 }
 
-const File: FC<FileProps> = ({ label, size, link, type = "FILE" }) => {
+const File: FC<FileProps> = ({
+  label,
+  size,
+  link,
+  type = "FILE",
+  className = "",
+}) => {
   return (
-    <div className="flex items-center gap-2 overflow-hidden">
+    <div className={"flex items-center gap-2 overflow-hidden " + className}>
       <div className="relative max-h-[1.5rem] min-h-[1.5rem] min-w-[1.75rem] max-w-[1.75rem]">
         <Image src="/file-icon-pdf.svg" fill={true} alt="PDF-файл" />
       </div>

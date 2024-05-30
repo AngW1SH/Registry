@@ -91,13 +91,15 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
       />
       <Button
         type="button"
-        className={`rounded-full px-10 py-2 lg:ml-auto ${
-          isLoading && "bg-[#b7b7b7] text-black"
-        }`}
+        className={`rounded-full px-10 py-2 lg:ml-auto`}
+        style={{
+          backgroundColor: isLoading ? "#b7b7b7" : undefined,
+          color: isLoading ? "black" : undefined,
+        }}
         onClick={handleSubmit}
       >
-        {!isLoading && "Добавить"}
-        {isLoading && "Добавление..."}
+        {!isLoading && "Загрузить"}
+        {isLoading && "Загрузка..."}
       </Button>
     </form>
   );

@@ -1,6 +1,7 @@
 import { IProject, IProjectSingle } from "@/entities/Project";
 import { IUser, formatNameShort } from "@/entities/User";
 import { Button } from "@/shared/ui";
+import Link from "next/link";
 import { FC } from "react";
 
 interface StatusActiveProps {
@@ -31,7 +32,9 @@ const StatusActive: FC<StatusActiveProps> = ({ project, users }) => {
         )}
       </ul>
       <div className="py-4 lg:hidden" />
-      <Button className="mt-auto block self-center px-9">Подробнее</Button>
+      <Link href={`#team`} className="mt-auto flex justify-center">
+        <Button className="self-center px-9">Подробнее</Button>
+      </Link>
     </div>
   );
 };

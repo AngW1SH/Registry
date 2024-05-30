@@ -32,7 +32,7 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
       <h2 className="text-sm text-[#898989]">Отчёты</h2>
       <div className="pt-3" />
       <div className="rounded-lg border border-[#898989] p-5">
-        <h2 className="text-sm text-[#898989]">Новый отчёт</h2>
+        <h2 className="text-sm text-[#898989]">Добавить</h2>
         <div className="pt-3" />
         <AddProjectFiles projectId={project.id} />
       </div>
@@ -57,10 +57,12 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
                   className="relative flex flex-col border-b border-[#b7b7b7] py-4 last:border-none lg:flex-row"
                 >
                   <p
-                    className="overflow-hidden overflow-ellipsis lg:max-w-[35%]"
+                    className="overflow-hidden overflow-ellipsis lg:min-w-[35%] lg:max-w-[35%]"
                     title={file.name}
                   >
-                    {file.name}
+                    <a href={process.env.NEXT_PUBLIC_STRAPI_URL + file.url}>
+                      {file.name}
+                    </a>
                   </p>
                   <p className="lg:ml-10 lg:max-w-[35%] lg:border-l lg:border-black lg:pl-10">
                     {file.category}

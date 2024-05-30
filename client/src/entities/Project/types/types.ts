@@ -39,20 +39,22 @@ export type ProjectDTO = {
   teamLimit: number;
 };
 
+export interface IProjectDocument {
+  id: number;
+  name: string;
+  date: string;
+  url: string;
+  type: string;
+  size: string;
+  category: string;
+}
+
 export interface IProjectSingle extends IProject {
   requestCount: number;
   developerRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
-  documents: {
-    id: number;
-    name: string;
-    date: string;
-    url: string;
-    type: string;
-    size: string;
-    category: string;
-  }[];
+  documents: IProjectDocument[];
   related: IProject[];
   links: {
     id: number;
