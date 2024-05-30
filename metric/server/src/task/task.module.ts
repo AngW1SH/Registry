@@ -1,21 +1,31 @@
 import { Module } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ConfigModule,
+    ClientsModule.registerAsync([
       {
         name: 'TASK_SERVICE',
-        transport: Transport.GRPC,
-        options: {
-          package: 'api',
-          protoPath: '../proto/task.proto',
-          url: '0.0.0.0:9000',
-          loader: {
-            keepCase: true,
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            maxReceiveMessageLength: 15 * 1024 * 1024,
+            package: 'api',
+            protoPath: '../proto/task.proto',
+            url:
+              configService.get('CORE_HOST') +
+              ':' +
+              configService.get('CORE_PORT'),
+            loader: {
+              keepCase: true,
+            },
           },
-        },
+        }),
       },
     ]),
   ],
