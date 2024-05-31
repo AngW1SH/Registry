@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_user_role_alias_user_role_aliases",
+  "info": {
+    "displayName": "User Role Alias",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "alias": {
+      "type": "string"
+    }
+  }
+}

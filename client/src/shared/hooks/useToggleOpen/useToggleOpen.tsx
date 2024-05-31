@@ -1,5 +1,12 @@
 "use client";
-import { ReactNode, RefObject, useCallback, useEffect, useState } from "react";
+import {
+  ReactNode,
+  RefObject,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 export const useToggleOpen = (
   ref: RefObject<HTMLElement>,
@@ -12,13 +19,18 @@ export const useToggleOpen = (
     if (ref.current) setInnerHeight(ref.current.clientHeight);
   }, [ref.current]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateSize();
 
-    window.addEventListener("resize", updateSize);
+    let observer: ResizeObserver | undefined;
+
+    if (ref.current) {
+      observer = new ResizeObserver(updateSize);
+      observer.observe(ref.current);
+    }
 
     return () => {
-      window.removeEventListener("resize", updateSize);
+      if (ref.current) observer?.unobserve(ref.current);
     };
   }, [ref.current, element]);
 

@@ -1053,6 +1053,7 @@ export interface ApiUserRoleUserRole extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
+    aliases: Attribute.Component<'user-role-alias.user-role-alias', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

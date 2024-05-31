@@ -141,6 +141,18 @@ export interface UserIdentifierUserIdentifier extends Schema.Component {
   };
 }
 
+export interface UserRoleAliasUserRoleAlias extends Schema.Component {
+  collectionName: 'components_user_role_alias_user_role_aliases';
+  info: {
+    displayName: 'User Role Alias';
+    icon: 'bulletList';
+    description: '';
+  };
+  attributes: {
+    alias: Attribute.String;
+  };
+}
+
 export interface UserServiceUserService extends Schema.Component {
   collectionName: 'components_user_service_user_services';
   info: {
@@ -166,6 +178,7 @@ declare module '@strapi/types' {
       'project-link.project-link': ProjectLinkProjectLink;
       'user-form.user-form': UserFormUserForm;
       'user-identifier.user-identifier': UserIdentifierUserIdentifier;
+      'user-role-alias.user-role-alias': UserRoleAliasUserRoleAlias;
       'user-service.user-service': UserServiceUserService;
     }
   }

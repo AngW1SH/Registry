@@ -33,6 +33,20 @@ const conf = () => ({
           };
         },
       },
+      "user-role": {
+        entriesQuery: {
+          populate: {
+            aliases: true,
+          },
+        },
+        transformEntry({ entry }) {
+          return {
+            ...entry,
+            developerRequirements:
+              entry.aliases?.map((requirement) => requirement.alias) || [],
+          };
+        },
+      },
     },
   },
   "team-builder": {
