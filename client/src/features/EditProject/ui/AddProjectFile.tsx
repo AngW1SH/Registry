@@ -45,7 +45,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
         ref={inputRef}
         onChange={(e) => setFile(e.target.files?.[0] || null)}
         type="file"
-        accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt"
+        accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt, .ppt, .pptx, .xls, .xlsx"
         hidden
       />
       {!!file && (

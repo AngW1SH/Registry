@@ -84,7 +84,7 @@ const FileUpload: FC<FileUploadProps> = ({
           <input
             id={name}
             type="file"
-            accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt"
+            accept=".jpg, .png, .jpeg, .docx, .pdf, .doc, .txt, .ppt, .pptx, .xls, .xlsx"
             multiple
             hidden
             onChange={handleFileChange}
