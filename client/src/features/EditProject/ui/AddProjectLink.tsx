@@ -1,5 +1,5 @@
 import { Button, Dropdown, FormInput } from "@/shared/ui";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useAddProjectLinkMutation } from "../model/useAddProjectLinkMutation";
 
 interface AddProjectLinkProps {
@@ -10,14 +10,19 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
   const [resource, setResource] = useState<string | null>(null);
   const [link, setLink] = useState<string>("");
 
-  const { mutate: addLink } = useAddProjectLinkMutation();
+  const { mutate: addLink, isLoading, data } = useAddProjectLinkMutation();
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     if (resource && link) addLink({ projectId, resource, link });
-    setResource(null);
-    setLink("");
   };
+
+  useEffect(() => {
+    if (data) {
+      setResource(null);
+      setLink("");
+    }
+  }, [data]);
 
   return (
     <form className="flex flex-wrap items-end">
@@ -38,9 +43,14 @@ const AddProjectLink: FC<AddProjectLinkProps> = ({ projectId }) => {
       <Button
         type="submit"
         className="mt-4 px-10 lg:ml-auto lg:mt-0"
+        style={{
+          backgroundColor: isLoading ? "#b7b7b7" : undefined,
+          color: isLoading ? "black" : undefined,
+        }}
         onClick={handleSubmit}
       >
-        Добавить
+        {!isLoading && "Добавить"}
+        {isLoading && "Добавление..."}
       </Button>
     </form>
   );

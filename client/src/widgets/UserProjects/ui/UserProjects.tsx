@@ -38,7 +38,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
   return (
     <div>
       <h2 className="text-3xl uppercase">Проекты</h2>
-      <div className="pt-2" />
+      <div className="pt-4" />
       <div className="flex flex-col gap-y-10 ">
         {displayData.map(({ project, team }) => (
           <ProjectInspectCard
