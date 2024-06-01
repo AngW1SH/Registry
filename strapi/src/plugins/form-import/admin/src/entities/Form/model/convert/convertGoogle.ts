@@ -45,14 +45,14 @@ export const convertGoogle = (
             formData.push({
               type: "GRID",
               question: parsedColName.question,
-              answers: [parsedColName.subquestion],
-              rows: [cellValue],
+              answers: [cellValue],
+              rows: [parsedColName.subquestion],
             });
           } else if (formData[index] && formData[index].type == "GRID") {
-            (formData[index] as IFormQuestionGrid).answers.push(
+            (formData[index] as IFormQuestionGrid).answers.push(cellValue);
+            (formData[index] as IFormQuestionGrid).rows.push(
               parsedColName.subquestion
             );
-            (formData[index] as IFormQuestionGrid).rows.push(cellValue);
           }
         } else {
           formData.push({

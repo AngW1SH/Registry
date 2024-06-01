@@ -64,6 +64,8 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
     ) ||
     [];
 
+  console.log(selected);
+
   const displayData = useMemo(() => {
     const result = [] as IFormQuestion[];
 
@@ -125,7 +127,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                   <Th>
                     <Typography variant="sigma">Вопрос</Typography>
                   </Th>
-                  {team.students.map((student) => (
+                  {team.students?.map((student) => (
                     <Th>
                       <Typography variant="sigma">
                         {formatNameShort(studentsMap.get(student)?.name || "")}
@@ -135,39 +137,44 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                 </Tr>
               </Thead>
               <Tbody key={selected.length}>
-                {displayData.map((entry, index) => {
+                {displayData?.map((entry, index) => {
                   if (entry.type == "GRID") {
-                    return entry.rows.map((row, rowIndex) => (
+                    return entry.rows?.map((row) => (
                       <Tr key={row}>
                         <Td>
                           <Typography textColor="neutral800">
                             <TableQuestion>{row}</TableQuestion>
                           </Typography>
                         </Td>
-                        {team.students.map((student, studentIndex) => (
-                          <Td key={row + student}>
-                            <Typography textColor="neutral800">
-                              <TableAnswer widthWV={answerWidthVW}>
-                                {(
-                                  studentsMap
-                                    .get(student)
-                                    ?.form?.data?.find(
-                                      (data) =>
-                                        data.type == "GRID" &&
-                                        data.rows.includes(row)
-                                    ) as FormRowGrid | null
-                                )?.answers[
-                                  (
-                                    fields?.find(
-                                      (field) =>
-                                        field.question == entry.question
-                                    ) as IFormQuestionGrid
-                                  ).rows.findIndex((mapRow) => mapRow == row)
-                                ] || ""}
-                              </TableAnswer>
-                            </Typography>
-                          </Td>
-                        ))}
+                        {team.students?.map((student, studentIndex) => {
+                          const studentQuestionData = studentsMap
+                            .get(student)
+                            ?.form?.data.find(
+                              (data) =>
+                                data.type == "GRID" &&
+                                data.question == entry.question
+                            ) as FormRowGrid | null;
+
+                          const studentAnswerIndex =
+                            studentQuestionData?.rows.findIndex(
+                              (rowMap) => rowMap == row
+                            );
+
+                          return (
+                            <Td key={row + student}>
+                              <Typography textColor="neutral800">
+                                <TableAnswer widthWV={answerWidthVW}>
+                                  {typeof studentAnswerIndex != "number" ||
+                                  studentAnswerIndex == -1
+                                    ? ""
+                                    : studentQuestionData?.answers[
+                                        studentAnswerIndex
+                                      ]}
+                                </TableAnswer>
+                              </Typography>
+                            </Td>
+                          );
+                        })}
                       </Tr>
                     ));
                   }
@@ -179,7 +186,7 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
                           <TableQuestion>{entry.question}</TableQuestion>
                         </Typography>
                       </Td>
-                      {team.students.map((student, studentIndex) => (
+                      {team.students?.map((student, studentIndex) => (
                         <Td>
                           <Typography textColor="neutral800">
                             <TableAnswer

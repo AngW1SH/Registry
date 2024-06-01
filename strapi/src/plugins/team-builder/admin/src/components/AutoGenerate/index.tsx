@@ -13,7 +13,9 @@ import { useDraftTeamsStore } from "../../entities/Team/model";
 interface AutoGenerateProps {}
 
 const AutoGenerate: FC<AutoGenerateProps> = () => {
-  const [options, setOptions] = useState([{ name: "Random" }]);
+  const [options, setOptions] = useState([
+    { name: "NLP v1.2 - 5 students per team" },
+  ]);
 
   const { post } = useFetchClient();
 

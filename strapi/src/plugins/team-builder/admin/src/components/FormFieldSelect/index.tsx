@@ -12,7 +12,7 @@ const FormFieldSelect: FC<FormFieldSelectProps> = () => {
       if (field.type == "GRID")
         return {
           label: field.question,
-          children: field.rows.map((row) => ({
+          children: field.rows.map((row, index) => ({
             value: row,
             label: row,
           })),

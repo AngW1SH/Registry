@@ -32,7 +32,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       .map((_) => ({ students: [] as number[] }));
 
     randomized.forEach((userId, index) => {
-      const teamIndex = Math.min(Math.ceil(index / 5), length - 1);
+      const teamIndex = Math.min(Math.floor(index / 5), length - 1);
       teams[teamIndex].students.push(userId);
     });
 
