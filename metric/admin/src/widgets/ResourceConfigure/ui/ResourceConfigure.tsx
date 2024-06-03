@@ -19,6 +19,7 @@ import {
   ToggleResourceMetrics,
 } from "@/features/Resource";
 import { FC } from "react";
+import { shallowEqual } from "react-redux";
 
 interface ResourceConfigureProps {
   resource: IResource;
@@ -33,11 +34,16 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
 }) => {
   const { data: metricData } = useGetMetricInfoQuery();
 
-  const metricFilters = useAppSelector((state) => state.metric.filters);
-  const platform = useAppSelector((state) =>
-    state.platform.platforms.find(
-      (platform) => platform.name === resource.platform
-    )
+  const metricFilters = useAppSelector(
+    (state) => state.metric.filters,
+    shallowEqual
+  );
+  const platform = useAppSelector(
+    (state) =>
+      state.platform.platforms.find(
+        (platform) => platform.name === resource.platform
+      ),
+    shallowEqual
   );
 
   if (!platform) return <></>;

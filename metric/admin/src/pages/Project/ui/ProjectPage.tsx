@@ -13,6 +13,7 @@ import { SetSelectedUsers } from "@/features/SetSelectedUsers";
 import { useMetricDataUpdate } from "@/entities/Metric/hooks/useMetricDataUpdate";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { GoToProjectSettings } from "@/features/Project";
+import { shallowEqual } from "react-redux";
 
 interface ProjectPageProps {}
 
@@ -21,11 +22,14 @@ const ProjectPage: FC<ProjectPageProps> = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { project, resources, metrics } = useAppSelector((state) => ({
-    project: state.project.project,
-    resources: state.resource.resources,
-    metrics: state.metric.metrics,
-  }));
+  const { project, resources, metrics } = useAppSelector(
+    (state) => ({
+      project: state.project.project,
+      resources: state.resource.resources,
+      metrics: state.metric.metrics,
+    }),
+    shallowEqual
+  );
 
   const isLoading = useAppSelector((state) => state.project.isLoading);
 

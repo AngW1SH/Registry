@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { CodeChurnMetric } from "../types";
 import { IMetric } from "@/entities/Metric";
 import { Tooltip } from "@/shared/ui/Tooltip";
@@ -55,10 +55,9 @@ const CodeChurn: FC<CodeChurnProps> = ({
             <div className="font-medium text-[#2B3674]">File</div>
             <div className="font-medium text-[#2B3674] text-center">Count</div>
             {mostChanged.map((file) => (
-              <>
+              <Fragment key={file.key}>
                 <div
                   className="max-w-full overflow-hidden overflow-ellipsis"
-                  key={file.key}
                   title={file.key}
                 >
                   {file.key}
@@ -66,7 +65,7 @@ const CodeChurn: FC<CodeChurnProps> = ({
                 <div className="text-center" key={file.key + "-" + file.value}>
                   {file.value}
                 </div>
-              </>
+              </Fragment>
             ))}
           </div>
         )}

@@ -18,7 +18,6 @@ export const memberSlice = createSlice({
   initialState,
   reducers: {
     setMembers: (state, action: PayloadAction<IMember[]>) => {
-      console.log(action.payload);
       state.members = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {

@@ -1,8 +1,12 @@
 import { useAppSelector } from "@/app/store";
 import { Grade } from "../types";
+import { shallowEqual } from "react-redux";
 
 export const useFilter = (data: Grade) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
+  const calendar = useAppSelector(
+    (state) => state.metric.calendar,
+    shallowEqual
+  );
 
   const successData = data.filter((item) => !item.error && item.data);
 

@@ -9,8 +9,6 @@ export const calculate = (
 } => {
   let dict = new Map<string, number>();
 
-  console.log("commits length", data.length);
-
   data.forEach((commit) => {
     commit.data.files.forEach((file) => {
       if (!dict.has(file.filename)) {

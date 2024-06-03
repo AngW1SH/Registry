@@ -4,12 +4,19 @@ import { useAppSelector } from "@/app/store";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { PlatformName } from "@/entities/Platform/types";
 import { PlatformIcon } from "@/entities/Platform";
+import { shallowEqual } from "react-redux";
 
 interface ResourceLinksProps {}
 
 const ResourceLinks: FC<ResourceLinksProps> = () => {
-  const resources = useAppSelector((state) => state.resource.resources);
-  const platforms = useAppSelector((state) => state.platform.platforms);
+  const resources = useAppSelector(
+    (state) => state.resource.resources,
+    shallowEqual
+  );
+  const platforms = useAppSelector(
+    (state) => state.platform.platforms,
+    shallowEqual
+  );
 
   const isLoading = useAppSelector(
     (state) => state.resource.isLoading || state.platform.isLoading

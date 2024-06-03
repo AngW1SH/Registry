@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { resourceSlice } from "@/entities/Resource";
 import { useCreateResourceMutation } from "@/entities/Resource/model/resourceApi";
 import SelectProvider from "./SelectProvider";
+import { shallowEqual } from "react-redux";
 
 const options = [
   {
@@ -36,8 +37,14 @@ const Create: FC<CreateProps> = ({ className = "" }) => {
 
   const [create, { data: createData }] = useCreateResourceMutation();
 
-  const platforms = useAppSelector((state) => state.platform.platforms);
-  const project = useAppSelector((state) => state.project.project);
+  const platforms = useAppSelector(
+    (state) => state.platform.platforms,
+    shallowEqual
+  );
+  const project = useAppSelector(
+    (state) => state.project.project,
+    shallowEqual
+  );
   const dispatch = useAppDispatch();
 
   const handleConfirm = async () => {

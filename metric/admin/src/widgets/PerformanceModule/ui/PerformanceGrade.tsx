@@ -2,6 +2,7 @@ import { Meter } from "@/shared/ui/Meter";
 import { FC } from "react";
 import { useGrades } from "../hooks/useGrades";
 import { useAppSelector } from "@/app/store";
+import { shallowEqual } from "react-redux";
 
 interface PerformanceGradeProps {
   resource: string;
@@ -14,8 +15,10 @@ const PerformanceGrade: FC<PerformanceGradeProps> = ({
 }) => {
   const grades = useGrades(resourceId);
 
-  const resource = useAppSelector((state) =>
-    state.resource.resources.find((resource) => resource.id == resourceId)
+  const resource = useAppSelector(
+    (state) =>
+      state.resource.resources.find((resource) => resource.id == resourceId),
+    shallowEqual
   );
 
   const totalWeight = grades.reduce((a, b) => a + b.weight, 0);

@@ -3,12 +3,13 @@ import { IGenericSnapshotList, IMetricData } from "../types";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { metricSlice } from "..";
 import { socket } from "@/app/socket";
+import { shallowEqual } from "react-redux";
 
 export const useMetricDataUpdate = () => {
   const [_, setIsConnected] = useState(socket.connected);
 
   const dispatch = useAppDispatch();
-  const metrics = useAppSelector((state) => state.metric.metrics);
+  const metrics = useAppSelector((state) => state.metric.metrics, shallowEqual);
 
   useEffect(() => {
     function onConnect() {

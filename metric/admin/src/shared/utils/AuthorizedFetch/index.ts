@@ -6,7 +6,6 @@ export const authorizedFetch = async (url: RequestInfo, init?: RequestInit) => {
   const result = await fetch(url, init);
 
   if (result.status == 401) {
-    console.log("should refresh");
     await fetch(import.meta.env.VITE_SERVER_URL + "auth/refresh");
     const result = await fetch(url, init);
 

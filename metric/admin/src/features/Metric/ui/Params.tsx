@@ -4,6 +4,7 @@ import { IMetricParam } from "@/entities/Metric/types/params";
 import { FC, useState } from "react";
 import { useUpdateMetricMutation } from "@/entities/Metric/model/metricApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
+import { shallowEqual } from "react-redux";
 
 interface ParamsProps {
   metric: IMetric;
@@ -13,8 +14,9 @@ const Params: FC<ParamsProps> = ({ metric }) => {
   const dispatch = useAppDispatch();
 
   const metricParams =
-    useAppSelector((state) =>
-      state.metric.metrics.find((mapped) => mapped.id === metric.id)
+    useAppSelector(
+      (state) => state.metric.metrics.find((mapped) => mapped.id === metric.id),
+      shallowEqual
     )?.params || [];
 
   // update locally until saved for performance reasons (store updates are visibly slow)

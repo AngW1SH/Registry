@@ -10,6 +10,7 @@ import { FC, useState } from "react";
 import { PlatformName } from "@/entities/Platform/types";
 import { useSaveResourceMutation } from "@/entities/Resource/model/resourceApi";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
+import { shallowEqual } from "react-redux";
 
 interface SettingsProps {
   resource: IResource;
@@ -20,8 +21,9 @@ const Settings: FC<SettingsProps> = ({ resource }) => {
   const [update, { isLoading }] = useSaveResourceMutation();
   const [hasChanged, setHasChanged] = useState(false); // Only allow making a request when there are changes
 
-  const platform = useAppSelector((state) =>
-    selectPlatformByName(state.platform, resource.platform)
+  const platform = useAppSelector(
+    (state) => selectPlatformByName(state.platform, resource.platform),
+    shallowEqual
   );
 
   // Edit locally to not cause freezes due to redux updates

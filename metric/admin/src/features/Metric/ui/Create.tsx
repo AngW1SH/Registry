@@ -11,6 +11,7 @@ import { metricSlice } from "@/entities/Metric";
 import { IAbstractMetricDetailed } from "@/entities/Metric/types";
 import { Modal } from "@/shared/ui/Modal";
 import { PlusIcon } from "@/shared/ui/Icons";
+import { shallowEqual } from "react-redux";
 
 interface CreateProps {
   project: string;
@@ -24,15 +25,17 @@ const Create: FC<CreateProps> = ({ project, resource: resourceId }) => {
     null
   );
 
-  const resource = useAppSelector((state) =>
-    state.resource.resources.find((r) => r.id == resourceId)
+  const resource = useAppSelector(
+    (state) => state.resource.resources.find((r) => r.id == resourceId),
+    shallowEqual
   );
 
   const { data } = useGetMetricInfoQuery();
 
   // only use metrics for this resource
-  const metrics = useAppSelector((state) =>
-    state.metric.metrics.filter((m) => m.resource == resourceId)
+  const metrics = useAppSelector(
+    (state) => state.metric.metrics.filter((m) => m.resource == resourceId),
+    shallowEqual
   );
   const dispatch = useAppDispatch();
 

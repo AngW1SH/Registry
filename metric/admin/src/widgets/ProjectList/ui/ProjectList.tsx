@@ -8,6 +8,7 @@ import {
 } from "@/features/ProjectList";
 import { PencilCircleIcon } from "@/shared/ui/Icons";
 import { FC, useState } from "react";
+import { shallowEqual } from "react-redux";
 import { Link } from "react-router-dom";
 
 interface ProjectListProps {}
@@ -17,7 +18,10 @@ const ProjectList: FC<ProjectListProps> = () => {
     ProjectSortType.name
   );
 
-  const { projects, filters } = useAppSelector((state) => state.projectList);
+  const { projects, filters } = useAppSelector(
+    (state) => state.projectList,
+    shallowEqual
+  );
 
   const filtered = projects.filter((project) => {
     if (!filters.text) return true;

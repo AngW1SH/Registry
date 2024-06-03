@@ -1,10 +1,13 @@
 import { useAppSelector } from "@/app/store";
+import { shallowEqual } from "react-redux";
 
 export const useGrades = (resource: string) => {
-  const grades = useAppSelector((state) =>
-    state.metric.grades.filter((grade) => grade.resourceId === resource)
+  const grades = useAppSelector(
+    (state) =>
+      state.metric.grades.filter((grade) => grade.resourceId === resource),
+    shallowEqual
   );
-  const metrics = useAppSelector((state) => state.metric.metrics);
+  const metrics = useAppSelector((state) => state.metric.metrics, shallowEqual);
 
   return grades
     .map((grade) => {

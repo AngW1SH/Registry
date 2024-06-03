@@ -3,6 +3,7 @@ import { FC, ReactNode, useState } from "react";
 import PlatformTitle from "./PlatformTitle";
 import { IResource } from "@/entities/Resource";
 import { useAppSelector } from "@/app/store";
+import { shallowEqual } from "react-redux";
 
 interface PlatformMetricsProps {
   resource: IResource;
@@ -12,10 +13,12 @@ interface PlatformMetricsProps {
 const PlatformMetrics: FC<PlatformMetricsProps> = ({ resource, children }) => {
   const [isOpened, setOpened] = useState(true);
 
-  const platform = useAppSelector((state) =>
-    state.platform.platforms.find(
-      (platform) => platform.name === resource.platform
-    )
+  const platform = useAppSelector(
+    (state) =>
+      state.platform.platforms.find(
+        (platform) => platform.name === resource.platform
+      ),
+    shallowEqual
   );
 
   if (!platform) return <></>;

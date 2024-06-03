@@ -10,12 +10,18 @@ interface SetSelectedUsersProps {
 const SetSelectedUsers: FC<SetSelectedUsersProps> = ({ resourceId }) => {
   const dispatch = useAppDispatch();
 
-  const platformName = useAppSelector((state) =>
-    state.resource.resources.find((r) => r.id == resourceId)
+  const platformName = useAppSelector(
+    (state) => state.resource.resources.find((r) => r.id == resourceId),
+    (prev, next) => {
+      return prev?.platform === next?.platform;
+    }
   )?.platform;
 
-  const platform = useAppSelector((state) =>
-    state.platform.platforms.find((p) => p.name == platformName)
+  const platform = useAppSelector(
+    (state) => state.platform.platforms.find((p) => p.name == platformName),
+    (prev, next) => {
+      return prev?.name === next?.name;
+    }
   );
 
   const users =
@@ -35,8 +41,6 @@ const SetSelectedUsers: FC<SetSelectedUsersProps> = ({ resourceId }) => {
     });
 
     if (!data) return username;
-
-    console.log(username + " - " + data.name + " - " + data.roles.join(", "));
 
     return username + " - " + data.name + " - " + data.roles.join(", ");
   });

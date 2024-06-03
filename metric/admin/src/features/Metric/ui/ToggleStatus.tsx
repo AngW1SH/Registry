@@ -6,6 +6,7 @@ import {
 } from "@/entities/Metric/model/metricApi";
 import { PauseIcon, ResumeIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
+import { shallowEqual } from "react-redux";
 
 interface ToggleStatusProps {
   metricId: string;
@@ -16,8 +17,9 @@ const ToggleStatus: FC<ToggleStatusProps> = ({ metricId, className }) => {
   const [start] = useStartMetricMutation();
   const [stop] = useStopMetricMutation();
 
-  const metric = useAppSelector((state) =>
-    state.metric.metrics.find((m) => m.id === metricId)
+  const metric = useAppSelector(
+    (state) => state.metric.metrics.find((m) => m.id === metricId),
+    shallowEqual
   );
 
   const dispatch = useAppDispatch();

@@ -6,6 +6,7 @@ import {
 } from "@/entities/Resource/model/resourceApi";
 import { GraphIcon, StopIcon } from "@/shared/ui/Icons";
 import { FC } from "react";
+import { shallowEqual } from "react-redux";
 
 interface ToggleMetricsProps {
   resourceId: string;
@@ -17,9 +18,10 @@ const ToggleMetrics: FC<ToggleMetricsProps> = ({ resourceId }) => {
 
   const dispatch = useAppDispatch();
 
-  const metrics = useAppSelector((state) => state.metric.metrics);
-  const resource = useAppSelector((state) =>
-    state.resource.resources.find((m) => m.id === resourceId)
+  const metrics = useAppSelector((state) => state.metric.metrics, shallowEqual);
+  const resource = useAppSelector(
+    (state) => state.resource.resources.find((m) => m.id === resourceId),
+    shallowEqual
   );
 
   // don't render if resource isn't in the store (yet)

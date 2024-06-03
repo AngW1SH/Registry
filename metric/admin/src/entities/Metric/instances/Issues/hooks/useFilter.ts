@@ -1,9 +1,13 @@
 import { useSelectedUsers } from "@/entities/Metric";
 import { Issues } from "../types";
 import { useAppSelector } from "@/app/store";
+import { shallowEqual } from "react-redux";
 
 export const useFilter = (data: Issues, resourceId: string) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
+  const calendar = useAppSelector(
+    (state) => state.metric.calendar,
+    shallowEqual
+  );
 
   const successData = data.filter((item) => !item.error && item.data) || [];
 

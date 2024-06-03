@@ -9,6 +9,7 @@ import { getGrade } from "../model/grade";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
 import { useSelectedUsers } from "@/entities/Metric/hooks/useSelectedUsers";
+import { shallowEqual } from "react-redux";
 
 interface TotalCommitsProps extends TotalCommitsMetric {
   dependencies: IMetric[];
@@ -20,7 +21,10 @@ const TotalCommits: FC<TotalCommitsProps> = ({
   dependencies,
   ...metric
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
+  const calendar = useAppSelector(
+    (state) => state.metric.calendar,
+    shallowEqual
+  );
 
   const data = useFilter(dependencies, metric.resource);
 

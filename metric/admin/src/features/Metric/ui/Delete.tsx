@@ -7,6 +7,7 @@ import { Modal } from "@/shared/ui/Modal";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { metricSlice } from "@/entities/Metric";
 import { TrashIcon } from "@/shared/ui/Icons";
+import { shallowEqual } from "react-redux";
 
 interface DeleteProps {
   className?: string;
@@ -16,12 +17,15 @@ interface DeleteProps {
 const Delete: FC<DeleteProps> = ({ metricId, className }) => {
   const dispatch = useAppDispatch();
 
-  const metric = useAppSelector((state) =>
-    state.metric.metrics.find((m) => m.id === metricId)
+  const metric = useAppSelector(
+    (state) => state.metric.metrics.find((m) => m.id === metricId),
+    shallowEqual
   );
   // Only use the metrics for this resource
-  const metrics = useAppSelector((state) =>
-    state.metric.metrics.filter((m) => m.resource == metric?.resource)
+  const metrics = useAppSelector(
+    (state) =>
+      state.metric.metrics.filter((m) => m.resource == metric?.resource),
+    shallowEqual
   );
 
   const [deleteMetric] = useDeleteMetricMutation();

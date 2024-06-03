@@ -3,6 +3,7 @@ import UpdateStatus from "./UpdateStatus";
 import { useData } from "../../hooks/useData";
 import { useAppSelector } from "@/app/store";
 import { useGetMetricInfoQuery } from "../../model/metricApi";
+import { shallowEqual } from "react-redux";
 
 interface MetricSettingsProps {
   className?: string;
@@ -19,7 +20,10 @@ const MetricSettings: FC<MetricSettingsProps> = ({
   data: metricData,
   name,
 }) => {
-  const calendar = useAppSelector((state) => state.metric.calendar);
+  const calendar = useAppSelector(
+    (state) => state.metric.calendar,
+    shallowEqual
+  );
 
   const data = useData(metricData, calendar);
 

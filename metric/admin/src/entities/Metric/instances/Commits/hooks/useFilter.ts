@@ -1,11 +1,15 @@
 import { useSelectedUsers } from "@/entities/Metric";
 import { Commits } from "../types";
 import { useAppSelector } from "@/app/store";
+import { shallowEqual } from "react-redux";
 
 export const useFilter = (data: Commits, resourceId: string) => {
   const successData = data.filter((item) => !item.error && item.data);
 
-  const calendar = useAppSelector((state) => state.metric.calendar);
+  const calendar = useAppSelector(
+    (state) => state.metric.calendar,
+    shallowEqual
+  );
   const users = useSelectedUsers(resourceId);
 
   const startDate = calendar.start ? new Date(calendar.start) : null;

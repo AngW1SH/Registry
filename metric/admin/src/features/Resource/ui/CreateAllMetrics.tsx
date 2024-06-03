@@ -5,6 +5,7 @@ import { useCreateAllMetricsMutation } from "@/entities/Resource/model/resourceA
 import { PlusIcon } from "@/shared/ui/Icons";
 import { LoadingCircle } from "@/shared/ui/LoadingCircle";
 import { FC, useEffect } from "react";
+import { shallowEqual } from "react-redux";
 
 interface CreateAllMetricsProps {
   resource: string;
@@ -14,12 +15,14 @@ const CreateAllMetrics: FC<CreateAllMetricsProps> = ({
   resource: resourceId,
 }) => {
   const metricInfo = useGetMetricInfoQuery();
-  const metrics = useAppSelector((state) => state.metric.metrics);
+  const metrics = useAppSelector((state) => state.metric.metrics, shallowEqual);
   const [create, { data: createData, isLoading }] =
     useCreateAllMetricsMutation();
 
-  const resource = useAppSelector((state) =>
-    state.resource.resources.find((resource) => resource.id == resourceId)
+  const resource = useAppSelector(
+    (state) =>
+      state.resource.resources.find((resource) => resource.id == resourceId),
+    shallowEqual
   );
 
   const dispatch = useAppDispatch();

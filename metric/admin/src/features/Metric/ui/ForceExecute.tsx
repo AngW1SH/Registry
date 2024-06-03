@@ -3,6 +3,7 @@ import { metricSlice } from "@/entities/Metric";
 import { useExecuteMetricMutation } from "@/entities/Metric/model/metricApi";
 import { RefreshIcon } from "@/shared/ui/Icons";
 import { FC, useState } from "react";
+import { shallowEqual } from "react-redux";
 
 interface ForceExecuteProps {
   metricId: string;
@@ -15,8 +16,9 @@ const ForceExecute: FC<ForceExecuteProps> = ({ metricId, className }) => {
   const dispatch = useAppDispatch();
   const [execute] = useExecuteMetricMutation();
 
-  const metric = useAppSelector((state) =>
-    state.metric.metrics.find((m) => m.id === metricId)
+  const metric = useAppSelector(
+    (state) => state.metric.metrics.find((m) => m.id === metricId),
+    shallowEqual
   );
 
   // Make a request
