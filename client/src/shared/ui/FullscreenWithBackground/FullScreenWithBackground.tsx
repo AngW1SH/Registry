@@ -5,18 +5,23 @@ interface FullScreenWithBackgroundProps {
   background: string;
   children: ReactNode;
   className?: string;
+  bgColor?: string;
 }
 
 const FullScreenWithBackground: FC<FullScreenWithBackgroundProps> = ({
   background,
   children,
   className = "",
+  bgColor,
 }) => {
   return (
     <div
       className={
         "max-w-screen relative box-border h-screen bg-cover " + className
       }
+      style={{
+        backgroundColor: bgColor || undefined,
+      }}
     >
       <Image
         src={background}

@@ -35,6 +35,7 @@ const HomePage: FC<HomePageProps> = () => {
       <FullScreenWithBackground
         className="min-h-[700px] sm:min-h-[600px]"
         background="/hero.png"
+        bgColor=" #2c4d52"
       >
         <Container className="h-full">
           <div className="flex h-full w-full flex-col">
