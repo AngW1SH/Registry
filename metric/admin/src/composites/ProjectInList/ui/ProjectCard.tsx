@@ -14,6 +14,13 @@ const ProjectCard: FC<ProjectCardProps> = ({
   className = "",
   actions,
 }) => {
+  const hasDates = project.dateStart && project.dateEnd;
+
+  const isOngoing =
+    hasDates &&
+    new Date(project.dateStart!) < new Date() &&
+    new Date(project.dateEnd!) > new Date();
+
   return (
     <div
       className={
@@ -50,7 +57,22 @@ const ProjectCard: FC<ProjectCardProps> = ({
           </p>
         </Link>
       </div>
-      <div className="ml-auto">{actions}</div>
+      <div className="ml-auto w-32 mr-10">
+        {hasDates && (
+          <div className="flex items-center gap-3 text-[#464547]">
+            <div className="h-7 w-7 rounded-full p-1 border-current border">
+              <div
+                className="h-full w-full rounded-full"
+                style={{
+                  backgroundColor: isOngoing ? "#6dd95c" : "#f34848",
+                }}
+              ></div>
+            </div>
+            <p>{isOngoing ? "Active" : "Not active"}</p>
+          </div>
+        )}
+      </div>
+      <div>{actions}</div>
     </div>
   );
 };
