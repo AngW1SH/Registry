@@ -6,6 +6,8 @@ import Graph from "./Graph";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
 import { getGrade } from "../model/getGrade";
 import { Tooltip } from "@/shared/ui/Tooltip";
+import { MetricParamType } from "@/entities/Metric/types/params";
+import { Meter } from "@/shared/ui/Meter";
 
 interface PullRequestHangTimeProps extends PullRequestHangTimeMetric {
   dependencies: IMetric[];
@@ -19,14 +21,22 @@ const PullRequestHangTime: FC<PullRequestHangTimeProps> = ({
 }) => {
   const data = useFilter(dependencies, metric.resource);
 
-  useGrade(metric, getGrade(data));
+  const isGraded =
+    (metric.params?.find((param) => {
+      return param.name == "isGraded" && param.type == MetricParamType.boolean;
+    })?.value as boolean) || false;
+
+  const grade = getGrade(data);
+
+  useGrade(metric, grade);
 
   if (!data.length) return <></>;
 
   return (
     <div
       className={
-        "flex flex-col pt-9 pb-12 px-5 bg-background rounded-lg " + className
+        "flex flex-col pt-9 pb-12 px-5 relative bg-background rounded-lg " +
+        className
       }
     >
       <Tooltip
@@ -40,6 +50,11 @@ const PullRequestHangTime: FC<PullRequestHangTimeProps> = ({
           Pull Request Hang Time
         </h3>
       </Tooltip>
+      {isGraded && typeof grade === "number" && (
+        <div className="absolute bottom-4 right-4 w-1/3">
+          <Meter progress={(grade / 5) * 100} label={"" + grade.toFixed(2)} />
+        </div>
+      )}
       <div className="my-auto pb-5">
         <Graph data={data} />
       </div>

@@ -7,6 +7,8 @@ import { useFilter } from "../hooks/useFilter";
 import { calculate } from "../model/calculate";
 import { getGrade } from "../model/getGrade";
 import { useGrade } from "@/entities/Metric/hooks/useGrade";
+import { MetricParamType } from "@/entities/Metric/types/params";
+import { Meter } from "@/shared/ui/Meter";
 
 interface DominantWeekDayProps extends DominantWeekDayMetric {
   dependencies: IMetric[];
@@ -25,6 +27,11 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
   )?.value as string | undefined;
   const values = calculate(data);
 
+  const isGraded =
+    (metric.params?.find((param) => {
+      return param.name == "isGraded" && param.type == MetricParamType.boolean;
+    })?.value as boolean) || false;
+
   const grade = getGrade(values, unwantedDay || "Not Specified");
 
   const max = Math.max(...values.map((item) => item.data));
@@ -32,7 +39,11 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
   useGrade(metric, grade);
 
   return (
-    <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
+    <div
+      className={
+        "pt-9 pb-12 relative px-5 bg-background rounded-lg " + className
+      }
+    >
       <Tooltip
         className="w-full"
         tooltip={
@@ -45,6 +56,11 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
           Dominant Week Day
         </h3>
       </Tooltip>
+      {isGraded && typeof grade === "number" && (
+        <div className="absolute bottom-4 right-4 w-1/3">
+          <Meter progress={(grade / 5) * 100} label={"" + grade.toFixed(2)} />
+        </div>
+      )}
       <div className="pt-3" />
       <Graph data={values} />
       <div className="pt-3" />

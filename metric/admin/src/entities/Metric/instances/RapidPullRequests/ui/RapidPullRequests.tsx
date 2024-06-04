@@ -8,6 +8,7 @@ import { getGrade } from "../model/getGrade";
 import { calculate } from "../model/calculate";
 import { Duration, MetricParamType } from "@/entities/Metric/types/params";
 import TooltipModal from "./Modal";
+import { Meter } from "@/shared/ui/Meter";
 
 interface RapidPullRequestsProps extends RapidPullRequestsMetric {
   dependencies: IMetric[];
@@ -35,9 +36,16 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
     );
   }, [metric]);
 
+  const isGraded =
+    (metric.params?.find((param) => {
+      return param.name == "isGraded" && param.type == MetricParamType.boolean;
+    })?.value as boolean) || false;
+
   const values = calculate(data, threshold, 7);
 
-  useGrade(metric, getGrade(data, threshold));
+  const grade = getGrade(data, threshold);
+
+  useGrade(metric, grade);
 
   if (!values.filter((value) => value.data).length) return <></>;
 
@@ -48,6 +56,11 @@ const RapidPullRequests: FC<RapidPullRequestsProps> = ({
         className
       }
     >
+      {isGraded && (
+        <div className="absolute bottom-4 right-4 w-1/3">
+          <Meter progress={(grade / 5) * 100} label={"" + grade.toFixed(2)} />
+        </div>
+      )}
       <TooltipModal threshold={threshold} className="absolute top-9 right-4" />
       <h3 className="text-[#A3AED0] text-sm font-medium">
         Rapid Pull Requests
