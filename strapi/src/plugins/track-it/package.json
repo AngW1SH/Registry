@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "This is the description of the plugin.",
   "strapi": {
-    "name": "track-it",
-    "description": "Description of track-it plugin",
+    "name": "TrackIT",
+    "description": "A way to import project data to TrackIT app",
     "kind": "plugin"
   },
   "dependencies": {
