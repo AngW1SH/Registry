@@ -35,6 +35,6 @@ export const calculate = (
   return {
     average: changes.reduce((a, b) => a + b.value, 0) / totalFiles,
     median: changes[Math.floor(totalFiles / 2)].value,
-    mostChanged: changes.slice(0, 5).filter((item) => item.value),
+    mostChanged: changes.slice(0, 3).filter((item) => item.value),
   };
 };

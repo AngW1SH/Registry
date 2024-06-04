@@ -1,10 +1,10 @@
 import { FC } from "react";
 import type { CodeOwnershipMetric } from "../types";
 import { IMetric } from "@/entities/Metric";
-import { Tooltip } from "@/shared/ui/Tooltip";
 import { useFilter } from "../hooks/useFilter";
 import { calculate } from "../model/calculate";
 import Graph from "./Graph";
+import TooltipModal from "./Modal";
 
 interface CodeChurnProps extends CodeOwnershipMetric {
   dependencies: IMetric[];
@@ -23,17 +23,11 @@ const CodeChurn: FC<CodeChurnProps> = ({
   if (!data.length) return <></>;
 
   return (
-    <div className={"pt-9 pb-12 px-5 bg-background rounded-lg " + className}>
-      <Tooltip
-        className="w-full"
-        tooltip={
-          <div>
-            <p>How is the code ownership distributed across users?</p>
-          </div>
-        }
-      >
-        <h3 className="text-[#A3AED0] text-sm font-medium">Code Ownership</h3>
-      </Tooltip>
+    <div
+      className={"pt-9 relative pb-12 px-5 bg-white rounded-lg " + className}
+    >
+      <TooltipModal className="absolute top-9 right-4" />
+      <h3 className="text-[#A3AED0] text-sm font-medium">Code Ownership</h3>
       <div className="pt-3" />
       <Graph data={result} />
       <div className="pt-3" />
