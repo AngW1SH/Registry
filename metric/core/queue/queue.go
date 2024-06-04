@@ -137,7 +137,7 @@ func (q *Queue) ForceExecute(task *models.TaskCreate, groups []string) (*models.
 	q.queue.Rebuild()
 
 	// Wait for the task to be finished
-	resultChan := make(chan *models.Task)
+	resultChan := make(chan *models.Task, 1)
 
 	for task := range q.taskFinished {
 
@@ -145,7 +145,6 @@ func (q *Queue) ForceExecute(task *models.TaskCreate, groups []string) (*models.
 		if !helpers.ContainsAllElements(task.Groups, groups) {
 			continue
 		}
-
 		resultChan <- task
 		break
 	}
