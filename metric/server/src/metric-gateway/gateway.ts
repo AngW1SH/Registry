@@ -5,7 +5,7 @@ import { Snapshot } from 'src/snapshot/snapshot.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { metricHooks } from './utils/metricHooks';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({ cors: true, path: '/ws' })
 export class MetricGateway {
   @WebSocketServer()
   server: Server;
