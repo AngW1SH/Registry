@@ -1,5 +1,7 @@
+import { Duration } from "@/entities/Metric/types/params";
 import { PullRequests } from "../../PullRequests";
 import { RapidPullRequestItem } from "../types";
+import { durationToMilliseconds } from "@/entities/Metric/utils/durationToMilliseconds";
 
 export function msToTime(duration: number) {
   const seconds = Math.floor((duration / 1000) % 60);
@@ -16,6 +18,7 @@ export function msToTime(duration: number) {
 
 export const calculate = (
   data: PullRequests,
+  threshold: Duration,
   daysInGroup: number,
   firstDayProp?: Date
 ): RapidPullRequestItem[] => {
@@ -44,7 +47,7 @@ export const calculate = (
 
     if (
       +new Date(item.data.closed_at) - +new Date(item.data.created_at) <
-      1000 * 60 * 5
+      durationToMilliseconds(threshold)
     ) {
       groupedData[weekNumber] += 1;
     }

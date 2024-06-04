@@ -28,4 +28,10 @@ export const paramData: { [key in string]: MetricParamData } = {
     tooltip:
       "Team's actions on this day will be considered unwanted or less preferable",
   },
+  rapidPullRequestsThreshold: {
+    label: "Threshold",
+    placeholder: "Example: 3 minutes",
+    tooltip:
+      "How much time should pass between the PR creation and approval to not consider it 'rapid'",
+  },
 };

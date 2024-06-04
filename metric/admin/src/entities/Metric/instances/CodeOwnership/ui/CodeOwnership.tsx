@@ -24,7 +24,9 @@ const CodeChurn: FC<CodeChurnProps> = ({
 
   return (
     <div
-      className={"pt-9 relative pb-12 px-5 bg-white rounded-lg " + className}
+      className={
+        "pt-9 relative pb-12 px-5 bg-background rounded-lg " + className
+      }
     >
       <TooltipModal className="absolute top-9 right-4" />
       <h3 className="text-[#A3AED0] text-sm font-medium">Code Ownership</h3>

@@ -43,12 +43,14 @@ export enum UnitOfTime {
   years = "years",
 }
 
+export interface Duration {
+  number: number;
+  unitOfTime: UnitOfTime;
+}
+
 export interface IDurationParam extends GenericParam {
   type: MetricParamType.duration;
-  value: {
-    number: number;
-    unitOfTime: UnitOfTime;
-  };
+  value: Duration;
 }
 
 export type IMetricParam =

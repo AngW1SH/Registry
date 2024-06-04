@@ -132,6 +132,14 @@ export const metricConfig: { [key in MetricName]: MetricConfig } = {
         name: 'gradeWeight',
         value: '1',
       },
+      {
+        type: MetricParamType.duration,
+        name: 'rapidPullRequestsThreshold',
+        value: {
+          number: 3,
+          unitOfTime: UnitOfTime.minutes,
+        },
+      },
     ],
   },
   Grade: {
