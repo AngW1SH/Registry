@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -67,20 +67,13 @@ const Graph: FC<GraphProps> = ({ data }) => {
 
   const test = groupData(data, 7);
 
-  const context = ref?.current?.canvas?.getContext("2d");
-
-  const gradient = context?.createLinearGradient(0, 0, 0, 160);
-  gradient?.addColorStop(0, "rgba(85, 31, 255, 0.7)");
-  gradient?.addColorStop(1, "rgba(85, 31, 255, 0)");
-
-  const formattedData: any = {
+  const formattedData = {
     labels: test.map((item) => item.label),
     datasets: [
       {
         label: "Commits",
         data: test.map((item) => item.data),
         fill: "start",
-        backgroundColor: gradient,
         hidden: false,
         borderColor: "rgb(85, 31, 255)",
         borderWidth: 1,
@@ -92,12 +85,32 @@ const Graph: FC<GraphProps> = ({ data }) => {
     ],
   };
 
+  const [gradient, setGradient] = useState<any>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const ctx = ref.current?.canvas?.getContext("2d");
+      const gradient = ctx.createLinearGradient(0, 0, 0, 160);
+      gradient.addColorStop(0, "rgba(85, 31, 255, 0.5)");
+      gradient.addColorStop(1, "rgba(85, 31, 255, 0)");
+      setGradient(gradient);
+    }
+  }, [ref.current]);
+
   return (
     <div className="relative h-40">
       <Line
         ref={ref}
         plugins={[ChartDataLabels]}
-        data={formattedData}
+        data={{
+          ...formattedData,
+          datasets: [
+            {
+              ...formattedData.datasets[0],
+              backgroundColor: gradient,
+            },
+          ],
+        }}
         options={options}
       />
     </div>

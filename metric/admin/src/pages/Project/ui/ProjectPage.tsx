@@ -35,7 +35,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
 
   useEffect(() => {
     if (id) {
-      if (!project || project.id != id) initializeProjectDetailed(dispatch, id);
+      initializeProjectDetailed(dispatch, id);
     } else {
       navigate(import.meta.env.VITE_BASE_PATH);
     }
@@ -46,7 +46,7 @@ const ProjectPage: FC<ProjectPageProps> = () => {
   useMetricDataUpdate();
 
   return (
-    <div className="flex gap-9">
+    <div className="flex gap-9 mt-14">
       <div className="w-full">
         {isLoading && (
           <div className="h-[calc(100vh-100px)] w-full flex justify-center items-center">
