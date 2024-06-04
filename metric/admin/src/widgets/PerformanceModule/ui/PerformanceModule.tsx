@@ -19,10 +19,13 @@ const PerformanceModule: FC<PerformanceModuleProps> = ({ resource }) => {
     grade: data.grade,
   }));
 
-  const worst = sorted.slice(-3).map((data) => ({
-    name: data.metricName,
-    grade: data.grade,
-  }));
+  const worst = sorted
+    .slice(-3)
+    .map((data) => ({
+      name: data.metricName,
+      grade: data.grade,
+    }))
+    .reverse();
 
   return (
     <div className="flex gap-8">
