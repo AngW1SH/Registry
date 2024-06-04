@@ -5,6 +5,10 @@ import { useFilter } from "../hooks/useFilter";
 import { calculate } from "../model/calculate";
 import Graph from "./Graph";
 import TooltipModal from "./Modal";
+import { getGrade } from "../model/getGrade";
+import { MetricParamType } from "@/entities/Metric/types/params";
+import { Meter } from "@/shared/ui/Meter";
+import { useGrade } from "@/entities/Metric/hooks/useGrade";
 
 interface CodeChurnProps extends CodeOwnershipMetric {
   dependencies: IMetric[];
@@ -20,6 +24,14 @@ const CodeChurn: FC<CodeChurnProps> = ({
 
   const result = calculate(data);
 
+  const isGraded = metric.params?.find(
+    (param) => param.name == "isGraded" && param.type == MetricParamType.boolean
+  )?.value as boolean;
+
+  const grade = getGrade(result);
+
+  useGrade(metric, grade);
+
   if (!data.length) return <></>;
 
   return (
@@ -31,6 +43,11 @@ const CodeChurn: FC<CodeChurnProps> = ({
       <TooltipModal className="absolute top-9 right-4" />
       <h3 className="text-[#A3AED0] text-sm font-medium">Code Ownership</h3>
       <div className="pt-3" />
+      {isGraded && typeof grade === "number" && (
+        <div className="absolute bottom-4 right-4 w-1/3">
+          <Meter progress={(grade / 5) * 100} label={"" + grade.toFixed(2)} />
+        </div>
+      )}
       <Graph data={result} />
       <div className="pt-3" />
       <div>
