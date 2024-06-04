@@ -61,7 +61,7 @@ const TotalCommits: FC<TotalCommitsProps> = ({
       >
         <h3 className="text-[#A3AED0] text-sm font-medium">Total Commits</h3>
       </Tooltip>
-      {isGraded && (
+      {isGraded && typeof grade === "number" && (
         <div className="absolute bottom-4 right-4 w-1/3">
           <Meter progress={(grade / 5) * 100} label={"" + grade.toFixed(2)} />
         </div>

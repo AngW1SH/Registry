@@ -5,7 +5,9 @@ export const getGrade = (
   data: Commits,
   calendar: { start: string | null; end: string | null },
   userCount: number
-) => {
+): number | null => {
+  if (!data.length) return null;
+
   let start = calendar.start ? new Date(calendar.start) : new Date();
 
   let end = calendar.end ? new Date(calendar.end) : new Date("1970-01-01");

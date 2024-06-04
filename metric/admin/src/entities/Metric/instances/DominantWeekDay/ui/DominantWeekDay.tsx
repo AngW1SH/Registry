@@ -38,6 +38,9 @@ const DominantWeekDay: FC<DominantWeekDayProps> = ({
 
   useGrade(metric, grade);
 
+  if (!data.commits.length && !data.issues.length && !data.pullRequests.length)
+    return <></>;
+
   return (
     <div
       className={
