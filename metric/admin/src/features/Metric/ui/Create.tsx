@@ -84,7 +84,8 @@ const Create: FC<CreateProps> = ({ project, resource: resourceId }) => {
     });
   }, [createData]);
 
-  if (!data) return <div></div>;
+  if (!data || !filteredData || !filteredData.length) return <div></div>;
+
   return (
     <>
       <div>

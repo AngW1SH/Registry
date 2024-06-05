@@ -72,7 +72,7 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
         <div className="pt-8"></div>
         <SearchMetrics />
         <div className="pt-8"></div>
-        <ul className="flex flex-wrap gap-10 justify-between">
+        <ul className="flex flex-wrap gap-x-[30px] gap-y-10 after:flex-auto">
           {metrics
             .filter(
               (metric) =>
@@ -82,7 +82,7 @@ const ResourceConfigure: FC<ResourceConfigureProps> = ({
             .map((metric) => (
               <li
                 key={metric.id + metric.data.length}
-                className="min-w-[calc(50%-20px)] max-w-[calc(50%-20px)] border border-[#dcdcdc] rounded-xl"
+                className="min-w-[calc(33%-20px)] max-w-[calc(33%-20px)] border border-[#dcdcdc] rounded-xl"
               >
                 <MetricSettings
                   name={metric.name}

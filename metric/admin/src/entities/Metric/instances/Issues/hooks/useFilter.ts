@@ -28,6 +28,8 @@ export const useFilter = (data: Issues, resourceId: string) => {
       // if we don't select a specific user, show all data
       if (!users.length) return true;
 
+      if (users.includes(item.data.user.login)) return true;
+
       // if there's selected users and no assignees are set, don't show data
       if (!item.data.assignees.length) return false;
 

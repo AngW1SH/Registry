@@ -32,7 +32,7 @@ const CodeChurn: FC<CodeChurnProps> = ({
 
   useGrade(metric, grade);
 
-  if (!data.length) return <></>;
+  if (!data.length || result.items.length < 2) return <></>;
 
   return (
     <div
