@@ -8,6 +8,7 @@ import uploadRepository from "../upload";
 import projectRepository from "../project";
 import { ProjectDocumentStrapi } from "@/db/strapi/types/components/project-document";
 import { selectProjectDocument } from "@/db/strapi/queries/components/project-document";
+import { ProjectFileType } from "@/entities/project-file-type";
 
 const projectResultsRepositoryFactory = () => {
   return Object.freeze({
@@ -39,7 +40,7 @@ const projectResultsRepositoryFactory = () => {
   async function addFile(
     projectSlug: string,
     files: UploadedFile,
-    fileTypeId: number
+    fileType: ProjectFileType
   ) {
     const projectId = await projectRepository.getInternalId(projectSlug);
 
@@ -76,13 +77,15 @@ const projectResultsRepositoryFactory = () => {
                 date: file.date,
                 file: file.file.data?.id,
                 type: file.type.data?.id,
+                isPublic: file.isPublic || false,
               }))
             : []),
           ...fileUploadResponse.map((file: any) => ({
             name: file.name,
             date: new Date(),
             file: file.id,
-            type: fileTypeId,
+            type: fileType.id,
+            isPublic: fileType.isPublic || false,
           })),
         ],
       },

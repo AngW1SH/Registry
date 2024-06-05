@@ -124,6 +124,7 @@ const projectRepositoryFactory = () => {
     id: string | number,
     options?: {
       includeAdmin: boolean;
+      includeAllDocuments?: boolean;
     }
   ): Promise<{
     project: ProjectDTO | null;
@@ -182,7 +183,10 @@ const projectRepositoryFactory = () => {
 
     return getProjectFromStrapiDTO(
       { data: response.data[0] },
-      { includeAdmin: true }
+      {
+        includeAdmin: true,
+        includeAllDocuments: options?.includeAllDocuments || false,
+      }
     );
   }
 
@@ -262,7 +266,8 @@ const projectRepositoryFactory = () => {
 
     if (!response) throw new ServerError("Couldn't fetch project references");
 
-    return getProjectListFromStrapiDTO(response).projects;
+    return getProjectListFromStrapiDTO(response, { includeAllDocuments: true })
+      .projects;
   }
 };
 const projectRepository = projectRepositoryFactory();

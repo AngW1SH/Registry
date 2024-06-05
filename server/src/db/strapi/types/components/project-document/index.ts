@@ -2,6 +2,7 @@ export interface ProjectDocumentStrapi {
   id: number;
   name: string;
   date: string;
+  isPublic?: boolean;
   file: {
     data: {
       id: number;

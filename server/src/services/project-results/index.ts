@@ -24,11 +24,9 @@ const projectResultsServiceFactory = () => {
 
     const allFileTypes = await projectFileTypeService.findAll();
 
-    const fileTypeId = allFileTypes.find(
-      (fileType) => fileType.name == category
-    )?.id;
+    const fileType = allFileTypes.find((fileType) => fileType.name == category);
 
-    if (!fileTypeId) {
+    if (!fileType || !fileType.id) {
       throw new ServerError("Category not allowed");
     }
 
@@ -45,7 +43,7 @@ const projectResultsServiceFactory = () => {
     if (!isAllowed)
       throw new UnauthorizedError("User not authorized to perform this action");
 
-    return projectResultsRepository.addFile(projectId, file, fileTypeId);
+    return projectResultsRepository.addFile(projectId, file, fileType);
   }
 
   async function deleteFile(projectId: string, fileId: number, user: User) {

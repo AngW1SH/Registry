@@ -2,6 +2,7 @@ interface ProjectFileTypeStrapiInner {
   id: number;
   attributes: {
     name: string;
+    isPublic?: boolean;
   };
 }
 

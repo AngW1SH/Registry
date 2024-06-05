@@ -15,6 +15,7 @@ export const getProjectFileTypeFromStrapiDTO = (
   return {
     id: tag.data.id,
     name: tag.data.attributes.name,
+    isPublic: tag.data.attributes.isPublic || false,
   };
 };
 

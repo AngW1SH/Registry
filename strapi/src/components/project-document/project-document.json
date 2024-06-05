@@ -28,6 +28,9 @@
     },
     "date": {
       "type": "datetime"
+    },
+    "isPublic": {
+      "type": "boolean"
     }
   }
 }

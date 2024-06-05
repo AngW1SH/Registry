@@ -4,7 +4,8 @@
   "info": {
     "singularName": "project-document-type",
     "pluralName": "project-document-types",
-    "displayName": "Project Document Type"
+    "displayName": "Project Document Type",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,6 +14,9 @@
   "attributes": {
     "name": {
       "type": "string"
+    },
+    "isPublic": {
+      "type": "boolean"
     }
   }
 }

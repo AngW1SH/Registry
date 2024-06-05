@@ -1,3 +1,3 @@
 export const selectProjectFileType = () => ({
-  fields: ["id", "name"],
+  fields: ["id", "name", "isPublic"],
 });

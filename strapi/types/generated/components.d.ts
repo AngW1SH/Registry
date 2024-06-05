@@ -90,6 +90,7 @@ export interface ProjectDocumentProjectDocument extends Schema.Component {
     file: Attribute.Media;
     name: Attribute.String;
     date: Attribute.DateTime;
+    isPublic: Attribute.Boolean;
   };
 }
 

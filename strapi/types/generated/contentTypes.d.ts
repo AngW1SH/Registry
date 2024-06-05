@@ -813,12 +813,14 @@ export interface ApiProjectDocumentTypeProjectDocumentType
     singularName: 'project-document-type';
     pluralName: 'project-document-types';
     displayName: 'Project Document Type';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String;
+    isPublic: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

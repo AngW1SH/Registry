@@ -22,7 +22,10 @@ import { getProjectLinkListFromStrapiDTO } from "../components/project-link";
 import { getProjectDocumentListFromStrapiDTO } from "../components/project-document";
 
 export const getProjectListFromStrapiDTO = (
-  projects: ProjectListStrapi
+  projects: ProjectListStrapi,
+  options?: {
+    includeAllDocuments?: boolean;
+  }
 ): {
   projects: ProjectDTO[] | null;
   tags: Tag[] | null;
@@ -131,7 +134,10 @@ export const getProjectListFromStrapiDTO = (
         ? getNamedFileListFromStrapiDTO(project.attributes.resultFiles)
         : [],
       documents: project.attributes.documents
-        ? getProjectDocumentListFromStrapiDTO(project.attributes.documents)
+        ? getProjectDocumentListFromStrapiDTO(
+            project.attributes.documents,
+            options?.includeAllDocuments || false
+          )
         : [],
       links: project.attributes.projectLink
         ? getProjectLinkListFromStrapiDTO(project.attributes.projectLink)
@@ -150,6 +156,7 @@ export const getProjectFromStrapiDTO = (
   project: ProjectStrapi,
   options?: {
     includeAdmin?: boolean;
+    includeAllDocuments?: boolean;
   }
 ): {
   project: ProjectDetailedDTO | null;
