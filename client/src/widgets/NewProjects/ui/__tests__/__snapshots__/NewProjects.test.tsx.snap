@@ -9,8 +9,12 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
       class="col-span-1 row-span-1 border-t border-black p-3"
     >
       <div
-        class="flex flex-col "
+        class="relative flex flex-col "
       >
+        <a
+          class="absolute inset-0"
+          href="/projects/1"
+        />
         <div
           class="flex justify-between"
         >
@@ -39,25 +43,25 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
           </div>
         </div>
         <div
-          class="ml-auto sm:ml-0 xl:pl-20"
-        >
-          <div
-            class="pt-5 xl:pt-10"
-          />
-          <div>
-            <ul
-              class="flex flex-wrap gap-1 undefined"
-            >
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+          class="pt-5 xl:pt-10"
+        />
+        <div>
+          <ul
+            class="flex flex-wrap gap-1 undefined"
+          >
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Генетика"
                 >
                   Генетика
-                </button>
-              </li>
-            </ul>
-          </div>
+                </a>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </li>
@@ -65,8 +69,12 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
       class="col-span-1 row-span-1 border-t border-black p-3"
     >
       <div
-        class="flex flex-col "
+        class="relative flex flex-col "
       >
+        <a
+          class="absolute inset-0"
+          href="/projects/2"
+        />
         <div
           class="flex justify-between"
         >
@@ -95,41 +103,49 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
           </div>
         </div>
         <div
-          class="ml-auto sm:ml-0 xl:pl-20"
-        >
-          <div
-            class="pt-5 xl:pt-10"
-          />
-          <div>
-            <ul
-              class="flex flex-wrap gap-1 undefined"
-            >
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+          class="pt-5 xl:pt-10"
+        />
+        <div>
+          <ul
+            class="flex flex-wrap gap-1 undefined"
+          >
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Общество"
                 >
                   Общество
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+                </a>
+              </button>
+            </li>
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Социология"
                 >
                   Социология
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+                </a>
+              </button>
+            </li>
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Финансы"
                 >
                   Финансы
-                </button>
-              </li>
-            </ul>
-          </div>
+                </a>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </li>
@@ -137,8 +153,12 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
       class="col-span-1 row-span-1 border-t border-black p-3"
     >
       <div
-        class="flex flex-col "
+        class="relative flex flex-col "
       >
+        <a
+          class="absolute inset-0"
+          href="/projects/3"
+        />
         <div
           class="flex justify-between"
         >
@@ -167,33 +187,37 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
           </div>
         </div>
         <div
-          class="ml-auto sm:ml-0 xl:pl-20"
-        >
-          <div
-            class="pt-5 xl:pt-10"
-          />
-          <div>
-            <ul
-              class="flex flex-wrap gap-1 undefined"
-            >
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+          class="pt-5 xl:pt-10"
+        />
+        <div>
+          <ul
+            class="flex flex-wrap gap-1 undefined"
+          >
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Медицина"
                 >
                   Медицина
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+                </a>
+              </button>
+            </li>
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Генетика"
                 >
                   Генетика
-                </button>
-              </li>
-            </ul>
-          </div>
+                </a>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </li>
@@ -201,8 +225,12 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
       class="col-span-1 row-span-1 border-t border-black p-3"
     >
       <div
-        class="flex flex-col "
+        class="relative flex flex-col "
       >
+        <a
+          class="absolute inset-0"
+          href="/projects/4"
+        />
         <div
           class="flex justify-between"
         >
@@ -231,33 +259,37 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
           </div>
         </div>
         <div
-          class="ml-auto sm:ml-0 xl:pl-20"
-        >
-          <div
-            class="pt-5 xl:pt-10"
-          />
-          <div>
-            <ul
-              class="flex flex-wrap gap-1 undefined"
-            >
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+          class="pt-5 xl:pt-10"
+        />
+        <div>
+          <ul
+            class="flex flex-wrap gap-1 undefined"
+          >
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Общество"
                 >
                   Общество
-                </button>
-              </li>
-              <li>
-                <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
-                  type="button"
+                </a>
+              </button>
+            </li>
+            <li>
+              <button
+                class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
+                type="button"
+              >
+                <a
+                  href="/projects?tag0=Социология"
                 >
                   Социология
-                </button>
-              </li>
-            </ul>
-          </div>
+                </a>
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </li>
@@ -266,7 +298,7 @@ exports[`NewProjects Widget UI snapshot test 1`] = `
     class="pt-6"
   />
   <a
-    href="/"
+    href="/projects"
   >
     <button
       class="relative font-medium"

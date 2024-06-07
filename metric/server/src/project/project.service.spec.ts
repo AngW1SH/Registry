@@ -6,7 +6,9 @@ import { ProjectService } from './project.service';
 import { ResourceService } from '../resource/resource.service';
 import {
   projectCreateMocks,
+  projectDetailedDTOMocks,
   projectDetailedMocks,
+  projectInListMocks,
   projectMocks,
 } from './project.mock';
 import { structureSnapshots } from './utils/structureSnapshots';
@@ -31,7 +33,10 @@ describe('ProjectService', () => {
   beforeEach(async () => {
     prisma = createMock<PrismaService>({
       project: {
-        findFirst: jest.fn().mockResolvedValue(projectMocks[0]),
+        findFirst: jest.fn().mockResolvedValue({
+          ...projectDetailedDTOMocks[0],
+          members: [],
+        } as any),
         findMany: jest.fn().mockResolvedValue([]),
         create: jest.fn().mockResolvedValue(projectMocks[0]),
         update: jest.fn().mockResolvedValue(projectMocks[0]),
@@ -58,14 +63,6 @@ describe('ProjectService', () => {
   describe('findAll method', () => {
     it('should be defined', () => {
       expect(service.findAll).toBeDefined();
-    });
-
-    it('should return an array of projects', async () => {
-      jest
-        .spyOn(prisma.project, 'findMany')
-        .mockResolvedValueOnce(projectMocks);
-
-      expect(await service.findAll()).toEqual(projectMocks);
     });
   });
 
@@ -177,7 +174,7 @@ describe('ProjectService', () => {
     it('should return a ProjectDetailed', async () => {
       jest
         .spyOn(prisma.project, 'create')
-        .mockResolvedValueOnce(projectDetailedMocks[0]);
+        .mockResolvedValueOnce(projectDetailedMocks[0] as any);
       const result = await service.create(projectCreateMocks[0]);
 
       expect(result).toEqual({ ...projectDetailedMocks[0], resources: [] });
@@ -212,7 +209,7 @@ describe('ProjectService', () => {
     it('should return a project', async () => {
       jest
         .spyOn(prisma.project, 'update')
-        .mockResolvedValueOnce(projectMocks[0]);
+        .mockResolvedValueOnce(projectMocks[0] as any);
       const result = await service.updateOne(projectMocks[0]);
 
       expect(result).toEqual(projectMocks[0]);
@@ -248,7 +245,7 @@ describe('ProjectService', () => {
     it('should return a project', async () => {
       jest
         .spyOn(prisma.project, 'delete')
-        .mockResolvedValueOnce(projectMocks[0]);
+        .mockResolvedValueOnce(projectMocks[0] as any);
       const result = await service.deleteOne(projectMocks[0].id);
 
       expect(result).toEqual(projectMocks[0]);

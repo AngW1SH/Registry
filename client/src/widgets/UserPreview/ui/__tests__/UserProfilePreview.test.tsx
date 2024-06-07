@@ -3,6 +3,19 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import UserProfilePreview from "../UserProfilePreview";
+import {
+  staticProfileTeamAssigned,
+  useProfileQuery,
+} from "@/composites/Profile";
+
+jest.mock("@/composites/Profile", () => {
+  const original = jest.requireActual("@/composites/Profile");
+
+  return {
+    ...original,
+    useProfileQuery: jest.fn(),
+  };
+});
 
 jest.mock("@/entities/User", () => {
   const original = jest.requireActual("@/entities/User");
@@ -16,6 +29,10 @@ describe("UserProfilePreview widget", () => {
   describe("User logged in", () => {
     beforeAll(() => {
       (useAuthQuery as jest.Mock).mockReturnValue({ data: staticUsers[0] });
+
+      (useProfileQuery as jest.Mock).mockReturnValue({
+        data: staticProfileTeamAssigned,
+      });
     });
     beforeEach(() => {
       jest.clearAllMocks();
@@ -37,6 +54,7 @@ describe("UserProfilePreview widget", () => {
   describe("User not logged in", () => {
     beforeAll(() => {
       (useAuthQuery as jest.Mock).mockReturnValue({ data: null });
+      (useProfileQuery as jest.Mock).mockReturnValue({ data: null });
     });
     beforeEach(() => {
       jest.clearAllMocks();

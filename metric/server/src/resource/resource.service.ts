@@ -118,8 +118,6 @@ export class ResourceService {
 
   async createOne(resource: ResourceCreate): Promise<ResourceDetailed | null> {
     // Find out if we support this platform
-    console.log(Object.entries(PlatformName));
-    console.log(resource.platform);
     const platform = Object.entries(PlatformName).find(
       (entry) => entry[1] === resource.platform,
     )?.[1];
@@ -234,7 +232,6 @@ export class ResourceService {
         params: true,
         name: true,
         resourceId: true,
-        snapshotBased: true,
       },
     });
 
@@ -242,7 +239,6 @@ export class ResourceService {
       id: metric.id,
       name: metric.name,
       resource: metric.resourceId,
-      snapshotBased: metric.snapshotBased,
       params: metric.params || '[]',
     }));
   }

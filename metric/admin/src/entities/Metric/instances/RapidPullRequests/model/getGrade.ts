@@ -12,5 +12,5 @@ export const getGrade = (data: PullRequests, threshold: Duration) => {
     );
   });
 
-  return (1 - found.length / data.length) * 5;
+  return +((1 - found.length / data.length) * 3 + 2).toFixed(2);
 };

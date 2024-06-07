@@ -17,7 +17,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             class="mr-3 list-none"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black active w-max bg-black px-5 py-2 text-white transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold active w-max bg-black px-5 py-2 text-white transition-all"
               type="button"
             >
               Все
@@ -28,7 +28,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Общество"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Общество
@@ -39,7 +39,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="История"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               История
@@ -50,7 +50,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="ИТ"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               ИТ
@@ -61,7 +61,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Медицина"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Медицина
@@ -72,7 +72,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Социология"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Социология
@@ -83,7 +83,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Финансы"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Финансы
@@ -94,7 +94,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Языки"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Языки
@@ -105,7 +105,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Генетика"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Генетика
@@ -116,7 +116,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             data-tagname="Медиаресурсы"
           >
             <button
-              class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max px-5 py-2 transition-all"
+              class="cursor-pointer rounded-3xl border-2 font-bold w-max px-5 py-2 transition-all"
               type="button"
             >
               Медиаресурсы
@@ -141,8 +141,12 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
     >
       <li>
         <div
-          class="shadow-center-lg rounded-lg px-8 pb-5 pt-10 h-full"
+          class="shadow-center-lg relative rounded-lg px-8 pb-5 pt-10 h-full"
         >
+          <a
+            class="absolute inset-0"
+            href="/projects/1"
+          />
           <div
             class="flex justify-between"
           >
@@ -214,10 +218,14 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Генетика
+                  <a
+                    href="/projects?tag0=Генетика"
+                  >
+                    Генетика
+                  </a>
                 </button>
               </li>
             </ul>
@@ -226,8 +234,12 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
       </li>
       <li>
         <div
-          class="shadow-center-lg rounded-lg px-8 pb-5 pt-10 h-full"
+          class="shadow-center-lg relative rounded-lg px-8 pb-5 pt-10 h-full"
         >
+          <a
+            class="absolute inset-0"
+            href="/projects/2"
+          />
           <div
             class="flex justify-between"
           >
@@ -299,26 +311,38 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Общество
+                  <a
+                    href="/projects?tag0=Общество"
+                  >
+                    Общество
+                  </a>
                 </button>
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Социология
+                  <a
+                    href="/projects?tag0=Социология"
+                  >
+                    Социология
+                  </a>
                 </button>
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Финансы
+                  <a
+                    href="/projects?tag0=Финансы"
+                  >
+                    Финансы
+                  </a>
                 </button>
               </li>
             </ul>
@@ -327,8 +351,12 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
       </li>
       <li>
         <div
-          class="shadow-center-lg rounded-lg px-8 pb-5 pt-10 h-full"
+          class="shadow-center-lg relative rounded-lg px-8 pb-5 pt-10 h-full"
         >
+          <a
+            class="absolute inset-0"
+            href="/projects/3"
+          />
           <div
             class="flex justify-between"
           >
@@ -400,18 +428,26 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Медицина
+                  <a
+                    href="/projects?tag0=Медицина"
+                  >
+                    Медицина
+                  </a>
                 </button>
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Генетика
+                  <a
+                    href="/projects?tag0=Генетика"
+                  >
+                    Генетика
+                  </a>
                 </button>
               </li>
             </ul>
@@ -420,8 +456,12 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
       </li>
       <li>
         <div
-          class="shadow-center-lg rounded-lg px-8 pb-5 pt-10 h-full"
+          class="shadow-center-lg relative rounded-lg px-8 pb-5 pt-10 h-full"
         >
+          <a
+            class="absolute inset-0"
+            href="/projects/4"
+          />
           <div
             class="flex justify-between"
           >
@@ -493,18 +533,26 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
             >
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Общество
+                  <a
+                    href="/projects?tag0=Общество"
+                  >
+                    Общество
+                  </a>
                 </button>
               </li>
               <li>
                 <button
-                  class="cursor-pointer rounded-3xl border-2 border-black px-3 py-2 font-bold text-black w-max border border-[#9a9a9a] bg-white px-5 py-2 text-sm font-normal text-[#303030] "
+                  class="cursor-pointer rounded-3xl border-2 font-bold w-max border border-[#303030] bg-white px-3 py-1 text-sm font-normal text-[#303030] "
                   type="button"
                 >
-                  Социология
+                  <a
+                    href="/projects?tag0=Социология"
+                  >
+                    Социология
+                  </a>
                 </button>
               </li>
             </ul>
@@ -516,7 +564,7 @@ exports[`ActiveProjects Widget UI snapshot test 1`] = `
       class="pt-7"
     />
     <a
-      href="/"
+      href="/projects"
     >
       <button
         class="relative "

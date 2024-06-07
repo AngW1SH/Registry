@@ -20,9 +20,10 @@ export const getGrade = (data: PullRequests) => {
     return +(result / (1000 * 60)).toFixed(2);
   }
 
-  const resultFinal = +((1 - result / (1000 * 60 * 60 * 24 * 7)) * 5).toFixed(
+  const resultFinal = +(
+    (1 - result / (1000 * 60 * 60 * 24 * 7)) * 3 +
     2
-  );
+  ).toFixed(2);
 
   if (resultFinal > 0) return resultFinal;
 

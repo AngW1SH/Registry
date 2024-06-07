@@ -46,7 +46,7 @@ describe("UserProfilePreview widget UI", () => {
 
       const { getByText } = render(<UserFormsPreview />);
 
-      const warning = getByText(/У вас нет заполненных анкет/i);
+      const warning = getByText(/У вас нет пройденных анкет/i);
       expect(warning).toBeVisible();
     });
 

@@ -49,17 +49,17 @@ describe('PlatformController', () => {
 
       jest.spyOn(service, 'findOne').mockImplementation(async () => result);
 
-      await controller.findOne(result.id);
+      await controller.findOne(result.name);
 
       expect(service.findOne).toHaveBeenCalled();
-      expect(service.findOne).toHaveBeenCalledWith(result.id);
+      expect(service.findOne).toHaveBeenCalledWith(result.name);
     });
     it('should return the found platform', async () => {
       const result = platformMocks[0];
 
       jest.spyOn(service, 'findOne').mockImplementation(async () => result);
 
-      expect(await controller.findOne(result.id)).toEqual(result);
+      expect(await controller.findOne(result.name)).toEqual(result);
     });
     it("should return null if the platform doesn't exist", async () => {
       jest.spyOn(service, 'findOne').mockImplementation(async () => null);

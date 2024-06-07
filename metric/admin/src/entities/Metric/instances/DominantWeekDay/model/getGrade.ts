@@ -41,8 +41,7 @@ export const getGrade = (
   // If there are less than average actions, we don't really have a problem with that
   if (ratio < 1) return 5;
 
-  // 3 times the normal amount gets a "0"
-  // 2 times the normal amount gets a "2.5"
+  // 3 times the normal amount gets a "2"
   // the normal amount gets a "5"
-  return +Math.max(0, -2.5 * ratio + 7.5).toFixed(2);
+  return +Math.max(0, (-3 / 2) * ratio + 13 / 2).toFixed(2);
 };

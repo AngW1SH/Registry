@@ -1,3 +1,4 @@
+import { PlatformName } from '../platform/platform.entity';
 import {
   Resource,
   ResourceCreate,
@@ -11,14 +12,14 @@ export const resourceMocks: Resource[] = [
   {
     id: '1',
     name: 'test',
-    platform: '1',
+    platform: PlatformName.GitHub,
     project: '1',
     params: JSON.stringify({}),
   },
   {
     id: '2',
     name: 'test 2',
-    platform: '1',
+    platform: PlatformName.GitHub,
     project: '1',
     params: JSON.stringify({}),
   },
@@ -82,10 +83,8 @@ export const resourcePrismaMocks = resourceMocks.map((resource) => ({
   project: {
     id: resource.project,
   },
-  platformId: resource.platform,
-  platform: {
-    id: resource.platform,
-  },
   params: resource.params,
+  platform: resource.platform,
   metrics: [],
+  grade: '5',
 }));

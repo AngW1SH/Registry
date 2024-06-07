@@ -40,7 +40,7 @@ exports[`Subscribe Widget UI snapshot test 1`] = `
           class="relative"
         >
           <div
-            class="flex flex-col pt-3 w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
+            class="flex flex-col w-full border-white pr-12 text-white placeholder-white placeholder:uppercase"
           >
             <input
               class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-white outline-none"

@@ -1,6 +1,5 @@
 "use client";
 import { useProfileQuery } from "@/composites/Profile";
-import { useAuthQuery } from "@/entities/User";
 import { Block, ButtonAlt, NamedBlock } from "@/shared/ui";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,14 +15,6 @@ const UserProfilePreview: FC<UserProfilePreviewProps> = ({
   const { data: profile } = useProfileQuery();
 
   if (!profile) return <div></div>;
-
-  const name = [
-    profile.user.fullName.surname,
-    profile.user.fullName.name,
-    profile.user.fullName.patronymic,
-  ]
-    .join(" ")
-    .trim();
 
   if (!profile.user.email)
     return (

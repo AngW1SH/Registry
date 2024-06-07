@@ -24,5 +24,5 @@ export const getGrade = (
 
   const commitsPerDay = result / dayCount / userCount;
 
-  return +Math.min(commitsPerDay * 5 * 3, 5).toFixed(2); // 3 commits per day and more is the best grade
+  return +Math.min(commitsPerDay * 3 * 3 + 2, 5).toFixed(2); // 3 commits per day and more is the best grade
 };

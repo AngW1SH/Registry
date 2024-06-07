@@ -6,6 +6,7 @@ import {
   projectDetailedWithSnapshotsDTOMocks,
   projectDetailedWithSnapshotsMocks,
   projectDTOMocks,
+  projectInListMocks,
   projectMocks,
 } from './project.mock';
 import { ProjectService } from './project.service';
@@ -26,7 +27,7 @@ describe('ProjectController', () => {
     });
 
     it("should call the projectService's findAll method", async () => {
-      const result = projectMocks;
+      const result = projectInListMocks;
 
       serviceMock.findAll.mockResolvedValue(result);
 
@@ -36,14 +37,13 @@ describe('ProjectController', () => {
     });
 
     it('should return an array of projects', async () => {
-      const result = projectMocks;
-      const resultDTO = projectDTOMocks;
+      const result = projectInListMocks;
 
       serviceMock.findAll.mockResolvedValueOnce(result);
 
       const response = await controller.findAll();
 
-      expect(response).toEqual(resultDTO);
+      expect(response).toEqual(projectInListMocks);
     });
   });
 

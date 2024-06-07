@@ -4,18 +4,30 @@ import projectRepository from "@/repositories/project";
 import { ServerError, UnauthorizedError } from "@/helpers/errors";
 import { staticProjectList } from "@/entities/project";
 import projectResultsRepository from "@/repositories/project-results";
+import projectFileTypeService from "@/services/project-file-type";
 
 jest.mock("@/repositories/project");
 jest.mock("@/repositories/project-results");
+jest.mock("@/services/project-file-type", () => ({
+  findAll: jest.fn().mockReturnValue([
+    {
+      id: 1,
+      name: "2",
+      isPublic: true,
+    },
+  ]),
+}));
+
+const file = { name: "testfile.jpg" } as any;
 
 describe("projectResultsService", () => {
-  describe("uploadFiles methid", () => {
+  describe("uploadFile method", () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
     it("should fetch the project", async () => {
       try {
-        await projectResultsService.uploadFiles("1", [], staticUser);
+        await projectResultsService.uploadFile("1", file, "2", staticUser);
       } catch {}
 
       expect(projectRepository.findOne).toHaveBeenCalled();
@@ -25,7 +37,7 @@ describe("projectResultsService", () => {
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce(null);
 
       expect(
-        projectResultsService.uploadFiles("1", [], staticUser)
+        projectResultsService.uploadFile("1", file, "2", staticUser)
       ).rejects.toThrow(ServerError);
     });
 
@@ -35,7 +47,7 @@ describe("projectResultsService", () => {
       });
 
       expect(
-        projectResultsService.uploadFiles("1", [], staticUser)
+        projectResultsService.uploadFile("1", file, "2", staticUser)
       ).rejects.toThrow(ServerError);
     });
 
@@ -59,12 +71,12 @@ describe("projectResultsService", () => {
         phone: "+7 999 999 99 99",
       };
 
-      expect(projectResultsService.uploadFiles("1", [], user)).rejects.toThrow(
-        UnauthorizedError
-      );
+      expect(
+        projectResultsService.uploadFile("1", file, "2", user)
+      ).rejects.toThrow(UnauthorizedError);
 
       expect(
-        projectResultsService.uploadFiles("1", [], staticUser)
+        projectResultsService.uploadFile("1", file, "2", staticUser)
       ).rejects.toThrow(ServerError);
     });
 
@@ -81,9 +93,9 @@ describe("projectResultsService", () => {
         administrators: [user],
       });
 
-      await projectResultsService.uploadFiles("1", [], user);
+      await projectResultsService.uploadFile("1", file, "2", user);
 
-      expect(projectResultsRepository.addFiles).toHaveBeenCalled();
+      expect(projectResultsRepository.addFile).toHaveBeenCalled();
     });
   });
 

@@ -16,7 +16,7 @@ jest.mock('./config', () => {
     ...jest.requireActual('./config'),
     get configs() {
       return platformMocks.reduce(
-        (acc, cur) => ({ ...acc, [cur.name]: [] }),
+        (acc, cur) => ({ ...acc, [cur.name]: { data: [] } }),
         {},
       );
     },
@@ -41,14 +41,6 @@ describe('ResourceService', () => {
       },
       metric: {
         findMany: jest.fn().mockResolvedValue([]),
-      },
-      platform: {
-        findFirst: jest.fn().mockImplementation((args) => {
-          return platformMocks.find(
-            (platform) => platform.id === args?.where?.id,
-          );
-        }),
-        findMany: jest.fn().mockResolvedValue(platformMocks),
       },
     });
     metricService = createMock<MetricService>();
@@ -153,22 +145,10 @@ describe('ResourceService', () => {
       expect(service.createOne).toBeDefined();
     });
 
-    it('should call prisma.platform.findFirst with platform id selector', async () => {
-      await service.createOne(resourceMocks[0]);
-
-      expect(prisma.platform.findFirst).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({ id: resourceMocks[0].platform }),
-        }),
-      );
-    });
-
     it("should throw an error if platform doesn't exist", async () => {
-      jest
-        .spyOn(prisma.platform, 'findFirst')
-        .mockResolvedValueOnce(null as any);
-
-      await expect(service.createOne(resourceMocks[0])).rejects.toThrow();
+      await expect(
+        service.createOne({ ...resourceMocks[0], platform: '1' }),
+      ).rejects.toThrow();
     });
 
     it('should search for resource params config', async () => {

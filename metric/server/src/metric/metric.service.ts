@@ -184,7 +184,7 @@ export class MetricService {
       },
       groups: ['project:' + projectName, 'resource:' + resourceName],
       is_public:
-        metricConfig[metric.name].snapshotBased === true
+        metricConfig[metric.name]?.snapshotBased === true
           ? (metricConfig[metric.name] as SnapshotBasedMetricConfig).isPublic
           : false,
     };

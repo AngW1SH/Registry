@@ -8,9 +8,6 @@ export const platformMocks: Platform[] = [
   {
     name: 'GitLab',
   },
-  {
-    name: 'Trello',
-  },
 ];
 
 export const platformDTOMocks: PlatformDTO[] = [
@@ -19,8 +16,5 @@ export const platformDTOMocks: PlatformDTO[] = [
   },
   {
     name: 'GitLab',
-  },
-  {
-    name: 'Trello',
   },
 ];

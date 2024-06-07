@@ -2,19 +2,22 @@ import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { TokenService } from './token.service';
 import { JwtService } from '@nestjs/jwt';
 import { AdminService } from '../admin/admin.service';
+import { RedisService } from '../redis/redis.service';
 
 describe('TokenService', () => {
   let service: TokenService;
   let jwtService: DeepMocked<JwtService>;
   let adminService: DeepMocked<AdminService>;
+  let redisService: DeepMocked<RedisService>;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     jwtService = createMock<JwtService>();
     adminService = createMock<AdminService>();
+    redisService = createMock<RedisService>();
 
-    service = new TokenService(jwtService, adminService);
+    service = new TokenService(jwtService, adminService, redisService);
   });
 
   describe('generate method', () => {
@@ -26,7 +29,7 @@ describe('TokenService', () => {
       const jwtServiceSignSpy = jest.spyOn(jwtService, 'signAsync');
       const jwtServiceSignSpySync = jest.spyOn(jwtService, 'sign');
 
-      await service.generate({ id: 1 });
+      await service.generate({ id: 1 }, true);
 
       try {
         expect(jwtServiceSignSpySync).toHaveBeenCalledTimes(2);
@@ -42,7 +45,7 @@ describe('TokenService', () => {
       jwtService.sign.mockReturnValueOnce('123');
       jwtService.sign.mockReturnValueOnce('456');
 
-      const result = await service.generate({ id: 1 });
+      const result = await service.generate({ id: 1 }, true);
 
       expect(result).toHaveProperty('accessToken');
       expect(result).toHaveProperty('refreshToken');
@@ -58,7 +61,7 @@ describe('TokenService', () => {
 
     it('should throw an error if no payload is provided', async () => {
       const payload: any = undefined;
-      await expect(service.generate(payload)).rejects.toThrow();
+      await expect(service.generate(payload, true)).rejects.toThrow();
     });
   });
 
@@ -68,12 +71,14 @@ describe('TokenService', () => {
     });
 
     it('should call jwtService.verify', async () => {
+      redisService.get.mockResolvedValueOnce('123');
       await service.refresh('123');
 
       expect(jwtService.verify).toHaveBeenCalled();
     });
 
     it('should call userService.findById', async () => {
+      redisService.get.mockResolvedValueOnce('123');
       await service.refresh('123');
 
       expect(adminService.findById).toHaveBeenCalled();
@@ -85,6 +90,7 @@ describe('TokenService', () => {
         iat: 0,
         id: 123,
       } as never); // I have no clue why that 'never' is needed
+      redisService.get.mockResolvedValueOnce('123');
 
       await service.refresh('123');
 
@@ -101,6 +107,7 @@ describe('TokenService', () => {
         iat: 0,
         id: 123,
       } as never); // I have no clue why that 'never' is needed
+      redisService.get.mockResolvedValueOnce('123');
 
       await service.refresh('123');
 
@@ -115,6 +122,7 @@ describe('TokenService', () => {
       } as never); // I have no clue why that 'never' is needed
 
       jwtService.signAsync.mockResolvedValueOnce('456');
+      redisService.get.mockResolvedValueOnce('123');
 
       const result = await service.refresh('123');
 
@@ -128,6 +136,7 @@ describe('TokenService', () => {
 
     it('should throw an error if user is not found', async () => {
       adminService.findById.mockResolvedValueOnce(undefined);
+      redisService.get.mockResolvedValueOnce('123');
 
       await expect(service.refresh('123')).rejects.toThrow();
     });

@@ -14,6 +14,12 @@ import { getProjectsByProjectIds, staticProjects } from "@/entities/Project";
 import { getRequestsByRequestIds, staticRequests } from "@/entities/Request";
 import { useMemberMutation } from "@/features/EditMember";
 
+global.ResizeObserver = jest.fn(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
 jest.mock("@/entities/User", () => {
   var original = jest.requireActual("@/entities/User");
 
@@ -36,6 +42,10 @@ jest.mock("@/features/EditMember/model/useMemberMutation", () => {
   return {
     useMemberMutation: jest.fn(),
   };
+});
+
+jest.mock("@/features/EditMember/api/fetchUserRole", () => {
+  return ["Test"];
 });
 
 describe("UserTeams widget UI", () => {
@@ -132,7 +142,7 @@ describe("UserTeams widget UI", () => {
 
         const projectIds = requests.reduce(
           (acc, cur) => (cur.project ? [...acc, cur.project] : acc),
-          [] as number[],
+          [] as string[],
         );
         const projects = getProjectsByProjectIds(projectIds, staticProjects);
 

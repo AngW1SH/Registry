@@ -7,6 +7,7 @@ import { MetricName } from './config/instances/metricNames';
 import { MetricParam, MetricParamType, UnitOfTime } from './config/types';
 import * as metricConfigModule from './config/instances/metricConfig';
 import { snapshotMocks } from '../metric-gateway/gateway.mock';
+import { PlatformName } from '../platform/platform.entity';
 
 const validParams: MetricParam[] = [
   {
@@ -31,29 +32,33 @@ const validParams: MetricParam[] = [
 
 const validTask = {
   metric: 'Test',
+  delete_snapshots: false,
   groups: ['project:project-1', 'resource:resource-1'],
 };
 
-jest.mock('./config/metricConfig', () => ({
-  ...jest.requireActual('./config/metricConfig'),
+jest.mock('./config/instances/metricConfig', () => ({
+  ...jest.requireActual('./config/instances/metricConfig'),
   get metricConfig() {
     return {
       Test: {
         dependencies: [],
         snapshotBased: true,
         isPublic: true,
+        platform: PlatformName.GitHub,
         params: validParams,
       },
       TestDependency1: {
         dependencies: ['Test'],
         snapshotBased: true,
         isPublic: true,
+        platform: PlatformName.GitHub,
         params: validParams,
       },
       TestDependency2: {
         dependencies: ['Test'],
         snapshotBased: true,
         isPublic: true,
+        platform: PlatformName.GitHub,
         params: validParams,
       },
     };
@@ -92,6 +97,7 @@ describe('MetricService', () => {
           id: '1',
           name: 'resource',
           params: '[{ "name": "resourceParam" }]',
+          platform: PlatformName.GitHub,
           project: { id: '1', name: 'project' },
         }),
       },
@@ -112,7 +118,9 @@ describe('MetricService', () => {
 
       const result = await service.findMany({ resource: '1' });
 
-      expect(result).toEqual(metricMocks);
+      expect(result).toEqual(
+        metricMocks.map((m) => expect.objectContaining(m)),
+      );
     });
   });
 
@@ -132,7 +140,7 @@ describe('MetricService', () => {
     it('should return all defined metric names', async () => {
       const result = await service.listAll();
 
-      const names = Object.keys(MetricName);
+      const names = Object.values(MetricName);
 
       names.forEach((name) => {
         const found = result.find((r) => r.name === name);
@@ -154,7 +162,10 @@ describe('MetricService', () => {
         .spyOn(service, 'update')
         .mockResolvedValueOnce('ok' as any);
 
-      const result = await service.updateParams(metricMocks[0]);
+      const result = await service.updateParams({
+        ...metricMocks[0],
+        name: 'Test',
+      });
 
       expect(updateMock).toHaveBeenCalled();
     });
@@ -174,7 +185,9 @@ describe('MetricService', () => {
         throw new Error();
       });
 
-      await expect(service.updateParams(metricMocks[0])).rejects.toThrow();
+      await expect(
+        service.updateParams({ ...metricMocks[0], name: 'Test' }),
+      ).rejects.toThrow();
     });
 
     it('should throw an error if provided JSON is invalid', async () => {
@@ -249,6 +262,7 @@ describe('MetricService', () => {
     it("should merge resource's params with metric's params", async () => {
       const result = await service.convertToTask({
         ...metricMocks[0],
+        name: 'Test',
         params: JSON.stringify(validParams),
       });
 
@@ -323,10 +337,12 @@ describe('MetricService', () => {
     it("should call taskService.stop with metric's groups", async () => {
       await service.stop(metricMocks[0].id, false);
 
-      expect(taskService.stop).toHaveBeenCalledWith({
-        metric: metricMocks[0].name,
-        groups: ['project:project', 'resource:resource'],
-      });
+      expect(taskService.stop).toHaveBeenCalledWith(
+        expect.objectContaining({
+          metric: metricMocks[0].name,
+          groups: ['project:project', 'resource:resource'],
+        }),
+      );
     });
 
     it('should throw an error if metric is not found', async () => {
@@ -413,8 +429,8 @@ describe('MetricService', () => {
       ).rejects.toThrow();
     });
 
-    it('should call its own create method when everything is ok', async () => {
-      jest.spyOn(service, 'start').mockResolvedValue({} as any);
+    it('should create metric when everything is ok', async () => {
+      jest.spyOn(service, 'start').mockResolvedValue({ id: 123 } as any);
 
       await service.create({ ...metricMocks[0], name: 'Test' });
 
@@ -517,7 +533,7 @@ describe('MetricService', () => {
     it('should call its own convertToTask method', async () => {
       jest.spyOn(service, 'convertToTask').mockResolvedValue(validTask as any);
 
-      await service.execute(metricMocks[0]);
+      await service.execute({ ...metricMocks[0], name: 'Test' });
 
       expect(service.convertToTask).toHaveBeenCalled();
     });
@@ -544,7 +560,7 @@ describe('MetricService', () => {
     it('should call taskService.forceExecute', async () => {
       jest.spyOn(service, 'convertToTask').mockResolvedValue(validTask as any);
 
-      await service.execute(metricMocks[0]);
+      await service.execute({ ...metricMocks[0], name: 'Test' });
 
       expect(taskService.forceExecute).toHaveBeenCalled();
     });

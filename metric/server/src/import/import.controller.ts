@@ -1,5 +1,4 @@
 import { Body, Controller, Headers, Post } from '@nestjs/common';
-import { Project, ProjectDetailed } from '../project/project.entity';
 import { ImportProject } from './import.entity';
 import { ImportService } from './import.service';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';

@@ -28,14 +28,14 @@ exports[`ContactForm Widget UI snapshot test 1`] = `
         в ближайшее время
       </p>
     </div>
-    <div
+    <form
       class="flex flex-col w-full sm:w-80"
     >
       <div
-        class="flex flex-col pt-3 "
+        class="flex flex-col "
       >
         <input
-          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-black outline-none"
+          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-#898989 outline-none"
           placeholder="Имя"
           value=""
         />
@@ -44,10 +44,10 @@ exports[`ContactForm Widget UI snapshot test 1`] = `
         class="pt-5"
       />
       <div
-        class="flex flex-col pt-3 "
+        class="flex flex-col "
       >
         <input
-          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-black outline-none"
+          class="border-b border-[#898989] bg-transparent pb-2 font-normal placeholder-#898989 outline-none"
           placeholder="E-mail"
           value=""
         />
@@ -61,7 +61,7 @@ exports[`ContactForm Widget UI snapshot test 1`] = `
       >
         Отправить
       </button>
-    </div>
+    </form>
   </div>
 </DocumentFragment>
 `;

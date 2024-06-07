@@ -30,6 +30,6 @@ export const getGrade = (data: CodeOwnershipData): number | null => {
   }, 0);
 
   // The grade
-  const result = (1 - Math.sqrt(dispersion / worstCase)) * 5;
-  return Math.max(0, Math.min(5, result));
+  const result = (1 - Math.sqrt(dispersion / worstCase)) * 3;
+  return +(Math.max(0, Math.min(3, result)) + 2).toFixed(2);
 };

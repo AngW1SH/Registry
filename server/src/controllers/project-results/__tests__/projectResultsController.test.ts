@@ -17,7 +17,7 @@ res.sendStatus = jest.fn().mockReturnValue(res);
 res.json = jest.fn().mockReturnValue(res);
 
 describe("projectResultsController", () => {
-  describe("uploadFiles method", () => {
+  describe("uploadFile method", () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
@@ -27,13 +27,15 @@ describe("projectResultsController", () => {
         id: staticProjectList[0].id,
       };
       req.files = { files: [{ name: "testfile.jpg" }] };
+      req.body = { category: "2" };
 
-      await projectResultsController.uploadFiles(req, res, jest.fn());
+      await projectResultsController.uploadFile(req, res, jest.fn());
 
-      expect(projectResultsService.uploadFiles).toHaveBeenCalled();
-      expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
+      expect(projectResultsService.uploadFile).toHaveBeenCalled();
+      expect(projectResultsService.uploadFile).toHaveBeenCalledWith(
         req.params.id,
-        req.files.files,
+        req.files.files[0],
+        req.body.category,
         req.user
       );
     });
@@ -43,13 +45,14 @@ describe("projectResultsController", () => {
         id: staticProjectList[0].id,
       };
       req.files = { files: [{ name: "testfile.jpg" }] };
+      req.body = { category: "2" };
 
-      await projectResultsController.uploadFiles(req, res, jest.fn());
+      await projectResultsController.uploadFile(req, res, jest.fn());
 
       expect(res.status).toHaveBeenCalledWith(200);
     });
     it("should pass all errors to middleware", async () => {
-      (projectResultsService.uploadFiles as jest.Mock).mockImplementationOnce(
+      (projectResultsService.uploadFile as jest.Mock).mockImplementationOnce(
         async () => {
           throw new ServerError("");
         }
@@ -59,10 +62,11 @@ describe("projectResultsController", () => {
         id: staticProjectList[0].id,
       };
       req.files = { files: [{ name: "testfile.jpg" }] };
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
 
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(ServerError);
     });
@@ -72,10 +76,11 @@ describe("projectResultsController", () => {
         id: staticProjectList[0].id,
       };
       req.files = { files: [{ name: "testfile.jpg" }] };
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
 
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(UnauthorizedError);
     });
@@ -83,10 +88,11 @@ describe("projectResultsController", () => {
       req.user = staticUser;
       req.params = {};
       req.files = { files: [{ name: "testfile.jpg" }] };
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
 
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
     });
@@ -99,12 +105,12 @@ describe("projectResultsController", () => {
 
       const nextMock = jest.fn();
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
 
       req.files = undefined;
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
       expect(nextMock.mock.calls[1][0]).toBeInstanceOf(BadRequestError);
     });
     it("should extract files correctly whether they are in an array or not", async () => {
@@ -113,30 +119,33 @@ describe("projectResultsController", () => {
       };
       req.files = { files: [{ name: "testfile.jpg" }] };
       req.user = staticUser;
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
-      const result = await projectResultsController.uploadFiles(
+      const result = await projectResultsController.uploadFile(
         req,
         res,
         nextMock
       );
-      expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
+      expect(projectResultsService.uploadFile).toHaveBeenCalledWith(
         req.params.id,
-        req.files.files,
+        req.files.files[0],
+        req.body.category,
         req.user
       );
 
       req.files = { files: { name: "testfile.jpg" } };
 
-      const result2 = await projectResultsController.uploadFiles(
+      const result2 = await projectResultsController.uploadFile(
         req,
         res,
         nextMock
       );
-      expect(projectResultsService.uploadFiles).toHaveBeenCalledWith(
+      expect(projectResultsService.uploadFile).toHaveBeenCalledWith(
         req.params.id,
-        expect.arrayContaining([req.files.files]),
+        req.files.files,
+        req.body.category,
         req.user
       );
     });
@@ -208,6 +217,7 @@ describe("projectResultsController", () => {
       req.params = {
         fileid: 1,
       };
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
@@ -220,6 +230,7 @@ describe("projectResultsController", () => {
       req.params = {
         id: staticProjectList[0].id,
       };
+      req.body = { category: "2" };
 
       const nextMock = jest.fn();
 
@@ -323,12 +334,12 @@ describe("projectResultsController", () => {
 
       const nextMock = jest.fn();
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
       expect(nextMock.mock.calls[0][0]).toBeInstanceOf(BadRequestError);
 
       req.files = undefined;
 
-      await projectResultsController.uploadFiles(req, res, nextMock);
+      await projectResultsController.uploadFile(req, res, nextMock);
       expect(nextMock.mock.calls[1][0]).toBeInstanceOf(BadRequestError);
     });
     it("should extract files correctly whether they are in an array or not", async () => {

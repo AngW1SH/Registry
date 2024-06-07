@@ -66,7 +66,10 @@ describe('MetricController', () => {
 
       serviceMock.create.mockResolvedValueOnce(metricDetailedMocks);
 
-      await controller.create(request);
+      await controller.create({
+        ...request,
+        params: JSON.parse(request.params),
+      });
 
       expect(serviceMock.create).toHaveBeenCalled();
       expect(serviceMock.create).toHaveBeenCalledWith(request);
@@ -77,7 +80,7 @@ describe('MetricController', () => {
 
       serviceMock.create.mockResolvedValueOnce(metricDetailedMocks);
 
-      const result = await controller.create(request);
+      const result = await controller.create({ ...request, params: [] });
 
       expect(result).toEqual(metricDetailedDTOMocks);
     });
@@ -114,7 +117,7 @@ describe('MetricController', () => {
       await controller.stop(id);
 
       expect(serviceMock.stop).toHaveBeenCalled();
-      expect(serviceMock.stop).toHaveBeenCalledWith(id);
+      expect(serviceMock.stop).toHaveBeenCalledWith(id, false);
     });
   });
 

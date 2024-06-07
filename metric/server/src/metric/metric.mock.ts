@@ -47,7 +47,6 @@ export const metricDetailedMocks: MetricDetailed[] = metricMocks.map(
   (metric) => ({
     ...metric,
     data: [],
-    snapshotBased: true,
     isTracked: true,
   }),
 );

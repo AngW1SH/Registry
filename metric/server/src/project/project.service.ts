@@ -177,6 +177,8 @@ export class ProjectService {
       id: result.id,
       name: result.name,
       description: result.description,
+      dateStart: result.dateStart,
+      dateEnd: result.dateEnd,
       resources: [],
     };
   }
@@ -257,7 +259,7 @@ export class ProjectService {
     return result;
   }
 
-  async deleteOne(id: string) {
+  async deleteOne(id: string): Promise<Project> {
     const result = await this.prisma.project.delete({
       where: {
         id,

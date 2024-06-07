@@ -9,6 +9,7 @@ import { UnauthorizedError } from "@/helpers/errors";
 
 jest.mock("@/repositories/team");
 jest.mock("@/repositories/member");
+jest.mock("@/services/user-role");
 
 describe("memberService", () => {
   describe("edit method", () => {
@@ -43,7 +44,7 @@ describe("memberService", () => {
       const member: Member = {
         id: 1,
         name: "TestMember",
-        role: "Test Role",
+        roles: ["Test Role"],
         isAdministrator: false,
         team: 1,
         user: 2,
@@ -77,7 +78,7 @@ describe("memberService", () => {
       const member: Member = {
         id: 1,
         name: "TestMember",
-        role: "Test Role",
+        roles: ["Test Role"],
         isAdministrator: false,
         team: 1,
         user: 1,
@@ -111,7 +112,7 @@ describe("memberService", () => {
       const member: Member = {
         id: 1,
         name: "TestMember",
-        role: "Test Role",
+        roles: ["Test Role"],
         isAdministrator: false,
         team: 1,
         user: 2,

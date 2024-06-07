@@ -14,5 +14,5 @@ export const getGrade = (data: Issues): number | null => {
     }
   });
 
-  return +((result.closed / result.total) * 5).toFixed(2);
+  return +((result.closed / result.total) * 3 + 2).toFixed(2);
 };
