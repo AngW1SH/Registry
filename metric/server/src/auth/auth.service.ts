@@ -28,7 +28,6 @@ export class AuthService {
   }
 
   async refresh(req: Request, res: Response) {
-    console.log('trying to refresh');
     const refreshToken = this.cookieService.get(req, 'metric_refresh_token');
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token provided');
