@@ -6,9 +6,6 @@ jest.mock("@/repositories/user");
 
 describe("profileService", () => {
   describe("editAccountData method", () => {
-    it("should be defined", () => {
-      expect(profileService.editAccountData).toBeDefined();
-    });
     it("should call userRepository.edit", async () => {
       await profileService.editAccountData(
         {
@@ -22,9 +19,6 @@ describe("profileService", () => {
     });
   });
   describe("editPersonalData method", () => {
-    it("should be defined", () => {
-      expect(profileService.editPersonalData).toBeDefined();
-    });
     it("should call userRepository.edit", async () => {
       await profileService.editPersonalData(
         {

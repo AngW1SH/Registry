@@ -22,10 +22,6 @@ describe('ProjectController', () => {
   });
 
   describe('findAll method', () => {
-    it('should be defined', () => {
-      expect(controller.findAll).toBeDefined();
-    });
-
     it("should call the projectService's findAll method", async () => {
       const result = projectInListMocks;
 
@@ -48,10 +44,6 @@ describe('ProjectController', () => {
   });
 
   describe('findOne method', () => {
-    it('should be defined', () => {
-      expect(controller.findOne).toBeDefined();
-    });
-
     it("should call the projectService's findOne method", async () => {
       const result = projectDetailedWithSnapshotsMocks[0];
 
@@ -80,10 +72,6 @@ describe('ProjectController', () => {
   });
 
   describe('create method', () => {
-    it('should be defined', () => {
-      expect(controller.create).toBeDefined();
-    });
-
     it("should call the projectService's create method", async () => {
       const result = projectCreateDTOMocks[0];
 
@@ -112,10 +100,6 @@ describe('ProjectController', () => {
   });
 
   describe('update method', () => {
-    it('should be defined', () => {
-      expect(controller.update).toBeDefined();
-    });
-
     it("should call the projectService's updateOne method", async () => {
       const result = projectMocks[0];
 
@@ -138,10 +122,6 @@ describe('ProjectController', () => {
   });
 
   describe('delete method', () => {
-    it('should be defined', () => {
-      expect(controller.delete).toBeDefined();
-    });
-
     it("should call the projectService's deleteOne method", async () => {
       const result = projectMocks[0];
 

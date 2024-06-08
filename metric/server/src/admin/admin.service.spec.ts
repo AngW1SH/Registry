@@ -19,15 +19,7 @@ describe('AdminService', () => {
     service = new AdminService(prisma);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   describe('findByName method', () => {
-    it('should be defined', () => {
-      expect(service.findByName).toBeDefined();
-    });
-
     it('should call prisma.user.findFirst', async () => {
       await service.findByName('test');
 
@@ -61,10 +53,6 @@ describe('AdminService', () => {
   });
 
   describe('findById method', () => {
-    it('should be defined', () => {
-      expect(service.findById).toBeDefined();
-    });
-
     it('should call prisma.user.findFirst', async () => {
       await service.findById('test');
 

@@ -13,10 +13,6 @@ jest.mock("@/services/user-role");
 
 describe("memberService", () => {
   describe("edit method", () => {
-    it("should be defined", () => {
-      expect(memberService.edit).toBeDefined();
-    });
-
     it("should call teamRepository.findOne", async () => {
       const member = staticMembers[0];
       const user = staticUser;

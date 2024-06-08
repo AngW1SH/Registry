@@ -32,10 +32,6 @@ describe('SnapshotService', () => {
   });
 
   describe('onModuleInit', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should get a snapshot service', async () => {
       service.onModuleInit();
 
@@ -57,10 +53,6 @@ describe('SnapshotService', () => {
   describe('list method', () => {
     beforeEach(() => {
       service.onModuleInit();
-    });
-
-    it('should be defined', () => {
-      expect(service.list).toBeDefined();
     });
 
     it("should call the client's list method", async () => {

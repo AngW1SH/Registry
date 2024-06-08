@@ -49,10 +49,6 @@ describe('ResourceService', () => {
   });
 
   describe('findMany method', () => {
-    it('should be defined', () => {
-      expect(service.findMany).toBeDefined();
-    });
-
     it('should call prisma findMany with project id selector', async () => {
       jest.spyOn(prisma.resource, 'findMany').mockResolvedValueOnce([]);
 
@@ -77,10 +73,6 @@ describe('ResourceService', () => {
   });
 
   describe('findOne method', () => {
-    it('should be defined', () => {
-      expect(service.findOne).toBeDefined();
-    });
-
     it('should call prisma findFirst with resource id selector', async () => {
       jest.spyOn(prisma.resource, 'findFirst').mockResolvedValueOnce(null);
 
@@ -141,10 +133,6 @@ describe('ResourceService', () => {
   });
 
   describe('createOne method', () => {
-    it('should be defined', () => {
-      expect(service.createOne).toBeDefined();
-    });
-
     it("should throw an error if platform doesn't exist", async () => {
       await expect(
         service.createOne({ ...resourceMocks[0], platform: '1' }),
@@ -181,10 +169,6 @@ describe('ResourceService', () => {
   });
 
   describe('updateOne method', () => {
-    it('should be defined', () => {
-      expect(service.updateOne).toBeDefined();
-    });
-
     it('should call prisma.resource.update', async () => {
       await service.updateOne(resourceMocks[0]);
 
@@ -209,10 +193,6 @@ describe('ResourceService', () => {
   });
 
   describe('deleteOne method', () => {
-    it('should be defined', () => {
-      expect(service.deleteOne).toBeDefined();
-    });
-
     it('should call prisma.resource.delete', async () => {
       await service.deleteOne('1');
 
@@ -237,10 +217,6 @@ describe('ResourceService', () => {
   });
 
   describe('getMetrics method', () => {
-    it('should be defined', () => {
-      expect(service.getMetrics).toBeDefined();
-    });
-
     it('should call prisma.metric.findMany', async () => {
       await service.getMetrics('1');
 
@@ -259,10 +235,6 @@ describe('ResourceService', () => {
   });
 
   describe('startTracking method', () => {
-    it('should be defined', () => {
-      expect(service.startTracking).toBeDefined();
-    });
-
     it('should call its own getMetrics method', () => {
       jest.spyOn(service, 'getMetrics').mockResolvedValue([]);
 
@@ -289,10 +261,6 @@ describe('ResourceService', () => {
   });
 
   describe('stopTracking method', () => {
-    it('should be defined', () => {
-      expect(service.stopTracking).toBeDefined();
-    });
-
     it('should call its own getMetrics method', () => {
       jest.spyOn(service, 'getMetrics').mockResolvedValue([]);
 
@@ -319,10 +287,6 @@ describe('ResourceService', () => {
   });
 
   describe('populateWithSnapshots method', () => {
-    it('should be defined', () => {
-      expect(service.populateWithSnapshots).toBeDefined();
-    });
-
     it("should call metricService's populateWithSnapshots method", async () => {
       const resource = { ...resourceWithMetricsMocks[0], metrics: metricMocks };
 

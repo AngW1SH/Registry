@@ -23,10 +23,6 @@ describe('MetricGateway', () => {
   });
 
   describe('onModuleInit method', () => {
-    it('should be defined', () => {
-      expect(gateway.onModuleInit).toBeDefined();
-    });
-
     it('should call server.on', () => {
       gateway.onModuleInit();
 
@@ -38,10 +34,6 @@ describe('MetricGateway', () => {
   });
 
   describe('send method', () => {
-    it('should be defined', () => {
-      expect(gateway.send).toBeDefined();
-    });
-
     it('should call server.emit', async () => {
       const data: Snapshot[] = [];
 

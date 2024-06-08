@@ -20,10 +20,6 @@ describe('MetricController', () => {
   });
 
   describe('update method', () => {
-    it('should be defined', () => {
-      expect(controller.update).toBeDefined();
-    });
-
     it("should call the metricService's updateParams method", async () => {
       const result = metricMocks[0];
 
@@ -57,10 +53,6 @@ describe('MetricController', () => {
   });
 
   describe('create method', () => {
-    it('should be defined', () => {
-      expect(controller.create).toBeDefined();
-    });
-
     it("should call the metricService's create method", async () => {
       const request = metricCreateMocks[0];
 
@@ -87,10 +79,6 @@ describe('MetricController', () => {
   });
 
   describe('start method', () => {
-    it('should be defined', () => {
-      expect(controller.start).toBeDefined();
-    });
-
     it("should call the metricService's start method", async () => {
       const requestDTO = { ...metricDTOMocks[0] };
       const request = metricMocks[0];
@@ -105,10 +93,6 @@ describe('MetricController', () => {
   });
 
   describe('stop method', () => {
-    it('should be defined', () => {
-      expect(controller.stop).toBeDefined();
-    });
-
     it("should call the metricService's stop method", async () => {
       const id = 'test';
 
@@ -122,10 +106,6 @@ describe('MetricController', () => {
   });
 
   describe('listAll method', () => {
-    it('should be defined', () => {
-      expect(controller.listAll).toBeDefined();
-    });
-
     it("should call the metricService's listAll method", async () => {
       serviceMock.listAll.mockResolvedValueOnce([]);
 
@@ -144,10 +124,6 @@ describe('MetricController', () => {
   });
 
   describe('delete method', () => {
-    it('should be defined', () => {
-      expect(controller.delete).toBeDefined();
-    });
-
     it("should call the metricService's deleteOne method", async () => {
       const id = 'test';
       const result = metricMocks[0];
@@ -177,10 +153,6 @@ describe('MetricController', () => {
   });
 
   describe('execute method', () => {
-    it('should be defined', () => {
-      expect(controller.execute).toBeDefined();
-    });
-
     it("should call the metricService's execute method", async () => {
       const requestDTO = metricDTOMocks[0];
       const request = metricMocks[0];

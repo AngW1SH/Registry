@@ -18,15 +18,7 @@ describe('ResubscribeService', () => {
     service = new ResubscribeService();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   describe('start method', () => {
-    it('should be defined', () => {
-      expect(service.start).toBeDefined();
-    });
-
     it('should start an interval', () => {
       service.start(subscribe, observer);
 
@@ -73,10 +65,6 @@ describe('ResubscribeService', () => {
   });
 
   describe('stop method', () => {
-    it('should be defined', () => {
-      expect(service.stop).toBeDefined();
-    });
-
     it('should stop the interval', async () => {
       await service.start(subscribe, observer);
       await service.stop();

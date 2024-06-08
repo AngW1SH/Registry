@@ -20,10 +20,6 @@ describe('ResourceController', () => {
   });
 
   describe('findOne method', () => {
-    it('should be defined', () => {
-      expect(controller.findOne).toBeDefined();
-    });
-
     it("should call the resourceService's findOne method", async () => {
       const result = resourceDetailedMocks[0];
 
@@ -52,10 +48,6 @@ describe('ResourceController', () => {
   });
 
   describe('createOne method', () => {
-    it('should be defined', () => {
-      expect(controller.createOne).toBeDefined();
-    });
-
     it("should call the resourceService's createOne method", async () => {
       const request = resourceCreateMocks[0];
       const requestDTO = resourceCreateDTOMocks[0];
@@ -87,10 +79,6 @@ describe('ResourceController', () => {
   });
 
   describe('updateOne method', () => {
-    it('should be defined', () => {
-      expect(controller.updateOne).toBeDefined();
-    });
-
     it("should call the resourceService's updateOne method", async () => {
       const request = resourceMocks[0];
       const requestDTO = resourceDTOMocks[0];
@@ -122,10 +110,6 @@ describe('ResourceController', () => {
   });
 
   describe('deleteOne method', () => {
-    it('should be defined', () => {
-      expect(controller.deleteOne).toBeDefined();
-    });
-
     it("should call the resourceService's deleteOne method", async () => {
       const result = resourceMocks[0];
 

@@ -108,10 +108,6 @@ describe('MetricService', () => {
   });
 
   describe('findMany method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should return an array of metrics', async () => {
       const findManyMock = jest.spyOn(prisma.metric, 'findMany');
       findManyMock.mockReturnValueOnce(prismaMetricMocks as any);
@@ -125,10 +121,6 @@ describe('MetricService', () => {
   });
 
   describe('listAll method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should return an array of metric names', async () => {
       const result = await service.listAll();
 
@@ -151,10 +143,6 @@ describe('MetricService', () => {
   });
 
   describe('updateParams method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should call its own update method', async () => {
       const prismaReturn = { ...prismaMetricMocks[0], params: '["test"]' };
       jest.spyOn(prisma.metric, 'update').mockResolvedValueOnce(prismaReturn);
@@ -208,10 +196,6 @@ describe('MetricService', () => {
   });
 
   describe('convertToTask method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should throw an error if provided JSON is invalid', async () => {
       await expect(
         service.convertToTask({ ...metricMocks[0], params: '[[[' }),
@@ -274,10 +258,6 @@ describe('MetricService', () => {
   });
 
   describe('start method', () => {
-    it('should be defined', () => {
-      expect(service.start).toBeDefined();
-    });
-
     it('should call its own convertToTask method', async () => {
       const convertToTaskMock = jest
         .spyOn(service, 'convertToTask')
@@ -298,10 +278,6 @@ describe('MetricService', () => {
   });
 
   describe('update method', () => {
-    it('should be defined', () => {
-      expect(service.update).toBeDefined();
-    });
-
     it('should call its own convertToTask method', async () => {
       const convertToTaskMock = jest
         .spyOn(service, 'convertToTask')
@@ -322,10 +298,6 @@ describe('MetricService', () => {
   });
 
   describe('stop method', () => {
-    it('should be defined', () => {
-      expect(service.stop).toBeDefined();
-    });
-
     it('should find metric in db', async () => {
       const findFirstSpy = jest.spyOn(prisma.metric, 'findFirst');
 
@@ -393,10 +365,6 @@ describe('MetricService', () => {
   });
 
   describe('create method', () => {
-    it('should be defined', () => {
-      expect(service.create).toBeDefined();
-    });
-
     it('should throw an error if metric params config is not found', async () => {
       jest.spyOn(service, 'start').mockResolvedValue({} as any);
 
@@ -439,10 +407,6 @@ describe('MetricService', () => {
   });
 
   describe('deleteOne method', () => {
-    it('should be defined', () => {
-      expect(service.deleteOne).toBeDefined();
-    });
-
     it('should throw an error if metric is not found', async () => {
       jest.spyOn(service, 'stop').mockResolvedValue({} as any);
       jest.spyOn(prisma.metric, 'delete').mockResolvedValueOnce(null);
@@ -497,10 +461,6 @@ describe('MetricService', () => {
   });
 
   describe('populateWithSnapshots method', () => {
-    it('should be defined', () => {
-      expect(service.populateWithSnapshots).toBeDefined();
-    });
-
     it('should parse snapshot data', () => {
       jest.spyOn(JSON, 'parse');
 
@@ -526,10 +486,6 @@ describe('MetricService', () => {
   });
 
   describe('execute method', () => {
-    it('should be defined', () => {
-      expect(service.execute).toBeDefined();
-    });
-
     it('should call its own convertToTask method', async () => {
       jest.spyOn(service, 'convertToTask').mockResolvedValue(validTask as any);
 

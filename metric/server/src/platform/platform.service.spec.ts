@@ -11,10 +11,6 @@ describe('PlatformService', () => {
   });
 
   describe('findAll method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should return an array of platforms', async () => {
       const result = platformMocks;
 
@@ -23,10 +19,6 @@ describe('PlatformService', () => {
   });
 
   describe('findOne method', () => {
-    it('should be defined', () => {
-      expect(service).toBeDefined();
-    });
-
     it('should return a platform', async () => {
       const result = platformMocks[0];
 

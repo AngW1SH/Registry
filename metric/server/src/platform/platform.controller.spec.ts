@@ -20,10 +20,6 @@ describe('PlatformController', () => {
     prisma = module.get<PrismaService>(PrismaService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
   describe('findAll method', () => {
     it('should call the platformService.findAll method', async () => {
       const result = platformMocks;

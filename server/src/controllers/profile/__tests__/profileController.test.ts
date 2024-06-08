@@ -21,9 +21,6 @@ jest.mock("@/services/profile");
 
 describe("profileController", () => {
   describe("editAccountData method", () => {
-    it("should be defined", () => {
-      expect(profileController.editAccountData).toBeDefined();
-    });
     it("should pass errors to middleware", async () => {
       req.user = staticUser;
       (profileService.editAccountData as jest.Mock).mockImplementationOnce(
@@ -77,9 +74,6 @@ describe("profileController", () => {
     });
   });
   describe("editPersonalData method", () => {
-    it("should be defined", () => {
-      expect(profileController.editPersonalData).toBeDefined();
-    });
     it("should pass errors to middleware", async () => {
       req.user = staticUser;
       req.body = {

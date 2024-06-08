@@ -60,17 +60,9 @@ describe('ProjectService', () => {
     );
   });
 
-  describe('findAll method', () => {
-    it('should be defined', () => {
-      expect(service.findAll).toBeDefined();
-    });
-  });
+  describe('findAll method', () => {});
 
   describe('findOne method', () => {
-    it('should be defined', () => {
-      expect(service.findOne).toBeDefined();
-    });
-
     it('should call prisma.project.findFirst with the project id', async () => {
       await service.findOne(projectMocks[0].id);
 
@@ -147,10 +139,6 @@ describe('ProjectService', () => {
   });
 
   describe('create method', () => {
-    it('should be defined', () => {
-      expect(service.create).toBeDefined();
-    });
-
     it('should call prisma.project.create with the project name', async () => {
       await service.create(projectCreateMocks[0]);
 
@@ -182,10 +170,6 @@ describe('ProjectService', () => {
   });
 
   describe('updateOne method', () => {
-    it('should be defined', () => {
-      expect(service.updateOne).toBeDefined();
-    });
-
     it('should call prisma.project.update with the project id', async () => {
       await service.updateOne(projectMocks[0]);
 
@@ -217,10 +201,6 @@ describe('ProjectService', () => {
   });
 
   describe('deleteOne method', () => {
-    it('should be defined', () => {
-      expect(service.deleteOne).toBeDefined();
-    });
-
     it('should call prisma.project.delete with the project id', async () => {
       await service.deleteOne(projectMocks[0].id);
 

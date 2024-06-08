@@ -21,10 +21,6 @@ describe('TokenService', () => {
   });
 
   describe('generate method', () => {
-    it('should be defined', () => {
-      expect(service.generate).toBeDefined();
-    });
-
     it('should call jwtService.sign twice (accessToken and refreshToken)', async () => {
       const jwtServiceSignSpy = jest.spyOn(jwtService, 'signAsync');
       const jwtServiceSignSpySync = jest.spyOn(jwtService, 'sign');
@@ -66,10 +62,6 @@ describe('TokenService', () => {
   });
 
   describe('refresh method', () => {
-    it('should be defined', () => {
-      expect(service.refresh).toBeDefined();
-    });
-
     it('should call jwtService.verify', async () => {
       redisService.get.mockResolvedValueOnce('123');
       await service.refresh('123');
