@@ -11,7 +11,7 @@ export const importProjectMock: ImportProject = {
     {
       name: 'resource1',
       platform: PlatformName.GitHub,
-      params: '{}',
+      params: '[{}]',
     },
   ],
   members: [

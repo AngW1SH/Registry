@@ -131,7 +131,6 @@ export class ImportService {
     const identifiers = (
       await Promise.all(
         user.identifiers.map(async (identifier) => {
-          console.log(identifier);
           // Find out if we support this platform
           const platform = Object.entries(PlatformName).find(
             (entry) =>
