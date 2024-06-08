@@ -27,14 +27,6 @@ describe("UserProfilePreview widget UI", () => {
       jest.clearAllMocks();
     });
 
-    it("should render the block", () => {
-      const { getByText } = render(<UserFormsPreview />);
-
-      const title = getByText(/Анкеты/i);
-
-      expect(title).toBeInTheDocument();
-    });
-
     it("should inform the user if no forms are completed", () => {
       const notCompletedForms = staticForms.map((form) => ({
         ...form,

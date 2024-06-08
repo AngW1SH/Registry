@@ -33,6 +33,21 @@ describe("projectResultsService", () => {
       expect(projectRepository.findOne).toHaveBeenCalled();
     });
 
+    it("should fetch all file types", async () => {
+      try {
+        await projectResultsService.uploadFile("1", file, "2", staticUser);
+      } catch {}
+
+      expect(projectFileTypeService.findAll).toHaveBeenCalled();
+    });
+
+    it("should throw an error if the file type is not in DB", async () => {
+      (projectFileTypeService.findAll as jest.Mock).mockReturnValueOnce([]);
+      expect(
+        projectResultsService.uploadFile("1", file, "2", staticUser)
+      ).rejects.toThrow(ServerError);
+    });
+
     it("should throw an error if the project is not in DB", async () => {
       (projectRepository.findOne as jest.Mock).mockReturnValueOnce(null);
 
