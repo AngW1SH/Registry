@@ -17,7 +17,11 @@ const projectLinksServiceFactory = () => {
       includeAdmin: true,
     });
 
-    if (!projectFindResult || !projectFindResult.project)
+    if (
+      !projectFindResult ||
+      !projectFindResult.project ||
+      !projectFindResult.teams
+    )
       throw new ServerError("Couldn't find the project");
 
     if (!projectFindResult.administrators)
@@ -34,6 +38,14 @@ const projectLinksServiceFactory = () => {
 
     if (!platform)
       throw new ServerError("Couldn't find the platform with such name");
+
+    if (
+      projectFindResult.project?.links &&
+      projectFindResult.project?.links.length >
+        projectFindResult.teams.length * 3
+    ) {
+      throw new ServerError("Too many links already");
+    }
 
     return projectLinksRepository.add(projectId, platform.id, link);
   }

@@ -4,6 +4,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useAddProjectFileMutation } from "../model/useAddProjectFilesMutation";
 import Image from "next/image";
 import { useProjectFileTypeQuery } from "@/entities/Project";
+import { useProfileQuery } from "@/composites/Profile";
 
 interface AddProjectFilesProps {
   projectId: string;
@@ -11,6 +12,9 @@ interface AddProjectFilesProps {
 }
 
 const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId, teamId }) => {
+  const { data: profile } = useProfileQuery();
+  const team = profile?.teams?.find((t) => t.id === teamId);
+
   const { mutate: addFile, isLoading, data } = useAddProjectFileMutation();
 
   const { data: allFileTypes } = useProjectFileTypeQuery();
@@ -25,6 +29,12 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId, teamId }) => {
       inputRef.current.click();
     }
   };
+
+  const filteredFileTypes = allFileTypes?.filter((type) => {
+    if (!team || !team.documents) return false;
+
+    return !team.documents.find((doc) => doc.category === type);
+  });
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -85,7 +95,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId, teamId }) => {
       <Dropdown
         namePrefix="new-file-type"
         placeholder="Тип файла"
-        options={allFileTypes || []}
+        options={filteredFileTypes || []}
         value={fileType}
         onChange={setFileType}
         className="mr-10 text-sm sm:max-w-[48%]"

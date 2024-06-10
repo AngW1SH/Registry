@@ -1,7 +1,7 @@
 import { ProjectFilters } from "@/entities/project";
 import { generateProjectFilters } from "./utils/generateProjectFilters";
 import { checkFilterValidity } from "./utils/checkFilterValidity";
-import { ProjectDTO } from "@/entities/project/types/types";
+import { ProjectDTO, ProjectDetailedDTO } from "@/entities/project/types/types";
 import { Team } from "@/entities/team";
 import { selectTeam } from "@/db/strapi/queries/team";
 import { selectMember } from "@/db/strapi/queries/member";
@@ -127,7 +127,7 @@ const projectRepositoryFactory = () => {
       includeAllDocuments?: boolean;
     }
   ): Promise<{
-    project: ProjectDTO | null;
+    project: ProjectDetailedDTO | null;
     tags: Tag[];
     teams: Team[];
     users: User[];

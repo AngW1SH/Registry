@@ -35,6 +35,10 @@ const projectResultsServiceFactory = () => {
 
     const allFileTypes = await projectFileTypeService.findAll();
 
+    if (team.documents && team.documents?.length > allFileTypes.length) {
+      throw new ServerError("Too many attached files already");
+    }
+
     const fileType = allFileTypes.find((fileType) => fileType.name == category);
 
     if (!fileType || !fileType.id) {
