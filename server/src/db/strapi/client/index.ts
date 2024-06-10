@@ -20,6 +20,8 @@ export const strapi = {
       }
     ).then((data) => {
       try {
+        if (data.status !== 200) return null;
+
         return data.json();
       } catch {
         return null;

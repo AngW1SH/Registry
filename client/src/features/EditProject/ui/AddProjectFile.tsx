@@ -7,9 +7,10 @@ import { useProjectFileTypeQuery } from "@/entities/Project";
 
 interface AddProjectFilesProps {
   projectId: string;
+  teamId: number;
 }
 
-const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
+const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId, teamId }) => {
   const { mutate: addFile, isLoading, data } = useAddProjectFileMutation();
 
   const { data: allFileTypes } = useProjectFileTypeQuery();
@@ -29,7 +30,7 @@ const AddProjectFiles: FC<AddProjectFilesProps> = ({ projectId }) => {
     e.preventDefault();
 
     if (file && fileType && !isLoading)
-      addFile({ projectId, file, category: fileType });
+      addFile({ teamId, projectId, file, category: fileType });
   };
 
   useEffect(() => {

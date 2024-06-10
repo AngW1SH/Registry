@@ -47,9 +47,12 @@ const projectResultsControllerFactory = () => {
 
       if (!req.body.category)
         throw new BadRequestError("Missing required body parameter: category");
+      if (!req.body.team)
+        throw new BadRequestError("Missing required body parameter: team");
 
       const result = await projectResultsService.uploadFile(
         req.params.id,
+        req.body.team,
         Array.isArray(req.files.files) ? req.files.files[0] : req.files.files,
         req.body.category,
         req.user

@@ -6,9 +6,19 @@ export const useAddProjectFileMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: { projectId: string; file: File; category: string }) => {
+    mutationFn: (data: {
+      projectId: string;
+      teamId: number;
+      file: File;
+      category: string;
+    }) => {
       return Promise.resolve(
-        fetchAddProjectFile(data.projectId, data.file, data.category),
+        fetchAddProjectFile(
+          data.projectId,
+          data.teamId,
+          data.file,
+          data.category,
+        ),
       );
     },
     onSuccess: () => {

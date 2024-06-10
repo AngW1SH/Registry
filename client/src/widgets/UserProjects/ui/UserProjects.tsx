@@ -53,7 +53,7 @@ const UserProjects: FC<UserProjectsProps> = () => {
             edit={
               profile.user.administratedTeams.includes(team.id) && (
                 <>
-                  <ProjectFileList project={project} />
+                  <ProjectFileList project={project} team={team} />
                   <div className="pt-10" />
                   <ProjectLinkList project={project} />
                 </>

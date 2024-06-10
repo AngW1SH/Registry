@@ -14,13 +14,24 @@ const projectResultsServiceFactory = () => {
 
   async function uploadFile(
     projectId: string,
+    teamId: number,
     file: UploadedFile,
     category: string,
     user: User
   ) {
     const projectFindResult = await projectRepository.findOne(projectId, {
       includeAdmin: true,
+      includeAllDocuments: true,
     });
+
+    const team = projectFindResult?.teams?.find((team) => team.id == teamId);
+
+    if (!team) throw new ServerError("Team not found");
+
+    const isInTeam = projectFindResult?.members.find(
+      (member) => member?.user == user.id && member.team == teamId
+    );
+    if (!isInTeam) throw new ServerError("User not in team");
 
     const allFileTypes = await projectFileTypeService.findAll();
 
@@ -43,13 +54,25 @@ const projectResultsServiceFactory = () => {
     if (!isAllowed)
       throw new UnauthorizedError("User not authorized to perform this action");
 
-    return projectResultsRepository.addFile(projectId, file, fileType);
+    return projectResultsRepository.addFile(team.id, file, fileType);
   }
 
   async function deleteFile(projectId: string, fileId: number, user: User) {
     const projectFindResult = await projectRepository.findOne(projectId, {
       includeAdmin: true,
+      includeAllDocuments: true,
     });
+
+    const team = projectFindResult?.teams?.find((team) =>
+      team.documents?.find((doc) => doc.id == fileId)
+    );
+
+    if (!team) throw new ServerError("Team not found");
+
+    const isInTeam = projectFindResult?.members.find(
+      (member) => member?.user == user.id && member.team == team.id
+    );
+    if (!isInTeam) throw new ServerError("User not in team");
 
     if (!projectFindResult || !projectFindResult.project)
       throw new ServerError("Couldn't find the project");
@@ -64,7 +87,7 @@ const projectResultsServiceFactory = () => {
     if (!isAllowed)
       throw new UnauthorizedError("User not authorized to perform this action");
 
-    return projectResultsRepository.deleteFile(projectId, fileId);
+    return projectResultsRepository.deleteFile(team.id, fileId);
   }
 
   async function changeFile(

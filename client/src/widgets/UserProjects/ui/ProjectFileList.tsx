@@ -1,5 +1,6 @@
 import { UserProject } from "@/composites/ProjectInspect";
 import { IProject, IProjectSingle } from "@/entities/Project";
+import { ITeamExtended } from "@/entities/Team";
 import {
   AddProjectFiles,
   ChangeProjectFile,
@@ -12,12 +13,13 @@ import { FC } from "react";
 
 interface ProjectFileListProps {
   project: UserProject;
+  team: ITeamExtended;
 }
 
-const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
+const ProjectFileList: FC<ProjectFileListProps> = ({ project, team }) => {
   const files: any = {};
 
-  project.documents.forEach((file) => {
+  team?.documents?.forEach((file) => {
     if (files[file.date]) {
       files[file.date].push({ ...file, category: file.category });
     } else {
@@ -34,7 +36,7 @@ const ProjectFileList: FC<ProjectFileListProps> = ({ project }) => {
       <div className="rounded-lg border border-[#898989] p-5">
         <h2 className="text-sm text-[#898989]">Добавить</h2>
         <div className="pt-3" />
-        <AddProjectFiles projectId={project.id} />
+        <AddProjectFiles projectId={project.id} teamId={team.id} />
       </div>
       <div className="pt-4" />
       <div>

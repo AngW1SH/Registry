@@ -33,7 +33,12 @@ const teamRepositoryFactory = () => {
     getAdministratedActive,
   });
 
-  async function findOne(filters: { member?: number; administrator?: number }) {
+  async function findOne(filters: {
+    member?: number;
+    administrator?: number;
+    includeAllDocuments?: boolean;
+    id?: number;
+  }) {
     const findManyResult = await findMany(filters);
 
     return findManyResult.teams.length ? findManyResult : null;
@@ -42,9 +47,15 @@ const teamRepositoryFactory = () => {
   async function findMany(filters: {
     member?: number;
     administrator?: number;
+    includeAllDocuments?: boolean;
+    id?: number;
   }) {
     const params = {
       filters: {
+        ...(filters &&
+          filters.id && {
+            id: filters.id,
+          }),
         ...(filters &&
           filters.member && {
             members: {
@@ -73,7 +84,10 @@ const teamRepositoryFactory = () => {
 
     if (!response) throw new ServerError("Couldn't fetch teams");
 
-    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
+    return getTeamListFromStrapiDTO(response, {
+      includeAdmin: true,
+      includeAllDocuments: filters.includeAllDocuments,
+    });
   }
 
   async function getUnassigned(userId: number): Promise<Team[]> {
@@ -126,7 +140,10 @@ const teamRepositoryFactory = () => {
     );
   }
 
-  async function getAdministratedActive(userId: number): Promise<{
+  async function getAdministratedActive(
+    userId: number,
+    options?: { includeAdmin?: boolean; includeAllDocuments?: boolean }
+  ): Promise<{
     teams: Team[] | null;
     members: Member[] | null;
     users: User[] | null;
@@ -146,7 +163,7 @@ const teamRepositoryFactory = () => {
     });
     if (!response) throw new ServerError("Couldn't fetch teams");
 
-    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
+    return getTeamListFromStrapiDTO(response, options);
   }
 
   async function getUnassignedAdministrated(userId: number): Promise<Team[]> {
@@ -169,7 +186,10 @@ const teamRepositoryFactory = () => {
     return getTeamListFromStrapiDTO(response).teams!;
   }
 
-  async function getActive(userId: number): Promise<{
+  async function getActive(
+    userId: number,
+    options?: { includeAdmin?: boolean; includeAllDocuments?: boolean }
+  ): Promise<{
     teams: Team[] | null;
     members: Member[] | null;
     users: User[] | null;
@@ -192,7 +212,7 @@ const teamRepositoryFactory = () => {
     });
     if (!response) throw new ServerError("Couldn't fetch teams");
 
-    return getTeamListFromStrapiDTO(response, { includeAdmin: true });
+    return getTeamListFromStrapiDTO(response, options);
   }
 };
 

@@ -17,6 +17,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import { ProjectDocuments } from "@/widgets/ProjectDocuments";
 import { ProjectLinks } from "@/widgets/ProjectLinks";
+import { IProjectDocument } from "@/entities/Team";
 
 type Props = {
   params: { slug: string };
@@ -50,6 +51,13 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
   if (!projectData) {
     redirect("/");
   }
+
+  const documents =
+    projectData?.teams?.reduce((acc, cur) => {
+      if (!cur.documents) return acc;
+
+      return [...acc, ...cur.documents];
+    }, [] as IProjectDocument[]) || [];
 
   return (
     <>
@@ -85,10 +93,10 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
         <MarginnedAnchor id="result" />
-        {!!projectData.project.documents.length && (
+        {!!documents.length && (
           <>
             <div className="pt-10" />
-            <ProjectDocuments documents={projectData.project.documents} />
+            <ProjectDocuments documents={documents} />
           </>
         )}
         {!!projectData.project.links.length && (

@@ -81,7 +81,7 @@ export const getProjectListFromStrapiDTO = (
           administrators: teamAdmins,
           members: teamMembers,
           requests: teamRequests,
-        } = getTeamFromStrapiDTO({ data: teamStrapi } as TeamStrapi);
+        } = getTeamFromStrapiDTO({ data: teamStrapi } as TeamStrapi, options);
 
         if (team && !usedTeamIds.has(team.id)) {
           usedTeamIds.add(team.id);

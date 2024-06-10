@@ -38,19 +38,17 @@ const projectResultsRepositoryFactory = () => {
   }
 
   async function addFile(
-    projectSlug: string,
+    teamId: number,
     files: UploadedFile,
     fileType: ProjectFileType
   ) {
-    const projectId = await projectRepository.getInternalId(projectSlug);
-
     const params = {
       populate: {
         documents: selectProjectDocument(),
       },
     };
 
-    const response = await strapi.get("projects/" + projectId, {
+    const response = await strapi.get("teams/" + teamId, {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
@@ -91,7 +89,7 @@ const projectResultsRepositoryFactory = () => {
       },
     };
 
-    const createResponse = await strapi.put("projects/" + projectId, {
+    const createResponse = await strapi.put("teams/" + teamId, {
       token: process.env.PROJECTS_TOKEN!,
       body,
     });
@@ -101,16 +99,14 @@ const projectResultsRepositoryFactory = () => {
     return 200;
   }
 
-  async function deleteFile(projectSlug: string, fileId: number) {
-    const projectId = await projectRepository.getInternalId(projectSlug);
-
+  async function deleteFile(teamId: number, fileId: number) {
     const params = {
       populate: {
         documents: selectProjectDocument(),
       },
     };
 
-    const response = await strapi.get("projects/" + projectId, {
+    const response = await strapi.get("teams/" + teamId, {
       token: process.env.PROJECTS_TOKEN!,
       params,
     });
@@ -129,7 +125,7 @@ const projectResultsRepositoryFactory = () => {
       },
     };
 
-    const updatedResponse = await strapi.put("projects/" + projectId, {
+    const updatedResponse = await strapi.put("teams/" + teamId, {
       token: process.env.PROJECTS_TOKEN!,
       body,
     });

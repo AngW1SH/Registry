@@ -10,11 +10,13 @@ import { getRequestListFromStrapiDTO } from "../request";
 import { RequestListStrapi } from "../../types/request";
 import { Request } from "@/entities/request";
 import { ProjectDTO } from "@/entities/project/types/types";
+import { getProjectDocumentListFromStrapiDTO } from "../components/project-document";
 
 export const getTeamFromStrapiDTO = (
   team: TeamStrapi,
   options?: {
     includeAdmin?: boolean;
+    includeAllDocuments?: boolean;
   }
 ): {
   team: Team | TeamWithAdministrators | null;
@@ -68,6 +70,12 @@ export const getTeamFromStrapiDTO = (
       requests: !team.data.attributes.requests
         ? undefined
         : team.data.attributes.requests.data.map((request) => request.id),
+      documents: team.data.attributes.documents
+        ? getProjectDocumentListFromStrapiDTO(
+            team.data.attributes.documents,
+            options?.includeAllDocuments || false
+          ) || []
+        : [],
     },
     users,
     members,
@@ -81,6 +89,7 @@ export const getTeamListFromStrapiDTO = (
   teamsStrapi: TeamListStrapi,
   options?: {
     includeAdmin?: boolean;
+    includeAllDocuments?: boolean;
   }
 ): {
   teams: Team[] | TeamWithAdministrators[];

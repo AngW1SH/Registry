@@ -2,6 +2,7 @@ import { authorizedFetch } from "@/shared/utils";
 
 export const fetchAddProjectFile = async (
   projectId: string,
+  teamId: number,
   file: File,
   category: string,
 ) => {
@@ -10,6 +11,7 @@ export const fetchAddProjectFile = async (
   formData.append("category", category);
   formData.append("files", file);
   formData.append("project", "" + projectId);
+  formData.append("team", "" + teamId);
 
   const result: any = await authorizedFetch(
     process.env.NEXT_PUBLIC_SERVER_URL +

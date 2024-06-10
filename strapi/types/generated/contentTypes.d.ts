@@ -986,6 +986,7 @@ export interface ApiTeamTeam extends Schema.CollectionType {
       'manyToOne',
       'api::project.project'
     >;
+    documents: Attribute.Component<'project-document.project-document', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

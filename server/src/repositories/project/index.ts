@@ -155,9 +155,6 @@ const projectRepositoryFactory = () => {
           count: true,
         },
         descriptionFiles: selectDescriptionFiles(),
-        resultFiles: selectResultFiles(),
-        projectLink: selectProjectLinks(),
-        documents: selectProjectDocument(),
         related: selectProjectInList({
           tags: selectTag(),
         }),
@@ -247,7 +244,13 @@ const projectRepositoryFactory = () => {
     };
   }
 
-  async function getReferences(ids: string[]) {
+  async function getReferences(
+    ids: string[],
+    options?: {
+      includeAllDocuments?: boolean;
+      includeAdmin?: boolean;
+    }
+  ) {
     if (!ids.length) return [];
 
     const params = {
@@ -266,8 +269,7 @@ const projectRepositoryFactory = () => {
 
     if (!response) throw new ServerError("Couldn't fetch project references");
 
-    return getProjectListFromStrapiDTO(response, { includeAllDocuments: true })
-      .projects;
+    return getProjectListFromStrapiDTO(response, options).projects;
   }
 };
 const projectRepository = projectRepositoryFactory();

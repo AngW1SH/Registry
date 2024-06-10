@@ -61,8 +61,14 @@ const profileServiceFactory = () => {
       userService.findById(user.id),
       formResultService.getAllByUser(user),
       requestRepository.getActive({ user: user.id }), // not all the requests associated with each team
-      teamRepository.getActive(user.id), // is considered 'active', hence the separate calls
-      teamRepository.getAdministratedActive(user.id),
+      teamRepository.getActive(user.id, {
+        includeAdmin: true,
+        includeAllDocuments: true,
+      }), // is considered 'active', hence the separate calls
+      teamRepository.getAdministratedActive(user.id, {
+        includeAdmin: true,
+        includeAllDocuments: true,
+      }),
     ]);
 
     const userData =
@@ -113,7 +119,10 @@ const profileServiceFactory = () => {
       : [];
 
     const projects = teams
-      ? await projectRepository.getReferences(usedProjectIds)
+      ? await projectRepository.getReferences(usedProjectIds, {
+          includeAllDocuments: true,
+          includeAdmin: true,
+        })
       : [];
 
     return {

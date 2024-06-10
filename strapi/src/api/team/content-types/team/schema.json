@@ -38,6 +38,11 @@
       "relation": "manyToOne",
       "target": "api::project.project",
       "inversedBy": "teams"
+    },
+    "documents": {
+      "type": "component",
+      "repeatable": true,
+      "component": "project-document.project-document"
     }
   }
 }
