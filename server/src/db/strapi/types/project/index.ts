@@ -19,7 +19,7 @@ interface ProjectStrapiInner {
     enrollmentStart: string;
     enrollmentEnd: string;
     slug: string;
-    supervisor: string;
+    clientContact: string;
     curator: string;
     client: string;
     requests?: ProjectRequestCountStrapi;

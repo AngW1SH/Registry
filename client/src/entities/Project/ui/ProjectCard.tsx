@@ -55,9 +55,9 @@ const ProjectCard: FC<ProjectCardProps> = ({
           </p>
         </div>
         <div className="border-l border-[#a1a1a1] pl-4">
-          <h3>Руководитель</h3>
+          <h3>Заказчик</h3>
           <div className="pt-2" />
-          <p>{project.supervisor}</p>
+          <p>{project.client}</p>
         </div>
       </div>
       <div className="pt-10" />

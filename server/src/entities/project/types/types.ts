@@ -16,9 +16,9 @@ export interface Project {
   enrollmentStart: Date;
   enrollmentEnd: Date;
   //createdAt: Date;
-  supervisor: string;
   curator: string;
   client: string;
+  clientContact: string;
   tags: number[];
   teams: number[];
   teamLimit: number | null;
@@ -35,9 +35,9 @@ export interface ProjectDTO {
   enrollmentStart: string;
   enrollmentEnd: string;
   //createdAt: string;
-  supervisor: string;
   curator: string;
   client: string;
+  clientContact: string;
   tags: number[];
   teams: number[];
   teamLimit: number | null;

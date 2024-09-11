@@ -754,7 +754,7 @@ export interface ApiProjectProject extends Schema.CollectionType {
     dateEnd: Attribute.Date;
     enrollmentStart: Attribute.Date;
     enrollmentEnd: Attribute.Date;
-    supervisor: Attribute.String;
+    clientContact: Attribute.String;
     tags: Attribute.Relation<
       'api::project.project',
       'manyToMany',

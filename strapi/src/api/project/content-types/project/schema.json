@@ -30,7 +30,7 @@
     "enrollmentEnd": {
       "type": "date"
     },
-    "supervisor": {
+    "clientContact": {
       "type": "string"
     },
     "tags": {

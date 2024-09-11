@@ -14,7 +14,7 @@ export type IProject = {
   enrollmentStart: Date;
   enrollmentEnd: Date;
   //createdAt: Date;
-  supervisor: string;
+  clientContact: string;
   curator: string;
   client: string;
   tags: number[];
@@ -31,9 +31,9 @@ export type ProjectDTO = {
   enrollmentStart: string;
   enrollmentEnd: string;
   //createdAt: string;
-  supervisor: string;
   curator: string;
   client: string;
+  clientContact: string;
   tags: number[];
   teams: number[];
   teamLimit: number;

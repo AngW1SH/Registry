@@ -72,9 +72,9 @@ const ProjectInspectCard: FC<ProjectInspectCardProps> = ({
               </p>
             </div>
             <div className="sm:w-1/3">
-              <h3 className="text-[0.9375rem] text-[#898989]">Руководитель</h3>
+              <h3 className="text-[0.9375rem] text-[#898989]">Заказчик</h3>
               <div className="pt-1" />
-              <p>{project.supervisor}</p>
+              <p>{project.client}</p>
             </div>
           </div>
         </div>

@@ -14,12 +14,12 @@ const Supervisors: FC<SupervisorsProps> = ({ project, className = " " }) => {
         <p>{project.client}</p>
       </li>
       <li className="flex items-center bg-[#f4f4f4] px-4 py-5">
-        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Куратор</p>
-        <p>{project.curator}</p>
+        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Контакты</p>
+        <p>{project.clientContact}</p>
       </li>
       <li className="flex items-center bg-[#f4f4f4] px-4 py-5">
-        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Руководитель</p>
-        <p>{project.supervisor}</p>
+        <p className="w-1/3 text-sm text-[#848689] xl:w-1/5">Куратор</p>
+        <p>{project.curator}</p>
       </li>
     </ul>
   );

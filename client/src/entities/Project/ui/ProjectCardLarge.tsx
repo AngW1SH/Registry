@@ -83,9 +83,9 @@ const ProjectCardLarge: FC<ProjectCardLargeProps> = ({
           </p>
         </div>
         <div className="flex w-full flex-row items-center justify-between border-black py-1 sm:flex-col sm:items-start sm:border-l sm:pl-4">
-          <h3 className="leading-5">Руководитель</h3>
+          <h3 className="leading-5">Заказчик</h3>
           <div className="pt-2" />
-          <p>{project.supervisor}</p>
+          <p>{project.client}</p>
         </div>
       </div>
       <div className="pt-10" />

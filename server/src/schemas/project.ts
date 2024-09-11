@@ -50,7 +50,7 @@
  *         - dateEnd
  *         - enrollmentStart
  *         - enrollmentEnd
- *         - supervisor
+ *         - clientContact
  *         - curator
  *         - client
  *         - tags
@@ -86,10 +86,10 @@
  *           type: string
  *           description: When can we stop applying requests to the project
  *           example: 2020-01-01
- *         supervisor:
+ *         clientContact:
  *           type: string
- *           description: Name of the supervisor
- *           example: "Иванов Иван Иванович"
+ *           description: Contact data of the client
+ *           example: "tg: @username"
  *         curator:
  *           type: string
  *           description: Name of the curator
