@@ -11,6 +11,14 @@ export const selectDeveloperRequirements = () => {
   };
 };
 
+export const selectProjectRequirements = () => {
+  return {
+    populate: {
+      fields: ["name"],
+    },
+  };
+};
+
 export const selectDescriptionFiles = () => {
   return selectNamedFile();
 };

@@ -30,6 +30,7 @@ export const staticProjectSingleNotStarted: IProjectSingle = {
     "Глубокое понимание биологии растений и их реакции на изменения климата",
     "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
   ],
+  projectRequirements: [],
   descriptionFiles: [
     {
       id: 1,
@@ -94,6 +95,7 @@ export const staticProjectSingleOngoing: IProjectSingle = {
     "Глубокое понимание биологии растений и их реакции на изменения климата",
     "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
   ],
+  projectRequirements: [],
   descriptionFiles: [
     {
       id: 1,
@@ -158,6 +160,7 @@ export const staticProjectSingleCompleted: IProjectSingle = {
     "Глубокое понимание биологии растений и их реакции на изменения климата",
     "Способность оценивать влияние глобальных изменений климата на экосистемы и биоразнообразие",
   ],
+  projectRequirements: [],
   documents: [
     {
       id: 53,

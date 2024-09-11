@@ -29,6 +29,7 @@ import { BadRequestError, ServerError } from "@/helpers/errors";
 import meilisearch from "@/db/meilisearch/client";
 import { applyPostFilters } from "./utils/generateProjectPostFIlters";
 import { selectProjectDocument } from "@/db/strapi/queries/components/project-document";
+import { selectProjectRequirements } from "@/db/strapi/queries/project/selects";
 
 const projectRepositoryFactory = () => {
   return Object.freeze({
@@ -151,6 +152,7 @@ const projectRepositoryFactory = () => {
             options.includeAdmin && { administrators: selectUser() }),
         }),
         developerRequirements: selectDeveloperRequirements(),
+        projectRequirements: selectProjectRequirements(),
         requests: {
           count: true,
         },

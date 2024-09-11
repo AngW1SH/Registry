@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_developer_requirement_project_requirements",
+  "info": {
+    "displayName": "Project Requirements",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "projectRequirement": {
+      "type": "string"
+    }
+  }
+}

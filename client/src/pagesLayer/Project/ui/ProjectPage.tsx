@@ -92,6 +92,15 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
         />
         <div className="pt-20" />
         <ProjectDescription project={projectData.project} />
+        {!!projectData.project.projectRequirements.length && (
+          <>
+            <div className="pt-10" />
+            <ProjectRequirements
+              title="Требования проекта"
+              requirements={projectData.project.projectRequirements}
+            />
+          </>
+        )}
         <MarginnedAnchor id="result" />
         {!!documents.length && (
           <>
@@ -120,7 +129,10 @@ const ProjectPage: FC<ProjectPageProps> = async ({ params }) => {
             </>
           )}
         <div className="pt-16 lg:pt-24" />
-        <ProjectRequirements project={projectData.project} />
+        <ProjectRequirements
+          title="Требования для исполнителей"
+          requirements={projectData.project.developerRequirements}
+        />
         <div className="pt-16" />
       </Container>
       {projectData.project.related.length > 0 && (

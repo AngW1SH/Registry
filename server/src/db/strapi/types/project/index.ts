@@ -13,6 +13,7 @@ interface ProjectStrapiInner {
     descriptionFiles?: NamedFileStrapi[];
     resultFiles?: NamedFileStrapi[];
     developerRequirements?: ProjectStrapiDeveloperRequirement[];
+    projectRequirements?: ProjectStrapiProjectRequirement[];
     projectLink?: ProjectLinkStrapi[];
     dateStart: string;
     dateEnd: string;
@@ -50,6 +51,11 @@ export interface ProjectRequestCountStrapi {
 export interface ProjectStrapiDeveloperRequirement {
   id: number;
   developerRequirement: string;
+}
+
+export interface ProjectStrapiProjectRequirement {
+  id: number;
+  projectRequirement: string;
 }
 
 interface ProjectReferenceStrapiInner {

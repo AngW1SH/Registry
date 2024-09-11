@@ -58,6 +58,7 @@ export interface IProjectLink {
 export interface IProjectSingle extends IProject {
   requestCount: number;
   developerRequirements: string[];
+  projectRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
   documents: IProjectDocument[];
@@ -68,6 +69,7 @@ export interface IProjectSingle extends IProject {
 export interface IProjectSingleDTO extends ProjectDTO {
   requestCount: number;
   developerRequirements: string[];
+  projectRequirements: string[];
   descriptionFiles: NamedFile[];
   resultFiles: NamedFile[];
   documents: {

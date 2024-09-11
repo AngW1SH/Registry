@@ -30,6 +30,18 @@ export interface DeveloperRequirementDeveloperRequirement
   };
 }
 
+export interface DeveloperRequirementProjectRequirements
+  extends Schema.Component {
+  collectionName: 'components_developer_requirement_project_requirements';
+  info: {
+    displayName: 'Project Requirements';
+    icon: 'bulletList';
+  };
+  attributes: {
+    projectRequirement: Attribute.String;
+  };
+}
+
 export interface GithubDataGithubData extends Schema.Component {
   collectionName: 'components_github_data_github_data';
   info: {
@@ -172,6 +184,7 @@ declare module '@strapi/types' {
     export interface Components {
       'detailed-category.detailed-category': DetailedCategoryDetailedCategory;
       'developer-requirement.developer-requirement': DeveloperRequirementDeveloperRequirement;
+      'developer-requirement.project-requirements': DeveloperRequirementProjectRequirements;
       'github-data.github-data': GithubDataGithubData;
       'image-category.image-category': ImageCategoryImageCategory;
       'named-file.named-file': NamedFileNamedFile;

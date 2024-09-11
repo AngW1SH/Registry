@@ -3,17 +3,21 @@ import LabeledBlock from "@/shared/ui/LabeledBlock/LabeledBlock";
 import { FC } from "react";
 
 interface ProjectRequirementsProps {
-  project: IProjectSingle;
+  requirements: string[];
+  title: string;
 }
 
-const ProjectRequirements: FC<ProjectRequirementsProps> = ({ project }) => {
+const ProjectRequirements: FC<ProjectRequirementsProps> = ({
+  requirements,
+  title,
+}) => {
   return (
     <LabeledBlock
-      label="Требования для исполнителей"
+      label={title}
       labelClassName="text-xl lg:text-base xl:text-2xl"
     >
-      <ul>
-        {project.developerRequirements.map((requirement) => (
+      <ul className="flex w-full flex-col">
+        {requirements.map((requirement) => (
           <li
             key={requirement}
             className="relative border-b border-[#b7b7b7] bg-white py-6 after:absolute after:left-0 after:top-7 after:block after:h-5 after:w-6 after:bg-[url('/checked-icon-red.svg')] after:bg-contain after:bg-no-repeat first:border-t"

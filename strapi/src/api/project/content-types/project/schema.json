@@ -99,6 +99,12 @@
       "components": [
         "github-data.github-data"
       ]
+    },
+    "projectRequirements": {
+      "displayName": "Project Requirements",
+      "type": "component",
+      "repeatable": true,
+      "component": "developer-requirement.project-requirements"
     }
   }
 }

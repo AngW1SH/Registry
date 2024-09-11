@@ -788,6 +788,10 @@ export interface ApiProjectProject extends Schema.CollectionType {
     slug: Attribute.UID;
     documents: Attribute.Component<'project-document.project-document', true>;
     providers: Attribute.DynamicZone<['github-data.github-data']>;
+    projectRequirements: Attribute.Component<
+      'developer-requirement.project-requirements',
+      true
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

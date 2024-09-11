@@ -66,6 +66,7 @@ export interface ProjectFiltersDTO {
 export interface ProjectDetailed extends Project {
   requestCount: number;
   developerRequirements: string[];
+  projectRequirements: string[];
   descriptionFiles: NamedFile[] | null;
   resultFiles: NamedFile[] | null;
   documents: ProjectDocument[] | null;
@@ -76,6 +77,7 @@ export interface ProjectDetailed extends Project {
 export interface ProjectDetailedDTO extends ProjectDTO {
   requestCount: number;
   developerRequirements: string[];
+  projectRequirements: string[];
   descriptionFiles: NamedFile[] | null;
   resultFiles: NamedFile[] | null;
   documents: ProjectDocument[] | null;

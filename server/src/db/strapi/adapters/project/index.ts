@@ -204,6 +204,10 @@ export const getProjectFromStrapiDTO = (
         project.data.attributes.developerRequirements?.map(
           (requirement) => requirement.developerRequirement
         ) || [],
+      projectRequirements:
+        project.data.attributes.projectRequirements?.map(
+          (requirement) => requirement.projectRequirement
+        ) || [],
       related: related && related.projects ? related.projects : [],
       teams: project.data.attributes.teams?.data
         ? project.data.attributes.teams.data.map((team) => team.id)
