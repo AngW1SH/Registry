@@ -92,7 +92,7 @@ export const userAdapter = async (
 
     return {
       id: userStrapi.id,
-      name: userStrapi.name,
+      name: userStrapi.name || "",
       url: found?.file.url || null,
     };
   });
