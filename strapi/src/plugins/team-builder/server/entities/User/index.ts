@@ -105,7 +105,14 @@ export const userAdapter = async (
 };
 
 export const formatName = (name: string) => {
-  const parts = name.split(" ");
+  if (!name) return name;
+
+  const parts = name
+    .trim()
+    .split(" ")
+    .filter((part) => part.length);
+
+  if (parts.length == 0) return name;
 
   if (parts.length == 1) return parts[0];
 
