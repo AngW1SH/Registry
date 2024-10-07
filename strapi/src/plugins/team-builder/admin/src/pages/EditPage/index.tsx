@@ -17,6 +17,7 @@ import TeamList from "../../components/TeamList";
 import { useParams } from "react-router-dom";
 import DraftNameEdit from "../../components/DraftNameEdit";
 import { useDraft } from "../../entities/Draft";
+import ProjectSelect from "../../components/ProjectSelect";
 
 interface EditPageProps {
   pluginId: string;
@@ -63,6 +64,8 @@ const EditPage: FC<EditPageProps> = ({ pluginId }) => {
               <UserSelect />
             </HalfWidthLargeScreen>
           </Flex>
+          <Marginer vertical={25} />
+          <ProjectSelect />
           <Marginer vertical={25} />
           <Box padding={4}>
             <Divider />

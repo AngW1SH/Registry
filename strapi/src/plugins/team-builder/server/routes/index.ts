@@ -16,6 +16,14 @@ export default [
     },
   },
   {
+    method: "GET",
+    path: "/project",
+    handler: "projectController.getProjects",
+    config: {
+      policies: [],
+    },
+  },
+  {
     method: "POST",
     path: "/generate",
     handler: "teamDraftController.generateTeams",

@@ -64,8 +64,6 @@ const TeamInspect: FC<TeamInspectProps> = ({ team, onCancel, onDelete }) => {
     ) ||
     [];
 
-  console.log(selected);
-
   const displayData = useMemo(() => {
     const result = [] as IFormQuestion[];
 

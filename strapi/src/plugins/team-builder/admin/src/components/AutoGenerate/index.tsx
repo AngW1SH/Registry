@@ -9,26 +9,36 @@ import {
 import { useStudentStore } from "../../entities/Student";
 import { useFetchClient } from "@strapi/helper-plugin";
 import { useDraftTeamsStore } from "../../entities/Team/model";
+import { useProjectStore } from "../../entities/Project";
 
 interface AutoGenerateProps {}
 
 const AutoGenerate: FC<AutoGenerateProps> = () => {
-  const [options, setOptions] = useState([
-    { name: "NLP v1.2 - 5 students per team" },
-  ]);
+  const [options] = useState([{ name: "NLP v1.2 - 5 students per team" }]);
 
   const { post } = useFetchClient();
 
-  const { selectedStudentIds, getSelectedStudents } = useStudentStore();
+  const { getSelectedStudents } = useStudentStore();
+  const { getSelectedProjects } = useProjectStore();
   const { setTeams } = useDraftTeamsStore();
 
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     const selectedStudents = getSelectedStudents();
+    const selectedProjects = getSelectedProjects();
     if (selected) {
+      const projectData = await Promise.all(
+        selectedProjects.map((project) => {
+          return fetch(
+            process.env.SERVER_URL + "/project/" + project.slug
+          ).then((res) => res.json());
+        })
+      );
+
       const result = await post("/team-builder/autogenerate", {
         users: selectedStudents,
+        projects: projectData,
       });
 
       if (result.status == 200 && result.data) {

@@ -47,10 +47,9 @@ export const useStudentStore = create<StudentState>()((set, get) => ({
 
     if (response.status != 200) set({ students: [] });
 
-    console.log(response?.data?.filter((student) => student.form.data));
-
     set({
-      students: response?.data?.filter((student) => student.form.data) || [],
+      students:
+        response?.data?.filter((student: any) => student.form.data) || [],
     });
   },
 }));
