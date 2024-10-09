@@ -8,7 +8,6 @@ import { Team } from "@/entities/team";
 export interface User {
   id: number;
   name: string;
-  email: string;
 }
 
 export type UserCreate = Omit<User, "id">;

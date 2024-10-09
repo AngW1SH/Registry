@@ -22,8 +22,8 @@ const StatusActive: FC<StatusActiveProps> = ({ project, users }) => {
       <ul className="flex flex-wrap text-center leading-7 lg:text-left lg:text-sm xl:text-base">
         {users &&
           project.teams.length < 2 &&
-          users.map((user) => (
-            <li key={user.email} className="w-full sm:w-1/2">
+          users.map((user, index) => (
+            <li key={user.name + index} className="w-full sm:w-1/2">
               {formatNameShort(user.name)}
             </li>
           ))}

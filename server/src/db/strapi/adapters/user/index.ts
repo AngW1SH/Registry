@@ -19,7 +19,6 @@ export const getUserFromStrapiDTO = (user: UserStrapi): User => {
 
   return {
     id: user.data.id,
-    email: findUserEmail(user),
     name: attributes.name,
   };
 };
